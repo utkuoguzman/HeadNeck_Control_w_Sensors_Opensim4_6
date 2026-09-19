@@ -25,15 +25,9 @@ model_path = os.path.join(script_dir, "osim_files", "HYOID_HeadNeckNeural_Model_
 model = modeling.Model(model_path)
 
 # Add reporter for vestibular outputs
-reporter = modeling.TableReporterVec3()
-reporter.setName("vestibular_reporter")
-reporter.set_report_time_interval(0.01)
 # No set_report_time_interval - it will record every integrator step just like Manager
 
-vestibular = model.getComponent("componentset/vestibular_sensor")
-reporter.updInput("inputs").connect(vestibular.getOutput("canal_firing_rate"), "canal")
-reporter.updInput("inputs").connect(vestibular.getOutput("otolith_firing_rate"), "otolith")
-model.addComponent(reporter)
+
 
 state = model.initSystem()
 manager = modeling.Manager(model)
@@ -73,6 +67,6 @@ execution_time = end_time - start_time
 
 log("Simulation finished at " + str(execution_time) + " seconds!", log_file)
 
-table = reporter.getTable()
-modeling.STOFileAdapterVec3.write(table, os.path.join(script_dir, 'state_files/vestibular_detailed_explicit.sto'))
+statesTable = manager.getStatesTable()
+modeling.STOFileAdapter.write(statesTable, os.path.join(script_dir, 'state_files/vestibular_detailed_explicit.sto'))
 log("Results saved to state_files/vestibular_detailed_explicit.sto", log_file)

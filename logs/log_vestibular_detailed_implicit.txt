@@ -1,2 +1,7 @@
 --- SIMULATION START ---
 Starting integration...
+Reached time: 0.25s (Wall time elapsed: 61.6875065s)
+Reached time: 0.5s (Wall time elapsed: 77.7376554s)
+Reached time: 0.75s (Wall time elapsed: 86.4235649s)
+Reached time: 1.0s (Wall time elapsed: 109.1611283s)
+Simulation finished at 109.1619125 seconds!
