@@ -1,3 +1,4 @@
+#note: compute take 109s, saving to file takes 14 minutes.
 import os
 import sys
 import time

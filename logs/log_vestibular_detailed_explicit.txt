@@ -1,0 +1,8 @@
+--- SIMULATION START ---
+Starting integration...
+Reached time: 0.25s (Wall time elapsed: 59.309386s)
+Reached time: 0.5s (Wall time elapsed: 108.664184s)
+Reached time: 0.75s (Wall time elapsed: 158.378865s)
+Reached time: 1.0s (Wall time elapsed: 208.8325631s)
+Simulation finished at 208.8336205 seconds!
+Results saved to state_files/vestibular_detailed_explicit.sto
