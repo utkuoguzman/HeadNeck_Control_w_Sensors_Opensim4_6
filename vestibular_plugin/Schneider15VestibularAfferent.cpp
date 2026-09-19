@@ -197,9 +197,14 @@ void Schneider15VestibularAfferent::computeStateVariableDerivatives(const SimTK:
     // Apply Threshold (Deadband) for Leans Illusion
     // ------------------------------------------------------------------------
     auto apply_deadband = [](double value, double threshold) -> double {
-        if (value > threshold) return value - threshold;
-        if (value < -threshold) return value + threshold;
-        return 0.0;
+        double eps = 1e-4;
+        double diff_pos = value - threshold;
+        double s_max_pos = 0.5 * (diff_pos + std::sqrt(diff_pos*diff_pos + eps));
+        
+        double diff_neg = -value - threshold;
+        double s_max_neg = 0.5 * (diff_neg + std::sqrt(diff_neg*diff_neg + eps));
+        
+        return s_max_pos - s_max_neg;
     };
 
     double thr_canal = get_canal_threshold();
@@ -276,9 +281,14 @@ SimTK::Vec3 Schneider15VestibularAfferent::getCanalFiringRate(const SimTK::State
     u_canal_proj[2] = dot(u_ang, n_horizontal);
 
     auto apply_deadband = [](double value, double threshold) -> double {
-        if (value > threshold) return value - threshold;
-        if (value < -threshold) return value + threshold;
-        return 0.0;
+        double eps = 1e-4;
+        double diff_pos = value - threshold;
+        double s_max_pos = 0.5 * (diff_pos + std::sqrt(diff_pos*diff_pos + eps));
+        
+        double diff_neg = -value - threshold;
+        double s_max_neg = 0.5 * (diff_neg + std::sqrt(diff_neg*diff_neg + eps));
+        
+        return s_max_pos - s_max_neg;
     };
     double thr_canal = get_canal_threshold();
     
