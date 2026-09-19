@@ -27,9 +27,7 @@ Lin02GolgiTendonOrgan::Lin02GolgiTendonOrgan()
 	Gf = 4;		// Newtons
 	thr = 0;	// pulses/s
 	// Initialize work variables
-	nl = 0; Dnl = 0; 
-	ts[2] = 0.0; ts[1] = -0.01; ts[0] = -0.02; 
-	C0 = 0.0; C1 = 0.0;
+	// removed historical variables
 }
 
 //=============================================================================
@@ -126,9 +124,7 @@ void Lin02GolgiTendonOrgan::extendInitStateFromProperties(SimTK::State& s) const
 	setY(s, 0.0);
 	setZ(s, 0.0);
 	// Initialize the work variables 
-	nl = 0; Dnl = 0;
-	ts[2] = 0.0; ts[1] = -0.01; ts[0] = -0.02; 
-	C0 = 0.0; C1 = 0.0;
+	// removed historical variables
 }
 
 void Lin02GolgiTendonOrgan::extendSetPropertiesFromState(const SimTK::State& s) 
@@ -163,36 +159,24 @@ void Lin02GolgiTendonOrgan::setOwnerMuscleName(std::string OwnerMuscleName)
 //=============================================================================
 void Lin02GolgiTendonOrgan::computeStateVariableDerivatives(const SimTK::State& s) const
 {
-	// The state variables corresponding to the entries in derivs are:
-	// derivs[0] = low-pass filtered output of Eq. 1
-	// derivs[1] = derivative of the LPF output of Eq. 1
-	// derivs[2] = intermediate variable of the filter
-	// derivs[3] = output variable of the filter 
-	
-	// value in Eq. 1
 	double non_lin = Gg*std::log((musclePtr->getFiberForce(s) / Gf) + 1);
-	setStateVariableDerivativeValue(s, "nonlinear",(non_lin - getX(s)) / getLPFtau());
 	
-	// Getting derivatives of the muscle force
-	SimTK::Vec<2> diff = calculateDerivatives(s);
-	// diff(0) = derivative of LPF nonlinearity
-	// diff(1) = derivative of LPF diff(0) 
-	setStateVariableDerivativeValue(s, "nonlinear_deriv",(diff(0) - getXp(s)) / getLPFtau());
+	// Cascaded filter for smooth derivatives without finite-differencing
+	double curr_diff0 = (non_lin - getX(s)) / getLPFtau();
+	double curr_diff1 = (curr_diff0 - getXp(s)) / getLPFtau();
 	
-	double Xpp = diff(1);
+	setStateVariableDerivativeValue(s, "nonlinear", curr_diff0);
+	setStateVariableDerivativeValue(s, "nonlinear_deriv", curr_diff1);
 	
-	// the variable Z is the derivative of the output Y
+	double Xpp = curr_diff1;
+	
 	setStateVariableDerivativeValue(s, "filter_out", getZ(s));
-	
-	// The transfer function, as in the 5/16/16 notes
-	// This is the derivative of the Z variable
 	setStateVariableDerivativeValue(s, "filter_out_deriv", -2.2*getZ(s) - 0.4*getY(s) + 68.0*Xpp + 103.2*getXp(s) + 16.0*getX(s));
 			  
-	// putting the output of the GTO in a cache variable
-	// and making sure it is not negative
-	setGTOout(s, (getY(s)>thr) ? getY(s) : 0.0 );
-	
-
+	// Smooth Max for GTO output
+	double y_diff = getY(s) - thr;
+	double smooth_out = 0.5 * (getY(s) + thr + std::sqrt(y_diff*y_diff + 1e-4));
+	setGTOout(s, smooth_out);
 }
 
 //=============================================================================
@@ -205,10 +189,7 @@ void Lin02GolgiTendonOrgan::initFromMuscle(SimTK::State& s) const
 	setX(s, nonLin);
 	setY(s, 40.0*nonLin);  // this is the fixed point
 	setZ(s, 0.0);
-	// the work variables too
-	nl = 0; Dnl = 0;
-	ts[2] = 0.0; ts[1] = -0.01; ts[0] = -0.02; 
-	C0 = 0.0; C1 = 0.0;
+	// removed historical variables
 }
 
 

@@ -1,7 +1,7 @@
 import xml.etree.ElementTree as ET
 
 def add_limits_to_xml(model_path, output_path):
-    print(f"Parsing {model_path}...")
+    print("Parsing %s..." % model_path)
     tree = ET.parse(model_path)
     root = tree.getroot()
     
@@ -20,9 +20,9 @@ def add_limits_to_xml(model_path, output_path):
     }
     
     for coord_name, bounds in limits.items():
-        print(f"Adding physical limits to {coord_name}: {bounds['min']} to {bounds['max']} rad")
+        print("Adding physical limits to %s: %s to %s rad" % (coord_name, bounds['min'], bounds['max']))
         
-        limit_force = ET.SubElement(forces_node, 'CoordinateLimitForce', {'name': f"{coord_name}_physical_limit"})
+        limit_force = ET.SubElement(forces_node, 'CoordinateLimitForce', {'name': coord_name + "_physical_limit"})
         
         # Upper limit
         upper_limit = ET.SubElement(limit_force, 'upper_limit')
@@ -46,11 +46,11 @@ def add_limits_to_xml(model_path, output_path):
         coordinate = ET.SubElement(limit_force, 'coordinate')
         coordinate.text = coord_name
         
-    print(f"Saving fixed model to {output_path}...")
+    print("Saving fixed model to %s..." % output_path)
     tree.write(output_path, encoding='utf-8', xml_declaration=True)
     print("Done! Open the fixed model in OpenSim GUI.")
 
 if __name__ == '__main__':
-    model_file = r'D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\osim_files\HYOID_HeadNeckNeural_Model.osim'
-    output_file = r'D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\osim_files\HYOID_HeadNeckNeural_Model_WithLimits.osim'
+    model_file = r'osim_files\HYOID_HeadNeckNeural_Model.osim'
+    output_file = r'osim_files\HYOID_HeadNeckNeural_Model_WithLimits.osim'
     add_limits_to_xml(model_file, output_file)

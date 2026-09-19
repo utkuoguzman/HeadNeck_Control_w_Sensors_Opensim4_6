@@ -307,7 +307,8 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	T = getTensionBag1(s);
 	Tp = getTensionBag1Deriv(s);
 	 
-	term1 = C * beta_bag1 * sgn(Lp - (Tp/bag1.K_SR)) * std::pow(std::abs(Lp - (Tp/bag1.K_SR)), bag1.a) * (L - bag1.L_0SR - (T/bag1.K_SR) - bag1.R);
+	double V_diff_bag1 = Lp - (Tp/bag1.K_SR);
+	term1 = C * beta_bag1 * V_diff_bag1 * std::pow(std::sqrt(V_diff_bag1*V_diff_bag1 + 1e-4), bag1.a - 1.0) * (L - bag1.L_0SR - (T/bag1.K_SR) - bag1.R);
 	term2 = bag1.K_PR*(L - bag1.L_0SR - (T/bag1.K_SR) - bag1.L_0PR);
 	
 	setStateVariableDerivativeValue(s, "tension_bag1_deriv",(bag1.K_SR/bag1.M) * ( term1 + term2 + bag1.M*Lpp + Gamma_bag1 - T ));
@@ -321,7 +322,8 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	T = getTensionBag2(s);
 	Tp = getTensionBag2Deriv(s);
 	 
-	term1 = C * beta_bag2 * sgn(Lp - (Tp/bag2.K_SR)) * std::pow(std::abs(Lp - (Tp/bag2.K_SR)), bag2.a) * (L - bag2.L_0SR - (T/bag2.K_SR) - bag2.R);
+	double V_diff_bag2 = Lp - (Tp/bag2.K_SR);
+	term1 = C * beta_bag2 * V_diff_bag2 * std::pow(std::sqrt(V_diff_bag2*V_diff_bag2 + 1e-4), bag2.a - 1.0) * (L - bag2.L_0SR - (T/bag2.K_SR) - bag2.R);
 	term2 = bag2.K_PR*(L - bag2.L_0SR - (T/bag2.K_SR) - bag2.L_0PR);
 	
 	setStateVariableDerivativeValue(s, "tension_bag2_deriv",(bag2.K_SR/bag2.M) * ( term1 + term2 + bag2.M*Lpp + Gamma_bag2 - T ));
@@ -335,7 +337,8 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	T = getTensionChain(s);
 	Tp = getTensionChainDeriv(s);
 	
-	term1 = C * beta_chain * sgn(Lp - (Tp/chain.K_SR)) * std::pow(std::abs(Lp - (Tp/chain.K_SR)), chain.a) * (L - chain.L_0SR - (T/chain.K_SR) - chain.R);	
+	double V_diff_chain = Lp - (Tp/chain.K_SR);
+	term1 = C * beta_chain * V_diff_chain * std::pow(std::sqrt(V_diff_chain*V_diff_chain + 1e-4), chain.a - 1.0) * (L - chain.L_0SR - (T/chain.K_SR) - chain.R);	
 	term2 = chain.K_PR*(L - chain.L_0SR - (T/chain.K_SR) - chain.L_0PR);
 	
 	setStateVariableDerivativeValue(s, "tension_chain_deriv",(chain.K_SR/chain.M) * ( term1 + term2 + chain.M*Lpp + Gamma_chain - T ));
@@ -347,7 +350,11 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	// calculating the afferent firing
 	double primary, secondary, pri_stat;
 	pri_stat = bag2.G_pri*APbag2 + chain.G_pri*APchain;
-	primary = max(APbag1, pri_stat) + S * min(APbag1, pri_stat);
+	double diff = APbag1 - pri_stat;
+	// Smooth Max and Min
+	double s_max = 0.5 * (APbag1 + pri_stat + std::sqrt(diff*diff + 1e-4));
+	double s_min = 0.5 * (APbag1 + pri_stat - std::sqrt(diff*diff + 1e-4));
+	primary = s_max + S * s_min;
 	secondary = bag2.G_sec*APbag2 + chain.G_sec*APchain;
 	
 	// cache the output so it can be accessed
@@ -398,9 +405,9 @@ void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 	
 	// calculate some terms that remain constant through the iterations
 	double Cb1, Cb2, Cc;
-	Cb1 = (Lp>0.0) ? bag1.C_L : bag1.C_S;
-	Cb2 = (Lp>0.0) ? bag2.C_L : bag2.C_S;
-	Cc	= (Lp>0.0) ? chain.C_L : chain.C_S;
+	Cb1 = bag1.C_S + (bag1.C_L - bag1.C_S) * 0.5 * (1.0 + std::tanh(1000.0 * Lp));
+	Cb2 = bag2.C_S + (bag2.C_L - bag2.C_S) * 0.5 * (1.0 + std::tanh(1000.0 * Lp));
+	Cc = chain.C_S + (chain.C_L - chain.C_S) * 0.5 * (1.0 + std::tanh(1000.0 * Lp));
 	
 	double num_b1, num_b2, num_c;
 	double den_b1, den_b2, den_c;
@@ -411,7 +418,8 @@ void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 	den_b2 = bag2.K_SR + bag2.K_PR;
 	den_c = chain.K_SR + chain.K_PR;
 	
-	double sig = (double)sgn(Lp);
+	double eps = 1e-4;
+	double sig = Lp / std::sqrt(Lp*Lp + eps);
 	double rab1 = 1.0/bag1.a;
 	double rab2 = 1.0/bag2.a;
 	double rac = 1.0/chain.a;

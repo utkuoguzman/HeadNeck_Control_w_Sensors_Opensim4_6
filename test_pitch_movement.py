@@ -1,7 +1,7 @@
 import org.opensim.modeling as modeling
 import os
 
-model_path = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\osim_files\HYOID_HeadNeckNeural_Model_WithLimits.osim"
+model_path = r"osim_files\HYOID_HeadNeckNeural_Model_WithLimits.osim"
 model = modeling.Model(model_path)
 
 # Find the controller
@@ -27,8 +27,8 @@ print "Integrating for 1.0 second..."
 manager.integrate(1.0)
 
 states_table = manager.getStatesTable()
-output_dir = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit"
-output_file = os.path.join(output_dir, "test_pitch_0_7.sto")
+output_dir = r"."
+output_file = r"state_files\test_pitch_0_7.sto"
 modeling.STOFileAdapter.write(states_table, output_file)
 
 print "Done! Saved to: " + output_file

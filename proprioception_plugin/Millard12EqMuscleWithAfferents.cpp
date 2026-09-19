@@ -24,11 +24,7 @@ Millard12EqMuscleWithAfferents::Millard12EqMuscleWithAfferents(const std::string
 	upd_GTO().setOwnerMuscleName(getName());
 	
 	// Initialize the work variables to calculate the acceleration
-	ts[0] = -0.02;
-	ts[1] = -0.01;
-	ts[2] = 0.0;
-	vel = 0;
-	C0 = 0.0; C1 = 0.0;
+	// removed mutable init
 }
 
 // GET & SET "state variables" and their "derivatives"
@@ -89,11 +85,6 @@ void Millard12EqMuscleWithAfferents::extendInitStateFromProperties(SimTK::State&
 	setLPFvelocity(s, 0.0);
 	setLPFacceleration(s, 0.0);
 
-
-	// Initialize the work variables to calculate the acceleration
-	vel = 0;
-	ts[2] = 0.0; ts[1] = -0.01; ts[0] = -0.02; 
-	C0 = 0.0; C1 = 0.0;
 }
 
 // use the current values of the muscle states to update the properties
@@ -128,25 +119,17 @@ void Millard12EqMuscleWithAfferents::computeInitialFiberEquilibrium(SimTK::State
 	
 	// get a reasonable initial value for the GTO nonlinearity
 	get_GTO().initFromMuscle(s);
-	
-	// update the work vectors assuming no acceleration
-	vel[0] = vel[1] = vel[2] = getFiberVelocity(s); //no acceleration
-	ts[2] = s.getTime();
-	ts[1] = ts[2] - 0.001; //go back a little in time domain
-	ts[0] = ts[1] - 0.001;
 }
 
 // If added any states, their derivatives must be updated here
 void Millard12EqMuscleWithAfferents::computeStateVariableDerivatives(const SimTK::State& s) const
 {
-	// This is a "carefree" version of that:
 	Super::computeStateVariableDerivatives(s);
 	
-	// next state is the LPF velocity ("if the LPF velocity is equal to fiber velocity, don't change")
-	setStateVariableDerivativeValue(s, "LPF_velocity",(getFiberVelocity(s) - getLPFvelocity(s))/getLPFtau());
-	 
-	// the LPF acceleration
-	setStateVariableDerivativeValue(s, "LPF_acceleration",(approxFiberAcceleration(s) - getLPFacceleration(s)) / getLPFtau());
+	// Cascaded filter to get smooth velocity and acceleration
+	double curr_accel = (getFiberVelocity(s) - getLPFvelocity(s)) / getLPFtau();
+	setStateVariableDerivativeValue(s, "LPF_velocity", curr_accel);
+	setStateVariableDerivativeValue(s, "LPF_acceleration", (curr_accel - getLPFacceleration(s)) / getLPFtau());
 }
 
 //--------------------------------------------------------------------------
@@ -154,71 +137,5 @@ void Millard12EqMuscleWithAfferents::computeStateVariableDerivatives(const SimTK
 //--------------------------------------------------------------------------
 double Millard12EqMuscleWithAfferents::approxFiberAcceleration(const SimTK::State& s) const
 {
-	double accel;   // muscle fiber acceleration 
-	double curr_vel;	//  muscle fiber velocity		
-	double curr_time = s.getTime();	// time in the simulation
-	
-	curr_vel = getLPFvelocity(s);
-	
-	if( curr_time > ts(2) )
-	{	// vel and ts are not ahead of current time.
-		// Using 4-point Fornberg's method.
-		// The formula below assumes current time = 0
-		ts(0) = ts(0) - curr_time;
-		ts(1) = ts(1) - curr_time;
-		ts(2) = ts(2) - curr_time;
-		
-		// calculate coefficients
-		C0(0,1) = ts(1)/(ts(1)-ts(0));
-		C0(1,1) = ts(0)/(ts(0)-ts(1));
-		C0(0,2) = ts(2)*C0(0,1)/(ts(2)-ts(0));
-		C0(1,2) = ts(2)*C0(1,1)/(ts(2)-ts(1));
-		C0(2,2) = ts(1)*ts(0)/((ts(2)-ts(0))*(ts(2)-ts(1)));
-		C1(0,1) = 1/(ts(0)-ts(1));
-		C1(1,1) = -C1(0,1);
-		C1(2,2) = ((ts(1)-ts(0))/( (ts(2)-ts(1))*(ts(2)-ts(0)) ))
-		          *(C0(1,1) - ts(1)*C1(1,1));
-		C1(0,3) = C0(0,2)/ts(0);
-		C1(1,3) = C0(1,2)/ts(1);
-		C1(2,3) = C0(2,2)/ts(2);
-		C1(3,3) = ( (ts(1)-ts(2))*(ts(2)-ts(0))/(ts(0)*ts(1)*ts(2)) )*(C0(2,2) - ts(2)*C1(2,2));
-				  
-		// use the coefficients
-		accel = C1(3,3)*curr_vel + C1(2,3)*vel(2) + C1(1,3)*vel(1) + C1(0,3)*vel(0);
-		
-		// shift velocities and times
-		vel(0) = vel(1); vel(1) = vel(2); vel(2) = curr_vel;
-		ts(0) = ts(1) + curr_time; // changing to absolute times
-		ts(1) = ts(2) + curr_time;
-		ts(2) = curr_time;
-	} 
-	else  // computeStateVariableDerivatives was called before for a more advanced time
-	{
-		if( curr_time > ts(1) )
-		{  // vel(1) and vel(0) still useful.
-			// Using a 3-point rule for differentiation
-			accel = ( 3*curr_vel - 4*vel(1) + vel(0) )/(curr_time - ts(0));
-			
-			// shift velocities and times
-			vel(2) = curr_vel; ts(2) = curr_time;
-		}
-		else if( s.getTime() > ts(0) )
-		{ // We only have one value before current time.
-			// Using a 2-point rule for differentiation
-			accel = (curr_vel - vel(0))/(curr_time - ts(0));
-			
-			// shift velocities and times
-			vel(2) = curr_vel; vel(1) = vel(0);
-			ts(2) = curr_time; ts(1) = ts(0); ts(0) = ts(1) - 1.0e-5;
-		}
-		else // we have no data to do this calculation
-		{
-			accel = getLPFacceleration(s);
-			vel(2) = curr_vel; ts(2) = curr_time;
-			vel(1) = vel(2); ts(1) = ts(2) - 1.0e-5;
-			vel(0) = vel(1); ts(0) = ts(1) - 1.0e-5;
-			//std::cout << "computed acceleration with no data \n";
-		}
-	}
-	return accel;
+	return (getFiberVelocity(s) - getLPFvelocity(s)) / getLPFtau();
 }

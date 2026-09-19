@@ -1,0 +1,10 @@
+--- SIMULATION START ---
+Loading libraries...
+Loading model D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\osim_files\HYOID_HeadNeckNeural_Model_Detailed.osim
+Starting integration...
+Reached time: 0.25s (Wall time elapsed: 56.1255035s)
+Reached time: 0.5s (Wall time elapsed: 107.6189347s)
+Reached time: 0.75s (Wall time elapsed: 159.162052s)
+Reached time: 1.0s (Wall time elapsed: 212.0265166s)
+Simulation finished at 212.0279599 seconds!
+Results saved to D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\state_files\detailed_explicit.sto

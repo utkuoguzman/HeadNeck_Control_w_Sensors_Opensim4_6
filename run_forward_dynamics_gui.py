@@ -1,3 +1,11 @@
+import os
+import sys
+try:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+except:
+    script_dir = r"D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6"
+os.chdir(script_dir)
+
 import org.opensim.modeling as modeling
 import os
 
@@ -40,8 +48,8 @@ else:
     states_table = manager.getStatesTable()
     
     # Save to a .sto file
-    output_dir = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit"
-    output_file = os.path.join(output_dir, "forward_simulation_results.sto")
+    output_dir = r"."
+    output_file = r"state_files\forward_simulation_results_gui.sto"
     modeling.STOFileAdapter.write(states_table, output_file)
     
     print "Success! Saved states to: " + output_file

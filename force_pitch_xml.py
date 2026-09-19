@@ -1,6 +1,6 @@
 import xml.etree.ElementTree as ET
 
-osim_file = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\osim_files\HYOID_HeadNeckNeural_Model_WithLimits.osim"
+osim_file = r"osim_files\HYOID_HeadNeckNeural_Model_WithLimits.osim"
 tree = ET.parse(osim_file)
 root = tree.getroot()
 

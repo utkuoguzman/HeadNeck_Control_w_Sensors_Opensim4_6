@@ -10,7 +10,7 @@ import sys
 import org.opensim.modeling as modeling
 import time
 
-log_file = os.path.join(script_dir, 'logs', 'simulation_log_explicit.txt')
+log_file = os.path.join(script_dir, 'logs', 'simulation_log_implicit.txt')
 
 def log(message):
     f = open(log_file, 'a')
@@ -18,22 +18,22 @@ def log(message):
     f.close()
 
 f = open(log_file, 'w')
-f.write("--- EXPLICIT RUN (RK-MERSON) ---\n")
+f.write("--- IMPLICIT RUN (SEMI-EXPLICIT EULER) ---\n")
 f.close()
 
 model = getCurrentModel()
 state = model.initSystem()
 manager = modeling.Manager(model)
 
-manager.setIntegratorMethod(3) #Runge-Kutta-Merson (Best explicit multibody solver)
+manager.setIntegratorMethod(5) #Runge-Kutta-Merson (Best explicit multibody solver)
 
 # --- THE ANTI-RINGING TUNING ---
 # 1. Loosen accuracy. If it's too strict, the solver panics and shrinks dt, causing Fornberg ringing.
-manager.setIntegratorAccuracy(0.00008571)
+manager.setIntegratorAccuracy(1e-4)
 # 2. Cap the max step. Prevents the solver from leaping over stiff proprioceptive curves.
 manager.setIntegratorMaximumStepSize(1) 
 # 3. Raise the minimum step. Prevents the Fornberg time-denominators from approaching zero.
-manager.setIntegratorMinimumStepSize(0.00008571) 
+manager.setIntegratorMinimumStepSize(1e-8) 
 # 4. Give it plenty of internal steps to work with.
 manager.setIntegratorInternalStepLimit(11667)
 
@@ -50,6 +50,6 @@ execution_time = end_time - start_time
 log("Simulation finished at " + str(execution_time) + "!")
 
 statesTable = manager.getStatesTable()
-save_path = os.path.join(script_dir, 'state_files', '1sec_forward_release_explicit.sto')
+save_path = os.path.join(script_dir, 'state_files', '1sec_forward_release_implicit.sto')
 modeling.STOFileAdapter.write(statesTable, save_path)
 log("Results saved successfully.")

@@ -1,3 +1,11 @@
+import os
+import sys
+try:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+except:
+    script_dir = r"D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6"
+os.chdir(script_dir)
+
 import org.opensim.modeling as modeling
 import math
 import os
@@ -22,11 +30,12 @@ if controller == None:
 # Initialize system
 state = model.initSystem()
 manager = modeling.Manager(model)
+manager.setIntegratorMethod(5)
 manager.setIntegratorAccuracy(1e-3)
 manager.initialize(state)
 
 # Prepare output log
-log_path = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\simulation_progress.txt"
+log_path = r"logs\simulation_progress.txt"
 out_file = open(log_path, "w")
 out_file.write("Starting 10-second Head/Neck Simulation...\n")
 
@@ -104,7 +113,7 @@ out_file.close()
 
 try:
     states_table = manager.getStatesTable()
-    output_file = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\full_10s_motion.sto"
+    output_file = r"state_files\full_10s_motion.sto"
     
     out_file = open(log_path, "a")
     out_file.write("Writing STO file to disk...\n")

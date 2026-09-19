@@ -1,5 +1,6 @@
 #include "Millard12EqMuscleWithSimplifiedAfferent.h"
 #include <iostream>
+#include <cmath>
 
 using namespace std;
 using namespace OpenSim;
@@ -13,11 +14,6 @@ Millard12EqMuscleWithSimplifiedAfferent::Millard12EqMuscleWithSimplifiedAfferent
 :Super(name, maxIsometricForce, optimalFiberLength, tendonSlackLength, pennationAngle)
 {
     constructProperties();
-    ts[0] = -0.02;
-    ts[1] = -0.01;
-    ts[2] = 0.0;
-    vel = 0;
-    C0 = 0.0; C1 = 0.0;
 }
 
 void Millard12EqMuscleWithSimplifiedAfferent::constructProperties()
@@ -37,9 +33,6 @@ void Millard12EqMuscleWithSimplifiedAfferent::extendInitStateFromProperties(SimT
     Super::extendInitStateFromProperties(s);
     setLPFvelocity(s, 0.0);
     setLPFacceleration(s, 0.0);
-    vel = 0;
-    ts[2] = 0.0; ts[1] = -0.01; ts[0] = -0.02; 
-    C0 = 0.0; C1 = 0.0;
 }
 
 void Millard12EqMuscleWithSimplifiedAfferent::extendSetPropertiesFromState(const SimTK::State& s)
@@ -52,69 +45,21 @@ void Millard12EqMuscleWithSimplifiedAfferent::computeInitialFiberEquilibrium(Sim
     Super::computeInitialFiberEquilibrium(s);
     setLPFvelocity(s, getFiberVelocity(s));
     setLPFacceleration(s, 0.0); 
-    
-    vel[0] = vel[1] = vel[2] = getFiberVelocity(s);
-    ts[2] = s.getTime();
-    ts[1] = ts[2] - 0.001;
-    ts[0] = ts[1] - 0.001;
 }
 
 void Millard12EqMuscleWithSimplifiedAfferent::computeStateVariableDerivatives(const SimTK::State& s) const
 {
     Super::computeStateVariableDerivatives(s);
-    setStateVariableDerivativeValue(s, "LPF_velocity", (getFiberVelocity(s) - getLPFvelocity(s)) / get_lpf_tau());
-    setStateVariableDerivativeValue(s, "LPF_acceleration", (approxFiberAcceleration(s) - getLPFacceleration(s)) / get_lpf_tau());
+    
+    // Cascaded filter to get smooth velocity and acceleration
+    double curr_accel = (getFiberVelocity(s) - getLPFvelocity(s)) / get_lpf_tau();
+    setStateVariableDerivativeValue(s, "LPF_velocity", curr_accel);
+    setStateVariableDerivativeValue(s, "LPF_acceleration", (curr_accel - getLPFacceleration(s)) / get_lpf_tau());
 }
 
 double Millard12EqMuscleWithSimplifiedAfferent::approxFiberAcceleration(const SimTK::State& s) const
 {
-    double accel;
-    double curr_vel = getLPFvelocity(s);
-    double curr_time = s.getTime();
-    
-    if( curr_time > ts(2) )
-    {
-        ts(0) = ts(0) - curr_time;
-        ts(1) = ts(1) - curr_time;
-        ts(2) = ts(2) - curr_time;
-        
-        C0(0,1) = ts(1)/(ts(1)-ts(0));
-        C0(1,1) = ts(0)/(ts(0)-ts(1));
-        C0(0,2) = ts(2)*C0(0,1)/(ts(2)-ts(0));
-        C0(1,2) = ts(2)*C0(1,1)/(ts(2)-ts(1));
-        C0(2,2) = ts(1)*ts(0)/((ts(2)-ts(0))*(ts(2)-ts(1)));
-        C1(0,1) = 1/(ts(0)-ts(1));
-        C1(1,1) = -C1(0,1);
-        C1(2,2) = ((ts(1)-ts(0))/( (ts(2)-ts(1))*(ts(2)-ts(0)) ))*(C0(1,1) - ts(1)*C1(1,1));
-        C1(0,3) = C0(0,2)/ts(0);
-        C1(1,3) = C0(1,2)/ts(1);
-        C1(2,3) = C0(2,2)/ts(2);
-        C1(3,3) = ( (ts(1)-ts(2))*(ts(2)-ts(0))/(ts(0)*ts(1)*ts(2)) )*(C0(2,2) - ts(2)*C1(2,2));
-                  
-        accel = C1(3,3)*curr_vel + C1(2,3)*vel(2) + C1(1,3)*vel(1) + C1(0,3)*vel(0);
-        
-        vel(0) = vel(1); vel(1) = vel(2); vel(2) = curr_vel;
-        ts(0) = ts(1) + curr_time;
-        ts(1) = ts(2) + curr_time;
-        ts(2) = curr_time;
-    } 
-    else
-    {
-        if( curr_time > ts(1) ) {
-            accel = ( 3*curr_vel - 4*vel(1) + vel(0) )/(curr_time - ts(0));
-            vel(2) = curr_vel; ts(2) = curr_time;
-        } else if( s.getTime() > ts(0) ) {
-            accel = (curr_vel - vel(0))/(curr_time - ts(0));
-            vel(2) = curr_vel; vel(1) = vel(0);
-            ts(2) = curr_time; ts(1) = ts(0); ts(0) = ts(1) - 1.0e-5;
-        } else {
-            accel = getLPFacceleration(s);
-            vel(2) = curr_vel; ts(2) = curr_time;
-            vel(1) = vel(2); ts(1) = ts(2) - 1.0e-5;
-            vel(0) = vel(1); ts(0) = ts(1) - 1.0e-5;
-        }
-    }
-    return accel;
+    return (getFiberVelocity(s) - getLPFvelocity(s)) / get_lpf_tau();
 }
 
 double Millard12EqMuscleWithSimplifiedAfferent::getLPFvelocity(const SimTK::State& s) const { return getStateVariableValue(s, "LPF_velocity"); }
@@ -146,16 +91,24 @@ double Millard12EqMuscleWithSimplifiedAfferent::getIaAfferent(const SimTK::State
     double LsrN = 0.0423;
     double G = 4000.0; // 20% of 20000
 
+    // Smooth absolute value and sign for velocity
+    double eps = 1e-4;
+    double V_reg = std::sqrt(V * V + eps);
+    double V_sign = V / V_reg;
+
     // Tension Calculation
-    double term2 = beta * C * (L - R - Lsr0) * ((V > 0) ? 1.0 : -1.0) * std::pow(std::abs(V), a);
+    double term2 = beta * C * (L - R - Lsr0) * V_sign * std::pow(V_reg, a);
     double term3 = Kpr * (L - Lpr0 - Lsr0);
     double T = M * A + term2 + term3;
     
-    if (T < 0) T = 0; // Muscle fiber can't push
+    // Smooth Max for T < 0
+    T = 0.5 * (T + std::sqrt(T * T + eps));
 
     // Ia Primary Afferent Firing
     double Ia = G * ( (T / Ksr) - (LsrN - Lsr0) );
-    return std::max(0.0, Ia);
+    
+    // Smooth Max for Ia < 0
+    return 0.5 * (Ia + std::sqrt(Ia * Ia + eps));
 }
 
 double Millard12EqMuscleWithSimplifiedAfferent::getIbAfferent(const SimTK::State& s) const
@@ -164,10 +117,10 @@ double Millard12EqMuscleWithSimplifiedAfferent::getIbAfferent(const SimTK::State
     double F_norm = getActiveFiberForce(s) / getMaxIsometricForce();
     double p = 60.0; // max fusimotor frequency for human from Zhang 2020
 
-    if (F_norm < 0.7) {
-        return 0.0;
-    } else {
-        return p * F_norm;
-    }
-}
+    // Smooth step function around F_norm = 0.7
+    // Using sigmoid to smoothly transition from 0 to p*F_norm
+    double k = 1000.0; // Steepness of the transition
+    double smooth_step = 0.5 * (1.0 + std::tanh(k * (F_norm - 0.7)));
 
+    return p * F_norm * smooth_step;
+}

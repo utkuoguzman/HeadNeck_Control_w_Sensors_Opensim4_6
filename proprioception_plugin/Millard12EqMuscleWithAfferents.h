@@ -68,10 +68,7 @@ private:
 	 *  'vel' and 'ts' are the "velocity" and "time values" used in the method
 	 *  to calculate the acceleration. 
 	 *  Since computeStateVariableDerivatives is const, mutable is needed. */
-	mutable SimTK::Vec<3> vel, ts; 
-	mutable SimTK::Mat33 C0;
-	mutable SimTK::Mat44 C1;
-		
+// No mutable arrays needed, handled by cascaded filter		
 public:
 	/* METHODS */
 	// The class constructors 

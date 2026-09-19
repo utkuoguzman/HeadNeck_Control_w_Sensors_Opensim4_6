@@ -22,9 +22,7 @@ public:
     OpenSim_DECLARE_PROPERTY(lpf_tau, double, "time constant for all the low-pass filters");
 
 private:
-    mutable SimTK::Vec<3> vel, ts; 
-    mutable SimTK::Mat33 C0;
-    mutable SimTK::Mat44 C1;
+    // No mutable arrays needed, smooth differentiation is handled via cascaded state filters
     
 public:
     Millard12EqMuscleWithSimplifiedAfferent();

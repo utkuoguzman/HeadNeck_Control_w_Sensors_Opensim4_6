@@ -1,8 +1,16 @@
+import os
+import sys
+try:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+except:
+    script_dir = r"D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6"
+os.chdir(script_dir)
+
 import org.opensim.modeling as modeling
 import traceback
 import sys
 
-out_file = open(r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\simulation_progress.txt", "w")
+out_file = open(r"logs\simulation_progress.txt", "w")
 
 def log(msg):
     out_file.write(msg + "\n")
@@ -26,7 +34,7 @@ try:
 
     log("Getting states table...")
     states_table = manager.getStatesTable()
-    output_file = r"D:\Akademik\PhD_Thesis\OpenSim\Proprioception_Plugin_Opensim4_6_Explicit\test_save.sto"
+    output_file = r"state_files\test_save.sto"
     
     log("Writing to disk at: " + output_file)
     modeling.STOFileAdapter.write(states_table, output_file)
