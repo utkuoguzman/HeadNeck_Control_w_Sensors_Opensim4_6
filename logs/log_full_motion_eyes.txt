@@ -1,42 +1,203 @@
 Starting 10-second Head/Neck/Eye Simulation...
 Running integration... check logs/log_full_motion_eyes.txt
-Time: 0.25s (Wall: 64.2s)
+Time: 0.25s (Wall: 58.0s)
   Neck Target [P: -14.4, R:   0.0, Y:   0.0] | Actual [P:  -8.1, R:   2.0, Y:   1.3]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  1.92, Pitch: -2.89]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -1.92, Pitch: -2.89]
+  R_Eye Target [Abd:  3.37, Ele:  4.91, Tor: -1.98] | Actual [Abd:  4.91, Ele: -1.24, Tor: -3.29]
+  L_Eye Target [Abd: -0.85, Ele:  4.91, Tor: -1.98] | Actual [Abd:  1.07, Ele: -1.23, Tor: -3.29]
 
-Time: 0.75s (Wall: 187.9s)
+Time: 0.50s (Wall: 101.4s)
+  Neck Target [P: -32.4, R:   0.0, Y:   0.0] | Actual [P: -26.5, R:   0.7, Y:   0.7]
+  R_Eye Target [Abd:  2.82, Ele: 23.31, Tor: -0.70] | Actual [Abd:  3.00, Ele: 16.03, Tor: -1.05]
+  L_Eye Target [Abd: -1.40, Ele: 23.31, Tor: -0.70] | Actual [Abd: -1.16, Ele: 16.04, Tor: -1.02]
+
+Time: 0.75s (Wall: 125.3s)
   Neck Target [P: -50.4, R:   0.0, Y:   0.0] | Actual [P: -43.9, R:   0.4, Y:   0.4]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.14]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.14]
+  R_Eye Target [Abd:  2.51, Ele: 40.75, Tor: -0.44] | Actual [Abd:  2.59, Ele: 26.35, Tor: -0.51]
+  L_Eye Target [Abd: -1.71, Ele: 40.75, Tor: -0.44] | Actual [Abd: -1.61, Ele: 26.35, Tor: -0.50]
 
-Time: 1.00s (Wall: 243.5s)
+Time: 1.00s (Wall: 156.2s)
   Neck Target [P: -51.6, R:   0.0, Y:   0.0] | Actual [P: -52.3, R:   0.3, Y:   0.1]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.15]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.14]
+  R_Eye Target [Abd:  2.23, Ele: 49.14, Tor: -0.31] | Actual [Abd:  2.38, Ele: 27.34, Tor: -0.48]
+  L_Eye Target [Abd: -1.99, Ele: 49.14, Tor: -0.31] | Actual [Abd: -1.83, Ele: 27.34, Tor: -0.47]
 
-Time: 1.25s (Wall: 300.3s)
+Time: 1.25s (Wall: 187.1s)
   Neck Target [P: -33.6, R:   0.0, Y:   0.0] | Actual [P: -39.4, R:  -0.3, Y:  -0.6]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.14]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.15]
+  R_Eye Target [Abd:  1.47, Ele: 36.28, Tor:  0.31] | Actual [Abd:  1.70, Ele: 27.42, Tor:  0.15]
+  L_Eye Target [Abd: -2.75, Ele: 36.28, Tor:  0.31] | Actual [Abd: -2.50, Ele: 27.42, Tor:  0.17]
 
-Time: 1.50s (Wall: 361.7s)
+Time: 1.50s (Wall: 220.7s)
   Neck Target [P: -15.6, R:   0.0, Y:   0.0] | Actual [P: -22.8, R:  -0.5, Y:  -0.8]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.14]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.14]
+  R_Eye Target [Abd:  1.29, Ele: 19.62, Tor:  0.45] | Actual [Abd:  1.34, Ele: 24.06, Tor:  0.35]
+  L_Eye Target [Abd: -2.92, Ele: 19.62, Tor:  0.45] | Actual [Abd: -2.85, Ele: 24.05, Tor:  0.38]
 
-Time: 1.75s (Wall: 426.0s)
+Time: 1.75s (Wall: 263.6s)
   Neck Target [P:   2.4, R:   0.0, Y:   0.0] | Actual [P:  -4.6, R:  -0.4, Y:  -0.4]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.14]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.14]
+  R_Eye Target [Abd:  1.70, Ele:  1.44, Tor:  0.38] | Actual [Abd:  1.50, Ele:  8.41, Tor:  0.42]
+  L_Eye Target [Abd: -2.52, Ele:  1.44, Tor:  0.38] | Actual [Abd: -2.68, Ele:  8.40, Tor:  0.44]
 
-Time: 2.00s (Wall: 487.2s)
+Time: 2.00s (Wall: 306.4s)
   Neck Target [P:  20.4, R:   0.0, Y:   0.0] | Actual [P:  14.0, R:   0.1, Y:   0.2]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.14]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.14]
+  R_Eye Target [Abd:  2.32, Ele: -17.20, Tor: -0.10] | Actual [Abd:  2.03, Ele: -9.63, Tor:  0.14]
+  L_Eye Target [Abd: -1.90, Ele: -17.20, Tor: -0.10] | Actual [Abd: -2.13, Ele: -9.63, Tor:  0.15]
 
-Time: 2.25s (Wall: 546.2s)
+Time: 2.25s (Wall: 343.1s)
   Neck Target [P:  38.4, R:   0.0, Y:   0.0] | Actual [P:  32.6, R:   1.1, Y:   1.3]
-  R_Eye Target [Yaw:  2.11, Pitch: -3.16] | Actual [Yaw:  2.09, Pitch: -3.14]
-  L_Eye Target [Yaw: -2.11, Pitch: -3.16] | Actual [Yaw: -2.09, Pitch: -3.14]
+  R_Eye Target [Abd:  3.37, Ele: -35.73, Tor: -1.13] | Actual [Abd:  2.87, Ele: -27.99, Tor: -0.75]
+  L_Eye Target [Abd: -0.85, Ele: -35.73, Tor: -1.13] | Actual [Abd: -1.25, Ele: -27.98, Tor: -0.68]
 
+Time: 2.50s (Wall: 367.6s)
+  Neck Target [P:  56.4, R:   0.0, Y:   0.0] | Actual [P:  49.5, R:   2.2, Y:   2.5]
+  R_Eye Target [Abd:  4.64, Ele: -52.70, Tor: -2.18] | Actual [Abd:  4.03, Ele: -43.39, Tor: -1.81]
+  L_Eye Target [Abd:  0.42, Ele: -52.70, Tor: -2.18] | Actual [Abd: -0.11, Ele: -43.31, Tor: -1.57]
+
+Time: 2.75s (Wall: 421.0s)
+  Neck Target [P:  45.6, R:   0.0, Y:   0.0] | Actual [P:  52.0, R:   3.8, Y:   3.0]
+  R_Eye Target [Abd:  5.08, Ele: -55.19, Tor: -3.80] | Actual [Abd:  4.86, Ele: -45.81, Tor: -2.86]
+  L_Eye Target [Abd:  0.86, Ele: -55.19, Tor: -3.80] | Actual [Abd:  0.73, Ele: -45.96, Tor: -2.93]
+
+Time: 3.00s (Wall: 461.1s)
+  Neck Target [P:  27.6, R:   0.0, Y:   0.0] | Actual [P:  32.4, R:  -0.1, Y:  -0.2]
+  R_Eye Target [Abd:  1.94, Ele: -35.52, Tor:  0.06] | Actual [Abd:  2.84, Ele: -40.85, Tor: -1.11]
+  L_Eye Target [Abd: -2.28, Ele: -35.52, Tor:  0.06] | Actual [Abd: -1.29, Ele: -40.82, Tor: -1.08]
+
+Time: 3.25s (Wall: 497.6s)
+  Neck Target [P:   9.6, R:   0.0, Y:   0.0] | Actual [P:  14.4, R:  -0.4, Y:  -0.5]
+  R_Eye Target [Abd:  1.63, Ele: -17.60, Tor:  0.39] | Actual [Abd:  1.78, Ele: -24.31, Tor:  0.16]
+  L_Eye Target [Abd: -2.59, Ele: -17.60, Tor:  0.39] | Actual [Abd: -2.38, Ele: -24.31, Tor:  0.19]
+
+Time: 3.50s (Wall: 545.5s)
+  Neck Target [P:   0.0, R:   5.6, Y:   0.0] | Actual [P:   0.6, R:   2.4, Y:  -0.5]
+  R_Eye Target [Abd:  1.58, Ele: -3.77, Tor: -2.44] | Actual [Abd:  1.62, Ele: -8.17, Tor: -0.67]
+  L_Eye Target [Abd: -2.64, Ele: -3.77, Tor: -2.44] | Actual [Abd: -2.56, Ele: -8.16, Tor: -0.67]
+
+Time: 3.75s (Wall: 593.6s)
+  Neck Target [P:   0.0, R:  17.6, Y:   0.0] | Actual [P:  -1.5, R:  13.1, Y:  -0.7]
+  R_Eye Target [Abd:  1.43, Ele: -1.69, Tor: -13.07] | Actual [Abd:  1.47, Ele: -2.57, Tor: -8.63]
+  L_Eye Target [Abd: -2.79, Ele: -1.69, Tor: -13.07] | Actual [Abd: -2.70, Ele: -2.54, Tor: -8.67]
+
+Time: 4.00s (Wall: 651.6s)
+  Neck Target [P:   0.0, R:  29.6, Y:   0.0] | Actual [P:  -1.6, R:  24.8, Y:  -0.6]
+  R_Eye Target [Abd:  1.52, Ele: -1.53, Tor: -24.79] | Actual [Abd:  1.42, Ele: -1.77, Tor: -11.49]
+  L_Eye Target [Abd: -2.70, Ele: -1.53, Tor: -24.79] | Actual [Abd: -2.63, Ele: -1.71, Tor: -11.58]
+
+Time: 4.25s (Wall: 743.3s)
+  Neck Target [P:   0.0, R:  38.4, Y:   0.0] | Actual [P:  -2.2, R:  35.0, Y:  -0.7]
+  R_Eye Target [Abd:  1.44, Ele: -0.96, Tor: -34.95] | Actual [Abd:  1.36, Ele: -1.33, Tor: -11.66]
+  L_Eye Target [Abd: -2.78, Ele: -0.96, Tor: -34.95] | Actual [Abd: -2.53, Ele: -1.25, Tor: -11.78]
+
+Time: 4.50s (Wall: 836.4s)
+  Neck Target [P:   0.0, R:  26.4, Y:   0.0] | Actual [P:  -2.0, R:  28.3, Y:  -0.6]
+  R_Eye Target [Abd:  1.50, Ele: -1.20, Tor: -28.31] | Actual [Abd:  1.25, Ele: -1.21, Tor: -11.68]
+  L_Eye Target [Abd: -2.72, Ele: -1.20, Tor: -28.31] | Actual [Abd: -2.65, Ele: -1.13, Tor: -11.80]
+
+Time: 4.75s (Wall: 930.1s)
+  Neck Target [P:   0.0, R:  14.4, Y:   0.0] | Actual [P:  -1.0, R:  17.5, Y:  -0.2]
+  R_Eye Target [Abd:  1.89, Ele: -2.15, Tor: -17.46] | Actual [Abd:  1.66, Ele: -2.03, Tor: -11.68]
+  L_Eye Target [Abd: -2.33, Ele: -2.15, Tor: -17.46] | Actual [Abd: -2.24, Ele: -1.94, Tor: -11.81]
+
+Time: 5.00s (Wall: 1006.3s)
+  Neck Target [P:   0.0, R:   2.4, Y:   0.0] | Actual [P:  -1.3, R:   5.5, Y:  -0.5]
+  R_Eye Target [Abd:  1.57, Ele: -1.86, Tor: -5.48] | Actual [Abd:  1.58, Ele: -2.07, Tor: -8.82]
+  L_Eye Target [Abd: -2.65, Ele: -1.86, Tor: -5.48] | Actual [Abd: -2.45, Ele: -2.02, Tor: -8.92]
+
+Time: 5.25s (Wall: 1061.3s)
+  Neck Target [P:   0.0, R:  -9.6, Y:   0.0] | Actual [P:  -1.4, R:  -6.2, Y:  -0.5]
+  R_Eye Target [Abd:  1.61, Ele: -1.77, Tor:  6.21] | Actual [Abd:  1.54, Ele: -1.79, Tor:  1.68]
+  L_Eye Target [Abd: -2.61, Ele: -1.77, Tor:  6.21] | Actual [Abd: -2.62, Ele: -1.77, Tor:  1.67]
+
+Time: 5.50s (Wall: 1111.4s)
+  Neck Target [P:   0.0, R: -21.6, Y:   0.0] | Actual [P:  -1.1, R: -17.7, Y:  -0.2]
+  R_Eye Target [Abd:  1.89, Ele: -2.04, Tor: 17.74] | Actual [Abd:  1.73, Ele: -1.97, Tor: 10.57]
+  L_Eye Target [Abd: -2.33, Ele: -2.04, Tor: 17.74] | Actual [Abd: -2.40, Ele: -1.99, Tor: 10.51]
+
+Time: 5.75s (Wall: 1174.7s)
+  Neck Target [P:   0.0, R: -33.6, Y:   0.0] | Actual [P:  -0.5, R: -28.7, Y:   0.5]
+  R_Eye Target [Abd:  2.61, Ele: -2.64, Tor: 28.71] | Actual [Abd:  2.18, Ele: -2.38, Tor: 11.74]
+  L_Eye Target [Abd: -1.61, Ele: -2.64, Tor: 28.71] | Actual [Abd: -1.87, Ele: -2.44, Tor: 11.63]
+
+Time: 6.00s (Wall: 1228.9s)
+  Neck Target [P:   0.0, R: -34.4, Y:   0.0] | Actual [P:   0.9, R: -33.0, Y:   2.0]
+  R_Eye Target [Abd:  4.07, Ele: -4.05, Tor: 33.02] | Actual [Abd:  3.43, Ele: -3.54, Tor: 11.85]
+  L_Eye Target [Abd: -0.15, Ele: -4.05, Tor: 33.02] | Actual [Abd: -0.66, Ele: -3.62, Tor: 11.73]
+
+Time: 6.25s (Wall: 1302.4s)
+  Neck Target [P:   0.0, R: -22.4, Y:   0.0] | Actual [P:   0.9, R: -23.7, Y:   1.8]
+  R_Eye Target [Abd:  3.91, Ele: -4.05, Tor: 23.66] | Actual [Abd:  4.00, Ele: -4.16, Tor: 11.85]
+  L_Eye Target [Abd: -0.31, Ele: -4.05, Tor: 23.66] | Actual [Abd: -0.00, Ele: -4.23, Tor: 11.73]
+
+Time: 6.50s (Wall: 1369.5s)
+  Neck Target [P:   0.0, R: -10.4, Y:   0.0] | Actual [P:   0.2, R: -12.9, Y:   1.0]
+  R_Eye Target [Abd:  3.14, Ele: -3.35, Tor: 12.93] | Actual [Abd:  3.21, Ele: -3.57, Tor: 11.85]
+  L_Eye Target [Abd: -1.08, Ele: -3.35, Tor: 12.93] | Actual [Abd: -0.79, Ele: -3.64, Tor: 11.73]
+
+Time: 6.75s (Wall: 1429.5s)
+  Neck Target [P:   0.0, R:   0.0, Y:   2.8] | Actual [P:  -1.1, R:  -3.2, Y:   0.5]
+  R_Eye Target [Abd:  2.64, Ele: -2.11, Tor:  3.24] | Actual [Abd:  2.65, Ele: -2.84, Tor:  6.04]
+  L_Eye Target [Abd: -1.58, Ele: -2.11, Tor:  3.24] | Actual [Abd: -1.46, Ele: -2.86, Tor:  5.98]
+
+Time: 7.00s (Wall: 1489.4s)
+  Neck Target [P:   0.0, R:   0.0, Y:  23.8] | Actual [P:  -3.7, R:  -3.3, Y:  15.0]
+  R_Eye Target [Abd: 17.11, Ele:  0.49, Tor:  3.28] | Actual [Abd: 10.74, Ele: -0.21, Tor:  3.48]
+  L_Eye Target [Abd: 12.89, Ele:  0.49, Tor:  3.28] | Actual [Abd:  6.60, Ele: -0.23, Tor:  3.45]
+
+Time: 7.25s (Wall: 1538.5s)
+  Neck Target [P:   0.0, R:   0.0, Y:  44.8] | Actual [P:  -6.9, R:  -5.6, Y:  32.6]
+  R_Eye Target [Abd: 34.67, Ele:  3.73, Tor:  5.60] | Actual [Abd: 27.39, Ele:  2.35, Tor:  4.61]
+  L_Eye Target [Abd: 30.45, Ele:  3.73, Tor:  5.60] | Actual [Abd: 23.34, Ele:  2.30, Tor:  4.56]
+
+Time: 7.50s (Wall: 1590.8s)
+  Neck Target [P:   0.0, R:   0.0, Y:  65.8] | Actual [P:  -9.6, R: -10.6, Y:  41.2]
+  R_Eye Target [Abd: 43.27, Ele:  6.42, Tor: 10.61] | Actual [Abd: 39.63, Ele:  5.56, Tor:  8.31]
+  L_Eye Target [Abd: 39.05, Ele:  6.42, Tor: 10.61] | Actual [Abd: 35.87, Ele:  5.43, Tor:  8.14]
+
+Time: 7.75s (Wall: 1657.1s)
+  Neck Target [P:   0.0, R:   0.0, Y:  53.2] | Actual [P: -10.3, R: -12.9, Y:  37.2]
+  R_Eye Target [Abd: 39.35, Ele:  7.16, Tor: 12.88] | Actual [Abd: 38.86, Ele:  6.98, Tor: 11.73]
+  L_Eye Target [Abd: 35.13, Ele:  7.16, Tor: 12.88] | Actual [Abd: 35.15, Ele:  6.71, Tor: 11.44]
+
+Time: 8.00s (Wall: 1735.4s)
+  Neck Target [P:   0.0, R:   0.0, Y:  32.2] | Actual [P:  -2.4, R:  -2.0, Y:  35.6]
+  R_Eye Target [Abd: 37.71, Ele: -0.76, Tor:  2.00] | Actual [Abd: 38.58, Ele:  2.49, Tor:  5.91]
+  L_Eye Target [Abd: 33.49, Ele: -0.76, Tor:  2.00] | Actual [Abd: 34.91, Ele:  2.31, Tor:  5.73]
+
+Time: 8.25s (Wall: 1787.3s)
+  Neck Target [P:   0.0, R:   0.0, Y:  11.2] | Actual [P:  -0.3, R:   0.8, Y:  17.3]
+  R_Eye Target [Abd: 19.43, Ele: -2.88, Tor: -0.78] | Actual [Abd: 25.80, Ele: -1.84, Tor:  0.59]
+  L_Eye Target [Abd: 15.21, Ele: -2.88, Tor: -0.78] | Actual [Abd: 21.75, Ele: -1.89, Tor:  0.56]
+
+Time: 8.50s (Wall: 1841.8s)
+  Neck Target [P:   0.0, R:   0.0, Y:  -9.8] | Actual [P:   1.6, R:   2.8, Y:  -1.6]
+  R_Eye Target [Abd:  0.54, Ele: -4.74, Tor: -2.79] | Actual [Abd:  8.03, Ele: -4.10, Tor: -2.05]
+  L_Eye Target [Abd: -3.67, Ele: -4.74, Tor: -2.79] | Actual [Abd:  3.88, Ele: -4.10, Tor: -2.05]
+
+Time: 8.75s (Wall: 1892.7s)
+  Neck Target [P:   0.0, R:   0.0, Y: -30.8] | Actual [P:   2.3, R:   3.8, Y: -21.4]
+  R_Eye Target [Abd: -19.29, Ele: -5.46, Tor: -3.77] | Actual [Abd: -11.32, Ele: -5.05, Tor: -3.30]
+  L_Eye Target [Abd: -23.51, Ele: -5.46, Tor: -3.77] | Actual [Abd: -15.43, Ele: -5.00, Tor: -3.33]
+
+Time: 9.00s (Wall: 1942.9s)
+  Neck Target [P:   0.0, R:   0.0, Y: -51.8] | Actual [P:   6.0, R:   7.3, Y: -39.0]
+  R_Eye Target [Abd: -36.89, Ele: -9.16, Tor: -7.33] | Actual [Abd: -29.40, Ele: -7.49, Tor: -5.77]
+  L_Eye Target [Abd: -41.11, Ele: -9.16, Tor: -7.33] | Actual [Abd: -33.42, Ele: -7.38, Tor: -5.80]
+
+Time: 9.25s (Wall: 1995.6s)
+  Neck Target [P:   0.0, R:   0.0, Y: -67.2] | Actual [P:   7.1, R:   6.9, Y: -57.4]
+  R_Eye Target [Abd: -55.33, Ele: -10.23, Tor: -6.92] | Actual [Abd: -41.40, Ele: -10.57, Tor: -7.75]
+  L_Eye Target [Abd: -59.55, Ele: -10.23, Tor: -6.92] | Actual [Abd: -42.61, Ele: -10.44, Tor: -7.76]
+
+Time: 9.50s (Wall: 2048.6s)
+  Neck Target [P:   0.0, R:   0.0, Y: -46.2] | Actual [P:   0.5, R:   2.9, Y: -49.2]
+  R_Eye Target [Abd: -47.07, Ele: -3.71, Tor: -2.88] | Actual [Abd: -42.73, Ele: -4.51, Tor: -3.19]
+  L_Eye Target [Abd: -51.29, Ele: -3.71, Tor: -2.88] | Actual [Abd: -43.41, Ele: -4.50, Tor: -3.21]
+
+Time: 9.75s (Wall: 2099.7s)
+  Neck Target [P:   0.0, R:   0.0, Y: -25.2] | Actual [P:   0.2, R:   1.6, Y: -30.0]
+  R_Eye Target [Abd: -27.90, Ele: -3.37, Tor: -1.55] | Actual [Abd: -33.63, Ele: -3.90, Tor: -2.37]
+  L_Eye Target [Abd: -32.12, Ele: -3.37, Tor: -1.55] | Actual [Abd: -37.18, Ele: -3.88, Tor: -2.38]
+
+Time: 10.00s (Wall: 2154.1s)
+  Neck Target [P:   0.0, R:   0.0, Y:  -4.2] | Actual [P:  -0.3, R:   0.3, Y:  -9.9]
+  R_Eye Target [Abd: -7.82, Ele: -2.81, Tor: -0.35] | Actual [Abd: -15.49, Ele: -3.04, Tor: -0.80]
+  L_Eye Target [Abd: -12.04, Ele: -2.81, Tor: -0.35] | Actual [Abd: -19.56, Ele: -3.04, Tor: -0.80]
+
+Simulation successfully finished!

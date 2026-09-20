@@ -136,6 +136,22 @@ void FixationController::computeControls(const SimTK::State& s, SimTK::Vector& c
         double des_pitch = std::atan2(to_target_skull[1], to_target_skull[0]);
         double des_torsion = 0.0;
         
+        // Clamp desired angles to biological asymmetric limits
+        double max_yaw = (eye == 0) ? 0.7836 : 0.7714; // Right: Add(Left)=44.9, Left: Abd(Left)=44.2
+        double min_yaw = (eye == 0) ? -0.7714 : -0.7836; // Right: Abd(Right)=-44.2, Left: Add(Right)=-44.9
+        if (des_yaw > max_yaw) des_yaw = max_yaw;
+        if (des_yaw < min_yaw) des_yaw = min_yaw;
+
+        double max_pitch = 0.4869; // Elevation = 27.9 deg
+        double min_pitch = -0.8220; // Depression = -47.1 deg
+        if (des_pitch > max_pitch) des_pitch = max_pitch;
+        if (des_pitch < min_pitch) des_pitch = min_pitch;
+
+        double max_torsion = 0.2094; // ~12 deg
+        double min_torsion = -0.2094;
+        if (des_torsion > max_torsion) des_torsion = max_torsion;
+        if (des_torsion < min_torsion) des_torsion = min_torsion;
+        
         const auto& coord_yaw = model.getCoordinateSet().get(pre + "eye_add_abd");
         const auto& coord_pitch = model.getCoordinateSet().get(pre + "eye_sup_inf");
         const auto& coord_torsion = model.getCoordinateSet().get(pre + "eye_inc_exc");
