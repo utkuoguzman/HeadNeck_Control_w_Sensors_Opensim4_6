@@ -4,7 +4,6 @@
 #include <OpenSim/OpenSim.h>
 #include <deque>
 #include <vector>
-#include <map>
 
 namespace OpenSim {
 
@@ -23,12 +22,6 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_pitch, double, "Voluntary desired pitch angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
 
-    // Vestibular & Reflex properties
-    OpenSim_DECLARE_PROPERTY(G_sc, double, "Vestibular semicircular canal gain");
-    OpenSim_DECLARE_PROPERTY(G_ton, double, "Tonic muscle drive");
-    OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
-    OpenSim_DECLARE_PROPERTY(k_v, double, "Muscle-level CCR derivative gain");
-
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
     OpenSim_DECLARE_PROPERTY(K_gamma, double, "Gain for Gamma motor neuron dynamic setpoint shift (default: 1.0)");
     OpenSim_DECLARE_PROPERTY(Kp_task, double, "Task-Space Proportional Gain (Kp) for 3D Torque computation");
@@ -40,28 +33,20 @@ public:
     HeadNeckNeuralController();
 
     void computeControls(const SimTK::State& s, SimTK::Vector& controls) const override;
-    void computeStateVariableDerivatives(const SimTK::State& s) const override;
     
 protected:
-    void extendAddToSystem(SimTK::MultibodySystem& system) const override;
     void extendConnectToModel(Model& model) override;
     void extendInitStateFromProperties(SimTK::State& s) const override;
 
 private:
-    struct FilterParams {
-        double a0, a1, b1, c0, c1, d;
+    struct Record {
+        double time;
+        SimTK::Vec3 vestibular_signal; // Canals
+        SimTK::Vec3 otolith_signal;    // Otoliths
+        std::vector<double> Ia_signals;
+        std::vector<double> Ib_signals;
     };
-    FilterParams fparams[2];
-
-    struct HistRecord {
-        SimTK::Vector theta;       // size 3 (roll, yaw, pitch)
-        SimTK::Vector omega_recon; // size 3
-        SimTK::Vector L;           // size N
-        SimTK::Vector L_dot;       // size N
-    };
-    mutable std::map<double, HistRecord> history;
-    
-    HistRecord getDelayedRecord(double t, double delay) const;
+    mutable std::deque<Record> delay_buffer;
     
     mutable SimTK::Matrix J_moment_arms; // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
     

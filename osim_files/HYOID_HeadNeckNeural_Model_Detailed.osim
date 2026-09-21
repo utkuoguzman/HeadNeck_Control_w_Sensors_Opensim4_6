@@ -9264,9 +9264,9 @@
 					
 					<default_fiber_length>0.051299999999999998</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -9406,9 +9406,9 @@
 					
 					<default_fiber_length>0.039800000000000002</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -9548,9 +9548,9 @@
 					
 					<default_fiber_length>0.044949999999999997</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -9690,9 +9690,9 @@
 					
 					<default_fiber_length>0.044900000000000002</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -9832,9 +9832,9 @@
 					
 					<default_fiber_length>0.061370000000000001</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -9974,9 +9974,9 @@
 					
 					<default_fiber_length>0.037740000000000003</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -10152,9 +10152,9 @@
 					
 					<default_fiber_length>0.051299999999999998</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -10294,9 +10294,9 @@
 					
 					<default_fiber_length>0.039800000000000002</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -10436,9 +10436,9 @@
 					
 					<default_fiber_length>0.044949999999999997</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -10578,9 +10578,9 @@
 					
 					<default_fiber_length>0.044900000000000002</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -10720,9 +10720,9 @@
 					
 					<default_fiber_length>0.061370000000000001</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
@@ -10862,9 +10862,9 @@
 					
 					<default_fiber_length>0.037740000000000003</default_fiber_length>
 					
-					<activation_time_constant>0.0050000000000000001</activation_time_constant>
+					<activation_time_constant>0.01</activation_time_constant>
 					
-					<deactivation_time_constant>0.0050000000000000001</deactivation_time_constant>
+					<deactivation_time_constant>0.04</deactivation_time_constant>
 					
 					<minimum_activation>0.01</minimum_activation>
 					
