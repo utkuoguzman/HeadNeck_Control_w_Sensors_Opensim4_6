@@ -32,6 +32,7 @@ public:
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
     OpenSim_DECLARE_PROPERTY(K_gamma, double, "Gain for Gamma motor neuron dynamic setpoint shift (default: 1.0)");
     OpenSim_DECLARE_PROPERTY(Kp_task, double, "Task-Space Proportional Gain (Kp) for 3D Torque computation");
+    OpenSim_DECLARE_PROPERTY(Ki_task, double, "Task-Space Integral Gain (Ki) for posture maintenance against gravity");
     OpenSim_DECLARE_PROPERTY(Kd_task, double, "Task-Space Derivative Gain (Kd) for 3D Torque computation");
 
     // Cerebellar dynamic approximation toggle

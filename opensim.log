@@ -3234,3 +3234,2375 @@
 [2026-09-22 00:40:43.378] [info]  - number of steps taken / attempted: 18101 / 21367
 [2026-09-22 00:40:43.378] [info]  - number of projections: 47
 [2026-09-22 00:40:43.378] [info]  - number of iterations: 21367
+[2026-09-22 20:37:30.954] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\proprioception_plugin\build\Release\osimMillard12EqWithAff.dll
+[2026-09-22 20:37:30.985] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\vestibular_plugin\build\Release\osimVestibular.dll
+[2026-09-22 20:37:31.014] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\HeadNeckNeuralController_plugin\build\Release\osimHeadNeckNeural.dll
+[2026-09-22 20:37:31.044] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\FixationController_plugin\build\Release\osimFixation.dll
+[2026-09-22 20:37:31.093] [info] Loaded model HYOID_Scaled from file osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim
+[2026-09-22 20:37:32.202] [info] -------
+[2026-09-22 20:37:32.202] [info] Manager
+[2026-09-22 20:37:32.202] [info] -------
+[2026-09-22 20:37:32.202] [info] Starting integration at initial time 0.00 s...
+[2026-09-22 20:37:39.867] [info] Integration complete at final time 0.05 s.
+[2026-09-22 20:37:39.867] [info]  - CPU time elapsed: 7.140625 s
+[2026-09-22 20:37:39.867] [info]  - real time elapsed: 7.665165 s
+[2026-09-22 20:37:39.867] [info]  - ratio sim-to-real time: 0.007
+[2026-09-22 20:37:39.867] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:39.867] [info]  - number of realizations: 2099
+[2026-09-22 20:37:39.867] [info]  - number of steps taken / attempted: 970 / 1128
+[2026-09-22 20:37:39.867] [info]  - number of projections: 3
+[2026-09-22 20:37:39.867] [info]  - number of iterations: 1128
+[2026-09-22 20:37:39.867] [info] -------
+[2026-09-22 20:37:39.867] [info] Manager
+[2026-09-22 20:37:39.867] [info] -------
+[2026-09-22 20:37:39.867] [info] Starting integration at initial time 0.05 s...
+[2026-09-22 20:37:44.428] [info] Integration complete at final time 0.10 s.
+[2026-09-22 20:37:44.428] [info]  - CPU time elapsed: 4.453125 s
+[2026-09-22 20:37:44.428] [info]  - real time elapsed: 4.560749 s
+[2026-09-22 20:37:44.428] [info]  - ratio sim-to-real time: 0.022
+[2026-09-22 20:37:44.428] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:44.428] [info]  - number of realizations: 3233
+[2026-09-22 20:37:44.428] [info]  - number of steps taken / attempted: 1481 / 1751
+[2026-09-22 20:37:44.428] [info]  - number of projections: 3
+[2026-09-22 20:37:44.428] [info]  - number of iterations: 1751
+[2026-09-22 20:37:44.429] [info] -------
+[2026-09-22 20:37:44.429] [info] Manager
+[2026-09-22 20:37:44.429] [info] -------
+[2026-09-22 20:37:44.429] [info] Starting integration at initial time 0.10 s...
+[2026-09-22 20:37:48.031] [info] Integration complete at final time 0.15 s.
+[2026-09-22 20:37:48.031] [info]  - CPU time elapsed: 3.468750 s
+[2026-09-22 20:37:48.031] [info]  - real time elapsed: 3.602353 s
+[2026-09-22 20:37:48.031] [info]  - ratio sim-to-real time: 0.042
+[2026-09-22 20:37:48.031] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:48.031] [info]  - number of realizations: 4174
+[2026-09-22 20:37:48.031] [info]  - number of steps taken / attempted: 1918 / 2255
+[2026-09-22 20:37:48.031] [info]  - number of projections: 5
+[2026-09-22 20:37:48.031] [info]  - number of iterations: 2255
+[2026-09-22 20:37:48.031] [info] -------
+[2026-09-22 20:37:48.031] [info] Manager
+[2026-09-22 20:37:48.031] [info] -------
+[2026-09-22 20:37:48.031] [info] Starting integration at initial time 0.15 s...
+[2026-09-22 20:37:50.843] [info] Integration complete at final time 0.20 s.
+[2026-09-22 20:37:50.843] [info]  - CPU time elapsed: 2.750000 s
+[2026-09-22 20:37:50.843] [info]  - real time elapsed: 2.811645 s
+[2026-09-22 20:37:50.843] [info]  - ratio sim-to-real time: 0.071
+[2026-09-22 20:37:50.843] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:50.843] [info]  - number of realizations: 4874
+[2026-09-22 20:37:50.843] [info]  - number of steps taken / attempted: 2249 / 2624
+[2026-09-22 20:37:50.843] [info]  - number of projections: 5
+[2026-09-22 20:37:50.843] [info]  - number of iterations: 2624
+[2026-09-22 20:37:50.843] [info] -------
+[2026-09-22 20:37:50.843] [info] Manager
+[2026-09-22 20:37:50.843] [info] -------
+[2026-09-22 20:37:50.843] [info] Starting integration at initial time 0.20 s...
+[2026-09-22 20:37:53.462] [info] Integration complete at final time 0.25 s.
+[2026-09-22 20:37:53.462] [info]  - CPU time elapsed: 2.484375 s
+[2026-09-22 20:37:53.462] [info]  - real time elapsed: 2.619067 s
+[2026-09-22 20:37:53.462] [info]  - ratio sim-to-real time: 0.095
+[2026-09-22 20:37:53.462] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:53.462] [info]  - number of realizations: 5514
+[2026-09-22 20:37:53.462] [info]  - number of steps taken / attempted: 2551 / 2962
+[2026-09-22 20:37:53.462] [info]  - number of projections: 6
+[2026-09-22 20:37:53.462] [info]  - number of iterations: 2962
+[2026-09-22 20:37:53.462] [info] -------
+[2026-09-22 20:37:53.462] [info] Manager
+[2026-09-22 20:37:53.463] [info] -------
+[2026-09-22 20:37:53.463] [info] Starting integration at initial time 0.25 s...
+[2026-09-22 20:37:55.908] [info] Integration complete at final time 0.30 s.
+[2026-09-22 20:37:55.908] [info]  - CPU time elapsed: 2.312500 s
+[2026-09-22 20:37:55.908] [info]  - real time elapsed: 2.445837 s
+[2026-09-22 20:37:55.909] [info]  - ratio sim-to-real time: 0.123
+[2026-09-22 20:37:55.909] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:55.909] [info]  - number of realizations: 6070
+[2026-09-22 20:37:55.909] [info]  - number of steps taken / attempted: 2813 / 3256
+[2026-09-22 20:37:55.909] [info]  - number of projections: 6
+[2026-09-22 20:37:55.909] [info]  - number of iterations: 3256
+[2026-09-22 20:37:55.909] [info] -------
+[2026-09-22 20:37:55.909] [info] Manager
+[2026-09-22 20:37:55.909] [info] -------
+[2026-09-22 20:37:55.909] [info] Starting integration at initial time 0.30 s...
+[2026-09-22 20:37:58.524] [info] Integration complete at final time 0.35 s.
+[2026-09-22 20:37:58.524] [info]  - CPU time elapsed: 2.578125 s
+[2026-09-22 20:37:58.524] [info]  - real time elapsed: 2.615394 s
+[2026-09-22 20:37:58.524] [info]  - ratio sim-to-real time: 0.134
+[2026-09-22 20:37:58.524] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:37:58.524] [info]  - number of realizations: 6753
+[2026-09-22 20:37:58.524] [info]  - number of steps taken / attempted: 3129 / 3623
+[2026-09-22 20:37:58.524] [info]  - number of projections: 8
+[2026-09-22 20:37:58.524] [info]  - number of iterations: 3623
+[2026-09-22 20:37:58.524] [info] -------
+[2026-09-22 20:37:58.525] [info] Manager
+[2026-09-22 20:37:58.525] [info] -------
+[2026-09-22 20:37:58.525] [info] Starting integration at initial time 0.35 s...
+[2026-09-22 20:38:00.447] [info] Integration complete at final time 0.40 s.
+[2026-09-22 20:38:00.447] [info]  - CPU time elapsed: 1.859375 s
+[2026-09-22 20:38:00.447] [info]  - real time elapsed: 1.922521 s
+[2026-09-22 20:38:00.447] [info]  - ratio sim-to-real time: 0.208
+[2026-09-22 20:38:00.447] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:00.447] [info]  - number of realizations: 7231
+[2026-09-22 20:38:00.447] [info]  - number of steps taken / attempted: 3354 / 3876
+[2026-09-22 20:38:00.447] [info]  - number of projections: 8
+[2026-09-22 20:38:00.447] [info]  - number of iterations: 3876
+[2026-09-22 20:38:00.447] [info] -------
+[2026-09-22 20:38:00.447] [info] Manager
+[2026-09-22 20:38:00.447] [info] -------
+[2026-09-22 20:38:00.447] [info] Starting integration at initial time 0.40 s...
+[2026-09-22 20:38:03.695] [info] Integration complete at final time 0.45 s.
+[2026-09-22 20:38:03.695] [info]  - CPU time elapsed: 3.156250 s
+[2026-09-22 20:38:03.695] [info]  - real time elapsed: 3.247829 s
+[2026-09-22 20:38:03.695] [info]  - ratio sim-to-real time: 0.139
+[2026-09-22 20:38:03.695] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:03.695] [info]  - number of realizations: 8095
+[2026-09-22 20:38:03.695] [info]  - number of steps taken / attempted: 3754 / 4340
+[2026-09-22 20:38:03.695] [info]  - number of projections: 9
+[2026-09-22 20:38:03.695] [info]  - number of iterations: 4340
+[2026-09-22 20:38:03.695] [info] -------
+[2026-09-22 20:38:03.695] [info] Manager
+[2026-09-22 20:38:03.695] [info] -------
+[2026-09-22 20:38:03.696] [info] Starting integration at initial time 0.45 s...
+[2026-09-22 20:38:05.640] [info] Integration complete at final time 0.50 s.
+[2026-09-22 20:38:05.640] [info]  - CPU time elapsed: 1.921875 s
+[2026-09-22 20:38:05.640] [info]  - real time elapsed: 1.944521 s
+[2026-09-22 20:38:05.640] [info]  - ratio sim-to-real time: 0.257
+[2026-09-22 20:38:05.640] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:05.640] [info]  - number of realizations: 8620
+[2026-09-22 20:38:05.640] [info]  - number of steps taken / attempted: 4002 / 4617
+[2026-09-22 20:38:05.640] [info]  - number of projections: 9
+[2026-09-22 20:38:05.640] [info]  - number of iterations: 4617
+[2026-09-22 20:38:05.640] [info] -------
+[2026-09-22 20:38:05.640] [info] Manager
+[2026-09-22 20:38:05.640] [info] -------
+[2026-09-22 20:38:05.640] [info] Starting integration at initial time 0.50 s...
+[2026-09-22 20:38:07.559] [info] Integration complete at final time 0.55 s.
+[2026-09-22 20:38:07.559] [info]  - CPU time elapsed: 1.906250 s
+[2026-09-22 20:38:07.559] [info]  - real time elapsed: 1.918317 s
+[2026-09-22 20:38:07.559] [info]  - ratio sim-to-real time: 0.287
+[2026-09-22 20:38:07.559] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:07.559] [info]  - number of realizations: 9153
+[2026-09-22 20:38:07.559] [info]  - number of steps taken / attempted: 4255 / 4897
+[2026-09-22 20:38:07.559] [info]  - number of projections: 9
+[2026-09-22 20:38:07.559] [info]  - number of iterations: 4897
+[2026-09-22 20:38:07.559] [info] -------
+[2026-09-22 20:38:07.559] [info] Manager
+[2026-09-22 20:38:07.559] [info] -------
+[2026-09-22 20:38:07.559] [info] Starting integration at initial time 0.55 s...
+[2026-09-22 20:38:09.843] [info] Integration complete at final time 0.60 s.
+[2026-09-22 20:38:09.843] [info]  - CPU time elapsed: 2.109375 s
+[2026-09-22 20:38:09.843] [info]  - real time elapsed: 2.283630 s
+[2026-09-22 20:38:09.843] [info]  - ratio sim-to-real time: 0.263
+[2026-09-22 20:38:09.843] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:09.843] [info]  - number of realizations: 9750
+[2026-09-22 20:38:09.843] [info]  - number of steps taken / attempted: 4533 / 5216
+[2026-09-22 20:38:09.843] [info]  - number of projections: 9
+[2026-09-22 20:38:09.843] [info]  - number of iterations: 5216
+[2026-09-22 20:38:09.843] [info] -------
+[2026-09-22 20:38:09.843] [info] Manager
+[2026-09-22 20:38:09.843] [info] -------
+[2026-09-22 20:38:09.843] [info] Starting integration at initial time 0.60 s...
+[2026-09-22 20:38:12.578] [info] Integration complete at final time 0.65 s.
+[2026-09-22 20:38:12.578] [info]  - CPU time elapsed: 2.656250 s
+[2026-09-22 20:38:12.578] [info]  - real time elapsed: 2.734334 s
+[2026-09-22 20:38:12.578] [info]  - ratio sim-to-real time: 0.238
+[2026-09-22 20:38:12.578] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:12.578] [info]  - number of realizations: 10459
+[2026-09-22 20:38:12.578] [info]  - number of steps taken / attempted: 4856 / 5602
+[2026-09-22 20:38:12.578] [info]  - number of projections: 9
+[2026-09-22 20:38:12.578] [info]  - number of iterations: 5602
+[2026-09-22 20:38:12.578] [info] -------
+[2026-09-22 20:38:12.578] [info] Manager
+[2026-09-22 20:38:12.578] [info] -------
+[2026-09-22 20:38:12.578] [info] Starting integration at initial time 0.65 s...
+[2026-09-22 20:38:15.251] [info] Integration complete at final time 0.70 s.
+[2026-09-22 20:38:15.251] [info]  - CPU time elapsed: 2.515625 s
+[2026-09-22 20:38:15.251] [info]  - real time elapsed: 2.672786 s
+[2026-09-22 20:38:15.251] [info]  - ratio sim-to-real time: 0.262
+[2026-09-22 20:38:15.251] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:15.251] [info]  - number of realizations: 11145
+[2026-09-22 20:38:15.251] [info]  - number of steps taken / attempted: 5168 / 5976
+[2026-09-22 20:38:15.251] [info]  - number of projections: 10
+[2026-09-22 20:38:15.251] [info]  - number of iterations: 5976
+[2026-09-22 20:38:15.251] [info] -------
+[2026-09-22 20:38:15.251] [info] Manager
+[2026-09-22 20:38:15.251] [info] -------
+[2026-09-22 20:38:15.251] [info] Starting integration at initial time 0.70 s...
+[2026-09-22 20:38:17.401] [info] Integration complete at final time 0.75 s.
+[2026-09-22 20:38:17.401] [info]  - CPU time elapsed: 1.953125 s
+[2026-09-22 20:38:17.401] [info]  - real time elapsed: 2.149820 s
+[2026-09-22 20:38:17.401] [info]  - ratio sim-to-real time: 0.349
+[2026-09-22 20:38:17.401] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:17.401] [info]  - number of realizations: 11696
+[2026-09-22 20:38:17.401] [info]  - number of steps taken / attempted: 5424 / 6271
+[2026-09-22 20:38:17.401] [info]  - number of projections: 11
+[2026-09-22 20:38:17.401] [info]  - number of iterations: 6271
+[2026-09-22 20:38:17.402] [info] -------
+[2026-09-22 20:38:17.402] [info] Manager
+[2026-09-22 20:38:17.402] [info] -------
+[2026-09-22 20:38:17.402] [info] Starting integration at initial time 0.75 s...
+[2026-09-22 20:38:19.218] [info] Integration complete at final time 0.80 s.
+[2026-09-22 20:38:19.218] [info]  - CPU time elapsed: 1.687500 s
+[2026-09-22 20:38:19.218] [info]  - real time elapsed: 1.816280 s
+[2026-09-22 20:38:19.218] [info]  - ratio sim-to-real time: 0.440
+[2026-09-22 20:38:19.218] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:19.218] [info]  - number of realizations: 12126
+[2026-09-22 20:38:19.218] [info]  - number of steps taken / attempted: 5625 / 6500
+[2026-09-22 20:38:19.218] [info]  - number of projections: 12
+[2026-09-22 20:38:19.218] [info]  - number of iterations: 6500
+[2026-09-22 20:38:19.218] [info] -------
+[2026-09-22 20:38:19.218] [info] Manager
+[2026-09-22 20:38:19.218] [info] -------
+[2026-09-22 20:38:19.218] [info] Starting integration at initial time 0.80 s...
+[2026-09-22 20:38:21.339] [info] Integration complete at final time 0.85 s.
+[2026-09-22 20:38:21.339] [info]  - CPU time elapsed: 2.000000 s
+[2026-09-22 20:38:21.339] [info]  - real time elapsed: 2.120493 s
+[2026-09-22 20:38:21.339] [info]  - ratio sim-to-real time: 0.401
+[2026-09-22 20:38:21.339] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:21.339] [info]  - number of realizations: 12635
+[2026-09-22 20:38:21.339] [info]  - number of steps taken / attempted: 5859 / 6775
+[2026-09-22 20:38:21.339] [info]  - number of projections: 13
+[2026-09-22 20:38:21.339] [info]  - number of iterations: 6775
+[2026-09-22 20:38:21.339] [info] -------
+[2026-09-22 20:38:21.339] [info] Manager
+[2026-09-22 20:38:21.339] [info] -------
+[2026-09-22 20:38:21.339] [info] Starting integration at initial time 0.85 s...
+[2026-09-22 20:38:23.203] [info] Integration complete at final time 0.90 s.
+[2026-09-22 20:38:23.203] [info]  - CPU time elapsed: 1.781250 s
+[2026-09-22 20:38:23.203] [info]  - real time elapsed: 1.864056 s
+[2026-09-22 20:38:23.203] [info]  - ratio sim-to-real time: 0.483
+[2026-09-22 20:38:23.203] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:23.203] [info]  - number of realizations: 13064
+[2026-09-22 20:38:23.203] [info]  - number of steps taken / attempted: 6064 / 6999
+[2026-09-22 20:38:23.203] [info]  - number of projections: 15
+[2026-09-22 20:38:23.203] [info]  - number of iterations: 6999
+[2026-09-22 20:38:23.204] [info] -------
+[2026-09-22 20:38:23.204] [info] Manager
+[2026-09-22 20:38:23.204] [info] -------
+[2026-09-22 20:38:23.204] [info] Starting integration at initial time 0.90 s...
+[2026-09-22 20:38:25.220] [info] Integration complete at final time 0.95 s.
+[2026-09-22 20:38:25.220] [info]  - CPU time elapsed: 1.875000 s
+[2026-09-22 20:38:25.220] [info]  - real time elapsed: 2.016581 s
+[2026-09-22 20:38:25.220] [info]  - ratio sim-to-real time: 0.471
+[2026-09-22 20:38:25.220] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:25.220] [info]  - number of realizations: 13557
+[2026-09-22 20:38:25.220] [info]  - number of steps taken / attempted: 6295 / 7261
+[2026-09-22 20:38:25.220] [info]  - number of projections: 16
+[2026-09-22 20:38:25.220] [info]  - number of iterations: 7261
+[2026-09-22 20:38:25.221] [info] -------
+[2026-09-22 20:38:25.221] [info] Manager
+[2026-09-22 20:38:25.221] [info] -------
+[2026-09-22 20:38:25.221] [info] Starting integration at initial time 0.95 s...
+[2026-09-22 20:38:26.952] [info] Integration complete at final time 1.00 s.
+[2026-09-22 20:38:26.952] [info]  - CPU time elapsed: 1.625000 s
+[2026-09-22 20:38:26.952] [info]  - real time elapsed: 1.731557 s
+[2026-09-22 20:38:26.952] [info]  - ratio sim-to-real time: 0.578
+[2026-09-22 20:38:26.952] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:26.952] [info]  - number of realizations: 13972
+[2026-09-22 20:38:26.952] [info]  - number of steps taken / attempted: 6492 / 7479
+[2026-09-22 20:38:26.952] [info]  - number of projections: 17
+[2026-09-22 20:38:26.952] [info]  - number of iterations: 7479
+[2026-09-22 20:38:26.952] [info] -------
+[2026-09-22 20:38:26.953] [info] Manager
+[2026-09-22 20:38:26.953] [info] -------
+[2026-09-22 20:38:26.953] [info] Starting integration at initial time 1.00 s...
+[2026-09-22 20:38:28.880] [info] Integration complete at final time 1.05 s.
+[2026-09-22 20:38:28.880] [info]  - CPU time elapsed: 1.921875 s
+[2026-09-22 20:38:28.880] [info]  - real time elapsed: 1.927350 s
+[2026-09-22 20:38:28.880] [info]  - ratio sim-to-real time: 0.545
+[2026-09-22 20:38:28.880] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:28.880] [info]  - number of realizations: 14443
+[2026-09-22 20:38:28.880] [info]  - number of steps taken / attempted: 6710 / 7732
+[2026-09-22 20:38:28.880] [info]  - number of projections: 19
+[2026-09-22 20:38:28.880] [info]  - number of iterations: 7732
+[2026-09-22 20:38:28.880] [info] -------
+[2026-09-22 20:38:28.880] [info] Manager
+[2026-09-22 20:38:28.880] [info] -------
+[2026-09-22 20:38:28.880] [info] Starting integration at initial time 1.05 s...
+[2026-09-22 20:38:30.794] [info] Integration complete at final time 1.10 s.
+[2026-09-22 20:38:30.794] [info]  - CPU time elapsed: 1.796875 s
+[2026-09-22 20:38:30.794] [info]  - real time elapsed: 1.914117 s
+[2026-09-22 20:38:30.794] [info]  - ratio sim-to-real time: 0.575
+[2026-09-22 20:38:30.794] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:30.794] [info]  - number of realizations: 14925
+[2026-09-22 20:38:30.794] [info]  - number of steps taken / attempted: 6933 / 7991
+[2026-09-22 20:38:30.794] [info]  - number of projections: 21
+[2026-09-22 20:38:30.794] [info]  - number of iterations: 7991
+[2026-09-22 20:38:30.795] [info] -------
+[2026-09-22 20:38:30.795] [info] Manager
+[2026-09-22 20:38:30.795] [info] -------
+[2026-09-22 20:38:30.795] [info] Starting integration at initial time 1.10 s...
+[2026-09-22 20:38:32.932] [info] Integration complete at final time 1.15 s.
+[2026-09-22 20:38:32.932] [info]  - CPU time elapsed: 2.046875 s
+[2026-09-22 20:38:32.932] [info]  - real time elapsed: 2.137539 s
+[2026-09-22 20:38:32.932] [info]  - ratio sim-to-real time: 0.538
+[2026-09-22 20:38:32.932] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:32.932] [info]  - number of realizations: 15478
+[2026-09-22 20:38:32.932] [info]  - number of steps taken / attempted: 7188 / 8289
+[2026-09-22 20:38:32.932] [info]  - number of projections: 22
+[2026-09-22 20:38:32.932] [info]  - number of iterations: 8289
+[2026-09-22 20:38:32.932] [info] -------
+[2026-09-22 20:38:32.932] [info] Manager
+[2026-09-22 20:38:32.932] [info] -------
+[2026-09-22 20:38:32.932] [info] Starting integration at initial time 1.15 s...
+[2026-09-22 20:38:34.981] [info] Integration complete at final time 1.20 s.
+[2026-09-22 20:38:34.981] [info]  - CPU time elapsed: 1.953125 s
+[2026-09-22 20:38:34.981] [info]  - real time elapsed: 2.048933 s
+[2026-09-22 20:38:34.981] [info]  - ratio sim-to-real time: 0.586
+[2026-09-22 20:38:34.981] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:34.981] [info]  - number of realizations: 15985
+[2026-09-22 20:38:34.981] [info]  - number of steps taken / attempted: 7425 / 8559
+[2026-09-22 20:38:34.981] [info]  - number of projections: 24
+[2026-09-22 20:38:34.982] [info]  - number of iterations: 8559
+[2026-09-22 20:38:34.982] [info] -------
+[2026-09-22 20:38:34.982] [info] Manager
+[2026-09-22 20:38:34.982] [info] -------
+[2026-09-22 20:38:34.982] [info] Starting integration at initial time 1.20 s...
+[2026-09-22 20:38:36.700] [info] Integration complete at final time 1.25 s.
+[2026-09-22 20:38:36.700] [info]  - CPU time elapsed: 1.640625 s
+[2026-09-22 20:38:36.700] [info]  - real time elapsed: 1.718426 s
+[2026-09-22 20:38:36.700] [info]  - ratio sim-to-real time: 0.727
+[2026-09-22 20:38:36.700] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:36.700] [info]  - number of realizations: 16381
+[2026-09-22 20:38:36.700] [info]  - number of steps taken / attempted: 7609 / 8771
+[2026-09-22 20:38:36.700] [info]  - number of projections: 25
+[2026-09-22 20:38:36.700] [info]  - number of iterations: 8771
+[2026-09-22 20:38:36.700] [info] -------
+[2026-09-22 20:38:36.700] [info] Manager
+[2026-09-22 20:38:36.700] [info] -------
+[2026-09-22 20:38:36.700] [info] Starting integration at initial time 1.25 s...
+[2026-09-22 20:38:38.143] [info] Integration complete at final time 1.30 s.
+[2026-09-22 20:38:38.144] [info]  - CPU time elapsed: 1.406250 s
+[2026-09-22 20:38:38.144] [info]  - real time elapsed: 1.443079 s
+[2026-09-22 20:38:38.144] [info]  - ratio sim-to-real time: 0.901
+[2026-09-22 20:38:38.144] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:38.144] [info]  - number of realizations: 16713
+[2026-09-22 20:38:38.144] [info]  - number of steps taken / attempted: 7761 / 8951
+[2026-09-22 20:38:38.144] [info]  - number of projections: 27
+[2026-09-22 20:38:38.144] [info]  - number of iterations: 8951
+[2026-09-22 20:38:38.144] [info] -------
+[2026-09-22 20:38:38.144] [info] Manager
+[2026-09-22 20:38:38.144] [info] -------
+[2026-09-22 20:38:38.144] [info] Starting integration at initial time 1.30 s...
+[2026-09-22 20:38:40.031] [info] Integration complete at final time 1.35 s.
+[2026-09-22 20:38:40.031] [info]  - CPU time elapsed: 1.781250 s
+[2026-09-22 20:38:40.031] [info]  - real time elapsed: 1.886880 s
+[2026-09-22 20:38:40.031] [info]  - ratio sim-to-real time: 0.715
+[2026-09-22 20:38:40.031] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:40.031] [info]  - number of realizations: 17191
+[2026-09-22 20:38:40.031] [info]  - number of steps taken / attempted: 7984 / 9206
+[2026-09-22 20:38:40.031] [info]  - number of projections: 27
+[2026-09-22 20:38:40.031] [info]  - number of iterations: 9206
+[2026-09-22 20:38:40.031] [info] -------
+[2026-09-22 20:38:40.031] [info] Manager
+[2026-09-22 20:38:40.031] [info] -------
+[2026-09-22 20:38:40.031] [info] Starting integration at initial time 1.35 s...
+[2026-09-22 20:38:42.319] [info] Integration complete at final time 1.40 s.
+[2026-09-22 20:38:42.319] [info]  - CPU time elapsed: 2.265625 s
+[2026-09-22 20:38:42.319] [info]  - real time elapsed: 2.287786 s
+[2026-09-22 20:38:42.319] [info]  - ratio sim-to-real time: 0.612
+[2026-09-22 20:38:42.319] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:42.319] [info]  - number of realizations: 17763
+[2026-09-22 20:38:42.319] [info]  - number of steps taken / attempted: 8247 / 9515
+[2026-09-22 20:38:42.319] [info]  - number of projections: 31
+[2026-09-22 20:38:42.319] [info]  - number of iterations: 9515
+[2026-09-22 20:38:42.319] [info] -------
+[2026-09-22 20:38:42.319] [info] Manager
+[2026-09-22 20:38:42.319] [info] -------
+[2026-09-22 20:38:42.319] [info] Starting integration at initial time 1.40 s...
+[2026-09-22 20:38:44.049] [info] Integration complete at final time 1.45 s.
+[2026-09-22 20:38:44.049] [info]  - CPU time elapsed: 1.609375 s
+[2026-09-22 20:38:44.049] [info]  - real time elapsed: 1.729904 s
+[2026-09-22 20:38:44.049] [info]  - ratio sim-to-real time: 0.838
+[2026-09-22 20:38:44.049] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:44.049] [info]  - number of realizations: 18166
+[2026-09-22 20:38:44.049] [info]  - number of steps taken / attempted: 8432 / 9733
+[2026-09-22 20:38:44.049] [info]  - number of projections: 31
+[2026-09-22 20:38:44.049] [info]  - number of iterations: 9733
+[2026-09-22 20:38:44.049] [info] -------
+[2026-09-22 20:38:44.049] [info] Manager
+[2026-09-22 20:38:44.049] [info] -------
+[2026-09-22 20:38:44.049] [info] Starting integration at initial time 1.45 s...
+[2026-09-22 20:38:45.210] [info] Integration complete at final time 1.50 s.
+[2026-09-22 20:38:45.210] [info]  - CPU time elapsed: 1.156250 s
+[2026-09-22 20:38:45.210] [info]  - real time elapsed: 1.160640 s
+[2026-09-22 20:38:45.210] [info]  - ratio sim-to-real time: 1.292
+[2026-09-22 20:38:45.210] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:45.210] [info]  - number of realizations: 18617
+[2026-09-22 20:38:45.210] [info]  - number of steps taken / attempted: 8630 / 9986
+[2026-09-22 20:38:45.210] [info]  - number of projections: 31
+[2026-09-22 20:38:45.210] [info]  - number of iterations: 9986
+[2026-09-22 20:38:45.210] [info] -------
+[2026-09-22 20:38:45.210] [info] Manager
+[2026-09-22 20:38:45.210] [info] -------
+[2026-09-22 20:38:45.210] [info] Starting integration at initial time 1.50 s...
+[2026-09-22 20:38:46.325] [info] Integration complete at final time 1.55 s.
+[2026-09-22 20:38:46.325] [info]  - CPU time elapsed: 1.109375 s
+[2026-09-22 20:38:46.325] [info]  - real time elapsed: 1.115055 s
+[2026-09-22 20:38:46.325] [info]  - ratio sim-to-real time: 1.390
+[2026-09-22 20:38:46.325] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:46.325] [info]  - number of realizations: 19250
+[2026-09-22 20:38:46.325] [info]  - number of steps taken / attempted: 8920 / 10329
+[2026-09-22 20:38:46.325] [info]  - number of projections: 32
+[2026-09-22 20:38:46.325] [info]  - number of iterations: 10329
+[2026-09-22 20:38:46.325] [info] -------
+[2026-09-22 20:38:46.325] [info] Manager
+[2026-09-22 20:38:46.325] [info] -------
+[2026-09-22 20:38:46.325] [info] Starting integration at initial time 1.55 s...
+[2026-09-22 20:38:47.210] [info] Integration complete at final time 1.60 s.
+[2026-09-22 20:38:47.210] [info]  - CPU time elapsed: 0.859375 s
+[2026-09-22 20:38:47.210] [info]  - real time elapsed: 0.884820 s
+[2026-09-22 20:38:47.210] [info]  - ratio sim-to-real time: 1.808
+[2026-09-22 20:38:47.210] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:47.210] [info]  - number of realizations: 19748
+[2026-09-22 20:38:47.210] [info]  - number of steps taken / attempted: 9147 / 10600
+[2026-09-22 20:38:47.210] [info]  - number of projections: 32
+[2026-09-22 20:38:47.210] [info]  - number of iterations: 10600
+[2026-09-22 20:38:47.210] [info] -------
+[2026-09-22 20:38:47.210] [info] Manager
+[2026-09-22 20:38:47.210] [info] -------
+[2026-09-22 20:38:47.210] [info] Starting integration at initial time 1.60 s...
+[2026-09-22 20:38:47.970] [info] Integration complete at final time 1.65 s.
+[2026-09-22 20:38:47.970] [info]  - CPU time elapsed: 0.750000 s
+[2026-09-22 20:38:47.970] [info]  - real time elapsed: 0.760021 s
+[2026-09-22 20:38:47.970] [info]  - ratio sim-to-real time: 2.171
+[2026-09-22 20:38:47.970] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:47.970] [info]  - number of realizations: 20160
+[2026-09-22 20:38:47.970] [info]  - number of steps taken / attempted: 9343 / 10816
+[2026-09-22 20:38:47.971] [info]  - number of projections: 32
+[2026-09-22 20:38:47.971] [info]  - number of iterations: 10816
+[2026-09-22 20:38:47.971] [info] -------
+[2026-09-22 20:38:47.971] [info] Manager
+[2026-09-22 20:38:47.971] [info] -------
+[2026-09-22 20:38:47.971] [info] Starting integration at initial time 1.65 s...
+[2026-09-22 20:38:48.787] [info] Integration complete at final time 1.70 s.
+[2026-09-22 20:38:48.788] [info]  - CPU time elapsed: 0.828125 s
+[2026-09-22 20:38:48.788] [info]  - real time elapsed: 0.816885 s
+[2026-09-22 20:38:48.788] [info]  - ratio sim-to-real time: 2.081
+[2026-09-22 20:38:48.788] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:48.788] [info]  - number of realizations: 20614
+[2026-09-22 20:38:48.788] [info]  - number of steps taken / attempted: 9554 / 11059
+[2026-09-22 20:38:48.788] [info]  - number of projections: 34
+[2026-09-22 20:38:48.788] [info]  - number of iterations: 11059
+[2026-09-22 20:38:48.788] [info] -------
+[2026-09-22 20:38:48.788] [info] Manager
+[2026-09-22 20:38:48.788] [info] -------
+[2026-09-22 20:38:48.788] [info] Starting integration at initial time 1.70 s...
+[2026-09-22 20:38:49.874] [info] Integration complete at final time 1.75 s.
+[2026-09-22 20:38:49.874] [info]  - CPU time elapsed: 1.078125 s
+[2026-09-22 20:38:49.874] [info]  - real time elapsed: 1.086674 s
+[2026-09-22 20:38:49.874] [info]  - ratio sim-to-real time: 1.610
+[2026-09-22 20:38:49.874] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:49.874] [info]  - number of realizations: 21244
+[2026-09-22 20:38:49.874] [info]  - number of steps taken / attempted: 9845 / 11398
+[2026-09-22 20:38:49.874] [info]  - number of projections: 34
+[2026-09-22 20:38:49.874] [info]  - number of iterations: 11398
+[2026-09-22 20:38:49.875] [info] -------
+[2026-09-22 20:38:49.875] [info] Manager
+[2026-09-22 20:38:49.875] [info] -------
+[2026-09-22 20:38:49.875] [info] Starting integration at initial time 1.75 s...
+[2026-09-22 20:38:50.870] [info] Integration complete at final time 1.80 s.
+[2026-09-22 20:38:50.870] [info]  - CPU time elapsed: 1.000000 s
+[2026-09-22 20:38:50.870] [info]  - real time elapsed: 0.994987 s
+[2026-09-22 20:38:50.870] [info]  - ratio sim-to-real time: 1.809
+[2026-09-22 20:38:50.870] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:50.870] [info]  - number of realizations: 21812
+[2026-09-22 20:38:50.870] [info]  - number of steps taken / attempted: 10108 / 11703
+[2026-09-22 20:38:50.870] [info]  - number of projections: 35
+[2026-09-22 20:38:50.870] [info]  - number of iterations: 11703
+[2026-09-22 20:38:50.870] [info] -------
+[2026-09-22 20:38:50.870] [info] Manager
+[2026-09-22 20:38:50.870] [info] -------
+[2026-09-22 20:38:50.870] [info] Starting integration at initial time 1.80 s...
+[2026-09-22 20:38:51.951] [info] Integration complete at final time 1.85 s.
+[2026-09-22 20:38:51.951] [info]  - CPU time elapsed: 1.078125 s
+[2026-09-22 20:38:51.951] [info]  - real time elapsed: 1.081159 s
+[2026-09-22 20:38:51.951] [info]  - ratio sim-to-real time: 1.711
+[2026-09-22 20:38:51.951] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:51.951] [info]  - number of realizations: 22441
+[2026-09-22 20:38:51.951] [info]  - number of steps taken / attempted: 10398 / 12042
+[2026-09-22 20:38:51.951] [info]  - number of projections: 36
+[2026-09-22 20:38:51.951] [info]  - number of iterations: 12042
+[2026-09-22 20:38:51.951] [info] -------
+[2026-09-22 20:38:51.951] [info] Manager
+[2026-09-22 20:38:51.951] [info] -------
+[2026-09-22 20:38:51.951] [info] Starting integration at initial time 1.85 s...
+[2026-09-22 20:38:52.896] [info] Integration complete at final time 1.90 s.
+[2026-09-22 20:38:52.896] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 20:38:52.896] [info]  - real time elapsed: 0.945019 s
+[2026-09-22 20:38:52.896] [info]  - ratio sim-to-real time: 2.011
+[2026-09-22 20:38:52.896] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:52.896] [info]  - number of realizations: 22981
+[2026-09-22 20:38:52.896] [info]  - number of steps taken / attempted: 10654 / 12326
+[2026-09-22 20:38:52.896] [info]  - number of projections: 38
+[2026-09-22 20:38:52.896] [info]  - number of iterations: 12326
+[2026-09-22 20:38:52.896] [info] -------
+[2026-09-22 20:38:52.896] [info] Manager
+[2026-09-22 20:38:52.896] [info] -------
+[2026-09-22 20:38:52.896] [info] Starting integration at initial time 1.90 s...
+[2026-09-22 20:38:54.280] [info] Integration complete at final time 1.95 s.
+[2026-09-22 20:38:54.280] [info]  - CPU time elapsed: 1.375000 s
+[2026-09-22 20:38:54.280] [info]  - real time elapsed: 1.383273 s
+[2026-09-22 20:38:54.280] [info]  - ratio sim-to-real time: 1.410
+[2026-09-22 20:38:54.280] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:54.280] [info]  - number of realizations: 23812
+[2026-09-22 20:38:54.280] [info]  - number of steps taken / attempted: 11037 / 12774
+[2026-09-22 20:38:54.280] [info]  - number of projections: 38
+[2026-09-22 20:38:54.280] [info]  - number of iterations: 12774
+[2026-09-22 20:38:54.280] [info] -------
+[2026-09-22 20:38:54.280] [info] Manager
+[2026-09-22 20:38:54.280] [info] -------
+[2026-09-22 20:38:54.280] [info] Starting integration at initial time 1.95 s...
+[2026-09-22 20:38:55.402] [info] Integration complete at final time 2.00 s.
+[2026-09-22 20:38:55.402] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 20:38:55.402] [info]  - real time elapsed: 1.122287 s
+[2026-09-22 20:38:55.402] [info]  - ratio sim-to-real time: 1.782
+[2026-09-22 20:38:55.402] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:55.402] [info]  - number of realizations: 24456
+[2026-09-22 20:38:55.402] [info]  - number of steps taken / attempted: 11330 / 13125
+[2026-09-22 20:38:55.402] [info]  - number of projections: 39
+[2026-09-22 20:38:55.402] [info]  - number of iterations: 13125
+[2026-09-22 20:38:55.402] [info] -------
+[2026-09-22 20:38:55.402] [info] Manager
+[2026-09-22 20:38:55.402] [info] -------
+[2026-09-22 20:38:55.402] [info] Starting integration at initial time 2.00 s...
+[2026-09-22 20:38:56.514] [info] Integration complete at final time 2.05 s.
+[2026-09-22 20:38:56.514] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 20:38:56.514] [info]  - real time elapsed: 1.111534 s
+[2026-09-22 20:38:56.514] [info]  - ratio sim-to-real time: 1.844
+[2026-09-22 20:38:56.514] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:56.514] [info]  - number of realizations: 25111
+[2026-09-22 20:38:56.514] [info]  - number of steps taken / attempted: 11628 / 13482
+[2026-09-22 20:38:56.514] [info]  - number of projections: 40
+[2026-09-22 20:38:56.514] [info]  - number of iterations: 13482
+[2026-09-22 20:38:56.514] [info] -------
+[2026-09-22 20:38:56.514] [info] Manager
+[2026-09-22 20:38:56.514] [info] -------
+[2026-09-22 20:38:56.514] [info] Starting integration at initial time 2.05 s...
+[2026-09-22 20:38:57.505] [info] Integration complete at final time 2.10 s.
+[2026-09-22 20:38:57.505] [info]  - CPU time elapsed: 1.000000 s
+[2026-09-22 20:38:57.505] [info]  - real time elapsed: 0.990757 s
+[2026-09-22 20:38:57.505] [info]  - ratio sim-to-real time: 2.120
+[2026-09-22 20:38:57.505] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:57.505] [info]  - number of realizations: 25683
+[2026-09-22 20:38:57.505] [info]  - number of steps taken / attempted: 11891 / 13791
+[2026-09-22 20:38:57.505] [info]  - number of projections: 41
+[2026-09-22 20:38:57.505] [info]  - number of iterations: 13791
+[2026-09-22 20:38:57.505] [info] -------
+[2026-09-22 20:38:57.505] [info] Manager
+[2026-09-22 20:38:57.505] [info] -------
+[2026-09-22 20:38:57.505] [info] Starting integration at initial time 2.10 s...
+[2026-09-22 20:38:58.462] [info] Integration complete at final time 2.15 s.
+[2026-09-22 20:38:58.462] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 20:38:58.462] [info]  - real time elapsed: 0.957457 s
+[2026-09-22 20:38:58.462] [info]  - ratio sim-to-real time: 2.246
+[2026-09-22 20:38:58.462] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:58.462] [info]  - number of realizations: 26235
+[2026-09-22 20:38:58.462] [info]  - number of steps taken / attempted: 12146 / 14088
+[2026-09-22 20:38:58.462] [info]  - number of projections: 42
+[2026-09-22 20:38:58.462] [info]  - number of iterations: 14088
+[2026-09-22 20:38:58.462] [info] -------
+[2026-09-22 20:38:58.462] [info] Manager
+[2026-09-22 20:38:58.462] [info] -------
+[2026-09-22 20:38:58.462] [info] Starting integration at initial time 2.15 s...
+[2026-09-22 20:38:59.271] [info] Integration complete at final time 2.20 s.
+[2026-09-22 20:38:59.271] [info]  - CPU time elapsed: 0.765625 s
+[2026-09-22 20:38:59.271] [info]  - real time elapsed: 0.808723 s
+[2026-09-22 20:38:59.271] [info]  - ratio sim-to-real time: 2.720
+[2026-09-22 20:38:59.271] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:38:59.271] [info]  - number of realizations: 26677
+[2026-09-22 20:38:59.271] [info]  - number of steps taken / attempted: 12353 / 14323
+[2026-09-22 20:38:59.271] [info]  - number of projections: 43
+[2026-09-22 20:38:59.271] [info]  - number of iterations: 14323
+[2026-09-22 20:38:59.271] [info] -------
+[2026-09-22 20:38:59.271] [info] Manager
+[2026-09-22 20:38:59.271] [info] -------
+[2026-09-22 20:38:59.271] [info] Starting integration at initial time 2.20 s...
+[2026-09-22 20:39:00.248] [info] Integration complete at final time 2.25 s.
+[2026-09-22 20:39:00.248] [info]  - CPU time elapsed: 0.953125 s
+[2026-09-22 20:39:00.248] [info]  - real time elapsed: 0.976369 s
+[2026-09-22 20:39:00.248] [info]  - ratio sim-to-real time: 2.304
+[2026-09-22 20:39:00.248] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:00.248] [info]  - number of realizations: 27231
+[2026-09-22 20:39:00.248] [info]  - number of steps taken / attempted: 12610 / 14620
+[2026-09-22 20:39:00.248] [info]  - number of projections: 43
+[2026-09-22 20:39:00.248] [info]  - number of iterations: 14620
+[2026-09-22 20:39:00.248] [info] -------
+[2026-09-22 20:39:00.248] [info] Manager
+[2026-09-22 20:39:00.248] [info] -------
+[2026-09-22 20:39:00.248] [info] Starting integration at initial time 2.25 s...
+[2026-09-22 20:39:01.238] [info] Integration complete at final time 2.30 s.
+[2026-09-22 20:39:01.238] [info]  - CPU time elapsed: 1.000000 s
+[2026-09-22 20:39:01.238] [info]  - real time elapsed: 0.990100 s
+[2026-09-22 20:39:01.238] [info]  - ratio sim-to-real time: 2.323
+[2026-09-22 20:39:01.238] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:01.238] [info]  - number of realizations: 27785
+[2026-09-22 20:39:01.238] [info]  - number of steps taken / attempted: 12866 / 14918
+[2026-09-22 20:39:01.238] [info]  - number of projections: 44
+[2026-09-22 20:39:01.238] [info]  - number of iterations: 14918
+[2026-09-22 20:39:01.238] [info] -------
+[2026-09-22 20:39:01.238] [info] Manager
+[2026-09-22 20:39:01.238] [info] -------
+[2026-09-22 20:39:01.238] [info] Starting integration at initial time 2.30 s...
+[2026-09-22 20:39:02.501] [info] Integration complete at final time 2.35 s.
+[2026-09-22 20:39:02.501] [info]  - CPU time elapsed: 1.234375 s
+[2026-09-22 20:39:02.501] [info]  - real time elapsed: 1.262569 s
+[2026-09-22 20:39:02.501] [info]  - ratio sim-to-real time: 1.861
+[2026-09-22 20:39:02.501] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:02.501] [info]  - number of realizations: 28515
+[2026-09-22 20:39:02.501] [info]  - number of steps taken / attempted: 13199 / 15315
+[2026-09-22 20:39:02.501] [info]  - number of projections: 44
+[2026-09-22 20:39:02.501] [info]  - number of iterations: 15315
+[2026-09-22 20:39:02.501] [info] -------
+[2026-09-22 20:39:02.501] [info] Manager
+[2026-09-22 20:39:02.501] [info] -------
+[2026-09-22 20:39:02.501] [info] Starting integration at initial time 2.35 s...
+[2026-09-22 20:39:03.503] [info] Integration complete at final time 2.40 s.
+[2026-09-22 20:39:03.503] [info]  - CPU time elapsed: 1.015625 s
+[2026-09-22 20:39:03.503] [info]  - real time elapsed: 1.002455 s
+[2026-09-22 20:39:03.503] [info]  - ratio sim-to-real time: 2.394
+[2026-09-22 20:39:03.503] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:03.503] [info]  - number of realizations: 29084
+[2026-09-22 20:39:03.503] [info]  - number of steps taken / attempted: 13467 / 15616
+[2026-09-22 20:39:03.503] [info]  - number of projections: 45
+[2026-09-22 20:39:03.503] [info]  - number of iterations: 15616
+[2026-09-22 20:39:03.503] [info] -------
+[2026-09-22 20:39:03.504] [info] Manager
+[2026-09-22 20:39:03.504] [info] -------
+[2026-09-22 20:39:03.504] [info] Starting integration at initial time 2.40 s...
+[2026-09-22 20:39:04.440] [info] Integration complete at final time 2.45 s.
+[2026-09-22 20:39:04.440] [info]  - CPU time elapsed: 0.921875 s
+[2026-09-22 20:39:04.440] [info]  - real time elapsed: 0.936189 s
+[2026-09-22 20:39:04.440] [info]  - ratio sim-to-real time: 2.617
+[2026-09-22 20:39:04.440] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:04.440] [info]  - number of realizations: 29613
+[2026-09-22 20:39:04.440] [info]  - number of steps taken / attempted: 13714 / 15898
+[2026-09-22 20:39:04.440] [info]  - number of projections: 46
+[2026-09-22 20:39:04.440] [info]  - number of iterations: 15898
+[2026-09-22 20:39:04.440] [info] -------
+[2026-09-22 20:39:04.440] [info] Manager
+[2026-09-22 20:39:04.440] [info] -------
+[2026-09-22 20:39:04.440] [info] Starting integration at initial time 2.45 s...
+[2026-09-22 20:39:05.396] [info] Integration complete at final time 2.50 s.
+[2026-09-22 20:39:05.397] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 20:39:05.397] [info]  - real time elapsed: 0.956621 s
+[2026-09-22 20:39:05.397] [info]  - ratio sim-to-real time: 2.613
+[2026-09-22 20:39:05.397] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:05.397] [info]  - number of realizations: 30146
+[2026-09-22 20:39:05.397] [info]  - number of steps taken / attempted: 13957 / 16188
+[2026-09-22 20:39:05.397] [info]  - number of projections: 46
+[2026-09-22 20:39:05.397] [info]  - number of iterations: 16188
+[2026-09-22 20:39:05.397] [info] -------
+[2026-09-22 20:39:05.397] [info] Manager
+[2026-09-22 20:39:05.397] [info] -------
+[2026-09-22 20:39:05.397] [info] Starting integration at initial time 2.50 s...
+[2026-09-22 20:39:06.462] [info] Integration complete at final time 2.55 s.
+[2026-09-22 20:39:06.462] [info]  - CPU time elapsed: 1.031250 s
+[2026-09-22 20:39:06.462] [info]  - real time elapsed: 1.065371 s
+[2026-09-22 20:39:06.462] [info]  - ratio sim-to-real time: 2.394
+[2026-09-22 20:39:06.462] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:06.462] [info]  - number of realizations: 30761
+[2026-09-22 20:39:06.462] [info]  - number of steps taken / attempted: 14236 / 16524
+[2026-09-22 20:39:06.462] [info]  - number of projections: 46
+[2026-09-22 20:39:06.462] [info]  - number of iterations: 16524
+[2026-09-22 20:39:06.462] [info] -------
+[2026-09-22 20:39:06.462] [info] Manager
+[2026-09-22 20:39:06.462] [info] -------
+[2026-09-22 20:39:06.462] [info] Starting integration at initial time 2.55 s...
+[2026-09-22 20:39:07.340] [info] Integration complete at final time 2.60 s.
+[2026-09-22 20:39:07.340] [info]  - CPU time elapsed: 0.843750 s
+[2026-09-22 20:39:07.340] [info]  - real time elapsed: 0.877572 s
+[2026-09-22 20:39:07.340] [info]  - ratio sim-to-real time: 2.963
+[2026-09-22 20:39:07.340] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:07.340] [info]  - number of realizations: 31236
+[2026-09-22 20:39:07.340] [info]  - number of steps taken / attempted: 14461 / 16774
+[2026-09-22 20:39:07.340] [info]  - number of projections: 47
+[2026-09-22 20:39:07.340] [info]  - number of iterations: 16774
+[2026-09-22 20:39:07.340] [info] -------
+[2026-09-22 20:39:07.340] [info] Manager
+[2026-09-22 20:39:07.340] [info] -------
+[2026-09-22 20:39:07.340] [info] Starting integration at initial time 2.60 s...
+[2026-09-22 20:39:08.440] [info] Integration complete at final time 2.65 s.
+[2026-09-22 20:39:08.440] [info]  - CPU time elapsed: 1.078125 s
+[2026-09-22 20:39:08.440] [info]  - real time elapsed: 1.099989 s
+[2026-09-22 20:39:08.440] [info]  - ratio sim-to-real time: 2.409
+[2026-09-22 20:39:08.440] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:08.440] [info]  - number of realizations: 31871
+[2026-09-22 20:39:08.440] [info]  - number of steps taken / attempted: 14753 / 17117
+[2026-09-22 20:39:08.440] [info]  - number of projections: 47
+[2026-09-22 20:39:08.440] [info]  - number of iterations: 17117
+[2026-09-22 20:39:08.440] [info] -------
+[2026-09-22 20:39:08.440] [info] Manager
+[2026-09-22 20:39:08.440] [info] -------
+[2026-09-22 20:39:08.440] [info] Starting integration at initial time 2.65 s...
+[2026-09-22 20:39:09.228] [info] Integration complete at final time 2.70 s.
+[2026-09-22 20:39:09.228] [info]  - CPU time elapsed: 0.781250 s
+[2026-09-22 20:39:09.228] [info]  - real time elapsed: 0.787746 s
+[2026-09-22 20:39:09.228] [info]  - ratio sim-to-real time: 3.428
+[2026-09-22 20:39:09.228] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:09.228] [info]  - number of realizations: 32289
+[2026-09-22 20:39:09.228] [info]  - number of steps taken / attempted: 14953 / 17335
+[2026-09-22 20:39:09.228] [info]  - number of projections: 50
+[2026-09-22 20:39:09.228] [info]  - number of iterations: 17335
+[2026-09-22 20:39:09.228] [info] -------
+[2026-09-22 20:39:09.228] [info] Manager
+[2026-09-22 20:39:09.228] [info] -------
+[2026-09-22 20:39:09.228] [info] Starting integration at initial time 2.70 s...
+[2026-09-22 20:39:10.060] [info] Integration complete at final time 2.75 s.
+[2026-09-22 20:39:10.060] [info]  - CPU time elapsed: 0.812500 s
+[2026-09-22 20:39:10.060] [info]  - real time elapsed: 0.832318 s
+[2026-09-22 20:39:10.060] [info]  - ratio sim-to-real time: 3.304
+[2026-09-22 20:39:10.060] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:10.060] [info]  - number of realizations: 32738
+[2026-09-22 20:39:10.060] [info]  - number of steps taken / attempted: 15168 / 17569
+[2026-09-22 20:39:10.060] [info]  - number of projections: 50
+[2026-09-22 20:39:10.060] [info]  - number of iterations: 17569
+[2026-09-22 20:39:10.060] [info] -------
+[2026-09-22 20:39:10.060] [info] Manager
+[2026-09-22 20:39:10.060] [info] -------
+[2026-09-22 20:39:10.060] [info] Starting integration at initial time 2.75 s...
+[2026-09-22 20:39:11.142] [info] Integration complete at final time 2.80 s.
+[2026-09-22 20:39:11.142] [info]  - CPU time elapsed: 1.078125 s
+[2026-09-22 20:39:11.142] [info]  - real time elapsed: 1.081144 s
+[2026-09-22 20:39:11.142] [info]  - ratio sim-to-real time: 2.590
+[2026-09-22 20:39:11.142] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:11.142] [info]  - number of realizations: 33365
+[2026-09-22 20:39:11.142] [info]  - number of steps taken / attempted: 15465 / 17899
+[2026-09-22 20:39:11.142] [info]  - number of projections: 53
+[2026-09-22 20:39:11.142] [info]  - number of iterations: 17899
+[2026-09-22 20:39:11.142] [info] -------
+[2026-09-22 20:39:11.142] [info] Manager
+[2026-09-22 20:39:11.142] [info] -------
+[2026-09-22 20:39:11.142] [info] Starting integration at initial time 2.80 s...
+[2026-09-22 20:39:11.993] [info] Integration complete at final time 2.85 s.
+[2026-09-22 20:39:11.993] [info]  - CPU time elapsed: 0.859375 s
+[2026-09-22 20:39:11.993] [info]  - real time elapsed: 0.850920 s
+[2026-09-22 20:39:11.993] [info]  - ratio sim-to-real time: 3.349
+[2026-09-22 20:39:11.993] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:11.993] [info]  - number of realizations: 33816
+[2026-09-22 20:39:11.993] [info]  - number of steps taken / attempted: 15683 / 18132
+[2026-09-22 20:39:11.993] [info]  - number of projections: 54
+[2026-09-22 20:39:11.993] [info]  - number of iterations: 18132
+[2026-09-22 20:39:11.993] [info] -------
+[2026-09-22 20:39:11.993] [info] Manager
+[2026-09-22 20:39:11.993] [info] -------
+[2026-09-22 20:39:11.993] [info] Starting integration at initial time 2.85 s...
+[2026-09-22 20:39:12.910] [info] Integration complete at final time 2.90 s.
+[2026-09-22 20:39:12.910] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 20:39:12.910] [info]  - real time elapsed: 0.917060 s
+[2026-09-22 20:39:12.910] [info]  - ratio sim-to-real time: 3.162
+[2026-09-22 20:39:12.910] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:12.910] [info]  - number of realizations: 34327
+[2026-09-22 20:39:12.910] [info]  - number of steps taken / attempted: 15920 / 18406
+[2026-09-22 20:39:12.910] [info]  - number of projections: 55
+[2026-09-22 20:39:12.910] [info]  - number of iterations: 18406
+[2026-09-22 20:39:12.910] [info] -------
+[2026-09-22 20:39:12.910] [info] Manager
+[2026-09-22 20:39:12.910] [info] -------
+[2026-09-22 20:39:12.910] [info] Starting integration at initial time 2.90 s...
+[2026-09-22 20:39:13.772] [info] Integration complete at final time 2.95 s.
+[2026-09-22 20:39:13.772] [info]  - CPU time elapsed: 0.859375 s
+[2026-09-22 20:39:13.772] [info]  - real time elapsed: 0.861458 s
+[2026-09-22 20:39:13.772] [info]  - ratio sim-to-real time: 3.424
+[2026-09-22 20:39:13.772] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:13.772] [info]  - number of realizations: 34801
+[2026-09-22 20:39:13.772] [info]  - number of steps taken / attempted: 16142 / 18658
+[2026-09-22 20:39:13.772] [info]  - number of projections: 56
+[2026-09-22 20:39:13.772] [info]  - number of iterations: 18658
+[2026-09-22 20:39:13.772] [info] -------
+[2026-09-22 20:39:13.772] [info] Manager
+[2026-09-22 20:39:13.772] [info] -------
+[2026-09-22 20:39:13.772] [info] Starting integration at initial time 2.95 s...
+[2026-09-22 20:39:14.915] [info] Integration complete at final time 3.00 s.
+[2026-09-22 20:39:14.915] [info]  - CPU time elapsed: 1.140625 s
+[2026-09-22 20:39:14.915] [info]  - real time elapsed: 1.143036 s
+[2026-09-22 20:39:14.915] [info]  - ratio sim-to-real time: 2.625
+[2026-09-22 20:39:14.915] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:14.915] [info]  - number of realizations: 35465
+[2026-09-22 20:39:14.915] [info]  - number of steps taken / attempted: 16446 / 19018
+[2026-09-22 20:39:14.915] [info]  - number of projections: 56
+[2026-09-22 20:39:14.915] [info]  - number of iterations: 19018
+[2026-09-22 20:39:14.915] [info] -------
+[2026-09-22 20:39:14.915] [info] Manager
+[2026-09-22 20:39:14.915] [info] -------
+[2026-09-22 20:39:14.915] [info] Starting integration at initial time 3.00 s...
+[2026-09-22 20:39:15.761] [info] Integration complete at final time 3.05 s.
+[2026-09-22 20:39:15.761] [info]  - CPU time elapsed: 0.828125 s
+[2026-09-22 20:39:15.761] [info]  - real time elapsed: 0.845902 s
+[2026-09-22 20:39:15.761] [info]  - ratio sim-to-real time: 3.606
+[2026-09-22 20:39:15.761] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:39:15.761] [info]  - number of realizations: 35931
+[2026-09-22 20:39:15.761] [info]  - number of steps taken / attempted: 16665 / 19265
+[2026-09-22 20:39:15.761] [info]  - number of projections: 57
+[2026-09-22 20:39:15.761] [info]  - number of iterations: 19265
+[2026-09-22 20:41:46.636] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\proprioception_plugin\build\Release\osimMillard12EqWithAff.dll
+[2026-09-22 20:41:46.642] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\vestibular_plugin\build\Release\osimVestibular.dll
+[2026-09-22 20:41:46.648] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\HeadNeckNeuralController_plugin\build\Release\osimHeadNeckNeural.dll
+[2026-09-22 20:41:46.655] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\FixationController_plugin\build\Release\osimFixation.dll
+[2026-09-22 20:41:46.676] [info] Loaded model HYOID_Scaled from file osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim
+[2026-09-22 20:41:47.134] [info] -------
+[2026-09-22 20:41:47.134] [info] Manager
+[2026-09-22 20:41:47.135] [info] -------
+[2026-09-22 20:41:47.135] [info] Starting integration at initial time 0.00 s...
+[2026-09-22 20:41:50.195] [info] Integration complete at final time 0.05 s.
+[2026-09-22 20:41:50.195] [info]  - CPU time elapsed: 3.000000 s
+[2026-09-22 20:41:50.195] [info]  - real time elapsed: 3.060336 s
+[2026-09-22 20:41:50.195] [info]  - ratio sim-to-real time: 0.016
+[2026-09-22 20:41:50.195] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:50.195] [info]  - number of realizations: 2117
+[2026-09-22 20:41:50.195] [info]  - number of steps taken / attempted: 974 / 1142
+[2026-09-22 20:41:50.195] [info]  - number of projections: 3
+[2026-09-22 20:41:50.195] [info]  - number of iterations: 1142
+[2026-09-22 20:41:50.195] [info] -------
+[2026-09-22 20:41:50.195] [info] Manager
+[2026-09-22 20:41:50.195] [info] -------
+[2026-09-22 20:41:50.196] [info] Starting integration at initial time 0.05 s...
+[2026-09-22 20:41:51.908] [info] Integration complete at final time 0.10 s.
+[2026-09-22 20:41:51.908] [info]  - CPU time elapsed: 1.703125 s
+[2026-09-22 20:41:51.908] [info]  - real time elapsed: 1.712708 s
+[2026-09-22 20:41:51.908] [info]  - ratio sim-to-real time: 0.058
+[2026-09-22 20:41:51.908] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:51.908] [info]  - number of realizations: 3234
+[2026-09-22 20:41:51.908] [info]  - number of steps taken / attempted: 1482 / 1751
+[2026-09-22 20:41:51.908] [info]  - number of projections: 3
+[2026-09-22 20:41:51.908] [info]  - number of iterations: 1751
+[2026-09-22 20:41:51.909] [info] -------
+[2026-09-22 20:41:51.909] [info] Manager
+[2026-09-22 20:41:51.909] [info] -------
+[2026-09-22 20:41:51.909] [info] Starting integration at initial time 0.10 s...
+[2026-09-22 20:41:53.413] [info] Integration complete at final time 0.15 s.
+[2026-09-22 20:41:53.414] [info]  - CPU time elapsed: 1.453125 s
+[2026-09-22 20:41:53.414] [info]  - real time elapsed: 1.504661 s
+[2026-09-22 20:41:53.414] [info]  - ratio sim-to-real time: 0.100
+[2026-09-22 20:41:53.414] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:53.414] [info]  - number of realizations: 4193
+[2026-09-22 20:41:53.414] [info]  - number of steps taken / attempted: 1921 / 2271
+[2026-09-22 20:41:53.414] [info]  - number of projections: 5
+[2026-09-22 20:41:53.414] [info]  - number of iterations: 2271
+[2026-09-22 20:41:53.414] [info] -------
+[2026-09-22 20:41:53.415] [info] Manager
+[2026-09-22 20:41:53.415] [info] -------
+[2026-09-22 20:41:53.415] [info] Starting integration at initial time 0.15 s...
+[2026-09-22 20:41:54.545] [info] Integration complete at final time 0.20 s.
+[2026-09-22 20:41:54.545] [info]  - CPU time elapsed: 1.109375 s
+[2026-09-22 20:41:54.545] [info]  - real time elapsed: 1.130346 s
+[2026-09-22 20:41:54.545] [info]  - ratio sim-to-real time: 0.177
+[2026-09-22 20:41:54.545] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:54.545] [info]  - number of realizations: 4885
+[2026-09-22 20:41:54.545] [info]  - number of steps taken / attempted: 2250 / 2634
+[2026-09-22 20:41:54.545] [info]  - number of projections: 5
+[2026-09-22 20:41:54.546] [info]  - number of iterations: 2634
+[2026-09-22 20:41:54.546] [info] -------
+[2026-09-22 20:41:54.546] [info] Manager
+[2026-09-22 20:41:54.546] [info] -------
+[2026-09-22 20:41:54.546] [info] Starting integration at initial time 0.20 s...
+[2026-09-22 20:41:55.642] [info] Integration complete at final time 0.25 s.
+[2026-09-22 20:41:55.642] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 20:41:55.642] [info]  - real time elapsed: 1.096371 s
+[2026-09-22 20:41:55.642] [info]  - ratio sim-to-real time: 0.228
+[2026-09-22 20:41:55.642] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:55.642] [info]  - number of realizations: 5521
+[2026-09-22 20:41:55.642] [info]  - number of steps taken / attempted: 2551 / 2969
+[2026-09-22 20:41:55.643] [info]  - number of projections: 6
+[2026-09-22 20:41:55.643] [info]  - number of iterations: 2969
+[2026-09-22 20:41:55.643] [info] -------
+[2026-09-22 20:41:55.643] [info] Manager
+[2026-09-22 20:41:55.643] [info] -------
+[2026-09-22 20:41:55.643] [info] Starting integration at initial time 0.25 s...
+[2026-09-22 20:41:56.591] [info] Integration complete at final time 0.30 s.
+[2026-09-22 20:41:56.591] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 20:41:56.591] [info]  - real time elapsed: 0.947949 s
+[2026-09-22 20:41:56.591] [info]  - ratio sim-to-real time: 0.316
+[2026-09-22 20:41:56.591] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:56.591] [info]  - number of realizations: 6073
+[2026-09-22 20:41:56.591] [info]  - number of steps taken / attempted: 2811 / 3261
+[2026-09-22 20:41:56.591] [info]  - number of projections: 6
+[2026-09-22 20:41:56.591] [info]  - number of iterations: 3261
+[2026-09-22 20:41:56.591] [info] -------
+[2026-09-22 20:41:56.591] [info] Manager
+[2026-09-22 20:41:56.591] [info] -------
+[2026-09-22 20:41:56.591] [info] Starting integration at initial time 0.30 s...
+[2026-09-22 20:41:57.708] [info] Integration complete at final time 0.35 s.
+[2026-09-22 20:41:57.708] [info]  - CPU time elapsed: 1.125000 s
+[2026-09-22 20:41:57.708] [info]  - real time elapsed: 1.116771 s
+[2026-09-22 20:41:57.708] [info]  - ratio sim-to-real time: 0.313
+[2026-09-22 20:41:57.708] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:57.709] [info]  - number of realizations: 6756
+[2026-09-22 20:41:57.709] [info]  - number of steps taken / attempted: 3125 / 3630
+[2026-09-22 20:41:57.709] [info]  - number of projections: 7
+[2026-09-22 20:41:57.709] [info]  - number of iterations: 3630
+[2026-09-22 20:41:57.709] [info] -------
+[2026-09-22 20:41:57.709] [info] Manager
+[2026-09-22 20:41:57.709] [info] -------
+[2026-09-22 20:41:57.709] [info] Starting integration at initial time 0.35 s...
+[2026-09-22 20:41:58.553] [info] Integration complete at final time 0.40 s.
+[2026-09-22 20:41:58.553] [info]  - CPU time elapsed: 0.796875 s
+[2026-09-22 20:41:58.553] [info]  - real time elapsed: 0.844111 s
+[2026-09-22 20:41:58.553] [info]  - ratio sim-to-real time: 0.474
+[2026-09-22 20:41:58.553] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:58.553] [info]  - number of realizations: 7240
+[2026-09-22 20:41:58.553] [info]  - number of steps taken / attempted: 3353 / 3886
+[2026-09-22 20:41:58.554] [info]  - number of projections: 7
+[2026-09-22 20:41:58.554] [info]  - number of iterations: 3886
+[2026-09-22 20:41:58.554] [info] -------
+[2026-09-22 20:41:58.554] [info] Manager
+[2026-09-22 20:41:58.554] [info] -------
+[2026-09-22 20:41:58.554] [info] Starting integration at initial time 0.40 s...
+[2026-09-22 20:41:59.997] [info] Integration complete at final time 0.45 s.
+[2026-09-22 20:41:59.997] [info]  - CPU time elapsed: 1.406250 s
+[2026-09-22 20:41:59.997] [info]  - real time elapsed: 1.442876 s
+[2026-09-22 20:41:59.997] [info]  - ratio sim-to-real time: 0.312
+[2026-09-22 20:41:59.997] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:41:59.997] [info]  - number of realizations: 8137
+[2026-09-22 20:41:59.997] [info]  - number of steps taken / attempted: 3763 / 4373
+[2026-09-22 20:41:59.997] [info]  - number of projections: 8
+[2026-09-22 20:41:59.997] [info]  - number of iterations: 4373
+[2026-09-22 20:41:59.997] [info] -------
+[2026-09-22 20:41:59.997] [info] Manager
+[2026-09-22 20:41:59.997] [info] -------
+[2026-09-22 20:41:59.997] [info] Starting integration at initial time 0.45 s...
+[2026-09-22 20:42:00.882] [info] Integration complete at final time 0.50 s.
+[2026-09-22 20:42:00.882] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:00.882] [info]  - real time elapsed: 0.884370 s
+[2026-09-22 20:42:00.882] [info]  - ratio sim-to-real time: 0.565
+[2026-09-22 20:42:00.882] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:00.882] [info]  - number of realizations: 8659
+[2026-09-22 20:42:00.882] [info]  - number of steps taken / attempted: 4009 / 4649
+[2026-09-22 20:42:00.882] [info]  - number of projections: 8
+[2026-09-22 20:42:00.882] [info]  - number of iterations: 4649
+[2026-09-22 20:42:00.882] [info] -------
+[2026-09-22 20:42:00.882] [info] Manager
+[2026-09-22 20:42:00.882] [info] -------
+[2026-09-22 20:42:00.882] [info] Starting integration at initial time 0.50 s...
+[2026-09-22 20:42:01.783] [info] Integration complete at final time 0.55 s.
+[2026-09-22 20:42:01.783] [info]  - CPU time elapsed: 0.890625 s
+[2026-09-22 20:42:01.783] [info]  - real time elapsed: 0.900510 s
+[2026-09-22 20:42:01.783] [info]  - ratio sim-to-real time: 0.611
+[2026-09-22 20:42:01.783] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:01.783] [info]  - number of realizations: 9187
+[2026-09-22 20:42:01.783] [info]  - number of steps taken / attempted: 4259 / 4927
+[2026-09-22 20:42:01.783] [info]  - number of projections: 8
+[2026-09-22 20:42:01.783] [info]  - number of iterations: 4927
+[2026-09-22 20:42:01.784] [info] -------
+[2026-09-22 20:42:01.784] [info] Manager
+[2026-09-22 20:42:01.784] [info] -------
+[2026-09-22 20:42:01.784] [info] Starting integration at initial time 0.55 s...
+[2026-09-22 20:42:02.794] [info] Integration complete at final time 0.60 s.
+[2026-09-22 20:42:02.795] [info]  - CPU time elapsed: 0.984375 s
+[2026-09-22 20:42:02.795] [info]  - real time elapsed: 1.010727 s
+[2026-09-22 20:42:02.795] [info]  - ratio sim-to-real time: 0.594
+[2026-09-22 20:42:02.795] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:02.795] [info]  - number of realizations: 9791
+[2026-09-22 20:42:02.795] [info]  - number of steps taken / attempted: 4541 / 5249
+[2026-09-22 20:42:02.795] [info]  - number of projections: 8
+[2026-09-22 20:42:02.795] [info]  - number of iterations: 5249
+[2026-09-22 20:42:02.795] [info] -------
+[2026-09-22 20:42:02.795] [info] Manager
+[2026-09-22 20:42:02.795] [info] -------
+[2026-09-22 20:42:02.795] [info] Starting integration at initial time 0.60 s...
+[2026-09-22 20:42:03.940] [info] Integration complete at final time 0.65 s.
+[2026-09-22 20:42:03.940] [info]  - CPU time elapsed: 1.140625 s
+[2026-09-22 20:42:03.940] [info]  - real time elapsed: 1.144457 s
+[2026-09-22 20:42:03.940] [info]  - ratio sim-to-real time: 0.568
+[2026-09-22 20:42:03.940] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:03.940] [info]  - number of realizations: 10495
+[2026-09-22 20:42:03.940] [info]  - number of steps taken / attempted: 4862 / 5632
+[2026-09-22 20:42:03.940] [info]  - number of projections: 8
+[2026-09-22 20:42:03.940] [info]  - number of iterations: 5632
+[2026-09-22 20:42:03.940] [info] -------
+[2026-09-22 20:42:03.940] [info] Manager
+[2026-09-22 20:42:03.940] [info] -------
+[2026-09-22 20:42:03.940] [info] Starting integration at initial time 0.65 s...
+[2026-09-22 20:42:05.043] [info] Integration complete at final time 0.70 s.
+[2026-09-22 20:42:05.043] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 20:42:05.043] [info]  - real time elapsed: 1.103099 s
+[2026-09-22 20:42:05.043] [info]  - ratio sim-to-real time: 0.635
+[2026-09-22 20:42:05.043] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:05.043] [info]  - number of realizations: 11170
+[2026-09-22 20:42:05.043] [info]  - number of steps taken / attempted: 5169 / 6000
+[2026-09-22 20:42:05.043] [info]  - number of projections: 9
+[2026-09-22 20:42:05.044] [info]  - number of iterations: 6000
+[2026-09-22 20:42:05.044] [info] -------
+[2026-09-22 20:42:05.044] [info] Manager
+[2026-09-22 20:42:05.044] [info] -------
+[2026-09-22 20:42:05.044] [info] Starting integration at initial time 0.70 s...
+[2026-09-22 20:42:05.966] [info] Integration complete at final time 0.75 s.
+[2026-09-22 20:42:05.966] [info]  - CPU time elapsed: 0.921875 s
+[2026-09-22 20:42:05.966] [info]  - real time elapsed: 0.921696 s
+[2026-09-22 20:42:05.966] [info]  - ratio sim-to-real time: 0.814
+[2026-09-22 20:42:05.966] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:05.966] [info]  - number of realizations: 11712
+[2026-09-22 20:42:05.966] [info]  - number of steps taken / attempted: 5423 / 6288
+[2026-09-22 20:42:05.966] [info]  - number of projections: 12
+[2026-09-22 20:42:05.966] [info]  - number of iterations: 6288
+[2026-09-22 20:42:05.966] [info] -------
+[2026-09-22 20:42:05.966] [info] Manager
+[2026-09-22 20:42:05.966] [info] -------
+[2026-09-22 20:42:05.966] [info] Starting integration at initial time 0.75 s...
+[2026-09-22 20:42:06.721] [info] Integration complete at final time 0.80 s.
+[2026-09-22 20:42:06.721] [info]  - CPU time elapsed: 0.765625 s
+[2026-09-22 20:42:06.721] [info]  - real time elapsed: 0.754440 s
+[2026-09-22 20:42:06.721] [info]  - ratio sim-to-real time: 1.060
+[2026-09-22 20:42:06.721] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:06.721] [info]  - number of realizations: 12143
+[2026-09-22 20:42:06.721] [info]  - number of steps taken / attempted: 5623 / 6519
+[2026-09-22 20:42:06.721] [info]  - number of projections: 13
+[2026-09-22 20:42:06.721] [info]  - number of iterations: 6519
+[2026-09-22 20:42:06.721] [info] -------
+[2026-09-22 20:42:06.721] [info] Manager
+[2026-09-22 20:42:06.721] [info] -------
+[2026-09-22 20:42:06.721] [info] Starting integration at initial time 0.80 s...
+[2026-09-22 20:42:07.624] [info] Integration complete at final time 0.85 s.
+[2026-09-22 20:42:07.624] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:07.624] [info]  - real time elapsed: 0.902958 s
+[2026-09-22 20:42:07.624] [info]  - ratio sim-to-real time: 0.941
+[2026-09-22 20:42:07.624] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:07.624] [info]  - number of realizations: 12667
+[2026-09-22 20:42:07.624] [info]  - number of steps taken / attempted: 5860 / 6806
+[2026-09-22 20:42:07.624] [info]  - number of projections: 14
+[2026-09-22 20:42:07.624] [info]  - number of iterations: 6806
+[2026-09-22 20:42:07.625] [info] -------
+[2026-09-22 20:42:07.625] [info] Manager
+[2026-09-22 20:42:07.625] [info] -------
+[2026-09-22 20:42:07.625] [info] Starting integration at initial time 0.85 s...
+[2026-09-22 20:42:08.384] [info] Integration complete at final time 0.90 s.
+[2026-09-22 20:42:08.385] [info]  - CPU time elapsed: 0.750000 s
+[2026-09-22 20:42:08.385] [info]  - real time elapsed: 0.759748 s
+[2026-09-22 20:42:08.385] [info]  - ratio sim-to-real time: 1.185
+[2026-09-22 20:42:08.385] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:08.385] [info]  - number of realizations: 13106
+[2026-09-22 20:42:08.385] [info]  - number of steps taken / attempted: 6067 / 7038
+[2026-09-22 20:42:08.385] [info]  - number of projections: 16
+[2026-09-22 20:42:08.385] [info]  - number of iterations: 7038
+[2026-09-22 20:42:08.385] [info] -------
+[2026-09-22 20:42:08.385] [info] Manager
+[2026-09-22 20:42:08.385] [info] -------
+[2026-09-22 20:42:08.385] [info] Starting integration at initial time 0.90 s...
+[2026-09-22 20:42:09.236] [info] Integration complete at final time 0.95 s.
+[2026-09-22 20:42:09.236] [info]  - CPU time elapsed: 0.843750 s
+[2026-09-22 20:42:09.236] [info]  - real time elapsed: 0.850804 s
+[2026-09-22 20:42:09.236] [info]  - ratio sim-to-real time: 1.117
+[2026-09-22 20:42:09.236] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:09.236] [info]  - number of realizations: 13608
+[2026-09-22 20:42:09.236] [info]  - number of steps taken / attempted: 6301 / 7306
+[2026-09-22 20:42:09.236] [info]  - number of projections: 18
+[2026-09-22 20:42:09.236] [info]  - number of iterations: 7306
+[2026-09-22 20:42:09.237] [info] -------
+[2026-09-22 20:42:09.237] [info] Manager
+[2026-09-22 20:42:09.237] [info] -------
+[2026-09-22 20:42:09.237] [info] Starting integration at initial time 0.95 s...
+[2026-09-22 20:42:09.987] [info] Integration complete at final time 1.00 s.
+[2026-09-22 20:42:09.987] [info]  - CPU time elapsed: 0.750000 s
+[2026-09-22 20:42:09.987] [info]  - real time elapsed: 0.749951 s
+[2026-09-22 20:42:09.987] [info]  - ratio sim-to-real time: 1.333
+[2026-09-22 20:42:09.987] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:09.987] [info]  - number of realizations: 14034
+[2026-09-22 20:42:09.987] [info]  - number of steps taken / attempted: 6501 / 7532
+[2026-09-22 20:42:09.987] [info]  - number of projections: 19
+[2026-09-22 20:42:09.987] [info]  - number of iterations: 7532
+[2026-09-22 20:42:09.987] [info] -------
+[2026-09-22 20:42:09.987] [info] Manager
+[2026-09-22 20:42:09.987] [info] -------
+[2026-09-22 20:42:09.987] [info] Starting integration at initial time 1.00 s...
+[2026-09-22 20:42:10.787] [info] Integration complete at final time 1.05 s.
+[2026-09-22 20:42:10.787] [info]  - CPU time elapsed: 0.796875 s
+[2026-09-22 20:42:10.787] [info]  - real time elapsed: 0.799614 s
+[2026-09-22 20:42:10.787] [info]  - ratio sim-to-real time: 1.313
+[2026-09-22 20:42:10.787] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:10.787] [info]  - number of realizations: 14500
+[2026-09-22 20:42:10.787] [info]  - number of steps taken / attempted: 6716 / 7783
+[2026-09-22 20:42:10.787] [info]  - number of projections: 20
+[2026-09-22 20:42:10.787] [info]  - number of iterations: 7783
+[2026-09-22 20:42:10.787] [info] -------
+[2026-09-22 20:42:10.787] [info] Manager
+[2026-09-22 20:42:10.788] [info] -------
+[2026-09-22 20:42:10.788] [info] Starting integration at initial time 1.05 s...
+[2026-09-22 20:42:11.630] [info] Integration complete at final time 1.10 s.
+[2026-09-22 20:42:11.631] [info]  - CPU time elapsed: 0.843750 s
+[2026-09-22 20:42:11.631] [info]  - real time elapsed: 0.842936 s
+[2026-09-22 20:42:11.631] [info]  - ratio sim-to-real time: 1.305
+[2026-09-22 20:42:11.631] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:11.631] [info]  - number of realizations: 14992
+[2026-09-22 20:42:11.631] [info]  - number of steps taken / attempted: 6941 / 8050
+[2026-09-22 20:42:11.631] [info]  - number of projections: 21
+[2026-09-22 20:42:11.631] [info]  - number of iterations: 8050
+[2026-09-22 20:42:11.631] [info] -------
+[2026-09-22 20:42:11.631] [info] Manager
+[2026-09-22 20:42:11.631] [info] -------
+[2026-09-22 20:42:11.631] [info] Starting integration at initial time 1.10 s...
+[2026-09-22 20:42:12.614] [info] Integration complete at final time 1.15 s.
+[2026-09-22 20:42:12.614] [info]  - CPU time elapsed: 0.984375 s
+[2026-09-22 20:42:12.614] [info]  - real time elapsed: 0.982868 s
+[2026-09-22 20:42:12.614] [info]  - ratio sim-to-real time: 1.170
+[2026-09-22 20:42:12.614] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:12.615] [info]  - number of realizations: 15562
+[2026-09-22 20:42:12.615] [info]  - number of steps taken / attempted: 7204 / 8357
+[2026-09-22 20:42:12.615] [info]  - number of projections: 22
+[2026-09-22 20:42:12.615] [info]  - number of iterations: 8357
+[2026-09-22 20:42:12.615] [info] -------
+[2026-09-22 20:42:12.615] [info] Manager
+[2026-09-22 20:42:12.615] [info] -------
+[2026-09-22 20:42:12.615] [info] Starting integration at initial time 1.15 s...
+[2026-09-22 20:42:13.495] [info] Integration complete at final time 1.20 s.
+[2026-09-22 20:42:13.495] [info]  - CPU time elapsed: 0.843750 s
+[2026-09-22 20:42:13.495] [info]  - real time elapsed: 0.879555 s
+[2026-09-22 20:42:13.495] [info]  - ratio sim-to-real time: 1.364
+[2026-09-22 20:42:13.495] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:13.495] [info]  - number of realizations: 16079
+[2026-09-22 20:42:13.495] [info]  - number of steps taken / attempted: 7442 / 8636
+[2026-09-22 20:42:13.495] [info]  - number of projections: 23
+[2026-09-22 20:42:13.495] [info]  - number of iterations: 8636
+[2026-09-22 20:42:13.495] [info] -------
+[2026-09-22 20:42:13.495] [info] Manager
+[2026-09-22 20:42:13.495] [info] -------
+[2026-09-22 20:42:13.495] [info] Starting integration at initial time 1.20 s...
+[2026-09-22 20:42:14.180] [info] Integration complete at final time 1.25 s.
+[2026-09-22 20:42:14.180] [info]  - CPU time elapsed: 0.687500 s
+[2026-09-22 20:42:14.181] [info]  - real time elapsed: 0.685137 s
+[2026-09-22 20:42:14.181] [info]  - ratio sim-to-real time: 1.824
+[2026-09-22 20:42:14.181] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:14.181] [info]  - number of realizations: 16466
+[2026-09-22 20:42:14.181] [info]  - number of steps taken / attempted: 7622 / 8843
+[2026-09-22 20:42:14.181] [info]  - number of projections: 26
+[2026-09-22 20:42:14.181] [info]  - number of iterations: 8843
+[2026-09-22 20:42:14.181] [info] -------
+[2026-09-22 20:42:14.181] [info] Manager
+[2026-09-22 20:42:14.181] [info] -------
+[2026-09-22 20:42:14.181] [info] Starting integration at initial time 1.25 s...
+[2026-09-22 20:42:14.776] [info] Integration complete at final time 1.30 s.
+[2026-09-22 20:42:14.777] [info]  - CPU time elapsed: 0.593750 s
+[2026-09-22 20:42:14.777] [info]  - real time elapsed: 0.595378 s
+[2026-09-22 20:42:14.777] [info]  - ratio sim-to-real time: 2.183
+[2026-09-22 20:42:14.777] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:14.777] [info]  - number of realizations: 16787
+[2026-09-22 20:42:14.777] [info]  - number of steps taken / attempted: 7770 / 9016
+[2026-09-22 20:42:14.777] [info]  - number of projections: 27
+[2026-09-22 20:42:14.777] [info]  - number of iterations: 9016
+[2026-09-22 20:42:14.777] [info] -------
+[2026-09-22 20:42:14.777] [info] Manager
+[2026-09-22 20:42:14.777] [info] -------
+[2026-09-22 20:42:14.777] [info] Starting integration at initial time 1.30 s...
+[2026-09-22 20:42:15.628] [info] Integration complete at final time 1.35 s.
+[2026-09-22 20:42:15.629] [info]  - CPU time elapsed: 0.859375 s
+[2026-09-22 20:42:15.629] [info]  - real time elapsed: 0.851551 s
+[2026-09-22 20:42:15.629] [info]  - ratio sim-to-real time: 1.585
+[2026-09-22 20:42:15.629] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:15.629] [info]  - number of realizations: 17283
+[2026-09-22 20:42:15.629] [info]  - number of steps taken / attempted: 7997 / 9285
+[2026-09-22 20:42:15.629] [info]  - number of projections: 27
+[2026-09-22 20:42:15.629] [info]  - number of iterations: 9285
+[2026-09-22 20:42:15.629] [info] -------
+[2026-09-22 20:42:15.629] [info] Manager
+[2026-09-22 20:42:15.629] [info] -------
+[2026-09-22 20:42:15.629] [info] Starting integration at initial time 1.35 s...
+[2026-09-22 20:42:16.585] [info] Integration complete at final time 1.40 s.
+[2026-09-22 20:42:16.585] [info]  - CPU time elapsed: 0.953125 s
+[2026-09-22 20:42:16.585] [info]  - real time elapsed: 0.955958 s
+[2026-09-22 20:42:16.585] [info]  - ratio sim-to-real time: 1.464
+[2026-09-22 20:42:16.585] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:16.585] [info]  - number of realizations: 17857
+[2026-09-22 20:42:16.585] [info]  - number of steps taken / attempted: 8259 / 9597
+[2026-09-22 20:42:16.585] [info]  - number of projections: 29
+[2026-09-22 20:42:16.585] [info]  - number of iterations: 9597
+[2026-09-22 20:42:16.586] [info] -------
+[2026-09-22 20:42:16.586] [info] Manager
+[2026-09-22 20:42:16.586] [info] -------
+[2026-09-22 20:42:16.586] [info] Starting integration at initial time 1.40 s...
+[2026-09-22 20:42:17.327] [info] Integration complete at final time 1.45 s.
+[2026-09-22 20:42:17.327] [info]  - CPU time elapsed: 0.734375 s
+[2026-09-22 20:42:17.327] [info]  - real time elapsed: 0.740768 s
+[2026-09-22 20:42:17.327] [info]  - ratio sim-to-real time: 1.957
+[2026-09-22 20:42:17.327] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:17.327] [info]  - number of realizations: 18273
+[2026-09-22 20:42:17.327] [info]  - number of steps taken / attempted: 8447 / 9825
+[2026-09-22 20:42:17.327] [info]  - number of projections: 29
+[2026-09-22 20:42:17.327] [info]  - number of iterations: 9825
+[2026-09-22 20:42:17.327] [info] -------
+[2026-09-22 20:42:17.327] [info] Manager
+[2026-09-22 20:42:17.327] [info] -------
+[2026-09-22 20:42:17.327] [info] Starting integration at initial time 1.45 s...
+[2026-09-22 20:42:18.084] [info] Integration complete at final time 1.50 s.
+[2026-09-22 20:42:18.085] [info]  - CPU time elapsed: 0.765625 s
+[2026-09-22 20:42:18.085] [info]  - real time elapsed: 0.757546 s
+[2026-09-22 20:42:18.085] [info]  - ratio sim-to-real time: 1.980
+[2026-09-22 20:42:18.085] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:18.085] [info]  - number of realizations: 18697
+[2026-09-22 20:42:18.085] [info]  - number of steps taken / attempted: 8635 / 10061
+[2026-09-22 20:42:18.085] [info]  - number of projections: 29
+[2026-09-22 20:42:18.085] [info]  - number of iterations: 10061
+[2026-09-22 20:42:18.085] [info] -------
+[2026-09-22 20:42:18.085] [info] Manager
+[2026-09-22 20:42:18.085] [info] -------
+[2026-09-22 20:42:18.085] [info] Starting integration at initial time 1.50 s...
+[2026-09-22 20:42:19.169] [info] Integration complete at final time 1.55 s.
+[2026-09-22 20:42:19.169] [info]  - CPU time elapsed: 1.062500 s
+[2026-09-22 20:42:19.169] [info]  - real time elapsed: 1.083545 s
+[2026-09-22 20:42:19.169] [info]  - ratio sim-to-real time: 1.430
+[2026-09-22 20:42:19.169] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:19.169] [info]  - number of realizations: 19348
+[2026-09-22 20:42:19.169] [info]  - number of steps taken / attempted: 8930 / 10417
+[2026-09-22 20:42:19.169] [info]  - number of projections: 33
+[2026-09-22 20:42:19.169] [info]  - number of iterations: 10417
+[2026-09-22 20:42:19.169] [info] -------
+[2026-09-22 20:42:19.169] [info] Manager
+[2026-09-22 20:42:19.169] [info] -------
+[2026-09-22 20:42:19.169] [info] Starting integration at initial time 1.55 s...
+[2026-09-22 20:42:20.072] [info] Integration complete at final time 1.60 s.
+[2026-09-22 20:42:20.072] [info]  - CPU time elapsed: 0.890625 s
+[2026-09-22 20:42:20.072] [info]  - real time elapsed: 0.902140 s
+[2026-09-22 20:42:20.072] [info]  - ratio sim-to-real time: 1.774
+[2026-09-22 20:42:20.072] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:20.072] [info]  - number of realizations: 19884
+[2026-09-22 20:42:20.072] [info]  - number of steps taken / attempted: 9167 / 10716
+[2026-09-22 20:42:20.072] [info]  - number of projections: 33
+[2026-09-22 20:42:20.072] [info]  - number of iterations: 10716
+[2026-09-22 20:42:20.072] [info] -------
+[2026-09-22 20:42:20.072] [info] Manager
+[2026-09-22 20:42:20.072] [info] -------
+[2026-09-22 20:42:20.072] [info] Starting integration at initial time 1.60 s...
+[2026-09-22 20:42:20.772] [info] Integration complete at final time 1.65 s.
+[2026-09-22 20:42:20.772] [info]  - CPU time elapsed: 0.703125 s
+[2026-09-22 20:42:20.772] [info]  - real time elapsed: 0.699394 s
+[2026-09-22 20:42:20.772] [info]  - ratio sim-to-real time: 2.359
+[2026-09-22 20:42:20.772] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:20.772] [info]  - number of realizations: 20284
+[2026-09-22 20:42:20.772] [info]  - number of steps taken / attempted: 9357 / 10926
+[2026-09-22 20:42:20.772] [info]  - number of projections: 33
+[2026-09-22 20:42:20.772] [info]  - number of iterations: 10926
+[2026-09-22 20:42:20.772] [info] -------
+[2026-09-22 20:42:20.773] [info] Manager
+[2026-09-22 20:42:20.773] [info] -------
+[2026-09-22 20:42:20.773] [info] Starting integration at initial time 1.65 s...
+[2026-09-22 20:42:21.554] [info] Integration complete at final time 1.70 s.
+[2026-09-22 20:42:21.555] [info]  - CPU time elapsed: 0.765625 s
+[2026-09-22 20:42:21.555] [info]  - real time elapsed: 0.781810 s
+[2026-09-22 20:42:21.555] [info]  - ratio sim-to-real time: 2.174
+[2026-09-22 20:42:21.555] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:21.555] [info]  - number of realizations: 20736
+[2026-09-22 20:42:21.555] [info]  - number of steps taken / attempted: 9569 / 11166
+[2026-09-22 20:42:21.555] [info]  - number of projections: 35
+[2026-09-22 20:42:21.555] [info]  - number of iterations: 11166
+[2026-09-22 20:42:21.555] [info] -------
+[2026-09-22 20:42:21.555] [info] Manager
+[2026-09-22 20:42:21.555] [info] -------
+[2026-09-22 20:42:21.555] [info] Starting integration at initial time 1.70 s...
+[2026-09-22 20:42:22.609] [info] Integration complete at final time 1.75 s.
+[2026-09-22 20:42:22.609] [info]  - CPU time elapsed: 1.031250 s
+[2026-09-22 20:42:22.609] [info]  - real time elapsed: 1.053277 s
+[2026-09-22 20:42:22.609] [info]  - ratio sim-to-real time: 1.661
+[2026-09-22 20:42:22.609] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:22.609] [info]  - number of realizations: 21369
+[2026-09-22 20:42:22.609] [info]  - number of steps taken / attempted: 9861 / 11507
+[2026-09-22 20:42:22.609] [info]  - number of projections: 35
+[2026-09-22 20:42:22.609] [info]  - number of iterations: 11507
+[2026-09-22 20:42:22.609] [info] -------
+[2026-09-22 20:42:22.609] [info] Manager
+[2026-09-22 20:42:22.609] [info] -------
+[2026-09-22 20:42:22.609] [info] Starting integration at initial time 1.75 s...
+[2026-09-22 20:42:23.551] [info] Integration complete at final time 1.80 s.
+[2026-09-22 20:42:23.551] [info]  - CPU time elapsed: 0.953125 s
+[2026-09-22 20:42:23.551] [info]  - real time elapsed: 0.941590 s
+[2026-09-22 20:42:23.551] [info]  - ratio sim-to-real time: 1.912
+[2026-09-22 20:42:23.551] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:23.551] [info]  - number of realizations: 21927
+[2026-09-22 20:42:23.551] [info]  - number of steps taken / attempted: 10120 / 11806
+[2026-09-22 20:42:23.551] [info]  - number of projections: 36
+[2026-09-22 20:42:23.551] [info]  - number of iterations: 11806
+[2026-09-22 20:42:23.552] [info] -------
+[2026-09-22 20:42:23.552] [info] Manager
+[2026-09-22 20:42:23.552] [info] -------
+[2026-09-22 20:42:23.552] [info] Starting integration at initial time 1.80 s...
+[2026-09-22 20:42:24.454] [info] Integration complete at final time 1.85 s.
+[2026-09-22 20:42:24.455] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 20:42:24.455] [info]  - real time elapsed: 0.902677 s
+[2026-09-22 20:42:24.455] [info]  - ratio sim-to-real time: 2.049
+[2026-09-22 20:42:24.455] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:24.455] [info]  - number of realizations: 22456
+[2026-09-22 20:42:24.455] [info]  - number of steps taken / attempted: 10366 / 12089
+[2026-09-22 20:42:24.455] [info]  - number of projections: 37
+[2026-09-22 20:42:24.455] [info]  - number of iterations: 12089
+[2026-09-22 20:42:24.455] [info] -------
+[2026-09-22 20:42:24.455] [info] Manager
+[2026-09-22 20:42:24.455] [info] -------
+[2026-09-22 20:42:24.455] [info] Starting integration at initial time 1.85 s...
+[2026-09-22 20:42:25.388] [info] Integration complete at final time 1.90 s.
+[2026-09-22 20:42:25.388] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 20:42:25.388] [info]  - real time elapsed: 0.932717 s
+[2026-09-22 20:42:25.388] [info]  - ratio sim-to-real time: 2.037
+[2026-09-22 20:42:25.388] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:25.388] [info]  - number of realizations: 22999
+[2026-09-22 20:42:25.388] [info]  - number of steps taken / attempted: 10624 / 12374
+[2026-09-22 20:42:25.388] [info]  - number of projections: 39
+[2026-09-22 20:42:25.389] [info]  - number of iterations: 12374
+[2026-09-22 20:42:25.389] [info] -------
+[2026-09-22 20:42:25.389] [info] Manager
+[2026-09-22 20:42:25.389] [info] -------
+[2026-09-22 20:42:25.389] [info] Starting integration at initial time 1.90 s...
+[2026-09-22 20:42:26.620] [info] Integration complete at final time 1.95 s.
+[2026-09-22 20:42:26.620] [info]  - CPU time elapsed: 1.218750 s
+[2026-09-22 20:42:26.620] [info]  - real time elapsed: 1.231148 s
+[2026-09-22 20:42:26.620] [info]  - ratio sim-to-real time: 1.584
+[2026-09-22 20:42:26.620] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:26.620] [info]  - number of realizations: 23757
+[2026-09-22 20:42:26.620] [info]  - number of steps taken / attempted: 10972 / 12784
+[2026-09-22 20:42:26.620] [info]  - number of projections: 39
+[2026-09-22 20:42:26.620] [info]  - number of iterations: 12784
+[2026-09-22 20:42:26.621] [info] -------
+[2026-09-22 20:42:26.621] [info] Manager
+[2026-09-22 20:42:26.621] [info] -------
+[2026-09-22 20:42:26.621] [info] Starting integration at initial time 1.95 s...
+[2026-09-22 20:42:27.663] [info] Integration complete at final time 2.00 s.
+[2026-09-22 20:42:27.663] [info]  - CPU time elapsed: 1.046875 s
+[2026-09-22 20:42:27.663] [info]  - real time elapsed: 1.042081 s
+[2026-09-22 20:42:27.663] [info]  - ratio sim-to-real time: 1.919
+[2026-09-22 20:42:27.663] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:27.663] [info]  - number of realizations: 24391
+[2026-09-22 20:42:27.663] [info]  - number of steps taken / attempted: 11258 / 13132
+[2026-09-22 20:42:27.663] [info]  - number of projections: 40
+[2026-09-22 20:42:27.663] [info]  - number of iterations: 13132
+[2026-09-22 20:42:27.663] [info] -------
+[2026-09-22 20:42:27.663] [info] Manager
+[2026-09-22 20:42:27.663] [info] -------
+[2026-09-22 20:42:27.663] [info] Starting integration at initial time 2.00 s...
+[2026-09-22 20:42:28.723] [info] Integration complete at final time 2.05 s.
+[2026-09-22 20:42:28.723] [info]  - CPU time elapsed: 1.062500 s
+[2026-09-22 20:42:28.724] [info]  - real time elapsed: 1.060272 s
+[2026-09-22 20:42:28.724] [info]  - ratio sim-to-real time: 1.933
+[2026-09-22 20:42:28.724] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:28.724] [info]  - number of realizations: 25021
+[2026-09-22 20:42:28.724] [info]  - number of steps taken / attempted: 11547 / 13473
+[2026-09-22 20:42:28.724] [info]  - number of projections: 41
+[2026-09-22 20:42:28.724] [info]  - number of iterations: 13473
+[2026-09-22 20:42:28.724] [info] -------
+[2026-09-22 20:42:28.724] [info] Manager
+[2026-09-22 20:42:28.724] [info] -------
+[2026-09-22 20:42:28.724] [info] Starting integration at initial time 2.05 s...
+[2026-09-22 20:42:29.686] [info] Integration complete at final time 2.10 s.
+[2026-09-22 20:42:29.686] [info]  - CPU time elapsed: 0.953125 s
+[2026-09-22 20:42:29.686] [info]  - real time elapsed: 0.962000 s
+[2026-09-22 20:42:29.686] [info]  - ratio sim-to-real time: 2.183
+[2026-09-22 20:42:29.686] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:29.686] [info]  - number of realizations: 25593
+[2026-09-22 20:42:29.686] [info]  - number of steps taken / attempted: 11809 / 13783
+[2026-09-22 20:42:29.686] [info]  - number of projections: 42
+[2026-09-22 20:42:29.687] [info]  - number of iterations: 13783
+[2026-09-22 20:42:29.687] [info] -------
+[2026-09-22 20:42:29.687] [info] Manager
+[2026-09-22 20:42:29.687] [info] -------
+[2026-09-22 20:42:29.687] [info] Starting integration at initial time 2.10 s...
+[2026-09-22 20:42:30.578] [info] Integration complete at final time 2.15 s.
+[2026-09-22 20:42:30.579] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:30.579] [info]  - real time elapsed: 0.891678 s
+[2026-09-22 20:42:30.579] [info]  - ratio sim-to-real time: 2.411
+[2026-09-22 20:42:30.579] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:30.579] [info]  - number of realizations: 26116
+[2026-09-22 20:42:30.579] [info]  - number of steps taken / attempted: 12054 / 14061
+[2026-09-22 20:42:30.579] [info]  - number of projections: 43
+[2026-09-22 20:42:30.579] [info]  - number of iterations: 14061
+[2026-09-22 20:42:30.579] [info] -------
+[2026-09-22 20:42:30.579] [info] Manager
+[2026-09-22 20:42:30.579] [info] -------
+[2026-09-22 20:42:30.579] [info] Starting integration at initial time 2.15 s...
+[2026-09-22 20:42:31.362] [info] Integration complete at final time 2.20 s.
+[2026-09-22 20:42:31.362] [info]  - CPU time elapsed: 0.765625 s
+[2026-09-22 20:42:31.362] [info]  - real time elapsed: 0.782937 s
+[2026-09-22 20:42:31.362] [info]  - ratio sim-to-real time: 2.810
+[2026-09-22 20:42:31.362] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:31.362] [info]  - number of realizations: 26560
+[2026-09-22 20:42:31.362] [info]  - number of steps taken / attempted: 12259 / 14300
+[2026-09-22 20:42:31.362] [info]  - number of projections: 44
+[2026-09-22 20:42:31.362] [info]  - number of iterations: 14300
+[2026-09-22 20:42:31.362] [info] -------
+[2026-09-22 20:42:31.362] [info] Manager
+[2026-09-22 20:42:31.362] [info] -------
+[2026-09-22 20:42:31.362] [info] Starting integration at initial time 2.20 s...
+[2026-09-22 20:42:32.312] [info] Integration complete at final time 2.25 s.
+[2026-09-22 20:42:32.312] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 20:42:32.312] [info]  - real time elapsed: 0.949848 s
+[2026-09-22 20:42:32.312] [info]  - ratio sim-to-real time: 2.369
+[2026-09-22 20:42:32.312] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:32.312] [info]  - number of realizations: 27119
+[2026-09-22 20:42:32.312] [info]  - number of steps taken / attempted: 12517 / 14601
+[2026-09-22 20:42:32.312] [info]  - number of projections: 45
+[2026-09-22 20:42:32.313] [info]  - number of iterations: 14601
+[2026-09-22 20:42:32.313] [info] -------
+[2026-09-22 20:42:32.313] [info] Manager
+[2026-09-22 20:42:32.313] [info] -------
+[2026-09-22 20:42:32.313] [info] Starting integration at initial time 2.25 s...
+[2026-09-22 20:42:33.253] [info] Integration complete at final time 2.30 s.
+[2026-09-22 20:42:33.254] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 20:42:33.254] [info]  - real time elapsed: 0.940662 s
+[2026-09-22 20:42:33.254] [info]  - ratio sim-to-real time: 2.445
+[2026-09-22 20:42:33.254] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:33.254] [info]  - number of realizations: 27671
+[2026-09-22 20:42:33.254] [info]  - number of steps taken / attempted: 12772 / 14898
+[2026-09-22 20:42:33.254] [info]  - number of projections: 45
+[2026-09-22 20:42:33.254] [info]  - number of iterations: 14898
+[2026-09-22 20:42:33.254] [info] -------
+[2026-09-22 20:42:33.254] [info] Manager
+[2026-09-22 20:42:33.254] [info] -------
+[2026-09-22 20:42:33.255] [info] Starting integration at initial time 2.30 s...
+[2026-09-22 20:42:34.440] [info] Integration complete at final time 2.35 s.
+[2026-09-22 20:42:34.440] [info]  - CPU time elapsed: 1.187500 s
+[2026-09-22 20:42:34.440] [info]  - real time elapsed: 1.185797 s
+[2026-09-22 20:42:34.440] [info]  - ratio sim-to-real time: 1.982
+[2026-09-22 20:42:34.440] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:34.440] [info]  - number of realizations: 28393
+[2026-09-22 20:42:34.440] [info]  - number of steps taken / attempted: 13104 / 15288
+[2026-09-22 20:42:34.440] [info]  - number of projections: 46
+[2026-09-22 20:42:34.440] [info]  - number of iterations: 15288
+[2026-09-22 20:42:34.441] [info] -------
+[2026-09-22 20:42:34.441] [info] Manager
+[2026-09-22 20:42:34.441] [info] -------
+[2026-09-22 20:42:34.441] [info] Starting integration at initial time 2.35 s...
+[2026-09-22 20:42:35.444] [info] Integration complete at final time 2.40 s.
+[2026-09-22 20:42:35.444] [info]  - CPU time elapsed: 0.968750 s
+[2026-09-22 20:42:35.444] [info]  - real time elapsed: 1.003081 s
+[2026-09-22 20:42:35.444] [info]  - ratio sim-to-real time: 2.393
+[2026-09-22 20:42:35.444] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:35.444] [info]  - number of realizations: 28967
+[2026-09-22 20:42:35.444] [info]  - number of steps taken / attempted: 13370 / 15596
+[2026-09-22 20:42:35.444] [info]  - number of projections: 46
+[2026-09-22 20:42:35.444] [info]  - number of iterations: 15596
+[2026-09-22 20:42:35.444] [info] -------
+[2026-09-22 20:42:35.444] [info] Manager
+[2026-09-22 20:42:35.444] [info] -------
+[2026-09-22 20:42:35.444] [info] Starting integration at initial time 2.40 s...
+[2026-09-22 20:42:36.353] [info] Integration complete at final time 2.45 s.
+[2026-09-22 20:42:36.353] [info]  - CPU time elapsed: 0.890625 s
+[2026-09-22 20:42:36.353] [info]  - real time elapsed: 0.908640 s
+[2026-09-22 20:42:36.353] [info]  - ratio sim-to-real time: 2.696
+[2026-09-22 20:42:36.353] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:36.353] [info]  - number of realizations: 29499
+[2026-09-22 20:42:36.353] [info]  - number of steps taken / attempted: 13617 / 15881
+[2026-09-22 20:42:36.353] [info]  - number of projections: 49
+[2026-09-22 20:42:36.353] [info]  - number of iterations: 15881
+[2026-09-22 20:42:36.353] [info] -------
+[2026-09-22 20:42:36.353] [info] Manager
+[2026-09-22 20:42:36.354] [info] -------
+[2026-09-22 20:42:36.354] [info] Starting integration at initial time 2.45 s...
+[2026-09-22 20:42:37.229] [info] Integration complete at final time 2.50 s.
+[2026-09-22 20:42:37.229] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:37.229] [info]  - real time elapsed: 0.875710 s
+[2026-09-22 20:42:37.230] [info]  - ratio sim-to-real time: 2.855
+[2026-09-22 20:42:37.230] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:37.230] [info]  - number of realizations: 30007
+[2026-09-22 20:42:37.230] [info]  - number of steps taken / attempted: 13854 / 16152
+[2026-09-22 20:42:37.230] [info]  - number of projections: 49
+[2026-09-22 20:42:37.230] [info]  - number of iterations: 16152
+[2026-09-22 20:42:37.230] [info] -------
+[2026-09-22 20:42:37.230] [info] Manager
+[2026-09-22 20:42:37.230] [info] -------
+[2026-09-22 20:42:37.230] [info] Starting integration at initial time 2.50 s...
+[2026-09-22 20:42:38.207] [info] Integration complete at final time 2.55 s.
+[2026-09-22 20:42:38.207] [info]  - CPU time elapsed: 0.984375 s
+[2026-09-22 20:42:38.207] [info]  - real time elapsed: 0.976483 s
+[2026-09-22 20:42:38.207] [info]  - ratio sim-to-real time: 2.611
+[2026-09-22 20:42:38.207] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:38.207] [info]  - number of realizations: 30567
+[2026-09-22 20:42:38.207] [info]  - number of steps taken / attempted: 14115 / 16451
+[2026-09-22 20:42:38.207] [info]  - number of projections: 49
+[2026-09-22 20:42:38.207] [info]  - number of iterations: 16451
+[2026-09-22 20:42:38.207] [info] -------
+[2026-09-22 20:42:38.207] [info] Manager
+[2026-09-22 20:42:38.207] [info] -------
+[2026-09-22 20:42:38.207] [info] Starting integration at initial time 2.55 s...
+[2026-09-22 20:42:39.089] [info] Integration complete at final time 2.60 s.
+[2026-09-22 20:42:39.089] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:39.089] [info]  - real time elapsed: 0.881870 s
+[2026-09-22 20:42:39.089] [info]  - ratio sim-to-real time: 2.948
+[2026-09-22 20:42:39.089] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:39.089] [info]  - number of realizations: 31065
+[2026-09-22 20:42:39.089] [info]  - number of steps taken / attempted: 14345 / 16719
+[2026-09-22 20:42:39.089] [info]  - number of projections: 50
+[2026-09-22 20:42:39.089] [info]  - number of iterations: 16719
+[2026-09-22 20:42:39.089] [info] -------
+[2026-09-22 20:42:39.089] [info] Manager
+[2026-09-22 20:42:39.089] [info] -------
+[2026-09-22 20:42:39.089] [info] Starting integration at initial time 2.60 s...
+[2026-09-22 20:42:40.135] [info] Integration complete at final time 2.65 s.
+[2026-09-22 20:42:40.135] [info]  - CPU time elapsed: 1.046875 s
+[2026-09-22 20:42:40.135] [info]  - real time elapsed: 1.045494 s
+[2026-09-22 20:42:40.135] [info]  - ratio sim-to-real time: 2.535
+[2026-09-22 20:42:40.136] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:40.136] [info]  - number of realizations: 31700
+[2026-09-22 20:42:40.136] [info]  - number of steps taken / attempted: 14636 / 17063
+[2026-09-22 20:42:40.136] [info]  - number of projections: 50
+[2026-09-22 20:42:40.136] [info]  - number of iterations: 17063
+[2026-09-22 20:42:40.136] [info] -------
+[2026-09-22 20:42:40.136] [info] Manager
+[2026-09-22 20:42:40.136] [info] -------
+[2026-09-22 20:42:40.136] [info] Starting integration at initial time 2.65 s...
+[2026-09-22 20:42:40.885] [info] Integration complete at final time 2.70 s.
+[2026-09-22 20:42:40.885] [info]  - CPU time elapsed: 0.750000 s
+[2026-09-22 20:42:40.885] [info]  - real time elapsed: 0.749028 s
+[2026-09-22 20:42:40.885] [info]  - ratio sim-to-real time: 3.605
+[2026-09-22 20:42:40.885] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:40.885] [info]  - number of realizations: 32114
+[2026-09-22 20:42:40.885] [info]  - number of steps taken / attempted: 14833 / 17280
+[2026-09-22 20:42:40.885] [info]  - number of projections: 51
+[2026-09-22 20:42:40.885] [info]  - number of iterations: 17280
+[2026-09-22 20:42:40.885] [info] -------
+[2026-09-22 20:42:40.885] [info] Manager
+[2026-09-22 20:42:40.885] [info] -------
+[2026-09-22 20:42:40.885] [info] Starting integration at initial time 2.70 s...
+[2026-09-22 20:42:41.683] [info] Integration complete at final time 2.75 s.
+[2026-09-22 20:42:41.683] [info]  - CPU time elapsed: 0.796875 s
+[2026-09-22 20:42:41.683] [info]  - real time elapsed: 0.797067 s
+[2026-09-22 20:42:41.683] [info]  - ratio sim-to-real time: 3.450
+[2026-09-22 20:42:41.683] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:41.683] [info]  - number of realizations: 32565
+[2026-09-22 20:42:41.683] [info]  - number of steps taken / attempted: 15047 / 17517
+[2026-09-22 20:42:41.683] [info]  - number of projections: 51
+[2026-09-22 20:42:41.683] [info]  - number of iterations: 17517
+[2026-09-22 20:42:41.683] [info] -------
+[2026-09-22 20:42:41.683] [info] Manager
+[2026-09-22 20:42:41.683] [info] -------
+[2026-09-22 20:42:41.683] [info] Starting integration at initial time 2.75 s...
+[2026-09-22 20:42:42.744] [info] Integration complete at final time 2.80 s.
+[2026-09-22 20:42:42.744] [info]  - CPU time elapsed: 1.062500 s
+[2026-09-22 20:42:42.744] [info]  - real time elapsed: 1.061082 s
+[2026-09-22 20:42:42.744] [info]  - ratio sim-to-real time: 2.639
+[2026-09-22 20:42:42.744] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:42.744] [info]  - number of realizations: 33203
+[2026-09-22 20:42:42.744] [info]  - number of steps taken / attempted: 15345 / 17857
+[2026-09-22 20:42:42.744] [info]  - number of projections: 53
+[2026-09-22 20:42:42.744] [info]  - number of iterations: 17857
+[2026-09-22 20:42:42.745] [info] -------
+[2026-09-22 20:42:42.745] [info] Manager
+[2026-09-22 20:42:42.745] [info] -------
+[2026-09-22 20:42:42.745] [info] Starting integration at initial time 2.80 s...
+[2026-09-22 20:42:43.544] [info] Integration complete at final time 2.85 s.
+[2026-09-22 20:42:43.545] [info]  - CPU time elapsed: 0.796875 s
+[2026-09-22 20:42:43.545] [info]  - real time elapsed: 0.799809 s
+[2026-09-22 20:42:43.545] [info]  - ratio sim-to-real time: 3.563
+[2026-09-22 20:42:43.545] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:43.545] [info]  - number of realizations: 33653
+[2026-09-22 20:42:43.545] [info]  - number of steps taken / attempted: 15560 / 18092
+[2026-09-22 20:42:43.545] [info]  - number of projections: 54
+[2026-09-22 20:42:43.545] [info]  - number of iterations: 18092
+[2026-09-22 20:42:43.545] [info] -------
+[2026-09-22 20:42:43.545] [info] Manager
+[2026-09-22 20:42:43.545] [info] -------
+[2026-09-22 20:42:43.545] [info] Starting integration at initial time 2.85 s...
+[2026-09-22 20:42:44.415] [info] Integration complete at final time 2.90 s.
+[2026-09-22 20:42:44.415] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:44.415] [info]  - real time elapsed: 0.869723 s
+[2026-09-22 20:42:44.415] [info]  - ratio sim-to-real time: 3.334
+[2026-09-22 20:42:44.415] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:44.415] [info]  - number of realizations: 34147
+[2026-09-22 20:42:44.415] [info]  - number of steps taken / attempted: 15791 / 18355
+[2026-09-22 20:42:44.415] [info]  - number of projections: 55
+[2026-09-22 20:42:44.415] [info]  - number of iterations: 18355
+[2026-09-22 20:42:44.415] [info] -------
+[2026-09-22 20:42:44.416] [info] Manager
+[2026-09-22 20:42:44.416] [info] -------
+[2026-09-22 20:42:44.416] [info] Starting integration at initial time 2.90 s...
+[2026-09-22 20:42:45.286] [info] Integration complete at final time 2.95 s.
+[2026-09-22 20:42:45.286] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 20:42:45.286] [info]  - real time elapsed: 0.870567 s
+[2026-09-22 20:42:45.286] [info]  - ratio sim-to-real time: 3.389
+[2026-09-22 20:42:45.287] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:45.287] [info]  - number of realizations: 34638
+[2026-09-22 20:42:45.287] [info]  - number of steps taken / attempted: 16016 / 18621
+[2026-09-22 20:42:45.287] [info]  - number of projections: 57
+[2026-09-22 20:42:45.287] [info]  - number of iterations: 18621
+[2026-09-22 20:42:45.287] [info] -------
+[2026-09-22 20:42:45.287] [info] Manager
+[2026-09-22 20:42:45.287] [info] -------
+[2026-09-22 20:42:45.287] [info] Starting integration at initial time 2.95 s...
+[2026-09-22 20:42:46.400] [info] Integration complete at final time 3.00 s.
+[2026-09-22 20:42:46.401] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 20:42:46.401] [info]  - real time elapsed: 1.113414 s
+[2026-09-22 20:42:46.401] [info]  - ratio sim-to-real time: 2.694
+[2026-09-22 20:42:46.401] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:46.401] [info]  - number of realizations: 35297
+[2026-09-22 20:42:46.401] [info]  - number of steps taken / attempted: 16319 / 18977
+[2026-09-22 20:42:46.401] [info]  - number of projections: 57
+[2026-09-22 20:42:46.401] [info]  - number of iterations: 18977
+[2026-09-22 20:42:46.401] [info] -------
+[2026-09-22 20:42:46.401] [info] Manager
+[2026-09-22 20:42:46.401] [info] -------
+[2026-09-22 20:42:46.401] [info] Starting integration at initial time 3.00 s...
+[2026-09-22 20:42:47.251] [info] Integration complete at final time 3.05 s.
+[2026-09-22 20:42:47.251] [info]  - CPU time elapsed: 0.843750 s
+[2026-09-22 20:42:47.251] [info]  - real time elapsed: 0.849534 s
+[2026-09-22 20:42:47.251] [info]  - ratio sim-to-real time: 3.590
+[2026-09-22 20:42:47.251] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 20:42:47.251] [info]  - number of realizations: 35774
+[2026-09-22 20:42:47.251] [info]  - number of steps taken / attempted: 16538 / 19235
+[2026-09-22 20:42:47.251] [info]  - number of projections: 60
+[2026-09-22 20:42:47.251] [info]  - number of iterations: 19235
+[2026-09-22 21:03:13.891] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\proprioception_plugin\build\Release\osimMillard12EqWithAff.dll
+[2026-09-22 21:03:13.898] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\vestibular_plugin\build\Release\osimVestibular.dll
+[2026-09-22 21:03:13.904] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\HeadNeckNeuralController_plugin\build\Release\osimHeadNeckNeural.dll
+[2026-09-22 21:03:13.909] [info] Loaded library D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\FixationController_plugin\build\Release\osimFixation.dll
+[2026-09-22 21:03:13.937] [info] Loaded model HYOID_Scaled from file osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim
+[2026-09-22 21:03:14.397] [info] -------
+[2026-09-22 21:03:14.397] [info] Manager
+[2026-09-22 21:03:14.397] [info] -------
+[2026-09-22 21:03:14.397] [info] Starting integration at initial time 0.00 s...
+[2026-09-22 21:03:18.024] [info] Integration complete at final time 0.05 s.
+[2026-09-22 21:03:18.024] [info]  - CPU time elapsed: 3.562500 s
+[2026-09-22 21:03:18.024] [info]  - real time elapsed: 3.627133 s
+[2026-09-22 21:03:18.024] [info]  - ratio sim-to-real time: 0.014
+[2026-09-22 21:03:18.024] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:18.024] [info]  - number of realizations: 2477
+[2026-09-22 21:03:18.024] [info]  - number of steps taken / attempted: 1123 / 1353
+[2026-09-22 21:03:18.024] [info]  - number of projections: 3
+[2026-09-22 21:03:18.024] [info]  - number of iterations: 1353
+[2026-09-22 21:03:18.024] [info] -------
+[2026-09-22 21:03:18.024] [info] Manager
+[2026-09-22 21:03:18.024] [info] -------
+[2026-09-22 21:03:18.024] [info] Starting integration at initial time 0.05 s...
+[2026-09-22 21:03:20.466] [info] Integration complete at final time 0.10 s.
+[2026-09-22 21:03:20.466] [info]  - CPU time elapsed: 2.390625 s
+[2026-09-22 21:03:20.466] [info]  - real time elapsed: 2.441683 s
+[2026-09-22 21:03:20.466] [info]  - ratio sim-to-real time: 0.041
+[2026-09-22 21:03:20.466] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:20.466] [info]  - number of realizations: 4057
+[2026-09-22 21:03:20.466] [info]  - number of steps taken / attempted: 1827 / 2229
+[2026-09-22 21:03:20.466] [info]  - number of projections: 3
+[2026-09-22 21:03:20.466] [info]  - number of iterations: 2229
+[2026-09-22 21:03:20.466] [info] -------
+[2026-09-22 21:03:20.466] [info] Manager
+[2026-09-22 21:03:20.466] [info] -------
+[2026-09-22 21:03:20.466] [info] Starting integration at initial time 0.10 s...
+[2026-09-22 21:03:22.280] [info] Integration complete at final time 0.15 s.
+[2026-09-22 21:03:22.280] [info]  - CPU time elapsed: 1.796875 s
+[2026-09-22 21:03:22.280] [info]  - real time elapsed: 1.813841 s
+[2026-09-22 21:03:22.280] [info]  - ratio sim-to-real time: 0.083
+[2026-09-22 21:03:22.280] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:22.280] [info]  - number of realizations: 5195
+[2026-09-22 21:03:22.280] [info]  - number of steps taken / attempted: 2335 / 2859
+[2026-09-22 21:03:22.280] [info]  - number of projections: 4
+[2026-09-22 21:03:22.280] [info]  - number of iterations: 2859
+[2026-09-22 21:03:22.280] [info] -------
+[2026-09-22 21:03:22.280] [info] Manager
+[2026-09-22 21:03:22.280] [info] -------
+[2026-09-22 21:03:22.280] [info] Starting integration at initial time 0.15 s...
+[2026-09-22 21:03:23.389] [info] Integration complete at final time 0.20 s.
+[2026-09-22 21:03:23.389] [info]  - CPU time elapsed: 1.078125 s
+[2026-09-22 21:03:23.389] [info]  - real time elapsed: 1.108920 s
+[2026-09-22 21:03:23.389] [info]  - ratio sim-to-real time: 0.180
+[2026-09-22 21:03:23.389] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:23.389] [info]  - number of realizations: 5853
+[2026-09-22 21:03:23.389] [info]  - number of steps taken / attempted: 2637 / 3215
+[2026-09-22 21:03:23.389] [info]  - number of projections: 4
+[2026-09-22 21:03:23.389] [info]  - number of iterations: 3215
+[2026-09-22 21:03:23.389] [info] -------
+[2026-09-22 21:03:23.389] [info] Manager
+[2026-09-22 21:03:23.389] [info] -------
+[2026-09-22 21:03:23.389] [info] Starting integration at initial time 0.20 s...
+[2026-09-22 21:03:24.783] [info] Integration complete at final time 0.25 s.
+[2026-09-22 21:03:24.783] [info]  - CPU time elapsed: 1.375000 s
+[2026-09-22 21:03:24.783] [info]  - real time elapsed: 1.393710 s
+[2026-09-22 21:03:24.783] [info]  - ratio sim-to-real time: 0.179
+[2026-09-22 21:03:24.783] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:24.783] [info]  - number of realizations: 6729
+[2026-09-22 21:03:24.783] [info]  - number of steps taken / attempted: 3041 / 3687
+[2026-09-22 21:03:24.783] [info]  - number of projections: 6
+[2026-09-22 21:03:24.783] [info]  - number of iterations: 3687
+[2026-09-22 21:03:24.783] [info] -------
+[2026-09-22 21:03:24.783] [info] Manager
+[2026-09-22 21:03:24.783] [info] -------
+[2026-09-22 21:03:24.783] [info] Starting integration at initial time 0.25 s...
+[2026-09-22 21:03:25.651] [info] Integration complete at final time 0.30 s.
+[2026-09-22 21:03:25.651] [info]  - CPU time elapsed: 0.843750 s
+[2026-09-22 21:03:25.651] [info]  - real time elapsed: 0.868745 s
+[2026-09-22 21:03:25.651] [info]  - ratio sim-to-real time: 0.345
+[2026-09-22 21:03:25.652] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:25.652] [info]  - number of realizations: 7238
+[2026-09-22 21:03:25.652] [info]  - number of steps taken / attempted: 3281 / 3956
+[2026-09-22 21:03:25.652] [info]  - number of projections: 6
+[2026-09-22 21:03:25.652] [info]  - number of iterations: 3956
+[2026-09-22 21:03:25.652] [info] -------
+[2026-09-22 21:03:25.652] [info] Manager
+[2026-09-22 21:03:25.652] [info] -------
+[2026-09-22 21:03:25.652] [info] Starting integration at initial time 0.30 s...
+[2026-09-22 21:03:26.585] [info] Integration complete at final time 0.35 s.
+[2026-09-22 21:03:26.585] [info]  - CPU time elapsed: 0.859375 s
+[2026-09-22 21:03:26.585] [info]  - real time elapsed: 0.933565 s
+[2026-09-22 21:03:26.585] [info]  - ratio sim-to-real time: 0.375
+[2026-09-22 21:03:26.585] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:26.585] [info]  - number of realizations: 7789
+[2026-09-22 21:03:26.585] [info]  - number of steps taken / attempted: 3533 / 4255
+[2026-09-22 21:03:26.585] [info]  - number of projections: 7
+[2026-09-22 21:03:26.585] [info]  - number of iterations: 4255
+[2026-09-22 21:03:26.585] [info] -------
+[2026-09-22 21:03:26.585] [info] Manager
+[2026-09-22 21:03:26.585] [info] -------
+[2026-09-22 21:03:26.585] [info] Starting integration at initial time 0.35 s...
+[2026-09-22 21:03:27.728] [info] Integration complete at final time 0.40 s.
+[2026-09-22 21:03:27.728] [info]  - CPU time elapsed: 1.156250 s
+[2026-09-22 21:03:27.728] [info]  - real time elapsed: 1.143044 s
+[2026-09-22 21:03:27.728] [info]  - ratio sim-to-real time: 0.350
+[2026-09-22 21:03:27.728] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:27.728] [info]  - number of realizations: 8485
+[2026-09-22 21:03:27.728] [info]  - number of steps taken / attempted: 3852 / 4632
+[2026-09-22 21:03:27.728] [info]  - number of projections: 7
+[2026-09-22 21:03:27.728] [info]  - number of iterations: 4632
+[2026-09-22 21:03:27.728] [info] -------
+[2026-09-22 21:03:27.728] [info] Manager
+[2026-09-22 21:03:27.728] [info] -------
+[2026-09-22 21:03:27.728] [info] Starting integration at initial time 0.40 s...
+[2026-09-22 21:03:28.676] [info] Integration complete at final time 0.45 s.
+[2026-09-22 21:03:28.676] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 21:03:28.676] [info]  - real time elapsed: 0.947990 s
+[2026-09-22 21:03:28.676] [info]  - ratio sim-to-real time: 0.475
+[2026-09-22 21:03:28.676] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:28.676] [info]  - number of realizations: 9048
+[2026-09-22 21:03:28.677] [info]  - number of steps taken / attempted: 4117 / 4930
+[2026-09-22 21:03:28.677] [info]  - number of projections: 8
+[2026-09-22 21:03:28.677] [info]  - number of iterations: 4930
+[2026-09-22 21:03:28.677] [info] -------
+[2026-09-22 21:03:28.677] [info] Manager
+[2026-09-22 21:03:28.677] [info] -------
+[2026-09-22 21:03:28.677] [info] Starting integration at initial time 0.45 s...
+[2026-09-22 21:03:29.493] [info] Integration complete at final time 0.50 s.
+[2026-09-22 21:03:29.493] [info]  - CPU time elapsed: 0.828125 s
+[2026-09-22 21:03:29.493] [info]  - real time elapsed: 0.816807 s
+[2026-09-22 21:03:29.493] [info]  - ratio sim-to-real time: 0.612
+[2026-09-22 21:03:29.493] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:29.493] [info]  - number of realizations: 9531
+[2026-09-22 21:03:29.493] [info]  - number of steps taken / attempted: 4343 / 5187
+[2026-09-22 21:03:29.493] [info]  - number of projections: 8
+[2026-09-22 21:03:29.494] [info]  - number of iterations: 5187
+[2026-09-22 21:03:29.494] [info] -------
+[2026-09-22 21:03:29.494] [info] Manager
+[2026-09-22 21:03:29.494] [info] -------
+[2026-09-22 21:03:29.494] [info] Starting integration at initial time 0.50 s...
+[2026-09-22 21:03:30.281] [info] Integration complete at final time 0.55 s.
+[2026-09-22 21:03:30.281] [info]  - CPU time elapsed: 0.781250 s
+[2026-09-22 21:03:30.281] [info]  - real time elapsed: 0.787840 s
+[2026-09-22 21:03:30.281] [info]  - ratio sim-to-real time: 0.698
+[2026-09-22 21:03:30.281] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:30.281] [info]  - number of realizations: 9988
+[2026-09-22 21:03:30.281] [info]  - number of steps taken / attempted: 4550 / 5437
+[2026-09-22 21:03:30.281] [info]  - number of projections: 8
+[2026-09-22 21:03:30.281] [info]  - number of iterations: 5437
+[2026-09-22 21:03:30.282] [info] -------
+[2026-09-22 21:03:30.282] [info] Manager
+[2026-09-22 21:03:30.282] [info] -------
+[2026-09-22 21:03:30.282] [info] Starting integration at initial time 0.55 s...
+[2026-09-22 21:03:31.112] [info] Integration complete at final time 0.60 s.
+[2026-09-22 21:03:31.112] [info]  - CPU time elapsed: 0.828125 s
+[2026-09-22 21:03:31.112] [info]  - real time elapsed: 0.830027 s
+[2026-09-22 21:03:31.112] [info]  - ratio sim-to-real time: 0.723
+[2026-09-22 21:03:31.112] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:31.112] [info]  - number of realizations: 10472
+[2026-09-22 21:03:31.112] [info]  - number of steps taken / attempted: 4770 / 5701
+[2026-09-22 21:03:31.112] [info]  - number of projections: 8
+[2026-09-22 21:03:31.112] [info]  - number of iterations: 5701
+[2026-09-22 21:03:31.112] [info] -------
+[2026-09-22 21:03:31.112] [info] Manager
+[2026-09-22 21:03:31.112] [info] -------
+[2026-09-22 21:03:31.112] [info] Starting integration at initial time 0.60 s...
+[2026-09-22 21:03:32.080] [info] Integration complete at final time 0.65 s.
+[2026-09-22 21:03:32.080] [info]  - CPU time elapsed: 0.968750 s
+[2026-09-22 21:03:32.080] [info]  - real time elapsed: 0.968441 s
+[2026-09-22 21:03:32.080] [info]  - ratio sim-to-real time: 0.671
+[2026-09-22 21:03:32.080] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:32.080] [info]  - number of realizations: 11054
+[2026-09-22 21:03:32.080] [info]  - number of steps taken / attempted: 5036 / 6017
+[2026-09-22 21:03:32.080] [info]  - number of projections: 9
+[2026-09-22 21:03:32.080] [info]  - number of iterations: 6017
+[2026-09-22 21:03:32.080] [info] -------
+[2026-09-22 21:03:32.080] [info] Manager
+[2026-09-22 21:03:32.080] [info] -------
+[2026-09-22 21:03:32.080] [info] Starting integration at initial time 0.65 s...
+[2026-09-22 21:03:32.875] [info] Integration complete at final time 0.70 s.
+[2026-09-22 21:03:32.875] [info]  - CPU time elapsed: 0.796875 s
+[2026-09-22 21:03:32.875] [info]  - real time elapsed: 0.794932 s
+[2026-09-22 21:03:32.875] [info]  - ratio sim-to-real time: 0.881
+[2026-09-22 21:03:32.875] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:32.875] [info]  - number of realizations: 11512
+[2026-09-22 21:03:32.875] [info]  - number of steps taken / attempted: 5248 / 6263
+[2026-09-22 21:03:32.875] [info]  - number of projections: 10
+[2026-09-22 21:03:32.875] [info]  - number of iterations: 6263
+[2026-09-22 21:03:32.875] [info] -------
+[2026-09-22 21:03:32.875] [info] Manager
+[2026-09-22 21:03:32.875] [info] -------
+[2026-09-22 21:03:32.875] [info] Starting integration at initial time 0.70 s...
+[2026-09-22 21:03:33.576] [info] Integration complete at final time 0.75 s.
+[2026-09-22 21:03:33.576] [info]  - CPU time elapsed: 0.703125 s
+[2026-09-22 21:03:33.576] [info]  - real time elapsed: 0.700186 s
+[2026-09-22 21:03:33.576] [info]  - ratio sim-to-real time: 1.071
+[2026-09-22 21:03:33.576] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:33.576] [info]  - number of realizations: 11907
+[2026-09-22 21:03:33.576] [info]  - number of steps taken / attempted: 5437 / 6469
+[2026-09-22 21:03:33.576] [info]  - number of projections: 12
+[2026-09-22 21:03:33.576] [info]  - number of iterations: 6469
+[2026-09-22 21:03:33.576] [info] -------
+[2026-09-22 21:03:33.576] [info] Manager
+[2026-09-22 21:03:33.576] [info] -------
+[2026-09-22 21:03:33.576] [info] Starting integration at initial time 0.75 s...
+[2026-09-22 21:03:34.464] [info] Integration complete at final time 0.80 s.
+[2026-09-22 21:03:34.464] [info]  - CPU time elapsed: 0.890625 s
+[2026-09-22 21:03:34.464] [info]  - real time elapsed: 0.888177 s
+[2026-09-22 21:03:34.464] [info]  - ratio sim-to-real time: 0.901
+[2026-09-22 21:03:34.464] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:34.464] [info]  - number of realizations: 12414
+[2026-09-22 21:03:34.464] [info]  - number of steps taken / attempted: 5671 / 6742
+[2026-09-22 21:03:34.464] [info]  - number of projections: 13
+[2026-09-22 21:03:34.464] [info]  - number of iterations: 6742
+[2026-09-22 21:03:34.464] [info] -------
+[2026-09-22 21:03:34.464] [info] Manager
+[2026-09-22 21:03:34.464] [info] -------
+[2026-09-22 21:03:34.464] [info] Starting integration at initial time 0.80 s...
+[2026-09-22 21:03:35.383] [info] Integration complete at final time 0.85 s.
+[2026-09-22 21:03:35.383] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 21:03:35.383] [info]  - real time elapsed: 0.918832 s
+[2026-09-22 21:03:35.383] [info]  - ratio sim-to-real time: 0.925
+[2026-09-22 21:03:35.383] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:35.383] [info]  - number of realizations: 12960
+[2026-09-22 21:03:35.383] [info]  - number of steps taken / attempted: 5928 / 7031
+[2026-09-22 21:03:35.383] [info]  - number of projections: 15
+[2026-09-22 21:03:35.383] [info]  - number of iterations: 7031
+[2026-09-22 21:03:35.383] [info] -------
+[2026-09-22 21:03:35.383] [info] Manager
+[2026-09-22 21:03:35.383] [info] -------
+[2026-09-22 21:03:35.383] [info] Starting integration at initial time 0.85 s...
+[2026-09-22 21:03:36.183] [info] Integration complete at final time 0.90 s.
+[2026-09-22 21:03:36.183] [info]  - CPU time elapsed: 0.812500 s
+[2026-09-22 21:03:36.183] [info]  - real time elapsed: 0.799905 s
+[2026-09-22 21:03:36.183] [info]  - ratio sim-to-real time: 1.125
+[2026-09-22 21:03:36.183] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:36.183] [info]  - number of realizations: 13428
+[2026-09-22 21:03:36.183] [info]  - number of steps taken / attempted: 6146 / 7281
+[2026-09-22 21:03:36.183] [info]  - number of projections: 16
+[2026-09-22 21:03:36.183] [info]  - number of iterations: 7281
+[2026-09-22 21:03:36.183] [info] -------
+[2026-09-22 21:03:36.183] [info] Manager
+[2026-09-22 21:03:36.183] [info] -------
+[2026-09-22 21:03:36.183] [info] Starting integration at initial time 0.90 s...
+[2026-09-22 21:03:36.926] [info] Integration complete at final time 0.95 s.
+[2026-09-22 21:03:36.926] [info]  - CPU time elapsed: 0.734375 s
+[2026-09-22 21:03:36.926] [info]  - real time elapsed: 0.742700 s
+[2026-09-22 21:03:36.926] [info]  - ratio sim-to-real time: 1.279
+[2026-09-22 21:03:36.926] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:36.926] [info]  - number of realizations: 13848
+[2026-09-22 21:03:36.926] [info]  - number of steps taken / attempted: 6346 / 7501
+[2026-09-22 21:03:36.926] [info]  - number of projections: 17
+[2026-09-22 21:03:36.926] [info]  - number of iterations: 7501
+[2026-09-22 21:03:36.926] [info] -------
+[2026-09-22 21:03:36.926] [info] Manager
+[2026-09-22 21:03:36.926] [info] -------
+[2026-09-22 21:03:36.926] [info] Starting integration at initial time 0.95 s...
+[2026-09-22 21:03:37.990] [info] Integration complete at final time 1.00 s.
+[2026-09-22 21:03:37.990] [info]  - CPU time elapsed: 1.031250 s
+[2026-09-22 21:03:37.990] [info]  - real time elapsed: 1.064261 s
+[2026-09-22 21:03:37.990] [info]  - ratio sim-to-real time: 0.940
+[2026-09-22 21:03:37.990] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:37.990] [info]  - number of realizations: 14491
+[2026-09-22 21:03:37.990] [info]  - number of steps taken / attempted: 6647 / 7843
+[2026-09-22 21:03:37.990] [info]  - number of projections: 18
+[2026-09-22 21:03:37.990] [info]  - number of iterations: 7843
+[2026-09-22 21:03:37.990] [info] -------
+[2026-09-22 21:03:37.990] [info] Manager
+[2026-09-22 21:03:37.990] [info] -------
+[2026-09-22 21:03:37.990] [info] Starting integration at initial time 1.00 s...
+[2026-09-22 21:03:39.158] [info] Integration complete at final time 1.05 s.
+[2026-09-22 21:03:39.159] [info]  - CPU time elapsed: 1.171875 s
+[2026-09-22 21:03:39.159] [info]  - real time elapsed: 1.168229 s
+[2026-09-22 21:03:39.159] [info]  - ratio sim-to-real time: 0.899
+[2026-09-22 21:03:39.159] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:39.159] [info]  - number of realizations: 15187
+[2026-09-22 21:03:39.159] [info]  - number of steps taken / attempted: 6972 / 8214
+[2026-09-22 21:03:39.159] [info]  - number of projections: 19
+[2026-09-22 21:03:39.159] [info]  - number of iterations: 8214
+[2026-09-22 21:03:39.159] [info] -------
+[2026-09-22 21:03:39.159] [info] Manager
+[2026-09-22 21:03:39.159] [info] -------
+[2026-09-22 21:03:39.159] [info] Starting integration at initial time 1.05 s...
+[2026-09-22 21:03:40.188] [info] Integration complete at final time 1.10 s.
+[2026-09-22 21:03:40.188] [info]  - CPU time elapsed: 1.031250 s
+[2026-09-22 21:03:40.188] [info]  - real time elapsed: 1.029713 s
+[2026-09-22 21:03:40.188] [info]  - ratio sim-to-real time: 1.068
+[2026-09-22 21:03:40.188] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:40.188] [info]  - number of realizations: 15790
+[2026-09-22 21:03:40.188] [info]  - number of steps taken / attempted: 7254 / 8535
+[2026-09-22 21:03:40.188] [info]  - number of projections: 20
+[2026-09-22 21:03:40.188] [info]  - number of iterations: 8535
+[2026-09-22 21:03:40.188] [info] -------
+[2026-09-22 21:03:40.188] [info] Manager
+[2026-09-22 21:03:40.188] [info] -------
+[2026-09-22 21:03:40.188] [info] Starting integration at initial time 1.10 s...
+[2026-09-22 21:03:41.114] [info] Integration complete at final time 1.15 s.
+[2026-09-22 21:03:41.114] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 21:03:41.114] [info]  - real time elapsed: 0.925403 s
+[2026-09-22 21:03:41.114] [info]  - ratio sim-to-real time: 1.243
+[2026-09-22 21:03:41.114] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:41.114] [info]  - number of realizations: 16324
+[2026-09-22 21:03:41.114] [info]  - number of steps taken / attempted: 7502 / 8821
+[2026-09-22 21:03:41.114] [info]  - number of projections: 20
+[2026-09-22 21:03:41.114] [info]  - number of iterations: 8821
+[2026-09-22 21:03:41.114] [info] -------
+[2026-09-22 21:03:41.114] [info] Manager
+[2026-09-22 21:03:41.114] [info] -------
+[2026-09-22 21:03:41.114] [info] Starting integration at initial time 1.15 s...
+[2026-09-22 21:03:42.020] [info] Integration complete at final time 1.20 s.
+[2026-09-22 21:03:42.020] [info]  - CPU time elapsed: 0.890625 s
+[2026-09-22 21:03:42.020] [info]  - real time elapsed: 0.905741 s
+[2026-09-22 21:03:42.020] [info]  - ratio sim-to-real time: 1.325
+[2026-09-22 21:03:42.020] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:42.020] [info]  - number of realizations: 16822
+[2026-09-22 21:03:42.020] [info]  - number of steps taken / attempted: 7731 / 9090
+[2026-09-22 21:03:42.020] [info]  - number of projections: 21
+[2026-09-22 21:03:42.020] [info]  - number of iterations: 9090
+[2026-09-22 21:03:42.020] [info] -------
+[2026-09-22 21:03:42.020] [info] Manager
+[2026-09-22 21:03:42.020] [info] -------
+[2026-09-22 21:03:42.020] [info] Starting integration at initial time 1.20 s...
+[2026-09-22 21:03:43.503] [info] Integration complete at final time 1.25 s.
+[2026-09-22 21:03:43.503] [info]  - CPU time elapsed: 1.484375 s
+[2026-09-22 21:03:43.503] [info]  - real time elapsed: 1.482914 s
+[2026-09-22 21:03:43.503] [info]  - ratio sim-to-real time: 0.843
+[2026-09-22 21:03:43.503] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:43.503] [info]  - number of realizations: 17738
+[2026-09-22 21:03:43.503] [info]  - number of steps taken / attempted: 8142 / 9595
+[2026-09-22 21:03:43.503] [info]  - number of projections: 22
+[2026-09-22 21:03:43.503] [info]  - number of iterations: 9595
+[2026-09-22 21:03:43.503] [info] -------
+[2026-09-22 21:03:43.503] [info] Manager
+[2026-09-22 21:03:43.503] [info] -------
+[2026-09-22 21:03:43.503] [info] Starting integration at initial time 1.25 s...
+[2026-09-22 21:03:45.250] [info] Integration complete at final time 1.30 s.
+[2026-09-22 21:03:45.250] [info]  - CPU time elapsed: 1.750000 s
+[2026-09-22 21:03:45.250] [info]  - real time elapsed: 1.746973 s
+[2026-09-22 21:03:45.250] [info]  - ratio sim-to-real time: 0.744
+[2026-09-22 21:03:45.250] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:45.250] [info]  - number of realizations: 18828
+[2026-09-22 21:03:45.250] [info]  - number of steps taken / attempted: 8647 / 10180
+[2026-09-22 21:03:45.250] [info]  - number of projections: 22
+[2026-09-22 21:03:45.250] [info]  - number of iterations: 10180
+[2026-09-22 21:03:45.250] [info] -------
+[2026-09-22 21:03:45.250] [info] Manager
+[2026-09-22 21:03:45.250] [info] -------
+[2026-09-22 21:03:45.250] [info] Starting integration at initial time 1.30 s...
+[2026-09-22 21:03:46.826] [info] Integration complete at final time 1.35 s.
+[2026-09-22 21:03:46.826] [info]  - CPU time elapsed: 1.578125 s
+[2026-09-22 21:03:46.826] [info]  - real time elapsed: 1.576400 s
+[2026-09-22 21:03:46.826] [info]  - ratio sim-to-real time: 0.856
+[2026-09-22 21:03:46.826] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:46.827] [info]  - number of realizations: 19759
+[2026-09-22 21:03:46.827] [info]  - number of steps taken / attempted: 9070 / 10688
+[2026-09-22 21:03:46.827] [info]  - number of projections: 23
+[2026-09-22 21:03:46.827] [info]  - number of iterations: 10688
+[2026-09-22 21:03:46.827] [info] -------
+[2026-09-22 21:03:46.827] [info] Manager
+[2026-09-22 21:03:46.827] [info] -------
+[2026-09-22 21:03:46.827] [info] Starting integration at initial time 1.35 s...
+[2026-09-22 21:03:48.403] [info] Integration complete at final time 1.40 s.
+[2026-09-22 21:03:48.403] [info]  - CPU time elapsed: 1.515625 s
+[2026-09-22 21:03:48.403] [info]  - real time elapsed: 1.576822 s
+[2026-09-22 21:03:48.403] [info]  - ratio sim-to-real time: 0.888
+[2026-09-22 21:03:48.403] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:48.403] [info]  - number of realizations: 20711
+[2026-09-22 21:03:48.403] [info]  - number of steps taken / attempted: 9500 / 11210
+[2026-09-22 21:03:48.403] [info]  - number of projections: 23
+[2026-09-22 21:03:48.403] [info]  - number of iterations: 11210
+[2026-09-22 21:03:48.404] [info] -------
+[2026-09-22 21:03:48.404] [info] Manager
+[2026-09-22 21:03:48.404] [info] -------
+[2026-09-22 21:03:48.404] [info] Starting integration at initial time 1.40 s...
+[2026-09-22 21:03:49.502] [info] Integration complete at final time 1.45 s.
+[2026-09-22 21:03:49.502] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 21:03:49.502] [info]  - real time elapsed: 1.098058 s
+[2026-09-22 21:03:49.502] [info]  - ratio sim-to-real time: 1.321
+[2026-09-22 21:03:49.502] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:49.502] [info]  - number of realizations: 21353
+[2026-09-22 21:03:49.502] [info]  - number of steps taken / attempted: 9795 / 11557
+[2026-09-22 21:03:49.502] [info]  - number of projections: 23
+[2026-09-22 21:03:49.502] [info]  - number of iterations: 11557
+[2026-09-22 21:03:49.502] [info] -------
+[2026-09-22 21:03:49.502] [info] Manager
+[2026-09-22 21:03:49.502] [info] -------
+[2026-09-22 21:03:49.502] [info] Starting integration at initial time 1.45 s...
+[2026-09-22 21:03:50.555] [info] Integration complete at final time 1.50 s.
+[2026-09-22 21:03:50.555] [info]  - CPU time elapsed: 1.046875 s
+[2026-09-22 21:03:50.555] [info]  - real time elapsed: 1.052807 s
+[2026-09-22 21:03:50.555] [info]  - ratio sim-to-real time: 1.425
+[2026-09-22 21:03:50.555] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:50.555] [info]  - number of realizations: 21973
+[2026-09-22 21:03:50.555] [info]  - number of steps taken / attempted: 10072 / 11900
+[2026-09-22 21:03:50.555] [info]  - number of projections: 23
+[2026-09-22 21:03:50.555] [info]  - number of iterations: 11900
+[2026-09-22 21:03:50.555] [info] -------
+[2026-09-22 21:03:50.555] [info] Manager
+[2026-09-22 21:03:50.555] [info] -------
+[2026-09-22 21:03:50.555] [info] Starting integration at initial time 1.50 s...
+[2026-09-22 21:03:51.548] [info] Integration complete at final time 1.55 s.
+[2026-09-22 21:03:51.548] [info]  - CPU time elapsed: 0.984375 s
+[2026-09-22 21:03:51.548] [info]  - real time elapsed: 0.993687 s
+[2026-09-22 21:03:51.548] [info]  - ratio sim-to-real time: 1.560
+[2026-09-22 21:03:51.548] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:51.549] [info]  - number of realizations: 22558
+[2026-09-22 21:03:51.549] [info]  - number of steps taken / attempted: 10337 / 12220
+[2026-09-22 21:03:51.549] [info]  - number of projections: 24
+[2026-09-22 21:03:51.549] [info]  - number of iterations: 12220
+[2026-09-22 21:03:51.549] [info] -------
+[2026-09-22 21:03:51.549] [info] Manager
+[2026-09-22 21:03:51.549] [info] -------
+[2026-09-22 21:03:51.549] [info] Starting integration at initial time 1.55 s...
+[2026-09-22 21:03:52.306] [info] Integration complete at final time 1.60 s.
+[2026-09-22 21:03:52.306] [info]  - CPU time elapsed: 0.765625 s
+[2026-09-22 21:03:52.306] [info]  - real time elapsed: 0.757770 s
+[2026-09-22 21:03:52.306] [info]  - ratio sim-to-real time: 2.111
+[2026-09-22 21:03:52.306] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:52.306] [info]  - number of realizations: 22970
+[2026-09-22 21:03:52.306] [info]  - number of steps taken / attempted: 10514 / 12455
+[2026-09-22 21:03:52.306] [info]  - number of projections: 24
+[2026-09-22 21:03:52.306] [info]  - number of iterations: 12455
+[2026-09-22 21:03:52.306] [info] -------
+[2026-09-22 21:03:52.306] [info] Manager
+[2026-09-22 21:03:52.306] [info] -------
+[2026-09-22 21:03:52.307] [info] Starting integration at initial time 1.60 s...
+[2026-09-22 21:03:53.135] [info] Integration complete at final time 1.65 s.
+[2026-09-22 21:03:53.135] [info]  - CPU time elapsed: 0.812500 s
+[2026-09-22 21:03:53.135] [info]  - real time elapsed: 0.828154 s
+[2026-09-22 21:03:53.135] [info]  - ratio sim-to-real time: 1.992
+[2026-09-22 21:03:53.135] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:53.135] [info]  - number of realizations: 23436
+[2026-09-22 21:03:53.135] [info]  - number of steps taken / attempted: 10732 / 12703
+[2026-09-22 21:03:53.135] [info]  - number of projections: 24
+[2026-09-22 21:03:53.135] [info]  - number of iterations: 12703
+[2026-09-22 21:03:53.135] [info] -------
+[2026-09-22 21:03:53.135] [info] Manager
+[2026-09-22 21:03:53.135] [info] -------
+[2026-09-22 21:03:53.135] [info] Starting integration at initial time 1.65 s...
+[2026-09-22 21:03:54.098] [info] Integration complete at final time 1.70 s.
+[2026-09-22 21:03:54.098] [info]  - CPU time elapsed: 0.953125 s
+[2026-09-22 21:03:54.098] [info]  - real time elapsed: 0.963037 s
+[2026-09-22 21:03:54.098] [info]  - ratio sim-to-real time: 1.765
+[2026-09-22 21:03:54.098] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:54.098] [info]  - number of realizations: 24003
+[2026-09-22 21:03:54.098] [info]  - number of steps taken / attempted: 10999 / 13003
+[2026-09-22 21:03:54.098] [info]  - number of projections: 25
+[2026-09-22 21:03:54.098] [info]  - number of iterations: 13003
+[2026-09-22 21:03:54.098] [info] -------
+[2026-09-22 21:03:54.098] [info] Manager
+[2026-09-22 21:03:54.098] [info] -------
+[2026-09-22 21:03:54.098] [info] Starting integration at initial time 1.70 s...
+[2026-09-22 21:03:55.249] [info] Integration complete at final time 1.75 s.
+[2026-09-22 21:03:55.249] [info]  - CPU time elapsed: 1.140625 s
+[2026-09-22 21:03:55.249] [info]  - real time elapsed: 1.150562 s
+[2026-09-22 21:03:55.249] [info]  - ratio sim-to-real time: 1.521
+[2026-09-22 21:03:55.249] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:55.249] [info]  - number of realizations: 24684
+[2026-09-22 21:03:55.249] [info]  - number of steps taken / attempted: 11317 / 13366
+[2026-09-22 21:03:55.249] [info]  - number of projections: 26
+[2026-09-22 21:03:55.249] [info]  - number of iterations: 13366
+[2026-09-22 21:03:55.249] [info] -------
+[2026-09-22 21:03:55.249] [info] Manager
+[2026-09-22 21:03:55.249] [info] -------
+[2026-09-22 21:03:55.249] [info] Starting integration at initial time 1.75 s...
+[2026-09-22 21:03:56.171] [info] Integration complete at final time 1.80 s.
+[2026-09-22 21:03:56.171] [info]  - CPU time elapsed: 0.921875 s
+[2026-09-22 21:03:56.171] [info]  - real time elapsed: 0.922704 s
+[2026-09-22 21:03:56.171] [info]  - ratio sim-to-real time: 1.951
+[2026-09-22 21:03:56.171] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:56.171] [info]  - number of realizations: 25220
+[2026-09-22 21:03:56.171] [info]  - number of steps taken / attempted: 11571 / 13648
+[2026-09-22 21:03:56.171] [info]  - number of projections: 27
+[2026-09-22 21:03:56.171] [info]  - number of iterations: 13648
+[2026-09-22 21:03:56.171] [info] -------
+[2026-09-22 21:03:56.171] [info] Manager
+[2026-09-22 21:03:56.172] [info] -------
+[2026-09-22 21:03:56.172] [info] Starting integration at initial time 1.80 s...
+[2026-09-22 21:03:57.061] [info] Integration complete at final time 1.85 s.
+[2026-09-22 21:03:57.061] [info]  - CPU time elapsed: 0.890625 s
+[2026-09-22 21:03:57.061] [info]  - real time elapsed: 0.889838 s
+[2026-09-22 21:03:57.061] [info]  - ratio sim-to-real time: 2.079
+[2026-09-22 21:03:57.061] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:57.061] [info]  - number of realizations: 25726
+[2026-09-22 21:03:57.061] [info]  - number of steps taken / attempted: 11808 / 13917
+[2026-09-22 21:03:57.061] [info]  - number of projections: 27
+[2026-09-22 21:03:57.061] [info]  - number of iterations: 13917
+[2026-09-22 21:03:57.061] [info] -------
+[2026-09-22 21:03:57.061] [info] Manager
+[2026-09-22 21:03:57.061] [info] -------
+[2026-09-22 21:03:57.061] [info] Starting integration at initial time 1.85 s...
+[2026-09-22 21:03:58.037] [info] Integration complete at final time 1.90 s.
+[2026-09-22 21:03:58.037] [info]  - CPU time elapsed: 0.921875 s
+[2026-09-22 21:03:58.037] [info]  - real time elapsed: 0.975672 s
+[2026-09-22 21:03:58.037] [info]  - ratio sim-to-real time: 1.947
+[2026-09-22 21:03:58.037] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:58.037] [info]  - number of realizations: 26278
+[2026-09-22 21:03:58.037] [info]  - number of steps taken / attempted: 12065 / 14212
+[2026-09-22 21:03:58.037] [info]  - number of projections: 28
+[2026-09-22 21:03:58.037] [info]  - number of iterations: 14212
+[2026-09-22 21:03:58.037] [info] -------
+[2026-09-22 21:03:58.037] [info] Manager
+[2026-09-22 21:03:58.037] [info] -------
+[2026-09-22 21:03:58.037] [info] Starting integration at initial time 1.90 s...
+[2026-09-22 21:03:59.279] [info] Integration complete at final time 1.95 s.
+[2026-09-22 21:03:59.279] [info]  - CPU time elapsed: 1.234375 s
+[2026-09-22 21:03:59.279] [info]  - real time elapsed: 1.241947 s
+[2026-09-22 21:03:59.279] [info]  - ratio sim-to-real time: 1.570
+[2026-09-22 21:03:59.279] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:03:59.279] [info]  - number of realizations: 27031
+[2026-09-22 21:03:59.279] [info]  - number of steps taken / attempted: 12412 / 14618
+[2026-09-22 21:03:59.279] [info]  - number of projections: 29
+[2026-09-22 21:03:59.279] [info]  - number of iterations: 14618
+[2026-09-22 21:03:59.279] [info] -------
+[2026-09-22 21:03:59.279] [info] Manager
+[2026-09-22 21:03:59.279] [info] -------
+[2026-09-22 21:03:59.279] [info] Starting integration at initial time 1.95 s...
+[2026-09-22 21:04:00.585] [info] Integration complete at final time 2.00 s.
+[2026-09-22 21:04:00.585] [info]  - CPU time elapsed: 1.296875 s
+[2026-09-22 21:04:00.585] [info]  - real time elapsed: 1.305819 s
+[2026-09-22 21:04:00.585] [info]  - ratio sim-to-real time: 1.532
+[2026-09-22 21:04:00.585] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:00.585] [info]  - number of realizations: 27812
+[2026-09-22 21:04:00.585] [info]  - number of steps taken / attempted: 12772 / 15039
+[2026-09-22 21:04:00.585] [info]  - number of projections: 30
+[2026-09-22 21:04:00.585] [info]  - number of iterations: 15039
+[2026-09-22 21:04:00.585] [info] -------
+[2026-09-22 21:04:00.585] [info] Manager
+[2026-09-22 21:04:00.585] [info] -------
+[2026-09-22 21:04:00.585] [info] Starting integration at initial time 2.00 s...
+[2026-09-22 21:04:01.609] [info] Integration complete at final time 2.05 s.
+[2026-09-22 21:04:01.609] [info]  - CPU time elapsed: 1.015625 s
+[2026-09-22 21:04:01.609] [info]  - real time elapsed: 1.023814 s
+[2026-09-22 21:04:01.609] [info]  - ratio sim-to-real time: 2.002
+[2026-09-22 21:04:01.609] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:01.609] [info]  - number of realizations: 28380
+[2026-09-22 21:04:01.609] [info]  - number of steps taken / attempted: 13029 / 15350
+[2026-09-22 21:04:01.609] [info]  - number of projections: 31
+[2026-09-22 21:04:01.609] [info]  - number of iterations: 15350
+[2026-09-22 21:04:01.609] [info] -------
+[2026-09-22 21:04:01.609] [info] Manager
+[2026-09-22 21:04:01.609] [info] -------
+[2026-09-22 21:04:01.609] [info] Starting integration at initial time 2.05 s...
+[2026-09-22 21:04:02.754] [info] Integration complete at final time 2.10 s.
+[2026-09-22 21:04:02.754] [info]  - CPU time elapsed: 1.140625 s
+[2026-09-22 21:04:02.754] [info]  - real time elapsed: 1.145087 s
+[2026-09-22 21:04:02.754] [info]  - ratio sim-to-real time: 1.834
+[2026-09-22 21:04:02.754] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:02.754] [info]  - number of realizations: 29020
+[2026-09-22 21:04:02.754] [info]  - number of steps taken / attempted: 13321 / 15698
+[2026-09-22 21:04:02.754] [info]  - number of projections: 31
+[2026-09-22 21:04:02.754] [info]  - number of iterations: 15698
+[2026-09-22 21:04:02.755] [info] -------
+[2026-09-22 21:04:02.755] [info] Manager
+[2026-09-22 21:04:02.755] [info] -------
+[2026-09-22 21:04:02.755] [info] Starting integration at initial time 2.10 s...
+[2026-09-22 21:04:03.849] [info] Integration complete at final time 2.15 s.
+[2026-09-22 21:04:03.849] [info]  - CPU time elapsed: 1.093750 s
+[2026-09-22 21:04:03.849] [info]  - real time elapsed: 1.094365 s
+[2026-09-22 21:04:03.849] [info]  - ratio sim-to-real time: 1.965
+[2026-09-22 21:04:03.849] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:03.849] [info]  - number of realizations: 29653
+[2026-09-22 21:04:03.849] [info]  - number of steps taken / attempted: 13609 / 16043
+[2026-09-22 21:04:03.849] [info]  - number of projections: 32
+[2026-09-22 21:04:03.849] [info]  - number of iterations: 16043
+[2026-09-22 21:04:03.849] [info] -------
+[2026-09-22 21:04:03.849] [info] Manager
+[2026-09-22 21:04:03.849] [info] -------
+[2026-09-22 21:04:03.849] [info] Starting integration at initial time 2.15 s...
+[2026-09-22 21:04:04.962] [info] Integration complete at final time 2.20 s.
+[2026-09-22 21:04:04.962] [info]  - CPU time elapsed: 1.125000 s
+[2026-09-22 21:04:04.962] [info]  - real time elapsed: 1.113126 s
+[2026-09-22 21:04:04.962] [info]  - ratio sim-to-real time: 1.976
+[2026-09-22 21:04:04.962] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:04.962] [info]  - number of realizations: 30323
+[2026-09-22 21:04:04.962] [info]  - number of steps taken / attempted: 13914 / 16408
+[2026-09-22 21:04:04.962] [info]  - number of projections: 33
+[2026-09-22 21:04:04.962] [info]  - number of iterations: 16408
+[2026-09-22 21:04:04.962] [info] -------
+[2026-09-22 21:04:04.962] [info] Manager
+[2026-09-22 21:04:04.962] [info] -------
+[2026-09-22 21:04:04.962] [info] Starting integration at initial time 2.20 s...
+[2026-09-22 21:04:06.359] [info] Integration complete at final time 2.25 s.
+[2026-09-22 21:04:06.359] [info]  - CPU time elapsed: 1.390625 s
+[2026-09-22 21:04:06.359] [info]  - real time elapsed: 1.397074 s
+[2026-09-22 21:04:06.359] [info]  - ratio sim-to-real time: 1.611
+[2026-09-22 21:04:06.359] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:06.359] [info]  - number of realizations: 31166
+[2026-09-22 21:04:06.359] [info]  - number of steps taken / attempted: 14299 / 16866
+[2026-09-22 21:04:06.359] [info]  - number of projections: 33
+[2026-09-22 21:04:06.359] [info]  - number of iterations: 16866
+[2026-09-22 21:04:06.359] [info] -------
+[2026-09-22 21:04:06.359] [info] Manager
+[2026-09-22 21:04:06.359] [info] -------
+[2026-09-22 21:04:06.359] [info] Starting integration at initial time 2.25 s...
+[2026-09-22 21:04:07.732] [info] Integration complete at final time 2.30 s.
+[2026-09-22 21:04:07.732] [info]  - CPU time elapsed: 1.375000 s
+[2026-09-22 21:04:07.732] [info]  - real time elapsed: 1.372145 s
+[2026-09-22 21:04:07.732] [info]  - ratio sim-to-real time: 1.676
+[2026-09-22 21:04:07.732] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:07.732] [info]  - number of realizations: 32003
+[2026-09-22 21:04:07.732] [info]  - number of steps taken / attempted: 14683 / 17319
+[2026-09-22 21:04:07.732] [info]  - number of projections: 34
+[2026-09-22 21:04:07.732] [info]  - number of iterations: 17319
+[2026-09-22 21:04:07.732] [info] -------
+[2026-09-22 21:04:07.732] [info] Manager
+[2026-09-22 21:04:07.732] [info] -------
+[2026-09-22 21:04:07.732] [info] Starting integration at initial time 2.30 s...
+[2026-09-22 21:04:08.891] [info] Integration complete at final time 2.35 s.
+[2026-09-22 21:04:08.891] [info]  - CPU time elapsed: 1.156250 s
+[2026-09-22 21:04:08.891] [info]  - real time elapsed: 1.159126 s
+[2026-09-22 21:04:08.891] [info]  - ratio sim-to-real time: 2.027
+[2026-09-22 21:04:08.891] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:08.891] [info]  - number of realizations: 32671
+[2026-09-22 21:04:08.891] [info]  - number of steps taken / attempted: 14989 / 17681
+[2026-09-22 21:04:08.891] [info]  - number of projections: 34
+[2026-09-22 21:04:08.891] [info]  - number of iterations: 17681
+[2026-09-22 21:04:08.891] [info] -------
+[2026-09-22 21:04:08.891] [info] Manager
+[2026-09-22 21:04:08.891] [info] -------
+[2026-09-22 21:04:08.891] [info] Starting integration at initial time 2.35 s...
+[2026-09-22 21:04:09.927] [info] Integration complete at final time 2.40 s.
+[2026-09-22 21:04:09.927] [info]  - CPU time elapsed: 1.015625 s
+[2026-09-22 21:04:09.927] [info]  - real time elapsed: 1.035958 s
+[2026-09-22 21:04:09.927] [info]  - ratio sim-to-real time: 2.317
+[2026-09-22 21:04:09.927] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:09.927] [info]  - number of realizations: 33274
+[2026-09-22 21:04:09.927] [info]  - number of steps taken / attempted: 15269 / 18004
+[2026-09-22 21:04:09.927] [info]  - number of projections: 35
+[2026-09-22 21:04:09.927] [info]  - number of iterations: 18004
+[2026-09-22 21:04:09.927] [info] -------
+[2026-09-22 21:04:09.927] [info] Manager
+[2026-09-22 21:04:09.927] [info] -------
+[2026-09-22 21:04:09.927] [info] Starting integration at initial time 2.40 s...
+[2026-09-22 21:04:10.995] [info] Integration complete at final time 2.45 s.
+[2026-09-22 21:04:10.995] [info]  - CPU time elapsed: 1.062500 s
+[2026-09-22 21:04:10.995] [info]  - real time elapsed: 1.067918 s
+[2026-09-22 21:04:10.995] [info]  - ratio sim-to-real time: 2.294
+[2026-09-22 21:04:10.995] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:10.995] [info]  - number of realizations: 33838
+[2026-09-22 21:04:10.995] [info]  - number of steps taken / attempted: 15523 / 18314
+[2026-09-22 21:04:10.995] [info]  - number of projections: 35
+[2026-09-22 21:04:10.995] [info]  - number of iterations: 18314
+[2026-09-22 21:04:10.995] [info] -------
+[2026-09-22 21:04:10.995] [info] Manager
+[2026-09-22 21:04:10.995] [info] -------
+[2026-09-22 21:04:10.995] [info] Starting integration at initial time 2.45 s...
+[2026-09-22 21:04:12.004] [info] Integration complete at final time 2.50 s.
+[2026-09-22 21:04:12.005] [info]  - CPU time elapsed: 1.000000 s
+[2026-09-22 21:04:12.005] [info]  - real time elapsed: 1.009223 s
+[2026-09-22 21:04:12.005] [info]  - ratio sim-to-real time: 2.477
+[2026-09-22 21:04:12.005] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:12.005] [info]  - number of realizations: 34407
+[2026-09-22 21:04:12.005] [info]  - number of steps taken / attempted: 15785 / 18621
+[2026-09-22 21:04:12.005] [info]  - number of projections: 35
+[2026-09-22 21:04:12.005] [info]  - number of iterations: 18621
+[2026-09-22 21:04:12.005] [info] -------
+[2026-09-22 21:04:12.005] [info] Manager
+[2026-09-22 21:04:12.005] [info] -------
+[2026-09-22 21:04:12.005] [info] Starting integration at initial time 2.50 s...
+[2026-09-22 21:04:12.970] [info] Integration complete at final time 2.55 s.
+[2026-09-22 21:04:12.970] [info]  - CPU time elapsed: 0.968750 s
+[2026-09-22 21:04:12.970] [info]  - real time elapsed: 0.965373 s
+[2026-09-22 21:04:12.970] [info]  - ratio sim-to-real time: 2.641
+[2026-09-22 21:04:12.970] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:12.970] [info]  - number of realizations: 34967
+[2026-09-22 21:04:12.970] [info]  - number of steps taken / attempted: 16040 / 18926
+[2026-09-22 21:04:12.970] [info]  - number of projections: 35
+[2026-09-22 21:04:12.970] [info]  - number of iterations: 18926
+[2026-09-22 21:04:12.970] [info] -------
+[2026-09-22 21:04:12.970] [info] Manager
+[2026-09-22 21:04:12.970] [info] -------
+[2026-09-22 21:04:12.970] [info] Starting integration at initial time 2.55 s...
+[2026-09-22 21:04:13.842] [info] Integration complete at final time 2.60 s.
+[2026-09-22 21:04:13.842] [info]  - CPU time elapsed: 0.875000 s
+[2026-09-22 21:04:13.842] [info]  - real time elapsed: 0.871575 s
+[2026-09-22 21:04:13.842] [info]  - ratio sim-to-real time: 2.983
+[2026-09-22 21:04:13.842] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:13.842] [info]  - number of realizations: 35476
+[2026-09-22 21:04:13.842] [info]  - number of steps taken / attempted: 16282 / 19193
+[2026-09-22 21:04:13.842] [info]  - number of projections: 36
+[2026-09-22 21:04:13.842] [info]  - number of iterations: 19193
+[2026-09-22 21:04:13.842] [info] -------
+[2026-09-22 21:04:13.842] [info] Manager
+[2026-09-22 21:04:13.842] [info] -------
+[2026-09-22 21:04:13.842] [info] Starting integration at initial time 2.60 s...
+[2026-09-22 21:04:14.654] [info] Integration complete at final time 2.65 s.
+[2026-09-22 21:04:14.654] [info]  - CPU time elapsed: 0.812500 s
+[2026-09-22 21:04:14.654] [info]  - real time elapsed: 0.812350 s
+[2026-09-22 21:04:14.654] [info]  - ratio sim-to-real time: 3.262
+[2026-09-22 21:04:14.654] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:14.654] [info]  - number of realizations: 35942
+[2026-09-22 21:04:14.654] [info]  - number of steps taken / attempted: 16501 / 19440
+[2026-09-22 21:04:14.654] [info]  - number of projections: 36
+[2026-09-22 21:04:14.654] [info]  - number of iterations: 19440
+[2026-09-22 21:04:14.654] [info] -------
+[2026-09-22 21:04:14.654] [info] Manager
+[2026-09-22 21:04:14.654] [info] -------
+[2026-09-22 21:04:14.654] [info] Starting integration at initial time 2.65 s...
+[2026-09-22 21:04:15.476] [info] Integration complete at final time 2.70 s.
+[2026-09-22 21:04:15.476] [info]  - CPU time elapsed: 0.796875 s
+[2026-09-22 21:04:15.476] [info]  - real time elapsed: 0.821248 s
+[2026-09-22 21:04:15.476] [info]  - ratio sim-to-real time: 3.288
+[2026-09-22 21:04:15.476] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:15.476] [info]  - number of realizations: 36397
+[2026-09-22 21:04:15.476] [info]  - number of steps taken / attempted: 16715 / 19681
+[2026-09-22 21:04:15.476] [info]  - number of projections: 38
+[2026-09-22 21:04:15.476] [info]  - number of iterations: 19681
+[2026-09-22 21:04:15.476] [info] -------
+[2026-09-22 21:04:15.476] [info] Manager
+[2026-09-22 21:04:15.476] [info] -------
+[2026-09-22 21:04:15.476] [info] Starting integration at initial time 2.70 s...
+[2026-09-22 21:04:16.257] [info] Integration complete at final time 2.75 s.
+[2026-09-22 21:04:16.257] [info]  - CPU time elapsed: 0.781250 s
+[2026-09-22 21:04:16.257] [info]  - real time elapsed: 0.780842 s
+[2026-09-22 21:04:16.257] [info]  - ratio sim-to-real time: 3.522
+[2026-09-22 21:04:16.257] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:16.257] [info]  - number of realizations: 36819
+[2026-09-22 21:04:16.257] [info]  - number of steps taken / attempted: 16918 / 19900
+[2026-09-22 21:04:16.257] [info]  - number of projections: 38
+[2026-09-22 21:04:16.257] [info]  - number of iterations: 19900
+[2026-09-22 21:04:16.257] [info] -------
+[2026-09-22 21:04:16.257] [info] Manager
+[2026-09-22 21:04:16.257] [info] -------
+[2026-09-22 21:04:16.257] [info] Starting integration at initial time 2.75 s...
+[2026-09-22 21:04:17.310] [info] Integration complete at final time 2.80 s.
+[2026-09-22 21:04:17.311] [info]  - CPU time elapsed: 1.062500 s
+[2026-09-22 21:04:17.311] [info]  - real time elapsed: 1.053786 s
+[2026-09-22 21:04:17.311] [info]  - ratio sim-to-real time: 2.657
+[2026-09-22 21:04:17.311] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:17.311] [info]  - number of realizations: 37401
+[2026-09-22 21:04:17.311] [info]  - number of steps taken / attempted: 17195 / 20205
+[2026-09-22 21:04:17.311] [info]  - number of projections: 40
+[2026-09-22 21:04:17.311] [info]  - number of iterations: 20205
+[2026-09-22 21:04:17.311] [info] -------
+[2026-09-22 21:04:17.311] [info] Manager
+[2026-09-22 21:04:17.311] [info] -------
+[2026-09-22 21:04:17.311] [info] Starting integration at initial time 2.80 s...
+[2026-09-22 21:04:18.242] [info] Integration complete at final time 2.85 s.
+[2026-09-22 21:04:18.242] [info]  - CPU time elapsed: 0.921875 s
+[2026-09-22 21:04:18.242] [info]  - real time elapsed: 0.931334 s
+[2026-09-22 21:04:18.242] [info]  - ratio sim-to-real time: 3.060
+[2026-09-22 21:04:18.242] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:18.242] [info]  - number of realizations: 37900
+[2026-09-22 21:04:18.242] [info]  - number of steps taken / attempted: 17432 / 20467
+[2026-09-22 21:04:18.242] [info]  - number of projections: 41
+[2026-09-22 21:04:18.242] [info]  - number of iterations: 20467
+[2026-09-22 21:04:18.242] [info] -------
+[2026-09-22 21:04:18.242] [info] Manager
+[2026-09-22 21:04:18.242] [info] -------
+[2026-09-22 21:04:18.242] [info] Starting integration at initial time 2.85 s...
+[2026-09-22 21:04:19.148] [info] Integration complete at final time 2.90 s.
+[2026-09-22 21:04:19.149] [info]  - CPU time elapsed: 0.906250 s
+[2026-09-22 21:04:19.149] [info]  - real time elapsed: 0.906373 s
+[2026-09-22 21:04:19.149] [info]  - ratio sim-to-real time: 3.200
+[2026-09-22 21:04:19.149] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:19.149] [info]  - number of realizations: 38408
+[2026-09-22 21:04:19.149] [info]  - number of steps taken / attempted: 17668 / 20739
+[2026-09-22 21:04:19.149] [info]  - number of projections: 42
+[2026-09-22 21:04:19.149] [info]  - number of iterations: 20739
+[2026-09-22 21:04:19.149] [info] -------
+[2026-09-22 21:04:19.149] [info] Manager
+[2026-09-22 21:04:19.149] [info] -------
+[2026-09-22 21:04:19.149] [info] Starting integration at initial time 2.90 s...
+[2026-09-22 21:04:20.095] [info] Integration complete at final time 2.95 s.
+[2026-09-22 21:04:20.095] [info]  - CPU time elapsed: 0.937500 s
+[2026-09-22 21:04:20.095] [info]  - real time elapsed: 0.946663 s
+[2026-09-22 21:04:20.095] [info]  - ratio sim-to-real time: 3.116
+[2026-09-22 21:04:20.095] [info]  - integrator method: SemiExplicitEuler2
+[2026-09-22 21:04:20.095] [info]  - number of realizations: 38952
+[2026-09-22 21:04:20.095] [info]  - number of steps taken / attempted: 17921 / 21030
+[2026-09-22 21:04:20.095] [info]  - number of projections: 43
+[2026-09-22 21:04:20.095] [info]  - number of iterations: 21030
+[2026-09-22 21:04:20.095] [info] -------
+[2026-09-22 21:04:20.095] [info] Manager
+[2026-09-22 21:04:20.095] [info] -------
+[2026-09-22 21:04:20.095] [info] Starting integration at initial time 2.95 s...

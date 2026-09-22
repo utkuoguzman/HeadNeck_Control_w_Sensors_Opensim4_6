@@ -23,6 +23,7 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_k_v(0.13);
     constructProperty_K_gamma(1.0);
     constructProperty_Kp_task(100.0);
+    constructProperty_Ki_task(0.0);
     constructProperty_Kd_task(10.0);
     constructProperty_use_dynamic_jacobian(true);
     
@@ -52,6 +53,11 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
             }
         }
     }
+    
+    // PID Integral state variables
+    addStateVariable("pitch_error_integral", Stage::Dynamics);
+    addStateVariable("roll_error_integral", Stage::Dynamics);
+    addStateVariable("yaw_error_integral", Stage::Dynamics);
 }
 
 void HeadNeckNeuralController::extendConnectToModel(Model& model) {
@@ -191,6 +197,22 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             setStateVariableDerivativeValue(s, prefix + "_state_1", dx2);
         }
     }
+    
+    // PID Integrator derivatives (error = desired - actual)
+    double q_p1 = model.getCoordinateSet().contains("pitch1") ? model.getCoordinateSet().get("pitch1").getValue(s) : 0;
+    double q_p2 = model.getCoordinateSet().contains("pitch2") ? model.getCoordinateSet().get("pitch2").getValue(s) : 0;
+    double q_r1 = model.getCoordinateSet().contains("roll1") ? model.getCoordinateSet().get("roll1").getValue(s) : 0;
+    double q_r2 = model.getCoordinateSet().contains("roll2") ? model.getCoordinateSet().get("roll2").getValue(s) : 0;
+    double q_y1 = model.getCoordinateSet().contains("yaw1") ? model.getCoordinateSet().get("yaw1").getValue(s) : 0;
+    double q_y2 = model.getCoordinateSet().contains("yaw2") ? model.getCoordinateSet().get("yaw2").getValue(s) : 0;
+    
+    double head_pitch = q_p1 + q_p2;
+    double head_roll = q_r1 + q_r2;
+    double head_yaw = q_y1 + q_y2;
+    
+    setStateVariableDerivativeValue(s, "pitch_error_integral", get_desired_pitch() - head_pitch);
+    setStateVariableDerivativeValue(s, "roll_error_integral", get_desired_roll() - head_roll);
+    setStateVariableDerivativeValue(s, "yaw_error_integral", get_desired_yaw() - head_yaw);
 }
 
 void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vector& controls) const {
@@ -322,10 +344,14 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         tau_des[2] -= get_G_sc() * vcr_record.omega_recon[1]; // yaw
     }
     
-    // Voluntary Postural PD Drive (compensates for gravity droop / Na_post equivalent)
-    tau_des[0] += get_Kp_task() * (get_desired_pitch() - head_pitch) - get_Kd_task() * omega[2];
-    tau_des[1] += get_Kp_task() * (get_desired_roll() - head_roll) - get_Kd_task() * omega[0];
-    tau_des[2] += get_Kp_task() * (get_desired_yaw() - head_yaw) - get_Kd_task() * omega[1];
+    // Voluntary Postural PID Drive (compensates for gravity droop / Na_post equivalent)
+    double pitch_int = getStateVariableValue(s, "pitch_error_integral");
+    double roll_int = getStateVariableValue(s, "roll_error_integral");
+    double yaw_int = getStateVariableValue(s, "yaw_error_integral");
+    
+    tau_des[0] += get_Kp_task() * (get_desired_pitch() - head_pitch) - get_Kd_task() * omega[2] + get_Ki_task() * pitch_int;
+    tau_des[1] += get_Kp_task() * (get_desired_roll() - head_roll) - get_Kd_task() * omega[0] + get_Ki_task() * roll_int;
+    tau_des[2] += get_Kp_task() * (get_desired_yaw() - head_yaw) - get_Kd_task() * omega[1] + get_Ki_task() * yaw_int;
     
     tau_des[0] = std::clamp(tau_des[0], -300.0, 300.0);
     tau_des[1] = std::clamp(tau_des[1], -100.0, 100.0);

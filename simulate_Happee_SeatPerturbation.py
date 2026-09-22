@@ -30,9 +30,10 @@ osim.PropertyHelper.setValueDouble(1.73, controller.updPropertyByName("G_sc"))
 osim.PropertyHelper.setValueDouble(0.45, controller.updPropertyByName("k_p"))
 osim.PropertyHelper.setValueDouble(0.13, controller.updPropertyByName("k_v"))
 
-# Add the Voluntary Postural PD Drive to represent Na_post (baseline gravity compensation)
-osim.PropertyHelper.setValueDouble(50.0, controller.updPropertyByName("Kp_task"))
-osim.PropertyHelper.setValueDouble(5.0, controller.updPropertyByName("Kd_task"))
+# Add the Voluntary Postural PID Drive to represent Na_post (baseline gravity compensation)
+osim.PropertyHelper.setValueDouble(49.5, controller.updPropertyByName("Kp_task"))
+osim.PropertyHelper.setValueDouble(41.2, controller.updPropertyByName("Ki_task"))
+osim.PropertyHelper.setValueDouble(5.3, controller.updPropertyByName("Kd_task"))
 
 # Instead of locking (which can cause Simbody redundant constraint errors),
 # we explicitly prescribe a constant 0.0 motion to all other base coordinates.
