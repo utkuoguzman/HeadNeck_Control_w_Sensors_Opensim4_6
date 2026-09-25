@@ -22,6 +22,8 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_G_phas(0.01);
     constructProperty_k_p(0.45);
     constructProperty_k_v(0.13);
+    constructProperty_K_gamma_dyn(0.0);
+    constructProperty_K_gamma_stat(1.0);
     constructProperty_K_gamma(1.0);
     constructProperty_Kp_task(100.0);
     constructProperty_Ki_task(0.0);
@@ -498,10 +500,62 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     
     hr.L.resize(N);
     hr.L_dot.resize(N);
+    hr.Ia.resize(N);
     for(int i=0; i<N; ++i) {
         const Muscle& m = muscles.get(active_muscle_indices[i]);
         hr.L[i] = m.getLength(s);
         hr.L_dot[i] = m.getLengtheningSpeed(s);
+        hr.Ia[i] = 0.0;
+        
+        try {
+            double L_norm = m.getNormalizedFiberLength(s);
+            double u = (L_norm - 1.0) * 100.0;
+            
+            // Try to find the spindle component inside the muscle dynamically without linking!
+            const Component* spindle = nullptr;
+            for (const auto& comp : m.getComponentList()) {
+                if (comp.getName() == "spindle") {
+                    spindle = &comp;
+                    break;
+                }
+            }
+            if (spindle) {
+                // Mileusnic06 Spindle
+                try {
+                    double T_bag1 = spindle->getStateVariableValue(s, "tension_bag1");
+                    double T_bag2 = spindle->getStateVariableValue(s, "tension_bag2");
+                    double T_chain = spindle->getStateVariableValue(s, "tension_chain");
+                    
+                    // Parameters from Mileusnic06 Table 1
+                    double L_0SR_bag1 = 0.04, L_NSR_bag1 = 0.0423, K_SR_bag1 = 10.4649, G_bag1 = 20000.0;
+                    double L_0SR_bag2 = 0.04, L_NSR_bag2 = 0.0423, K_SR_bag2 = 10.4649, L_sec_bag2 = 0.04, L_0PR_bag2 = 0.76, L_NPR_bag2 = 0.89, X_bag2 = 0.7, G_pri_bag2 = 7200.0;
+                    double L_0SR_chain = 0.04, L_NSR_chain = 0.0423, K_SR_chain = 10.4649, L_sec_chain = 0.04, L_0PR_chain = 0.76, L_NPR_chain = 0.89, X_chain = 0.7, G_pri_chain = 7200.0;
+                    
+                    double L = L_norm; // normalized length
+                    
+                    double APbag1 = G_bag1 * ( (T_bag1/K_SR_bag1) - (L_NSR_bag1 - L_0SR_bag1) );
+                    double APbag2 = X_bag2 * (L_sec_bag2/L_0SR_bag2) * ((T_bag2/K_SR_bag2) - (L_NSR_bag2 - L_0SR_bag2)) + (1.0-X_bag2) * (L_sec_bag2/L_0PR_bag2) * (L - (T_bag2/K_SR_bag2) - L_0SR_bag2 - L_NPR_bag2); 
+                    double APchain = X_chain * (L_sec_chain/L_0SR_chain) * ((T_chain/K_SR_chain) - (L_NSR_chain - L_0SR_chain)) + (1.0-X_chain) * (L_sec_chain/L_0PR_chain) * (L - (T_chain/K_SR_chain) - L_0SR_chain - L_NPR_chain);
+                    
+                    double pri_stat = G_pri_bag2*APbag2 + G_pri_chain*APchain;
+                    double diff = APbag1 - pri_stat;
+                    double S = 0.156;
+                    double s_max = 0.5 * (APbag1 + pri_stat + std::sqrt(diff*diff + 1e-4));
+                    double s_min = 0.5 * (APbag1 + pri_stat - std::sqrt(diff*diff + 1e-4));
+                    
+                    double primary = s_max + S * s_min;
+                    
+                    if (primary < 0.0) primary = 0.0;
+                    if (primary > 100000.0) primary = 100000.0; // Avoid NaNs
+                    
+                    hr.Ia[i] = primary;
+                } catch(...) {
+                    // Not a Mileusnic spindle
+                }
+            }
+        } catch(...) {
+            // Ignore
+        }
     }
     history[s.getTime()] = hr;
     
@@ -656,12 +710,13 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         
         double excitation = u_alpha[i];
         
-        if (ccr_record.L.size() == N) {
-            double delta_L = ccr_record.L[i] - base_lengths[i];
-            double L_dot = ccr_record.L_dot[i];
+        if (ccr_record.Ia.size() == N) {
+            // Cervico-Collic Reflex (CCR) - using biological firing rate!
+            double Ia_firing = ccr_record.Ia[i];
             
-            // Cervico-Collic Reflex (CCR) - Excites muscle when stretched
-            excitation += get_k_p() * delta_L + get_k_v() * L_dot;
+            // We scale the firing rate (0-500) into excitation (0-1) using Kp_proprioception
+            // Optionally, we could subtract a baseline firing rate so resting state = 0 excitation
+            excitation += get_Kp_proprioception() * (Ia_firing / 100.0); // divide by 100 to normalize to roughly 0-1 range
         }
         
         excitation = std::clamp(excitation, 0.01, 1.0);

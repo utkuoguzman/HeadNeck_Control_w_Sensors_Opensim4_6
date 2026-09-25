@@ -1,0 +1,20 @@
+Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...
+(8_w,16)-aCMA-ES (mu_w=4.8,w_1=32%) in dimension 9 (seed=468122, Fri Sep 25 23:47:47 2026)
+
+--- Generation 1 ---
+Eval SUCCESS: Kp=72.9, Ki=44.1, Kd=7.6, Gton=7.50, Gsc=1.68, Gphas=1.63, Kp_prop=0.626, K_gamma_dyn=54.6, K_gamma_stat=105.1 => Bode Error: 17051.3
+Eval SUCCESS: Kp=75.6, Ki=47.2, Kd=6.0, Gton=13.75, Gsc=5.78, Gphas=0.13, Kp_prop=0.026, K_gamma_dyn=53.9, K_gamma_stat=104.9 => Bode Error: 18641.3
+Eval SUCCESS: Kp=66.4, Ki=46.7, Kd=5.4, Gton=16.03, Gsc=7.24, Gphas=0.72, Kp_prop=0.174, K_gamma_dyn=56.6, K_gamma_stat=92.1 => Bode Error: 17361.8
+Eval SUCCESS: Kp=78.3, Ki=42.4, Kd=5.6, Gton=13.22, Gsc=1.24, Gphas=0.76, Kp_prop=1.405, K_gamma_dyn=49.1, K_gamma_stat=106.8 => Bode Error: 16846.2
+Eval CRASHED at 0.44Hz: Kp=80.2, Ki=42.0, Kd=6.1, Gton=1.32, Gsc=8.19, Gphas=4.56, Kp_prop=0.875, K_gamma_dyn=50.2, K_gamma_stat=102.7
+Eval CRASHED at 0.32Hz: Kp=75.0, Ki=51.0, Kd=5.8, Gton=6.66, Gsc=5.91, Gphas=6.25, Kp_prop=0.000, K_gamma_dyn=42.7, K_gamma_stat=102.7
+Eval CRASHED at 0.32Hz: Kp=69.7, Ki=43.0, Kd=9.2, Gton=16.43, Gsc=2.68, Gphas=8.63, Kp_prop=0.000, K_gamma_dyn=41.4, K_gamma_stat=93.6
+Eval CRASHED at 1.12Hz: Kp=78.7, Ki=36.0, Kd=17.1, Gton=6.43, Gsc=6.23, Gphas=13.05, Kp_prop=0.655, K_gamma_dyn=47.3, K_gamma_stat=101.3
+Eval CRASHED at 0.60Hz: Kp=73.0, Ki=49.7, Kd=12.8, Gton=8.19, Gsc=0.59, Gphas=8.89, Kp_prop=0.219, K_gamma_dyn=54.7, K_gamma_stat=96.4
+Eval CRASHED at 0.32Hz: Kp=68.4, Ki=36.7, Kd=11.9, Gton=11.95, Gsc=7.31, Gphas=8.29, Kp_prop=0.413, K_gamma_dyn=55.1, K_gamma_stat=109.1
+Eval CRASHED at 1.12Hz: Kp=73.9, Ki=50.9, Kd=8.9, Gton=12.00, Gsc=6.84, Gphas=2.10, Kp_prop=0.006, K_gamma_dyn=55.9, K_gamma_stat=101.8
+Eval CRASHED at 1.12Hz: Kp=71.2, Ki=39.2, Kd=4.4, Gton=9.55, Gsc=4.60, Gphas=5.29, Kp_prop=0.711, K_gamma_dyn=48.8, K_gamma_stat=89.8
+Eval CRASHED at 1.12Hz: Kp=76.4, Ki=31.9, Kd=9.9, Gton=1.62, Gsc=2.56, Gphas=2.00, Kp_prop=0.057, K_gamma_dyn=51.1, K_gamma_stat=100.3
+Eval CRASHED at 1.12Hz: Kp=84.9, Ki=45.3, Kd=17.8, Gton=9.32, Gsc=8.09, Gphas=5.45, Kp_prop=0.006, K_gamma_dyn=48.4, K_gamma_stat=99.6
+Eval CRASHED at 1.12Hz: Kp=77.7, Ki=45.1, Kd=14.6, Gton=2.29, Gsc=2.66, Gphas=3.79, Kp_prop=0.885, K_gamma_dyn=48.0, K_gamma_stat=101.9
+Eval CRASHED at 1.12Hz: Kp=78.1, Ki=52.5, Kd=9.5, Gton=5.35, Gsc=5.70, Gphas=8.24, Kp_prop=1.178, K_gamma_dyn=50.3, K_gamma_stat=100.6

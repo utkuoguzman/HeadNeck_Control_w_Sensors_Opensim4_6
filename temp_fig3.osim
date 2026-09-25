@@ -104,7 +104,7 @@
 		<!--Forces in the model (includes Actuators).-->
 		<ForceSet name="forceset">
 			<objects>
-				<Millard12EqMuscleWithAfferents name="muscle">
+				<Millard12EqMuscleWithSimplifiedAfferent name="muscle">
 					<!--Minimum allowed value for control signal. Used primarily when solving for control values.-->
 					<min_control>0.01</min_control>
 					<!--Maximum allowed value for control signal. Used primarily when solving for control values.-->
@@ -173,7 +173,7 @@
 					<TendonForceLengthCurve name="muscle_TendonForceLengthCurve">
 						<!--All properties of this object have their default values.-->
 					</TendonForceLengthCurve>
-				</Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithSimplifiedAfferent>
 			</objects>
 			<groups />
 		</ForceSet>

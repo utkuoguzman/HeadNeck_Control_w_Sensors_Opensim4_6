@@ -1,0 +1,274 @@
+Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...
+(8_w,16)-aCMA-ES (mu_w=4.8,w_1=32%) in dimension 9 (seed=478909, Fri Sep 25 23:44:49 2026)
+
+--- Generation 1 ---
+Eval CRASHED at 1.12Hz: Kp=78.2, Ki=41.0, Kd=10.6, Gton=11.30, Gsc=7.66, Gphas=4.23, Kp_prop=0.534, K_gamma_dyn=40.2, K_gamma_stat=108.1Eval CRASHED at 1.12Hz: Kp=74.0, Ki=47.1, Kd=9.1, Gton=16.11, Gsc=3.56, Gphas=3.84, Kp_prop=1.133, K_gamma_dyn=49.3, K_gamma_stat=110.0
+
+Eval CRASHED at 1.12Hz: Kp=85.2, Ki=47.1, Kd=8.7, Gton=17.16, Gsc=2.44, Gphas=7.76, Kp_prop=0.169, K_gamma_dyn=54.9, K_gamma_stat=99.4Eval CRASHED at 1.12Hz: Kp=81.4, Ki=47.4, Kd=6.7, Gton=13.57, Gsc=3.75, Gphas=0.77, Kp_prop=1.396, K_gamma_dyn=50.7, K_gamma_stat=94.3
+Eval CRASHED at 1.12Hz: Kp=76.5, Ki=38.9, Kd=12.2, Gton=6.29, Gsc=0.81, Gphas=2.56, Kp_prop=0.084, K_gamma_dyn=44.3, K_gamma_stat=94.1Eval CRASHED at 1.12Hz: Kp=75.8, Ki=42.0, Kd=8.2, Gton=18.30, Gsc=4.48, Gphas=6.84, Kp_prop=0.529, K_gamma_dyn=44.9, K_gamma_stat=94.4
+
+
+Eval CRASHED at 1.12Hz: Kp=90.8, Ki=44.8, Kd=9.8, Gton=3.63, Gsc=2.59, Gphas=5.81, Kp_prop=0.586, K_gamma_dyn=46.6, K_gamma_stat=107.4Eval CRASHED at 1.12Hz: Kp=87.4, Ki=36.1, Kd=13.9, Gton=6.06, Gsc=1.57, Gphas=19.86, Kp_prop=0.668, K_gamma_dyn=47.2, K_gamma_stat=98.7
+
+Eval CRASHED at 1.12Hz: Kp=76.2, Ki=41.0, Kd=9.0, Gton=10.68, Gsc=5.00, Gphas=9.50, Kp_prop=0.886, K_gamma_dyn=49.1, K_gamma_stat=88.6Eval CRASHED at 1.12Hz: Kp=71.1, Ki=45.2, Kd=10.1, Gton=16.29, Gsc=3.84, Gphas=4.77, Kp_prop=0.051, K_gamma_dyn=53.3, K_gamma_stat=105.4Eval CRASHED at 1.12Hz: Kp=74.7, Ki=39.7, Kd=10.6, Gton=4.33, Gsc=2.07, Gphas=1.58, Kp_prop=0.646, K_gamma_dyn=57.9, K_gamma_stat=99.7
+
+
+Eval CRASHED at 1.12Hz: Kp=74.9, Ki=48.0, Kd=6.2, Gton=10.92, Gsc=12.15, Gphas=4.50, Kp_prop=0.570, K_gamma_dyn=46.5, K_gamma_stat=97.3
+Eval CRASHED at 1.12Hz: Kp=81.9, Ki=42.4, Kd=9.4, Gton=6.75, Gsc=1.42, Gphas=7.48, Kp_prop=0.463, K_gamma_dyn=49.1, K_gamma_stat=92.9Eval CRASHED at 1.12Hz: Kp=78.1, Ki=38.3, Kd=20.1, Gton=9.45, Gsc=4.56, Gphas=0.48, Kp_prop=0.000, K_gamma_dyn=42.8, K_gamma_stat=104.9
+
+Eval CRASHED at 1.12Hz: Kp=80.5, Ki=34.5, Kd=15.2, Gton=12.35, Gsc=1.22, Gphas=3.80, Kp_prop=0.386, K_gamma_dyn=56.7, K_gamma_stat=116.9
+Eval CRASHED at 1.12Hz: Kp=73.3, Ki=55.5, Kd=12.0, Gton=7.06, Gsc=2.85, Gphas=7.15, Kp_prop=0.279, K_gamma_dyn=47.2, K_gamma_stat=98.0
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     16 1.000033156313068e+05 1.0e+00 5.21e+00  7e-01  6e+00 0:01.0  
+
+--- Generation 2 ---
+Eval CRASHED at 1.12Hz: Kp=76.5, Ki=41.8, Kd=20.5, Gton=1.92, Gsc=4.20, Gphas=1.57, Kp_prop=1.148, K_gamma_dyn=53.2, K_gamma_stat=105.1Eval CRASHED at 1.12Hz: Kp=77.9, Ki=37.7, Kd=13.4, Gton=8.29, Gsc=1.36, Gphas=5.67, Kp_prop=0.178, K_gamma_dyn=52.4, K_gamma_stat=99.7
+Eval CRASHED at 1.12Hz: Kp=79.4, Ki=42.2, Kd=10.7, Gton=18.87, Gsc=2.33, Gphas=0.22, Kp_prop=0.793, K_gamma_dyn=54.0, K_gamma_stat=104.3
+
+Eval CRASHED at 1.12Hz: Kp=87.6, Ki=45.5, Kd=5.5, Gton=14.42, Gsc=4.85, Gphas=6.36, Kp_prop=0.022, K_gamma_dyn=41.0, K_gamma_stat=97.9
+Eval CRASHED at 1.12Hz: Kp=70.7, Ki=44.1, Kd=8.7, Gton=0.70, Gsc=2.65, Gphas=11.44, Kp_prop=0.194, K_gamma_dyn=53.9, K_gamma_stat=108.9
+Eval CRASHED at 1.12Hz: Kp=78.1, Ki=42.7, Kd=15.1, Gton=17.54, Gsc=2.67, Gphas=5.51, Kp_prop=0.627, K_gamma_dyn=46.3, K_gamma_stat=98.8
+Eval CRASHED at 1.12Hz: Kp=79.9, Ki=43.9, Kd=9.7, Gton=17.03, Gsc=1.58, Gphas=0.12, Kp_prop=0.962, K_gamma_dyn=50.0, K_gamma_stat=103.4
+Eval CRASHED at 1.12Hz: Kp=82.9, Ki=40.1, Kd=8.7, Gton=14.46, Gsc=8.00, Gphas=0.64, Kp_prop=0.101, K_gamma_dyn=49.4, K_gamma_stat=104.8Eval CRASHED at 1.12Hz: Kp=78.8, Ki=42.8, Kd=10.1, Gton=17.05, Gsc=7.03, Gphas=10.45, Kp_prop=0.148, K_gamma_dyn=47.0, K_gamma_stat=105.2
+
+Eval CRASHED at 1.12Hz: Kp=68.8, Ki=43.9, Kd=14.6, Gton=9.72, Gsc=6.50, Gphas=9.87, Kp_prop=0.218, K_gamma_dyn=36.6, K_gamma_stat=96.5
+Eval CRASHED at 1.12Hz: Kp=78.4, Ki=37.2, Kd=18.9, Gton=13.14, Gsc=3.48, Gphas=2.33, Kp_prop=0.184, K_gamma_dyn=43.7, K_gamma_stat=104.9
+Eval CRASHED at 1.12Hz: Kp=75.0, Ki=45.2, Kd=8.1, Gton=8.08, Gsc=3.25, Gphas=7.07, Kp_prop=1.368, K_gamma_dyn=50.2, K_gamma_stat=99.8
+Eval CRASHED at 1.12Hz: Kp=84.0, Ki=29.1, Kd=18.1, Gton=19.24, Gsc=3.60, Gphas=6.36, Kp_prop=0.700, K_gamma_dyn=52.1, K_gamma_stat=106.5
+Eval CRASHED at 1.12Hz: Kp=82.1, Ki=35.8, Kd=15.8, Gton=5.47, Gsc=7.39, Gphas=1.94, Kp_prop=0.364, K_gamma_dyn=49.5, K_gamma_stat=110.7Eval CRASHED at 1.12Hz: Kp=78.6, Ki=41.3, Kd=20.3, Gton=13.56, Gsc=4.91, Gphas=4.74, Kp_prop=0.465, K_gamma_dyn=49.1, K_gamma_stat=97.1
+
+Eval CRASHED at 1.12Hz: Kp=78.4, Ki=40.9, Kd=11.2, Gton=0.99, Gsc=1.59, Gphas=2.53, Kp_prop=0.264, K_gamma_dyn=45.5, K_gamma_stat=114.0
+    2     32 1.000033027650800e+05 1.3e+00 4.95e+00  6e-01  5e+00 0:01.8  
+
+--- Generation 3 ---
+Eval CRASHED at 1.12Hz: Kp=80.2, Ki=42.3, Kd=15.3, Gton=19.20, Gsc=13.75, Gphas=0.85, Kp_prop=0.561, K_gamma_dyn=51.3, K_gamma_stat=107.7Eval CRASHED at 1.12Hz: Kp=77.9, Ki=44.6, Kd=13.6, Gton=17.84, Gsc=4.89, Gphas=0.57, Kp_prop=0.516, K_gamma_dyn=49.8, K_gamma_stat=98.5Eval CRASHED at 1.12Hz: Kp=71.6, Ki=35.2, Kd=5.9, Gton=14.81, Gsc=5.56, Gphas=0.56, Kp_prop=0.931, K_gamma_dyn=59.7, K_gamma_stat=103.7
+
+
+Eval CRASHED at 1.12Hz: Kp=73.3, Ki=52.1, Kd=10.4, Gton=5.53, Gsc=3.99, Gphas=1.94, Kp_prop=0.379, K_gamma_dyn=39.5, K_gamma_stat=100.4
+Eval CRASHED at 1.12Hz: Kp=88.1, Ki=52.2, Kd=12.7, Gton=14.59, Gsc=8.46, Gphas=0.21, Kp_prop=0.944, K_gamma_dyn=47.9, K_gamma_stat=102.7
+Eval CRASHED at 1.12Hz: Kp=90.9, Ki=38.3, Kd=19.9, Gton=11.48, Gsc=0.79, Gphas=10.31, Kp_prop=0.646, K_gamma_dyn=50.1, K_gamma_stat=108.6
+Eval CRASHED at 1.12Hz: Kp=78.5, Ki=46.5, Kd=14.8, Gton=18.68, Gsc=13.71, Gphas=4.72, Kp_prop=1.113, K_gamma_dyn=42.1, K_gamma_stat=104.2
+Eval CRASHED at 1.12Hz: Kp=79.5, Ki=34.2, Kd=17.8, Gton=10.03, Gsc=2.90, Gphas=0.21, Kp_prop=0.583, K_gamma_dyn=46.8, K_gamma_stat=96.2
+Eval CRASHED at 1.12Hz: Kp=70.4, Ki=37.1, Kd=13.3, Gton=5.84, Gsc=6.11, Gphas=2.94, Kp_prop=1.530, K_gamma_dyn=49.6, K_gamma_stat=103.5
+Eval CRASHED at 1.12Hz: Kp=82.6, Ki=42.6, Kd=13.7, Gton=8.37, Gsc=4.39, Gphas=8.97, Kp_prop=0.045, K_gamma_dyn=49.2, K_gamma_stat=99.0
+Eval CRASHED at 1.12Hz: Kp=78.6, Ki=36.8, Kd=16.3, Gton=16.96, Gsc=0.85, Gphas=6.64, Kp_prop=0.528, K_gamma_dyn=48.7, K_gamma_stat=109.5
+Eval CRASHED at 1.12Hz: Kp=79.3, Ki=31.7, Kd=3.5, Gton=12.02, Gsc=3.80, Gphas=3.46, Kp_prop=0.092, K_gamma_dyn=50.7, K_gamma_stat=103.8
+Eval CRASHED at 1.12Hz: Kp=78.6, Ki=43.6, Kd=11.0, Gton=12.41, Gsc=8.70, Gphas=10.38, Kp_prop=1.037, K_gamma_dyn=44.7, K_gamma_stat=104.2Eval CRASHED at 1.12Hz: Kp=77.7, Ki=40.8, Kd=16.0, Gton=11.94, Gsc=8.33, Gphas=7.14, Kp_prop=0.007, K_gamma_dyn=49.0, K_gamma_stat=95.2Eval CRASHED at 1.12Hz: Kp=81.7, Ki=38.1, Kd=11.6, Gton=16.70, Gsc=4.61, Gphas=6.06, Kp_prop=0.178, K_gamma_dyn=45.4, K_gamma_stat=108.8
+
+
+Eval CRASHED at 1.12Hz: Kp=79.8, Ki=36.9, Kd=9.0, Gton=11.52, Gsc=2.13, Gphas=1.49, Kp_prop=0.204, K_gamma_dyn=55.3, K_gamma_stat=105.9
+    3     48 1.000004252068880e+05 1.4e+00 4.41e+00  5e-01  5e+00 0:02.6  
+
+--- Generation 4 ---
+Eval CRASHED at 1.12Hz: Kp=85.7, Ki=46.7, Kd=11.3, Gton=4.65, Gsc=8.18, Gphas=5.68, Kp_prop=1.301, K_gamma_dyn=46.6, K_gamma_stat=97.2Eval CRASHED at 1.12Hz: Kp=80.8, Ki=47.7, Kd=16.0, Gton=5.96, Gsc=5.44, Gphas=1.04, Kp_prop=0.183, K_gamma_dyn=40.8, K_gamma_stat=99.6Eval CRASHED at 1.12Hz: Kp=83.2, Ki=38.4, Kd=17.7, Gton=13.85, Gsc=2.38, Gphas=5.95, Kp_prop=0.041, K_gamma_dyn=51.4, K_gamma_stat=107.0
+
+
+Eval CRASHED at 1.12Hz: Kp=79.3, Ki=42.9, Kd=9.1, Gton=9.41, Gsc=8.65, Gphas=10.15, Kp_prop=0.087, K_gamma_dyn=57.4, K_gamma_stat=86.0Eval CRASHED at 1.12Hz: Kp=84.9, Ki=39.6, Kd=13.2, Gton=12.88, Gsc=2.31, Gphas=10.42, Kp_prop=0.552, K_gamma_dyn=47.8, K_gamma_stat=112.7
+
+Eval CRASHED at 1.12Hz: Kp=75.8, Ki=49.9, Kd=14.9, Gton=13.77, Gsc=1.34, Gphas=3.53, Kp_prop=0.577, K_gamma_dyn=51.4, K_gamma_stat=94.6
+Eval CRASHED at 1.12Hz: Kp=74.5, Ki=35.5, Kd=16.5, Gton=8.78, Gsc=11.12, Gphas=3.16, Kp_prop=0.500, K_gamma_dyn=49.1, K_gamma_stat=99.8Eval CRASHED at 1.12Hz: Kp=81.3, Ki=43.0, Kd=16.8, Gton=9.43, Gsc=5.63, Gphas=1.51, Kp_prop=0.295, K_gamma_dyn=54.4, K_gamma_stat=108.0Eval CRASHED at 1.12Hz: Kp=78.8, Ki=41.6, Kd=17.5, Gton=14.75, Gsc=3.58, Gphas=0.33, Kp_prop=0.543, K_gamma_dyn=48.1, K_gamma_stat=102.0
+
+
+Eval CRASHED at 1.12Hz: Kp=70.1, Ki=41.0, Kd=18.3, Gton=13.42, Gsc=4.80, Gphas=2.57, Kp_prop=0.624, K_gamma_dyn=42.7, K_gamma_stat=103.1
+Eval CRASHED at 1.12Hz: Kp=72.3, Ki=38.8, Kd=10.3, Gton=16.58, Gsc=7.53, Gphas=3.20, Kp_prop=0.113, K_gamma_dyn=49.6, K_gamma_stat=91.1
+Eval CRASHED at 1.12Hz: Kp=80.4, Ki=45.4, Kd=13.4, Gton=5.15, Gsc=2.62, Gphas=1.08, Kp_prop=0.785, K_gamma_dyn=50.0, K_gamma_stat=107.8
+Eval CRASHED at 1.12Hz: Kp=69.1, Ki=48.2, Kd=6.4, Gton=14.31, Gsc=3.38, Gphas=4.26, Kp_prop=0.303, K_gamma_dyn=49.1, K_gamma_stat=93.8Eval CRASHED at 1.12Hz: Kp=85.2, Ki=38.6, Kd=14.5, Gton=11.43, Gsc=2.88, Gphas=8.81, Kp_prop=0.658, K_gamma_dyn=51.0, K_gamma_stat=110.5
+
+Eval CRASHED at 1.12Hz: Kp=78.3, Ki=39.9, Kd=8.0, Gton=19.99, Gsc=3.43, Gphas=7.15, Kp_prop=0.284, K_gamma_dyn=46.0, K_gamma_stat=98.6
+Eval CRASHED at 1.12Hz: Kp=76.5, Ki=46.0, Kd=17.6, Gton=11.16, Gsc=4.36, Gphas=0.11, Kp_prop=0.006, K_gamma_dyn=46.2, K_gamma_stat=109.7
+
+--- Generation 5 ---
+Eval CRASHED at 1.12Hz: Kp=73.9, Ki=37.7, Kd=16.4, Gton=12.53, Gsc=8.87, Gphas=4.26, Kp_prop=1.125, K_gamma_dyn=45.9, K_gamma_stat=94.5
+Eval CRASHED at 1.12Hz: Kp=85.0, Ki=41.1, Kd=10.4, Gton=12.33, Gsc=2.63, Gphas=8.28, Kp_prop=0.061, K_gamma_dyn=49.4, K_gamma_stat=108.4Eval CRASHED at 1.12Hz: Kp=75.2, Ki=32.7, Kd=13.7, Gton=12.92, Gsc=6.56, Gphas=4.70, Kp_prop=0.066, K_gamma_dyn=53.0, K_gamma_stat=94.8
+
+Eval CRASHED at 1.12Hz: Kp=77.9, Ki=43.0, Kd=13.7, Gton=3.88, Gsc=6.24, Gphas=19.77, Kp_prop=0.998, K_gamma_dyn=55.0, K_gamma_stat=101.2
+Eval CRASHED at 1.12Hz: Kp=70.7, Ki=37.4, Kd=17.2, Gton=16.99, Gsc=9.08, Gphas=2.06, Kp_prop=0.720, K_gamma_dyn=56.2, K_gamma_stat=96.9
+Eval CRASHED at 1.12Hz: Kp=79.7, Ki=47.8, Kd=12.9, Gton=8.45, Gsc=11.58, Gphas=12.99, Kp_prop=0.874, K_gamma_dyn=48.8, K_gamma_stat=98.7
+Eval CRASHED at 1.12Hz: Kp=82.6, Ki=37.3, Kd=17.9, Gton=11.48, Gsc=4.86, Gphas=7.97, Kp_prop=0.423, K_gamma_dyn=50.2, K_gamma_stat=101.0Eval CRASHED at 1.12Hz: Kp=82.7, Ki=44.9, Kd=14.3, Gton=14.74, Gsc=5.18, Gphas=0.10, Kp_prop=0.486, K_gamma_dyn=53.8, K_gamma_stat=99.8Eval CRASHED at 1.12Hz: Kp=78.9, Ki=42.4, Kd=16.3, Gton=13.64, Gsc=1.45, Gphas=14.32, Kp_prop=0.743, K_gamma_dyn=51.1, K_gamma_stat=100.7
+
+Eval CRASHED at 1.12Hz: Kp=89.3, Ki=45.2, Kd=13.8, Gton=14.85, Gsc=8.64, Gphas=1.09, Kp_prop=0.752, K_gamma_dyn=50.5, K_gamma_stat=97.7
+
+Eval CRASHED at 1.12Hz: Kp=78.1, Ki=29.1, Kd=12.5, Gton=17.67, Gsc=0.94, Gphas=1.44, Kp_prop=0.288, K_gamma_dyn=50.4, K_gamma_stat=97.6
+Eval CRASHED at 1.12Hz: Kp=81.6, Ki=30.1, Kd=2.6, Gton=13.16, Gsc=12.43, Gphas=10.25, Kp_prop=0.001, K_gamma_dyn=59.7, K_gamma_stat=87.2
+Eval CRASHED at 1.12Hz: Kp=81.3, Ki=45.4, Kd=12.7, Gton=14.00, Gsc=5.73, Gphas=8.54, Kp_prop=0.190, K_gamma_dyn=59.5, K_gamma_stat=94.9
+Eval CRASHED at 1.12Hz: Kp=72.1, Ki=38.6, Kd=17.9, Gton=17.39, Gsc=3.47, Gphas=8.64, Kp_prop=0.980, K_gamma_dyn=44.6, K_gamma_stat=104.3
+Eval CRASHED at 1.12Hz: Kp=75.8, Ki=43.0, Kd=16.9, Gton=14.86, Gsc=0.36, Gphas=11.74, Kp_prop=1.167, K_gamma_dyn=56.0, K_gamma_stat=99.9
+Eval CRASHED at 1.12Hz: Kp=74.2, Ki=36.4, Kd=14.2, Gton=7.86, Gsc=7.09, Gphas=6.30, Kp_prop=1.021, K_gamma_dyn=54.5, K_gamma_stat=88.1
+
+--- Generation 6 ---
+Eval CRASHED at 1.12Hz: Kp=72.4, Ki=33.7, Kd=18.4, Gton=11.00, Gsc=6.46, Gphas=18.08, Kp_prop=0.402, K_gamma_dyn=57.6, K_gamma_stat=94.0Eval CRASHED at 1.12Hz: Kp=84.0, Ki=48.4, Kd=9.0, Gton=1.72, Gsc=6.12, Gphas=15.09, Kp_prop=1.049, K_gamma_dyn=52.3, K_gamma_stat=93.1
+
+Eval CRASHED at 1.12Hz: Kp=78.6, Ki=38.4, Kd=12.3, Gton=5.27, Gsc=7.33, Gphas=19.52, Kp_prop=0.453, K_gamma_dyn=48.0, K_gamma_stat=107.6
+Eval CRASHED at 1.12Hz: Kp=83.7, Ki=36.9, Kd=7.1, Gton=17.49, Gsc=12.25, Gphas=9.23, Kp_prop=0.244, K_gamma_dyn=53.9, K_gamma_stat=97.3
+Eval CRASHED at 1.12Hz: Kp=80.0, Ki=45.1, Kd=8.0, Gton=8.81, Gsc=9.91, Gphas=9.41, Kp_prop=0.166, K_gamma_dyn=56.1, K_gamma_stat=95.3
+Eval CRASHED at 1.12Hz: Kp=85.3, Ki=38.7, Kd=16.8, Gton=14.93, Gsc=2.60, Gphas=13.73, Kp_prop=0.001, K_gamma_dyn=55.1, K_gamma_stat=105.3
+Eval CRASHED at 1.12Hz: Kp=80.4, Ki=43.8, Kd=7.6, Gton=9.78, Gsc=2.07, Gphas=11.24, Kp_prop=0.839, K_gamma_dyn=50.6, K_gamma_stat=95.4Eval CRASHED at 1.12Hz: Kp=77.9, Ki=33.9, Kd=18.5, Gton=15.17, Gsc=7.15, Gphas=8.24, Kp_prop=0.176, K_gamma_dyn=62.0, K_gamma_stat=102.7Eval CRASHED at 1.12Hz: Kp=77.8, Ki=34.6, Kd=4.1, Gton=10.03, Gsc=8.27, Gphas=1.31, Kp_prop=0.248, K_gamma_dyn=58.1, K_gamma_stat=90.6
+
+
+Eval CRASHED at 1.12Hz: Kp=76.1, Ki=34.2, Kd=24.4, Gton=15.10, Gsc=9.64, Gphas=11.93, Kp_prop=0.154, K_gamma_dyn=59.0, K_gamma_stat=106.6
+Eval CRASHED at 1.12Hz: Kp=73.3, Ki=43.3, Kd=12.9, Gton=5.37, Gsc=4.60, Gphas=4.99, Kp_prop=0.052, K_gamma_dyn=50.6, K_gamma_stat=84.3
+Eval CRASHED at 1.12Hz: Kp=82.9, Ki=40.3, Kd=9.1, Gton=9.16, Gsc=6.90, Gphas=16.32, Kp_prop=0.030, K_gamma_dyn=57.4, K_gamma_stat=91.3
+Eval CRASHED at 1.12Hz: Kp=76.5, Ki=46.0, Kd=6.0, Gton=5.23, Gsc=5.72, Gphas=5.96, Kp_prop=0.005, K_gamma_dyn=52.8, K_gamma_stat=99.0Eval CRASHED at 1.12Hz: Kp=69.8, Ki=41.0, Kd=10.2, Gton=5.45, Gsc=0.81, Gphas=8.44, Kp_prop=1.049, K_gamma_dyn=49.8, K_gamma_stat=101.2Eval CRASHED at 1.12Hz: Kp=80.0, Ki=46.9, Kd=5.2, Gton=2.97, Gsc=3.14, Gphas=12.83, Kp_prop=0.108, K_gamma_dyn=57.1, K_gamma_stat=92.8
+
+
+Eval CRASHED at 1.12Hz: Kp=76.9, Ki=36.7, Kd=18.9, Gton=10.87, Gsc=1.67, Gphas=6.94, Kp_prop=0.095, K_gamma_dyn=47.3, K_gamma_stat=99.1
+
+--- Generation 7 ---
+Eval CRASHED at 1.12Hz: Kp=79.6, Ki=35.2, Kd=15.3, Gton=2.44, Gsc=8.01, Gphas=8.33, Kp_prop=0.219, K_gamma_dyn=53.5, K_gamma_stat=94.8Eval CRASHED at 1.12Hz: Kp=76.5, Ki=38.7, Kd=13.1, Gton=10.01, Gsc=4.84, Gphas=9.08, Kp_prop=0.365, K_gamma_dyn=57.7, K_gamma_stat=101.1Eval CRASHED at 1.12Hz: Kp=82.5, Ki=40.6, Kd=16.6, Gton=14.11, Gsc=3.64, Gphas=7.00, Kp_prop=0.110, K_gamma_dyn=54.1, K_gamma_stat=98.0Eval CRASHED at 1.12Hz: Kp=73.2, Ki=39.2, Kd=8.0, Gton=10.90, Gsc=6.78, Gphas=12.44, Kp_prop=0.374, K_gamma_dyn=50.3, K_gamma_stat=93.5
+
+
+Eval CRASHED at 1.12Hz: Kp=79.1, Ki=37.3, Kd=9.9, Gton=7.28, Gsc=10.35, Gphas=12.96, Kp_prop=0.089, K_gamma_dyn=54.4, K_gamma_stat=96.6
+
+Eval CRASHED at 1.12Hz: Kp=74.9, Ki=39.9, Kd=12.3, Gton=12.92, Gsc=4.24, Gphas=13.04, Kp_prop=0.558, K_gamma_dyn=52.7, K_gamma_stat=91.2
+Eval CRASHED at 1.12Hz: Kp=75.4, Ki=37.6, Kd=13.7, Gton=3.81, Gsc=6.71, Gphas=5.87, Kp_prop=0.127, K_gamma_dyn=47.8, K_gamma_stat=83.3Eval CRASHED at 1.12Hz: Kp=73.4, Ki=46.1, Kd=10.9, Gton=8.48, Gsc=5.97, Gphas=12.49, Kp_prop=0.133, K_gamma_dyn=53.9, K_gamma_stat=93.4
+
+Eval CRASHED at 1.12Hz: Kp=77.7, Ki=42.0, Kd=15.2, Gton=3.65, Gsc=1.68, Gphas=16.73, Kp_prop=0.669, K_gamma_dyn=56.9, K_gamma_stat=100.5
+Eval CRASHED at 1.12Hz: Kp=82.4, Ki=39.8, Kd=10.3, Gton=11.02, Gsc=0.63, Gphas=3.82, Kp_prop=0.108, K_gamma_dyn=49.0, K_gamma_stat=98.2
+Eval CRASHED at 1.12Hz: Kp=77.2, Ki=45.3, Kd=10.5, Gton=5.63, Gsc=0.54, Gphas=10.79, Kp_prop=0.320, K_gamma_dyn=46.8, K_gamma_stat=92.5
+Eval CRASHED at 1.12Hz: Kp=78.3, Ki=37.7, Kd=19.1, Gton=6.44, Gsc=5.86, Gphas=11.34, Kp_prop=0.066, K_gamma_dyn=53.8, K_gamma_stat=98.5
+Eval CRASHED at 1.12Hz: Kp=79.7, Ki=44.6, Kd=11.3, Gton=0.43, Gsc=5.59, Gphas=7.98, Kp_prop=0.008, K_gamma_dyn=49.6, K_gamma_stat=96.6
+Eval CRASHED at 1.12Hz: Kp=73.7, Ki=44.6, Kd=6.6, Gton=9.98, Gsc=6.82, Gphas=12.77, Kp_prop=0.736, K_gamma_dyn=55.9, K_gamma_stat=88.0
+Eval CRASHED at 1.12Hz: Kp=81.8, Ki=34.1, Kd=14.7, Gton=7.40, Gsc=2.49, Gphas=10.20, Kp_prop=0.012, K_gamma_dyn=51.7, K_gamma_stat=99.3
+Eval CRASHED at 1.12Hz: Kp=75.8, Ki=39.5, Kd=4.5, Gton=6.21, Gsc=2.96, Gphas=8.81, Kp_prop=0.496, K_gamma_dyn=44.5, K_gamma_stat=89.2
+    7    112 1.000014477985163e+05 1.9e+00 4.11e+00  5e-01  5e+00 0:05.8  
+
+--- Generation 8 ---
+Eval CRASHED at 1.12Hz: Kp=83.6, Ki=36.4, Kd=14.9, Gton=7.05, Gsc=12.10, Gphas=12.71, Kp_prop=0.505, K_gamma_dyn=55.3, K_gamma_stat=103.4Eval CRASHED at 1.12Hz: Kp=76.4, Ki=35.4, Kd=13.5, Gton=13.21, Gsc=2.77, Gphas=2.75, Kp_prop=0.563, K_gamma_dyn=57.7, K_gamma_stat=99.3Eval CRASHED at 1.12Hz: Kp=79.0, Ki=39.0, Kd=12.3, Gton=3.73, Gsc=17.80, Gphas=12.43, Kp_prop=0.671, K_gamma_dyn=53.1, K_gamma_stat=93.8Eval CRASHED at 1.12Hz: Kp=73.8, Ki=44.3, Kd=10.3, Gton=10.31, Gsc=2.69, Gphas=6.38, Kp_prop=0.040, K_gamma_dyn=55.1, K_gamma_stat=105.2
+
+Eval CRASHED at 1.12Hz: Kp=77.0, Ki=40.0, Kd=6.9, Gton=7.56, Gsc=3.11, Gphas=14.55, Kp_prop=0.127, K_gamma_dyn=53.6, K_gamma_stat=97.4
+
+
+Eval CRASHED at 1.12Hz: Kp=74.0, Ki=42.0, Kd=9.2, Gton=5.22, Gsc=13.75, Gphas=11.95, Kp_prop=0.270, K_gamma_dyn=53.6, K_gamma_stat=92.7
+Eval CRASHED at 1.12Hz: Kp=69.5, Ki=28.6, Kd=8.7, Gton=4.24, Gsc=11.09, Gphas=12.24, Kp_prop=0.159, K_gamma_dyn=57.7, K_gamma_stat=85.0Eval CRASHED at 1.12Hz: Kp=73.1, Ki=34.6, Kd=16.0, Gton=7.73, Gsc=10.52, Gphas=6.81, Kp_prop=0.304, K_gamma_dyn=58.6, K_gamma_stat=85.9
+
+Eval CRASHED at 1.12Hz: Kp=81.2, Ki=36.2, Kd=14.3, Gton=9.19, Gsc=1.14, Gphas=5.73, Kp_prop=0.626, K_gamma_dyn=50.0, K_gamma_stat=98.7
+Eval CRASHED at 1.12Hz: Kp=75.3, Ki=37.3, Kd=14.6, Gton=4.15, Gsc=1.95, Gphas=9.91, Kp_prop=0.121, K_gamma_dyn=58.2, K_gamma_stat=100.2
+Eval CRASHED at 1.12Hz: Kp=73.7, Ki=36.8, Kd=20.0, Gton=9.22, Gsc=6.94, Gphas=9.66, Kp_prop=0.136, K_gamma_dyn=59.3, K_gamma_stat=98.5
+Eval CRASHED at 1.12Hz: Kp=74.1, Ki=41.6, Kd=15.4, Gton=9.98, Gsc=4.47, Gphas=14.80, Kp_prop=0.555, K_gamma_dyn=59.0, K_gamma_stat=95.3
+Eval CRASHED at 1.12Hz: Kp=84.9, Ki=33.9, Kd=8.5, Gton=16.10, Gsc=8.33, Gphas=13.36, Kp_prop=0.155, K_gamma_dyn=52.3, K_gamma_stat=98.0Eval CRASHED at 1.12Hz: Kp=74.2, Ki=38.1, Kd=11.6, Gton=0.28, Gsc=10.06, Gphas=10.48, Kp_prop=0.703, K_gamma_dyn=60.4, K_gamma_stat=95.6Eval CRASHED at 1.12Hz: Kp=83.3, Ki=40.4, Kd=11.5, Gton=10.19, Gsc=9.35, Gphas=11.74, Kp_prop=0.604, K_gamma_dyn=51.4, K_gamma_stat=91.8
+
+
+Eval CRASHED at 1.12Hz: Kp=79.1, Ki=33.5, Kd=16.9, Gton=9.28, Gsc=3.36, Gphas=8.66, Kp_prop=0.471, K_gamma_dyn=52.9, K_gamma_stat=98.5
+
+--- Generation 9 ---
+Eval CRASHED at 1.12Hz: Kp=73.3, Ki=44.6, Kd=11.6, Gton=4.33, Gsc=8.06, Gphas=11.57, Kp_prop=0.022, K_gamma_dyn=56.5, K_gamma_stat=94.4
+Eval CRASHED at 1.12Hz: Kp=84.1, Ki=36.5, Kd=18.3, Gton=9.64, Gsc=5.12, Gphas=9.70, Kp_prop=0.635, K_gamma_dyn=48.9, K_gamma_stat=92.7
+Eval CRASHED at 1.12Hz: Kp=81.8, Ki=35.5, Kd=16.7, Gton=13.93, Gsc=8.74, Gphas=2.67, Kp_prop=1.083, K_gamma_dyn=57.3, K_gamma_stat=94.3Eval CRASHED at 1.12Hz: Kp=80.6, Ki=32.7, Kd=13.5, Gton=10.25, Gsc=8.72, Gphas=6.71, Kp_prop=0.202, K_gamma_dyn=55.9, K_gamma_stat=97.7
+
+Eval CRASHED at 1.12Hz: Kp=74.4, Ki=42.9, Kd=11.3, Gton=6.43, Gsc=8.56, Gphas=9.78, Kp_prop=0.152, K_gamma_dyn=55.6, K_gamma_stat=85.9
+Eval CRASHED at 1.12Hz: Kp=82.0, Ki=36.7, Kd=12.5, Gton=8.04, Gsc=8.11, Gphas=4.90, Kp_prop=0.672, K_gamma_dyn=56.1, K_gamma_stat=95.1
+Eval CRASHED at 1.12Hz: Kp=82.6, Ki=38.4, Kd=9.6, Gton=7.06, Gsc=6.00, Gphas=9.42, Kp_prop=0.098, K_gamma_dyn=56.4, K_gamma_stat=93.8Eval CRASHED at 1.12Hz: Kp=81.0, Ki=33.1, Kd=8.2, Gton=7.74, Gsc=10.56, Gphas=16.89, Kp_prop=0.166, K_gamma_dyn=58.5, K_gamma_stat=90.5
+
+Eval CRASHED at 1.12Hz: Kp=78.7, Ki=36.6, Kd=17.1, Gton=5.56, Gsc=6.98, Gphas=0.30, Kp_prop=0.469, K_gamma_dyn=52.8, K_gamma_stat=98.5
+Eval CRASHED at 1.12Hz: Kp=81.9, Ki=36.2, Kd=14.9, Gton=14.08, Gsc=10.35, Gphas=5.60, Kp_prop=0.913, K_gamma_dyn=59.3, K_gamma_stat=96.1
+Eval CRASHED at 1.12Hz: Kp=81.4, Ki=40.7, Kd=13.2, Gton=6.18, Gsc=10.94, Gphas=13.66, Kp_prop=0.694, K_gamma_dyn=60.0, K_gamma_stat=98.7
+Eval CRASHED at 1.12Hz: Kp=70.6, Ki=41.0, Kd=5.7, Gton=11.27, Gsc=8.36, Gphas=10.64, Kp_prop=0.242, K_gamma_dyn=57.0, K_gamma_stat=89.6
+Eval CRASHED at 1.12Hz: Kp=75.9, Ki=37.7, Kd=7.2, Gton=11.07, Gsc=6.48, Gphas=13.14, Kp_prop=0.089, K_gamma_dyn=55.9, K_gamma_stat=95.8Eval CRASHED at 1.12Hz: Kp=78.3, Ki=38.5, Kd=13.4, Gton=14.43, Gsc=5.58, Gphas=5.54, Kp_prop=0.097, K_gamma_dyn=56.8, K_gamma_stat=92.0
+Eval CRASHED at 1.12Hz: Kp=78.9, Ki=37.8, Kd=22.3, Gton=11.66, Gsc=2.81, Gphas=15.73, Kp_prop=1.160, K_gamma_dyn=54.8, K_gamma_stat=94.1
+
+Eval CRASHED at 1.12Hz: Kp=83.4, Ki=38.3, Kd=16.3, Gton=9.32, Gsc=2.31, Gphas=8.48, Kp_prop=0.688, K_gamma_dyn=56.4, K_gamma_stat=97.1
+
+--- Generation 10 ---
+Eval CRASHED at 1.12Hz: Kp=78.9, Ki=40.1, Kd=6.9, Gton=7.50, Gsc=9.25, Gphas=14.79, Kp_prop=0.448, K_gamma_dyn=57.2, K_gamma_stat=91.3Eval CRASHED at 1.12Hz: Kp=80.8, Ki=32.9, Kd=14.7, Gton=15.81, Gsc=10.22, Gphas=1.56, Kp_prop=0.760, K_gamma_dyn=54.3, K_gamma_stat=99.7
+
+Eval CRASHED at 1.12Hz: Kp=80.7, Ki=38.8, Kd=12.7, Gton=11.04, Gsc=5.84, Gphas=8.46, Kp_prop=0.314, K_gamma_dyn=57.0, K_gamma_stat=97.1
+Eval CRASHED at 1.12Hz: Kp=76.6, Ki=37.1, Kd=11.6, Gton=8.65, Gsc=9.84, Gphas=10.40, Kp_prop=0.335, K_gamma_dyn=48.6, K_gamma_stat=91.6Eval CRASHED at 1.12Hz: Kp=76.1, Ki=35.9, Kd=8.4, Gton=10.57, Gsc=10.33, Gphas=10.31, Kp_prop=0.728, K_gamma_dyn=63.2, K_gamma_stat=95.7
+
+Eval CRASHED at 1.12Hz: Kp=82.9, Ki=38.4, Kd=14.2, Gton=15.88, Gsc=6.78, Gphas=8.31, Kp_prop=0.347, K_gamma_dyn=49.6, K_gamma_stat=94.7
+Eval CRASHED at 1.12Hz: Kp=80.1, Ki=36.7, Kd=10.2, Gton=9.08, Gsc=5.38, Gphas=8.67, Kp_prop=0.082, K_gamma_dyn=53.6, K_gamma_stat=92.9Eval CRASHED at 1.12Hz: Kp=76.2, Ki=34.4, Kd=14.8, Gton=4.59, Gsc=9.02, Gphas=3.01, Kp_prop=0.340, K_gamma_dyn=53.2, K_gamma_stat=93.6Eval CRASHED at 1.12Hz: Kp=82.9, Ki=36.5, Kd=15.3, Gton=11.27, Gsc=9.90, Gphas=3.76, Kp_prop=0.439, K_gamma_dyn=54.3, K_gamma_stat=97.5
+
+
+Eval CRASHED at 1.12Hz: Kp=77.4, Ki=35.3, Kd=16.5, Gton=6.78, Gsc=0.61, Gphas=9.01, Kp_prop=0.035, K_gamma_dyn=54.6, K_gamma_stat=95.1
+Eval CRASHED at 1.12Hz: Kp=76.9, Ki=38.5, Kd=11.1, Gton=8.68, Gsc=10.54, Gphas=13.49, Kp_prop=0.225, K_gamma_dyn=54.2, K_gamma_stat=88.1
+Eval CRASHED at 1.12Hz: Kp=82.7, Ki=35.2, Kd=8.1, Gton=12.92, Gsc=7.05, Gphas=11.32, Kp_prop=0.821, K_gamma_dyn=55.8, K_gamma_stat=94.3
+Eval CRASHED at 1.12Hz: Kp=77.7, Ki=37.4, Kd=17.8, Gton=12.23, Gsc=10.30, Gphas=4.68, Kp_prop=0.000, K_gamma_dyn=55.8, K_gamma_stat=91.5Eval CRASHED at 1.12Hz: Kp=85.5, Ki=40.3, Kd=15.0, Gton=10.27, Gsc=5.45, Gphas=11.11, Kp_prop=0.561, K_gamma_dyn=58.3, K_gamma_stat=92.9Eval CRASHED at 1.12Hz: Kp=79.5, Ki=36.2, Kd=15.8, Gton=15.29, Gsc=4.36, Gphas=9.89, Kp_prop=0.554, K_gamma_dyn=55.6, K_gamma_stat=95.2
+
+
+Eval CRASHED at 1.12Hz: Kp=77.3, Ki=41.3, Kd=9.4, Gton=6.64, Gsc=8.46, Gphas=10.48, Kp_prop=0.283, K_gamma_dyn=58.5, K_gamma_stat=94.1
+
+--- Generation 11 ---
+Eval CRASHED at 1.12Hz: Kp=76.2, Ki=42.1, Kd=9.0, Gton=8.59, Gsc=4.53, Gphas=6.36, Kp_prop=0.484, K_gamma_dyn=58.5, K_gamma_stat=91.8
+Eval CRASHED at 1.12Hz: Kp=79.0, Ki=36.9, Kd=17.8, Gton=9.01, Gsc=5.24, Gphas=8.98, Kp_prop=0.231, K_gamma_dyn=53.1, K_gamma_stat=97.4
+Eval CRASHED at 1.12Hz: Kp=70.7, Ki=39.4, Kd=10.6, Gton=9.68, Gsc=8.30, Gphas=10.68, Kp_prop=0.127, K_gamma_dyn=53.0, K_gamma_stat=89.0
+Eval CRASHED at 1.12Hz: Kp=82.6, Ki=39.1, Kd=15.0, Gton=11.03, Gsc=1.54, Gphas=12.77, Kp_prop=0.009, K_gamma_dyn=54.7, K_gamma_stat=92.8
+Eval CRASHED at 1.12Hz: Kp=78.2, Ki=35.5, Kd=16.9, Gton=2.91, Gsc=10.00, Gphas=11.63, Kp_prop=0.571, K_gamma_dyn=58.4, K_gamma_stat=87.0
+Eval CRASHED at 1.12Hz: Kp=73.2, Ki=38.0, Kd=19.6, Gton=7.68, Gsc=5.55, Gphas=10.75, Kp_prop=0.217, K_gamma_dyn=49.8, K_gamma_stat=94.1
+Eval CRASHED at 1.12Hz: Kp=80.1, Ki=37.9, Kd=18.7, Gton=7.16, Gsc=2.87, Gphas=8.57, Kp_prop=0.728, K_gamma_dyn=60.5, K_gamma_stat=96.3
+Eval CRASHED at 1.12Hz: Kp=75.3, Ki=36.3, Kd=13.0, Gton=10.34, Gsc=4.71, Gphas=3.60, Kp_prop=0.106, K_gamma_dyn=55.5, K_gamma_stat=97.8
+Eval CRASHED at 1.12Hz: Kp=79.4, Ki=32.3, Kd=16.9, Gton=10.37, Gsc=7.60, Gphas=11.50, Kp_prop=0.724, K_gamma_dyn=53.8, K_gamma_stat=97.7Eval CRASHED at 1.12Hz: Kp=80.2, Ki=33.3, Kd=12.2, Gton=13.42, Gsc=2.83, Gphas=13.66, Kp_prop=0.007, K_gamma_dyn=56.0, K_gamma_stat=93.4
+Eval CRASHED at 1.12Hz: Kp=80.1, Ki=35.1, Kd=11.1, Gton=9.69, Gsc=0.93, Gphas=9.76, Kp_prop=0.155, K_gamma_dyn=57.2, K_gamma_stat=97.5
+
+Eval CRASHED at 1.12Hz: Kp=80.3, Ki=37.4, Kd=13.5, Gton=6.51, Gsc=7.72, Gphas=10.48, Kp_prop=0.033, K_gamma_dyn=56.3, K_gamma_stat=95.8
+Eval CRASHED at 1.12Hz: Kp=79.8, Ki=39.1, Kd=13.7, Gton=6.15, Gsc=3.83, Gphas=6.88, Kp_prop=0.217, K_gamma_dyn=54.3, K_gamma_stat=101.6Eval CRASHED at 1.12Hz: Kp=75.8, Ki=30.2, Kd=16.6, Gton=9.40, Gsc=5.82, Gphas=10.69, Kp_prop=0.128, K_gamma_dyn=50.4, K_gamma_stat=97.4Eval CRASHED at 1.12Hz: Kp=79.5, Ki=33.6, Kd=14.8, Gton=9.50, Gsc=5.82, Gphas=12.08, Kp_prop=0.528, K_gamma_dyn=56.7, K_gamma_stat=95.3
+
+
+Eval CRASHED at 1.12Hz: Kp=73.4, Ki=35.8, Kd=14.9, Gton=4.39, Gsc=7.51, Gphas=9.73, Kp_prop=0.395, K_gamma_dyn=53.5, K_gamma_stat=97.5
+
+--- Generation 12 ---
+Eval CRASHED at 1.12Hz: Kp=80.7, Ki=37.3, Kd=10.1, Gton=3.63, Gsc=5.57, Gphas=11.56, Kp_prop=0.162, K_gamma_dyn=59.1, K_gamma_stat=90.5
+Eval CRASHED at 1.12Hz: Kp=77.2, Ki=37.5, Kd=10.4, Gton=6.61, Gsc=6.08, Gphas=10.88, Kp_prop=0.491, K_gamma_dyn=56.5, K_gamma_stat=96.0Eval CRASHED at 1.12Hz: Kp=76.3, Ki=36.8, Kd=13.2, Gton=8.31, Gsc=2.48, Gphas=8.79, Kp_prop=0.754, K_gamma_dyn=59.9, K_gamma_stat=99.0Eval CRASHED at 1.12Hz: Kp=76.0, Ki=40.6, Kd=9.8, Gton=10.64, Gsc=5.41, Gphas=7.77, Kp_prop=0.168, K_gamma_dyn=56.4, K_gamma_stat=96.3
+
+
+Eval CRASHED at 1.12Hz: Kp=78.9, Ki=33.0, Kd=10.2, Gton=8.58, Gsc=6.92, Gphas=13.16, Kp_prop=0.136, K_gamma_dyn=59.3, K_gamma_stat=94.2
+Eval CRASHED at 1.12Hz: Kp=80.0, Ki=35.7, Kd=17.0, Gton=12.47, Gsc=7.04, Gphas=7.90, Kp_prop=0.815, K_gamma_dyn=59.3, K_gamma_stat=95.5
+Eval CRASHED at 1.12Hz: Kp=75.7, Ki=37.2, Kd=9.4, Gton=8.28, Gsc=9.69, Gphas=10.56, Kp_prop=0.215, K_gamma_dyn=59.7, K_gamma_stat=91.7Eval CRASHED at 1.12Hz: Kp=76.6, Ki=34.9, Kd=11.5, Gton=8.93, Gsc=7.14, Gphas=15.38, Kp_prop=0.592, K_gamma_dyn=61.3, K_gamma_stat=88.4Eval CRASHED at 1.12Hz: Kp=73.9, Ki=38.8, Kd=12.3, Gton=9.88, Gsc=6.01, Gphas=8.55, Kp_prop=0.507, K_gamma_dyn=55.0, K_gamma_stat=94.4Eval CRASHED at 1.12Hz: Kp=79.4, Ki=35.0, Kd=9.8, Gton=8.64, Gsc=3.73, Gphas=14.82, Kp_prop=0.721, K_gamma_dyn=61.4, K_gamma_stat=94.1
+
+
+
+Eval CRASHED at 1.12Hz: Kp=77.2, Ki=41.2, Kd=9.0, Gton=10.02, Gsc=10.14, Gphas=11.54, Kp_prop=0.000, K_gamma_dyn=52.6, K_gamma_stat=87.7
+Eval CRASHED at 1.12Hz: Kp=75.5, Ki=33.6, Kd=13.1, Gton=10.19, Gsc=4.52, Gphas=12.54, Kp_prop=0.300, K_gamma_dyn=55.2, K_gamma_stat=92.9
+Eval CRASHED at 1.12Hz: Kp=78.1, Ki=36.1, Kd=8.4, Gton=10.77, Gsc=5.85, Gphas=8.81, Kp_prop=0.304, K_gamma_dyn=56.8, K_gamma_stat=103.0Eval CRASHED at 1.12Hz: Kp=75.6, Ki=40.0, Kd=11.4, Gton=5.92, Gsc=6.99, Gphas=8.75, Kp_prop=0.499, K_gamma_dyn=57.5, K_gamma_stat=97.5Eval CRASHED at 1.12Hz: Kp=76.7, Ki=42.8, Kd=12.8, Gton=10.59, Gsc=7.69, Gphas=10.03, Kp_prop=0.312, K_gamma_dyn=55.9, K_gamma_stat=89.6
+
+
+Eval CRASHED at 1.12Hz: Kp=78.7, Ki=34.9, Kd=13.3, Gton=8.26, Gsc=3.40, Gphas=11.76, Kp_prop=0.781, K_gamma_dyn=58.4, K_gamma_stat=93.7
+   12    192 1.000129262865906e+05 1.9e+00 2.57e+00  3e-01  3e+00 0:09.9  
+
+--- Generation 13 ---
+Eval CRASHED at 1.12Hz: Kp=71.3, Ki=35.2, Kd=12.0, Gton=6.90, Gsc=3.17, Gphas=14.29, Kp_prop=0.525, K_gamma_dyn=53.5, K_gamma_stat=92.0Eval CRASHED at 1.12Hz: Kp=79.5, Ki=40.6, Kd=8.3, Gton=7.86, Gsc=4.28, Gphas=12.21, Kp_prop=0.563, K_gamma_dyn=61.1, K_gamma_stat=95.2Eval CRASHED at 1.12Hz: Kp=76.0, Ki=36.3, Kd=10.2, Gton=7.54, Gsc=2.08, Gphas=8.13, Kp_prop=0.246, K_gamma_dyn=59.5, K_gamma_stat=93.5Eval CRASHED at 1.12Hz: Kp=74.4, Ki=36.1, Kd=12.5, Gton=8.22, Gsc=7.74, Gphas=11.70, Kp_prop=1.010, K_gamma_dyn=58.1, K_gamma_stat=97.0
+
+
+
+Eval CRASHED at 1.12Hz: Kp=78.3, Ki=39.1, Kd=11.8, Gton=6.21, Gsc=3.92, Gphas=8.01, Kp_prop=0.547, K_gamma_dyn=55.2, K_gamma_stat=98.9
+Eval CRASHED at 1.12Hz: Kp=75.1, Ki=40.0, Kd=12.5, Gton=10.20, Gsc=5.64, Gphas=10.73, Kp_prop=0.300, K_gamma_dyn=57.3, K_gamma_stat=99.5
+Eval CRASHED at 1.12Hz: Kp=74.5, Ki=36.1, Kd=11.7, Gton=6.59, Gsc=4.61, Gphas=14.67, Kp_prop=0.472, K_gamma_dyn=55.6, K_gamma_stat=95.9
+Eval CRASHED at 1.12Hz: Kp=74.3, Ki=38.6, Kd=11.2, Gton=13.16, Gsc=6.97, Gphas=9.99, Kp_prop=0.753, K_gamma_dyn=60.8, K_gamma_stat=97.6Eval CRASHED at 1.12Hz: Kp=78.7, Ki=37.1, Kd=12.5, Gton=7.60, Gsc=6.75, Gphas=8.10, Kp_prop=1.030, K_gamma_dyn=60.8, K_gamma_stat=88.9
+Eval CRASHED at 1.12Hz: Kp=76.2, Ki=35.2, Kd=11.3, Gton=8.06, Gsc=5.02, Gphas=11.75, Kp_prop=0.400, K_gamma_dyn=59.2, K_gamma_stat=93.7
+Eval CRASHED at 1.12Hz: Kp=72.7, Ki=34.9, Kd=17.5, Gton=7.63, Gsc=3.22, Gphas=8.62, Kp_prop=0.387, K_gamma_dyn=55.7, K_gamma_stat=93.3
+
+Eval CRASHED at 1.12Hz: Kp=72.6, Ki=39.5, Kd=12.6, Gton=7.98, Gsc=6.89, Gphas=14.69, Kp_prop=1.089, K_gamma_dyn=57.5, K_gamma_stat=96.6
+Eval CRASHED at 1.12Hz: Kp=77.5, Ki=38.8, Kd=14.1, Gton=5.28, Gsc=5.16, Gphas=14.48, Kp_prop=0.655, K_gamma_dyn=61.0, K_gamma_stat=90.4Eval CRASHED at 1.12Hz: Kp=76.0, Ki=38.4, Kd=10.7, Gton=6.86, Gsc=2.48, Gphas=7.65, Kp_prop=0.540, K_gamma_dyn=54.7, K_gamma_stat=101.2Eval CRASHED at 1.12Hz: Kp=80.3, Ki=34.6, Kd=12.2, Gton=8.59, Gsc=5.63, Gphas=13.10, Kp_prop=0.665, K_gamma_dyn=56.3, K_gamma_stat=96.9
+
+
+Eval CRASHED at 1.12Hz: Kp=77.4, Ki=37.4, Kd=9.1, Gton=6.31, Gsc=2.74, Gphas=10.77, Kp_prop=0.546, K_gamma_dyn=57.1, K_gamma_stat=99.1
+
+--- Generation 14 ---
+Eval CRASHED at 1.12Hz: Kp=77.6, Ki=37.3, Kd=11.1, Gton=6.52, Gsc=1.95, Gphas=13.77, Kp_prop=0.871, K_gamma_dyn=63.3, K_gamma_stat=98.8Eval CRASHED at 1.12Hz: Kp=76.3, Ki=38.2, Kd=13.3, Gton=9.00, Gsc=7.06, Gphas=11.40, Kp_prop=0.805, K_gamma_dyn=53.9, K_gamma_stat=97.5
+
+Eval CRASHED at 1.12Hz: Kp=78.5, Ki=32.5, Kd=13.2, Gton=12.22, Gsc=5.34, Gphas=10.68, Kp_prop=0.783, K_gamma_dyn=54.8, K_gamma_stat=99.2Eval CRASHED at 1.12Hz: Kp=75.0, Ki=40.9, Kd=8.1, Gton=6.11, Gsc=0.76, Gphas=6.62, Kp_prop=0.589, K_gamma_dyn=55.4, K_gamma_stat=98.3
+
+Eval CRASHED at 1.12Hz: Kp=81.9, Ki=36.5, Kd=12.7, Gton=12.92, Gsc=5.45, Gphas=14.63, Kp_prop=0.480, K_gamma_dyn=57.6, K_gamma_stat=105.2
+Eval CRASHED at 1.12Hz: Kp=81.7, Ki=38.4, Kd=12.7, Gton=11.61, Gsc=6.02, Gphas=17.87, Kp_prop=0.238, K_gamma_dyn=58.5, K_gamma_stat=99.7
+Eval CRASHED at 1.12Hz: Kp=77.7, Ki=37.8, Kd=12.3, Gton=6.14, Gsc=8.15, Gphas=10.89, Kp_prop=0.619, K_gamma_dyn=55.3, K_gamma_stat=98.6Eval CRASHED at 1.12Hz: Kp=77.2, Ki=38.8, Kd=11.9, Gton=8.79, Gsc=5.39, Gphas=8.14, Kp_prop=0.618, K_gamma_dyn=56.8, K_gamma_stat=94.6
+
+Eval CRASHED at 1.12Hz: Kp=80.5, Ki=36.5, Kd=10.5, Gton=11.05, Gsc=3.98, Gphas=16.36, Kp_prop=0.509, K_gamma_dyn=58.2, K_gamma_stat=96.8
+Eval CRASHED at 1.12Hz: Kp=78.8, Ki=39.2, Kd=11.3, Gton=5.53, Gsc=3.72, Gphas=13.59, Kp_prop=0.000, K_gamma_dyn=50.7, K_gamma_stat=102.8
+Eval CRASHED at 1.12Hz: Kp=71.9, Ki=42.9, Kd=7.4, Gton=5.12, Gsc=0.60, Gphas=9.01, Kp_prop=1.153, K_gamma_dyn=55.7, K_gamma_stat=101.2
+Eval CRASHED at 1.12Hz: Kp=74.0, Ki=34.8, Kd=14.3, Gton=8.71, Gsc=4.50, Gphas=12.75, Kp_prop=0.187, K_gamma_dyn=62.8, K_gamma_stat=96.5
+Eval CRASHED at 1.12Hz: Kp=77.7, Ki=38.9, Kd=10.0, Gton=11.80, Gsc=5.73, Gphas=10.19, Kp_prop=0.579, K_gamma_dyn=58.3, K_gamma_stat=94.4
+Eval CRASHED at 1.12Hz: Kp=75.4, Ki=41.4, Kd=8.3, Gton=5.25, Gsc=5.12, Gphas=8.90, Kp_prop=1.035, K_gamma_dyn=59.8, K_gamma_stat=90.8
+Eval CRASHED at 1.12Hz: Kp=78.0, Ki=39.7, Kd=11.5, Gton=4.08, Gsc=7.22, Gphas=9.66, Kp_prop=0.742, K_gamma_dyn=61.2, K_gamma_stat=94.9
+Eval CRASHED at 1.12Hz: Kp=76.1, Ki=37.8, Kd=9.7, Gton=10.45, Gsc=8.31, Gphas=9.64, Kp_prop=0.574, K_gamma_dyn=61.5, K_gamma_stat=95.6
+
+--- Generation 15 ---
+Eval CRASHED at 1.12Hz: Kp=80.7, Ki=37.6, Kd=10.6, Gton=3.76, Gsc=6.93, Gphas=14.14, Kp_prop=1.128, K_gamma_dyn=56.7, K_gamma_stat=95.7Eval CRASHED at 1.12Hz: Kp=74.1, Ki=38.5, Kd=3.8, Gton=7.17, Gsc=3.17, Gphas=9.57, Kp_prop=0.456, K_gamma_dyn=51.8, K_gamma_stat=100.6
+
+Eval CRASHED at 1.12Hz: Kp=72.5, Ki=42.0, Kd=12.0, Gton=8.31, Gsc=1.84, Gphas=11.00, Kp_prop=0.557, K_gamma_dyn=52.8, K_gamma_stat=96.5
+Eval CRASHED at 1.12Hz: Kp=79.5, Ki=40.4, Kd=8.5, Gton=3.73, Gsc=0.13, Gphas=13.81, Kp_prop=0.657, K_gamma_dyn=58.0, K_gamma_stat=96.9
+Eval CRASHED at 1.12Hz: Kp=71.1, Ki=43.3, Kd=10.6, Gton=6.12, Gsc=5.15, Gphas=9.34, Kp_prop=0.030, K_gamma_dyn=57.1, K_gamma_stat=103.1
+Eval CRASHED at 1.12Hz: Kp=78.5, Ki=37.7, Kd=10.9, Gton=8.43, Gsc=2.24, Gphas=7.56, Kp_prop=0.556, K_gamma_dyn=54.6, K_gamma_stat=95.4
+Eval CRASHED at 1.12Hz: Kp=73.0, Ki=42.4, Kd=3.5, Gton=4.01, Gsc=1.66, Gphas=13.41, Kp_prop=1.268, K_gamma_dyn=59.5, K_gamma_stat=104.0
+Eval CRASHED at 1.12Hz: Kp=79.3, Ki=35.1, Kd=10.0, Gton=13.67, Gsc=4.57, Gphas=9.92, Kp_prop=0.501, K_gamma_dyn=53.4, K_gamma_stat=99.5Eval CRASHED at 1.12Hz: Kp=77.4, Ki=37.0, Kd=8.5, Gton=9.58, Gsc=2.64, Gphas=11.98, Kp_prop=0.589, K_gamma_dyn=55.6, K_gamma_stat=96.1
+
+Eval CRASHED at 1.12Hz: Kp=74.7, Ki=41.7, Kd=10.5, Gton=5.89, Gsc=1.91, Gphas=10.70, Kp_prop=0.732, K_gamma_dyn=58.5, K_gamma_stat=100.6
+Eval CRASHED at 1.12Hz: Kp=70.5, Ki=39.6, Kd=10.0, Gton=7.65, Gsc=4.18, Gphas=14.36, Kp_prop=1.462, K_gamma_dyn=64.9, K_gamma_stat=98.2
+Eval CRASHED at 1.12Hz: Kp=79.7, Ki=41.6, Kd=11.3, Gton=3.25, Gsc=1.22, Gphas=7.13, Kp_prop=0.876, K_gamma_dyn=52.5, K_gamma_stat=99.3

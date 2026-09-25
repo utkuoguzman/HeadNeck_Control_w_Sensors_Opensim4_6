@@ -29,9 +29,9 @@ def extract_bode(t_array, pitch_array, frequency, discard_time):
     
     return amplitude_rad, phase_rad
 
-def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, frequency):
+def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, frequency, worker_name="W-?"):
     # Prevent Simbody from secretly spawning hundreds of internal threads and thrashing the CPU!
-    os.environ["SIMB_NUM_THREADS"] = "3"
+    os.environ["SIMB_NUM_THREADS"] = "1"
     os.environ["OMP_NUM_THREADS"] = "3"
     osim.Logger.setLevelString("Warn")
     osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'proprioception_plugin/build/Release/osimMillard12EqWithAff.dll'))
@@ -63,6 +63,10 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, frequency):
     osim.PropertyHelper.setValueDouble(kp, controller.updPropertyByName("Kp_task"))
     osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task"))
     osim.PropertyHelper.setValueDouble(kd, controller.updPropertyByName("Kd_task"))
+    osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("Kp_proprioception"))
+    osim.PropertyHelper.setValueDouble(k_gamma_dyn, controller.updPropertyByName("K_gamma_dyn"))
+    osim.PropertyHelper.setValueDouble(k_gamma_stat, controller.updPropertyByName("K_gamma_stat"))
+
 
     zero_func = osim.Constant(0.0)
     for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:
@@ -115,7 +119,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, frequency):
     t_history = []
     pitch_history = []
     
-    worker_id = f"W-{os.getpid()}"
+    worker_id = worker_name
     
     while current_t < target_time:
         next_t = current_t + step
@@ -141,7 +145,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, frequency):
         
         # Only print occasionally to avoid spamming the console too hard
         if round(current_t * 100) % 20 == 0: 
-            print(f"[{worker_id} | {frequency}Hz] t={current_t:.2f}s | P: {head_pitch_deg:.1f} | R: {head_roll_deg:.1f} | Y: {head_yaw_deg:.1f}", file=sys.stderr, flush=True)
+            print(f"[{worker_id} | {frequency:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
         
     # Discard the first period to allow transient to settle, measure the second period.
     discard_time = delay + period
@@ -156,7 +160,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, frequency):
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) != 10:
+    if len(sys.argv) < 13:
         sys.exit(1)
         
     kp = float(sys.argv[1])
@@ -165,13 +169,17 @@ if __name__ == "__main__":
     g_ton = float(sys.argv[4])
     g_sc = float(sys.argv[5])
     g_phas = float(sys.argv[6])
+    kp_prop = float(sys.argv[7])
+    k_gamma_dyn = float(sys.argv[8])
+    k_gamma_stat = float(sys.argv[9])
     
-    freq = float(sys.argv[7])
-    target_gain = float(sys.argv[8])
-    target_phase = float(sys.argv[9])
+    freq = float(sys.argv[10])
+    target_gain = float(sys.argv[11])
+    target_phase = float(sys.argv[12])
     
     try:
-        sim_gain, sim_phase = run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, freq)
+        worker_name = sys.argv[13] if len(sys.argv) >= 14 else f"W-{os.getpid()}"
+        sim_gain, sim_phase = run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, freq, worker_name)
         error = (sim_gain - target_gain)**2 + 0.5*(sim_phase - target_phase)**2
         
         penalty = 0.0

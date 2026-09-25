@@ -1,0 +1,18 @@
+Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...
+(7_w,14)-aCMA-ES (mu_w=4.3,w_1=36%) in dimension 9 (seed=489895, Sat Sep 26 00:34:26 2026)
+
+--- Generation 1 ---
+Eval CRASHED at 1.12Hz: Kp=79.8, Ki=40.1, Kd=10.5, Gton=7.54, Gsc=1.25, Gphas=1.46, Kp_prop=0.009, K_gamma_dyn=46.3, K_gamma_stat=102.1
+Eval CRASHED at 1.12Hz: Kp=76.4, Ki=37.4, Kd=9.1, Gton=3.21, Gsc=6.87, Gphas=1.47, Kp_prop=0.790, K_gamma_dyn=49.1, K_gamma_stat=99.2
+Eval CRASHED at 1.12Hz: Kp=73.9, Ki=40.7, Kd=8.0, Gton=12.61, Gsc=5.81, Gphas=8.19, Kp_prop=0.409, K_gamma_dyn=53.2, K_gamma_stat=104.5
+Eval CRASHED at 1.12Hz: Kp=74.3, Ki=42.6, Kd=3.0, Gton=1.39, Gsc=11.61, Gphas=4.85, Kp_prop=0.565, K_gamma_dyn=47.3, K_gamma_stat=102.3
+Eval CRASHED at 1.12Hz: Kp=70.7, Ki=49.8, Kd=7.5, Gton=2.25, Gsc=5.36, Gphas=1.40, Kp_prop=0.858, K_gamma_dyn=67.4, K_gamma_stat=101.6
+Eval CRASHED at 1.12Hz: Kp=62.7, Ki=40.6, Kd=1.4, Gton=6.60, Gsc=10.95, Gphas=6.80, Kp_prop=0.059, K_gamma_dyn=49.7, K_gamma_stat=103.5
+Eval CRASHED at 1.12Hz: Kp=81.6, Ki=50.1, Kd=12.0, Gton=8.48, Gsc=7.26, Gphas=1.10, Kp_prop=0.135, K_gamma_dyn=48.4, K_gamma_stat=93.5
+Eval CRASHED at 1.12Hz: Kp=77.6, Ki=39.6, Kd=8.5, Gton=9.20, Gsc=7.06, Gphas=10.08, Kp_prop=1.316, K_gamma_dyn=49.8, K_gamma_stat=98.9
+Eval CRASHED at 1.12Hz: Kp=78.9, Ki=41.6, Kd=7.9, Gton=2.45, Gsc=4.74, Gphas=16.83, Kp_prop=1.315, K_gamma_dyn=43.3, K_gamma_stat=94.1
+Eval CRASHED at 1.12Hz: Kp=87.7, Ki=48.1, Kd=9.9, Gton=13.87, Gsc=5.79, Gphas=11.10, Kp_prop=0.831, K_gamma_dyn=46.6, K_gamma_stat=100.5
+Eval CRASHED at 1.12Hz: Kp=74.4, Ki=43.0, Kd=2.5, Gton=11.64, Gsc=1.07, Gphas=5.20, Kp_prop=0.236, K_gamma_dyn=50.4, K_gamma_stat=97.1
+Eval CRASHED at 1.12Hz: Kp=81.0, Ki=42.0, Kd=3.9, Gton=6.74, Gsc=2.59, Gphas=6.58, Kp_prop=0.525, K_gamma_dyn=52.7, K_gamma_stat=97.4
+Eval CRASHED at 1.12Hz: Kp=83.3, Ki=44.2, Kd=13.1, Gton=18.25, Gsc=4.53, Gphas=16.38, Kp_prop=0.686, K_gamma_dyn=53.6, K_gamma_stat=98.9
+Eval CRASHED at 1.12Hz: Kp=81.8, Ki=45.3, Kd=0.1, Gton=5.72, Gsc=4.47, Gphas=8.88, Kp_prop=0.584, K_gamma_dyn=48.3, K_gamma_stat=95.1

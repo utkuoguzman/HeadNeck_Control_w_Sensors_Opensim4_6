@@ -52,3 +52,11 @@ Eval SUCCESS: Kp=72.0, Ki=34.5, Kd=3.6, Gton=4.62, Gsc=4.26, Gphas=0.41 => Bode 
 Eval SUCCESS: Kp=68.9, Ki=37.5, Kd=6.5, Gton=1.20, Gsc=1.07, Gphas=1.50 => Bode Error: 25250.9
 Eval SUCCESS: Kp=75.3, Ki=43.4, Kd=9.0, Gton=9.21, Gsc=2.41, Gphas=4.93 => Bode Error: 13618.7
 Eval SUCCESS: Kp=65.7, Ki=38.8, Kd=22.1, Gton=2.41, Gsc=1.96, Gphas=2.97 => Bode Error: 22840.4
+Eval SUCCESS: Kp=73.8, Ki=39.6, Kd=9.2, Gton=5.07, Gsc=0.80, Gphas=2.05 => Bode Error: 19135.2
+Eval SUCCESS: Kp=73.2, Ki=36.1, Kd=11.8, Gton=6.02, Gsc=3.37, Gphas=2.10 => Bode Error: 20739.5
+Eval SUCCESS: Kp=72.1, Ki=41.8, Kd=9.2, Gton=9.97, Gsc=2.17, Gphas=3.39 => Bode Error: 11750.7
+Eval SUCCESS: Kp=67.8, Ki=40.8, Kd=10.7, Gton=4.34, Gsc=1.16, Gphas=2.50 => Bode Error: 17291.8
+Eval SUCCESS: Kp=75.5, Ki=35.5, Kd=10.3, Gton=1.57, Gsc=3.39, Gphas=3.81 => Bode Error: 14216.1
+    3     48 1.175070204776807e+04 1.6e+00 5.41e+00  2e+00  5e+00 145:58.7  
+
+--- Generation 4 ---

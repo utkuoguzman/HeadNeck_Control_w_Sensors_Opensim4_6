@@ -31,6 +31,8 @@ public:
     OpenSim_DECLARE_PROPERTY(k_v, double, "Muscle-level CCR derivative gain");
 
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
+    OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double, "Gain for Vestibular-driven Gamma_dyn");
+    OpenSim_DECLARE_PROPERTY(K_gamma_stat, double, "Gain for Alpha-Gamma Coactivation");
     OpenSim_DECLARE_PROPERTY(K_gamma, double, "Gain for Gamma motor neuron dynamic setpoint shift (default: 1.0)");
     OpenSim_DECLARE_PROPERTY(Kp_task, double, "Task-Space Proportional Gain (Kp) for 3D Torque computation");
     OpenSim_DECLARE_PROPERTY(Ki_task, double, "Task-Space Integral Gain (Ki) for posture maintenance against gravity");
@@ -61,6 +63,7 @@ private:
         SimTK::Vec3 v_lin;         // Linear velocity of the head
         SimTK::Vector L;           // size N
         SimTK::Vector L_dot;       // size N
+        SimTK::Vector Ia;          // size N (Spindle Firing Rate)
     };
     
     struct DelayedData {
