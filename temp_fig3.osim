@@ -92,10 +92,10 @@
                 <FunctionSet><objects><Constant><value>0.01</value></Constant></objects></FunctionSet>
             </ControlFunctions>
             <SpindleFunctionsStatic>
-                <FunctionSet><objects><Constant><value>70.0</value></Constant></objects></FunctionSet>
+                <FunctionSet><objects><Constant><value>0.0</value></Constant></objects></FunctionSet>
             </SpindleFunctionsStatic>
             <SpindleFunctionsDynamic>
-                <FunctionSet><objects><Constant><value>0.0</value></Constant></objects></FunctionSet>
+                <FunctionSet><objects><Constant><value>70.0</value></Constant></objects></FunctionSet>
             </SpindleFunctionsDynamic>
         </SpindleController>
         </objects>

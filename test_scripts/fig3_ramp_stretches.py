@@ -77,10 +77,10 @@ for c_idx, (vel_mms, vel_L0s) in enumerate(zip(velocities_mms, velocities_L0s)):
                 <FunctionSet><objects><Constant><value>0.01</value></Constant></objects></FunctionSet>
             </ControlFunctions>
             <SpindleFunctionsStatic>
-                <FunctionSet><objects><Constant><value>{gamma["stat"]}</value></Constant></objects></FunctionSet>
+                <FunctionSet><objects><Constant><value>{gamma["dyn"]}</value></Constant></objects></FunctionSet>
             </SpindleFunctionsStatic>
             <SpindleFunctionsDynamic>
-                <FunctionSet><objects><Constant><value>{gamma["dyn"]}</value></Constant></objects></FunctionSet>
+                <FunctionSet><objects><Constant><value>{gamma["stat"]}</value></Constant></objects></FunctionSet>
             </SpindleFunctionsDynamic>
         </SpindleController>
         """
@@ -173,5 +173,5 @@ for c_idx, (vel_mms, vel_L0s) in enumerate(zip(velocities_mms, velocities_L0s)):
 plt.suptitle(f"Figure 3 Ramp Stretches: {muscle_type}")
 plt.tight_layout()
 os.makedirs("logs", exist_ok=True)
-plt.savefig(f"logs/fig3_{muscle_type}.png")
-print(f"Saved logs/fig3_{muscle_type}.png")
+plt.savefig(f"logs/fig3_{muscle_type}_swapped.png")
+print(f"Saved logs/fig3_{muscle_type}_swapped.png")
