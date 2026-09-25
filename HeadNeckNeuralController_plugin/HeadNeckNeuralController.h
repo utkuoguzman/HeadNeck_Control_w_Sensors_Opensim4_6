@@ -42,6 +42,18 @@ public:
     OpenSim_DECLARE_PROPERTY(use_dynamic_jacobian, bool, "If true, recalculates the TNT Metric Tensor at every step");
 
     HeadNeckNeuralController();
+    
+    OpenSim_DECLARE_OUTPUT(omega_recon_pitch, double, getOmegaReconPitch, SimTK::Stage::Dynamics);
+    double getOmegaReconPitch(const SimTK::State& s) const {
+        if(history.empty()) return 0.0;
+        auto it = history.lower_bound(s.getTime());
+        if(it == history.end()) {
+            if (history.empty()) return 0.0;
+            --it;
+        }
+        if (it->second.omega_recon.size() < 3) return 0.0;
+        return it->second.omega_recon[2];
+    }
 
     void computeControls(const SimTK::State& s, SimTK::Vector& controls) const override;
     void computeStateVariableDerivatives(const SimTK::State& s) const override;
