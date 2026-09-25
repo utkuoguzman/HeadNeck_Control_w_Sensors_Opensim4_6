@@ -3,3 +3,4 @@ Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...
 
 --- Generation 1 ---
 Eval CRASHED at 0.44Hz: Kp=71.1, Ki=47.8, Kd=10.1, Gton=17.01, Gsc=7.01, Gphas=2.05, Kp_prop=1.122, K_gamma_dyn=56.5, K_gamma_stat=100.4
+Eval SUCCESS: Kp=79.8, Ki=40.3, Kd=8.1, Gton=8.98, Gsc=0.39, Gphas=0.81, Kp_prop=0.035, K_gamma_dyn=53.4, K_gamma_stat=92.9 => Bode Error: 21985.1

@@ -1,5 +1,5 @@
 build/
 *.sto
 *.mot
-.vscode
-__pycache__
+.vscode/
+__pycache__/
