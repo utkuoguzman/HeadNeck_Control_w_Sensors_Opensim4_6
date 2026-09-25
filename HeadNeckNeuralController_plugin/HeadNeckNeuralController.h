@@ -25,7 +25,8 @@ public:
 
     // Vestibular & Reflex properties
     OpenSim_DECLARE_PROPERTY(G_sc, double, "Vestibular semicircular canal gain");
-    OpenSim_DECLARE_PROPERTY(G_ton, double, "Tonic muscle drive");
+    OpenSim_DECLARE_PROPERTY(G_ton, double, "Tonic otolith gain");
+    OpenSim_DECLARE_PROPERTY(G_phas, double, "Phasic otolith gain");
     OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
     OpenSim_DECLARE_PROPERTY(k_v, double, "Muscle-level CCR derivative gain");
 
@@ -57,14 +58,24 @@ private:
     struct HistRecord {
         SimTK::Vector theta;       // size 3 (roll, yaw, pitch)
         SimTK::Vector omega_recon; // size 3
+        SimTK::Vec3 v_lin;         // Linear velocity of the head
         SimTK::Vector L;           // size N
         SimTK::Vector L_dot;       // size N
     };
+    
+    struct DelayedData {
+        HistRecord record;
+        SimTK::Vec3 a_lin;         // Extracted linear acceleration
+        SimTK::Vector alpha_recon; // Extracted angular acceleration
+    };
+    
     mutable std::map<double, HistRecord> history;
     
-    HistRecord getDelayedRecord(double t, double delay) const;
+    DelayedData getDelayedData(double t, double delay) const;
     
     mutable SimTK::Matrix J_moment_arms; // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
+    
+    mutable SimTK::Vector last_tau_des; // Store commanded torque for Efference Copy
     
     mutable std::vector<int> active_muscle_indices;
     mutable std::vector<std::string> muscle_names;

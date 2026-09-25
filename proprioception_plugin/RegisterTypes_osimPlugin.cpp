@@ -1,7 +1,9 @@
 #include "RegisterTypes_osimPlugin.h"
 #include "Millard12EqMuscleWithAfferents.h"
+#include "Millard12EqMuscleWithIntermediateAfferent.h"
 #include "Millard12EqMuscleWithSimplifiedAfferent.h"
 #include "Mileusnic06Spindle.h"
+#include "Poppele70Spindle.h"
 #include "Lin02GolgiTendonOrgan.h"
 #include "SpindleController.h"
 #include "AfferentAnalysis.h"
@@ -15,11 +17,17 @@ extern "C" OSIMPLUGIN_API void RegisterTypes_osimMillard12EqWithAff() {
         log << "Registering Millard12EqMuscleWithAfferents..." << std::endl;
         Object::registerType(Millard12EqMuscleWithAfferents());
         
+        log << "Registering Millard12EqMuscleWithIntermediateAfferent..." << std::endl;
+        Object::registerType(Millard12EqMuscleWithIntermediateAfferent());
+        
         log << "Registering Millard12EqMuscleWithSimplifiedAfferent..." << std::endl;
         Object::registerType(Millard12EqMuscleWithSimplifiedAfferent());
 
         log << "Registering Mileusnic06Spindle..." << std::endl;
         Object::registerType(Mileusnic06Spindle());
+
+        log << "Registering Poppele70Spindle..." << std::endl;
+        Object::registerType(Poppele70Spindle());
 
         log << "Registering Lin02GolgiTendonOrgan..." << std::endl;
         Object::registerType(Lin02GolgiTendonOrgan());

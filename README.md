@@ -23,13 +23,16 @@ Convergence Controller (MOSTLY MATURED):
 
 VOR/COR Controller (WIP):
 * Their main mission is to use CMC to excert the exact opposite of the neck motion to both eyes so they (approximately) keep looking at the same point. Usually a true visual convergence-accomodation controller is required to keep the eyes on a target dead-on. The aim of this project is NOT the latter but the former.
-* So far it works good.
-* the "vestibular" and "cervico" parts are momentarily closed now._ WILL COME BACK TO THIS LATER2_!
+* So far it works okay, but needs literature comparison._ WILL COME BACK TO THIS LATER1!_
+* the "vestibular" part is momentarily closed now._ WILL COME BACK TO THIS LATER2!_
+* the "cervico" parts is momentarily closed now._ WILL COME BACK TO THIS LATER2_!
 
 VCR/CCR Controller (WIP):
 * Their main mission is to use CMC to keep the neck in a desired attitude.
 * So far it works good.
-* the "vestibular" and "cervico" parts are momentarily closed now._ WILL COME BACK TO THIS LATER 1_!
+* the "vestibular" component is open to it.
+* The "cervico" parts are momentarily closed now._ WILL COME BACK TO THIS LATER!_
+* >> Currently being compared to the literature.
 
 Sensors + Controllers Real Time Factor:
 * If you wish to use the native OpenSim controller scheme, then the final result is around 1:240.5 (with 3.5s burn-in, which is weird). This will be my initial case, but then I will begin using NEST-GPU (Go neural, people!).

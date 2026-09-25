@@ -16,8 +16,10 @@ list(REMOVE_ITEM SOURCE_FILES "${CMAKE_CURRENT_SOURCE_DIR}/mainAfferents.cpp")
 
 set(SOURCE_FILES 
     Millard12EqMuscleWithAfferents.cpp
+    Millard12EqMuscleWithIntermediateAfferent.cpp
     Millard12EqMuscleWithSimplifiedAfferent.cpp
     Mileusnic06Spindle.cpp
+    Poppele70Spindle.cpp
     Lin02GolgiTendonOrgan.cpp
     SpindleController.cpp
     TugOfWarController.cpp
@@ -27,8 +29,10 @@ set(SOURCE_FILES
 
 set(HEADER_FILES 
     Millard12EqMuscleWithAfferents.h
+    Millard12EqMuscleWithIntermediateAfferent.h
     Millard12EqMuscleWithSimplifiedAfferent.h
     Mileusnic06Spindle.h
+    Poppele70Spindle.h
     Lin02GolgiTendonOrgan.h
     SpindleController.h
     TugOfWarController.h

@@ -87,6 +87,13 @@ public:
 	double getLPFtau() const { return get_lpf_tau(); }
 	void setLPFtau(double aLPFtau);
 
+	double getIaAfferent(const SimTK::State& s) const { return get_spindle().getIaOutput(s); }
+	double getIIAfferent(const SimTK::State& s) const { return get_spindle().getIIOutput(s); }
+	double getIbAfferent(const SimTK::State& s) const { return get_GTO().getGTOout(s); }
+
+    OpenSim_DECLARE_OUTPUT(primary_Ia, double, getIaAfferent, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(secondary_II, double, getIIAfferent, SimTK::Stage::Dynamics);
+
 private:
 	/** construct the new properties and set their default values */
 	void constructProperties();
@@ -94,7 +101,7 @@ private:
 public:
 	/* OTHER SHORT METHODS */
 	// This function should override Actuator::numControls() 
-	int numControls() const {return 3;};
+	int numControls() const override {return 3;};
 	
 	// This function allows to peek at the Mileusnic06Spindle object, Mostly for the sake of Analysis objects
 	const Mileusnic06Spindle* getSpindle() const { return &get_spindle(); }

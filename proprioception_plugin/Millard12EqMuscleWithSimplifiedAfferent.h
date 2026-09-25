@@ -42,6 +42,8 @@ public:
     // Afferent Outputs
     double getIaAfferent(const SimTK::State& s) const;
     double getIbAfferent(const SimTK::State& s) const;
+    OpenSim_DECLARE_OUTPUT(primary_Ia, double, getIaAfferent, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(secondary_II, double, getIbAfferent, SimTK::Stage::Dynamics);
 
     // Auxiliary
     double getLPFvelocity(const SimTK::State& s) const;

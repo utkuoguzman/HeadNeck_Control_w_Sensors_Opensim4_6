@@ -24,6 +24,7 @@ namespace OpenSim {
 class Lin02GolgiTendonOrgan : public ModelComponent {
 OpenSim_DECLARE_CONCRETE_OBJECT(Lin02GolgiTendonOrgan, ModelComponent);
 friend class Millard12EqMuscleWithAfferents;
+	friend class Millard12EqMuscleWithIntermediateAfferent;
 friend class AfferentAnalysis;
 
 public:

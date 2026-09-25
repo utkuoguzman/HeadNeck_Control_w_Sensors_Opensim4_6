@@ -48,6 +48,12 @@ def run_simulation(kp, ki, kd, frequency):
     if controller is None:
         raise Exception("HeadNeckNeuralController not found!")
 
+    # DO NOT FORGET BASELINE REFLEXES
+    osim.PropertyHelper.setValueDouble(2.0, controller.updPropertyByName("G_ton"))
+    osim.PropertyHelper.setValueDouble(1.73, controller.updPropertyByName("G_sc"))
+    osim.PropertyHelper.setValueDouble(0.45, controller.updPropertyByName("k_p"))
+    osim.PropertyHelper.setValueDouble(0.13, controller.updPropertyByName("k_v"))
+
     # Set PID parameters from CMA-ES
     osim.PropertyHelper.setValueDouble(kp, controller.updPropertyByName("Kp_task"))
     osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task"))
@@ -80,10 +86,14 @@ def run_simulation(kp, ki, kd, frequency):
     manager = osim.Manager(model)
     manager.setIntegratorMethod(5) # SemiExplicitEuler2
     manager.setIntegratorAccuracy(1e-4)
+    manager.setIntegratorMinimumStepSize(1e-8)
+    manager.setIntegratorMaximumStepSize(0.01)
+
+    state.setTime(0.0)
     manager.initialize(state)
 
-    target_time = 4.0 # Extended to 4.0s to get more steady state cycles
-    step = 0.02 # Finer step for accurate Fourier extraction
+    target_time = 5.0 # Extended to capture full cycle of 0.32Hz
+    step = 0.05 # Back to 0.05 for speed
     current_t = 0.0
     
     t_history = []
@@ -153,13 +163,13 @@ def objective_wrapper(x):
         return 100000.0
 
 if __name__ == "__main__":
-    print("Starting Bode Plot CMA-ES Optimization...")
+    print("Starting Bode Plot CMA-ES Optimization (Serial Mode)...")
     
     # Initial guess based on your previous tuning
     x0 = [50.0, 40.0, 5.0]
     sigma0 = 10.0 
     
-    es = cma.CMAEvolutionStrategy(x0, sigma0, {'bounds': [[2.0, 0.0, 0.0], [500.0, 500.0, 50.0]], 'popsize': 6})
+    es = cma.CMAEvolutionStrategy(x0, sigma0, {'bounds': [[2.0, 0.0, 0.0], [500.0, 500.0, 50.0]], 'popsize': 16})
     
     iteration = 0
     while not es.stop() and iteration < 500: # Run overnight until full mathematical convergence

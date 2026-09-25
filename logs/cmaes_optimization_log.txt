@@ -1,0 +1,43 @@
+Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...
+(8_w,16)-aCMA-ES (mu_w=4.8,w_1=32%) in dimension 6 (seed=489911, Fri Sep 25 19:22:16 2026)
+
+--- Generation 1 ---
+Eval SUCCESS: Kp=62.7, Ki=49.8, Kd=15.3, Gton=1.25, Gsc=0.94, Gphas=0.52 => Bode Error: 49617.4
+Eval SUCCESS: Kp=70.8, Ki=35.8, Kd=16.4, Gton=1.09, Gsc=0.10, Gphas=0.34 => Bode Error: 59643.5
+Eval SUCCESS: Kp=72.2, Ki=40.1, Kd=7.1, Gton=6.28, Gsc=1.51, Gphas=0.10 => Bode Error: 28204.6
+Eval SUCCESS: Kp=75.9, Ki=34.0, Kd=11.0, Gton=6.97, Gsc=1.81, Gphas=2.69 => Bode Error: 16035.8
+Eval SUCCESS: Kp=67.0, Ki=40.6, Kd=2.3, Gton=1.22, Gsc=0.80, Gphas=0.20 => Bode Error: 77034.8
+Eval SUCCESS: Kp=70.7, Ki=43.8, Kd=13.7, Gton=5.77, Gsc=1.89, Gphas=3.19 => Bode Error: 15434.4
+Eval SUCCESS: Kp=66.4, Ki=36.1, Kd=13.5, Gton=3.07, Gsc=0.28, Gphas=1.74 => Bode Error: 25429.0
+Eval SUCCESS: Kp=74.0, Ki=40.2, Kd=6.8, Gton=1.43, Gsc=0.50, Gphas=1.67 => Bode Error: 24817.7
+Eval SUCCESS: Kp=74.9, Ki=33.3, Kd=8.4, Gton=1.62, Gsc=3.03, Gphas=1.46 => Bode Error: 28283.6
+Eval SUCCESS: Kp=67.5, Ki=39.9, Kd=6.9, Gton=0.37, Gsc=0.69, Gphas=2.43 => Bode Error: 19345.7
+Eval SUCCESS: Kp=74.3, Ki=48.1, Kd=4.7, Gton=4.20, Gsc=2.74, Gphas=1.98 => Bode Error: 19852.3
+Eval SUCCESS: Kp=66.5, Ki=43.7, Kd=2.3, Gton=3.14, Gsc=1.42, Gphas=3.11 => Bode Error: 193141.3
+Eval SUCCESS: Kp=69.2, Ki=43.8, Kd=14.6, Gton=2.04, Gsc=0.32, Gphas=0.69 => Bode Error: 45979.6
+Eval SUCCESS: Kp=67.8, Ki=44.8, Kd=10.9, Gton=2.51, Gsc=0.76, Gphas=0.10 => Bode Error: 54359.7
+Eval SUCCESS: Kp=76.7, Ki=31.5, Kd=18.5, Gton=3.12, Gsc=0.51, Gphas=1.82 => Bode Error: 28347.3
+Eval SUCCESS: Kp=67.5, Ki=28.9, Kd=1.8, Gton=5.87, Gsc=0.11, Gphas=0.17 => Bode Error: 53982.3
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     16 1.543440334614201e+04 1.0e+00 4.40e+00  1e+00  4e+00 52:09.0  
+
+--- Generation 2 ---
+Eval CRASHED at 0.44Hz: Kp=72.5, Ki=35.7, Kd=7.8, Gton=3.87, Gsc=0.34, Gphas=2.62
+Eval SUCCESS: Kp=67.8, Ki=41.3, Kd=11.9, Gton=1.09, Gsc=0.28, Gphas=0.45 => Bode Error: 54707.6
+Eval SUCCESS: Kp=73.5, Ki=41.7, Kd=6.9, Gton=3.35, Gsc=0.66, Gphas=0.40 => Bode Error: 36887.8
+Eval SUCCESS: Kp=77.1, Ki=44.2, Kd=10.2, Gton=4.51, Gsc=2.57, Gphas=0.59 => Bode Error: 38344.2
+Eval SUCCESS: Kp=74.0, Ki=41.0, Kd=8.1, Gton=5.24, Gsc=2.50, Gphas=1.13 => Bode Error: 31229.4
+Eval SUCCESS: Kp=67.7, Ki=41.1, Kd=8.8, Gton=2.85, Gsc=1.32, Gphas=2.83 => Bode Error: 15998.3
+Eval SUCCESS: Kp=74.3, Ki=41.4, Kd=8.2, Gton=2.86, Gsc=3.60, Gphas=0.10 => Bode Error: 51284.3
+Eval SUCCESS: Kp=64.4, Ki=41.5, Kd=7.6, Gton=2.53, Gsc=0.68, Gphas=0.38 => Bode Error: 41455.6
+Eval SUCCESS: Kp=71.9, Ki=47.5, Kd=10.5, Gton=1.64, Gsc=3.61, Gphas=0.53 => Bode Error: 51044.3
+Eval SUCCESS: Kp=67.1, Ki=37.1, Kd=16.2, Gton=5.57, Gsc=1.87, Gphas=0.17 => Bode Error: 42828.2
+Eval SUCCESS: Kp=70.1, Ki=46.1, Kd=10.8, Gton=5.11, Gsc=1.41, Gphas=2.91 => Bode Error: 16173.9
+Eval SUCCESS: Kp=74.6, Ki=40.6, Kd=8.3, Gton=6.14, Gsc=2.76, Gphas=2.78 => Bode Error: 15836.4
+Eval SUCCESS: Kp=66.6, Ki=38.2, Kd=10.7, Gton=4.27, Gsc=4.59, Gphas=1.98 => Bode Error: 22448.1
+Eval SUCCESS: Kp=70.2, Ki=39.5, Kd=5.9, Gton=3.31, Gsc=2.26, Gphas=1.41 => Bode Error: 23475.6
+Eval SUCCESS: Kp=77.6, Ki=36.1, Kd=6.6, Gton=0.41, Gsc=0.37, Gphas=1.97 => Bode Error: 24154.5
+Eval SUCCESS: Kp=70.1, Ki=41.5, Kd=8.7, Gton=5.56, Gsc=1.40, Gphas=2.73 => Bode Error: 15163.6
+    2     32 1.516361273866030e+04 1.3e+00 4.69e+00  1e+00  5e+00 106:30.3  
+
+--- Generation 3 ---

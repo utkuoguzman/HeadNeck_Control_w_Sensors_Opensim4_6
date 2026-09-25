@@ -1,0 +1,1 @@
+Eval SUCCESS: Kp=68.3, Ki=42.0, Kd=11.5, Gton=8.11, Gsc=0.39, Gphas=2.50 => Bode Error: 14361.5

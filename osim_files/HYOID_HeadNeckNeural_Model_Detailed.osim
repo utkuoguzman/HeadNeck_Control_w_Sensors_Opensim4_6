@@ -2700,7 +2700,7 @@
 					
 					<target_location>2.0 0.5 0.0</target_location>
 				</FixationController>
-			<HeadNeckNeuralController name="VCR_CCR_Controller"><delay_time>0.013</delay_time><Kp_proprioception>0.5</Kp_proprioception><Kg_proprioception>0.0</Kg_proprioception><K_vestibular>2.0</K_vestibular><K_otolith>4.0</K_otolith><Kp_task>100.0</Kp_task><Kd_task>10.0</Kd_task><desired_pitch>0.0</desired_pitch><desired_roll>0.7</desired_roll><desired_yaw>0.0</desired_yaw></HeadNeckNeuralController></objects>
+			<HeadNeckNeuralController name="VCR_CCR_Controller"><delay_time>0.013</delay_time><Kp_proprioception>0.5</Kp_proprioception><Kg_proprioception>0.0</Kg_proprioception><K_vestibular>2.0</K_vestibular><K_otolith>4.0</K_otolith><Kp_task>100.0</Kp_task><Kd_task>10.0</Kd_task><desired_pitch>0.0</desired_pitch><desired_roll>0.0</desired_roll><desired_yaw>0.0</desired_yaw></HeadNeckNeuralController></objects>
 			<groups />
 		</ControllerSet>
 		
