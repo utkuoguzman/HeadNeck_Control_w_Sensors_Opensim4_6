@@ -3,3 +3,5 @@ build/
 *.mot
 .vscode/
 __pycache__/
+opensim.log
+temp_*.osim
