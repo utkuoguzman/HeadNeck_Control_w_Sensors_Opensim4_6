@@ -6,33 +6,25 @@ import matplotlib.pyplot as plt
 muscle_type = 'Millard12EqMuscleWithAfferents'
 if len(sys.argv) > 1:
     muscle_type = sys.argv[1]
-else:
-    muscle_type = "Millard12EqMuscleWithAfferents"
 
 print(f"Running Stretch and Hold Test for: {muscle_type}")
-print(f'Running Stretch and Hold Test for: {muscle_type}')
 
 # Load the plugin
-osim.LoadOpenSimLibrary("osimMillard12EqWithAff")
-osim.LoadOpenSimLibrary('osimMillard12EqWithAff')
+osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'proprioception_plugin/build/Release/osimMillard12EqWithAff.dll'))
 
 # Build a generic model in memory
 model = osim.Model()
 model.setName(f"StretchHold_{muscle_type}")
-model.setName(f'StretchHold_{muscle_type}')
 model.setUseVisualizer(False)
 
 ground = model.getGround()
 mass = 1.0
 block = osim.Body("block", mass, osim.Vec3(0), osim.Inertia(1,1,1,0,0,0))
-block = osim.Body('block', mass, osim.Vec3(0), osim.Inertia(1,1,1,0,0,0))
 model.addBody(block)
 
 joint = osim.SliderJoint("slider", ground, osim.Vec3(0), osim.Vec3(0), block, osim.Vec3(0), osim.Vec3(0))
-joint = osim.SliderJoint('slider', ground, osim.Vec3(0), osim.Vec3(0), block, osim.Vec3(0), osim.Vec3(0))
 coord = joint.updCoordinate()
 coord.setName("x_translation")
-coord.setName('x_translation')
 model.addJoint(joint)
 
 # Use standard muscle for XML generation
@@ -44,26 +36,20 @@ pennation = 0.0
 muscle = osim.Millard2012EquilibriumMuscle("muscle", max_force, opt_len, tendon_len, pennation)
 muscle.addNewPathPoint("origin", ground, osim.Vec3(0, 0, 0))
 muscle.addNewPathPoint("insertion", block, osim.Vec3(-0.05, 0, 0))
-muscle = osim.Millard2012EquilibriumMuscle('muscle', max_force, opt_len, tendon_len, pennation)
-muscle.addNewPathPoint('origin', ground, osim.Vec3(0, 0, 0))
-muscle.addNewPathPoint('insertion', block, osim.Vec3(-0.05, 0, 0))
 muscle.set_ignore_tendon_compliance(True)
 model.addForce(muscle)
 
 # If it's simplified, use standard prescribed controller
 if muscle_type == "Millard12EqMuscleWithSimplifiedAfferent":
-if muscle_type == 'Millard12EqMuscleWithSimplifiedAfferent':
     prescribed = osim.PrescribedController()
     prescribed.addActuator(muscle)
     prescribed.prescribeControlForActuator("muscle", osim.Constant(0.1))
-    prescribed.prescribeControlForActuator('muscle', osim.Constant(0.1))
     model.addController(prescribed)
 
 model.finalizeConnections()
 
 # Save to XML
 xml_path = "temp_model.osim"
-xml_path = 'temp_model.osim'
 model.printToXML(xml_path)
 
 # Replace with custom muscle type
@@ -74,49 +60,30 @@ xml_content = xml_content.replace('Millard2012EquilibriumMuscle', muscle_type)
 
 if muscle_type != "Millard12EqMuscleWithSimplifiedAfferent":
     # Inject SpindleController
-if muscle_type != 'Millard12EqMuscleWithSimplifiedAfferent':
     spindle_ctrl = """
     <SpindleController name="spindle_controller">
-        <socket_actuators>muscle</socket_actuators>
         <socket_actuators>/forceset/muscle</socket_actuators>
         <ControlFunctions>
-            <Constant>
-                <value>0.1</value>
-            </Constant>
             <FunctionSet><objects><Constant><value>0.1</value></Constant></objects></FunctionSet>
         </ControlFunctions>
         <SpindleFunctionsStatic>
-            <Constant>
-                <value>70.0</value>
-            </Constant>
-            <FunctionSet><objects><Constant><value>0.0</value></Constant></objects></FunctionSet>
+            <FunctionSet><objects><Constant><value>70.0</value></Constant></objects></FunctionSet>
         </SpindleFunctionsStatic>
         <SpindleFunctionsDynamic>
-            <Constant>
-                <value>70.0</value>
-            </Constant>
-            <FunctionSet><objects><Constant><value>0.0</value></Constant></objects></FunctionSet>
+            <FunctionSet><objects><Constant><value>70.0</value></Constant></objects></FunctionSet>
         </SpindleFunctionsDynamic>
     </SpindleController>
     """
-    if "<ControllerSet name=\"controllerset\">" in xml_content:
-        xml_content = xml_content.replace(
-            "<objects/>",
-            f"<objects>{spindle_ctrl}</objects>"
-        )
     if '<ControllerSet name="controllerset">' in xml_content:
         import re
         xml_content = re.sub(r'<objects\s*/>', f'<objects>{spindle_ctrl}</objects>', xml_content)
     else:
-        # We didn't add any controller, so ControllerSet might be empty or missing
-        # Insert before closing </Model>
         ctrl_set = f"""
         <ControllerSet name="controllerset">
             <objects>{spindle_ctrl}</objects>
         </ControllerSet>
         """
-        xml_content = xml_content.replace("</Model>", f"{ctrl_set}\n</Model>")
-        xml_content = xml_content.replace('</Model>', f'{ctrl_set}\n</Model>')
+        xml_content = xml_content.replace("</Model>", f"{ctrl_set}\\n</Model>")
 
 with open(xml_path, 'w') as f:
     f.write(xml_content)
@@ -127,8 +94,6 @@ try:
 except Exception as e:
     print(e)
     sys.exit(1)
-model = osim.Model(xml_path)
-coord = model.updCoordinateSet().get('x_translation')
 
 # Get the coordinate
 coord = model.updCoordinateSet().get("x_translation")
@@ -136,26 +101,20 @@ coord = model.updCoordinateSet().get("x_translation")
 # Add prescribed motion to coordinate
 times = osim.ArrayDouble()
 values = osim.ArrayDouble()
-for i in range(1, 301):
 for i in range(301):
     t = i / 100.0
     times.append(t)
     if t <= 0.5:
-        x = 0.15
         x = 0.20
     elif t <= 1.5:
-        x = 0.15 + 0.02 * (t - 0.5) / 1.0
         x = 0.20 + 0.02 * (t - 0.5) / 1.0
     else:
-        x = 0.17
         x = 0.22
     values.append(x)
 
 spline = osim.SimmSpline()
 for i in range(times.getSize()):
     spline.addPoint(times.get(i), values.get(i))
-coord.setPrescribedFunction(spline)
-coord.setDefaultIsPrescribed(True)
 
 pos_motion = osim.PositionMotion('pos_motion')
 pos_motion.setPositionForCoordinate(coord, spline)
@@ -171,10 +130,9 @@ Ia_hist = []
 L_hist = []
 
 muscle_obj = model.getForceSet().get("muscle")
-muscle_obj = model.getForceSet().get('muscle')
 muscle_obj = osim.Muscle.safeDownCast(muscle_obj)
 
-for i in range(1, 301):
+for i in range(301):
     t = i / 100.0
     state.setTime(t)
     manager.integrate(t)
@@ -183,12 +141,10 @@ for i in range(1, 301):
     model.realizeAcceleration(state)
     
     t_hist.append(t)
-    L_hist.append(osim.Muscle.safeDownCast(muscle_obj).getNormalizedFiberLength(state))
     L_hist.append(muscle_obj.getNormalizedFiberLength(state))
     
     Ia = 0.0
     try:
-        Ia = muscle_obj.getOutput("primary_Ia").getValue(state)
         Ia = float(muscle_obj.getOutput('primary_Ia').getValueAsString(state))
     except Exception as e:
         pass
@@ -199,23 +155,13 @@ fig, ax1 = plt.subplots(figsize=(10,6))
 ax2 = ax1.twinx()
 ax1.plot(t_hist, L_hist, 'k--', label="Norm Fiber Length")
 ax2.plot(t_hist, Ia_hist, 'r-', label="Primary (Ia) Firing")
-ax1.plot(t_hist, L_hist, 'k--', label='Norm Fiber Length')
-ax2.plot(t_hist, Ia_hist, 'r-', label='Primary (Ia) Firing')
 
 ax1.set_xlabel("Time (s)")
 ax1.set_ylabel("Normalized Length")
 ax2.set_ylabel("Firing Rate (Hz)")
 plt.title(f"Stretch and Hold: {muscle_type}")
 fig.legend(loc="upper left", bbox_to_anchor=(0.15, 0.85))
-ax1.set_xlabel('Time (s)')
-ax1.set_ylabel('Normalized Length')
-ax2.set_ylabel('Firing Rate (Hz)')
-plt.title(f'Stretch and Hold: {muscle_type}')
-fig.legend(loc='upper left', bbox_to_anchor=(0.15, 0.85))
 
-os.makedirs("../logs", exist_ok=True)
-plt.savefig(f"../logs/stretch_hold_{muscle_type}.png")
-print(f"Saved plot to ../logs/stretch_hold_{muscle_type}.png")
-os.makedirs('logs', exist_ok=True)
-plt.savefig(f'logs/stretch_hold_{muscle_type}.png')
-print(f'Saved plot to logs/stretch_hold_{muscle_type}.png')
+os.makedirs("logs", exist_ok=True)
+plt.savefig(f"logs/stretch_hold_{muscle_type}.png")
+print(f"Saved plot to logs/stretch_hold_{muscle_type}.png")
