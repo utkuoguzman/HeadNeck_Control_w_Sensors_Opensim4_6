@@ -1,3 +1,5 @@
 build/
 *.sto
 *.mot
+.vscode
+__pycache__
