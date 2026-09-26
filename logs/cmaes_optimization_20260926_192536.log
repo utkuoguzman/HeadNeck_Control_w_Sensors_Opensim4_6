@@ -2,3 +2,27 @@ Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Ca
 (6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 9 (seed=507130, Sat Sep 26 19:25:36 2026)
 
 --- Generation 1 ---
+Eval SUCCESS: Kp=59.8, Ki=34.7, Kd=12.8, Gton=15.97, Gsc=1.81, Gphas=4.43, Kp_prop=0.251, K_gamma_dyn=27.6, K_gamma_stat=97.9 => Bode Error: 12777.0
+Eval EARLY ABORT at 1.12Hz: Kp=59.6, Ki=33.0, Kd=6.4, Gsc=1.04, Gphas=4.43 => Est Score: 26530.1
+Eval SUCCESS: Kp=66.3, Ki=35.2, Kd=11.7, Gton=11.20, Gsc=0.55, Gphas=4.72, Kp_prop=0.131, K_gamma_dyn=39.4, K_gamma_stat=92.6 => Bode Error: 10240.5
+Eval SUCCESS: Kp=71.6, Ki=40.9, Kd=15.7, Gton=13.59, Gsc=1.67, Gphas=5.29, Kp_prop=0.181, K_gamma_dyn=32.6, K_gamma_stat=93.8 => Bode Error: 12593.7
+Eval SUCCESS: Kp=63.4, Ki=39.0, Kd=13.8, Gton=6.00, Gsc=3.57, Gphas=4.97, Kp_prop=0.368, K_gamma_dyn=47.5, K_gamma_stat=92.5 => Bode Error: 10370.9
+Eval SUCCESS: Kp=65.0, Ki=33.0, Kd=17.2, Gton=15.16, Gsc=2.67, Gphas=5.26, Kp_prop=0.406, K_gamma_dyn=42.8, K_gamma_stat=99.9 => Bode Error: 9551.9
+Eval SUCCESS: Kp=79.1, Ki=37.2, Kd=14.0, Gton=15.50, Gsc=1.00, Gphas=5.31, Kp_prop=0.220, K_gamma_dyn=36.0, K_gamma_stat=89.7 => Bode Error: 13120.6
+Eval EARLY ABORT at 1.12Hz: Kp=72.1, Ki=35.8, Kd=9.9, Gsc=1.72, Gphas=5.83 => Est Score: 30007.0
+Eval SUCCESS: Kp=72.1, Ki=36.2, Kd=12.5, Gton=15.45, Gsc=2.12, Gphas=4.64, Kp_prop=0.110, K_gamma_dyn=33.8, K_gamma_stat=87.8 => Bode Error: 8198.4
+Eval SUCCESS: Kp=60.1, Ki=35.3, Kd=12.8, Gton=8.28, Gsc=1.42, Gphas=4.48, Kp_prop=0.303, K_gamma_dyn=34.7, K_gamma_stat=94.0 => Bode Error: 8549.0
+Eval SUCCESS: Kp=73.0, Ki=35.0, Kd=17.1, Gton=16.45, Gsc=1.89, Gphas=5.10, Kp_prop=0.382, K_gamma_dyn=35.8, K_gamma_stat=98.9 => Bode Error: 8112.4
+Eval SUCCESS: Kp=59.7, Ki=35.9, Kd=10.3, Gton=10.17, Gsc=1.41, Gphas=4.65, Kp_prop=0.300, K_gamma_dyn=31.3, K_gamma_stat=86.7 => Bode Error: 11161.0
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     12 8.112388652446926e+03 1.0e+00 8.86e-01  3e-01  4e+00 42:01.7  
+
+--- Generation 2 ---
+Eval EARLY ABORT at 1.12Hz: Kp=63.9, Ki=35.9, Kd=18.3, Gsc=1.71, Gphas=4.10 => Est Score: 18212.2
+Eval CRASHED at 0.44Hz: Kp=73.5, Ki=37.7, Kd=20.2, Gton=16.22, Gsc=2.21, Gphas=5.19, Kp_prop=0.057, K_gamma_dyn=41.5, K_gamma_stat=97.2
+Eval CRASHED at 0.32Hz: Kp=65.1, Ki=36.2, Kd=14.9, Gton=12.81, Gsc=1.44, Gphas=4.32, Kp_prop=0.141, K_gamma_dyn=31.3, K_gamma_stat=101.9
+Eval CRASHED at 0.60Hz: Kp=64.1, Ki=30.5, Kd=21.6, Gton=20.45, Gsc=1.13, Gphas=5.15, Kp_prop=0.058, K_gamma_dyn=42.0, K_gamma_stat=93.7
+Eval CRASHED at 0.44Hz: Kp=70.6, Ki=36.1, Kd=14.3, Gton=7.66, Gsc=1.65, Gphas=6.07, Kp_prop=0.489, K_gamma_dyn=34.2, K_gamma_stat=96.3
+Eval CRASHED at 0.44Hz: Kp=66.6, Ki=34.1, Kd=19.4, Gton=10.15, Gsc=2.74, Gphas=3.81, Kp_prop=0.266, K_gamma_dyn=32.0, K_gamma_stat=90.4
+Eval CRASHED at 0.32Hz: Kp=65.8, Ki=39.4, Kd=13.5, Gton=9.49, Gsc=1.51, Gphas=4.44, Kp_prop=0.517, K_gamma_dyn=30.5, K_gamma_stat=100.4
+Eval CRASHED at 1.12Hz: Kp=68.0, Ki=30.4, Kd=15.2, Gton=11.69, Gsc=1.58, Gphas=5.09, Kp_prop=0.255, K_gamma_dyn=40.1, K_gamma_stat=93.6

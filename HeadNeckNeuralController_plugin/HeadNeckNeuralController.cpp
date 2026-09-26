@@ -11,6 +11,7 @@ using namespace SimTK;
 HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_delay_time(0.013);
     constructProperty_Kp_proprioception(0.5); 
+    constructProperty_K_recip_inhib(0.0); // 0.0 means complete reciprocal inhibition (no antagonist reflex)
     constructProperty_Kg_proprioception(0.0);
     constructProperty_K_vestibular(2.0);
     constructProperty_K_otolith(4.0);
@@ -582,8 +583,10 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     HistRecord vcr_record = vcr_data.record;
     HistRecord ccr_record = ccr_data.record;
 
-    // --- VCR COMMAND ---
-    Vector tau_des(3, 0.0);
+    // --- DESCENDING TRACKS (Voluntary) vs ASCENDING TRACKS (Reflex) ---
+    Vector tau_vcr(3, 0.0); // Restorative Vestibular Reflexes
+    Vector tau_vol(3, 0.0); // Descending Voluntary Task Tracking
+    Vector tau_eso(3, 0.0); // Cerebellar Disturbance Rejection
     
     // Extract Estimated Angles from Mahony Quaternion
     double q0 = getStateVariableValue(s, "mahony_q0");
@@ -600,19 +603,19 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     double estimated_yaw = std::asin(std::clamp(2.0*(q0*q2 - q3*q1), -1.0, 1.0));
     double estimated_pitch = std::atan2(2.0*(q0*q3 + q1*q2), 1.0 - 2.0*(q2*q2 + q3*q3));
     
-    // Vestibular Reflex with Efference Copy Cancellation (expected vestibular firing from voluntary action)
+    // 1. Vestibular Reflex with Efference Copy Cancellation (expected vestibular firing from voluntary action)
     if (vcr_record.omega_recon.size() == 3) {
         // G_ton (Otolith Tonic) acts as a proportional gravity compensator
         // We subtract the Efference Copy of expected static tilt
-        tau_des[0] -= get_G_ton() * (estimated_pitch - get_desired_pitch()); // pitch
-        tau_des[1] -= get_G_ton() * (estimated_roll - get_desired_roll());  // roll
-        tau_des[2] -= get_G_ton() * (estimated_yaw - get_desired_yaw());   // yaw
+        tau_vcr[0] -= get_G_ton() * (estimated_pitch - get_desired_pitch()); // pitch
+        tau_vcr[1] -= get_G_ton() * (estimated_roll - get_desired_roll());  // roll
+        tau_vcr[2] -= get_G_ton() * (estimated_yaw - get_desired_yaw());   // yaw
         
         // G_sc (Semicircular Canal) dampens angular velocity
         // We subtract the Efference Copy of expected angular velocity
-        tau_des[0] -= get_G_sc() * (vcr_record.omega_recon[2] - get_desired_pitch_v()); // pitch
-        tau_des[1] -= get_G_sc() * (vcr_record.omega_recon[0] - get_desired_roll_v()); // roll
-        tau_des[2] -= get_G_sc() * (vcr_record.omega_recon[1] - get_desired_yaw_v()); // yaw
+        tau_vcr[0] -= get_G_sc() * (vcr_record.omega_recon[2] - get_desired_pitch_v()); // pitch
+        tau_vcr[1] -= get_G_sc() * (vcr_record.omega_recon[0] - get_desired_roll_v()); // roll
+        tau_vcr[2] -= get_G_sc() * (vcr_record.omega_recon[1] - get_desired_yaw_v()); // yaw
         
         // G_phas (Otolith Phasic) dampens linear acceleration
         // We use vcr_data.a_lin to apply the delayed acceleration.
@@ -631,29 +634,51 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         double expected_ah_z = get_desired_roll_a() * r_head;
         
         // Pitch responds to X (Forward), Roll responds to Z (Lateral)
-        tau_des[0] -= get_G_phas() * (ah_x - expected_ah_x); 
-        tau_des[1] -= get_G_phas() * (ah_z - expected_ah_z); 
+        tau_vcr[0] -= get_G_phas() * (ah_x - expected_ah_x); 
+        tau_vcr[1] -= get_G_phas() * (ah_z - expected_ah_z); 
     }
     
-    // Voluntary Postural PID Drive (compensates for gravity droop / Na_post equivalent)
+    // 2. Voluntary Postural PID Drive (compensates for gravity droop / Na_post equivalent)
     double pitch_int = getStateVariableValue(s, "pitch_error_integral");
     double roll_int = getStateVariableValue(s, "roll_error_integral");
     double yaw_int = getStateVariableValue(s, "yaw_error_integral");
     
-    // Pitch uses the dynamically tuned Kp_task
-    tau_des[0] += get_Kp_task() * (get_desired_pitch() - head_pitch) - get_Kd_task() * omega[2] + get_Ki_task() * pitch_int;
-    tau_des[1] += get_Kp_task() * (get_desired_roll() - head_roll) - get_Kd_task() * omega[0] + get_Ki_task() * roll_int;
-    tau_des[2] += get_Kp_task() * (get_desired_yaw() - head_yaw) - get_Kd_task() * omega[1] + get_Ki_task() * yaw_int;
+    // Feedforward inertia approximation (T = I*alpha)
+    double I_head_pitch = 0.05; 
+    double I_head_roll = 0.05;
+    double I_head_yaw = 0.05;
     
-    // Inject Cerebellar Disturbance Rejection (ESO)
+    // Pitch uses the dynamically tuned Kp_task. Now tracking velocity and accel properly.
+    tau_vol[0] = get_Kp_task() * (get_desired_pitch() - head_pitch) 
+               + get_Kd_task() * (get_desired_pitch_v() - omega[2]) 
+               + get_Ki_task() * pitch_int 
+               + I_head_pitch * get_desired_pitch_a();
+               
+    tau_vol[1] = get_Kp_task() * (get_desired_roll() - head_roll) 
+               + get_Kd_task() * (get_desired_roll_v() - omega[0]) 
+               + get_Ki_task() * roll_int
+               + I_head_roll * get_desired_roll_a();
+               
+    tau_vol[2] = get_Kp_task() * (get_desired_yaw() - head_yaw) 
+               + get_Kd_task() * (get_desired_yaw_v() - omega[1]) 
+               + get_Ki_task() * yaw_int
+               + I_head_yaw * get_desired_yaw_a();
+    
+    // 3. Inject Cerebellar Disturbance Rejection (ESO)
     double eso_pitch = getStateVariableValue(s, "eso_tau_dist_pitch");
     double eso_roll = getStateVariableValue(s, "eso_tau_dist_roll");
     double eso_yaw = getStateVariableValue(s, "eso_tau_dist_yaw");
     
     double K_eso = 0.8; // Fractional confidence to prevent inertia overestimation oscillations
-    tau_des[0] -= K_eso * eso_pitch;
-    tau_des[1] -= K_eso * eso_roll;
-    tau_des[2] -= K_eso * eso_yaw;
+    tau_eso[0] = -K_eso * eso_pitch;
+    tau_eso[1] = -K_eso * eso_roll;
+    tau_eso[2] = -K_eso * eso_yaw;
+    
+    // --- TOTAL MOTOR CORTEX DRIVE TO SPINAL CORD ---
+    Vector tau_des(3, 0.0);
+    tau_des[0] = tau_vol[0] + tau_vcr[0] + tau_eso[0];
+    tau_des[1] = tau_vol[1] + tau_vcr[1] + tau_eso[1];
+    tau_des[2] = tau_vol[2] + tau_vcr[2] + tau_eso[2];
     
     tau_des[0] = std::clamp(tau_des[0], -300.0, 300.0);
     tau_des[1] = std::clamp(tau_des[1], -100.0, 100.0);
@@ -734,9 +759,27 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
             // Cervico-Collic Reflex (CCR) - using biological firing rate!
             double Ia_firing = ccr_record.Ia[i];
             
+            // Synergy-Based Reciprocal Inhibition (Descending Presynaptic Inhibition)
+            // We use a C1-continuous smoothstep to prevent integrator chattering!
+            // If u_alpha is near the 0.01 lower bound, we apply K_recip_inhib.
+            // By u_alpha = 0.05, the stretch reflex is fully active (1.0).
+            double K_recip = get_K_recip_inhib();
+            double inhibition_factor = 1.0;
+            double u_min = 0.01;
+            double u_max = 0.05;
+            
+            if (u_alpha[i] <= u_min) {
+                inhibition_factor = K_recip;
+            } else if (u_alpha[i] >= u_max) {
+                inhibition_factor = 1.0;
+            } else {
+                double t = (u_alpha[i] - u_min) / (u_max - u_min);
+                double smooth_t = t * t * (3.0 - 2.0 * t);
+                inhibition_factor = K_recip + smooth_t * (1.0 - K_recip);
+            }
+            
             // We scale the firing rate (0-500) into excitation (0-1) using Kp_proprioception
-            // Optionally, we could subtract a baseline firing rate so resting state = 0 excitation
-            excitation += get_Kp_proprioception() * (Ia_firing / 100.0); // divide by 100 to normalize to roughly 0-1 range
+            excitation += get_Kp_proprioception() * (Ia_firing / 100.0) * inhibition_factor; 
         }
         
         excitation = std::clamp(excitation, 0.01, 1.0);

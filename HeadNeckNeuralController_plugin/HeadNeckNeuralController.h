@@ -14,6 +14,7 @@ OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 public:
     OpenSim_DECLARE_PROPERTY(delay_time, double, "Neural delay in seconds (default: 0.013)");
     OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for spindle Ia");
+    OpenSim_DECLARE_PROPERTY(K_recip_inhib, double, "Reciprocal inhibition fraction for antagonists (0.0=full block, 1.0=no block)");
     OpenSim_DECLARE_PROPERTY(Kg_proprioception, double, "Gain for GTO Ib");
     OpenSim_DECLARE_PROPERTY(K_vestibular, double, "Gain for Vestibular descending drive");
     OpenSim_DECLARE_PROPERTY(K_otolith, double, "Gain for Otolith descending drive (Static posture)");

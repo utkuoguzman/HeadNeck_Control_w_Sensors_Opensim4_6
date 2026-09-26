@@ -1,4 +1,7 @@
+Eval SUCCESS: Kp=65.6, Ki=36.6, Kd=14.1, Gton=12.15, Gsc=1.48, Gphas=4.89, Kp_prop=0.052, K_gamma_dyn=36.0, K_gamma_stat=97.2 => Bode Error: 7873.7
+Eval SUCCESS: Kp=73.0, Ki=35.0, Kd=17.1, Gton=16.45, Gsc=1.89, Gphas=5.10, Kp_prop=0.382, K_gamma_dyn=35.8, K_gamma_stat=98.9 => Bode Error: 8112.4
 Eval SUCCESS: Kp=62.1, Ki=37.2, Kd=15.0, Gton=11.96, Gsc=1.90, Gphas=4.44, Kp_prop=0.116, K_gamma_dyn=39.8, K_gamma_stat=95.9 => Bode Error: 8180.8
+Eval SUCCESS: Kp=72.1, Ki=36.2, Kd=12.5, Gton=15.45, Gsc=2.12, Gphas=4.64, Kp_prop=0.110, K_gamma_dyn=33.8, K_gamma_stat=87.8 => Bode Error: 8198.4
 Eval SUCCESS: Kp=66.4, Ki=36.0, Kd=15.5, Gton=12.57, Gsc=0.46, Gphas=4.76, Kp_prop=0.359, K_gamma_dyn=34.9, K_gamma_stat=97.8 => Bode Error: 8283.8
 Eval SUCCESS: Kp=65.5, Ki=33.8, Kd=21.8, Gton=11.57, Gsc=1.77, Gphas=5.50, Kp_prop=0.276, K_gamma_dyn=39.4, K_gamma_stat=100.6 => Bode Error: 8404.4
 Eval SUCCESS: Kp=61.8, Ki=34.1, Kd=18.3, Gton=12.32, Gsc=1.28, Gphas=4.30, Kp_prop=0.435, K_gamma_dyn=32.6, K_gamma_stat=102.6 => Bode Error: 8580.9
@@ -10,6 +13,3 @@ Eval SUCCESS: Kp=58.5, Ki=39.6, Kd=12.3, Gton=10.41, Gsc=0.86, Gphas=3.95, Kp_pr
 Eval SUCCESS: Kp=62.0, Ki=44.8, Kd=12.6, Gton=10.78, Gsc=0.91, Gphas=4.22, Kp_prop=0.286, K_gamma_dyn=45.2, K_gamma_stat=95.6 => Bode Error: 9238.8
 Eval SUCCESS: Kp=74.7, Ki=40.3, Kd=12.8, Gton=19.46, Gsc=1.77, Gphas=3.12, Kp_prop=1.136, K_gamma_dyn=43.9, K_gamma_stat=93.9 => Bode Error: 9246.4
 Eval SUCCESS: Kp=68.0, Ki=36.6, Kd=15.7, Gton=10.17, Gsc=2.46, Gphas=4.60, Kp_prop=0.289, K_gamma_dyn=40.2, K_gamma_stat=97.2 => Bode Error: 9269.3
-Eval SUCCESS: Kp=60.2, Ki=36.4, Kd=12.7, Gton=15.06, Gsc=2.82, Gphas=3.47, Kp_prop=0.418, K_gamma_dyn=48.1, K_gamma_stat=101.1 => Bode Error: 9309.0
-Eval SUCCESS: Kp=63.6, Ki=44.7, Kd=17.0, Gton=11.07, Gsc=1.84, Gphas=4.58, Kp_prop=0.104, K_gamma_dyn=32.9, K_gamma_stat=92.6 => Bode Error: 9314.2
-Eval SUCCESS: Kp=66.2, Ki=39.4, Kd=13.6, Gton=14.39, Gsc=1.87, Gphas=4.56, Kp_prop=0.204, K_gamma_dyn=33.2, K_gamma_stat=91.8 => Bode Error: 9344.2
