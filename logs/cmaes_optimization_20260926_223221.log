@@ -2,3 +2,11 @@ Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Ca
 (6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 9 (seed=549652, Sat Sep 26 22:32:21 2026)
 
 --- Generation 1 ---
+Eval TIMEOUT at 1.12Hz: Kp=65.8, Ki=33.3, Kd=15.6, Gton=8.84, Gsc=0.92, Gphas=5.72, Kp_prop=0.051, K_gamma_dyn=30.9, K_gamma_stat=89.2
+Eval TIMEOUT at 1.12Hz: Kp=67.3, Ki=37.5, Kd=13.4, Gton=10.50, Gsc=1.07, Gphas=5.89, Kp_prop=0.326, K_gamma_dyn=37.1, K_gamma_stat=97.0
+Eval EARLY ABORT at 0.82Hz: Kp=61.2, Ki=34.6, Kd=18.5, Gsc=1.03, Gphas=5.87 => Est Score: 16744.6
+Eval SUCCESS: Kp=70.3, Ki=39.1, Kd=15.1, Gton=10.47, Gsc=1.53, Gphas=3.97, Kp_prop=0.082, K_gamma_dyn=30.9, K_gamma_stat=98.6 => Bode Error: 11342.4
+Eval SUCCESS: Kp=75.9, Ki=38.5, Kd=13.8, Gton=12.27, Gsc=2.21, Gphas=4.43, Kp_prop=0.051, K_gamma_dyn=35.4, K_gamma_stat=104.5 => Bode Error: 9773.2
+Eval SUCCESS: Kp=63.3, Ki=35.5, Kd=14.9, Gton=16.19, Gsc=1.13, Gphas=4.53, Kp_prop=0.340, K_gamma_dyn=35.3, K_gamma_stat=97.8 => Bode Error: 8138.9
+Eval SUCCESS: Kp=63.6, Ki=33.3, Kd=14.0, Gton=13.42, Gsc=1.44, Gphas=4.81, Kp_prop=0.086, K_gamma_dyn=35.8, K_gamma_stat=99.9 => Bode Error: 8827.8
+Eval SUCCESS: Kp=71.4, Ki=39.4, Kd=12.4, Gton=14.48, Gsc=1.89, Gphas=5.12, Kp_prop=0.264, K_gamma_dyn=39.1, K_gamma_stat=91.4 => Bode Error: 12506.4
