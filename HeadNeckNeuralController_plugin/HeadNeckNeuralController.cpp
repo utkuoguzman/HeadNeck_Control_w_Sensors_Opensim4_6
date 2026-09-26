@@ -157,6 +157,17 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
         J_moment_arms(0, i) = (r_p1 + r_p2) / 2.0; // Pitch
         J_moment_arms(1, i) = (r_r1 + r_r2) / 2.0; // Roll
         J_moment_arms(2, i) = (r_y1 + r_y2) / 2.0; // Yaw
+        
+        std::string mname = m.getName();
+        if (mname.find("hyoid") != std::string::npos || 
+            mname.find("digastric") != std::string::npos || 
+            mname.find("Mylohyoid") != std::string::npos || 
+            mname.find("Geniohyoid") != std::string::npos || 
+            mname.find("Stylohyoid") != std::string::npos || 
+            mname.find("Omo_hyoid") != std::string::npos || 
+            mname.find("Sterno_hyoid") != std::string::npos) {
+            // J_moment_arms(2, i) = 0.0;
+        }
     }
     
     history.clear();
@@ -654,15 +665,9 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
                + get_Ki_task() * pitch_int 
                + I_head_pitch * get_desired_pitch_a();
                
-    tau_vol[1] = get_Kp_task() * (get_desired_roll() - head_roll) 
-               + get_Kd_task() * (get_desired_roll_v() - omega[0]) 
-               + get_Ki_task() * roll_int
-               + I_head_roll * get_desired_roll_a();
+    tau_vol[1] = get_Kp_task() * (get_desired_roll() - head_roll) + get_Kd_task() * (get_desired_roll_v() - omega[0]) + get_Ki_task() * roll_int + I_head_roll * get_desired_roll_a();
                
-    tau_vol[2] = get_Kp_task() * (get_desired_yaw() - head_yaw) 
-               + get_Kd_task() * (get_desired_yaw_v() - omega[1]) 
-               + get_Ki_task() * yaw_int
-               + I_head_yaw * get_desired_yaw_a();
+    tau_vol[2] = get_Kp_task() * (get_desired_yaw() - head_yaw) + get_Kd_task() * (get_desired_yaw_v() - omega[1]) + get_Ki_task() * yaw_int + I_head_yaw * get_desired_yaw_a();
     
     // 3. Inject Cerebellar Disturbance Rejection (ESO)
     double eso_pitch = getStateVariableValue(s, "eso_tau_dist_pitch");

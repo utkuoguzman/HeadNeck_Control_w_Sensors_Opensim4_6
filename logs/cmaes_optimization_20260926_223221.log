@@ -10,3 +10,19 @@ Eval SUCCESS: Kp=75.9, Ki=38.5, Kd=13.8, Gton=12.27, Gsc=2.21, Gphas=4.43, Kp_pr
 Eval SUCCESS: Kp=63.3, Ki=35.5, Kd=14.9, Gton=16.19, Gsc=1.13, Gphas=4.53, Kp_prop=0.340, K_gamma_dyn=35.3, K_gamma_stat=97.8 => Bode Error: 8138.9
 Eval SUCCESS: Kp=63.6, Ki=33.3, Kd=14.0, Gton=13.42, Gsc=1.44, Gphas=4.81, Kp_prop=0.086, K_gamma_dyn=35.8, K_gamma_stat=99.9 => Bode Error: 8827.8
 Eval SUCCESS: Kp=71.4, Ki=39.4, Kd=12.4, Gton=14.48, Gsc=1.89, Gphas=5.12, Kp_prop=0.264, K_gamma_dyn=39.1, K_gamma_stat=91.4 => Bode Error: 12506.4
+Eval SUCCESS: Kp=62.6, Ki=35.3, Kd=13.4, Gton=13.77, Gsc=1.30, Gphas=4.76, Kp_prop=0.351, K_gamma_dyn=35.4, K_gamma_stat=101.5 => Bode Error: 10067.6
+Eval SUCCESS: Kp=73.2, Ki=38.2, Kd=9.9, Gton=9.89, Gsc=1.09, Gphas=4.67, Kp_prop=0.341, K_gamma_dyn=42.3, K_gamma_stat=99.9 => Bode Error: 11614.5
+Eval SUCCESS: Kp=66.9, Ki=36.8, Kd=16.7, Gton=9.83, Gsc=0.75, Gphas=5.17, Kp_prop=0.382, K_gamma_dyn=32.1, K_gamma_stat=92.6 => Bode Error: 9029.6
+Eval SUCCESS: Kp=64.5, Ki=37.4, Kd=22.3, Gton=14.38, Gsc=1.80, Gphas=5.24, Kp_prop=0.060, K_gamma_dyn=32.6, K_gamma_stat=104.3 => Bode Error: 9053.7
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     12 8.138873714901094e+03 1.0e+00 8.29e-01  2e-01  4e+00 50:23.2  
+
+--- Generation 2 ---
+Eval CRASHED at 0.32Hz: Kp=63.1, Ki=34.6, Kd=16.3, Gton=15.63, Gsc=1.69, Gphas=3.78, Kp_prop=0.402, K_gamma_dyn=33.5, K_gamma_stat=98.9
+Eval CRASHED at 0.32Hz: Kp=64.7, Ki=38.0, Kd=14.5, Gton=16.45, Gsc=1.69, Gphas=4.16, Kp_prop=0.075, K_gamma_dyn=38.4, K_gamma_stat=104.6
+Eval CRASHED at 0.44Hz: Kp=61.2, Ki=36.6, Kd=18.0, Gton=13.65, Gsc=1.23, Gphas=5.33, Kp_prop=0.385, K_gamma_dyn=34.4, K_gamma_stat=94.4
+Eval CRASHED at 0.44Hz: Kp=66.5, Ki=37.9, Kd=15.5, Gton=13.19, Gsc=0.77, Gphas=4.78, Kp_prop=0.242, K_gamma_dyn=35.9, K_gamma_stat=102.3
+Eval CRASHED at 0.44Hz: Kp=60.0, Ki=39.0, Kd=15.1, Gton=11.40, Gsc=0.15, Gphas=5.07, Kp_prop=0.053, K_gamma_dyn=40.6, K_gamma_stat=96.0
+Eval CRASHED at 0.44Hz: Kp=67.8, Ki=38.8, Kd=17.3, Gton=13.41, Gsc=1.59, Gphas=5.21, Kp_prop=0.085, K_gamma_dyn=38.0, K_gamma_stat=95.6
+Eval CRASHED at 1.12Hz: Kp=68.4, Ki=34.2, Kd=15.7, Gton=9.94, Gsc=1.90, Gphas=4.82, Kp_prop=0.485, K_gamma_dyn=32.7, K_gamma_stat=91.0
+Eval CRASHED at 1.12Hz: Kp=60.5, Ki=35.9, Kd=16.9, Gton=11.05, Gsc=1.17, Gphas=5.59, Kp_prop=0.160, K_gamma_dyn=40.8, K_gamma_stat=93.3
