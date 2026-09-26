@@ -48,7 +48,7 @@ def objective_wrapper(args):
     ]
     
     total_sse = 0.0
-    for freq, target_gain, target_phase, max_timeout in targets:
+    for freq_idx, (freq, target_gain, target_phase, max_timeout) in enumerate(targets):
         try:
             result = subprocess.run(
                 [sys.executable, "cmaes_worker.py", str(kp), str(ki), str(kd), str(g_ton), str(g_sc), str(g_phas), str(kp_prop), str(k_gamma_dyn), str(k_gamma_stat), str(freq), str(target_gain), str(target_phase), f"G{gen_idx:02d}-W{w_idx:02d}"],
@@ -60,6 +60,14 @@ def objective_wrapper(args):
             if result.returncode == 0 and result.stdout.strip():
                 score = float(result.stdout.strip().split('\n')[-1])
                 total_sse += score
+                
+                # --- CASCADED EARLY REJECTION ---
+                # If high frequencies fail, skip simulating slow 0.32Hz/0.44Hz runs to save 50% CPU time!
+                if (freq_idx == 0 and score > 3000.0) or (freq_idx == 1 and total_sse > 5500.0):
+                    remaining_freqs = len(targets) - (freq_idx + 1)
+                    penalized_score = total_sse + remaining_freqs * 3500.0
+                    print(f"Eval EARLY ABORT at {freq:.2f}Hz: Kp={kp:.1f}, Ki={ki:.1f}, Kd={kd:.1f}, Gsc={g_sc:.2f}, Gphas={g_phas:.2f} => Est Score: {penalized_score:.1f}")
+                    return penalized_score
             else:
                 print(f"Eval CRASHED at {freq:.2f}Hz: Kp={kp:.1f}, Ki={ki:.1f}, Kd={kd:.1f}, Gton={g_ton:.2f}, Gsc={g_sc:.2f}, Gphas={g_phas:.2f}, Kp_prop={kp_prop:.3f}, K_gamma_dyn={k_gamma_dyn:.1f}, K_gamma_stat={k_gamma_stat:.1f}")
                 return 100000.0 + np.random.rand() * 100.0
@@ -74,16 +82,25 @@ def objective_wrapper(args):
     return total_sse
 
 if __name__ == "__main__":
-    print("Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...")
-    # Parameters: Kp, Ki, Kd, G_ton, G_sc, G_phas
-    x0 = [75.3, 43.4, 9.0, 9.21, 2.41, 4.93, 0.1, 50.0, 100.0]
-    sigma0 = 5.0 
+    print("Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Canals)...")
+    # Warm start from the absolute best individual (Bode Error: 7873.7)
+    x0 = [65.6, 36.6, 14.1, 12.15, 1.48, 4.89, 0.052, 36.0, 97.2]
+    sigma0 = 1.0 
     
+    # Biomechanically bounded ranges preventing unviable regions
     bounds = [
-        [2.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0], 
-        [500.0, 500.0, 50.0, 20.0, 20.0, 20.0, 2.0, 200.0, 300.0]
+        [10.0, 5.0, 1.0, 0.5, 0.1, 0.5, 0.05, 10.0, 30.0], 
+        [150.0, 100.0, 40.0, 35.0, 8.0, 10.0, 2.5, 90.0, 180.0]
     ]
-    es = cma.CMAEvolutionStrategy(x0, sigma0, {'bounds': bounds, 'popsize': 12})
+    
+    opts = {
+        'bounds': bounds,
+        'popsize': 12,
+        'CMA_active': True,
+        'CMA_mirrors': 0.5,
+        'CMA_stds': [5.0, 2.4, 2.8, 3.8, 0.75, 0.68, 0.3, 4.5, 4.9]
+    }
+    es = cma.CMAEvolutionStrategy(x0, sigma0, opts)
     
     # We use ThreadPoolExecutor because subprocess.run releases the GIL anyway.
     # 16 workers mapping perfectly to popsize=16 with SIMB_NUM_THREADS=1

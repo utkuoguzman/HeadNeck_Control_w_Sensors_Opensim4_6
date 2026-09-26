@@ -1,1 +1,15 @@
-Eval SUCCESS: Kp=75.3, Ki=43.4, Kd=9.0, Gton=9.21, Gsc=2.41, Gphas=4.93 => Bode Error: 13618.7
+Eval SUCCESS: Kp=62.1, Ki=37.2, Kd=15.0, Gton=11.96, Gsc=1.90, Gphas=4.44, Kp_prop=0.116, K_gamma_dyn=39.8, K_gamma_stat=95.9 => Bode Error: 8180.8
+Eval SUCCESS: Kp=66.4, Ki=36.0, Kd=15.5, Gton=12.57, Gsc=0.46, Gphas=4.76, Kp_prop=0.359, K_gamma_dyn=34.9, K_gamma_stat=97.8 => Bode Error: 8283.8
+Eval SUCCESS: Kp=65.5, Ki=33.8, Kd=21.8, Gton=11.57, Gsc=1.77, Gphas=5.50, Kp_prop=0.276, K_gamma_dyn=39.4, K_gamma_stat=100.6 => Bode Error: 8404.4
+Eval SUCCESS: Kp=61.8, Ki=34.1, Kd=18.3, Gton=12.32, Gsc=1.28, Gphas=4.30, Kp_prop=0.435, K_gamma_dyn=32.6, K_gamma_stat=102.6 => Bode Error: 8580.9
+Eval SUCCESS: Kp=60.7, Ki=35.4, Kd=16.7, Gton=16.27, Gsc=1.25, Gphas=3.82, Kp_prop=0.458, K_gamma_dyn=38.4, K_gamma_stat=95.7 => Bode Error: 8712.2
+Eval SUCCESS: Kp=66.4, Ki=37.2, Kd=22.8, Gton=13.01, Gsc=2.84, Gphas=5.08, Kp_prop=0.458, K_gamma_dyn=37.1, K_gamma_stat=89.5 => Bode Error: 9025.6
+Eval SUCCESS: Kp=64.6, Ki=40.4, Kd=16.0, Gton=8.58, Gsc=1.10, Gphas=4.46, Kp_prop=0.450, K_gamma_dyn=39.3, K_gamma_stat=92.8 => Bode Error: 9148.2
+Eval SUCCESS: Kp=71.1, Ki=42.5, Kd=15.8, Gton=10.41, Gsc=0.94, Gphas=5.22, Kp_prop=0.589, K_gamma_dyn=48.9, K_gamma_stat=100.5 => Bode Error: 9178.6
+Eval SUCCESS: Kp=58.5, Ki=39.6, Kd=12.3, Gton=10.41, Gsc=0.86, Gphas=3.95, Kp_prop=0.235, K_gamma_dyn=33.1, K_gamma_stat=84.5 => Bode Error: 9186.4
+Eval SUCCESS: Kp=62.0, Ki=44.8, Kd=12.6, Gton=10.78, Gsc=0.91, Gphas=4.22, Kp_prop=0.286, K_gamma_dyn=45.2, K_gamma_stat=95.6 => Bode Error: 9238.8
+Eval SUCCESS: Kp=74.7, Ki=40.3, Kd=12.8, Gton=19.46, Gsc=1.77, Gphas=3.12, Kp_prop=1.136, K_gamma_dyn=43.9, K_gamma_stat=93.9 => Bode Error: 9246.4
+Eval SUCCESS: Kp=68.0, Ki=36.6, Kd=15.7, Gton=10.17, Gsc=2.46, Gphas=4.60, Kp_prop=0.289, K_gamma_dyn=40.2, K_gamma_stat=97.2 => Bode Error: 9269.3
+Eval SUCCESS: Kp=60.2, Ki=36.4, Kd=12.7, Gton=15.06, Gsc=2.82, Gphas=3.47, Kp_prop=0.418, K_gamma_dyn=48.1, K_gamma_stat=101.1 => Bode Error: 9309.0
+Eval SUCCESS: Kp=63.6, Ki=44.7, Kd=17.0, Gton=11.07, Gsc=1.84, Gphas=4.58, Kp_prop=0.104, K_gamma_dyn=32.9, K_gamma_stat=92.6 => Bode Error: 9314.2
+Eval SUCCESS: Kp=66.2, Ki=39.4, Kd=13.6, Gton=14.39, Gsc=1.87, Gphas=4.56, Kp_prop=0.204, K_gamma_dyn=33.2, K_gamma_stat=91.8 => Bode Error: 9344.2

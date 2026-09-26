@@ -22,6 +22,12 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_yaw, double, "Voluntary desired yaw angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(desired_pitch, double, "Voluntary desired pitch angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
+    OpenSim_DECLARE_PROPERTY(desired_yaw_v, double, "Voluntary desired yaw velocity (rad/s)");
+    OpenSim_DECLARE_PROPERTY(desired_pitch_v, double, "Voluntary desired pitch velocity (rad/s)");
+    OpenSim_DECLARE_PROPERTY(desired_roll_v, double, "Voluntary desired roll velocity (rad/s)");
+    OpenSim_DECLARE_PROPERTY(desired_yaw_a, double, "Voluntary desired yaw accel (rad/s2)");
+    OpenSim_DECLARE_PROPERTY(desired_pitch_a, double, "Voluntary desired pitch accel (rad/s2)");
+    OpenSim_DECLARE_PROPERTY(desired_roll_a, double, "Voluntary desired roll accel (rad/s2)");
 
     // Vestibular & Reflex properties
     OpenSim_DECLARE_PROPERTY(G_sc, double, "Vestibular semicircular canal gain");

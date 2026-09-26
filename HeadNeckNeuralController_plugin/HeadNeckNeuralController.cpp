@@ -17,6 +17,12 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_desired_yaw(0.0);
     constructProperty_desired_pitch(0.0);
     constructProperty_desired_roll(0.0);
+    constructProperty_desired_yaw_v(0.0);
+    constructProperty_desired_pitch_v(0.0);
+    constructProperty_desired_roll_v(0.0);
+    constructProperty_desired_yaw_a(0.0);
+    constructProperty_desired_pitch_a(0.0);
+    constructProperty_desired_roll_a(0.0);
     constructProperty_G_sc(1.0);
     constructProperty_G_ton(0.01);
     constructProperty_G_phas(0.01);
@@ -237,15 +243,18 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     omega[1] = u_y1 + u_y2; // yaw
     omega[2] = u_p1 + u_p2; // pitch
     
+    // Della Santina et al. 2005 3D CT Human Semicircular Canal Normal Vectors in OpenSim [Roll=X, Yaw=Y, Pitch=Z]
+    // Right Ear: RA, RP, RH (Sagittal symmetry: only Z changes sign relative to Left Ear)
     SimTK::Matrix B_R(3, 3);
-    B_R(0,0) = 0.707;  B_R(0,1) = 0.0; B_R(0,2) = -0.707;
-    B_R(1,0) = -0.707; B_R(1,1) = 0.0; B_R(1,2) = -0.707;
-    B_R(2,0) = 0.0;    B_R(2,1) = 1.0; B_R(2,2) = 0.0;
+    B_R(0,0) = -0.589; B_R(0,1) = -0.177; B_R(0,2) =  0.788; // RA
+    B_R(1,0) = -0.694; B_R(1,1) = -0.270; B_R(1,2) = -0.667; // RP
+    B_R(2,0) = -0.323; B_R(2,1) =  0.946; B_R(2,2) = -0.038; // RH
 
+    // Left Ear: LA, LP, LH
     SimTK::Matrix B_L(3, 3);
-    B_L(0,0) = 0.707;  B_L(0,1) = 0.0; B_L(0,2) = 0.707;
-    B_L(1,0) = -0.707; B_L(1,1) = 0.0; B_L(1,2) = 0.707;
-    B_L(2,0) = 0.0;    B_L(2,1) = 1.0; B_L(2,2) = 0.0;
+    B_L(0,0) = -0.589; B_L(0,1) = -0.177; B_L(0,2) = -0.788; // LA
+    B_L(1,0) = -0.694; B_L(1,1) = -0.270; B_L(1,2) =  0.667; // LP
+    B_L(2,0) = -0.323; B_L(2,1) =  0.946; B_L(2,2) =  0.038; // LH
     
     SimTK::Vector v_R = B_R * omega;
     SimTK::Vector v_L = B_L * omega;
@@ -456,15 +465,18 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     omega[1] = head_yaw_dot;
     omega[2] = head_pitch_dot;
     
+    // Della Santina et al. 2005 3D CT Human Semicircular Canal Normal Vectors in OpenSim [Roll=X, Yaw=Y, Pitch=Z]
+    // Right Ear: RA, RP, RH (Sagittal symmetry: only Z changes sign relative to Left Ear)
     SimTK::Matrix B_R(3, 3);
-    B_R(0,0) = 0.707;  B_R(0,1) = 0.0; B_R(0,2) = -0.707;
-    B_R(1,0) = -0.707; B_R(1,1) = 0.0; B_R(1,2) = -0.707;
-    B_R(2,0) = 0.0;    B_R(2,1) = 1.0; B_R(2,2) = 0.0;
+    B_R(0,0) = -0.589; B_R(0,1) = -0.177; B_R(0,2) =  0.788; // RA
+    B_R(1,0) = -0.694; B_R(1,1) = -0.270; B_R(1,2) = -0.667; // RP
+    B_R(2,0) = -0.323; B_R(2,1) =  0.946; B_R(2,2) = -0.038; // RH
 
+    // Left Ear: LA, LP, LH
     SimTK::Matrix B_L(3, 3);
-    B_L(0,0) = 0.707;  B_L(0,1) = 0.0; B_L(0,2) = 0.707;
-    B_L(1,0) = -0.707; B_L(1,1) = 0.0; B_L(1,2) = 0.707;
-    B_L(2,0) = 0.0;    B_L(2,1) = 1.0; B_L(2,2) = 0.0;
+    B_L(0,0) = -0.589; B_L(0,1) = -0.177; B_L(0,2) = -0.788; // LA
+    B_L(1,0) = -0.694; B_L(1,1) = -0.270; B_L(1,2) =  0.667; // LP
+    B_L(2,0) = -0.323; B_L(2,1) =  0.946; B_L(2,2) =  0.038; // LH
     
     SimTK::Vector v_R = B_R * omega;
     SimTK::Vector v_L = B_L * omega;
@@ -588,17 +600,19 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     double estimated_yaw = std::asin(std::clamp(2.0*(q0*q2 - q3*q1), -1.0, 1.0));
     double estimated_pitch = std::atan2(2.0*(q0*q3 + q1*q2), 1.0 - 2.0*(q2*q2 + q3*q3));
     
-    // Pure Happee Vestibular Reflex (Stabilization opposes motion and restores posture)
+    // Vestibular Reflex with Efference Copy Cancellation (expected vestibular firing from voluntary action)
     if (vcr_record.omega_recon.size() == 3) {
-        // G_ton (Otolith Tonic) acts as a static proportional gravity compensator pushing back to 0
-        tau_des[0] -= get_G_ton() * estimated_pitch; // pitch
-        tau_des[1] -= get_G_ton() * estimated_roll;  // roll
-        tau_des[2] -= get_G_ton() * estimated_yaw;   // yaw
+        // G_ton (Otolith Tonic) acts as a proportional gravity compensator
+        // We subtract the Efference Copy of expected static tilt
+        tau_des[0] -= get_G_ton() * (estimated_pitch - get_desired_pitch()); // pitch
+        tau_des[1] -= get_G_ton() * (estimated_roll - get_desired_roll());  // roll
+        tau_des[2] -= get_G_ton() * (estimated_yaw - get_desired_yaw());   // yaw
         
         // G_sc (Semicircular Canal) dampens angular velocity
-        tau_des[0] -= get_G_sc() * vcr_record.omega_recon[2]; // pitch
-        tau_des[1] -= get_G_sc() * vcr_record.omega_recon[0]; // roll
-        tau_des[2] -= get_G_sc() * vcr_record.omega_recon[1]; // yaw
+        // We subtract the Efference Copy of expected angular velocity
+        tau_des[0] -= get_G_sc() * (vcr_record.omega_recon[2] - get_desired_pitch_v()); // pitch
+        tau_des[1] -= get_G_sc() * (vcr_record.omega_recon[0] - get_desired_roll_v()); // roll
+        tau_des[2] -= get_G_sc() * (vcr_record.omega_recon[1] - get_desired_yaw_v()); // yaw
         
         // G_phas (Otolith Phasic) dampens linear acceleration
         // We use vcr_data.a_lin to apply the delayed acceleration.
@@ -610,9 +624,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         double ah_y = 2.0*(q1*q2 - q0*q3)*a_world[0] + (q0*q0 - q1*q1 + q2*q2 - q3*q3)*a_world[1] + 2.0*(q2*q3 + q0*q1)*a_world[2];
         double ah_z = 2.0*(q1*q3 + q0*q2)*a_world[0] + 2.0*(q2*q3 - q0*q1)*a_world[1] + (q0*q0 - q1*q1 - q2*q2 + q3*q3)*a_world[2];
         
+        // Estimate expected linear acceleration caused by desired angular acceleration
+        // Approximating head radius (e.g. 0.15m from neck pivot to otoliths)
+        double r_head = 0.15; 
+        double expected_ah_x = get_desired_pitch_a() * r_head; 
+        double expected_ah_z = get_desired_roll_a() * r_head;
+        
         // Pitch responds to X (Forward), Roll responds to Z (Lateral)
-        tau_des[0] -= get_G_phas() * ah_x; 
-        tau_des[1] -= get_G_phas() * ah_z; 
+        tau_des[0] -= get_G_phas() * (ah_x - expected_ah_x); 
+        tau_des[1] -= get_G_phas() * (ah_z - expected_ah_z); 
     }
     
     // Voluntary Postural PID Drive (compensates for gravity droop / Na_post equivalent)
@@ -721,7 +741,16 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         
         excitation = std::clamp(excitation, 0.01, 1.0);
         
-        Vector my_ctrl(1, excitation);
+        int n_controls = m.numControls();
+        Vector my_ctrl(n_controls, 0.0);
+        my_ctrl[0] = excitation; // Alpha motor command
+        
+        // If this muscle supports Gamma motor neurons (e.g., Millard12EqMuscleWithAfferents)
+        if (n_controls >= 3) {
+            my_ctrl[1] = get_K_gamma_dyn() * excitation;  // Gamma dynamic
+            my_ctrl[2] = get_K_gamma_stat() * excitation; // Gamma static
+        }
+        
         m.addInControls(my_ctrl, controls);
     }
 }
