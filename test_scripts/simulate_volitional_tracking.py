@@ -83,35 +83,37 @@ def get_targets(t):
         max_rad = np.radians(max_deg)
         if t_local <= 0.25:
             return (0.0, 0.0, 0.0)
-        elif t_local <= 1.25:
-            return min_jerk(t_local, 0.25, 1.0, 0.0, max_rad)
-        elif t_local <= 1.50:
+        elif t_local <= 1.75: # 1.5s sweep
+            return min_jerk(t_local, 0.25, 1.5, 0.0, max_rad)
+        elif t_local <= 2.00: # hold
             return (max_rad, 0.0, 0.0)
-        elif t_local <= 3.50:
-            return min_jerk(t_local, 1.50, 2.0, max_rad, -max_rad)
-        elif t_local <= 3.75:
+        elif t_local <= 5.00: # 3.0s sweep across
+            return min_jerk(t_local, 2.00, 3.0, max_rad, -max_rad)
+        elif t_local <= 5.25: # hold
             return (-max_rad, 0.0, 0.0)
-        elif t_local <= 4.75:
-            return min_jerk(t_local, 3.75, 1.0, -max_rad, 0.0)
+        elif t_local <= 6.75: # 1.5s sweep back to center
+            return min_jerk(t_local, 5.25, 1.5, -max_rad, 0.0)
         else:
             return (0.0, 0.0, 0.0)
 
-    if t <= 4.75:
-        p_targets = move_profile(t, -20.0) # Pitch: +/- 45 deg (stay away from 60 deg limit)
-    elif t <= 9.50:
-        r_targets = move_profile(t - 4.75, 20.0) # Roll: +/- 30 deg (stay away from 39.9 deg limit)
-    elif t <= 14.25:
-        y_targets = move_profile(t - 9.50, 20.0) # Yaw: +/- 50 deg
+    if t <= 2.0:
+        pass # Global settling time to let the integral term accumulate gravity compensation
+    elif t <= 9.0:
+        p_targets = move_profile(t - 2.0, -45.0) # Pitch: +/- 45 deg
+    elif t <= 16.0:
+        r_targets = move_profile(t - 9.0, 35.0) # Roll: +/- 35 deg
+    elif t <= 23.0:
+        y_targets = move_profile(t - 16.0, 50.0) # Yaw: +/- 50 deg
         
     return p_targets, r_targets, y_targets
 
-print("Starting 14.25s Volitional Tracking Simulation...")
+print("Starting 23.0s Volitional Tracking Simulation...")
 log_file = open("logs/volitional_tracking_log.txt", "w")
 log_file.write("t,p_des,r_des,y_des,p_act,r_act,y_act\n")
 
 cset = model.getCoordinateSet()
 dt = 0.02
-for step in range(1, int(14.25 / dt) + 2):
+for step in range(1, int(23.0 / dt) + 2):
     t = step * dt
     
     (dp, dp_v, dp_a), (dr, dr_v, dr_a), (dy, dy_v, dy_a) = get_targets(t)

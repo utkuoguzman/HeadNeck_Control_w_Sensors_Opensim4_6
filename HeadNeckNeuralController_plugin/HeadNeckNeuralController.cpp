@@ -299,9 +299,23 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double head_roll = q_r1 + q_r2;
     double head_yaw = q_y1 + q_y2;
     
-    setStateVariableDerivativeValue(s, "pitch_error_integral", get_desired_pitch() - head_pitch);
-    setStateVariableDerivativeValue(s, "roll_error_integral", get_desired_roll() - head_roll);
-    setStateVariableDerivativeValue(s, "yaw_error_integral", get_desired_yaw() - head_yaw);
+    double p_err = get_desired_pitch() - head_pitch;
+    double p_int = getStateVariableValue(s, "pitch_error_integral");
+    if (p_int > 0.6 && p_err > 0) p_err = 0.0;
+    if (p_int < -0.6 && p_err < 0) p_err = 0.0;
+    setStateVariableDerivativeValue(s, "pitch_error_integral", p_err);
+
+    double r_err = get_desired_roll() - head_roll;
+    double r_int = getStateVariableValue(s, "roll_error_integral");
+    if (r_int > 0.4 && r_err > 0) r_err = 0.0;
+    if (r_int < -0.4 && r_err < 0) r_err = 0.0;
+    setStateVariableDerivativeValue(s, "roll_error_integral", r_err);
+
+    double y_err = get_desired_yaw() - head_yaw;
+    double y_int = getStateVariableValue(s, "yaw_error_integral");
+    if (y_int > 0.4 && y_err > 0) y_err = 0.0;
+    if (y_int < -0.4 && y_err < 0) y_err = 0.0;
+    setStateVariableDerivativeValue(s, "yaw_error_integral", y_err);
     
     // --- EFFERENCE COPY (Muscle activation lag on commanded torque) ---
     double T_muscle = 0.050; // 50ms lag
@@ -685,7 +699,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     tau_des[1] = tau_vol[1] + tau_vcr[1] + tau_eso[1];
     tau_des[2] = tau_vol[2] + tau_vcr[2] + tau_eso[2];
     
-    tau_des[0] = std::clamp(tau_des[0], -300.0, 300.0);
+    tau_des[0] = std::clamp(tau_des[0], -150.0, 150.0);
     tau_des[1] = std::clamp(tau_des[1], -100.0, 100.0);
     tau_des[2] = std::clamp(tau_des[2], -100.0, 100.0);
     
@@ -802,3 +816,4 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         m.addInControls(my_ctrl, controls);
     }
 }
+
