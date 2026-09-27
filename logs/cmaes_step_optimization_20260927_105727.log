@@ -1,0 +1,21 @@
+Starting Parallel CMA-ES for Step Inputs (Kp, Ki, Kd)...
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=676807, Sun Sep 27 10:57:27 2026)
+
+--- Generation 1 ---
+Eval TIMEOUT: Kp=8.59, Ki=10.26, Kd=2.60
+Eval TIMEOUT: Kp=16.89, Ki=5.01, Kd=10.47
+Eval TIMEOUT: Kp=20.04, Ki=9.02, Kd=5.28Eval TIMEOUT: Kp=11.58, Ki=10.33, Kd=0.35
+
+Eval TIMEOUT: Kp=13.43, Ki=0.81, Kd=1.97
+Eval TIMEOUT: Kp=18.61, Ki=4.27, Kd=4.93
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1      6 1.016214123194767e+06 1.0e+00 4.62e+00  4e+00  5e+00 2:00.1  
+Gen 1: Best Error = 1016214.12 | Kp=13.43, Ki=0.81, Kd=1.97
+
+--- Generation 2 ---
+Eval FAILED: Kp=8.39, Ki=2.43, Kd=2.96
+Eval FAILED: Kp=11.39, Ki=10.57, Kd=3.06
+Eval FAILED: Kp=13.23, Ki=5.97, Kd=0.92
+Eval FAILED: Kp=5.78, Ki=5.57, Kd=2.62
+Eval FAILED: Kp=12.75, Ki=2.98, Kd=0.99
+Eval FAILED: Kp=12.76, Ki=6.60, Kd=5.41

@@ -1,0 +1,10 @@
+Starting Parallel CMA-ES for Step-Input PID optimisation (Kp, Ki, Kd)...
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=571942, Sun Sep 27 11:10:55 2026)
+
+--- Generation 1 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
