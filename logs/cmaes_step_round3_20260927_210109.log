@@ -1,0 +1,333 @@
+=================================================================
+ROUND 3: Step-Input PID Re-Optimization (with tuned reflexes)
+Frozen Reflexes: G_ton=16.84, G_sc=3.13, G_phas=6.22
+                 kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+Searching: Kp, Ki, Kd
+=================================================================
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=585986, Sun Sep 27 21:01:09 2026)
+
+--- Generation 1 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G01-W04 | Kp=109.88, Ki=14.28, Kd=37.32
+Eval CRASHED: G01-W05 | Kp=90.20, Ki=18.09, Kd=56.49Eval CRASHED: G01-W06 | Kp=123.80, Ki=2.22, Kd=34.97Eval CRASHED: G01-W03 | Kp=114.87, Ki=1.82, Kd=29.52Eval CRASHED: G01-W01 | Kp=97.70, Ki=22.88, Kd=5.87
+
+
+
+Eval CRASHED: G01-W02 | Kp=131.11, Ki=10.41, Kd=5.10
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1      6 1.126446340512528e+06 1.0e+00 1.73e+01  2e+01  2e+01 0:00.3  
+Gen 1: Best Error = 1126446.34 | Kp=97.70, Ki=22.88, Kd=5.87
+
+--- Generation 2 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Eval CRASHED: G02-W06 | Kp=114.35, Ki=18.99, Kd=22.53
+Eval CRASHED: G02-W01 | Kp=100.00, Ki=0.19, Kd=29.85
+Eval CRASHED: G02-W04 | Kp=110.39, Ki=28.97, Kd=19.71
+Eval CRASHED: G02-W03 | Kp=72.05, Ki=45.17, Kd=18.63
+Eval CRASHED: G02-W05 | Kp=115.81, Ki=3.86, Kd=8.24
+Eval CRASHED: G02-W02 | Kp=129.64, Ki=1.83, Kd=15.80
+    2     12 1.127916077604605e+06 1.6e+00 1.47e+01  1e+01  2e+01 0:00.7  
+Gen 2: Best Error = 1126446.34 | Kp=97.70, Ki=22.88, Kd=5.87
+
+--- Generation 3 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G03-W04 | Kp=89.45, Ki=23.43, Kd=3.54
+Eval CRASHED: G03-W02 | Kp=120.71, Ki=6.03, Kd=13.26
+Eval CRASHED: G03-W06 | Kp=123.02, Ki=15.79, Kd=1.76
+Eval CRASHED: G03-W01 | Kp=86.69, Ki=17.51, Kd=6.39
+Eval CRASHED: G03-W05 | Kp=140.20, Ki=10.17, Kd=9.76
+Eval CRASHED: G03-W03 | Kp=106.44, Ki=22.66, Kd=7.21
+    3     18 1.110585835797660e+06 1.7e+00 1.62e+01  2e+01  2e+01 0:01.0  
+Gen 3: Best Error = 1110585.84 | Kp=86.69, Ki=17.51, Kd=6.39
+
+--- Generation 4 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G04-W01 | Kp=62.23, Ki=6.47, Kd=9.63Eval CRASHED: G04-W05 | Kp=82.70, Ki=11.02, Kd=13.65Eval CRASHED: G04-W03 | Kp=107.13, Ki=7.01, Kd=1.10
+
+
+Eval CRASHED: G04-W04 | Kp=116.11, Ki=10.94, Kd=36.47Eval CRASHED: G04-W02 | Kp=82.22, Ki=11.91, Kd=18.45
+
+Eval CRASHED: G04-W06 | Kp=101.42, Ki=29.52, Kd=16.55
+Gen 4: Best Error = 1078333.40 | Kp=62.23, Ki=6.47, Kd=9.63
+
+--- Generation 5 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G05-W05 | Kp=83.31, Ki=36.71, Kd=9.01
+Eval CRASHED: G05-W03 | Kp=57.36, Ki=9.72, Kd=1.24
+Eval CRASHED: G05-W06 | Kp=54.56, Ki=9.00, Kd=34.69
+Eval CRASHED: G05-W04 | Kp=56.74, Ki=3.94, Kd=11.40
+Eval CRASHED: G05-W01 | Kp=19.63, Ki=22.61, Kd=20.97
+Eval CRASHED: G05-W02 | Kp=87.19, Ki=29.29, Kd=18.09
+Gen 5: Best Error = 1063213.19 | Kp=19.63, Ki=22.61, Kd=20.97
+
+--- Generation 6 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Eval CRASHED: G06-W01 | Kp=2.29, Ki=7.05, Kd=57.29
+Eval CRASHED: G06-W02 | Kp=26.53, Ki=25.09, Kd=1.09
+Eval CRASHED: G06-W03 | Kp=0.35, Ki=11.93, Kd=54.46Eval CRASHED: G06-W05 | Kp=139.28, Ki=12.03, Kd=52.66
+
+Eval CRASHED: G06-W04 | Kp=48.57, Ki=10.35, Kd=4.09
+Eval CRASHED: G06-W06 | Kp=88.08, Ki=48.13, Kd=19.59
+Gen 6: Best Error = 1052712.59 | Kp=26.53, Ki=25.09, Kd=1.09
+
+--- Generation 7 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Eval CRASHED: G07-W06 | Kp=34.68, Ki=29.57, Kd=16.31
+Eval CRASHED: G07-W01 | Kp=25.87, Ki=15.64, Kd=30.15
+Eval CRASHED: G07-W05 | Kp=18.84, Ki=53.30, Kd=77.23
+Eval CRASHED: G07-W02 | Kp=59.29, Ki=51.50, Kd=5.84
+Eval CRASHED: G07-W04 | Kp=34.85, Ki=6.06, Kd=11.38
+Eval CRASHED: G07-W03 | Kp=42.96, Ki=20.04, Kd=23.69
+Gen 7: Best Error = 1052288.13 | Kp=34.85, Ki=6.06, Kd=11.38
+
+--- Generation 8 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G08-W01 | Kp=69.54, Ki=15.18, Kd=5.84Eval CRASHED: G08-W03 | Kp=24.39, Ki=2.35, Kd=2.35Eval CRASHED: G08-W04 | Kp=20.62, Ki=44.92, Kd=6.11
+
+
+Eval CRASHED: G08-W06 | Kp=91.77, Ki=42.89, Kd=2.84
+Eval CRASHED: G08-W02 | Kp=59.38, Ki=12.83, Kd=13.99
+Eval CRASHED: G08-W05 | Kp=52.98, Ki=52.00, Kd=6.21
+Gen 8: Best Error = 1029093.78 | Kp=24.39, Ki=2.35, Kd=2.35
+
+--- Generation 9 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G09-W06 | Kp=2.80, Ki=10.31, Kd=18.62Eval CRASHED: G09-W01 | Kp=12.39, Ki=17.40, Kd=7.92
+
+Eval CRASHED: G09-W02 | Kp=8.73, Ki=4.32, Kd=5.48Eval CRASHED: G09-W03 | Kp=11.17, Ki=0.54, Kd=36.55Eval CRASHED: G09-W04 | Kp=37.44, Ki=46.58, Kd=9.53
+
+Eval CRASHED: G09-W05 | Kp=45.77, Ki=0.67, Kd=39.53
+
+Gen 9: Best Error = 1018529.76 | Kp=8.73, Ki=4.32, Kd=5.48
+
+--- Generation 10 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G10-W06 | Kp=32.31, Ki=30.68, Kd=7.02
+Eval CRASHED: G10-W01 | Kp=29.00, Ki=46.45, Kd=28.96
+Eval CRASHED: G10-W05 | Kp=6.36, Ki=20.89, Kd=20.96
+Eval CRASHED: G10-W03 | Kp=16.89, Ki=40.59, Kd=29.21Eval CRASHED: G10-W02 | Kp=2.15, Ki=5.37, Kd=14.51
+
+Eval CRASHED: G10-W04 | Kp=27.56, Ki=33.07, Kd=42.45
+Gen 10: Best Error = 1018529.76 | Kp=8.73, Ki=4.32, Kd=5.48
+
+--- Generation 11 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_idUsage: python cmaes_step_worker.py Kp Ki Kd worker_id
+
+Eval CRASHED: G11-W02 | Kp=21.51, Ki=29.61, Kd=10.16Eval CRASHED: G11-W05 | Kp=3.76, Ki=21.72, Kd=0.08Eval CRASHED: G11-W03 | Kp=46.08, Ki=13.46, Kd=1.47Eval CRASHED: G11-W04 | Kp=9.39, Ki=24.74, Kd=23.94
+
+
+Eval CRASHED: G11-W06 | Kp=10.95, Ki=17.63, Kd=21.81
+
+Eval CRASHED: G11-W01 | Kp=9.37, Ki=47.65, Kd=2.26
+Gen 11: Best Error = 1018529.76 | Kp=8.73, Ki=4.32, Kd=5.48
+
+--- Generation 12 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G12-W05 | Kp=19.69, Ki=0.46, Kd=9.05
+Eval CRASHED: G12-W02 | Kp=32.54, Ki=12.34, Kd=23.22Eval CRASHED: G12-W01 | Kp=1.93, Ki=52.49, Kd=10.97
+
+Eval CRASHED: G12-W03 | Kp=9.13, Ki=18.71, Kd=9.43
+Eval CRASHED: G12-W04 | Kp=0.68, Ki=17.05, Kd=14.80
+Eval CRASHED: G12-W06 | Kp=14.08, Ki=21.90, Kd=4.45
+Gen 12: Best Error = 1018529.76 | Kp=8.73, Ki=4.32, Kd=5.48
+
+--- Generation 13 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G13-W04 | Kp=6.90, Ki=0.40, Kd=8.49
+Eval CRASHED: G13-W03 | Kp=8.45, Ki=24.66, Kd=2.30
+Eval CRASHED: G13-W05 | Kp=10.16, Ki=18.87, Kd=32.46
+Eval CRASHED: G13-W02 | Kp=3.49, Ki=2.67, Kd=6.40
+Eval CRASHED: G13-W06 | Kp=4.63, Ki=9.22, Kd=14.23
+Eval CRASHED: G13-W01 | Kp=6.90, Ki=3.53, Kd=12.16
+   13     78 1.012561543949035e+06 1.6e+00 1.96e+01  1e+01  2e+01 0:04.2  
+Gen 13: Best Error = 1012561.54 | Kp=3.49, Ki=2.67, Kd=6.40
+
+--- Generation 14 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G14-W06 | Kp=7.65, Ki=5.10, Kd=9.14Eval CRASHED: G14-W01 | Kp=6.49, Ki=0.51, Kd=14.79Eval CRASHED: G14-W03 | Kp=4.60, Ki=5.16, Kd=34.71
+
+
+Eval CRASHED: G14-W02 | Kp=0.08, Ki=10.88, Kd=18.69
+Eval CRASHED: G14-W04 | Kp=21.01, Ki=12.65, Kd=0.54
+Eval CRASHED: G14-W05 | Kp=22.75, Ki=0.28, Kd=1.34
+Gen 14: Best Error = 1012561.54 | Kp=3.49, Ki=2.67, Kd=6.40
+
+--- Generation 15 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Usage: python cmaes_step_worker.py Kp Ki Kd worker_id
+Eval CRASHED: G15-W05 | Kp=1.62, Ki=21.93, Kd=13.49
+Eval CRASHED: G15-W04 | Kp=22.77, Ki=10.10, Kd=1.07
+Eval CRASHED: G15-W03 | Kp=6.24, Ki=21.76, Kd=15.52
+Eval CRASHED: G15-W01 | Kp=2.29, Ki=3.45, Kd=12.10
+Eval CRASHED: G15-W02 | Kp=8.93, Ki=9.57, Kd=6.15
+Eval CRASHED: G15-W06 | Kp=29.46, Ki=5.42, Kd=2.34
+Gen 15: Best Error = 1012561.54 | Kp=3.49, Ki=2.67, Kd=6.40
+
+=================================================================
+Round 3 Optimization Finished!
+Best PID: Kp=3.49, Ki=2.67, Kd=6.40
+Best Step Error: 1012561.54
+=================================================================

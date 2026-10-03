@@ -1,0 +1,31 @@
+==========================================================================================
+CMA-ES: Decoupled Bode Frequency Response Optimization (9 Dimensions)
+Searching: ['Kp', 'Ki', 'Kd', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(8_w,16mirr3)-aCMA-ES (mu_w=4.8,w_1=32%) in dimension 9 (seed=1138069, Fri Oct  2 22:45:04 2026)
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+
+
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     16 1.000000000000000e+05 1.0e+00 1.72e+00  5e-01  3e+01 6:00.3  
+Gen 1: Best Bode SSE = 100000.0 | Kp=97.2, Ki=13.5, Kd=9.2, G_ton=15.600, G_sc=2.091, G_phas=3.909, kp_prop=0.670, k_gamma_dyn=69.874, k_gamma_stat=87.297
+
+==========================================================================================
+Decoupled Optimization Finished!
+Best Kp=97.24, Ki=13.47, Kd=9.15
+Best reflex: G_ton=15.600, G_sc=2.091, G_phas=3.909, kp_prop=0.670, k_gamma_dyn=69.874, k_gamma_stat=87.297
+Best Bode SSE: 100000.0
+==========================================================================================

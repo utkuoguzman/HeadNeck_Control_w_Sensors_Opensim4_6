@@ -1,10 +1,6 @@
-Eval SUCCESS: Kp=65.6, Ki=36.6, Kd=14.1, Gton=12.15, Gsc=1.48, Gphas=4.89, Kp_prop=0.052, K_gamma_dyn=36.0, K_gamma_stat=97.2 => Bode Error: 7873.7
+Previous best (no step response trials):
 Eval SUCCESS: Kp=73.0, Ki=35.0, Kd=17.1, Gton=16.45, Gsc=1.89, Gphas=5.10, Kp_prop=0.382, K_gamma_dyn=35.8, K_gamma_stat=98.9 => Bode Error: 8112.4
-Eval SUCCESS: Kp=63.3, Ki=35.5, Kd=14.9, Gton=16.19, Gsc=1.13, Gphas=4.53, Kp_prop=0.340, K_gamma_dyn=35.3, K_gamma_stat=97.8 => Bode Error: 8138.9
-Eval SUCCESS: Kp=62.1, Ki=37.2, Kd=15.0, Gton=11.96, Gsc=1.90, Gphas=4.44, Kp_prop=0.116, K_gamma_dyn=39.8, K_gamma_stat=95.9 => Bode Error: 8180.8
-Eval SUCCESS: Kp=72.1, Ki=36.2, Kd=12.5, Gton=15.45, Gsc=2.12, Gphas=4.64, Kp_prop=0.110, K_gamma_dyn=33.8, K_gamma_stat=87.8 => Bode Error: 8198.4
-Eval SUCCESS: Kp=66.4, Ki=36.0, Kd=15.5, Gton=12.57, Gsc=0.46, Gphas=4.76, Kp_prop=0.359, K_gamma_dyn=34.9, K_gamma_stat=97.8 => Bode Error: 8283.8
 Eval SUCCESS: Kp=65.5, Ki=33.8, Kd=21.8, Gton=11.57, Gsc=1.77, Gphas=5.50, Kp_prop=0.276, K_gamma_dyn=39.4, K_gamma_stat=100.6 => Bode Error: 8404.4
-Eval SUCCESS: Kp=61.8, Ki=34.1, Kd=18.3, Gton=12.32, Gsc=1.28, Gphas=4.30, Kp_prop=0.435, K_gamma_dyn=32.6, K_gamma_stat=102.6 => Bode Error: 8580.9
-Eval SUCCESS: Kp=60.7, Ki=35.4, Kd=16.7, Gton=16.27, Gsc=1.25, Gphas=3.82, Kp_prop=0.458, K_gamma_dyn=38.4, K_gamma_stat=95.7 => Bode Error: 8712.2
-Eval SUCCESS: Kp=63.6, Ki=33.3, Kd=14.0, Gton=13.42, Gsc=1.44, Gphas=4.81, Kp_prop=0.086, K_gamma_dyn=35.8, K_gamma_stat=99.9 => Bode Error: 8827.8
+
+Did one round of step response trial, and then freeze the ki and kd (%20 bandının SSE hedefi 2600):
+Best Bode SSE = 4383.9 | alpha=5.93(Kp=19.8,Ki=0.9,Kd=20.4), G_ton=2.423, G_sc=3.625, G_phas=6.085, kp_prop=0.091, k_gamma_dyn=55.293, k_gamma_stat=91.482

@@ -69,11 +69,17 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("roll_error_integral", Stage::Dynamics);
     addStateVariable("yaw_error_integral", Stage::Dynamics);
     
-    // Mahony Filter State Variables
-    addStateVariable("mahony_q0", Stage::Dynamics);
-    addStateVariable("mahony_q1", Stage::Dynamics);
-    addStateVariable("mahony_q2", Stage::Dynamics);
-    addStateVariable("mahony_q3", Stage::Dynamics);
+    // SE_2(3) Spatial Observer States
+    addStateVariable("obs_q0", Stage::Dynamics);
+    addStateVariable("obs_q1", Stage::Dynamics);
+    addStateVariable("obs_q2", Stage::Dynamics);
+    addStateVariable("obs_q3", Stage::Dynamics);
+    addStateVariable("obs_vx", Stage::Dynamics);
+    addStateVariable("obs_vy", Stage::Dynamics);
+    addStateVariable("obs_vz", Stage::Dynamics);
+    addStateVariable("obs_px", Stage::Dynamics);
+    addStateVariable("obs_py", Stage::Dynamics);
+    addStateVariable("obs_pz", Stage::Dynamics);
     
     // Efference Copy States (Internal Forward Model)
     addStateVariable("eff_tau_pitch", Stage::Dynamics);
@@ -98,10 +104,16 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& s) co
     last_jacobian_update_time = -1.0;
     history.clear();
     
-    setStateVariableValue(s, "mahony_q0", 1.0);
-    setStateVariableValue(s, "mahony_q1", 0.0);
-    setStateVariableValue(s, "mahony_q2", 0.0);
-    setStateVariableValue(s, "mahony_q3", 0.0);
+    setStateVariableValue(s, "obs_q0", 1.0);
+    setStateVariableValue(s, "obs_q1", 0.0);
+    setStateVariableValue(s, "obs_q2", 0.0);
+    setStateVariableValue(s, "obs_q3", 0.0);
+    setStateVariableValue(s, "obs_vx", 0.0);
+    setStateVariableValue(s, "obs_vy", 0.0);
+    setStateVariableValue(s, "obs_vz", 0.0);
+    setStateVariableValue(s, "obs_px", 0.0);
+    setStateVariableValue(s, "obs_py", 0.0);
+    setStateVariableValue(s, "obs_pz", 0.0);
     
     setStateVariableValue(s, "eff_tau_pitch", 0.0);
     setStateVariableValue(s, "eff_tau_roll", 0.0);
@@ -114,6 +126,16 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& s) co
 
 void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State& s) const {
     const Model& model = getModel();
+    
+    // Capture anatomical resting orientation as Vestibular Baseline!
+    const Body& skull = model.getBodySet().get("skull");
+    SimTK::Rotation R_head_to_world = skull.getMobilizedBody().getBodyTransform(s).R();
+    SimTK::Quaternion base_q = R_head_to_world.convertRotationToQuaternion();
+    double bq0 = base_q[0], bq1 = base_q[1], bq2 = base_q[2], bq3 = base_q[3];
+    baseline_spatial_orientation[0] = std::atan2(2.0*(bq0*bq1 + bq2*bq3), 1.0 - 2.0*(bq1*bq1 + bq2*bq2)); // roll
+    baseline_spatial_orientation[1] = std::asin(std::clamp(2.0*(bq0*bq2 - bq3*bq1), -1.0, 1.0)); // yaw
+    baseline_spatial_orientation[2] = std::atan2(2.0*(bq0*bq3 + bq1*bq2), 1.0 - 2.0*(bq2*bq2 + bq3*bq3)); // pitch
+
     const auto& muscles = model.getMuscles();
     int total_muscles = muscles.getSize();
     
@@ -370,68 +392,109 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         setStateVariableDerivativeValue(s, "eso_tau_dist_yaw", 0.0);
     }
     
-    // --- MAHONY FILTER (Cerebellar Sensory Fusion) ---
+    // --- SE_2(3) SPATIAL OBSERVER (Tilt-Translation Disambiguation) ---
     SimTK::Vector omega_sense = vcr_data.record.omega_recon;
     
     if (omega_sense.size() == 3) {
-        // 1. Simulate Otolith Attachment (Rotate World Accel -> Head Frame + Gravity)
+        // 1. Simulate Otolith Attachment (Raw specific force: f = a_lin - g)
         const Body& skull = model.getBodySet().get("skull");
         SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
         SimTK::Vec3 g_world(0.0, -9.81, 0.0);
-        SimTK::Vec3 a_oto_head = R_world_to_head * (vcr_data.a_lin - g_world);
+        SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world); // Head frame
         
-        // 2. Internal Forward Model (Efference Copy Subtraction)
-        double K_eff_pitch = 1.33; // Pitch torque to X-axis acceleration
-        // Disable Roll Efference Copy to isolate Pitch
-        SimTK::Vec3 a_expected(K_eff_pitch * eff_tau_pitch, 0.0, 0.0);
+        // 2. Current Observer Beliefs
+        double q0 = getStateVariableValue(s, "obs_q0");
+        double q1 = getStateVariableValue(s, "obs_q1");
+        double q2 = getStateVariableValue(s, "obs_q2");
+        double q3 = getStateVariableValue(s, "obs_q3");
         
-        SimTK::Vec3 v_corrected = a_oto_head - a_expected;
-        if (v_corrected.norm() > 1e-4) {
-            v_corrected = v_corrected.normalize();
-        }
+        double vx = getStateVariableValue(s, "obs_vx");
+        double vy = getStateVariableValue(s, "obs_vy");
+        double vz = getStateVariableValue(s, "obs_vz");
+        SimTK::Vec3 v_est(vx, vy, vz);
         
-        // 3. Current Mahony Belief
-        double q0 = getStateVariableValue(s, "mahony_q0");
-        double q1 = getStateVariableValue(s, "mahony_q1");
-        double q2 = getStateVariableValue(s, "mahony_q2");
-        double q3 = getStateVariableValue(s, "mahony_q3");
+        double px = getStateVariableValue(s, "obs_px");
+        double py = getStateVariableValue(s, "obs_py");
+        double pz = getStateVariableValue(s, "obs_pz");
+        SimTK::Vec3 p_est(px, py, pz);
         
-        // Normalize quaternion to prevent numerical drift
+        // Normalize quaternion
         double norm_q = std::sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
         if (norm_q > 1e-4) { q0 /= norm_q; q1 /= norm_q; q2 /= norm_q; q3 /= norm_q; }
         
+        // 3. TILT CORRECTION (Mahony)
+        // Internal Forward Model (Efference Copy) - Subtract expected acceleration from f_oto
+        double K_eff_pitch = 1.33; // Pitch torque to X-axis acceleration
+        SimTK::Vec3 a_expected(K_eff_pitch * getStateVariableValue(s, "eff_tau_pitch"), 0.0, 0.0);
+        SimTK::Vec3 f_corrected = f_oto - a_expected;
+        if (f_corrected.norm() > 1e-4) {
+            f_corrected = f_corrected.normalize();
+        }
+        
         // Estimated UP direction (rotate [0, 1, 0] by q^-1)
-        // Since a_oto_head measures (a - g), when static it measures -g (which points UP).
-        // Therefore, v_est must also estimate the UP vector to match it!
-        double v_est_x = 2.0 * (q1*q2 + q0*q3);
-        double v_est_y = (q0*q0 - q1*q1 + q2*q2 - q3*q3);
-        double v_est_z = 2.0 * (q2*q3 - q0*q1);
-        SimTK::Vec3 v_est(v_est_x, v_est_y, v_est_z);
+        double expected_up_x = 2.0 * (q1*q2 + q0*q3);
+        double expected_up_y = (q0*q0 - q1*q1 + q2*q2 - q3*q3);
+        double expected_up_z = 2.0 * (q2*q3 - q0*q1);
+        SimTK::Vec3 expected_up(expected_up_x, expected_up_y, expected_up_z);
         
-        // Error = Corrected Otolith x Estimated UP Vector
-        SimTK::Vec3 e = v_corrected % v_est;
+        SimTK::Vec3 e = f_corrected % expected_up; // Cross product error
         
-        // 4. PI Gyroscope Correction
-        double Kp_mahony = 2.0;
-        double gx = omega_sense[0] + Kp_mahony * e[0]; // Roll
-        double gy = omega_sense[1] + Kp_mahony * e[1]; // Yaw
-        double gz = omega_sense[2] + Kp_mahony * e[2]; // Pitch
+        // 4. ORIENTATION DERIVATIVE (PI Gyroscope Correction)
+        double Kp_obs = 2.0;
+        double gx = omega_sense[0] + Kp_obs * e[0];
+        double gy = omega_sense[1] + Kp_obs * e[1];
+        double gz = omega_sense[2] + Kp_obs * e[2];
         
-        // 5. Quaternion Derivative
         double dq0 = 0.5 * (-q1*gx - q2*gy - q3*gz);
         double dq1 = 0.5 * ( q0*gx + q2*gz - q3*gy);
         double dq2 = 0.5 * ( q0*gy - q1*gz + q3*gx);
         double dq3 = 0.5 * ( q0*gz + q1*gy - q2*gx);
         
-        setStateVariableDerivativeValue(s, "mahony_q0", dq0);
-        setStateVariableDerivativeValue(s, "mahony_q1", dq1);
-        setStateVariableDerivativeValue(s, "mahony_q2", dq2);
-        setStateVariableDerivativeValue(s, "mahony_q3", dq3);
+        // 5. TRANSLATION DERIVATIVES
+        // Reconstruct pure linear acceleration in WORLD frame: a_lin = R * f_oto + g_world
+        // R matrix from q (World to Head):
+        // Wait, q here represents Head to World or World to Head?
+        // Standard Mahony q represents World to Sensor (Head).
+        // Let's use SimTK::Rotation for safety.
+        SimTK::Rotation R_est(SimTK::Quaternion(q0, q1, q2, q3)); 
+        // Assuming R_est transforms from World to Head.
+        // Then f_oto (Head frame) to world frame is ~R_est * f_oto.
+        SimTK::Vec3 a_lin_world = (~R_est * f_oto) + g_world;
+        
+        // Biological Leaky Integrator (Velocity Storage & Egocentric tether)
+        double tau_v = 15.0; // Decay in dark
+        double tau_p = 5.0;
+        
+        SimTK::Vec3 dv = a_lin_world - (1.0 / tau_v) * v_est;
+        SimTK::Vec3 dp = v_est - (1.0 / tau_p) * p_est;
+        
+        // Write to state derivatives
+        setStateVariableDerivativeValue(s, "obs_q0", dq0);
+        setStateVariableDerivativeValue(s, "obs_q1", dq1);
+        setStateVariableDerivativeValue(s, "obs_q2", dq2);
+        setStateVariableDerivativeValue(s, "obs_q3", dq3);
+        
+        setStateVariableDerivativeValue(s, "obs_vx", dv[0]);
+        setStateVariableDerivativeValue(s, "obs_vy", dv[1]);
+        setStateVariableDerivativeValue(s, "obs_vz", dv[2]);
+        
+        setStateVariableDerivativeValue(s, "obs_px", dp[0]);
+        setStateVariableDerivativeValue(s, "obs_py", dp[1]);
+        setStateVariableDerivativeValue(s, "obs_pz", dp[2]);
+        
     } else {
-        setStateVariableDerivativeValue(s, "mahony_q0", 0.0);
-        setStateVariableDerivativeValue(s, "mahony_q1", 0.0);
-        setStateVariableDerivativeValue(s, "mahony_q2", 0.0);
-        setStateVariableDerivativeValue(s, "mahony_q3", 0.0);
+        setStateVariableDerivativeValue(s, "obs_q0", 0.0);
+        setStateVariableDerivativeValue(s, "obs_q1", 0.0);
+        setStateVariableDerivativeValue(s, "obs_q2", 0.0);
+        setStateVariableDerivativeValue(s, "obs_q3", 0.0);
+        
+        setStateVariableDerivativeValue(s, "obs_vx", 0.0);
+        setStateVariableDerivativeValue(s, "obs_vy", 0.0);
+        setStateVariableDerivativeValue(s, "obs_vz", 0.0);
+        
+        setStateVariableDerivativeValue(s, "obs_px", 0.0);
+        setStateVariableDerivativeValue(s, "obs_py", 0.0);
+        setStateVariableDerivativeValue(s, "obs_pz", 0.0);
     }
 }
 
@@ -613,11 +676,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     Vector tau_vol(3, 0.0); // Descending Voluntary Task Tracking
     Vector tau_eso(3, 0.0); // Cerebellar Disturbance Rejection
     
-    // Extract Estimated Angles from Mahony Quaternion
-    double q0 = getStateVariableValue(s, "mahony_q0");
-    double q1 = getStateVariableValue(s, "mahony_q1");
-    double q2 = getStateVariableValue(s, "mahony_q2");
-    double q3 = getStateVariableValue(s, "mahony_q3");
+    // Extract Estimated Angles from SE_2(3) Observer
+    double q0 = getStateVariableValue(s, "obs_q0");
+    double q1 = getStateVariableValue(s, "obs_q1");
+    double q2 = getStateVariableValue(s, "obs_q2");
+    double q3 = getStateVariableValue(s, "obs_q3");
+    
+    double v_est_x = getStateVariableValue(s, "obs_vx");
+    double v_est_y = getStateVariableValue(s, "obs_vy");
+    double v_est_z = getStateVariableValue(s, "obs_vz");
     
     double norm_q = std::sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3);
     if (norm_q > 1e-4) { q0 /= norm_q; q1 /= norm_q; q2 /= norm_q; q3 /= norm_q; }
@@ -632,9 +699,9 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     if (vcr_record.omega_recon.size() == 3) {
         // G_ton (Otolith Tonic) acts as a proportional gravity compensator
         // We subtract the Efference Copy of expected static tilt
-        tau_vcr[0] -= get_G_ton() * (estimated_pitch - get_desired_pitch()); // pitch
-        tau_vcr[1] -= get_G_ton() * (estimated_roll - get_desired_roll());  // roll
-        tau_vcr[2] -= get_G_ton() * (estimated_yaw - get_desired_yaw());   // yaw
+        tau_vcr[0] -= get_G_ton() * ((estimated_pitch - baseline_spatial_orientation[2]) - get_desired_pitch()); // pitch
+        tau_vcr[1] -= get_G_ton() * ((estimated_roll - baseline_spatial_orientation[0]) - get_desired_roll());  // roll
+        tau_vcr[2] -= get_G_ton() * ((estimated_yaw - baseline_spatial_orientation[1]) - get_desired_yaw());   // yaw
         
         // G_sc (Semicircular Canal) dampens angular velocity
         // We subtract the Efference Copy of expected angular velocity
@@ -643,14 +710,22 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         tau_vcr[2] -= get_G_sc() * (vcr_record.omega_recon[1] - get_desired_yaw_v()); // yaw
         
         // G_phas (Otolith Phasic) dampens linear acceleration
-        // We use vcr_data.a_lin to apply the delayed acceleration.
-        // We rotate the delayed World acceleration into the Head frame using the Mahony quaternion!
-        SimTK::Vec3 a_world = vcr_data.a_lin;
+        // BIOLOGICAL REALISM: The controller now derives pure acceleration from the otoliths
+        // using the SE_2(3) spatial observer. It no longer relies on ground-truth physics!
         
-        // Rotate a_world into a_head using q^-1
-        double ah_x = (q0*q0 + q1*q1 - q2*q2 - q3*q3)*a_world[0] + 2.0*(q1*q2 + q0*q3)*a_world[1] + 2.0*(q1*q3 - q0*q2)*a_world[2];
-        double ah_y = 2.0*(q1*q2 - q0*q3)*a_world[0] + (q0*q0 - q1*q1 + q2*q2 - q3*q3)*a_world[1] + 2.0*(q2*q3 + q0*q1)*a_world[2];
-        double ah_z = 2.0*(q1*q3 + q0*q2)*a_world[0] + 2.0*(q2*q3 - q0*q1)*a_world[1] + (q0*q0 - q1*q1 - q2*q2 + q3*q3)*a_world[2];
+        // Simulate raw otolith specific force
+        const Body& skull = model.getBodySet().get("skull");
+        SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
+        SimTK::Vec3 g_world(0.0, -9.81, 0.0);
+        SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world); 
+        
+        // Derive pure biological acceleration using our internal orientation belief
+        SimTK::Rotation R_est(SimTK::Quaternion(q0, q1, q2, q3)); 
+        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world); // R_est is World->Head, so R_est * g_world is g in head frame
+        
+        double ah_x = a_lin_head[0];
+        double ah_y = a_lin_head[1];
+        double ah_z = a_lin_head[2];
         
         // Estimate expected linear acceleration caused by desired angular acceleration
         // Approximating head radius (e.g. 0.15m from neck pivot to otoliths)
@@ -673,7 +748,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     double I_head_roll = 0.05;
     double I_head_yaw = 0.05;
     
-    // Pitch uses the dynamically tuned Kp_task. Now tracking velocity and accel properly.
+    // Pitch uses the dynamically tuned Kp_task. Now tracking velocity and accel properly (Proprioceptive Tracking).
     tau_vol[0] = get_Kp_task() * (get_desired_pitch() - head_pitch) 
                + get_Kd_task() * (get_desired_pitch_v() - omega[2]) 
                + get_Ki_task() * pitch_int 

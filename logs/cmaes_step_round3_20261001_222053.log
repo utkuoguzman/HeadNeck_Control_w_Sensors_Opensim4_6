@@ -1,0 +1,1552 @@
+=================================================================
+ROUND 3: Step-Input PID Re-Optimization (with tuned reflexes)
+Frozen Reflexes: G_ton=8.76, G_sc=4.33, G_phas=6.06
+                 kp_prop=0.441, k_gamma_dyn=52.36, k_gamma_stat=92.37
+Searching: Kp, Ki, Kd
+=================================================================
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=984218, Thu Oct  1 22:20:53 2026)
+
+--- Generation 1 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+
+
+
+[G01-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.1 | Act_R:    1.1 | Act_Y:    0.0
+[G01-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -7.3 | Act_R:   -2.3 | Act_Y:   -3.1
+[G01-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.1 | Act_R:    1.7 | Act_Y:    1.4
+[G01-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.3 | Act_R:    1.5 | Act_Y:    1.1
+[G01-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.3 | Act_R:    1.6 | Act_Y:    1.0
+[G01-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.2 | Act_R:    1.6 | Act_Y:    1.2
+[G01-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    1.6 | Act_R:    4.4 | Act_Y:    2.5
+[G01-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:    0.5 | Act_Y:   -0.2
+[G01-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    1.2 | Act_Y:    0.4
+[G01-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:    1.1 | Act_Y:    0.3
+[G01-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:    1.3 | Act_Y:    0.6
+[G01-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    1.2 | Act_Y:    0.4
+[G01-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    2.6 | Act_R:    1.5 | Act_Y:    3.5
+[G01-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:    0.5 | Act_Y:   -0.2
+[G01-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -6.3 | Act_R:   -6.1 | Act_Y:   -5.0
+[G01-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:    0.8 | Act_Y:   -0.0
+[G01-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.3 | Act_R:    1.0 | Act_Y:    0.1
+[G01-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.9 | Act_Y:    0.1
+[G01-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.1 | Act_R:    1.1 | Act_Y:    0.2
+[G01-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    4.1 | Act_R:    6.7 | Act_Y:    0.1
+[G01-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.8 | Act_R:    0.5 | Act_Y:   -0.3
+[G01-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   14.0 | Act_R:   -3.0 | Act_Y:    2.0
+[G01-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.4 | Act_R:    0.7 | Act_Y:   -0.3
+[G01-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:    0.6 | Act_Y:   -0.3
+[G01-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.3 | Act_R:    0.6 | Act_Y:   -0.3
+[G01-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:    0.8 | Act_Y:   -0.2
+[G01-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   30.0 | Act_R:   -8.0 | Act_Y:   -6.4
+[G01-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.3 | Act_R:    0.2 | Act_Y:   -0.4
+[G01-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.6 | Act_R:    0.3 | Act_Y:   -0.5
+[G01-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   52.8 | Act_R:   13.7 | Act_Y:    5.7
+[G01-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.5 | Act_R:    0.3 | Act_Y:   -0.5
+[G01-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.6 | Act_R:    0.3 | Act_Y:   -0.5
+[G01-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.6 | Act_R:    0.4 | Act_Y:   -0.5
+[G01-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   10.2 | Act_R:   -0.8 | Act_Y:   -1.1
+[G01-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   33.0 | Act_R:  -17.2 | Act_Y:   -8.8
+[G01-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    8.5 | Act_R:   -0.6 | Act_Y:   -1.1
+[G01-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    8.3 | Act_R:   -0.7 | Act_Y:   -1.2
+[G01-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.7 | Act_R:   -0.5 | Act_Y:   -0.6
+[G01-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    8.2 | Act_R:   -0.6 | Act_Y:   -1.2
+[G01-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    7.8 | Act_R:   -0.6 | Act_Y:   -1.3
+[G01-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   49.4 | Act_R:    8.0 | Act_Y:   14.9
+[G01-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:    0.9 | Act_Y:    0.0
+[G01-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   35.1 | Act_R:   -0.5 | Act_Y:   -0.9
+[G01-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.5 | Act_R:    7.8 | Act_Y:  -19.2
+[G01-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.9 | Act_R:   -0.6 | Act_Y:   -0.9
+[G01-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.8 | Act_R:   -0.6 | Act_Y:   -0.9
+[G01-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.4 | Act_R:   -0.6 | Act_Y:   -1.0
+[G01-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:   -2.1 | Act_Y:   22.1
+[G01-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.8 | Act_Y:   -0.0
+[G01-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.8 | Act_Y:   -0.2
+[G01-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.7 | Act_Y:   -0.2
+[G01-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.9 | Act_R:    0.7 | Act_Y:   -0.3
+[G01-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:   22.7 | Act_Y:    4.5
+[G01-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.6 | Act_Y:   -0.3
+[G01-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.7 | Act_Y:    0.1
+[G01-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    1.0 | Act_Y:   -0.1
+[G01-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.9 | Act_R:    1.1 | Act_Y:   -0.1
+[G01-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   33.7 | Act_R:  -18.1 | Act_Y:   -8.7
+[G01-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    1.0 | Act_Y:   -0.1
+[G01-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:    1.0 | Act_Y:   -0.1
+[G01-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.5 | Act_Y:    0.1
+[G01-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   50.1 | Act_R:   11.1 | Act_Y:   18.3
+[G01-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:    1.0 | Act_Y:    0.1
+[G01-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:    1.0 | Act_Y:    0.1
+[G01-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.3 | Act_R:    1.0 | Act_Y:    0.1
+[G01-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    1.0 | Act_Y:    0.1
+[G01-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   35.8 | Act_R:   -1.3 | Act_Y:  -27.9
+[G01-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:    0.3 | Act_Y:    0.0
+[G01-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.7 | Act_Y:    0.2
+[G01-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.7 | Act_Y:    0.2
+[G01-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.7 | Act_Y:    0.2
+[G01-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:  -10.6 | Act_Y:    7.8
+[G01-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.6 | Act_R:    0.8 | Act_Y:    0.1
+[G01-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:    0.1 | Act_Y:   -0.1
+[G01-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   39.7 | Act_Y:   -8.1
+[G01-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.1 | Act_R:    0.3 | Act_Y:    0.2
+[G01-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:    0.4 | Act_Y:    0.2
+[G01-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:    0.4 | Act_Y:    0.2
+[G01-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:    0.5 | Act_Y:    0.1
+[G01-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.8 | Act_R:    0.1 | Act_Y:   -0.2
+[G01-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:   28.1 | Act_Y:    3.8
+[G01-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:    0.1 | Act_Y:    0.0
+[G01-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:   -0.0 | Act_Y:    0.0
+[G01-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:    0.0 | Act_Y:    0.0
+[G01-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   42.0 | Act_Y:   -0.6
+[G01-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:    0.1 | Act_Y:    0.0
+[G01-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.5 | Act_R:    0.5 | Act_Y:   -0.3
+[G01-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   -0.1 | Act_Y:   -0.1
+[G01-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   31.0 | Act_Y:    3.5
+[G01-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:   -0.2 | Act_Y:   -0.1
+[G01-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   39.7 | Act_R:   10.3 | Act_Y:   -0.5
+[G01-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   -0.1 | Act_Y:   -0.1
+[G01-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:    0.0 | Act_Y:   -0.1
+[G01-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   42.6 | Act_Y:    8.7
+[G01-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.9 | Act_R:   -0.0 | Act_Y:   -0.3
+[G01-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   -0.1 | Act_Y:   -0.3
+[G01-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   31.4 | Act_Y:   -1.1
+[G01-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   -0.0 | Act_Y:   -0.3
+[G01-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   -0.0 | Act_Y:   -0.2
+[G01-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.8 | Act_R:   35.0 | Act_Y:   -6.3
+[G01-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:    9.8 | Act_Y:   -0.5
+[G01-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    9.7 | Act_Y:   -0.5
+[G01-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:    9.7 | Act_Y:   -0.4
+[G01-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:    9.6 | Act_Y:   -0.5
+[G01-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:   38.4 | Act_Y:   -0.4
+[G01-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   50.1 | Act_R:   39.4 | Act_Y:    4.4
+[G01-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   30.6 | Act_Y:   -1.0
+[G01-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.8 | Act_R:   30.4 | Act_Y:   -0.9
+[G01-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.7 | Act_R:   30.8 | Act_Y:   -0.9
+[G01-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   30.5 | Act_Y:   -0.9
+[G01-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   31.4 | Act_Y:   -7.5
+[G01-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.6 | Act_R:   38.7 | Act_Y:   -0.2
+[G01-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:   37.6 | Act_Y:   -0.7
+[G01-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:   37.1 | Act_Y:   -0.8
+[G01-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   45.5 | Act_R:   35.3 | Act_Y:    6.0
+[G01-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:   37.3 | Act_Y:   -0.7
+[G01-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:   37.1 | Act_Y:   -0.7
+[G01-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.8 | Act_R:   11.5 | Act_Y:   11.3
+[G01-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   38.5 | Act_Y:    0.1
+[G01-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.0 | Act_R:   -6.4 | Act_Y:   10.3
+[G01-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   38.0 | Act_Y:   -0.4
+[G01-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   38.3 | Act_Y:   -0.4
+[G01-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   38.1 | Act_Y:   -0.4
+[G01-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.8 | Act_R:   38.0 | Act_Y:   -0.4
+[G01-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   37.9 | Act_Y:    0.2
+[G01-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.4 | Act_R:  -15.3 | Act_Y:   20.4
+[G01-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.6 | Act_Y:   -0.2
+[G01-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.2 | Act_Y:    0.2
+[G01-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   37.7 | Act_Y:   -0.3
+[G01-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   38.0 | Act_Y:   -0.2
+[G01-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.8 | Act_Y:   -0.2
+[G01-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.0 | Act_R:  -16.7 | Act_Y:   35.6
+[G01-W06] Kp=685.6, Gton=8.760 | Err=1.0331
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G01-W06 | Kp=685.63, Ki=195.62, Kd=4.14 => Score=1.0
+[G01-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.4 | Act_R:   37.4 | Act_Y:    0.1
+[G01-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.6 | Act_R:   37.2 | Act_Y:    0.1
+[G01-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.5 | Act_R:   37.3 | Act_Y:    0.1
+[G01-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   37.3 | Act_Y:    0.0
+[G01-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.6 | Act_Y:   -0.0
+[G01-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.0 | Act_R:   36.6 | Act_Y:    0.3
+[G01-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.3 | Act_R:   36.6 | Act_Y:    0.4
+[G01-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.2 | Act_R:   36.6 | Act_Y:    0.4
+[G01-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.0 | Act_R:   36.6 | Act_Y:    0.3
+[G01-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.0 | Act_R:   35.8 | Act_Y:    0.1
+[G01-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.4 | Act_Y:   -0.3
+[G01-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.1 | Act_R:   35.7 | Act_Y:    0.1
+[G01-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.1 | Act_R:   35.7 | Act_Y:    0.1
+[G01-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.1 | Act_R:   35.9 | Act_Y:    0.1
+[G01-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.7 | Act_R:   35.3 | Act_Y:   -0.3
+[G01-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.7 | Act_R:   35.1 | Act_Y:   -0.4
+[G01-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.7 | Act_R:   35.2 | Act_Y:   -0.3
+[G01-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.4 | Act_Y:   -0.5
+[G01-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:   35.3 | Act_Y:   -0.3
+[G01-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.7 | Act_R:   28.9 | Act_Y:    9.0
+[G01-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:   35.6 | Act_Y:   -0.5
+[G01-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:   35.4 | Act_Y:   -0.4
+[G01-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:   35.4 | Act_Y:   -0.5
+[G01-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:   35.5 | Act_Y:   -0.5
+[G01-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.6 | Act_R:    6.0 | Act_Y:   10.1
+[G01-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   46.7 | Act_R:   26.7 | Act_Y:    9.3
+[G01-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   46.9 | Act_R:   25.9 | Act_Y:    9.4
+[G01-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   47.2 | Act_R:   25.1 | Act_Y:    9.4
+[G01-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:   -7.5 | Act_Y:   10.4
+[G01-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   46.9 | Act_R:   26.4 | Act_Y:    9.4
+[G01-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.9 | Act_R:    3.7 | Act_Y:   10.1
+[G01-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   47.0 | Act_R:    3.6 | Act_Y:   10.1
+[G01-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   47.2 | Act_R:    2.7 | Act_Y:   10.1
+[G01-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.9 | Act_R:    4.0 | Act_Y:   10.1
+[G01-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.3 | Act_R:  -16.4 | Act_Y:   20.3
+[G01-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.1 | Act_R:  -10.9 | Act_Y:   10.5
+[G01-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -10.6 | Act_Y:   10.4
+[G01-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.3 | Act_R:  -11.1 | Act_Y:   10.4
+[G01-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:   -9.7 | Act_Y:   10.5
+[G01-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -26.4 | Act_Y:   36.8
+[G01-W02] Kp=735.3, Gton=8.760 | Err=0.6890
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G01-W02 | Kp=735.27, Ki=91.13, Kd=83.58 => Score=0.7
+[G01-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.0 | Act_R:  -20.4 | Act_Y:   20.2
+[G01-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.0 | Act_R:  -19.9 | Act_Y:   20.1
+[G01-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.0 | Act_R:  -18.2 | Act_Y:   20.3
+[G01-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -19.1 | Act_Y:   20.2
+[G01-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.5 | Act_R:  -30.3 | Act_Y:   37.0
+[G01-W01] Kp=650.1, Gton=8.760 | Err=0.7700
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G01-W01 | Kp=650.11, Ki=195.29, Kd=136.41 => Score=0.8
+[G01-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.4 | Act_R:  -30.3 | Act_Y:   37.0
+[G01-W05] Kp=679.6, Gton=8.760 | Err=0.7628
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G01-W05 | Kp=679.56, Ki=245.66, Kd=155.47 => Score=0.8
+[G01-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.4 | Act_R:  -27.1 | Act_Y:   36.7
+[G01-W04] Kp=672.4, Gton=8.760 | Err=0.7258
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G01-W04 | Kp=672.40, Ki=225.03, Kd=153.59 => Score=0.7
+[G01-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.8 | Act_R:  -28.0 | Act_Y:   36.7
+[G01-W03] Kp=683.2, Gton=8.760 | Err=0.7549
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G01-W03 | Kp=683.15, Ki=224.84, Kd=178.30 => Score=0.8
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1      6 6.890218165204716e-01 1.0e+00 4.49e+01  4e+01  5e+01 6:13.4  
+Gen 1: Best Error = 0.69 | Kp=735.27, Ki=91.13, Kd=83.58
+
+--- Generation 2 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[G02-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:   -0.3 | Act_Y:   -1.0
+[G02-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:    0.6 | Act_Y:   -0.4
+[G02-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.1 | Act_R:    1.1 | Act_Y:    0.1
+[G02-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.2 | Act_R:    1.6 | Act_Y:    1.0
+[G02-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.6 | Act_R:    1.1 | Act_Y:    0.5
+[G02-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.2 | Act_R:    1.6 | Act_Y:    1.1
+[G02-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:   -0.0 | Act_Y:   -0.5
+[G02-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    0.2 | Act_Y:   -0.4
+[G02-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.0 | Act_R:    0.5 | Act_Y:   -0.2
+[G02-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:    0.8 | Act_Y:    0.0
+[G02-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    1.2 | Act_Y:    0.3
+[G02-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    1.2 | Act_Y:    0.4
+[G02-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:    0.4 | Act_Y:   -0.1
+[G02-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.0 | Act_R:    0.3 | Act_Y:   -0.2
+[G02-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:    0.4 | Act_Y:   -0.2
+[G02-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:    0.3 | Act_Y:   -0.2
+[G02-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.5 | Act_Y:   -0.1
+[G02-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.8 | Act_Y:    0.0
+[G02-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.8 | Act_Y:    0.0
+[G02-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.2 | Act_R:    0.3 | Act_Y:   -0.3
+[G02-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.8 | Act_R:    0.4 | Act_Y:   -0.3
+[G02-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:   -0.0 | Act_Y:   -0.3
+[G02-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.9 | Act_R:    0.4 | Act_Y:   -0.3
+[G02-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:   -0.1 | Act_Y:   -0.4
+[G02-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:    0.6 | Act_Y:   -0.2
+[G02-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:    0.6 | Act_Y:   -0.2
+[G02-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.0 | Act_R:   -0.8 | Act_Y:   -0.8
+[G02-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.3 | Act_R:    0.1 | Act_Y:   -0.5
+[G02-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.6 | Act_R:   -0.8 | Act_Y:   -0.9
+[G02-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.7 | Act_R:    0.3 | Act_Y:   -0.4
+[G02-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.4 | Act_R:    0.4 | Act_Y:   -0.4
+[G02-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.4 | Act_R:    0.4 | Act_Y:   -0.5
+[G02-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.6 | Act_R:   -0.3 | Act_Y:   -0.3
+[G02-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   10.5 | Act_R:   -0.7 | Act_Y:   -1.1
+[G02-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.4 | Act_R:   -0.6 | Act_Y:   -0.6
+[G02-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.4 | Act_R:   -0.7 | Act_Y:   -1.1
+[G02-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:    0.9 | Act_Y:    0.0
+[G02-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    8.4 | Act_R:   -0.5 | Act_Y:   -1.2
+[G02-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    8.4 | Act_R:   -0.4 | Act_Y:   -1.1
+[G02-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.8 | Act_R:   -0.6 | Act_Y:   -0.7
+[G02-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:    1.0 | Act_Y:    0.1
+[G02-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.6 | Act_Y:   -0.0
+[G02-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.1 | Act_R:   -0.5 | Act_Y:   -0.7
+[G02-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.8 | Act_Y:    0.0
+[G02-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.7 | Act_Y:   -0.0
+[G02-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   35.0 | Act_R:   -0.4 | Act_Y:   -0.9
+[G02-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   35.0 | Act_R:   -0.5 | Act_Y:   -0.8
+[G02-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.6 | Act_Y:    0.0
+[G02-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.9 | Act_Y:    0.0
+[G02-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.8 | Act_Y:   -0.0
+[G02-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:    0.6 | Act_Y:    0.1
+[G02-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.8 | Act_Y:   -0.2
+[G02-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.9 | Act_R:    0.8 | Act_Y:   -0.2
+[G02-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    0.4 | Act_Y:    0.1
+[G02-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.8 | Act_Y:   -0.0
+[G02-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.6 | Act_Y:    0.1
+[G02-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.1 | Act_R:    0.4 | Act_Y:    0.1
+[G02-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    1.1 | Act_Y:   -0.1
+[G02-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:    0.3 | Act_Y:    0.0
+[G02-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    1.0 | Act_Y:   -0.0
+[G02-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.6 | Act_Y:    0.1
+[G02-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:    0.3 | Act_Y:    0.2
+[G02-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.7 | Act_R:    0.2 | Act_Y:    0.0
+[G02-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:    0.1 | Act_Y:   -0.1
+[G02-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:    1.0 | Act_Y:    0.1
+[G02-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.1 | Act_R:    0.9 | Act_Y:    0.1
+[G02-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.4 | Act_Y:    0.2
+[G02-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:    0.1 | Act_Y:   -0.2
+[G02-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:    0.2 | Act_Y:    0.1
+[G02-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    0.1 | Act_Y:   -0.1
+[G02-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    0.8 | Act_Y:    0.1
+[G02-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.7 | Act_Y:    0.1
+[G02-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:    0.4 | Act_Y:   -0.3
+[G02-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.1 | Act_Y:    0.1
+[G02-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.2 | Act_Y:   -0.2
+[G02-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.8 | Act_R:   -0.1 | Act_Y:   -0.1
+[G02-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   10.5 | Act_Y:   -0.5
+[G02-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.9 | Act_R:    0.5 | Act_Y:    0.1
+[G02-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.9 | Act_R:    0.4 | Act_Y:    0.1
+[G02-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.8 | Act_R:    0.4 | Act_Y:   -0.3
+[G02-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:   -0.1 | Act_Y:   -0.0
+[G02-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:    0.0 | Act_Y:   -0.2
+[G02-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:   31.8 | Act_Y:   -0.8
+[G02-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:    0.2 | Act_Y:   -0.0
+[G02-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:   10.6 | Act_Y:   -0.5
+[G02-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:    0.1 | Act_Y:   -0.0
+[G02-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.8 | Act_R:    0.3 | Act_Y:   -0.3
+[G02-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:   -0.1 | Act_Y:   -0.2
+[G02-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.8 | Act_R:   38.3 | Act_Y:   -0.3
+[G02-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.1 | Act_R:   32.1 | Act_Y:   -0.7
+[G02-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:    0.0 | Act_Y:   -0.1
+[G02-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:    0.0 | Act_Y:   -0.1
+[G02-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:   10.6 | Act_Y:   -0.4
+[G02-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    0.0 | Act_Y:   -0.2
+[G02-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   38.4 | Act_Y:   -0.1
+[G02-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.4 | Act_R:   38.3 | Act_Y:   -0.4
+[G02-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.9 | Act_R:    0.1 | Act_Y:   -0.3
+[G02-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   31.6 | Act_Y:   -1.1
+[G02-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.1 | Act_Y:   -0.3
+[G02-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:    9.9 | Act_Y:   -0.5
+[G02-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   37.9 | Act_Y:    0.2
+[G02-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    9.8 | Act_Y:   -0.5
+[G02-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   38.6 | Act_Y:   -0.1
+[G02-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:    9.8 | Act_Y:   -0.5
+[G02-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:   31.1 | Act_Y:   -0.8
+[G02-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:   38.4 | Act_Y:   -0.4
+[G02-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.5 | Act_Y:    0.3
+[G02-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   30.6 | Act_Y:   -0.9
+[G02-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   38.3 | Act_Y:    0.2
+[G02-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:   30.7 | Act_Y:   -0.9
+[G02-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.8 | Act_R:   37.6 | Act_Y:   -0.4
+[G02-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   38.6 | Act_Y:   -0.1
+[G02-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.5 | Act_Y:    0.2
+[G02-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.6 | Act_Y:    0.1
+[G02-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:   37.5 | Act_Y:   -0.7
+[G02-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:   37.5 | Act_Y:   -0.7
+[G02-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   37.9 | Act_Y:   -0.2
+[G02-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   38.3 | Act_Y:    0.2
+[G02-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.7 | Act_Y:    0.1
+[G02-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.6 | Act_Y:    0.1
+[G02-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.9 | Act_R:   37.6 | Act_Y:    0.2
+[G02-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.4 | Act_R:   38.2 | Act_Y:   -0.3
+[G02-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.5 | Act_R:   38.1 | Act_Y:   -0.3
+[G02-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.0 | Act_R:   37.2 | Act_Y:    0.3
+[G02-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.1 | Act_Y:   -0.0
+[G02-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.2 | Act_R:   36.8 | Act_Y:    0.3
+[G02-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   38.0 | Act_Y:   -0.2
+[G02-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   37.9 | Act_Y:   -0.2
+[G02-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   36.2 | Act_Y:   -0.0
+[G02-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   36.4 | Act_Y:    0.2
+[G02-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.6 | Act_Y:    0.1
+[G02-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   36.1 | Act_Y:    0.0
+[G02-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   37.5 | Act_Y:    0.1
+[G02-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.1 | Act_Y:   -0.2
+[G02-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.9 | Act_R:   35.8 | Act_Y:    0.0
+[G02-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   36.1 | Act_Y:   -0.2
+[G02-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   36.9 | Act_Y:    0.2
+[G02-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.3 | Act_R:   36.9 | Act_Y:    0.3
+[G02-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.0 | Act_R:   35.9 | Act_Y:   -0.2
+[G02-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   35.5 | Act_Y:   -0.3
+[G02-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   36.3 | Act_Y:   -0.3
+[G02-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   36.2 | Act_Y:    0.0
+[G02-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   36.1 | Act_Y:    0.0
+[G02-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   36.3 | Act_Y:   -0.3
+[G02-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.2 | Act_R:   36.1 | Act_Y:   -0.4
+[G02-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.2 | Act_R:   30.3 | Act_Y:    8.7
+[G02-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.9 | Act_R:   35.7 | Act_Y:   -0.4
+[G02-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.9 | Act_R:   35.7 | Act_Y:   -0.4
+[G02-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.6 | Act_R:   30.0 | Act_Y:    9.0
+[G02-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.4 | Act_R:    7.7 | Act_Y:   10.1
+[G02-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.0 | Act_R:   35.7 | Act_Y:   -0.4
+[G02-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   45.1 | Act_R:   28.6 | Act_Y:    9.1
+[G02-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:   -7.0 | Act_Y:   10.4
+[G02-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.4 | Act_R:    7.6 | Act_Y:   10.1
+[G02-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   45.5 | Act_R:   27.2 | Act_Y:    9.2
+[G02-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.9 | Act_R:    7.1 | Act_Y:   10.1
+[G02-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:   -7.2 | Act_Y:   10.4
+[G02-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.1 | Act_R:    3.4 | Act_Y:   10.2
+[G02-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:  -14.5 | Act_Y:   20.2
+[G02-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.2 | Act_R:   36.0 | Act_Y:   -0.4
+[G02-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.4 | Act_R:   -7.6 | Act_Y:   10.4
+[G02-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.3 | Act_R:   35.9 | Act_Y:   -0.4
+[G02-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -11.4 | Act_Y:   10.5
+[G02-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -16.1 | Act_Y:   20.4
+[G02-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -27.7 | Act_Y:   36.8
+[G02-W03] Kp=768.2, Gton=8.760 | Err=0.6649
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G02-W03 | Kp=768.16, Ki=130.13, Kd=50.25 => Score=0.7
+[G02-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.5 | Act_R:  -16.6 | Act_Y:   20.4
+[G02-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   46.1 | Act_R:   26.9 | Act_Y:    9.3
+[G02-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   46.2 | Act_R:   26.8 | Act_Y:    9.3
+[G02-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -26.1 | Act_Y:   36.6
+[G02-W02] Kp=739.5, Gton=8.760 | Err=0.6715
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G02-W02 | Kp=739.52, Ki=129.29, Kd=64.35 => Score=0.7
+[G02-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.5 | Act_R:  -22.1 | Act_Y:   20.3
+[G02-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.4 | Act_R:    3.7 | Act_Y:   10.1
+[G02-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -26.7 | Act_Y:   36.7
+[G02-W06] Kp=701.6, Gton=8.760 | Err=0.6849
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G02-W06 | Kp=701.60, Ki=165.06, Kd=84.32 => Score=0.7
+[G02-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.5 | Act_R:    3.7 | Act_Y:   10.1
+[G02-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -10.7 | Act_Y:   10.5
+[G02-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -30.4 | Act_Y:   36.8
+[G02-W05] Kp=806.8, Gton=8.760 | Err=0.7862
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G02-W05 | Kp=806.83, Ki=219.02, Kd=113.62 => Score=0.8
+[G02-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.9 | Act_R:  -10.6 | Act_Y:   10.5
+[G02-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -20.3 | Act_Y:   20.2
+[G02-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -20.4 | Act_Y:   20.3
+[G02-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.1 | Act_R:  -29.9 | Act_Y:   37.0
+[G02-W01] Kp=735.4, Gton=8.760 | Err=0.7644
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G02-W01 | Kp=735.41, Ki=137.09, Kd=144.64 => Score=0.8
+[G02-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -29.8 | Act_Y:   37.0
+[G02-W04] Kp=736.9, Gton=8.760 | Err=0.7650
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G02-W04 | Kp=736.94, Ki=151.54, Kd=148.36 => Score=0.8
+    2     12 6.649302579884540e-01 1.2e+00 5.23e+01  5e+01  5e+01 12:30.6  
+Gen 2: Best Error = 0.66 | Kp=768.16, Ki=130.13, Kd=50.25
+
+--- Generation 3 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[G03-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:   -1.3 | Act_Y:   -1.7
+[G03-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:   -1.3 | Act_Y:   -1.8
+[G03-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.7 | Act_R:   -2.5 | Act_Y:   -3.0
+[G03-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -5.5 | Act_R:   -3.0 | Act_Y:   -3.1
+[G03-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -6.2 | Act_R:   -3.2 | Act_Y:   -3.1
+[G03-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.7 | Act_R:    1.2 | Act_Y:    0.5
+[G03-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:   -0.3 | Act_Y:   -0.5
+[G03-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:   -0.4 | Act_Y:   -0.5
+[G03-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.5 | Act_R:    2.8 | Act_Y:    0.5
+[G03-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.0 | Act_R:   -0.3 | Act_Y:   -1.2
+[G03-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.6 | Act_R:    4.4 | Act_Y:    1.7
+[G03-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:    0.8 | Act_Y:   -0.0
+[G03-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.0 | Act_R:    0.2 | Act_Y:   -0.2
+[G03-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.0 | Act_R:    0.2 | Act_Y:   -0.2
+[G03-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:    1.7 | Act_Y:    0.5
+[G03-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    4.1 | Act_R:    4.4 | Act_Y:    4.7
+[G03-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    4.1 | Act_R:    2.4 | Act_Y:    6.8
+[G03-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    1.1 | Act_R:    2.0 | Act_Y:    1.2
+[G03-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.8 | Act_R:    0.1 | Act_Y:   -0.2
+[G03-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.9 | Act_R:    0.1 | Act_Y:   -0.2
+[G03-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:   -4.1 | Act_Y:   -1.1
+[G03-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:  -10.0 | Act_R:   17.7 | Act_Y:   -8.6
+[G03-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:    0.7 | Act_Y:   -0.2
+[G03-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    1.3 | Act_Y:    1.0
+[G03-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.6 | Act_R:    0.0 | Act_Y:   -0.2
+[G03-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:   -2.7 | Act_Y:   -3.1
+[G03-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.9 | Act_R:   -2.3 | Act_Y:    8.6
+[G03-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.7 | Act_R:    0.0 | Act_Y:   -0.3
+[G03-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   13.3 | Act_R:   -1.4 | Act_Y:   -1.0
+[G03-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:    3.2 | Act_Y:  -14.1
+[G03-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.1 | Act_R:    0.5 | Act_Y:   -0.3
+[G03-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   15.3 | Act_R:   -1.7 | Act_Y:   -3.5
+[G03-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.2 | Act_R:   -0.5 | Act_Y:   -0.6
+[G03-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.3 | Act_R:   -0.2 | Act_Y:   -0.4
+[G03-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.2 | Act_R:   -1.1 | Act_Y:   -1.7
+[G03-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   32.0 | Act_R:  -21.5 | Act_Y:    8.6
+[G03-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.4 | Act_R:   -1.1 | Act_Y:    4.3
+[G03-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.0 | Act_R:    0.2 | Act_Y:   -0.1
+[G03-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.1 | Act_R:    0.2 | Act_Y:   -0.1
+[G03-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:    0.4 | Act_Y:   -0.5
+[G03-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.0 | Act_R:    0.2 | Act_Y:   -0.5
+[G03-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   38.5 | Act_R:    7.7 | Act_Y:   -9.3
+[G03-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:    0.5 | Act_Y:   -0.3
+[G03-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.3 | Act_R:    0.6 | Act_Y:   -0.3
+[G03-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.9 | Act_R:   -6.1 | Act_Y:   -5.9
+[G03-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:    0.5 | Act_Y:   -0.2
+[G03-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.6 | Act_Y:   -0.1
+[G03-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    1.6 | Act_Y:    0.5
+[G03-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:    0.3 | Act_Y:   -0.0
+[G03-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   45.6 | Act_R:   -5.1 | Act_Y:    8.2
+[G03-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.3 | Act_Y:   -0.0
+[G03-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   10.5 | Act_Y:    4.2
+[G03-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.4 | Act_R:   -0.8 | Act_Y:   -1.1
+[G03-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.9 | Act_R:    1.1 | Act_Y:    0.6
+[G03-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    0.1 | Act_Y:    0.1
+[G03-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.9 | Act_R:    0.1 | Act_Y:    0.1
+[G03-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:   16.2 | Act_Y:   -6.5
+[G03-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:    0.5 | Act_Y:    0.7
+[G03-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:  -10.6 | Act_Y:    0.3
+[G03-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   -0.2 | Act_Y:   -0.1
+[G03-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   -0.2 | Act_Y:   -0.1
+[G03-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.1 | Act_R:   -0.6 | Act_Y:   -0.7
+[G03-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:   -1.6 | Act_Y:   -0.8
+[G03-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.6 | Act_R:  -16.4 | Act_Y:    5.1
+[G03-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   -0.3 | Act_Y:   -0.2
+[G03-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   46.0 | Act_R:   21.2 | Act_Y:    0.7
+[G03-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   -0.2 | Act_Y:   -0.1
+[G03-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:   -0.9 | Act_Y:   -0.8
+[G03-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   -0.3 | Act_Y:   -0.2
+[G03-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.8 | Act_Y:   -0.0
+[G03-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   20.1 | Act_Y:   14.7
+[G03-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   -0.2 | Act_Y:   -0.3
+[G03-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:    0.9 | Act_Y:    0.5
+[G03-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   -0.0 | Act_Y:   -0.3
+[G03-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   38.1 | Act_R:  -13.3 | Act_Y:    1.1
+[G03-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   -0.1 | Act_Y:   -0.3
+[G03-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:    0.1 | Act_Y:    0.0
+[G03-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.6 | Act_R:   -6.3 | Act_Y:   -7.7
+[G03-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:    0.9 | Act_Y:   -0.0
+[G03-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   10.2 | Act_Y:   -0.6
+[G03-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   17.2 | Act_Y:   12.9
+[G03-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:   10.2 | Act_Y:   -0.6
+[G03-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:    9.8 | Act_Y:   -1.1
+[G03-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   11.1 | Act_Y:   16.4
+[G03-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.5 | Act_R:  -11.0 | Act_Y:  -17.0
+[G03-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.3 | Act_R:   31.3 | Act_Y:   -1.0
+[G03-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.4 | Act_R:    0.7 | Act_Y:    0.1
+[G03-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:   30.4 | Act_Y:   -1.7
+[G03-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:   31.2 | Act_Y:   -1.0
+[G03-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   35.1 | Act_R:   -7.3 | Act_Y:  -22.9
+[G03-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   48.9 | Act_R:    5.5 | Act_Y:   20.0
+[G03-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:  -23.3 | Act_Y:   11.0
+[G03-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.9 | Act_R:   38.2 | Act_Y:   -0.1
+[G03-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.5 | Act_Y:    0.2
+[G03-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   38.9 | Act_Y:    0.3
+[G03-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.6 | Act_R:   38.3 | Act_Y:   -0.2
+[G03-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   35.8 | Act_R:    1.1 | Act_Y:  -21.5
+[G03-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:   29.3 | Act_Y:   -7.7
+[G03-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   38.2 | Act_Y:    0.1
+[G03-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   38.2 | Act_Y:    0.1
+[G03-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   38.3 | Act_Y:    0.0
+[G03-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.3 | Act_R:    0.2 | Act_Y:    0.1
+[G03-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   39.9 | Act_R:  -11.1 | Act_Y:    4.3
+[G03-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   37.1 | Act_R:   28.1 | Act_Y:  -12.3
+[G03-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   37.6 | Act_Y:    0.3
+[G03-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   33.2 | Act_Y:   -7.5
+[G03-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.7 | Act_Y:    0.1
+[G03-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.9 | Act_Y:    0.2
+[G03-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.3 | Act_R:   36.7 | Act_Y:   11.1
+[G03-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.1 | Act_R:   -0.1 | Act_Y:   -0.0
+[G03-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:   26.5 | Act_Y:    1.4
+[G03-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.9 | Act_R:   37.1 | Act_Y:    0.4
+[G03-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   36.4 | Act_R:   35.2 | Act_Y:  -13.4
+[G03-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   37.3 | Act_Y:    0.4
+[G03-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   -0.1 | Act_Y:   -0.2
+[G03-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   37.3 | Act_Y:    0.5
+[G03-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.1 | Act_R:   42.8 | Act_Y:   -0.7
+[G03-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.7 | Act_R:   39.7 | Act_Y:   16.9
+[G03-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.1 | Act_Y:   -0.3
+[G03-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   36.3 | Act_Y:    0.3
+[G03-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:   38.3 | Act_Y:   -8.0
+[G03-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   36.7 | Act_Y:    0.2
+[G03-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   33.9 | Act_Y:    5.5
+[G03-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.3 | Act_Y:    0.3
+[G03-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   10.0 | Act_Y:   -0.5
+[G03-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.0 | Act_R:   43.7 | Act_Y:    4.1
+[G03-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   38.1 | Act_Y:   11.1
+[G03-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   35.9 | Act_Y:   -0.0
+[G03-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   36.0 | Act_Y:   -0.1
+[G03-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:   41.4 | Act_Y:   -7.1
+[G03-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   36.1 | Act_Y:   -0.1
+[G03-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.7 | Act_R:   31.0 | Act_Y:   -1.0
+[G03-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:   35.4 | Act_Y:    1.5
+[G03-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.3 | Act_R:   32.4 | Act_Y:    6.5
+[G03-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   41.9 | Act_Y:   -0.3
+[G03-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   35.8 | Act_Y:   -0.5
+[G03-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   36.0 | Act_Y:   -0.5
+[G03-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   36.0 | Act_Y:   -0.5
+[G03-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.4 | Act_R:   38.0 | Act_Y:   -0.5
+[G03-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   35.7 | Act_R:   35.1 | Act_Y:   -7.2
+[G03-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.3 | Act_R:   31.9 | Act_Y:    1.9
+[G03-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   42.1 | Act_R:    6.2 | Act_Y:   12.3
+[G03-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   36.6 | Act_Y:   -0.4
+[G03-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.1 | Act_Y:   -0.4
+[G03-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.5 | Act_Y:   -0.4
+[G03-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   40.1 | Act_R:   32.6 | Act_Y:   -0.6
+[G03-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   38.4 | Act_Y:   -0.2
+[G03-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   42.2 | Act_R:  -15.9 | Act_Y:   10.4
+[G03-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.2 | Act_R:    6.0 | Act_Y:   11.2
+[G03-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.5 | Act_R:   31.2 | Act_Y:    8.3
+[G03-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.8 | Act_R:   30.1 | Act_Y:    8.3
+[G03-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   38.1 | Act_Y:    0.1
+[G03-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.7 | Act_R:   30.3 | Act_Y:    8.3
+[G03-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   44.5 | Act_R:  -25.3 | Act_Y:   20.3
+[G03-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   43.9 | Act_R:  -10.3 | Act_Y:   10.3
+[G03-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.2 | Act_R:    8.4 | Act_Y:   10.1
+[G03-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.5 | Act_R:    5.9 | Act_Y:   10.1
+[G03-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.4 | Act_R:    6.9 | Act_Y:   10.1
+[G03-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.4 | Act_R:   37.6 | Act_Y:    0.3
+[G03-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:   -5.4 | Act_Y:   10.3
+[G03-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   43.4 | Act_R:  -28.4 | Act_Y:   35.8
+[G03-W05] Kp=780.3, Gton=8.760 | Err=1.2674
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G03-W05 | Kp=780.28, Ki=48.27, Kd=4.13 => Score=1.3
+[G03-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   43.9 | Act_R:  -23.1 | Act_Y:   20.3
+[G03-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.3 | Act_R:   -7.8 | Act_Y:   10.4
+[G03-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.3 | Act_R:   -7.3 | Act_Y:   10.4
+[G03-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -10.1 | Act_Y:   20.2
+[G03-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.0 | Act_R:  -15.9 | Act_Y:   20.2
+[G03-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.7 | Act_R:   36.8 | Act_Y:    0.3
+[G03-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -28.0 | Act_Y:   36.1
+[G03-W01] Kp=836.5, Gton=8.760 | Err=1.0631
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G03-W01 | Kp=836.50, Ki=88.85, Kd=8.26 => Score=1.1
+[G03-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.0 | Act_R:  -15.9 | Act_Y:   20.2
+[G03-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -18.7 | Act_Y:   36.1
+[G03-W04] Kp=786.0, Gton=8.760 | Err=0.6017
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G03-W04 | Kp=786.01, Ki=128.66, Kd=15.68 => Score=0.6
+[G03-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.6 | Act_R:  -29.1 | Act_Y:   37.0
+[G03-W06] Kp=762.2, Gton=8.760 | Err=0.6930
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G03-W06 | Kp=762.20, Ki=169.91, Kd=35.32 => Score=0.7
+[G03-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.0 | Act_R:  -27.7 | Act_Y:   36.7
+[G03-W02] Kp=762.8, Gton=8.760 | Err=0.6787
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G03-W02 | Kp=762.77, Ki=124.41, Kd=36.33 => Score=0.7
+[G03-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.5 | Act_R:   35.7 | Act_Y:    0.0
+[G03-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.3 | Act_R:   35.3 | Act_Y:   -0.3
+[G03-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.4 | Act_R:   35.6 | Act_Y:   -0.5
+[G03-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   45.9 | Act_R:   26.6 | Act_Y:    9.0
+[G03-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.4 | Act_R:    2.9 | Act_Y:   10.2
+[G03-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.6 | Act_R:  -11.4 | Act_Y:   10.4
+[G03-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -19.7 | Act_Y:   20.2
+[G03-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.3 | Act_R:  -28.8 | Act_Y:   36.9
+[G03-W03] Kp=681.6, Gton=8.760 | Err=0.7611
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G03-W03 | Kp=681.56, Ki=210.83, Kd=106.15 => Score=0.8
+    3     18 6.016633069021936e-01 1.6e+00 5.66e+01  5e+01  6e+01 19:48.0  
+Gen 3: Best Error = 0.60 | Kp=786.01, Ki=128.66, Kd=15.68
+
+--- Generation 4 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+[G04-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.3 | Act_R:   -0.1 | Act_Y:   -0.9
+[G04-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:    0.5 | Act_Y:   -0.5
+[G04-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.2 | Act_R:   -2.5 | Act_Y:   -2.4
+[G04-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:    1.0 | Act_Y:   -0.1
+[G04-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.6 | Act_R:   -1.7 | Act_Y:   -2.1
+[G04-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.9 | Act_R:   -2.6 | Act_Y:   -3.0
+[G04-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:   -0.9 | Act_Y:   -1.2
+[G04-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:   -0.0 | Act_Y:   -0.5
+[G04-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:   -0.4 | Act_Y:   -0.7
+[G04-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.2 | Act_R:   -0.4 | Act_Y:   -1.4
+[G04-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    0.1 | Act_Y:   -0.4
+[G04-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.0 | Act_R:    0.4 | Act_Y:   -0.2
+[G04-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.0 | Act_R:   -0.3 | Act_Y:   -0.8
+[G04-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:   -0.3 | Act_Y:   -0.6
+[G04-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    3.0 | Act_Y:    1.3
+[G04-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:    0.5 | Act_Y:   -0.1
+[G04-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:    0.3 | Act_Y:   -0.1
+[G04-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:   -0.2 | Act_Y:   -0.6
+[G04-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.0 | Act_R:   -0.0 | Act_Y:   -0.3
+[G04-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.5 | Act_Y:   -0.2
+[G04-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    2.9 | Act_R:    2.3 | Act_Y:    1.9
+[G04-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:   -0.3 | Act_Y:   -0.6
+[G04-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    0.3 | Act_Y:   -0.2
+[G04-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.3 | Act_R:    0.1 | Act_Y:   -0.2
+[G04-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.0 | Act_R:    0.3 | Act_Y:   -0.3
+[G04-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.8 | Act_R:    0.2 | Act_Y:    1.1
+[G04-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:    0.4 | Act_Y:   -0.2
+[G04-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.1 | Act_R:   -0.4 | Act_Y:   -0.6
+[G04-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.2 | Act_R:   -0.3 | Act_Y:   -0.3
+[G04-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:   -0.0 | Act_Y:   -0.4
+[G04-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    6.0 | Act_R:   -2.4 | Act_Y:   -0.7
+[G04-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:   -0.1 | Act_Y:   -0.4
+[G04-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.8 | Act_R:    0.4 | Act_Y:   -0.0
+[G04-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.2 | Act_R:    0.2 | Act_Y:   -0.1
+[G04-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.7 | Act_R:    1.2 | Act_Y:   -0.3
+[G04-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.0 | Act_R:    0.2 | Act_Y:   -0.4
+[G04-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.0 | Act_R:   -0.9 | Act_Y:   -0.8
+[G04-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:    0.4 | Act_Y:   -0.3
+[G04-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.3 | Act_R:    0.4 | Act_Y:   -0.4
+[G04-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.7 | Act_R:   -0.7 | Act_Y:   -0.9
+[G04-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.7 | Act_R:    2.8 | Act_Y:    1.0
+[G04-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.6 | Act_Y:   -0.1
+[G04-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   10.6 | Act_R:   -0.7 | Act_Y:   -1.0
+[G04-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:    0.5 | Act_Y:   -0.2
+[G04-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.4 | Act_R:    0.4 | Act_Y:    0.2
+[G04-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.5 | Act_R:   -0.4 | Act_Y:   -0.4
+[G04-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   45.7 | Act_R:    2.0 | Act_Y:    1.2
+[G04-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:    0.3 | Act_Y:    0.0
+[G04-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.4 | Act_R:   -0.6 | Act_Y:   -0.5
+[G04-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:    0.0 | Act_Y:    0.1
+[G04-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:   -0.0 | Act_Y:    0.1
+[G04-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:   -0.6 | Act_Y:   -0.1
+[G04-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.2 | Act_R:    1.0 | Act_Y:    0.1
+[G04-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.0 | Act_R:   -0.4 | Act_Y:   -0.5
+[G04-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   -0.4 | Act_Y:   -0.2
+[G04-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:    1.0 | Act_Y:    0.1
+[G04-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:   -0.3 | Act_Y:   -0.1
+[G04-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   38.8 | Act_R:   -2.0 | Act_Y:   -2.2
+[G04-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   -0.5 | Act_Y:   -0.2
+[G04-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.7 | Act_Y:   -0.1
+[G04-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   -0.3 | Act_Y:   -0.1
+[G04-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:    1.0 | Act_Y:    0.1
+[G04-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:   -0.2 | Act_Y:   -0.2
+[G04-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.7 | Act_Y:   -0.0
+[G04-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:   -0.3 | Act_Y:   -0.2
+[G04-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.1 | Act_R:    2.3 | Act_Y:    0.8
+[G04-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.1 | Act_R:   -0.1 | Act_Y:   -0.3
+[G04-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.6 | Act_Y:    0.1
+[G04-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:    0.1 | Act_Y:   -0.3
+[G04-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.9 | Act_Y:   -0.1
+[G04-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   45.9 | Act_R:    2.0 | Act_Y:    2.2
+[G04-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:    0.6 | Act_Y:    0.1
+[G04-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   10.2 | Act_Y:   -0.7
+[G04-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   10.2 | Act_Y:   -0.5
+[G04-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:   -2.6 | Act_Y:   -1.1
+[G04-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    0.4 | Act_Y:    0.1
+[G04-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.8 | Act_Y:    0.0
+[G04-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.1 | Act_R:    0.4 | Act_Y:    0.1
+[G04-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.9 | Act_R:   -2.5 | Act_Y:   -2.2
+[G04-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:   31.2 | Act_Y:   -1.2
+[G04-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:    0.3 | Act_Y:    0.0[G04-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:   30.8 | Act_Y:   -1.2
+
+[G04-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.6 | Act_Y:    0.1
+[G04-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   11.6 | Act_Y:   -0.4
+[G04-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.8 | Act_R:    0.3 | Act_Y:    0.0
+[G04-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    0.1 | Act_Y:   -0.1
+[G04-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   38.4 | Act_Y:   -0.1
+[G04-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.0 | Act_R:   38.3 | Act_Y:   -0.0
+[G04-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:    0.4 | Act_Y:    0.0
+[G04-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   44.7 | Act_R:   30.4 | Act_Y:   -0.8
+[G04-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:    0.1 | Act_Y:   -0.1
+[G04-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.2 | Act_Y:   -0.2
+[G04-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   38.5 | Act_Y:    0.1
+[G04-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   38.2 | Act_Y:    0.1
+[G04-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:    0.3 | Act_Y:   -0.1
+[G04-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:   38.1 | Act_Y:   -0.2
+[G04-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:    0.2 | Act_Y:   -0.2
+[G04-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.5 | Act_Y:   -0.2
+[G04-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   38.0 | Act_Y:    0.3
+[G04-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.9 | Act_Y:    0.3
+[G04-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.6 | Act_R:    0.4 | Act_Y:   -0.2
+[G04-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   10.7 | Act_Y:   -0.5
+[G04-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.4 | Act_Y:   -0.3
+[G04-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   38.3 | Act_Y:   -0.1
+[G04-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.2 | Act_R:   37.1 | Act_Y:    0.4
+[G04-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   10.6 | Act_Y:   -0.5
+[G04-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.3 | Act_R:    0.6 | Act_Y:   -0.3
+[G04-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:   31.8 | Act_Y:   -0.9
+[G04-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   37.0 | Act_Y:    0.4
+[G04-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   38.4 | Act_Y:    0.6
+[G04-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   39.4 | Act_R:   10.7 | Act_Y:   -0.5
+[G04-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.1 | Act_R:   31.9 | Act_Y:   -0.8
+[G04-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.2 | Act_R:   36.7 | Act_Y:    0.4
+[G04-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.6 | Act_R:   38.3 | Act_Y:   -0.3
+[G04-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   37.6 | Act_Y:    0.2
+[G04-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.9 | Act_Y:    0.3
+[G04-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:   32.1 | Act_Y:   -0.8
+[G04-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:   38.3 | Act_Y:   -0.4
+[G04-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   38.5 | Act_Y:   -0.1
+[G04-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   36.0 | Act_Y:   -0.0
+[G04-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   37.3 | Act_Y:    0.1
+[G04-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:   38.6 | Act_Y:   -0.4
+[G04-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   36.1 | Act_Y:   -0.1
+[G04-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   38.0 | Act_Y:    0.2
+[G04-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.9 | Act_R:   38.5 | Act_Y:   -0.1
+[G04-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   35.9 | Act_Y:   -0.4
+[G04-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   37.0 | Act_Y:   -0.2
+[G04-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   35.9 | Act_Y:   -0.5
+[G04-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   37.5 | Act_Y:    0.3
+[G04-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   38.2 | Act_Y:    0.2
+[G04-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.9 | Act_R:   38.9 | Act_Y:   -0.2
+[G04-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.0 | Act_R:   36.6 | Act_Y:   -0.6
+[G04-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   36.1 | Act_Y:   -0.4
+[G04-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   37.5 | Act_Y:    0.2
+[G04-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   36.5 | Act_Y:   -0.4
+[G04-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.7 | Act_Y:    0.1
+[G04-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.9 | Act_R:   38.7 | Act_Y:    0.1
+[G04-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.7 | Act_R:   30.8 | Act_Y:    8.0
+[G04-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   37.2 | Act_Y:   -0.3
+[G04-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   36.8 | Act_Y:    0.1
+[G04-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.3 | Act_R:   31.1 | Act_Y:    8.0
+[G04-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   38.2 | Act_Y:    0.2
+[G04-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.5 | Act_R:    6.6 | Act_Y:   10.1
+[G04-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.5 | Act_R:    6.5 | Act_Y:   10.1
+[G04-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.5 | Act_R:   -7.9 | Act_Y:   10.4
+[G04-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.0 | Act_R:   31.3 | Act_Y:    7.6
+[G04-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.8 | Act_R:   -7.9 | Act_Y:   10.3
+[G04-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   37.6 | Act_Y:    0.1
+[G04-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.2 | Act_Y:   -0.0
+[G04-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:  -15.1 | Act_Y:   20.2
+[G04-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.6 | Act_R:    6.2 | Act_Y:   10.0
+[G04-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.3 | Act_Y:   -0.0
+[G04-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.0 | Act_R:  -14.1 | Act_Y:   20.3
+[G04-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.1 | Act_R:   -8.9 | Act_Y:   10.3
+[G04-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -28.8 | Act_Y:   37.0
+[G04-W01] Kp=691.4, Gton=8.760 | Err=0.6873
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G04-W01 | Kp=691.35, Ki=171.39, Kd=28.91 => Score=0.7
+[G04-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.6 | Act_R:  -25.4 | Act_Y:   36.5
+[G04-W05] Kp=794.6, Gton=8.760 | Err=0.6639
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G04-W05 | Kp=794.59, Ki=142.27, Kd=24.02 => Score=0.7
+[G04-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.6 | Act_R:  -17.4 | Act_Y:   20.5
+[G04-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.2 | Act_Y:   -0.2
+[G04-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   37.2 | Act_Y:   -0.1
+[G04-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -22.7 | Act_Y:   36.2
+[G04-W06] Kp=851.0, Gton=8.760 | Err=0.6902
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G04-W06 | Kp=850.96, Ki=60.91, Kd=14.11 => Score=0.7
+[G04-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.2 | Act_Y:   -0.2
+[G04-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.4 | Act_Y:   -0.3
+[G04-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   37.1 | Act_Y:   -0.3
+[G04-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.4 | Act_Y:   -0.3
+[G04-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.1 | Act_R:   30.1 | Act_Y:    8.7
+[G04-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   37.0 | Act_Y:   -0.7
+[G04-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.4 | Act_R:   29.9 | Act_Y:    9.0
+[G04-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.4 | Act_R:    7.6 | Act_Y:   10.2
+[G04-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.8 | Act_R:   30.1 | Act_Y:    9.0
+[G04-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:   -6.9 | Act_Y:   10.4
+[G04-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.3 | Act_R:    7.6 | Act_Y:   10.1
+[G04-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   44.6 | Act_R:    7.8 | Act_Y:   10.1
+[G04-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.9 | Act_R:   -7.3 | Act_Y:   10.4
+[G04-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:  -14.2 | Act_Y:   20.2
+[G04-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.4 | Act_R:   -9.9 | Act_Y:   10.5
+[G04-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:  -16.4 | Act_Y:   20.4
+[G04-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.9 | Act_R:  -27.4 | Act_Y:   36.8
+[G04-W04] Kp=763.2, Gton=8.760 | Err=0.6617
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G04-W04 | Kp=763.16, Ki=110.50, Kd=51.72 => Score=0.7
+[G04-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.7 | Act_R:  -20.5 | Act_Y:   20.3
+[G04-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.0 | Act_R:  -27.0 | Act_Y:   36.8
+[G04-W03] Kp=790.1, Gton=8.760 | Err=0.6783
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G04-W03 | Kp=790.11, Ki=111.38, Kd=64.25 => Score=0.7
+[G04-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -29.9 | Act_Y:   36.7
+[G04-W02] Kp=776.1, Gton=8.760 | Err=0.7477
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G04-W02 | Kp=776.10, Ki=13.82, Kd=75.03 => Score=0.7
+    4     24 6.616608973930233e-01 1.6e+00 4.76e+01  4e+01  5e+01 24:54.8  
+Gen 4: Best Error = 0.60 | Kp=786.01, Ki=128.66, Kd=15.68
+
+--- Generation 5 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[G05-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:    0.4 | Act_Y:   -0.5
+[G05-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.7 | Act_R:   -0.7 | Act_Y:   -1.3
+[G05-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.1 | Act_R:    1.1 | Act_Y:    0.1
+[G05-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.3 | Act_R:   -2.6 | Act_Y:   -2.6
+[G05-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.8 | Act_R:    1.2 | Act_Y:    0.3
+[G05-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.3 | Act_R:    1.5 | Act_Y:    1.0
+[G05-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.8 | Act_R:   -1.0 | Act_Y:   -1.4
+[G05-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:   -0.1 | Act_Y:   -0.5
+[G05-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:    0.1 | Act_Y:   -0.4
+[G05-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:    0.5 | Act_Y:   -0.2
+[G05-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    0.5 | Act_Y:   -0.1
+[G05-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.2 | Act_R:    0.2 | Act_Y:   -0.5
+[G05-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    0.2 | Act_Y:   -0.2
+[G05-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    1.2 | Act_Y:    0.4
+[G05-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:    0.3 | Act_Y:   -0.1
+[G05-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.3 | Act_R:    0.1 | Act_Y:   -0.4
+[G05-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    0.2 | Act_Y:   -0.3
+[G05-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:    0.5 | Act_Y:   -0.2
+[G05-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.3 | Act_R:    0.4 | Act_Y:   -0.1
+[G05-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    0.1 | Act_Y:   -0.4
+[G05-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:    0.3 | Act_Y:   -0.3
+[G05-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.8 | Act_Y:    0.1
+[G05-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.9 | Act_R:    0.1 | Act_Y:   -0.3
+[G05-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.2 | Act_R:   -0.4 | Act_Y:   -0.7
+[G05-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.8 | Act_R:    0.4 | Act_Y:   -0.3
+[G05-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.7 | Act_R:    0.4 | Act_Y:   -0.2
+[G05-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.1 | Act_R:   -0.5 | Act_Y:   -0.6
+[G05-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:   -0.1 | Act_Y:   -0.4
+[G05-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.3 | Act_R:    0.7 | Act_Y:    0.0
+[G05-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:    0.6 | Act_Y:   -0.2
+[G05-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.9 | Act_R:    0.9 | Act_Y:   -0.3
+[G05-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    0.1 | Act_Y:   -0.4
+[G05-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.2 | Act_R:    0.2 | Act_Y:   -0.0
+[G05-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:    0.3 | Act_Y:   -0.4
+[G05-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.5 | Act_R:   -0.9 | Act_Y:   -0.9
+[G05-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.9 | Act_Y:   -0.0
+[G05-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:    0.8 | Act_Y:   -0.2
+[G05-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:    0.7 | Act_Y:    0.2
+[G05-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.5 | Act_R:    0.5 | Act_Y:   -0.4
+[G05-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   10.3 | Act_R:   -0.8 | Act_Y:   -1.0
+[G05-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:    0.8 | Act_Y:   -0.2
+[G05-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.9 | Act_R:   -0.4 | Act_Y:   -0.3
+[G05-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.9 | Act_R:   -0.6 | Act_Y:   -0.9
+[G05-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.3 | Act_Y:    0.1
+[G05-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:    0.5 | Act_Y:    0.1
+[G05-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   -0.3 | Act_Y:   -0.2
+[G05-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.8 | Act_R:   -0.4 | Act_Y:   -0.6
+[G05-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    8.2 | Act_R:   -0.4 | Act_Y:   -1.2
+[G05-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.4 | Act_R:    0.9 | Act_Y:    0.1
+[G05-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.2 | Act_R:   -0.5 | Act_Y:   -0.7
+[G05-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   -0.5 | Act_Y:   -0.4
+[G05-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:    0.4 | Act_Y:    0.0
+[G05-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:    0.9 | Act_Y:    0.0
+[G05-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.7 | Act_R:    0.6 | Act_Y:   -0.0
+[G05-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.9 | Act_R:   -0.3 | Act_Y:   -0.6
+[G05-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   34.8 | Act_R:   -0.4 | Act_Y:   -0.9
+[G05-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:    0.9 | Act_Y:    0.0
+[G05-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.1 | Act_R:    0.1 | Act_Y:   -0.0
+[G05-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:    0.2 | Act_Y:   -0.4
+[G05-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.2 | Act_R:    0.8 | Act_Y:   -0.0
+[G05-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:    0.5 | Act_Y:    0.1
+[G05-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   -0.1 | Act_Y:   -0.2
+[G05-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:    0.7 | Act_Y:   -0.0
+[G05-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    0.8 | Act_Y:   -0.2
+[G05-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   10.5 | Act_Y:   -0.6
+[G05-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:   -0.0 | Act_Y:   -0.2
+[G05-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.3 | Act_R:    0.4 | Act_Y:    0.1
+[G05-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:    0.6 | Act_Y:    0.1
+[G05-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.6 | Act_R:    1.1 | Act_Y:   -0.1
+[G05-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.2 | Act_R:    0.6 | Act_Y:    0.1
+[G05-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.1 | Act_R:   30.8 | Act_Y:   -1.5
+[G05-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:    0.3 | Act_Y:   -0.2
+[G05-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:    0.2 | Act_Y:    0.0
+[G05-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:    0.5 | Act_Y:    0.1
+[G05-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   10.5 | Act_Y:   -0.5
+[G05-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:    0.5 | Act_Y:    0.1
+[G05-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    1.1 | Act_Y:    0.1
+[G05-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.3 | Act_R:   38.8 | Act_Y:   -0.0
+[G05-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:    0.0 | Act_Y:   -0.1
+[G05-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.9 | Act_R:    0.2 | Act_Y:    0.0
+[G05-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:   31.6 | Act_Y:   -0.9
+[G05-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:    0.3 | Act_Y:    0.1
+[G05-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:    0.9 | Act_Y:    0.1
+[G05-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   38.4 | Act_Y:    0.1
+[G05-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:    0.1 | Act_Y:   -0.2
+[G05-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.8 | Act_R:    0.1 | Act_Y:   -0.1
+[G05-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.0 | Act_R:   38.5 | Act_Y:   -0.3
+[G05-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:    0.1 | Act_Y:   -0.1
+[G05-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:    0.5 | Act_Y:   -0.3
+[G05-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.6 | Act_R:    0.6 | Act_Y:    0.1
+[G05-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   38.2 | Act_Y:    0.2
+[G05-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:    0.1 | Act_Y:   -0.2
+[G05-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   38.5 | Act_Y:   -0.0
+[G05-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:   10.5 | Act_Y:   -0.5
+[G05-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    0.0 | Act_Y:   -0.2
+[G05-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   37.7 | Act_Y:    0.3
+[G05-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:    0.2 | Act_Y:   -0.0
+[G05-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.8 | Act_R:    0.3 | Act_Y:   -0.3
+[G05-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   38.0 | Act_Y:    0.2
+[G05-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:   31.4 | Act_Y:   -1.0
+[G05-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:    0.2 | Act_Y:   -0.2
+[G05-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:   10.5 | Act_Y:   -0.4
+[G05-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.1 | Act_Y:   -0.1
+[G05-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   37.7 | Act_Y:    0.3
+[G05-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   36.8 | Act_Y:    0.2
+[G05-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.6 | Act_R:   38.2 | Act_Y:   -0.3
+[G05-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   10.1 | Act_Y:   -0.5
+[G05-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   31.8 | Act_Y:   -0.8
+[G05-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.6 | Act_R:    0.2 | Act_Y:   -0.2
+[G05-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.8 | Act_Y:    0.1
+[G05-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   36.8 | Act_Y:   -0.2
+[G05-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   38.3 | Act_Y:   -0.1
+[G05-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.9 | Act_R:   31.2 | Act_Y:   -0.9
+[G05-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   39.7 | Act_R:    9.9 | Act_Y:   -0.5
+[G05-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:   38.3 | Act_Y:   -0.4
+[G05-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   38.0 | Act_Y:    0.2
+[G05-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   36.6 | Act_Y:   -0.7
+[G05-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.3 | Act_R:   37.8 | Act_Y:   -0.4
+[G05-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:   30.6 | Act_Y:   -1.0
+[G05-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   37.3 | Act_Y:    0.2
+[G05-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.8 | Act_R:   38.5 | Act_Y:   -0.2
+[G05-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.2 | Act_Y:   -0.1
+[G05-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.8 | Act_R:   38.1 | Act_Y:   -0.2
+[G05-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   37.1 | Act_Y:   -0.5
+[G05-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.3 | Act_R:   37.7 | Act_Y:   -0.6
+[G05-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.6 | Act_Y:    0.1
+[G05-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   38.3 | Act_Y:    0.1
+[G05-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   37.9 | Act_Y:    0.1
+[G05-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.1 | Act_R:   31.6 | Act_Y:    8.1
+[G05-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.2 | Act_Y:   -0.2
+[G05-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.8 | Act_Y:    0.3
+[G05-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.2 | Act_R:   38.4 | Act_Y:   -0.3
+[G05-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.2 | Act_R:    7.6 | Act_Y:   10.2
+[G05-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   37.5 | Act_Y:    0.3
+[G05-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.3 | Act_Y:   -0.6
+[G05-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.3 | Act_R:   -6.3 | Act_Y:   10.4
+[G05-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.7 | Act_R:   37.1 | Act_Y:    0.2
+[G05-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.1 | Act_Y:   -0.0
+[G05-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   38.1 | Act_Y:   -0.2
+[G05-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.8 | Act_Y:    0.2
+[G05-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -12.7 | Act_Y:   20.3
+[G05-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.1 | Act_R:   30.7 | Act_Y:    8.6
+[G05-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.8 | Act_R:  -18.5 | Act_Y:   36.6
+[G05-W02] Kp=796.8, Gton=8.760 | Err=0.6333
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G05-W02 | Kp=796.83, Ki=62.55, Kd=21.43 => Score=0.6
+[G05-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.5 | Act_R:    6.9 | Act_Y:   10.1
+[G05-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.8 | Act_Y:    0.1
+[G05-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   36.5 | Act_Y:   -0.0
+[G05-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.3 | Act_R:   -7.2 | Act_Y:   10.4
+[G05-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   36.2 | Act_Y:   -0.0
+[G05-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.0 | Act_Y:   -0.2
+[G05-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.9 | Act_R:  -15.2 | Act_Y:   20.3
+[G05-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   37.1 | Act_Y:    0.3
+[G05-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   36.1 | Act_Y:   -0.3
+[G05-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   35.9 | Act_Y:   -0.4
+[G05-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -24.6 | Act_Y:   36.6
+[G05-W01] Kp=734.5, Gton=8.760 | Err=0.6625
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G05-W01 | Kp=734.49, Ki=109.51, Kd=42.72 => Score=0.7
+[G05-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.2 | Act_Y:   -0.3
+[G05-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.1 | Act_R:   36.3 | Act_Y:    0.0
+[G05-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   36.4 | Act_Y:   -0.4
+[G05-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.1 | Act_Y:   -0.4
+[G05-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.4 | Act_R:   29.9 | Act_Y:    9.0
+[G05-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.9 | Act_R:   35.9 | Act_Y:   -0.4
+[G05-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.3 | Act_R:    7.5 | Act_Y:   10.1
+[G05-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.9 | Act_R:   28.6 | Act_Y:    9.1
+[G05-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.9 | Act_R:   27.6 | Act_Y:    9.1
+[G05-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.9 | Act_R:   -7.3 | Act_Y:   10.4
+[G05-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.8 | Act_R:    5.3 | Act_Y:   10.1
+[G05-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.7 | Act_R:    3.4 | Act_Y:   10.2
+[G05-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   48.2 | Act_R:   36.1 | Act_Y:   -0.5
+[G05-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:   -8.8 | Act_Y:   10.4
+[G05-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:  -16.8 | Act_Y:   20.4
+[G05-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.5 | Act_R:  -11.5 | Act_Y:   10.5
+[G05-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.4 | Act_R:  -15.4 | Act_Y:   20.2
+[G05-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   46.2 | Act_R:   26.9 | Act_Y:    9.2
+[G05-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.1 | Act_R:  -27.9 | Act_Y:   36.9
+[G05-W05] Kp=806.3, Gton=8.760 | Err=0.6852
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G05-W05 | Kp=806.35, Ki=139.66, Kd=63.19 => Score=0.7
+[G05-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -21.9 | Act_Y:   20.3
+[G05-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   46.4 | Act_R:    3.1 | Act_Y:   10.1
+[G05-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.2 | Act_R:  -26.1 | Act_Y:   36.7
+[G05-W04] Kp=741.8, Gton=8.760 | Err=0.6889
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G05-W04 | Kp=741.84, Ki=126.01, Kd=86.90 => Score=0.7
+[G05-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -30.4 | Act_Y:   36.7
+[G05-W03] Kp=843.6, Gton=8.760 | Err=0.7823
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G05-W03 | Kp=843.58, Ki=130.56, Kd=101.92 => Score=0.8
+[G05-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.9 | Act_R:  -11.4 | Act_Y:   10.5
+[G05-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -21.4 | Act_Y:   20.3
+[G05-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.3 | Act_R:  -30.0 | Act_Y:   36.8
+[G05-W06] Kp=702.9, Gton=8.760 | Err=0.7829
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G05-W06 | Kp=702.87, Ki=122.03, Kd=144.13 => Score=0.8
+    5     30 6.333324085267716e-01 1.7e+00 4.71e+01  4e+01  4e+01 31:28.2  
+Gen 5: Best Error = 0.60 | Kp=786.01, Ki=128.66, Kd=15.68
+
+--- Generation 6 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[G06-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.7 | Act_R:   -0.8 | Act_Y:   -1.3
+[G06-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:   -0.5 | Act_Y:   -1.2
+[G06-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.5 | Act_R:   -2.0 | Act_Y:   -2.1
+[G06-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.2 | Act_R:   -2.6 | Act_Y:   -2.5
+[G06-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -5.5 | Act_R:   -3.3 | Act_Y:   -3.1
+[G06-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.8 | Act_R:    1.2 | Act_Y:    0.4
+[G06-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:   -0.1 | Act_Y:   -0.5
+[G06-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:   -1.0 | Act_Y:   -1.3
+[G06-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:   -0.4 | Act_Y:   -0.8
+[G06-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    0.0 | Act_Y:   -0.4
+[G06-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    1.4 | Act_R:    4.6 | Act_Y:    0.5
+[G06-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.8 | Act_R:    0.7 | Act_Y:   -0.0
+[G06-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.1 | Act_R:    0.0 | Act_Y:   -0.6
+[G06-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    0.2 | Act_Y:   -0.2
+[G06-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.7 | Act_R:   -0.3 | Act_Y:   -0.5
+[G06-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.4 | Act_R:    0.2 | Act_Y:   -0.2
+[G06-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    1.2 | Act_R:    1.7 | Act_Y:    3.3
+[G06-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.2 | Act_R:    0.0 | Act_Y:   -0.5
+[G06-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.1 | Act_R:   -0.0 | Act_Y:   -0.3
+[G06-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    0.2 | Act_Y:   -0.3
+[G06-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -6.7 | Act_R:    6.3 | Act_Y:   -7.1
+[G06-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    0.3 | Act_Y:   -0.2
+[G06-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:    0.7 | Act_Y:   -0.1
+[G06-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:   -0.1 | Act_Y:   -0.6
+[G06-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.4 | Act_R:    0.2 | Act_Y:   -0.2
+[G06-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.8 | Act_R:    0.1 | Act_Y:   -0.3
+[G06-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.0 | Act_R:    4.8 | Act_Y:    8.2
+[G06-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.0 | Act_R:    0.1 | Act_Y:   -0.2
+[G06-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.9 | Act_R:   -0.2 | Act_Y:   -0.6
+[G06-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.1 | Act_R:    0.7 | Act_Y:   -0.2
+[G06-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.2 | Act_R:   -0.2 | Act_Y:   -0.4
+[G06-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -5.6 | Act_R:   -2.1 | Act_Y:  -15.6
+[G06-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.1 | Act_R:   -0.3 | Act_Y:   -0.5
+[G06-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.8 | Act_R:   -0.2 | Act_Y:   -0.5
+[G06-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.8 | Act_R:    0.4 | Act_Y:   -0.1
+[G06-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.1 | Act_R:    0.3 | Act_Y:   -0.0
+[G06-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   38.0 | Act_R:  -15.0 | Act_Y:   11.7
+[G06-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.9 | Act_R:    0.0 | Act_Y:   -0.2
+[G06-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:    0.5 | Act_Y:   -0.3
+[G06-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.9 | Act_R:    0.1 | Act_Y:   -0.1
+[G06-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.0 | Act_R:    0.5 | Act_Y:   -0.4
+[G06-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:    0.5 | Act_Y:   -0.3
+[G06-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:    0.6 | Act_Y:   -0.2
+[G06-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.4 | Act_Y:   -0.2
+[G06-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.6 | Act_R:    3.6 | Act_Y:  -13.7
+[G06-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:    0.6 | Act_Y:   -0.2
+[G06-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.4 | Act_Y:   -0.0
+[G06-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:    0.6 | Act_Y:   -0.2
+[G06-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:    0.5 | Act_Y:   -0.2
+[G06-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.4 | Act_Y:   -0.0
+[G06-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:    0.1 | Act_Y:    0.1
+[G06-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:    0.3 | Act_Y:   -0.1
+[G06-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   -4.7 | Act_Y:   10.9
+[G06-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.2 | Act_R:   -0.5 | Act_Y:   -1.1
+[G06-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:    0.8 | Act_Y:   -0.1
+[G06-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:    0.1 | Act_Y:   -0.0
+[G06-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.9 | Act_R:    0.2 | Act_Y:    0.1
+[G06-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.8 | Act_R:    0.0 | Act_Y:    0.0
+[G06-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:   19.7 | Act_Y:   -6.0
+[G06-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.3 | Act_R:    0.6 | Act_Y:    0.0
+[G06-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   35.8 | Act_R:   -0.4 | Act_Y:   -0.7
+[G06-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:   -0.1 | Act_Y:   -0.1
+[G06-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:    0.0 | Act_Y:   -0.0
+[G06-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:   -0.0 | Act_Y:   -0.0
+[G06-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:   -0.2 | Act_Y:   -0.2
+[G06-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   35.7 | Act_R:  -19.1 | Act_Y:   -0.4
+[G06-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.3 | Act_R:    0.4 | Act_Y:    0.0
+[G06-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:    0.0 | Act_Y:    0.0
+[G06-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:    0.1 | Act_Y:   -0.2
+[G06-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:    1.0 | Act_Y:   -0.0
+[G06-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:   -0.1 | Act_Y:   -0.1
+[G06-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   -0.1 | Act_Y:   -0.2
+[G06-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   48.6 | Act_R:   17.9 | Act_Y:   23.0
+[G06-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:    0.3 | Act_Y:   -0.0
+[G06-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.0 | Act_R:    0.1 | Act_Y:   -0.2
+[G06-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.1 | Act_R:   10.3 | Act_Y:   -0.7
+[G06-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:   -0.1 | Act_Y:   -0.2
+[G06-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.4 | Act_R:    1.0 | Act_Y:   -0.0
+[G06-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.2 | Act_R:    6.3 | Act_Y:  -10.4
+[G06-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    0.0 | Act_Y:   -0.2
+[G06-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.1 | Act_R:   10.1 | Act_Y:   -0.7
+[G06-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:    0.2 | Act_Y:   -0.3
+[G06-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.5 | Act_R:   30.6 | Act_Y:   -1.3
+[G06-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   48.3 | Act_R:    3.4 | Act_Y:   18.4
+[G06-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:    0.1 | Act_Y:   -0.2
+[G06-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:    0.9 | Act_Y:    0.1
+[G06-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:   10.5 | Act_Y:   -0.5
+[G06-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.6 | Act_R:   30.9 | Act_Y:   -1.2
+[G06-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.8 | Act_R:    9.9 | Act_Y:  -16.7
+[G06-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:    0.4 | Act_Y:   -0.3
+[G06-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.4 | Act_R:   38.6 | Act_Y:   -0.1
+[G06-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.6 | Act_R:    0.7 | Act_Y:    0.1
+[G06-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   35.4 | Act_R:  -24.0 | Act_Y:   -5.4
+[G06-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.3 | Act_R:   31.6 | Act_Y:   -1.0
+[G06-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   10.3 | Act_Y:   -0.6
+[G06-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.5 | Act_R:   38.4 | Act_Y:   -0.1
+[G06-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   38.3 | Act_Y:    0.0
+[G06-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   11.3 | Act_Y:    3.2
+[G06-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.3 | Act_R:    0.5 | Act_Y:    0.1
+[G06-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.1 | Act_R:   31.4 | Act_Y:   -0.9
+[G06-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.8 | Act_R:   38.5 | Act_Y:   -0.3
+[G06-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   38.4 | Act_Y:    0.0
+[G06-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   38.5 | Act_R:   31.6 | Act_Y:  -19.3
+[G06-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   38.3 | Act_Y:    0.2
+[G06-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:    0.3 | Act_Y:   -0.1
+[G06-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   38.6 | Act_Y:   -0.0
+[G06-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.5 | Act_R:   38.4 | Act_Y:   -0.2
+[G06-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   37.9 | Act_Y:    0.3
+[G06-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   53.7 | Act_R:   31.6 | Act_Y:   15.4
+[G06-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   37.4 | Act_Y:    0.3
+[G06-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.4 | Act_R:    0.3 | Act_Y:   -0.2
+[G06-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   38.3 | Act_Y:    0.2
+[G06-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   39.2 | Act_R:   37.0 | Act_Y:  -14.3
+[G06-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.8 | Act_R:   38.3 | Act_Y:   -0.0
+[G06-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   37.3 | Act_Y:    0.4
+[G06-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   51.3 | Act_R:   35.3 | Act_Y:   15.9
+[G06-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   39.1 | Act_R:    0.5 | Act_Y:   -0.3
+[G06-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   37.6 | Act_Y:    0.3
+[G06-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   37.2 | Act_Y:    0.2
+[G06-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   37.9 | Act_Y:    0.2
+[G06-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.4 | Act_R:   44.3 | Act_Y:    2.7
+[G06-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   39.1 | Act_R:   10.3 | Act_Y:   -0.5
+[G06-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   37.1 | Act_Y:    0.2
+[G06-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   37.7 | Act_Y:    0.3
+[G06-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.8 | Act_Y:    0.1
+[G06-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   37.0 | Act_Y:   -0.2
+[G06-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   40.8 | Act_R:   34.7 | Act_Y:    4.4
+[G06-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   31.3 | Act_Y:   -1.1
+[G06-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   41.5 | Act_Y:    1.4
+[G06-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   36.3 | Act_Y:   -0.1
+[G06-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.8 | Act_R:   36.4 | Act_Y:   -0.7
+[G06-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:   38.4 | Act_Y:   -0.5
+[G06-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   37.1 | Act_Y:    0.1
+[G06-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   26.6 | Act_Y:   -1.7
+[G06-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   36.3 | Act_Y:   -0.6
+[G06-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   40.8 | Act_R:   36.9 | Act_Y:    1.1
+[G06-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.3 | Act_Y:   -0.0
+[G06-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   37.0 | Act_Y:   -0.5
+[G06-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.8 | Act_R:   39.0 | Act_Y:   -0.2
+[G06-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   36.7 | Act_Y:   -0.1
+[G06-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   42.7 | Act_R:   10.4 | Act_Y:   11.6
+[G06-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   36.7 | Act_Y:   -0.4
+[G06-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.1 | Act_R:   31.6 | Act_Y:    7.9
+[G06-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   43.9 | Act_R:   -9.7 | Act_Y:   10.4
+[G06-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   36.9 | Act_Y:   -0.3
+[G06-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.9 | Act_R:   38.9 | Act_Y:    0.1
+[G06-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.2 | Act_R:    7.4 | Act_Y:   10.1
+[G06-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.5 | Act_R:   36.2 | Act_Y:   -0.2
+[G06-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.4 | Act_R:   31.2 | Act_Y:    8.0
+[G06-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.5 | Act_R:  -14.5 | Act_Y:   20.1
+[G06-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:   -6.5 | Act_Y:   10.4
+[G06-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.7 | Act_R:    5.3 | Act_Y:   10.1
+[G06-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   38.4 | Act_Y:    0.2
+[G06-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.0 | Act_R:  -17.2 | Act_Y:   35.8
+[G06-W02] Kp=823.3, Gton=8.760 | Err=1.1251
+[G06-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   37.0 | Act_Y:   -0.5
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G06-W02 | Kp=823.30, Ki=112.40, Kd=2.56 => Score=1.1
+[G06-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.4 | Act_R:   36.3 | Act_Y:   -0.5
+[G06-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -12.6 | Act_Y:   20.3
+[G06-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.4 | Act_R:   -9.5 | Act_Y:   10.4
+[G06-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:  -17.5 | Act_Y:   20.4
+[G06-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.0 | Act_R:  -20.9 | Act_Y:   36.6
+[G06-W06] Kp=807.5, Gton=8.760 | Err=0.6367
+[G06-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.1 | Act_R:   30.2 | Act_Y:    8.5
+[G06-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   37.7 | Act_Y:    0.1
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G06-W06 | Kp=807.51, Ki=42.92, Kd=22.77 => Score=0.6
+[G06-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.4 | Act_R:   30.7 | Act_Y:    8.6
+[G06-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.5 | Act_R:    6.7 | Act_Y:   10.1
+[G06-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.0 | Act_R:    7.3 | Act_Y:   10.1
+[G06-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.6 | Act_R:  -28.3 | Act_Y:   36.8
+[G06-W01] Kp=788.8, Gton=8.760 | Err=0.7215
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G06-W01 | Kp=788.81, Ki=93.27, Kd=28.74 => Score=0.7
+[G06-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.9 | Act_R:   -6.6 | Act_Y:   10.5
+[G06-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.3 | Act_R:   -7.1 | Act_Y:   10.4
+[G06-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   37.1 | Act_Y:   -0.1
+[G06-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.0 | Act_R:  -15.9 | Act_Y:   20.2
+[G06-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.7 | Act_R:  -15.2 | Act_Y:   20.2
+[G06-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   36.6 | Act_Y:   -0.4
+[G06-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.6 | Act_R:  -26.9 | Act_Y:   36.7
+[G06-W03] Kp=874.2, Gton=8.760 | Err=0.6675
+[G06-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   47.3 | Act_R:  -27.5 | Act_Y:   36.8
+[G06-W04] Kp=746.2, Gton=8.760 | Err=0.6796
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G06-W03 | Kp=874.17, Ki=39.50, Kd=43.18 => Score=0.7
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G06-W04 | Kp=746.18, Ki=110.37, Kd=45.82 => Score=0.7
+[G06-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   36.8 | Act_Y:   -0.6
+[G06-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.7 | Act_R:   28.5 | Act_Y:    9.1
+[G06-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.4 | Act_R:    4.3 | Act_Y:   10.2
+[G06-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.6 | Act_R:   -9.1 | Act_Y:   10.4
+[G06-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.0 | Act_R:  -19.7 | Act_Y:   20.3
+[G06-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -29.0 | Act_Y:   36.8
+[G06-W05] Kp=727.6, Gton=8.760 | Err=0.7475
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G06-W05 | Kp=727.58, Ki=39.90, Kd=101.95 => Score=0.7
+    6     36 6.366640297695817e-01 1.6e+00 5.30e+01  4e+01  5e+01 38:27.3  
+Gen 6: Best Error = 0.60 | Kp=786.01, Ki=128.66, Kd=15.68
+
+--- Generation 7 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+[G07-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:   -0.3 | Act_Y:   -1.0
+[G07-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.5 | Act_R:   -0.5 | Act_Y:   -1.1
+[G07-W05] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.2 | Act_R:   -1.7 | Act_Y:   -1.8
+[G07-W02] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.1 | Act_R:   -2.6 | Act_Y:   -2.4
+[G07-W01] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -5.9 | Act_R:   -2.8 | Act_Y:   -3.1
+[G07-W06] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -4.4 | Act_R:   -2.6 | Act_Y:   -2.7
+[G07-W02] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.6 | Act_R:   -1.1 | Act_Y:   -1.3
+[G07-W03] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:   -0.0 | Act_Y:   -0.5
+[G07-W05] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:   -0.5 | Act_Y:   -0.6
+[G07-W04] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:    0.0 | Act_Y:   -0.4
+[G07-W06] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.5 | Act_R:   -0.9 | Act_Y:   -1.4
+[G07-W01] t=0.40s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.4 | Act_R:    3.3 | Act_Y:    1.0
+[G07-W05] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.0 | Act_R:   -0.0 | Act_Y:   -0.3
+[G07-W02] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.1 | Act_R:   -0.3 | Act_Y:   -0.8
+[G07-W06] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.9 | Act_R:    0.8 | Act_Y:   -0.2
+[G07-W01] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    6.9 | Act_R:    4.4 | Act_Y:    6.0
+[G07-W03] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:    0.2 | Act_Y:   -0.3
+[G07-W04] t=0.60s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:    0.3 | Act_Y:   -0.2
+[G07-W02] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -2.1 | Act_R:   -0.4 | Act_Y:   -0.7
+[G07-W06] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.9 | Act_R:    0.7 | Act_Y:    0.0
+[G07-W05] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.7 | Act_R:    0.3 | Act_Y:   -0.1
+[G07-W01] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:  -10.1 | Act_R:    5.8 | Act_Y:   -5.8
+[G07-W04] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:    0.4 | Act_Y:   -0.2
+[G07-W03] t=0.80s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:    0.3 | Act_Y:   -0.2
+[G07-W02] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.5 | Act_R:   -0.4 | Act_Y:   -0.7
+[G07-W06] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.9 | Act_R:    1.1 | Act_Y:    0.3
+[G07-W05] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -0.7 | Act_R:    0.0 | Act_Y:   -0.3
+[G07-W01] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    2.5 | Act_R:    3.8 | Act_Y:    1.9
+[G07-W02] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.5 | Act_R:   -0.4 | Act_Y:   -0.7
+[G07-W06] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.7 | Act_R:    0.5 | Act_Y:    0.1
+[G07-W03] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.2 | Act_R:    0.0 | Act_Y:   -0.3
+[G07-W04] t=1.00s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.3 | Act_R:    0.1 | Act_Y:   -0.3
+[G07-W05] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.3 | Act_R:   -0.4 | Act_Y:   -0.6
+[G07-W01] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:    9.8 | Act_R:   -3.8 | Act_Y:    1.3
+[G07-W06] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.3 | Act_R:    0.7 | Act_Y:    0.4
+[G07-W02] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.8 | Act_R:    0.5 | Act_Y:   -0.1
+[G07-W04] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   12.0 | Act_R:   -0.6 | Act_Y:   -0.6
+[G07-W03] t=1.20s | Des_P:   9.4 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   11.3 | Act_R:   -1.0 | Act_Y:   -1.0
+[G07-W05] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   37.3 | Act_R:    0.2 | Act_Y:   -0.0
+[G07-W01] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   24.2 | Act_R:   -6.3 | Act_Y:   -8.4
+[G07-W06] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:    1.4 | Act_Y:    0.4
+[G07-W02] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:    0.5 | Act_Y:   -0.3
+[G07-W05] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.4 | Act_Y:   -0.3
+[G07-W02] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.5 | Act_Y:   -0.2
+[G07-W06] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:    1.0 | Act_Y:    0.1
+[G07-W01] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   53.0 | Act_R:    0.2 | Act_Y:    7.7
+[G07-W04] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.8 | Act_R:   -0.3 | Act_Y:   -0.4
+[G07-W03] t=1.40s | Des_P:  35.6 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   36.9 | Act_R:   -0.3 | Act_Y:   -0.5
+[G07-W02] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.2 | Act_R:    0.5 | Act_Y:    0.1
+[G07-W05] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.5 | Act_Y:   -0.2
+[G07-W06] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:    0.1 | Act_Y:   -0.2
+[G07-W02] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.2 | Act_R:    0.0 | Act_Y:    0.0
+[G07-W05] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:    0.2 | Act_Y:   -0.1
+[G07-W01] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   33.7 | Act_R:   -8.1 | Act_Y:  -13.4
+[G07-W04] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.7 | Act_R:    0.9 | Act_Y:   -0.1
+[G07-W03] t=1.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    1.1 | Act_Y:    0.0
+[G07-W06] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:   -0.9 | Act_Y:   -0.9
+[G07-W02] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:   -0.1 | Act_Y:   -0.0
+[G07-W05] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.1 | Act_R:    0.1 | Act_Y:   -0.0
+[G07-W01] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   51.9 | Act_R:   -1.0 | Act_Y:   15.8
+[G07-W06] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.9 | Act_R:    0.2 | Act_Y:   -0.0
+[G07-W04] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.0 | Act_R:    0.7 | Act_Y:   -0.1
+[G07-W02] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:   -0.5 | Act_Y:   -0.4
+[G07-W03] t=1.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:    0.8 | Act_Y:   -0.1
+[G07-W05] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.9 | Act_R:   -0.2 | Act_Y:   -0.1
+[G07-W06] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.8 | Act_R:    0.5 | Act_Y:    0.5
+[G07-W02] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.8 | Act_R:   -0.3 | Act_Y:   -0.3
+[G07-W01] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   38.9 | Act_R:   18.1 | Act_Y:  -11.4
+[G07-W04] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.6 | Act_R:    0.7 | Act_Y:    0.0
+[G07-W06] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.7 | Act_R:   -0.2 | Act_Y:   -0.1
+[G07-W05] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.2 | Act_R:   -0.2 | Act_Y:   -0.1
+[G07-W03] t=2.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.8 | Act_R:    0.7 | Act_Y:    0.0
+[G07-W02] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:    0.1 | Act_Y:   -0.4
+[G07-W01] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   43.5 | Act_R:   -5.3 | Act_Y:   13.1
+[G07-W06] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:   -0.2 | Act_Y:   -0.5
+[G07-W04] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.4 | Act_R:    0.5 | Act_Y:    0.0
+[G07-W05] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.8 | Act_R:   -0.1 | Act_Y:   -0.2
+[G07-W02] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.8 | Act_R:   10.3 | Act_Y:   -0.6
+[G07-W03] t=2.20s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.6 | Act_R:    0.4 | Act_Y:    0.0
+[G07-W01] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   42.7 | Act_R:   18.8 | Act_Y:    7.0
+[G07-W06] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.3 | Act_R:   10.4 | Act_Y:   -0.8
+[G07-W05] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:    0.2 | Act_Y:   -0.2
+[G07-W04] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.4 | Act_R:    0.3 | Act_Y:    0.0
+[G07-W03] t=2.40s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   41.5 | Act_R:    0.3 | Act_Y:    0.0
+[G07-W02] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:   30.5 | Act_Y:   -1.3
+[G07-W01] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   33.2 | Act_R:  -15.0 | Act_Y:   -9.4
+[G07-W05] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   41.1 | Act_R:   10.0 | Act_Y:   -0.6
+[G07-W06] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.0 | Act_R:   30.7 | Act_Y:   -1.5
+[G07-W04] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.5 | Act_R:    0.2 | Act_Y:   -0.1
+[G07-W01] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   47.8 | Act_R:   11.5 | Act_Y:   16.8
+[G07-W03] t=2.60s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.6 | Act_R:    0.1 | Act_Y:   -0.1
+[G07-W02] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.1 | Act_R:   38.6 | Act_Y:   -0.0
+[G07-W04] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.2 | Act_Y:   -0.2
+[G07-W05] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:   31.1 | Act_Y:   -1.0
+[G07-W06] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.2 | Act_R:   39.1 | Act_Y:    0.1
+[G07-W01] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   33.0 | Act_R:   -2.9 | Act_Y:  -25.4
+[G07-W03] t=2.80s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.1 | Act_Y:   -0.2
+[G07-W04] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.0 | Act_R:    0.5 | Act_Y:   -0.3
+[G07-W02] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   38.4 | Act_Y:    0.0
+[G07-W01] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   47.6 | Act_R:   -5.6 | Act_Y:   11.2
+[G07-W05] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.4 | Act_R:   38.2 | Act_Y:   -0.1
+[G07-W03] t=3.00s | Des_P:  45.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   40.1 | Act_R:    0.5 | Act_Y:   -0.3
+[G07-W06] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.2 | Act_R:   38.5 | Act_Y:    0.0
+[G07-W04] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.2 | Act_R:   10.6 | Act_Y:   -0.5
+[G07-W01] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   37.4 | Act_R:   40.8 | Act_Y:  -12.6
+[G07-W03] t=3.20s | Des_P:  45.0 | Des_R:   7.3 | Des_Y:   0.0 | Act_P:   40.4 | Act_R:   10.5 | Act_Y:   -0.6
+[G07-W05] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   38.1 | Act_Y:    0.0
+[G07-W02] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   38.2 | Act_Y:    0.2
+[G07-W06] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   38.1 | Act_Y:    0.1
+[G07-W04] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   41.8 | Act_R:   31.6 | Act_Y:   -0.9
+[G07-W01] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.0 | Act_R:   29.2 | Act_Y:    7.5
+[G07-W03] t=3.40s | Des_P:  45.0 | Des_R:  27.7 | Des_Y:   0.0 | Act_P:   42.2 | Act_R:   31.5 | Act_Y:   -0.9
+[G07-W05] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   37.9 | Act_Y:    0.2
+[G07-W01] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   40.9 | Act_R:   42.3 | Act_Y:   -6.8
+[G07-W02] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   37.3 | Act_Y:    0.3
+[G07-W04] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.1 | Act_R:   38.4 | Act_Y:   -0.3
+[G07-W06] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.9 | Act_R:   37.9 | Act_Y:    0.3
+[G07-W03] t=3.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.6 | Act_R:   38.3 | Act_Y:   -0.3
+[G07-W01] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   49.2 | Act_R:   37.0 | Act_Y:    9.6
+[G07-W05] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   37.6 | Act_Y:    0.3
+[G07-W02] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   37.4 | Act_Y:    0.1
+[G07-W06] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   37.7 | Act_Y:    0.2
+[G07-W01] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   44.6 | Act_R:   44.2 | Act_Y:    0.0
+[G07-W04] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.6 | Act_R:   38.5 | Act_Y:   -0.1
+[G07-W03] t=3.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.0 | Act_R:   38.5 | Act_Y:   -0.1
+[G07-W01] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.9 | Act_R:   37.5 | Act_Y:    5.5
+[G07-W06] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.8 | Act_R:   37.2 | Act_Y:   -0.2
+[G07-W02] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.7 | Act_R:   36.9 | Act_Y:   -0.2
+[G07-W04] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.3 | Act_R:   38.3 | Act_Y:    0.1
+[G07-W03] t=4.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.8 | Act_R:   38.0 | Act_Y:    0.2
+[G07-W05] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   36.9 | Act_Y:    0.2
+[G07-W01] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   43.0 | Act_R:   42.5 | Act_Y:   -3.4
+[G07-W04] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   37.8 | Act_Y:    0.3
+[G07-W06] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.7 | Act_R:   36.9 | Act_Y:   -0.7
+[G07-W03] t=4.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   37.6 | Act_Y:    0.3
+[G07-W02] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.6 | Act_R:   36.4 | Act_Y:   -0.6
+[G07-W01] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   34.5 | Act_Y:    3.5
+[G07-W05] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.1 | Act_R:   36.5 | Act_Y:   -0.1
+[G07-W01] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   37.5 | Act_R:   32.4 | Act_Y:   -1.5
+[G07-W06] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   37.5 | Act_Y:   -0.5
+[G07-W02] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.6 | Act_R:   37.3 | Act_Y:   -0.2
+[G07-W03] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.0 | Act_R:   36.8 | Act_Y:    0.1
+[G07-W04] t=4.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.4 | Act_R:   37.1 | Act_Y:    0.0
+[G07-W05] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   45.7 | Act_R:   36.4 | Act_Y:   -0.7
+[G07-W01] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   43.1 | Act_R:    5.6 | Act_Y:   11.2
+[G07-W01] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   42.4 | Act_R:   -8.3 | Act_Y:   10.5
+[G07-W06] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   42.8 | Act_R:   31.9 | Act_Y:    7.9
+[G07-W02] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   42.9 | Act_R:   31.1 | Act_Y:    7.7
+[G07-W01] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   44.7 | Act_R:  -17.2 | Act_Y:   20.3
+[G07-W05] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   36.9 | Act_Y:   -0.3
+[G07-W06] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.0 | Act_R:    7.6 | Act_Y:   10.1
+[G07-W02] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.5 | Act_R:    5.4 | Act_Y:   10.1
+[G07-W06] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:   -6.3 | Act_Y:   10.4
+[G07-W02] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.1 | Act_R:   -9.4 | Act_Y:   10.4
+[G07-W01] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   43.4 | Act_R:  -24.4 | Act_Y:   36.6
+[G07-W01] Kp=770.8, Gton=8.760 | Err=1.0754
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G07-W01 | Kp=770.84, Ki=20.08, Kd=6.85 => Score=1.1
+[G07-W03] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.1 | Act_R:   36.3 | Act_Y:   -0.1
+[G07-W04] t=4.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   36.7 | Act_Y:   -0.1
+[G07-W05] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.2 | Act_R:   30.5 | Act_Y:    8.2
+[G07-W06] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -12.7 | Act_Y:   20.3
+[G07-W02] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.3 | Act_R:  -15.6 | Act_Y:   20.3
+[G07-W05] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.2 | Act_R:    6.2 | Act_Y:   10.1
+[G07-W05] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:   -8.0 | Act_Y:   10.4
+[G07-W06] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.8 | Act_R:  -19.4 | Act_Y:   36.6
+[G07-W06] Kp=790.1, Gton=8.760 | Err=0.6378
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G07-W06 | Kp=790.07, Ki=11.47, Kd=18.68 => Score=0.6
+[G07-W02] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.7 | Act_R:  -25.1 | Act_Y:   36.7
+[G07-W02] Kp=841.6, Gton=8.760 | Err=0.6802
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G07-W02 | Kp=841.64, Ki=34.15, Kd=23.52 => Score=0.7
+[G07-W04] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.7 | Act_R:   36.8 | Act_Y:   -0.3
+[G07-W03] t=4.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.2 | Act_R:   36.3 | Act_Y:   -0.2
+[G07-W05] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.2 | Act_R:  -15.7 | Act_Y:   20.1
+[G07-W04] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   46.5 | Act_R:   36.8 | Act_Y:   -0.6
+[G07-W05] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.4 | Act_R:  -21.9 | Act_Y:   36.4
+[G07-W05] Kp=841.0, Gton=8.760 | Err=0.6683
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G07-W05 | Kp=841.04, Ki=87.99, Kd=32.42 => Score=0.7
+[G07-W03] t=5.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:   0.0 | Act_P:   47.3 | Act_R:   36.6 | Act_Y:   -0.3
+[G07-W04] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   43.6 | Act_R:   30.6 | Act_Y:    8.7
+[G07-W04] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   44.9 | Act_R:    8.0 | Act_Y:   10.1
+[G07-W03] t=5.20s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  10.5 | Act_P:   44.0 | Act_R:   30.2 | Act_Y:    8.7
+[G07-W04] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.8 | Act_R:   -5.8 | Act_Y:   10.4
+[G07-W03] t=5.40s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  39.5 | Act_P:   45.3 | Act_R:    7.7 | Act_Y:   10.2
+[G07-W04] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.6 | Act_R:  -14.5 | Act_Y:   20.3
+[G07-W03] t=5.60s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.1 | Act_R:   -6.0 | Act_Y:   10.5
+[G07-W03] t=5.80s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   45.8 | Act_R:  -14.1 | Act_Y:   20.3
+[G07-W04] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.9 | Act_R:  -22.8 | Act_Y:   36.7
+[G07-W04] Kp=833.1, Gton=8.760 | Err=0.6448
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G07-W04 | Kp=833.13, Ki=34.97, Kd=48.04 => Score=0.6
+[G07-W03] t=6.00s | Des_P:  45.0 | Des_R:  35.0 | Des_Y:  50.0 | Act_P:   46.8 | Act_R:  -24.9 | Act_Y:   36.7
+[G07-W03] Kp=800.8, Gton=8.760 | Err=0.6475
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Eval SUCCESS: G07-W03 | Kp=800.81, Ki=85.78, Kd=50.18 => Score=0.6
+    7     42 6.378039317292186e-01 1.9e+00 5.93e+01  5e+01  7e+01 45:43.9  
+Gen 7: Best Error = 0.60 | Kp=786.01, Ki=128.66, Kd=15.68
+
+--- Generation 8 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[G08-W03] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -1.6 | Act_R:    0.5 | Act_Y:   -0.5
+[G08-W04] t=0.20s | Des_P:   0.0 | Des_R:   0.0 | Des_Y:   0.0 | Act_P:   -3.0 | Act_R:   -1.0 | Act_Y:   -1.5
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 153, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 153, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 153, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G08-W01 | Kp=790.94, Ki=14.66, Kd=19.63
+Eval CRASHED: G08-W06 | Kp=847.02, Ki=13.67, Kd=15.36
+Eval CRASHED: G08-W05 | Kp=857.63, Ki=110.35, Kd=12.26
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 153, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G08-W02 | Kp=809.00, Ki=18.48, Kd=1.06
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 153, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G08-W03 | Kp=762.24, Ki=51.35, Kd=61.49
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 153, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G08-W04 | Kp=761.19, Ki=33.56, Kd=38.83

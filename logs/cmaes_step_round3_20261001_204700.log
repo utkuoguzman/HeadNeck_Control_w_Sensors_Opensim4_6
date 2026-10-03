@@ -1,0 +1,132 @@
+=================================================================
+ROUND 3: Step-Input PID Re-Optimization (with tuned reflexes)
+Frozen Reflexes: G_ton=8.76, G_sc=4.33, G_phas=6.06
+                 kp_prop=0.441, k_gamma_dyn=52.36, k_gamma_stat=92.37
+Searching: Kp, Ki, Kd
+=================================================================
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=951111, Thu Oct  1 20:47:00 2026)
+
+--- Generation 1 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+
+Eval CRASHED: G01-W04 | Kp=109.27, Ki=10.16, Kd=38.35
+[G01-W06] t=0.20s | Des(-):    0.0 | Act_P:   -5.6 | Act_R:    9.4 | Act_Y:    0.8
+[G01-W03] t=0.20s | Des(-):    0.0 | Act_P:   -2.4 | Act_R:    3.1 | Act_Y:    0.1
+[G01-W05] t=0.20s | Des(-):    0.0 | Act_P:   -3.6 | Act_R:    2.9 | Act_Y:   -0.5
+[G01-W01] t=0.20s | Des(-):    0.0 | Act_P:   -0.5 | Act_R:    2.6 | Act_Y:    1.1
+[G01-W02] t=0.20s | Des(-):    0.0 | Act_P:   -1.0 | Act_R:    2.6 | Act_Y:    0.6
+[G01-W06] t=0.40s | Des(-):    0.0 | Act_P:   -4.9 | Act_R:    1.1 | Act_Y:   -5.7
+[G01-W03] t=0.40s | Des(-):    0.0 | Act_P:   -5.5 | Act_R:    5.3 | Act_Y:   -0.7
+[G01-W05] t=0.40s | Des(-):    0.0 | Act_P:   -4.4 | Act_R:    3.8 | Act_Y:   -0.9
+[G01-W02] t=0.40s | Des(-):    0.0 | Act_P:   -4.8 | Act_R:    3.3 | Act_Y:   -0.5
+[G01-W01] t=0.40s | Des(-):    0.0 | Act_P:   -3.8 | Act_R:    3.3 | Act_Y:    0.2
+[G01-W06] t=0.60s | Des(-):    0.0 | Act_P:    3.3 | Act_R:    3.6 | Act_Y:    2.9
+[G01-W05] t=0.60s | Des(-):    0.0 | Act_P:   -5.4 | Act_R:    3.3 | Act_Y:   -1.5
+[G01-W03] t=0.60s | Des(-):    0.0 | Act_P:   -8.2 | Act_R:    6.6 | Act_Y:   -1.4
+[G01-W02] t=0.60s | Des(-):    0.0 | Act_P:   -6.4 | Act_R:    4.3 | Act_Y:   -0.8
+[G01-W06] t=0.80s | Des(-):    0.0 | Act_P:   -2.2 | Act_R:    0.2 | Act_Y:   -4.0
+[G01-W01] t=0.60s | Des(-):    0.0 | Act_P:   -6.0 | Act_R:    3.8 | Act_Y:   -0.1
+[G01-W05] t=0.80s | Des(-):    0.0 | Act_P:   -3.8 | Act_R:    2.9 | Act_Y:   -1.3
+[G01-W03] t=0.80s | Des(-):    0.0 | Act_P:   -6.9 | Act_R:    7.2 | Act_Y:   -1.6
+[G01-W06] t=1.00s | Des(P):    0.0 | Act_P:    3.8 | Act_R:   -0.5 | Act_Y:   -0.3
+[G01-W02] t=0.80s | Des(-):    0.0 | Act_P:   -6.5 | Act_R:    4.6 | Act_Y:   -1.0
+[G01-W01] t=0.80s | Des(-):    0.0 | Act_P:   -7.3 | Act_R:    4.4 | Act_Y:   -0.5
+[G01-W05] t=1.00s | Des(P):    0.0 | Act_P:   -2.1 | Act_R:    2.1 | Act_Y:   -1.2
+[G01-W03] t=1.00s | Des(P):    0.0 | Act_P:   -4.1 | Act_R:    7.4 | Act_Y:   -1.7
+[G01-W06] t=1.20s | Des(P):    9.4 | Act_P:   10.6 | Act_R:   -2.2 | Act_Y:   -3.0
+[G01-W02] t=1.00s | Des(P):    0.0 | Act_P:   -5.3 | Act_R:    4.4 | Act_Y:   -1.3
+[G01-W06] t=1.40s | Des(P):   35.6 | Act_P:   29.6 | Act_R:   -0.2 | Act_Y:    0.5
+[G01-W05] t=1.20s | Des(P):    9.4 | Act_P:   14.2 | Act_R:    0.5 | Act_Y:   -1.4
+[G01-W03] t=1.20s | Des(P):    9.4 | Act_P:   12.6 | Act_R:    6.2 | Act_Y:   -2.2
+[G01-W02] t=1.20s | Des(P):    9.4 | Act_P:   10.3 | Act_R:    3.4 | Act_Y:   -1.7
+[G01-W01] t=1.00s | Des(P):    0.0 | Act_P:   -7.0 | Act_R:    4.2 | Act_Y:   -1.0
+[G01-W05] t=1.40s | Des(P):   35.6 | Act_P:   35.5 | Act_R:    0.2 | Act_Y:   -1.2
+[G01-W06] t=1.60s | Des(P):   45.0 | Act_P:   27.7 | Act_R:    5.3 | Act_Y:   -2.6
+[G01-W03] t=1.40s | Des(P):   35.6 | Act_P:   36.7 | Act_R:    6.4 | Act_Y:   -1.7
+[G01-W02] t=1.40s | Des(P):   35.6 | Act_P:   35.4 | Act_R:    3.2 | Act_Y:   -1.5
+[G01-W05] t=1.60s | Des(P):   45.0 | Act_P:   33.9 | Act_R:    2.7 | Act_Y:   -1.0
+[G01-W06] t=1.80s | Des(P):   45.0 | Act_P:   36.0 | Act_R:    5.4 | Act_Y:   -0.8
+[G01-W01] t=1.20s | Des(P):    9.4 | Act_P:    7.0 | Act_R:    2.2 | Act_Y:   -2.3
+[G01-W03] t=1.60s | Des(P):   45.0 | Act_P:   34.0 | Act_R:    9.0 | Act_Y:   -1.6
+[G01-W02] t=1.60s | Des(P):   45.0 | Act_P:   35.9 | Act_R:    4.7 | Act_Y:   -1.3
+[G01-W05] t=1.80s | Des(P):   45.0 | Act_P:   36.0 | Act_R:    3.7 | Act_Y:   -0.8
+[G01-W06] t=2.00s | Des(P):   45.0 | Act_P:   35.3 | Act_R:   10.1 | Act_Y:    1.4
+[G01-W03] t=1.80s | Des(P):   45.0 | Act_P:   34.9 | Act_R:   10.7 | Act_Y:   -1.4
+[G01-W02] t=1.80s | Des(P):   45.0 | Act_P:   34.7 | Act_R:    5.9 | Act_Y:   -1.2
+[G01-W01] t=1.40s | Des(P):   35.6 | Act_P:   33.8 | Act_R:    1.4 | Act_Y:   -2.6
+[G01-W05] t=2.00s | Des(P):   45.0 | Act_P:   36.1 | Act_R:    4.4 | Act_Y:   -0.2
+[G01-W06] t=2.20s | Des(P):   45.0 | Act_P:   29.6 | Act_R:    8.3 | Act_Y:   -1.1
+[G01-W02] t=2.00s | Des(P):   45.0 | Act_P:   34.7 | Act_R:    6.8 | Act_Y:   -0.7
+[G01-W05] t=2.20s | Des(P):   45.0 | Act_P:   33.0 | Act_R:    4.0 | Act_Y:   -0.0
+[G01-W01] t=1.60s | Des(P):   45.0 | Act_P:   41.7 | Act_R:    3.0 | Act_Y:   -1.5
+[G01-W03] t=2.00s | Des(P):   45.0 | Act_P:   34.7 | Act_R:   12.4 | Act_Y:   -0.9
+[G01-W06] t=2.40s | Des(P):   45.0 | Act_P:   28.6 | Act_R:    7.9 | Act_Y:    1.8
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 162, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 162, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W03 | Kp=100.62, Ki=6.95, Kd=28.17
+Eval CRASHED: G01-W02 | Kp=127.47, Ki=14.34, Kd=42.50
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 162, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 162, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W01 | Kp=120.03, Ki=12.12, Kd=62.67
+Eval CRASHED: G01-W06 | Kp=121.95, Ki=24.91, Kd=6.61
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 162, in <module>
+    err = evaluate_params(Kp, Ki, Kd, G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W05 | Kp=139.06, Ki=37.37, Kd=23.52

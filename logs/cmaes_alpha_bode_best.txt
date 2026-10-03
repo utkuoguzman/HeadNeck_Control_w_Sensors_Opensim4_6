@@ -1,0 +1,4 @@
+Kp=137.1707, Ki=7.2661, Kd=8.8039
+G_ton=7.3678, G_sc=1.0280, G_phas=4.7528
+kp_prop=0.3606, k_gamma_dyn=70.6384, k_gamma_stat=128.8208
+Bode_SSE=28828.82

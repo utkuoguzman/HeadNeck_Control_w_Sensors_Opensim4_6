@@ -1,0 +1,5 @@
+==========================================================================================
+CMA-ES: Bandwidth-Scheduled Bode Optimization (8 Dimensions)
+Searching: ['omega_n', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(7_w,14mirr3)-aCMA-ES (mu_w=4.3,w_1=36%) in dimension 8 (seed=138716, Sat Oct  3 08:54:41 2026)

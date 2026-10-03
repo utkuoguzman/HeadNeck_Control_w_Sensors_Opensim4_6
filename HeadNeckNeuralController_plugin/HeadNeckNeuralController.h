@@ -105,6 +105,7 @@ private:
     mutable std::vector<double> base_lengths;
     mutable bool is_initialized;
     mutable double last_jacobian_update_time;
+    mutable SimTK::Vec3 baseline_spatial_orientation; // roll, yaw, pitch
     
     void initializeGeometryAndBaseline(const SimTK::State& s) const;
 };

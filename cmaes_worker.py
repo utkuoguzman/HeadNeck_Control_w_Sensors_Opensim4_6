@@ -4,7 +4,7 @@ import math
 import os
 import sys
 
-def extract_bode(t_array, pitch_array, frequency, discard_time):
+def extract_bode(t_array, pitch_array, frequency, discard_time, delay):
     valid_indices = [i for i, t in enumerate(t_array) if t >= discard_time]
     t_steady = np.array([t_array[i] for i in valid_indices])
     pitch_steady = np.array([pitch_array[i] for i in valid_indices])
@@ -19,7 +19,7 @@ def extract_bode(t_array, pitch_array, frequency, discard_time):
     # So we correlate against sin(omega * (t - delay)) and cos(omega * (t - delay)).
     # We can handle this elegantly by extracting relative to the actual sled position function!
     # Or just mathematically subtract the delay from t_steady!
-    t_shifted = t_steady - 0.5 # We hardcoded delay=0.5
+    t_shifted = t_steady - delay # We hardcoded delay=0.5
     
     Is = 2.0 * np.mean(pitch_steady * np.sin(omega * t_shifted))
     Ic = 2.0 * np.mean(pitch_steady * np.cos(omega * t_shifted))
@@ -78,7 +78,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     amplitude = 0.0215 * (0.835 / frequency)**2
     
     # User requested: Wait 0.5s for PID I-term to settle, THEN apply Sine wave for 2 periods
-    delay = 0.5
+    delay = 2.0
     period = 1.0 / frequency
     target_time = delay + 2.0 * period # 2 full periods
     
@@ -112,6 +112,15 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     
     state.setTime(0.0)
     manager.initialize(state)
+        
+    # Perfect SE(3) Observer Initialization
+    skull = model.getBodySet().get("skull")
+    R_head_to_world = skull.getTransformInGround(state).R()
+    q = osim.Rotation(R_head_to_world).convertRotationToQuaternion()
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q0", q.get(0))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q1", q.get(1))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
 
     step = 0.05 
     current_t = 0.0
@@ -139,9 +148,15 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
         head_pitch_deg = math.degrees(p1 + p2)
         head_roll_deg = math.degrees(r1 + r2)
         head_yaw_deg = math.degrees(y1 + y2)
-        
         t_history.append(current_t)
         pitch_history.append(p1 + p2)
+        
+        # EARLY ABORT: If the head collapses or explodes, kill the simulation instantly!
+        if abs(head_pitch_deg) > 30.0 or abs(head_roll_deg) > 30.0 or abs(head_yaw_deg) > 30.0:
+            print(f"[{worker_id} | {frequency:.2f}Hz] KILLED: Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
+            print("100000.0")
+            sys.exit(0)
+
         
         # Only print occasionally to avoid spamming the console too hard
         if round(current_t * 100) % 20 == 0: 
@@ -149,7 +164,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
         
     # Discard the first period to allow transient to settle, measure the second period.
     discard_time = delay + period
-    amp_rad, phase_rad = extract_bode(t_history, pitch_history, frequency, discard_time)
+    amp_rad, phase_rad = extract_bode(t_history, pitch_history, frequency, discard_time, delay)
     
     amp_deg = amp_rad * (180.0 / math.pi)
     gain_deg_m = amp_deg / amplitude
@@ -160,25 +175,30 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
 
 if __name__ == "__main__":
     import sys
-    if len(sys.argv) < 13:
+    import os
+    if len(sys.argv) < 12:
         sys.exit(1)
         
-    kp = float(sys.argv[1])
+    omega_n = float(sys.argv[1])
     ki = float(sys.argv[2])
-    kd = float(sys.argv[3])
-    g_ton = float(sys.argv[4])
-    g_sc = float(sys.argv[5])
-    g_phas = float(sys.argv[6])
-    kp_prop = float(sys.argv[7])
-    k_gamma_dyn = float(sys.argv[8])
-    k_gamma_stat = float(sys.argv[9])
+    g_ton = float(sys.argv[3])
+    g_sc = float(sys.argv[4])
+    g_phas = float(sys.argv[5])
+    kp_prop = float(sys.argv[6])
+    k_gamma_dyn = float(sys.argv[7])
+    k_gamma_stat = float(sys.argv[8])
     
-    freq = float(sys.argv[10])
-    target_gain = float(sys.argv[11])
-    target_phase = float(sys.argv[12])
+    freq = float(sys.argv[9])
+    target_gain = float(sys.argv[10])
+    target_phase = float(sys.argv[11])
+    
+    zeta = 1.0
+    I_eff = 1.0
+    kp = I_eff * (omega_n ** 2)
+    kd = 2.0 * zeta * I_eff * omega_n
     
     try:
-        worker_name = sys.argv[13] if len(sys.argv) >= 14 else f"W-{os.getpid()}"
+        worker_name = sys.argv[12] if len(sys.argv) >= 13 else f"W-{os.getpid()}"
         sim_gain, sim_phase = run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, freq, worker_name)
         error = (sim_gain - target_gain)**2 + 0.5*(sim_phase - target_phase)**2
         
@@ -194,4 +214,3 @@ if __name__ == "__main__":
         traceback.print_exc(file=sys.stderr)
         print("100000.0")
         sys.exit(1)
-
