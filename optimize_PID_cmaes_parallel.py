@@ -33,11 +33,11 @@ sys.stdout = Tee(f"logs/cmaes_opt_bandwidth_8dim_{timestamp}.log", "a")
 # by omega_n to guarantee zeta = 1.0 (no vibrations!).
 # ============================================================
 
-PARAM_NAMES = ["omega_n", "Ki", "G_ton", "G_sc", "G_phas", "kp_prop", "k_gamma_dyn", "k_gamma_stat"]
+PARAM_NAMES = ["omega_n", "zeta", "Ki", "G_ton", "G_sc", "G_phas", "kp_prop", "k_gamma_dyn", "k_gamma_stat"]
 
 def objective_wrapper(args):
     x, gen_idx, w_idx = args
-    omega_n, ki, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat = x
+    omega_n, zeta, ki, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat = x
 
     # Non-negativity check
     if omega_n < 0.0 or ki < 0.0 or g_ton < 0.0 or g_sc < 0.0 or g_phas < 0.0 or kp_prop < 0.0:
@@ -58,7 +58,7 @@ def objective_wrapper(args):
             result = subprocess.run(
                 [
                     sys.executable, "cmaes_worker.py",
-                    str(omega_n), str(ki),
+                    str(omega_n), str(zeta), str(ki),
                     str(g_ton), str(g_sc), str(g_phas),
                     str(kp_prop), str(k_gamma_dyn), str(k_gamma_stat),
                     str(freq), str(t_gain), str(t_phase),
@@ -72,7 +72,7 @@ def objective_wrapper(args):
                 total_sse += score
 
                 # Cascaded early rejection
-                if score >= 10000.0 or total_sse > 25000.0:
+                if score >= 90000.0: # ONLY abort on physical crash (100000.0) or timeout
                     remaining_freqs = len(targets) - (freq_idx + 1)
                     penalized_score = total_sse + remaining_freqs * 3500.0
                     print(f"Eval EARLY ABORT at {freq:.2f}Hz: w_n={omega_n:.1f}, Gsc={g_sc:.2f} => Est Score: {penalized_score:.1f}")
@@ -88,27 +88,27 @@ def objective_wrapper(args):
 
 def main():
     print("=" * 90)
-    print("CMA-ES: Bandwidth-Scheduled Bode Optimization (8 Dimensions)")
+    print("CMA-ES: Bandwidth-Scheduled Bode Optimization (9 Dimensions)")
     print(f"Searching: {PARAM_NAMES}")
     print("=" * 90)
 
     # Initial Guess (x0)
     # omega_n = 9.0 gives Kp ~ 81.0, Kd ~ 18.0 (critically damped)
-    x0 = [9.0, 5.0, 11.2, 4.3, 2.6, 0.2, 58.7, 94.8]
+    x0 = [9.0, 0.425, 15.0, 11.2, 4.3, 2.6, 0.2, 58.7, 94.8]
     sigma0 = 2.0 
 
     bounds = [
         # w_n,   Ki,  G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat
-        [ 1.0,  0.0,   5.0,  0.5,   2.0,    0.01,        20.0,         50.0  ],  # LOWER
-        [20.0, 50.0,  25.0,  5.0,  10.0,    2.50,        80.0,        150.0  ]   # UPPER
+        [ 4.0,  0.3, 10.0,   5.0,  0.5,   2.0,    0.01,        20.0,         50.0  ],  # LOWER
+        [20.0, 0.8, 200.0,  25.0,  5.0,  10.0,    2.50,        80.0,        150.0  ]   # UPPER
     ]
 
     opts = {
         'bounds': bounds,
-        'popsize': 14, 
+        'popsize': 15, 
         'CMA_active': True,
         'CMA_mirrors': 0.5,
-        'CMA_stds': [2.0, 10.0, 3.8, 0.75, 0.68, 0.3, 4.5, 4.9]
+        'CMA_stds': [2.0, 0.2, 10.0, 3.8, 0.75, 0.68, 0.3, 4.5, 4.9]
     }
 
     es = cma.CMAEvolutionStrategy(x0, sigma0, opts)
@@ -131,13 +131,13 @@ def main():
             
             w_n = best_sol[0]
             kp = w_n**2
-            kd = 2.0 * w_n
-            print(f"Gen {iteration}: Best Bode SSE = {scores[best_idx]:.1f} | w_n={w_n:.2f} (Kp={kp:.1f},Kd={kd:.1f}), Ki={best_sol[1]:.1f}, G_ton={best_sol[2]:.3f}, G_sc={best_sol[3]:.3f}, G_phas={best_sol[4]:.3f}\n")
+            kd = 2.0 * best_sol[1] * w_n
+            print(f"Gen {iteration}: Best Bode SSE = {scores[best_idx]:.1f} | w_n={w_n:.2f}, zeta={best_sol[1]:.3f} (Kp={kp:.1f},Kd={kd:.1f}), Ki={best_sol[2]:.1f}, G_ton={best_sol[3]:.3f}, G_sc={best_sol[4]:.3f}, G_phas={best_sol[5]:.3f}\n")
             
             with open("logs/cmaes_bandwidth_bode_best.txt", "w") as f:
-                f.write(f"omega_n={best_sol[0]:.4f}, Ki={best_sol[1]:.4f}\n")
-                f.write(f"G_ton={best_sol[2]:.4f}, G_sc={best_sol[3]:.4f}, G_phas={best_sol[4]:.4f}\n")
-                f.write(f"kp_prop={best_sol[5]:.4f}, k_gamma_dyn={best_sol[6]:.4f}, k_gamma_stat={best_sol[7]:.4f}\n")
+                f.write(f"omega_n={best_sol[0]:.4f}, zeta={best_sol[1]:.4f}, Ki={best_sol[2]:.4f}\n")
+                f.write(f"G_ton={best_sol[3]:.4f}, G_sc={best_sol[4]:.4f}, G_phas={best_sol[5]:.4f}\n")
+                f.write(f"kp_prop={best_sol[6]:.4f}, k_gamma_dyn={best_sol[7]:.4f}, k_gamma_stat={best_sol[8]:.4f}\n")
                 f.write(f"Bode_SSE={scores[best_idx]:.2f}\n")
 
 if __name__ == "__main__":

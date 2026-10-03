@@ -1,0 +1,15 @@
+==========================================================================================
+CMA-ES: Bandwidth-Scheduled Bode Optimization (8 Dimensions)
+Searching: ['omega_n', 'zeta', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(7_w,15mirr3)-aCMA-ES (mu_w=4.5,w_1=34%) in dimension 9 (seed=139789, Sat Oct  3 17:52:48 2026)
+Eval CRASHED at 1.12Hz: w_n=7.9, Gton=12.46
+Eval CRASHED at 1.12Hz: w_n=12.8, Gton=7.67
+Eval CRASHED at 1.12Hz: w_n=19.4, Gton=9.07
+Eval CRASHED at 1.12Hz: w_n=4.2, Gton=13.02
+Eval CRASHED at 1.12Hz: w_n=9.4, Gton=19.14
+Eval CRASHED at 1.12Hz: w_n=12.8, Gton=20.92
+Eval CRASHED at 1.12Hz: w_n=1.9, Gton=17.40
+Eval CRASHED at 1.12Hz: w_n=13.3, Gton=13.32
+Eval CRASHED at 1.12Hz: w_n=5.3, Gton=12.16
+Eval CRASHED at 1.12Hz: w_n=6.0, Gton=16.78

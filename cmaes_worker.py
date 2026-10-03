@@ -78,7 +78,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     amplitude = 0.0215 * (0.835 / frequency)**2
     
     # User requested: Wait 0.5s for PID I-term to settle, THEN apply Sine wave for 2 periods
-    delay = 2.0
+    delay = 2.5
     period = 1.0 / frequency
     target_time = delay + 2.0 * period # 2 full periods
     
@@ -152,7 +152,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
         pitch_history.append(p1 + p2)
         
         # EARLY ABORT: If the head collapses or explodes, kill the simulation instantly!
-        if abs(head_pitch_deg) > 30.0 or abs(head_roll_deg) > 30.0 or abs(head_yaw_deg) > 30.0:
+        if abs(head_pitch_deg) > 45.0 or abs(head_roll_deg) > 45.0 or abs(head_yaw_deg) > 45.0:
             print(f"[{worker_id} | {frequency:.2f}Hz] KILLED: Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
             print("100000.0")
             sys.exit(0)
@@ -176,29 +176,30 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
 if __name__ == "__main__":
     import sys
     import os
-    if len(sys.argv) < 12:
+    if len(sys.argv) < 13:
         sys.exit(1)
         
     omega_n = float(sys.argv[1])
-    ki = float(sys.argv[2])
-    g_ton = float(sys.argv[3])
-    g_sc = float(sys.argv[4])
-    g_phas = float(sys.argv[5])
-    kp_prop = float(sys.argv[6])
-    k_gamma_dyn = float(sys.argv[7])
-    k_gamma_stat = float(sys.argv[8])
+    zeta = float(sys.argv[2])
+    ki = float(sys.argv[3])
+    g_ton = float(sys.argv[4])
+    g_sc = float(sys.argv[5])
+    g_phas = float(sys.argv[6])
+    kp_prop = float(sys.argv[7])
+    k_gamma_dyn = float(sys.argv[8])
+    k_gamma_stat = float(sys.argv[9])
     
-    freq = float(sys.argv[9])
-    target_gain = float(sys.argv[10])
-    target_phase = float(sys.argv[11])
+    freq = float(sys.argv[10])
+    target_gain = float(sys.argv[11])
+    target_phase = float(sys.argv[12])
     
-    zeta = 1.0
+    
     I_eff = 1.0
     kp = I_eff * (omega_n ** 2)
     kd = 2.0 * zeta * I_eff * omega_n
     
     try:
-        worker_name = sys.argv[12] if len(sys.argv) >= 13 else f"W-{os.getpid()}"
+        worker_name = sys.argv[13] if len(sys.argv) >= 14 else f"W-{os.getpid()}"
         sim_gain, sim_phase = run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, freq, worker_name)
         error = (sim_gain - target_gain)**2 + 0.5*(sim_phase - target_phase)**2
         

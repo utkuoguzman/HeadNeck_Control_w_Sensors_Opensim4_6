@@ -6,3 +6,12 @@ Searching: ['alpha', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gam
 (6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 7 (seed=936829, Thu Oct  1 23:33:12 2026)
 
 --- Generation 1 ---
+Eval EARLY ABORT at 1.12Hz: a=2.59(Kp=117.6), Gsc=2.70 => Est Score: 24244.7
+Eval EARLY ABORT at 1.12Hz: a=2.69(Kp=108.7), Gsc=4.18 => Est Score: 27075.7
+Eval SUCCESS: a=2.11 => Kp=176.6, Ki=13.7, Kd=7.4 | Gton=17.64, Gsc=3.86, Gphas=5.46, Kp_prop=1.090, k_gamma_dyn=36.5, k_gamma_stat=91.0 => Bode Error: 35887.3
+Eval SUCCESS: a=1.56 => Kp=324.2, Ki=34.1, Kd=10.1 | Gton=11.44, Gsc=4.38, Gphas=5.39, Kp_prop=0.753, k_gamma_dyn=46.0, k_gamma_stat=77.6 => Bode Error: 36138.9
+Eval SUCCESS: a=1.80 => Kp=242.1, Ki=22.0, Kd=8.7 | Gton=10.29, Gsc=4.27, Gphas=5.55, Kp_prop=0.680, k_gamma_dyn=72.3, k_gamma_stat=96.8 => Bode Error: 25810.6
+Eval SUCCESS: a=1.55 => Kp=325.5, Ki=34.3, Kd=10.1 | Gton=11.52, Gsc=4.69, Gphas=6.76, Kp_prop=0.507, k_gamma_dyn=61.6, k_gamma_stat=101.2 => Bode Error: 31521.6
+Eval SUCCESS: a=1.83 => Kp=235.1, Ki=21.0, Kd=8.6 | Gton=12.28, Gsc=4.36, Gphas=5.34, Kp_prop=0.896, k_gamma_dyn=57.4, k_gamma_stat=82.6 => Bode Error: 28698.9
+Eval SUCCESS: a=1.71 => Kp=268.1, Ki=25.6, Kd=9.2 | Gton=9.03, Gsc=4.96, Gphas=6.35, Kp_prop=0.614, k_gamma_dyn=54.0, k_gamma_stat=94.5 => Bode Error: 30492.9
+Eval EARLY ABORT at 0.82Hz: a=3.00(Kp=87.6), Gsc=3.41 => Est Score: 34327.2
