@@ -44,7 +44,12 @@ GVS (NONE):
 * Will probably drive the RT factor to 1:60.
 
 Sensors + Controllers Real Time Factor:
-* If you wish to use the native OpenSim controller scheme, then the final result is around 1:60. This will be my initial case, but then I will begin using NEST-GPU (Go neural, people!).
+* If you wish to use the native OpenSim controller scheme, then the final result is around 1:60.
+
+Sensors + NEST Controller Real Time Factor.
+* After the initial case, I will begin using NEST-GPU.
+* It will be approximately 1:45 with 1.1M conductance-based AdEx in RTX 4070Ti.
+* And after adding "Nai​+Ki​+Cli​+Cai​+Na/K pump+Ca-dependent adaptation" it will probably be 1:65.
 
 LICENCE
 * No nothing. Use anything to your liking. Share and inform me if you do cool stuffs with these.

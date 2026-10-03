@@ -64,7 +64,7 @@ def objective_wrapper(args):
                     str(freq), str(t_gain), str(t_phase),
                     f"G{gen_idx:02d}-W{w_idx:02d}"
                 ],
-                stdout=subprocess.PIPE, stderr=sys.stderr, text=True, timeout=300
+                stdout=subprocess.PIPE, stderr=sys.stderr, text=True, timeout=600
             )
 
             if result.returncode == 0 and result.stdout.strip():
