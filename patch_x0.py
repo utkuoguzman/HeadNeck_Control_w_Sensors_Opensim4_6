@@ -1,15 +1,14 @@
 import os
 
 with open('optimize_PID_cmaes_parallel.py', 'r', encoding='utf-8') as f:
-    content = f.read()
+    lines = f.readlines()
 
-old_x0 = "x0 = [9.0, 0.425, 5.0, 11.2, 4.3, 2.6, 0.2, 58.7, 94.8]"
-new_x0 = "x0 = [9.0, 0.425, 15.0, 11.2, 4.3, 2.6, 0.2, 58.7, 94.8]"
-content = content.replace(old_x0, new_x0)
-
-content = content.replace("(8 Dimensions)", "(9 Dimensions)")
+for i, line in enumerate(lines):
+    if "x0 = [" in line and "9.0, 0.425," in line:
+        lines[i] = "    x0 = [16.9099, 0.4115, 27.5753, 5.0202, 4.1992, 2.5413, 0.0782, 64.6769, 100.4010]\n"
+        break
 
 with open('optimize_PID_cmaes_parallel.py', 'w', encoding='utf-8') as f:
-    f.write(content)
+    f.writelines(lines)
 
-print("Successfully updated x0 to match the new bounds!")
+print("Successfully updated x0!")

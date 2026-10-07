@@ -1,0 +1,62 @@
+==========================================================================================
+CMA-ES META-OPTIMIZER: 6 Independent Frequencies (Fixed Task: w_n=10.1, zeta=1.98, Ki=6.54)
+Searching 6 Reflex Parameters: ['G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=325462, Mon Oct  5 20:02:56 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=335775, Mon Oct  5 20:02:56 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=335624, Mon Oct  5 20:02:56 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=284694, Mon Oct  5 20:02:56 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=289895, Mon Oct  5 20:02:56 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=262659, Mon Oct  5 20:02:56 2026)
+💥 CRASHED [F6-W1] at 7.95Hz: Gton=32.70, Gsc=1.56
+💥 CRASHED [F5-W3] at 5.52Hz: Gton=11.16, Gsc=4.32
+💥 CRASHED [F6-W3] at 7.95Hz: Gton=39.01, Gsc=7.52
+💥 CRASHED [F5-W1] at 5.52Hz: Gton=51.89, Gsc=11.10
+💥 CRASHED [F6-W2] at 7.95Hz: Gton=17.98, Gsc=1.86
+💥 CRASHED [F5-W2] at 5.52Hz: Gton=15.93, Gsc=20.07
+💥 CRASHED [F2-W3] at 0.78Hz: Gton=32.64, Gsc=25.00
+💥 CRASHED [F1-W5] at 0.31Hz: Gton=5.56, Gsc=4.48
+💥 CRASHED [F6-W4] at 7.95Hz: Gton=52.26, Gsc=1.00
+💥 CRASHED [F3-W3] at 1.11Hz: Gton=22.60, Gsc=7.90
+💥 CRASHED [F1-W3] at 0.31Hz: Gton=11.49, Gsc=2.38
+💥 CRASHED [F5-W5] at 5.52Hz: Gton=38.81, Gsc=14.15💥 CRASHED [F4-W5] at 2.48Hz: Gton=11.60, Gsc=3.18
+
+💥 CRASHED [F3-W5] at 1.11Hz: Gton=20.81, Gsc=9.18
+💥 CRASHED [F2-W5] at 0.78Hz: Gton=25.72, Gsc=25.00
+💥 CRASHED [F5-W4] at 5.52Hz: Gton=36.93, Gsc=4.05
+💥 CRASHED [F2-W6] at 0.78Hz: Gton=30.55, Gsc=24.76
+💥 CRASHED [F4-W6] at 2.48Hz: Gton=14.38, Gsc=10.76
+💥 CRASHED [F1-W6] at 0.31Hz: Gton=9.81, Gsc=5.66
+💥 CRASHED [F6-W5] at 7.95Hz: Gton=8.79, Gsc=12.18
+💥 CRASHED [F3-W6] at 1.11Hz: Gton=23.69, Gsc=6.77
+💥 CRASHED [F6-W6] at 7.95Hz: Gton=7.54, Gsc=7.42
+💥 CRASHED [F5-W6] at 5.52Hz: Gton=30.21, Gsc=11.51
+💥 CRASHED [F3-W7] at 1.11Hz: Gton=22.04, Gsc=9.13
+💥 CRASHED [F1-W7] at 0.31Hz: Gton=8.22, Gsc=5.74
+💥 CRASHED [F2-W7] at 0.78Hz: Gton=25.73, Gsc=24.66
+💥 CRASHED [F2-W8] at 0.78Hz: Gton=29.33, Gsc=24.85
+💥 CRASHED [F1-W8] at 0.31Hz: Gton=8.00, Gsc=5.47
+💥 CRASHED [F5-W7] at 5.52Hz: Gton=13.95, Gsc=4.01💥 CRASHED [F6-W7] at 7.95Hz: Gton=25.77, Gsc=15.29
+
+💥 CRASHED [F4-W7] at 2.48Hz: Gton=31.34, Gsc=12.34
+💥 CRASHED [F3-W1] at 1.11Hz: Gton=18.89, Gsc=8.98
+💥 CRASHED [F2-W9] at 0.78Hz: Gton=20.48, Gsc=25.00
+💥 CRASHED [F6-W8] at 7.95Hz: Gton=21.91, Gsc=4.87
+💥 CRASHED [F1-W9] at 0.31Hz: Gton=5.82, Gsc=5.72
+💥 CRASHED [F4-W8] at 2.48Hz: Gton=14.70, Gsc=5.26
+💥 CRASHED [F5-W8] at 5.52Hz: Gton=5.88, Gsc=3.26
+💥 CRASHED [F3-W8] at 1.11Hz: Gton=22.69, Gsc=10.61
+💥 CRASHED [F1-W1] at 0.31Hz: Gton=14.84, Gsc=6.98
+💥 CRASHED [F3-W9] at 1.11Hz: Gton=19.96, Gsc=11.08
+💥 CRASHED [F6-W9] at 7.95Hz: Gton=26.71, Gsc=1.03💥 CRASHED [F5-W9] at 5.52Hz: Gton=13.04, Gsc=7.39
+💥 CRASHED [F4-W9] at 2.48Hz: Gton=6.25, Gsc=10.02
+
+💥 CRASHED [F1-W4] at 0.31Hz: Gton=9.06, Gsc=2.62
+💥 CRASHED [F3-W2] at 1.11Hz: Gton=27.25, Gsc=9.07
+💥 CRASHED [F4-W4] at 2.48Hz: Gton=21.02, Gsc=2.43
+💥 CRASHED [F3-W4] at 1.11Hz: Gton=18.32, Gsc=7.86💥 CRASHED [F2-W2] at 0.78Hz: Gton=31.60, Gsc=25.00
+
+💥 CRASHED [F4-W2] at 2.48Hz: Gton=8.02, Gsc=0.83
+💥 CRASHED [F2-W1] at 0.78Hz: Gton=25.62, Gsc=23.95💥 CRASHED [F1-W2] at 0.31Hz: Gton=5.95, Gsc=5.05
+
+💥 CRASHED [F4-W1] at 2.48Hz: Gton=36.17, Gsc=7.98

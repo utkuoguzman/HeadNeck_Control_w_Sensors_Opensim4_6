@@ -1,0 +1,111 @@
+==========================================================================================
+CMA-ES: Bandwidth-Scheduled Bode Optimization (9 Dimensions)
+Searching: ['omega_n', 'zeta', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(7_w,15mirr3)-aCMA-ES (mu_w=4.5,w_1=34%) in dimension 9 (seed=151417, Sun Oct  4 14:00:46 2026)
+Eval EARLY ABORT at 2.12Hz: w_n=19.5, Gsc=4.14 => Est Score: 503533.9
+Eval EARLY ABORT at 2.12Hz: w_n=20.2, Gsc=3.72 => Est Score: 1614973.8
+Eval EARLY ABORT at 2.12Hz: w_n=21.1, Gsc=3.90 => Est Score: 402768.4
+✅ SUCCESS [G01-W04]: Completed all frequencies! Final Score = 80609.7
+✅ SUCCESS [G01-W03]: Completed all frequencies! Final Score = 106001.4
+✅ SUCCESS [G01-W01]: Completed all frequencies! Final Score = 53871.8
+Eval EARLY ABORT at 2.12Hz: w_n=20.1, Gsc=4.10 => Est Score: 223807.2
+✅ SUCCESS [G01-W09]: Completed all frequencies! Final Score = 66898.5
+✅ SUCCESS [G01-W07]: Completed all frequencies! Final Score = 70315.6
+✅ SUCCESS [G01-W08]: Completed all frequencies! Final Score = 80217.5
+✅ SUCCESS [G01-W10]: Completed all frequencies! Final Score = 63957.1
+Eval EARLY ABORT at 2.12Hz: w_n=21.7, Gsc=3.97 => Est Score: 750335.6
+✅ SUCCESS [G01-W12]: Completed all frequencies! Final Score = 135167.2
+✅ SUCCESS [G01-W13]: Completed all frequencies! Final Score = 71572.7
+✅ SUCCESS [G01-W14]: Completed all frequencies! Final Score = 56754.2
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     15 5.387177994315411e+04 1.0e+00 4.29e-01  8e-02  4e+00 83:10.9  
+Gen 1: Best Bode SSE = 53871.8 | w_n=20.66, zeta=0.283 (Kp=427.0,Kd=11.7), Ki=19.4, G_ton=13.291, G_sc=3.672, G_phas=3.000
+
+✅ SUCCESS [G02-W02]: Completed all frequencies! Final Score = 77190.8
+✅ SUCCESS [G02-W04]: Completed all frequencies! Final Score = 68323.9
+✅ SUCCESS [G02-W06]: Completed all frequencies! Final Score = 57858.9
+✅ SUCCESS [G02-W05]: Completed all frequencies! Final Score = 74738.5
+✅ SUCCESS [G02-W03]: Completed all frequencies! Final Score = 57283.9
+✅ SUCCESS [G02-W01]: Completed all frequencies! Final Score = 70642.9
+Eval EARLY ABORT at 2.12Hz: w_n=19.3, Gsc=4.22 => Est Score: 732915.1
+Eval EARLY ABORT at 2.12Hz: w_n=20.0, Gsc=4.07 => Est Score: 132934.1
+Eval TIMEOUT at 2.12Hz
+✅ SUCCESS [G02-W07]: Completed all frequencies! Final Score = 61329.2
+✅ SUCCESS [G02-W10]: Completed all frequencies! Final Score = 50786.4
+✅ SUCCESS [G02-W12]: Completed all frequencies! Final Score = 67570.3
+✅ SUCCESS [G02-W13]: Completed all frequencies! Final Score = 47511.5
+✅ SUCCESS [G02-W14]: Completed all frequencies! Final Score = 77974.2
+✅ SUCCESS [G02-W15]: Completed all frequencies! Final Score = 60016.8
+    2     30 4.751151960019313e+04 1.2e+00 4.30e-01  8e-02  4e+00 168:06.1  
+Gen 2: Best Bode SSE = 47511.5 | w_n=20.41, zeta=0.246 (Kp=416.6,Kd=10.0), Ki=16.7, G_ton=14.493, G_sc=4.257, G_phas=2.614
+
+✅ SUCCESS [G03-W01]: Completed all frequencies! Final Score = 68462.3
+✅ SUCCESS [G03-W04]: Completed all frequencies! Final Score = 81281.1
+✅ SUCCESS [G03-W03]: Completed all frequencies! Final Score = 70519.7
+✅ SUCCESS [G03-W05]: Completed all frequencies! Final Score = 73168.3
+✅ SUCCESS [G03-W02]: Completed all frequencies! Final Score = 74277.2
+✅ SUCCESS [G03-W06]: Completed all frequencies! Final Score = 58225.3
+Eval EARLY ABORT at 2.12Hz: w_n=19.8, Gsc=3.60 => Est Score: 196646.3
+Eval EARLY ABORT at 2.12Hz: w_n=19.8, Gsc=3.92 => Est Score: 624989.9
+✅ SUCCESS [G03-W08]: Completed all frequencies! Final Score = 61605.0
+✅ SUCCESS [G03-W09]: Completed all frequencies! Final Score = 73588.7
+✅ SUCCESS [G03-W07]: Completed all frequencies! Final Score = 120277.7
+✅ SUCCESS [G03-W11]: Completed all frequencies! Final Score = 67692.1
+✅ SUCCESS [G03-W13]: Completed all frequencies! Final Score = 75700.8
+✅ SUCCESS [G03-W14]: Completed all frequencies! Final Score = 66570.6
+✅ SUCCESS [G03-W15]: Completed all frequencies! Final Score = 73113.4
+    3     45 5.822530001304518e+04 1.3e+00 4.05e-01  7e-02  4e+00 229:35.2  
+Gen 3: Best Bode SSE = 58225.3 | w_n=19.60, zeta=0.270 (Kp=384.0,Kd=10.6), Ki=18.3, G_ton=16.405, G_sc=4.784, G_phas=2.864
+
+✅ SUCCESS [G04-W01]: Completed all frequencies! Final Score = 62982.6
+✅ SUCCESS [G04-W04]: Completed all frequencies! Final Score = 92785.6
+✅ SUCCESS [G04-W03]: Completed all frequencies! Final Score = 71162.5
+✅ SUCCESS [G04-W06]: Completed all frequencies! Final Score = 65664.6
+✅ SUCCESS [G04-W05]: Completed all frequencies! Final Score = 63916.2
+✅ SUCCESS [G04-W02]: Completed all frequencies! Final Score = 59894.9
+Eval EARLY ABORT at 2.12Hz: w_n=19.2, Gsc=4.06 => Est Score: 127597.6
+Eval EARLY ABORT at 2.12Hz: w_n=19.8, Gsc=3.91 => Est Score: 130142.8
+Eval EARLY ABORT at 2.12Hz: w_n=19.8, Gsc=3.80 => Est Score: 452511.2
+Eval TIMEOUT at 1.12Hz
+✅ SUCCESS [G04-W10]: Completed all frequencies! Final Score = 92190.2
+✅ SUCCESS [G04-W09]: Completed all frequencies! Final Score = 60448.1
+✅ SUCCESS [G04-W11]: Completed all frequencies! Final Score = 76122.2
+✅ SUCCESS [G04-W14]: Completed all frequencies! Final Score = 62035.3
+✅ SUCCESS [G04-W15]: Completed all frequencies! Final Score = 60486.2
+    4     60 5.989494049200072e+04 1.4e+00 4.98e-01  9e-02  5e+00 290:43.2  
+Gen 4: Best Bode SSE = 59894.9 | w_n=20.02, zeta=0.392 (Kp=400.6,Kd=15.7), Ki=18.5, G_ton=12.982, G_sc=4.493, G_phas=3.635
+
+✅ SUCCESS [G05-W05]: Completed all frequencies! Final Score = 74053.3
+✅ SUCCESS [G05-W06]: Completed all frequencies! Final Score = 75509.5
+✅ SUCCESS [G05-W04]: Completed all frequencies! Final Score = 58769.8
+✅ SUCCESS [G05-W02]: Completed all frequencies! Final Score = 59631.3
+✅ SUCCESS [G05-W01]: Completed all frequencies! Final Score = 64170.3
+✅ SUCCESS [G05-W03]: Completed all frequencies! Final Score = 71420.0
+✅ SUCCESS [G05-W08]: Completed all frequencies! Final Score = 66758.1
+✅ SUCCESS [G05-W10]: Completed all frequencies! Final Score = 76988.9
+✅ SUCCESS [G05-W07]: Completed all frequencies! Final Score = 65857.6
+✅ SUCCESS [G05-W11]: Completed all frequencies! Final Score = 74958.0
+✅ SUCCESS [G05-W12]: Completed all frequencies! Final Score = 66003.2
+✅ SUCCESS [G05-W09]: Completed all frequencies! Final Score = 62429.8
+✅ SUCCESS [G05-W15]: Completed all frequencies! Final Score = 63393.4
+✅ SUCCESS [G05-W14]: Completed all frequencies! Final Score = 64691.8
+✅ SUCCESS [G05-W13]: Completed all frequencies! Final Score = 70171.8
+    5     75 5.876981753702530e+04 1.6e+00 6.14e-01  1e-01  6e+00 392:40.1  
+Gen 5: Best Bode SSE = 58769.8 | w_n=21.20, zeta=0.377 (Kp=449.6,Kd=16.0), Ki=18.3, G_ton=15.452, G_sc=4.420, G_phas=3.424
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+
+Eval TIMEOUT at 1.12Hz
+Eval CRASHED at 3.12Hz: w_n=20.9, Gton=19.12
+Eval CRASHED at 1.12Hz: w_n=20.0, Gton=16.06
+Eval CRASHED at 2.12Hz: w_n=19.1, Gton=17.00
+Eval CRASHED at 2.12Hz: w_n=20.5, Gton=10.33
+Eval CRASHED at 1.12Hz: w_n=20.8, Gton=13.58
+Eval CRASHED at 1.12Hz: w_n=23.0, Gton=14.32
+Eval CRASHED at 1.12Hz: w_n=20.4, Gton=19.67
+Eval CRASHED at 1.12Hz: w_n=19.3, Gton=12.87
+Eval CRASHED at 3.12Hz: w_n=19.0, Gton=14.48
+Eval CRASHED at 2.12Hz: w_n=20.1, Gton=12.76

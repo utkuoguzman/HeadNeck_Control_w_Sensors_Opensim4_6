@@ -1,0 +1,49 @@
+==========================================================================================
+CMA-ES: Bandwidth-Scheduled Bode Optimization (9 Dimensions)
+Searching: ['omega_n', 'zeta', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(7_w,15mirr3)-aCMA-ES (mu_w=4.5,w_1=34%) in dimension 9 (seed=259365, Sun Oct  4 08:40:21 2026)
+Eval EARLY ABORT at 2.12Hz: w_n=10.1, Gsc=2.47 => Est Score: 10106450.6
+Eval EARLY ABORT at 2.12Hz: w_n=16.3, Gsc=4.93 => Est Score: 2941856.0
+Eval EARLY ABORT at 2.12Hz: w_n=13.6, Gsc=3.69 => Est Score: 1281826.2
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     15 5.621850446126811e+04 1.0e+00 2.15e+00  2e-01  2e+01 85:33.1  
+Gen 1: Best Bode SSE = 56218.5 | w_n=19.97, zeta=0.266 (Kp=398.9,Kd=10.6), Ki=15.2, G_ton=13.407, G_sc=3.810, G_phas=3.236
+
+Eval EARLY ABORT at 2.12Hz: w_n=16.5, Gsc=4.99 => Est Score: 123948.5
+Eval EARLY ABORT at 2.12Hz: w_n=19.4, Gsc=3.96 => Est Score: 258352.5
+Eval EARLY ABORT at 2.12Hz: w_n=8.5, Gsc=4.28 => Est Score: 2441759.8
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 2.12Hz: w_n=16.6, Gsc=2.14 => Est Score: 161300.9
+Eval EARLY ABORT at 2.12Hz: w_n=16.5, Gsc=4.39 => Est Score: 119300.4
+    2     30 6.061162982394068e+04 1.3e+00 2.36e+00  2e-01  2e+01 158:49.3  
+Gen 2: Best Bode SSE = 60611.6 | w_n=19.97, zeta=0.748 (Kp=398.9,Kd=29.9), Ki=39.2, G_ton=5.899, G_sc=3.947, G_phas=2.348
+
+Eval EARLY ABORT at 2.12Hz: w_n=6.7, Gsc=3.37 => Est Score: 249102.0
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 2.12Hz: w_n=17.2, Gsc=3.53 => Est Score: 3431502.0
+    3     45 6.029788003347903e+04 1.4e+00 2.74e+00  2e-01  3e+01 234:01.8  
+Gen 3: Best Bode SSE = 60297.9 | w_n=18.99, zeta=0.575 (Kp=360.8,Kd=21.8), Ki=34.1, G_ton=7.254, G_sc=3.338, G_phas=2.868
+
+Eval EARLY ABORT at 2.12Hz: w_n=9.8, Gsc=3.07 => Est Score: 199446.2
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 2.12Hz: w_n=15.7, Gsc=4.96 => Est Score: 115020.0
+Eval EARLY ABORT at 2.12Hz: w_n=14.9, Gsc=0.56 => Est Score: 1514683.2
+    4     60 6.478606637177629e+04 1.5e+00 3.38e+00  2e-01  3e+01 303:21.3  
+Gen 4: Best Bode SSE = 64786.1 | w_n=18.27, zeta=0.595 (Kp=333.7,Kd=21.7), Ki=40.7, G_ton=6.552, G_sc=2.505, G_phas=2.909
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval CRASHED at 1.12Hz: w_n=19.6, Gton=15.40
+Eval CRASHED at 1.12Hz: w_n=11.9, Gton=9.03
+Eval CRASHED at 1.12Hz: w_n=13.1, Gton=15.26
+Eval CRASHED at 3.12Hz: w_n=11.7, Gton=5.03
+Eval CRASHED at 1.12Hz: w_n=18.5, Gton=13.01
+Eval CRASHED at 1.12Hz: w_n=18.3, Gton=5.77
+Eval CRASHED at 1.12Hz: w_n=15.9, Gton=5.21
+Eval CRASHED at 1.12Hz: w_n=17.4, Gton=6.25
+Eval CRASHED at 1.12Hz: w_n=20.0, Gton=5.00

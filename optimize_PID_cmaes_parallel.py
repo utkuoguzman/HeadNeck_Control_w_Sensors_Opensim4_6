@@ -84,6 +84,7 @@ def objective_wrapper(args):
             print(f"Eval TIMEOUT at {freq:.2f}Hz")
             return 100000.0
 
+    print(f"✅ SUCCESS [G{gen_idx:02d}-W{w_idx:02d}]: Completed all frequencies! Final Score = {total_sse:.1f}")
     return total_sse
 
 def main():
@@ -94,13 +95,13 @@ def main():
 
     # Initial Guess (x0)
     # omega_n = 9.0 gives Kp ~ 81.0, Kd ~ 18.0 (critically damped)
-    x0 = [9.0, 0.425, 15.0, 11.2, 4.3, 2.6, 0.2, 58.7, 94.8]
-    sigma0 = 2.0 
+    x0 = [19.97, 0.266, 15.2, 13.407, 3.810, 3.236, 2.482, 79.99, 136.49]
+    sigma0 = 0.5 
 
     bounds = [
         # w_n,   Ki,  G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat
-        [ 4.0,  0.3, 10.0,   5.0,  0.5,   2.0,    0.01,        20.0,         50.0  ],  # LOWER
-        [20.0, 0.8, 200.0,  25.0,  5.0,  10.0,    2.50,        80.0,        150.0  ]   # UPPER
+        [ 4.0,  0.1, 10.0,   5.0,  0.5,   2.0,    0.01,        20.0,         50.0  ],  # LOWER
+        [25.0, 0.8, 200.0,  25.0,  5.0,  10.0,    2.50,        80.0,        150.0  ]   # UPPER
     ]
 
     opts = {

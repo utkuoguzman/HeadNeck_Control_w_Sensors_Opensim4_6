@@ -21,8 +21,13 @@ def extract_bode(t_array, pitch_array, frequency, discard_time, delay):
     # Or just mathematically subtract the delay from t_steady!
     t_shifted = t_steady - delay # We hardcoded delay=0.5
     
-    Is = 2.0 * np.mean(pitch_steady * np.sin(omega * t_shifted))
-    Ic = 2.0 * np.mean(pitch_steady * np.cos(omega * t_shifted))
+    # NEW: Detrend the data! If the head is slowly drooping over 6 seconds, 
+    # it ruins the Fourier extraction. We must remove the linear drift!
+    coeffs = np.polyfit(t_steady, pitch_steady, 1) # fit a line (slope and intercept)
+    pitch_detrended = pitch_steady - (coeffs[0] * t_steady + coeffs[1])
+    
+    Is = 2.0 * np.mean(pitch_detrended * np.sin(omega * t_shifted))
+    Ic = 2.0 * np.mean(pitch_detrended * np.cos(omega * t_shifted))
     
     amplitude_rad = np.sqrt(Is**2 + Ic**2)
     phase_rad = math.atan2(Ic, Is)
@@ -32,7 +37,7 @@ def extract_bode(t_array, pitch_array, frequency, discard_time, delay):
 def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, frequency, worker_name="W-?"):
     # Prevent Simbody from secretly spawning hundreds of internal threads and thrashing the CPU!
     os.environ["SIMB_NUM_THREADS"] = "1"
-    os.environ["OMP_NUM_THREADS"] = "3"
+    os.environ["OMP_NUM_THREADS"] = "1"
     osim.Logger.setLevelString("Warn")
     osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'proprioception_plugin/build/Release/osimMillard12EqWithAff.dll'))
     osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'vestibular_plugin/build/Release/osimVestibular.dll'))
@@ -78,7 +83,7 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     amplitude = 0.0215 * (0.835 / frequency)**2
     
     # User requested: Wait 0.5s for PID I-term to settle, THEN apply Sine wave for 2 periods
-    delay = 2.5
+    delay = 0.5
     period = 1.0 / frequency
     target_time = delay + 2.0 * period # 2 full periods
     
@@ -122,7 +127,13 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
 
-    step = 0.05 
+    # NEW OPTIMIZATION: Pre-load the PID integral terms so we don't have to wait 2.5s to settle!
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral", -0.01906)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/roll_error_integral", -0.01184)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/yaw_error_integral", 0.06309)
+
+
+    step = min(0.01, (1.0/frequency) / 40.0) # Always get at least 40 points per period! 
     current_t = 0.0
     
     t_history = []
@@ -153,14 +164,14 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
         
         # EARLY ABORT: If the head collapses or explodes, kill the simulation instantly!
         if abs(head_pitch_deg) > 45.0 or abs(head_roll_deg) > 45.0 or abs(head_yaw_deg) > 45.0:
-            print(f"[{worker_id} | {frequency:.2f}Hz] KILLED: Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
+            print(f"❌ [{worker_id} | {frequency:.2f}Hz] ❌ KILLED: Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
             print("100000.0")
             sys.exit(0)
 
         
         # Only print occasionally to avoid spamming the console too hard
         if round(current_t * 100) % 20 == 0: 
-            print(f"[{worker_id} | {frequency:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
+            print(f"⏳ [{worker_id} | {frequency:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
         
     # Discard the first period to allow transient to settle, measure the second period.
     discard_time = delay + period
@@ -201,7 +212,7 @@ if __name__ == "__main__":
     try:
         worker_name = sys.argv[13] if len(sys.argv) >= 14 else f"W-{os.getpid()}"
         sim_gain, sim_phase = run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, freq, worker_name)
-        error = (sim_gain - target_gain)**2 + 0.5*(sim_phase - target_phase)**2
+        error = ((sim_gain - target_gain)/target_gain)**2 * 10000.0 + 0.5*((sim_phase - target_phase)/180.0)**2 * 10000.0
         
         penalty = 0.0
         if kp > 500: penalty += (kp - 500) * 10

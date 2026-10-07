@@ -1,4 +1,4 @@
-omega_n=11.9331, zeta=0.3887, Ki=18.6501
-G_ton=8.4188, G_sc=4.9987, G_phas=2.2741
-kp_prop=0.2855, k_gamma_dyn=70.5938, k_gamma_stat=94.3431
-Bode_SSE=84812.85
+omega_n=21.2033, zeta=0.3766, Ki=18.2626
+G_ton=15.4524, G_sc=4.4204, G_phas=3.4238
+kp_prop=2.2991, k_gamma_dyn=78.3144, k_gamma_stat=139.8781
+Bode_SSE=58769.82

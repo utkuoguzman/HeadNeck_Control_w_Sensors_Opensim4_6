@@ -1,0 +1,209 @@
+==========================================================================================
+CMA-ES META-OPTIMIZER: 6 Independent Frequencies (Fixed Task: w_n=10.1, zeta=1.98, Ki=6.54)
+Searching 6 Reflex Parameters: ['G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=237231, Mon Oct  5 00:56:23 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=220046, Mon Oct  5 00:56:23 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=193599, Mon Oct  5 00:56:23 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=259020, Mon Oct  5 00:56:23 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=267416, Mon Oct  5 00:56:23 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=249416, Mon Oct  5 00:56:23 2026)
+⏳ TIMEOUT [F5-W5] at 5.52Hz
+⏳ TIMEOUT [F4-W5] at 2.48Hz
+⏳ TIMEOUT [F6-W5] at 7.95Hz
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+⏳ TIMEOUT [F3-W5] at 1.11Hz
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+⏳ TIMEOUT [F2-W5] at 0.78Hz
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+⏳ TIMEOUT [F5-W7] at 5.52Hz
+⏳ TIMEOUT [F4-W7] at 2.48Hz
+⏳ TIMEOUT [F3-W6] at 1.11Hz
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+⏳ TIMEOUT [F3-W7] at 1.11Hz
+⏳ TIMEOUT [F2-W6] at 0.78Hz
+⏳ TIMEOUT [F4-W8] at 2.48Hz
+⏳ TIMEOUT [F2-W7] at 0.78Hz
+⏳ TIMEOUT [F3-W8] at 1.11Hz
+⏳ TIMEOUT [F5-W9] at 5.52Hz
+⏳ TIMEOUT [F6-W9] at 7.95Hz
+⏳ TIMEOUT [F4-W9] at 2.48Hz
+⏳ TIMEOUT [F2-W8] at 0.78Hz
+
+======================================== GENERATION 1 SUMMARY ========================================
+Freq 0.31Hz: SSE=8316.0 | G_ton=5.02, G_sc=3.12, G_phas=5.27, kp_p=0.07, k_g_dyn=26.2, k_g_stat=97.8
+Freq 0.78Hz: SSE=950.1 | G_ton=36.99, G_sc=10.28, G_phas=5.68, kp_p=0.75, k_g_dyn=52.6, k_g_stat=80.3
+Freq 1.11Hz: SSE=447.9 | G_ton=11.23, G_sc=6.18, G_phas=8.91, kp_p=0.03, k_g_dyn=47.8, k_g_stat=98.9
+Freq 2.48Hz: SSE=14136.5 | G_ton=17.38, G_sc=20.66, G_phas=4.63, kp_p=1.17, k_g_dyn=32.5, k_g_stat=90.9
+Freq 5.52Hz: SSE=15842.8 | G_ton=29.93, G_sc=7.89, G_phas=5.21, kp_p=0.02, k_g_dyn=30.1, k_g_stat=89.5
+Freq 7.95Hz: SSE=19466.9 | G_ton=10.35, G_sc=6.03, G_phas=3.78, kp_p=0.63, k_g_dyn=48.0, k_g_stat=69.1
+⏳ TIMEOUT [F6-W4] at 7.95Hz
+⏳ TIMEOUT [F5-W4] at 5.52Hz
+⏳ TIMEOUT [F3-W1] at 1.11Hz
+⏳ TIMEOUT [F3-W3] at 1.11Hz
+⏳ TIMEOUT [F4-W4] at 2.48Hz
+⏳ TIMEOUT [F3-W2] at 1.11Hz
+⏳ TIMEOUT [F2-W2] at 0.78Hz
+⏳ TIMEOUT [F2-W3] at 0.78Hz
+⏳ TIMEOUT [F2-W1] at 0.78Hz
+⏳ TIMEOUT [F3-W4] at 1.11Hz
+⏳ TIMEOUT [F2-W4] at 0.78Hz
+⏳ TIMEOUT [F3-W5] at 1.11Hz
+⏳ TIMEOUT [F2-W5] at 0.78Hz
+⏳ TIMEOUT [F1-W1] at 0.31Hz
+⏳ TIMEOUT [F1-W3] at 0.31Hz
+⏳ TIMEOUT [F1-W4] at 0.31Hz
+⏳ TIMEOUT [F1-W2] at 0.31Hz
+⏳ TIMEOUT [F1-W5] at 0.31Hz
+
+======================================== GENERATION 2 SUMMARY ========================================
+Freq 0.31Hz: SSE=8761.4 | G_ton=38.77, G_sc=1.60, G_phas=5.21, kp_p=0.22, k_g_dyn=38.8, k_g_stat=101.1
+Freq 0.78Hz: SSE=1107.7 | G_ton=15.01, G_sc=6.89, G_phas=6.93, kp_p=0.98, k_g_dyn=48.9, k_g_stat=82.4
+Freq 1.11Hz: SSE=628.4 | G_ton=9.44, G_sc=8.03, G_phas=7.77, kp_p=0.81, k_g_dyn=43.6, k_g_stat=91.7
+Freq 2.48Hz: SSE=14136.5 | G_ton=30.10, G_sc=12.40, G_phas=3.99, kp_p=0.72, k_g_dyn=35.7, k_g_stat=98.4
+Freq 5.52Hz: SSE=15842.8 | G_ton=38.93, G_sc=6.08, G_phas=6.47, kp_p=1.68, k_g_dyn=35.5, k_g_stat=96.8
+Freq 7.95Hz: SSE=19466.9 | G_ton=14.21, G_sc=2.98, G_phas=5.32, kp_p=0.15, k_g_dyn=37.1, k_g_stat=78.8
+🛑 POOR FIT [F2-W6] at 0.78Hz (Score: 100000.0)
+
+======================================== GENERATION 3 SUMMARY ========================================
+Freq 0.31Hz: SSE=8541.3 | G_ton=38.61, G_sc=2.99, G_phas=5.21, kp_p=0.19, k_g_dyn=28.4, k_g_stat=74.6
+Freq 0.78Hz: SSE=1076.5 | G_ton=16.26, G_sc=10.28, G_phas=6.58, kp_p=0.60, k_g_dyn=62.2, k_g_stat=87.8
+Freq 1.11Hz: SSE=63.7 | G_ton=16.50, G_sc=6.72, G_phas=8.56, kp_p=1.21, k_g_dyn=48.4, k_g_stat=83.1
+Freq 2.48Hz: SSE=14136.5 | G_ton=15.52, G_sc=1.30, G_phas=6.05, kp_p=1.12, k_g_dyn=24.5, k_g_stat=94.4
+Freq 5.52Hz: SSE=15842.8 | G_ton=43.32, G_sc=1.73, G_phas=6.16, kp_p=0.43, k_g_dyn=48.5, k_g_stat=82.8
+Freq 7.95Hz: SSE=19466.9 | G_ton=7.12, G_sc=1.17, G_phas=6.19, kp_p=0.02, k_g_dyn=46.3, k_g_stat=82.0
+🛑 POOR FIT [F3-W8] at 1.11Hz (Score: 100000.0)
+
+======================================== GENERATION 4 SUMMARY ========================================
+Freq 0.31Hz: SSE=8105.4 | G_ton=9.30, G_sc=1.15, G_phas=5.17, kp_p=0.16, k_g_dyn=23.0, k_g_stat=81.7
+Freq 0.78Hz: SSE=565.4 | G_ton=7.90, G_sc=21.83, G_phas=4.40, kp_p=0.34, k_g_dyn=49.0, k_g_stat=83.5
+Freq 1.11Hz: SSE=141.8 | G_ton=18.57, G_sc=5.46, G_phas=7.22, kp_p=1.37, k_g_dyn=43.7, k_g_stat=97.2
+🛑 POOR FIT [F3-W5] at 1.11Hz (Score: 100000.0)
+
+======================================== GENERATION 5 SUMMARY ========================================
+Freq 0.31Hz: SSE=8253.5 | G_ton=6.12, G_sc=2.83, G_phas=5.28, kp_p=0.69, k_g_dyn=25.7, k_g_stat=86.6
+Freq 0.78Hz: SSE=106.9 | G_ton=22.18, G_sc=24.84, G_phas=2.41, kp_p=1.33, k_g_dyn=54.3, k_g_stat=84.9
+Freq 1.11Hz: SSE=42.3 | G_ton=29.21, G_sc=9.58, G_phas=7.68, kp_p=0.74, k_g_dyn=55.5, k_g_stat=109.5
+
+======================================== GENERATION 6 SUMMARY ========================================
+Freq 0.31Hz: SSE=8331.3 | G_ton=21.82, G_sc=0.68, G_phas=5.27, kp_p=0.02, k_g_dyn=26.0, k_g_stat=89.5
+Freq 0.78Hz: SSE=546.3 | G_ton=15.10, G_sc=21.51, G_phas=2.32, kp_p=1.63, k_g_dyn=68.6, k_g_stat=79.6
+Freq 1.11Hz: SSE=250.0 | G_ton=29.30, G_sc=6.15, G_phas=7.33, kp_p=0.82, k_g_dyn=54.9, k_g_stat=104.0
+
+======================================== GENERATION 7 SUMMARY ========================================
+Freq 0.31Hz: SSE=8417.5 | G_ton=11.37, G_sc=5.29, G_phas=5.29, kp_p=0.01, k_g_dyn=26.9, k_g_stat=98.2
+Freq 0.78Hz: SSE=426.6 | G_ton=21.43, G_sc=21.87, G_phas=2.86, kp_p=0.67, k_g_dyn=56.5, k_g_stat=113.8
+Freq 1.11Hz: SSE=68.1 | G_ton=21.16, G_sc=9.90, G_phas=8.45, kp_p=0.32, k_g_dyn=75.7, k_g_stat=119.8
+🛑 POOR FIT [F3-W2] at 1.11Hz (Score: 100000.0)
+
+======================================== GENERATION 8 SUMMARY ========================================
+Freq 0.31Hz: SSE=8419.6 | G_ton=6.67, G_sc=3.43, G_phas=6.24, kp_p=0.26, k_g_dyn=24.0, k_g_stat=101.6
+Freq 0.78Hz: SSE=319.1 | G_ton=17.94, G_sc=24.33, G_phas=3.09, kp_p=0.01, k_g_dyn=22.7, k_g_stat=98.8
+Freq 1.11Hz: SSE=124.7 | G_ton=14.26, G_sc=6.60, G_phas=8.64, kp_p=0.55, k_g_dyn=57.2, k_g_stat=97.7
+🛑 POOR FIT [F2-W9] at 0.78Hz (Score: 100000.0)
+
+======================================== GENERATION 9 SUMMARY ========================================
+Freq 0.31Hz: SSE=7769.3 | G_ton=25.69, G_sc=0.51, G_phas=5.90, kp_p=0.22, k_g_dyn=22.7, k_g_stat=105.3
+Freq 0.78Hz: SSE=656.1 | G_ton=9.25, G_sc=24.99, G_phas=2.61, kp_p=0.36, k_g_dyn=63.3, k_g_stat=106.0
+Freq 1.11Hz: SSE=54.1 | G_ton=15.07, G_sc=11.14, G_phas=8.23, kp_p=0.51, k_g_dyn=55.7, k_g_stat=105.1
+
+======================================== GENERATION 10 SUMMARY ========================================
+Freq 0.31Hz: SSE=7508.9 | G_ton=21.19, G_sc=0.51, G_phas=6.19, kp_p=0.11, k_g_dyn=22.8, k_g_stat=110.6
+Freq 0.78Hz: SSE=405.3 | G_ton=19.31, G_sc=19.54, G_phas=3.02, kp_p=0.65, k_g_dyn=24.3, k_g_stat=109.4
+Freq 1.11Hz: SSE=181.2 | G_ton=13.46, G_sc=11.41, G_phas=7.75, kp_p=0.54, k_g_dyn=39.0, k_g_stat=117.4
+
+======================================== GENERATION 11 SUMMARY ========================================
+Freq 0.31Hz: SSE=8235.3 | G_ton=5.25, G_sc=1.17, G_phas=5.89, kp_p=0.07, k_g_dyn=25.4, k_g_stat=78.8
+Freq 0.78Hz: SSE=283.2 | G_ton=16.15, G_sc=24.42, G_phas=2.52, kp_p=0.72, k_g_dyn=39.2, k_g_stat=113.2
+Freq 1.11Hz: SSE=94.0 | G_ton=15.66, G_sc=0.80, G_phas=6.95, kp_p=0.45, k_g_dyn=45.4, k_g_stat=91.5
+🛑 POOR FIT [F3-W9] at 1.11Hz (Score: 100000.0)
+
+======================================== GENERATION 12 SUMMARY ========================================
+Freq 0.31Hz: SSE=6001.6 | G_ton=31.25, G_sc=0.66, G_phas=6.24, kp_p=0.87, k_g_dyn=22.6, k_g_stat=108.5
+Freq 0.78Hz: SSE=285.5 | G_ton=25.90, G_sc=21.34, G_phas=2.31, kp_p=0.63, k_g_dyn=46.9, k_g_stat=107.4
+Freq 1.11Hz: SSE=166.1 | G_ton=19.95, G_sc=8.88, G_phas=8.44, kp_p=0.19, k_g_dyn=33.9, k_g_stat=71.2
+
+======================================== GENERATION 13 SUMMARY ========================================
+Freq 0.31Hz: SSE=8177.5 | G_ton=10.16, G_sc=3.85, G_phas=5.70, kp_p=0.53, k_g_dyn=21.6, k_g_stat=104.1
+Freq 0.78Hz: SSE=287.3 | G_ton=27.69, G_sc=24.73, G_phas=2.56, kp_p=0.28, k_g_dyn=39.3, k_g_stat=121.0
+Freq 1.11Hz: SSE=72.0 | G_ton=11.92, G_sc=17.56, G_phas=7.23, kp_p=0.02, k_g_dyn=23.6, k_g_stat=58.3
+
+======================================== GENERATION 14 SUMMARY ========================================
+Freq 0.31Hz: SSE=8331.2 | G_ton=11.03, G_sc=4.04, G_phas=5.47, kp_p=1.55, k_g_dyn=32.0, k_g_stat=102.1
+Freq 0.78Hz: SSE=319.1 | G_ton=20.41, G_sc=22.18, G_phas=2.07, kp_p=0.12, k_g_dyn=40.0, k_g_stat=123.0
+Freq 1.11Hz: SSE=44.0 | G_ton=15.23, G_sc=12.40, G_phas=7.79, kp_p=0.12, k_g_dyn=42.4, k_g_stat=85.1
+
+======================================== GENERATION 15 SUMMARY ========================================
+Freq 0.31Hz: SSE=8139.5 | G_ton=6.31, G_sc=5.04, G_phas=5.83, kp_p=1.72, k_g_dyn=20.0, k_g_stat=100.3
+Freq 0.78Hz: SSE=186.5 | G_ton=19.18, G_sc=24.94, G_phas=2.24, kp_p=0.45, k_g_dyn=43.4, k_g_stat=115.9
+Freq 1.11Hz: SSE=119.2 | G_ton=9.69, G_sc=14.54, G_phas=8.04, kp_p=0.01, k_g_dyn=33.8, k_g_stat=70.4
+
+======================================== GENERATION 16 SUMMARY ========================================
+Freq 0.31Hz: SSE=8425.8 | G_ton=20.43, G_sc=3.50, G_phas=5.86, kp_p=1.39, k_g_dyn=25.7, k_g_stat=115.8
+Freq 0.78Hz: SSE=348.2 | G_ton=15.14, G_sc=24.54, G_phas=2.46, kp_p=0.23, k_g_dyn=38.3, k_g_stat=112.0
+Freq 1.11Hz: SSE=60.5 | G_ton=24.96, G_sc=9.71, G_phas=8.17, kp_p=0.01, k_g_dyn=32.7, k_g_stat=65.6
+
+======================================== GENERATION 17 SUMMARY ========================================
+Freq 0.31Hz: SSE=5311.5 | G_ton=5.08, G_sc=4.12, G_phas=6.96, kp_p=1.52, k_g_dyn=41.3, k_g_stat=126.7
+Freq 0.78Hz: SSE=126.3 | G_ton=26.73, G_sc=24.76, G_phas=2.15, kp_p=0.26, k_g_dyn=40.4, k_g_stat=118.3
+Freq 1.11Hz: SSE=96.6 | G_ton=11.72, G_sc=16.97, G_phas=7.09, kp_p=0.78, k_g_dyn=33.8, k_g_stat=53.5
+🛑 POOR FIT [F3-W9] at 1.11Hz (Score: 100000.0)
+
+======================================== GENERATION 18 SUMMARY ========================================
+Freq 0.31Hz: SSE=8011.4 | G_ton=7.60, G_sc=3.99, G_phas=6.05, kp_p=1.19, k_g_dyn=42.0, k_g_stat=132.1
+Freq 0.78Hz: SSE=96.8 | G_ton=24.19, G_sc=24.34, G_phas=2.02, kp_p=0.19, k_g_dyn=37.2, k_g_stat=116.7
+Freq 1.11Hz: SSE=194.2 | G_ton=7.91, G_sc=13.81, G_phas=7.87, kp_p=0.38, k_g_dyn=38.4, k_g_stat=82.0
+
+======================================== GENERATION 19 SUMMARY ========================================
+Freq 0.31Hz: SSE=8302.3 | G_ton=12.28, G_sc=5.28, G_phas=5.94, kp_p=1.22, k_g_dyn=37.8, k_g_stat=129.3
+Freq 0.78Hz: SSE=106.8 | G_ton=21.66, G_sc=25.00, G_phas=2.32, kp_p=0.40, k_g_dyn=39.1, k_g_stat=109.9
+Freq 1.11Hz: SSE=40.5 | G_ton=15.81, G_sc=15.87, G_phas=7.11, kp_p=0.11, k_g_dyn=26.0, k_g_stat=75.3
+
+======================================== GENERATION 20 SUMMARY ========================================
+Freq 0.31Hz: SSE=8387.5 | G_ton=21.57, G_sc=0.83, G_phas=4.73, kp_p=1.59, k_g_dyn=28.9, k_g_stat=132.5
+Freq 0.78Hz: SSE=102.4 | G_ton=25.36, G_sc=24.92, G_phas=2.20, kp_p=0.34, k_g_dyn=42.4, k_g_stat=120.9
+Freq 1.11Hz: SSE=53.5 | G_ton=12.28, G_sc=15.23, G_phas=7.63, kp_p=0.41, k_g_dyn=28.6, k_g_stat=68.8
+
+======================================== GENERATION 21 SUMMARY ========================================
+Freq 0.31Hz: SSE=8252.8 | G_ton=32.82, G_sc=0.63, G_phas=5.54, kp_p=0.30, k_g_dyn=39.8, k_g_stat=124.3
+Freq 0.78Hz: SSE=101.3 | G_ton=22.41, G_sc=24.94, G_phas=2.21, kp_p=0.41, k_g_dyn=40.7, k_g_stat=118.2
+Freq 1.11Hz: SSE=25.7 | G_ton=18.40, G_sc=11.22, G_phas=7.83, kp_p=0.52, k_g_dyn=39.5, k_g_stat=86.6
+
+======================================== GENERATION 22 SUMMARY ========================================
+Freq 0.31Hz: SSE=8134.1 | G_ton=7.62, G_sc=4.28, G_phas=6.19, kp_p=0.05, k_g_dyn=37.7, k_g_stat=120.8
+Freq 0.78Hz: SSE=86.3 | G_ton=25.41, G_sc=24.98, G_phas=2.03, kp_p=0.42, k_g_dyn=41.0, k_g_stat=114.1
+Freq 1.11Hz: SSE=15.0 | G_ton=22.77, G_sc=9.69, G_phas=7.72, kp_p=0.01, k_g_dyn=29.4, k_g_stat=75.7
+
+======================================== GENERATION 23 SUMMARY ========================================
+Freq 0.31Hz: SSE=8179.9 | G_ton=5.60, G_sc=2.45, G_phas=5.34, kp_p=1.42, k_g_dyn=38.6, k_g_stat=118.8
+Freq 0.78Hz: SSE=83.3 | G_ton=24.77, G_sc=24.86, G_phas=2.03, kp_p=0.45, k_g_dyn=39.2, k_g_stat=119.6
+Freq 1.11Hz: SSE=6.5 | G_ton=23.39, G_sc=5.26, G_phas=7.06, kp_p=0.23, k_g_dyn=42.9, k_g_stat=90.1
+💥 CRASHED [F2-W3] at 0.78Hz: Gton=23.27, Gsc=24.87
+💥 CRASHED [F3-W5] at 1.11Hz: Gton=24.41, Gsc=8.44
+💥 CRASHED [F3-W6] at 1.11Hz: Gton=7.51, Gsc=9.89
+💥 CRASHED [F1-W1] at 0.31Hz: Gton=11.20, Gsc=2.31
+💥 CRASHED [F3-W7] at 1.11Hz: Gton=29.55, Gsc=8.31
+💥 CRASHED [F1-W8] at 0.31Hz: Gton=17.55, Gsc=0.91
+💥 CRASHED [F1-W7] at 0.31Hz: Gton=23.28, Gsc=2.04
+💥 CRASHED [F2-W7] at 0.78Hz: Gton=20.77, Gsc=24.74
+💥 CRASHED [F1-W9] at 0.31Hz: Gton=8.58, Gsc=1.00💥 CRASHED [F2-W9] at 0.78Hz: Gton=23.40, Gsc=25.00
+
+💥 CRASHED [F2-W8] at 0.78Hz: Gton=23.77, Gsc=24.41
+💥 CRASHED [F3-W8] at 1.11Hz: Gton=5.08, Gsc=10.64
+💥 CRASHED [F3-W1] at 1.11Hz: Gton=11.45, Gsc=17.57
+💥 CRASHED [F3-W9] at 1.11Hz: Gton=20.69, Gsc=5.85
+💥 CRASHED [F3-W2] at 1.11Hz: Gton=20.31, Gsc=12.44
+💥 CRASHED [F1-W4] at 0.31Hz: Gton=15.81, Gsc=7.28
+💥 CRASHED [F3-W4] at 1.11Hz: Gton=5.10, Gsc=12.11
+💥 CRASHED [F3-W3] at 1.11Hz: Gton=27.92, Gsc=5.37
+💥 CRASHED [F2-W1] at 0.78Hz: Gton=23.03, Gsc=24.97
+💥 CRASHED [F2-W5] at 0.78Hz: Gton=22.03, Gsc=25.00
+💥 CRASHED [F2-W6] at 0.78Hz: Gton=19.49, Gsc=24.96
+💥 CRASHED [F1-W3] at 0.31Hz: Gton=14.90, Gsc=0.91
+💥 CRASHED [F1-W5] at 0.31Hz: Gton=7.32, Gsc=3.74
+💥 CRASHED [F2-W4] at 0.78Hz: Gton=23.97, Gsc=24.90
+💥 CRASHED [F2-W2] at 0.78Hz: Gton=30.65, Gsc=24.81
+💥 CRASHED [F1-W6] at 0.31Hz: Gton=23.15, Gsc=2.10
+💥 CRASHED [F1-W2] at 0.31Hz: Gton=14.32, Gsc=1.26

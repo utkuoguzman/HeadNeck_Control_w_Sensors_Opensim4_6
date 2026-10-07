@@ -1,0 +1,1645 @@
+==========================================================================================
+CMA-ES META-OPTIMIZER: 6 Independent Frequencies (Fixed Task: w_n=10.1, zeta=1.98, Ki=6.54)
+Searching 6 Reflex Parameters: ['G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=359969, Mon Oct  5 20:09:00 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=303454, Mon Oct  5 20:09:00 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=366680, Mon Oct  5 20:09:00 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=365535, Mon Oct  5 20:09:00 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=379105, Mon Oct  5 20:09:00 2026)
+(4_w,9mirr2)-aCMA-ES (mu_w=2.8,w_1=49%) in dimension 6 (seed=353657, Mon Oct  5 20:09:00 2026)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 2482.6)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 749.3)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 786.1)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 4929.8)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 5987.2)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 739.3)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 8494.0)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 6407.2)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 11398.0)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 6615.2)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 5412.9)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 7594.3)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 163.3)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 86.6)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 143.8)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1552.4)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 8078.7)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 16.8)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 1334.7)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 2939.5)
+✅ SUCCESS [F2-W1] at 0.78Hz (Score: 25.9)
+⏳ TIMEOUT [F2-W2] at 0.78Hz
+⏳ TIMEOUT [F2-W3] at 0.78Hz
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 283.9)
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+⏳ TIMEOUT [F2-W4] at 0.78Hz
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 1842.3)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 796.6)
+⏳ TIMEOUT [F5-W7] at 5.52Hz
+⏳ TIMEOUT [F2-W5] at 0.78Hz
+⏳ TIMEOUT [F4-W7] at 2.48Hz
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+⏳ TIMEOUT [F2-W6] at 0.78Hz
+⏳ TIMEOUT [F4-W8] at 2.48Hz
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 135.7)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 8132.3)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 17.8)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 4379.0)
+⏳ TIMEOUT [F3-W8] at 1.11Hz
+⏳ TIMEOUT [F2-W7] at 0.78Hz
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 11002.7)
+⏳ TIMEOUT [F2-W8] at 0.78Hz
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 282.3)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 11765.5)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 11719.1)
+✅ SUCCESS [F2-W9] at 0.78Hz (Score: 232.5)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 11780.3)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 11182.0)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 11622.9)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10647.3)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 11096.2)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 11528.0)
+
+======================================== GENERATION 1 SUMMARY ========================================
+Freq 0.31Hz: SSE=10647.3 | G_ton=6.82, G_sc=4.37, G_phas=6.25, kp_p=0.17, k_g_dyn=38.7, k_g_stat=122.4
+Freq 0.78Hz: SSE=25.9 | G_ton=26.39, G_sc=23.96, G_phas=2.13, kp_p=0.41, k_g_dyn=40.1, k_g_stat=113.8
+Freq 1.11Hz: SSE=86.6 | G_ton=27.47, G_sc=8.49, G_phas=7.60, kp_p=0.15, k_g_dyn=30.8, k_g_stat=73.7
+Freq 2.48Hz: SSE=4379.0 | G_ton=50.64, G_sc=15.76, G_phas=6.74, kp_p=0.07, k_g_dyn=44.6, k_g_stat=92.1
+Freq 5.52Hz: SSE=739.3 | G_ton=6.84, G_sc=13.57, G_phas=9.45, kp_p=0.12, k_g_dyn=48.9, k_g_stat=84.7
+Freq 7.95Hz: SSE=16.8 | G_ton=10.15, G_sc=2.13, G_phas=6.75, kp_p=0.11, k_g_dyn=38.8, k_g_stat=102.3
+⏳ TIMEOUT [F6-W2] at 7.95Hz⏳ TIMEOUT [F6-W3] at 7.95Hz
+⏳ TIMEOUT [F6-W1] at 7.95Hz
+
+⏳ TIMEOUT [F5-W3] at 5.52Hz⏳ TIMEOUT [F5-W2] at 5.52Hz⏳ TIMEOUT [F5-W1] at 5.52Hz
+
+
+⏳ TIMEOUT [F4-W3] at 2.48Hz
+⏳ TIMEOUT [F4-W1] at 2.48Hz
+⏳ TIMEOUT [F4-W2] at 2.48Hz
+⏳ TIMEOUT [F6-W4] at 7.95Hz
+⏳ TIMEOUT [F5-W4] at 5.52Hz
+⏳ TIMEOUT [F4-W4] at 2.48Hz
+⏳ TIMEOUT [F3-W2] at 1.11Hz
+⏳ TIMEOUT [F3-W1] at 1.11Hz
+⏳ TIMEOUT [F3-W3] at 1.11Hz
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 6489.3)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 18774.4)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 4014.7)
+⏳ TIMEOUT [F3-W4] at 1.11Hz
+⏳ TIMEOUT [F2-W2] at 0.78Hz⏳ TIMEOUT [F2-W3] at 0.78Hz
+
+⏳ TIMEOUT [F2-W1] at 0.78Hz
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 105.9)
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+⏳ TIMEOUT [F2-W4] at 0.78Hz
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+⏳ TIMEOUT [F5-W7] at 5.52Hz
+⏳ TIMEOUT [F2-W5] at 0.78Hz
+⏳ TIMEOUT [F4-W7] at 2.48Hz
+⏳ TIMEOUT [F3-W6] at 1.11Hz
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+⏳ TIMEOUT [F3-W7] at 1.11Hz
+⏳ TIMEOUT [F2-W6] at 0.78Hz
+⏳ TIMEOUT [F4-W8] at 2.48Hz
+⏳ TIMEOUT [F3-W8] at 1.11Hz
+⏳ TIMEOUT [F6-W9] at 7.95Hz
+⏳ TIMEOUT [F2-W7] at 0.78Hz
+⏳ TIMEOUT [F5-W9] at 5.52Hz
+⏳ TIMEOUT [F4-W9] at 2.48Hz
+⏳ TIMEOUT [F2-W8] at 0.78Hz
+⏳ TIMEOUT [F1-W2] at 0.31Hz⏳ TIMEOUT [F1-W3] at 0.31Hz
+
+⏳ TIMEOUT [F1-W1] at 0.31Hz
+⏳ TIMEOUT [F3-W9] at 1.11Hz
+⏳ TIMEOUT [F2-W9] at 0.78Hz
+⏳ TIMEOUT [F1-W4] at 0.31Hz
+⏳ TIMEOUT [F1-W5] at 0.31Hz
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 11309.7)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 11034.6)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 11289.5)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 11044.6)
+
+======================================== GENERATION 2 SUMMARY ========================================
+Freq 0.31Hz: SSE=11034.6 | G_ton=9.88, G_sc=3.91, G_phas=5.65, kp_p=0.10, k_g_dyn=36.8, k_g_stat=117.5
+Freq 0.78Hz: SSE=100000.0 | G_ton=27.03, G_sc=24.37, G_phas=2.10, kp_p=0.48, k_g_dyn=38.8, k_g_stat=111.3
+Freq 1.11Hz: SSE=105.9 | G_ton=16.61, G_sc=11.78, G_phas=7.19, kp_p=0.17, k_g_dyn=32.7, k_g_stat=74.9
+Freq 2.48Hz: SSE=18774.4 | G_ton=12.84, G_sc=5.97, G_phas=6.23, kp_p=0.22, k_g_dyn=47.1, k_g_stat=79.5
+Freq 5.52Hz: SSE=6489.3 | G_ton=32.95, G_sc=13.44, G_phas=9.16, kp_p=1.56, k_g_dyn=56.6, k_g_stat=85.5
+Freq 7.95Hz: SSE=4014.7 | G_ton=6.83, G_sc=3.07, G_phas=5.70, kp_p=1.00, k_g_dyn=34.6, k_g_stat=92.4
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 32.4)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 451.0)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 14.9)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 3981.5)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 1159.5)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 3720.5)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 5953.4)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 13823.2)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 6614.8)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 6010.7)
+⏳ TIMEOUT [F6-W4] at 7.95Hz
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 54.3)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 88.4)
+⏳ TIMEOUT [F4-W4] at 2.48Hz
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 121.2)
+⏳ TIMEOUT [F5-W5] at 5.52Hz
+⏳ TIMEOUT [F4-W5] at 2.48Hz
+⏳ TIMEOUT [F6-W5] at 7.95Hz
+⏳ TIMEOUT [F3-W4] at 1.11Hz
+⏳ TIMEOUT [F2-W2] at 0.78Hz⏳ TIMEOUT [F2-W1] at 0.78Hz
+⏳ TIMEOUT [F2-W3] at 0.78Hz
+
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+⏳ TIMEOUT [F3-W5] at 1.11Hz
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+⏳ TIMEOUT [F2-W4] at 0.78Hz
+⏳ TIMEOUT [F2-W5] at 0.78Hz
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+⏳ TIMEOUT [F5-W7] at 5.52Hz
+⏳ TIMEOUT [F3-W6] at 1.11Hz
+⏳ TIMEOUT [F4-W7] at 2.48Hz
+⏳ TIMEOUT [F2-W6] at 0.78Hz
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 8106.5)
+⏳ TIMEOUT [F3-W7] at 1.11Hz
+⏳ TIMEOUT [F6-W9] at 7.95Hz
+⏳ TIMEOUT [F5-W9] at 5.52Hz
+⏳ TIMEOUT [F3-W8] at 1.11Hz
+⏳ TIMEOUT [F2-W7] at 0.78Hz
+⏳ TIMEOUT [F4-W9] at 2.48Hz
+⏳ TIMEOUT [F2-W8] at 0.78Hz
+⏳ TIMEOUT [F1-W3] at 0.31Hz⏳ TIMEOUT [F1-W2] at 0.31Hz
+
+⏳ TIMEOUT [F1-W1] at 0.31Hz
+⏳ TIMEOUT [F3-W9] at 1.11Hz
+⏳ TIMEOUT [F2-W9] at 0.78Hz
+⏳ TIMEOUT [F1-W4] at 0.31Hz
+⏳ TIMEOUT [F1-W5] at 0.31Hz
+⏳ TIMEOUT [F1-W6] at 0.31Hz
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 11064.5)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 11101.3)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10864.5)
+
+======================================== GENERATION 3 SUMMARY ========================================
+Freq 0.31Hz: SSE=10864.5 | G_ton=6.47, G_sc=4.29, G_phas=5.35, kp_p=0.18, k_g_dyn=36.3, k_g_stat=118.9
+Freq 0.78Hz: SSE=100000.0 | G_ton=23.13, G_sc=23.62, G_phas=2.04, kp_p=0.66, k_g_dyn=38.2, k_g_stat=114.5
+Freq 1.11Hz: SSE=54.3 | G_ton=19.34, G_sc=11.58, G_phas=7.40, kp_p=0.07, k_g_dyn=32.1, k_g_stat=75.3
+Freq 2.48Hz: SSE=5953.4 | G_ton=47.87, G_sc=9.10, G_phas=6.46, kp_p=0.64, k_g_dyn=42.7, k_g_stat=86.9
+Freq 5.52Hz: SSE=1159.5 | G_ton=51.88, G_sc=24.19, G_phas=7.71, kp_p=0.38, k_g_dyn=58.9, k_g_stat=83.6
+Freq 7.95Hz: SSE=14.9 | G_ton=14.58, G_sc=1.33, G_phas=6.95, kp_p=0.69, k_g_dyn=40.2, k_g_stat=89.6
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 2353.7)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 290.7)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 3187.2)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2902.9)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 103.2)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 6894.1)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 7729.9)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 7584.4)
+⏳ TIMEOUT [F4-W4] at 2.48Hz⏳ TIMEOUT [F4-W2] at 2.48Hz
+
+⏳ TIMEOUT [F6-W4] at 7.95Hz
+⏳ TIMEOUT [F5-W4] at 5.52Hz
+⏳ TIMEOUT [F5-W5] at 5.52Hz
+⏳ TIMEOUT [F6-W5] at 7.95Hz
+⏳ TIMEOUT [F4-W5] at 2.48Hz
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 834.4)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 164.6)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 98.8)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 356.4)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 2155.1)
+⏳ TIMEOUT [F3-W3] at 1.11Hz
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+⏳ TIMEOUT [F5-W7] at 5.52Hz
+⏳ TIMEOUT [F3-W5] at 1.11Hz
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+⏳ TIMEOUT [F4-W7] at 2.48Hz
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+⏳ TIMEOUT [F4-W8] at 2.48Hz
+⏳ TIMEOUT [F3-W6] at 1.11Hz
+⏳ TIMEOUT [F5-W9] at 5.52Hz
+⏳ TIMEOUT [F3-W7] at 1.11Hz
+⏳ TIMEOUT [F6-W9] at 7.95Hz
+⏳ TIMEOUT [F4-W9] at 2.48Hz
+⏳ TIMEOUT [F3-W8] at 1.11Hz
+⏳ TIMEOUT [F3-W9] at 1.11Hz
+⏳ TIMEOUT [F1-W2] at 0.31Hz
+⏳ TIMEOUT [F1-W4] at 0.31Hz
+⏳ TIMEOUT [F1-W1] at 0.31Hz
+⏳ TIMEOUT [F1-W3] at 0.31Hz
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 11088.7)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10839.7)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10812.7)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 11102.4)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 11923.3)
+
+======================================== GENERATION 4 SUMMARY ========================================
+Freq 0.31Hz: SSE=10812.7 | G_ton=6.47, G_sc=4.28, G_phas=5.40, kp_p=0.19, k_g_dyn=36.1, k_g_stat=116.3
+Freq 1.11Hz: SSE=98.8 | G_ton=19.50, G_sc=10.46, G_phas=7.81, kp_p=0.04, k_g_dyn=29.6, k_g_stat=77.3
+Freq 2.48Hz: SSE=7584.4 | G_ton=21.63, G_sc=8.40, G_phas=6.41, kp_p=0.69, k_g_dyn=44.1, k_g_stat=84.6
+Freq 5.52Hz: SSE=2155.1 | G_ton=24.12, G_sc=12.57, G_phas=8.30, kp_p=0.13, k_g_dyn=46.1, k_g_stat=85.8
+Freq 7.95Hz: SSE=103.2 | G_ton=5.14, G_sc=1.00, G_phas=8.23, kp_p=0.43, k_g_dyn=35.2, k_g_stat=93.6
+⏳ TIMEOUT [F6-W3] at 7.95Hz
+⏳ TIMEOUT [F6-W1] at 7.95Hz⏳ TIMEOUT [F6-W2] at 7.95Hz
+
+⏳ TIMEOUT [F5-W3] at 5.52Hz
+⏳ TIMEOUT [F5-W1] at 5.52Hz
+⏳ TIMEOUT [F5-W2] at 5.52Hz
+⏳ TIMEOUT [F4-W4] at 2.48Hz
+⏳ TIMEOUT [F4-W3] at 2.48Hz⏳ TIMEOUT [F4-W1] at 2.48Hz
+
+⏳ TIMEOUT [F4-W2] at 2.48Hz
+⏳ TIMEOUT [F6-W4] at 7.95Hz
+⏳ TIMEOUT [F5-W4] at 5.52Hz
+⏳ TIMEOUT [F5-W5] at 5.52Hz
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 155.5)
+⏳ TIMEOUT [F4-W5] at 2.48Hz
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 764.6)
+⏳ TIMEOUT [F3-W1] at 1.11Hz
+⏳ TIMEOUT [F3-W3] at 1.11Hz
+⏳ TIMEOUT [F3-W4] at 1.11Hz⏳ TIMEOUT [F3-W2] at 1.11Hz
+
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 11709.7)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 296.2)
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1417.5)
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 3670.3)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 7213.5)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 403.1)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 13324.7)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 320.1)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 602.7)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 393.3)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 174.5)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 15194.1)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 59.7)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10950.5)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 11210.3)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 11204.3)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 11119.9)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 12267.0)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 11053.2)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10392.8)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 11065.3)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10587.7)
+
+======================================== GENERATION 5 SUMMARY ========================================
+Freq 0.31Hz: SSE=10392.8 | G_ton=6.09, G_sc=1.70, G_phas=5.25, kp_p=0.13, k_g_dyn=35.7, k_g_stat=118.2
+Freq 1.11Hz: SSE=59.7 | G_ton=13.60, G_sc=9.60, G_phas=8.12, kp_p=0.06, k_g_dyn=29.0, k_g_stat=76.1
+Freq 2.48Hz: SSE=7213.5 | G_ton=47.08, G_sc=7.36, G_phas=6.19, kp_p=0.71, k_g_dyn=36.6, k_g_stat=89.7
+Freq 5.52Hz: SSE=602.7 | G_ton=30.39, G_sc=14.43, G_phas=8.22, kp_p=0.58, k_g_dyn=42.2, k_g_stat=87.5
+Freq 7.95Hz: SSE=155.5 | G_ton=13.82, G_sc=1.88, G_phas=7.56, kp_p=1.02, k_g_dyn=27.7, k_g_stat=98.5
+⏳ TIMEOUT [F6-W1] at 7.95Hz
+⏳ TIMEOUT [F6-W3] at 7.95Hz
+⏳ TIMEOUT [F6-W2] at 7.95Hz
+⏳ TIMEOUT [F5-W1] at 5.52Hz
+⏳ TIMEOUT [F5-W2] at 5.52Hz
+⏳ TIMEOUT [F5-W3] at 5.52Hz
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 7801.7)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 7445.8)
+⏳ TIMEOUT [F4-W4] at 2.48Hz
+⏳ TIMEOUT [F4-W1] at 2.48Hz
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 110.8)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 890.5)
+⏳ TIMEOUT [F5-W5] at 5.52Hz
+⏳ TIMEOUT [F6-W5] at 7.95Hz
+⏳ TIMEOUT [F4-W5] at 2.48Hz
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+⏳ TIMEOUT [F3-W2] at 1.11Hz⏳ TIMEOUT [F3-W4] at 1.11Hz
+
+⏳ TIMEOUT [F3-W1] at 1.11Hz
+⏳ TIMEOUT [F3-W3] at 1.11Hz
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1387.3)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 145.9)
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 676.1)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 8202.0)
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 9239.4)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 430.5)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 10390.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 1291.9)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 7651.2)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 157.7)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 59.0)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 246.5)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10589.6)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10489.3)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10431.3)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10739.4)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10621.6)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10957.7)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 11314.2)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10448.8)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10915.8)
+
+======================================== GENERATION 6 SUMMARY ========================================
+Freq 0.31Hz: SSE=10431.3 | G_ton=8.96, G_sc=1.36, G_phas=5.04, kp_p=0.07, k_g_dyn=38.2, k_g_stat=118.4
+Freq 1.11Hz: SSE=59.0 | G_ton=16.65, G_sc=10.77, G_phas=7.57, kp_p=0.04, k_g_dyn=31.2, k_g_stat=78.4
+Freq 2.48Hz: SSE=7445.8 | G_ton=53.79, G_sc=12.43, G_phas=9.23, kp_p=0.66, k_g_dyn=45.2, k_g_stat=85.7
+Freq 5.52Hz: SSE=676.1 | G_ton=26.07, G_sc=16.71, G_phas=8.78, kp_p=1.97, k_g_dyn=51.9, k_g_stat=95.1
+Freq 7.95Hz: SSE=110.8 | G_ton=28.29, G_sc=3.53, G_phas=6.14, kp_p=1.39, k_g_dyn=30.9, k_g_stat=98.0
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 3722.3)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 992.2)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 1593.2)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 23451.6)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 5688.7)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2036.4)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 5845.0)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 13614.3)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 10836.5)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 5542.3)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 6805.0)
+⏳ TIMEOUT [F6-W4] at 7.95Hz
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1561.7)
+⏳ TIMEOUT [F6-W5] at 7.95Hz
+⏳ TIMEOUT [F4-W5] at 2.48Hz
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 194.9)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 171.0)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 452.8)
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+⏳ TIMEOUT [F3-W1] at 1.11Hz
+⏳ TIMEOUT [F4-W6] at 2.48Hz
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 147.6)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 85.4)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 3049.4)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 8612.4)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 3150.8)
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 9074.8)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 94.4)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 1001.6)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 96.4)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1822.8)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 13163.5)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 85.0)
+⏳ TIMEOUT [F3-W9] at 1.11Hz
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10390.3)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10474.2)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10721.8)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10373.1)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10491.3)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10273.4)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 9989.0)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10685.3)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10604.8)
+
+======================================== GENERATION 7 SUMMARY ========================================
+Freq 0.31Hz: SSE=9989.0 | G_ton=7.11, G_sc=1.19, G_phas=4.77, kp_p=0.16, k_g_dyn=36.8, k_g_stat=119.4
+Freq 1.11Hz: SSE=85.0 | G_ton=17.81, G_sc=9.02, G_phas=7.55, kp_p=0.05, k_g_dyn=31.0, k_g_stat=76.3
+Freq 2.48Hz: SSE=5542.3 | G_ton=25.57, G_sc=3.57, G_phas=7.55, kp_p=0.73, k_g_dyn=52.6, k_g_stat=90.2
+Freq 5.52Hz: SSE=1561.7 | G_ton=47.73, G_sc=13.79, G_phas=8.96, kp_p=1.89, k_g_dyn=62.9, k_g_stat=85.5
+Freq 7.95Hz: SSE=147.6 | G_ton=14.08, G_sc=1.43, G_phas=6.60, kp_p=1.09, k_g_dyn=30.5, k_g_stat=91.6
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 1545.3)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 1010.4)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 1613.8)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 2317.5)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1987.0)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 1392.0)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1572.1)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 6388.1)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 15540.0)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 16803.5)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 24890.4)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 1396.8)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 4812.8)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 918.4)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 5717.0)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 56.4)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 65.3)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 58.9)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 186.7)
+⏳ TIMEOUT [F6-W6] at 7.95Hz
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 7511.4)
+⏳ TIMEOUT [F5-W6] at 5.52Hz
+⏳ TIMEOUT [F6-W7] at 7.95Hz
+⏳ TIMEOUT [F5-W7] at 5.52Hz
+⏳ TIMEOUT [F6-W8] at 7.95Hz
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 87.5)
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+⏳ TIMEOUT [F4-W7] at 2.48Hz
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 241.3)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 4913.1)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 205.8)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 5537.8)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 63.4)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1613.6)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 73.6)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 56.7)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10328.5)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10138.8)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10376.4)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 11031.1)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10652.5)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10557.3)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10503.3)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10249.2)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10245.6)
+
+======================================== GENERATION 8 SUMMARY ========================================
+Freq 0.31Hz: SSE=10138.8 | G_ton=5.08, G_sc=1.72, G_phas=4.54, kp_p=0.13, k_g_dyn=38.5, k_g_stat=119.7
+Freq 1.11Hz: SSE=56.4 | G_ton=16.73, G_sc=9.43, G_phas=7.78, kp_p=0.01, k_g_dyn=31.9, k_g_stat=75.9
+Freq 2.48Hz: SSE=1572.1 | G_ton=67.61, G_sc=14.95, G_phas=6.93, kp_p=1.50, k_g_dyn=51.5, k_g_stat=87.6
+Freq 5.52Hz: SSE=1392.0 | G_ton=13.04, G_sc=16.61, G_phas=8.27, kp_p=2.40, k_g_dyn=56.2, k_g_stat=86.1
+Freq 7.95Hz: SSE=205.8 | G_ton=19.53, G_sc=5.82, G_phas=7.24, kp_p=0.99, k_g_dyn=27.1, k_g_stat=90.1
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 2070.7)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 56.1)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 1081.2)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 3683.3)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 3246.1)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 3667.1)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 3251.8)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1994.8)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 4232.9)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 9369.3)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 95.4)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 5449.6)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 2504.0)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 45.6)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 7878.6)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 140.1)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 73.8)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 61.6)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 271.2)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 9866.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1920.1)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 214.7)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 2889.2)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 251.0)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 66.5)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 5198.8)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 164.5)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 10881.4)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 61.7)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 3601.5)
+⏳ TIMEOUT [F3-W7] at 1.11Hz
+⏳ TIMEOUT [F6-W9] at 7.95Hz
+⏳ TIMEOUT [F5-W9] at 5.52Hz
+⏳ TIMEOUT [F4-W9] at 2.48Hz
+⏳ TIMEOUT [F3-W8] at 1.11Hz
+⏳ TIMEOUT [F3-W9] at 1.11Hz
+⏳ TIMEOUT [F1-W3] at 0.31Hz
+⏳ TIMEOUT [F1-W1] at 0.31Hz
+⏳ TIMEOUT [F1-W4] at 0.31Hz
+⏳ TIMEOUT [F1-W2] at 0.31Hz
+⏳ TIMEOUT [F1-W5] at 0.31Hz
+⏳ TIMEOUT [F1-W6] at 0.31Hz
+⏳ TIMEOUT [F1-W7] at 0.31Hz
+⏳ TIMEOUT [F1-W8] at 0.31Hz
+⏳ TIMEOUT [F1-W9] at 0.31Hz
+
+======================================== GENERATION 9 SUMMARY ========================================
+Freq 0.31Hz: SSE=100000.0 | G_ton=7.70, G_sc=1.19, G_phas=3.88, kp_p=0.16, k_g_dyn=34.8, k_g_stat=119.2
+Freq 1.11Hz: SSE=61.6 | G_ton=17.35, G_sc=8.94, G_phas=7.70, kp_p=0.02, k_g_dyn=32.0, k_g_stat=77.0
+Freq 2.48Hz: SSE=1994.8 | G_ton=76.08, G_sc=15.79, G_phas=6.85, kp_p=1.55, k_g_dyn=50.2, k_g_stat=80.7
+Freq 5.52Hz: SSE=1920.1 | G_ton=21.12, G_sc=1.83, G_phas=6.43, kp_p=2.36, k_g_dyn=45.4, k_g_stat=84.5
+Freq 7.95Hz: SSE=45.6 | G_ton=22.32, G_sc=5.83, G_phas=7.63, kp_p=1.07, k_g_dyn=22.8, k_g_stat=91.8
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 378.8)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 10.8)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 3073.9)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 786.2)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 4581.5)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1424.5)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1779.8)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 4446.8)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 10001.8)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 4043.9)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 2735.9)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 82.0)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 899.5)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1331.8)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 2116.2)
+🛑 POOR FIT [F4-W6] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 62.5)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 61.1)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 82.2)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 191.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 2884.1)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 218.8)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 143.7)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 20.3)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 9947.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 5365.6)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 66.4)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 378.2)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 1525.8)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 6104.2)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 572.1)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 64.7)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 4218.4)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 5082.6)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 55.6)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 62.3)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10370.5)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10231.8)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10404.5)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10554.2)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10241.6)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10513.1)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10353.5)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10201.2)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10397.4)
+
+======================================== GENERATION 10 SUMMARY ========================================
+Freq 0.31Hz: SSE=10201.2 | G_ton=7.90, G_sc=1.33, G_phas=3.25, kp_p=0.14, k_g_dyn=34.4, k_g_stat=116.2
+Freq 1.11Hz: SSE=55.6 | G_ton=14.08, G_sc=9.90, G_phas=7.89, kp_p=0.05, k_g_dyn=31.7, k_g_stat=76.7
+Freq 2.48Hz: SSE=1779.8 | G_ton=92.63, G_sc=16.16, G_phas=6.63, kp_p=1.76, k_g_dyn=58.3, k_g_stat=90.0
+Freq 5.52Hz: SSE=1331.8 | G_ton=16.11, G_sc=8.23, G_phas=7.92, kp_p=1.86, k_g_dyn=38.3, k_g_stat=79.0
+Freq 7.95Hz: SSE=10.8 | G_ton=17.26, G_sc=1.48, G_phas=7.08, kp_p=0.96, k_g_dyn=38.0, k_g_stat=92.1
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 67.0)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 82.8)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 9.7)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 2654.0)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 2580.3)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 4346.7)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 8922.2)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 6790.2)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 3428.0)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 7822.7)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 181.3)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 4367.1)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 13.1)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 872.1)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 8623.6)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 61.2)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 59.8)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 100.3)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 59.4)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1576.9)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1412.4)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 1603.2)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 1.3)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 55.3)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 9254.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1633.6)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 3683.0)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 9.8)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 5918.7)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 67.6)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 122.5)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 4725.4)
+🛑 POOR FIT [F4-W9] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 55.6)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 57.1)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 111.6)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10243.8)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10386.8)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10369.4)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10350.6)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10667.9)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10753.6)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10207.8)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10333.6)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10277.9)
+
+======================================== GENERATION 11 SUMMARY ========================================
+Freq 0.31Hz: SSE=10207.8 | G_ton=7.74, G_sc=1.37, G_phas=3.31, kp_p=0.04, k_g_dyn=31.9, k_g_stat=113.6
+Freq 1.11Hz: SSE=55.3 | G_ton=19.00, G_sc=9.73, G_phas=7.64, kp_p=0.02, k_g_dyn=31.2, k_g_stat=76.8
+Freq 2.48Hz: SSE=1576.9 | G_ton=87.37, G_sc=11.33, G_phas=8.49, kp_p=1.30, k_g_dyn=60.4, k_g_stat=74.4
+Freq 5.52Hz: SSE=872.1 | G_ton=15.85, G_sc=14.32, G_phas=9.93, kp_p=1.42, k_g_dyn=43.8, k_g_stat=74.8
+Freq 7.95Hz: SSE=1.3 | G_ton=36.79, G_sc=5.18, G_phas=7.33, kp_p=1.76, k_g_dyn=26.7, k_g_stat=92.0
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 16.1)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 1374.9)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 304.5)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1151.5)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 5471.0)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 1546.5)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 4529.2)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 4520.2)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 7435.1)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 2202.5)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 31.7)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 707.4)
+🛑 POOR FIT [F4-W5] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 401.4)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1359.4)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 56.6)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 61.2)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 58.1)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 68.1)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 91.3)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 704.7)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 17880.9)
+🛑 POOR FIT [F4-W7] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 66.7)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 59.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 2160.6)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 87.2)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 55.1)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 1706.8)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 4292.2)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 592.5)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 2364.8)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 57.7)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1714.4)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 56.1)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 55.6)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10331.6)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10381.6)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10288.6)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10279.1)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10196.1)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10383.7)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10381.3)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 9841.4)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10441.0)
+
+======================================== GENERATION 12 SUMMARY ========================================
+Freq 0.31Hz: SSE=9841.4 | G_ton=9.66, G_sc=0.75, G_phas=3.74, kp_p=0.18, k_g_dyn=35.8, k_g_stat=119.4
+Freq 1.11Hz: SSE=55.1 | G_ton=16.58, G_sc=9.55, G_phas=7.83, kp_p=0.01, k_g_dyn=31.4, k_g_stat=77.0
+Freq 2.48Hz: SSE=704.7 | G_ton=65.82, G_sc=21.21, G_phas=5.70, kp_p=1.73, k_g_dyn=56.6, k_g_stat=77.2
+Freq 5.52Hz: SSE=707.4 | G_ton=33.26, G_sc=11.63, G_phas=8.30, kp_p=1.82, k_g_dyn=40.2, k_g_stat=83.0
+Freq 7.95Hz: SSE=16.1 | G_ton=43.32, G_sc=4.29, G_phas=7.82, kp_p=1.58, k_g_dyn=27.6, k_g_stat=88.5
+🛑 POOR FIT [F4-W4] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 655.1)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 413.5)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 187.7)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1313.2)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 2219.4)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2508.4)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 6105.5)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 12382.3)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 14235.6)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 13.1)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 4950.6)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 509.5)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1172.4)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 4815.7)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 57.1)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 62.3)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 55.7)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 59.5)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 323.9)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 3886.0)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 833.5)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 447.2)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 4245.8)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 3010.1)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 63.8)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 1023.0)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 58.2)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 3901.8)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 5845.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 609.5)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 4663.6)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 64.5)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 661.0)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 59.0)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10673.9)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 60.2)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9904.4)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10524.8)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10290.3)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10066.9)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10199.2)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10317.3)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10421.6)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10116.2)
+
+======================================== GENERATION 13 SUMMARY ========================================
+Freq 0.31Hz: SSE=9904.4 | G_ton=14.14, G_sc=2.94, G_phas=2.15, kp_p=0.01, k_g_dyn=32.5, k_g_stat=114.2
+Freq 1.11Hz: SSE=55.7 | G_ton=16.29, G_sc=9.54, G_phas=7.78, kp_p=0.01, k_g_dyn=30.8, k_g_stat=76.5
+Freq 2.48Hz: SSE=661.0 | G_ton=59.29, G_sc=20.33, G_phas=6.14, kp_p=1.75, k_g_dyn=49.5, k_g_stat=79.7
+Freq 5.52Hz: SSE=1172.4 | G_ton=7.45, G_sc=7.95, G_phas=9.51, kp_p=0.38, k_g_dyn=41.3, k_g_stat=82.6
+Freq 7.95Hz: SSE=13.1 | G_ton=34.67, G_sc=3.70, G_phas=6.06, kp_p=1.92, k_g_dyn=29.4, k_g_stat=91.0
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 2041.2)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 3459.2)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 1190.2)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 874.4)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 967.5)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2758.4)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 8133.6)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 7466.7)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 7116.5)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 6705.9)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 962.7)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 4382.3)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 332.9)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 713.1)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 4934.7)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 56.2)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 55.8)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 57.8)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 58.6)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 872.1)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 848.9)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 8669.0)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 767.5)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 60.7)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1936.0)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 1076.6)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 1097.9)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 55.3)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1248.1)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 14308.5)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 212.3)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 63.9)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1912.3)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 2417.6)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 55.5)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10126.9)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 56.7)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10495.2)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10060.1)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10445.5)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10412.6)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10114.1)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10623.6)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10303.9)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10658.4)
+
+======================================== GENERATION 14 SUMMARY ========================================
+Freq 0.31Hz: SSE=10060.1 | G_ton=14.67, G_sc=0.50, G_phas=3.75, kp_p=0.01, k_g_dyn=30.9, k_g_stat=114.2
+Freq 1.11Hz: SSE=55.3 | G_ton=17.58, G_sc=9.97, G_phas=7.67, kp_p=0.01, k_g_dyn=30.7, k_g_stat=77.7
+Freq 2.48Hz: SSE=1248.1 | G_ton=83.96, G_sc=24.70, G_phas=5.25, kp_p=2.38, k_g_dyn=41.9, k_g_stat=88.3
+Freq 5.52Hz: SSE=713.1 | G_ton=17.13, G_sc=6.66, G_phas=9.29, kp_p=0.62, k_g_dyn=54.4, k_g_stat=77.7
+Freq 7.95Hz: SSE=212.3 | G_ton=35.24, G_sc=1.25, G_phas=6.57, kp_p=1.96, k_g_dyn=27.4, k_g_stat=90.2
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 2924.5)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 2947.4)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 191.5)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2131.4)
+🛑 POOR FIT [F4-W1] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 524.9)
+🛑 POOR FIT [F4-W3] at 2.48Hz (Score: 100000.0)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 1424.3)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 4152.9)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1742.6)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 1733.4)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 5537.1)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 654.7)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 2450.7)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 3521.7)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 55.2)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 997.7)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 59.1)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1246.2)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 60.9)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 58.8)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 765.6)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 21.5)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 42.4)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 588.3)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 2620.6)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 517.2)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 57.6)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 56.5)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 2411.5)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 54.7)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 530.5)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 3508.4)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 65.4)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1203.5)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 55.7)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10182.9)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10383.0)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10043.3)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9838.1)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10072.7)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10222.1)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10357.7)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10305.3)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10398.5)
+
+======================================== GENERATION 15 SUMMARY ========================================
+Freq 0.31Hz: SSE=9838.1 | G_ton=19.39, G_sc=0.50, G_phas=3.56, kp_p=0.28, k_g_dyn=32.5, k_g_stat=114.6
+Freq 1.11Hz: SSE=54.7 | G_ton=16.07, G_sc=9.70, G_phas=7.80, kp_p=0.02, k_g_dyn=30.7, k_g_stat=77.1
+Freq 2.48Hz: SSE=1203.5 | G_ton=62.52, G_sc=18.72, G_phas=6.70, kp_p=1.23, k_g_dyn=45.8, k_g_stat=81.8
+Freq 5.52Hz: SSE=517.2 | G_ton=19.16, G_sc=12.74, G_phas=8.53, kp_p=0.10, k_g_dyn=42.9, k_g_stat=79.7
+Freq 7.95Hz: SSE=21.5 | G_ton=38.59, G_sc=0.99, G_phas=6.17, kp_p=2.01, k_g_dyn=31.4, k_g_stat=95.7
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 2201.3)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 760.1)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 835.4)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 3549.6)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 726.5)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 1760.4)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 8519.8)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1677.1)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 4296.4)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 9888.7)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 210.0)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 4739.6)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 18.9)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 3885.8)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 465.6)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 707.6)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 2752.4)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 54.4)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 57.9)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 55.6)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 58.5)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1838.7)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 2084.0)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 1877.4)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1501.9)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 3140.0)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 63.7)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 8748.8)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 54.2)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 13104.3)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 8.6)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 54.6)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 622.2)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 9403.8)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 58.9)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 9998.4)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 55.9)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10013.5)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10100.9)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10227.3)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10275.0)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10389.4)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10019.3)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10641.7)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10501.2)
+
+======================================== GENERATION 16 SUMMARY ========================================
+Freq 0.31Hz: SSE=9998.4 | G_ton=12.78, G_sc=1.14, G_phas=2.17, kp_p=0.02, k_g_dyn=29.8, k_g_stat=114.8
+Freq 1.11Hz: SSE=54.2 | G_ton=15.44, G_sc=9.98, G_phas=7.86, kp_p=0.01, k_g_dyn=30.6, k_g_stat=76.5
+Freq 2.48Hz: SSE=707.6 | G_ton=67.27, G_sc=24.49, G_phas=6.14, kp_p=1.29, k_g_dyn=37.7, k_g_stat=85.5
+Freq 5.52Hz: SSE=622.2 | G_ton=18.52, G_sc=10.72, G_phas=8.66, kp_p=0.98, k_g_dyn=46.0, k_g_stat=81.1
+Freq 7.95Hz: SSE=8.6 | G_ton=21.25, G_sc=1.04, G_phas=6.76, kp_p=1.56, k_g_dyn=40.5, k_g_stat=95.8
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 2152.0)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 515.0)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 177.2)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 14883.8)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 491.3)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 1074.2)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 3019.2)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1947.6)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 8706.8)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 602.7)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 2637.3)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 2970.4)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 665.4)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 70.6)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 4385.3)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 53.9)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 56.1)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 60.6)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 58.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 831.7)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 775.4)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 3865.3)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 55.6)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 822.5)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 2202.8)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 603.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 795.9)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 61.3)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 1793.5)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 482.7)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 4542.3)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 56.1)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1224.2)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9618.6)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 9502.0)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 54.0)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 57.2)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9875.5)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10124.9)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10241.1)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10346.1)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10129.8)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 9976.1)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10452.8)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10955.2)
+
+======================================== GENERATION 17 SUMMARY ========================================
+Freq 0.31Hz: SSE=9618.6 | G_ton=16.46, G_sc=1.90, G_phas=2.00, kp_p=0.04, k_g_dyn=30.3, k_g_stat=110.5
+Freq 1.11Hz: SSE=53.9 | G_ton=15.05, G_sc=9.95, G_phas=7.88, kp_p=0.01, k_g_dyn=31.3, k_g_stat=77.4
+Freq 2.48Hz: SSE=482.7 | G_ton=63.91, G_sc=21.37, G_phas=6.67, kp_p=1.59, k_g_dyn=29.1, k_g_stat=89.8
+Freq 5.52Hz: SSE=491.3 | G_ton=32.81, G_sc=17.97, G_phas=9.08, kp_p=0.21, k_g_dyn=42.5, k_g_stat=78.0
+Freq 7.95Hz: SSE=70.6 | G_ton=16.12, G_sc=5.77, G_phas=7.93, kp_p=1.46, k_g_dyn=39.2, k_g_stat=94.8
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 382.4)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2840.8)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 527.9)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 2175.9)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 949.7)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 846.9)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 3698.1)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 375.2)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 8718.8)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 3457.6)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 751.0)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 708.9)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 648.4)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 6575.5)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 2467.4)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 54.2)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 57.7)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 55.8)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 55.5)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 2465.8)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 635.1)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 597.5)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 57.4)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 26.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 651.5)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 7453.4)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 2526.1)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 695.3)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 55.3)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1840.7)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9985.1)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 54.7)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 354.6)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1555.2)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 9819.7)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 6083.7)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 55.0)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 54.9)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10219.7)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10571.2)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10269.0)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10315.6)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10167.1)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10006.9)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10055.8)
+
+======================================== GENERATION 18 SUMMARY ========================================
+Freq 0.31Hz: SSE=9819.7 | G_ton=18.93, G_sc=0.65, G_phas=2.02, kp_p=0.25, k_g_dyn=29.5, k_g_stat=113.2
+Freq 1.11Hz: SSE=54.2 | G_ton=14.57, G_sc=10.04, G_phas=7.95, kp_p=0.01, k_g_dyn=31.3, k_g_stat=77.7
+Freq 2.48Hz: SSE=375.2 | G_ton=78.80, G_sc=24.94, G_phas=5.93, kp_p=1.21, k_g_dyn=20.3, k_g_stat=91.5
+Freq 5.52Hz: SSE=597.5 | G_ton=34.49, G_sc=19.75, G_phas=8.30, kp_p=1.52, k_g_dyn=39.6, k_g_stat=87.1
+Freq 7.95Hz: SSE=26.5 | G_ton=18.66, G_sc=1.02, G_phas=7.04, kp_p=1.53, k_g_dyn=42.7, k_g_stat=92.5
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 26.5)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 484.8)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 1068.8)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 13750.7)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 7805.1)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 514.4)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 6359.9)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1927.0)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 3519.1)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 3466.8)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 778.7)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 656.2)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 408.3)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 41.5)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 1512.9)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 54.9)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 54.2)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 57.6)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 56.9)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 266.4)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 966.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 3805.5)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 1499.7)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 54.1)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 3206.9)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 9561.5)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 515.6)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 615.7)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 63.8)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 13836.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 862.7)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 21149.1)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 3165.1)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 66.3)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 54.9)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10032.4)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9892.1)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 54.3)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10109.5)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10238.2)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10280.4)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10536.6)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10570.9)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10087.9)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 9858.8)
+
+======================================== GENERATION 19 SUMMARY ========================================
+Freq 0.31Hz: SSE=9858.8 | G_ton=27.33, G_sc=1.12, G_phas=2.32, kp_p=0.23, k_g_dyn=31.2, k_g_stat=115.4
+Freq 1.11Hz: SSE=54.1 | G_ton=15.59, G_sc=9.72, G_phas=7.89, kp_p=0.01, k_g_dyn=30.9, k_g_stat=77.4
+Freq 2.48Hz: SSE=966.0 | G_ton=63.08, G_sc=23.67, G_phas=6.57, kp_p=1.25, k_g_dyn=20.0, k_g_stat=91.7
+Freq 5.52Hz: SSE=408.3 | G_ton=29.74, G_sc=13.94, G_phas=9.08, kp_p=1.26, k_g_dyn=42.3, k_g_stat=82.1
+Freq 7.95Hz: SSE=26.5 | G_ton=30.57, G_sc=1.29, G_phas=6.27, kp_p=1.99, k_g_dyn=33.4, k_g_stat=98.6
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 1011.0)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 40.9)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 12.9)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 506.2)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 9920.6)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2310.7)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 3912.5)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 10093.7)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 3798.3)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 3616.2)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 474.6)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 1231.0)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 3380.8)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 305.3)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 55.4)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 55.2)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 2155.8)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 59.0)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 55.1)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 474.6)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1466.0)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 185.4)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 1816.3)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 743.6)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 55.6)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 15.3)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 59.3)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 5963.8)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 8507.3)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 609.2)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 7.8)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9621.9)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 2084.8)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 64.7)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1091.9)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 61.1)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 10141.9)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10059.6)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9923.3)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 55.5)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10232.9)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 9521.2)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10121.5)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10121.7)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10145.0)
+
+======================================== GENERATION 20 SUMMARY ========================================
+Freq 0.31Hz: SSE=9521.2 | G_ton=31.30, G_sc=0.69, G_phas=2.01, kp_p=0.24, k_g_dyn=31.0, k_g_stat=112.7
+Freq 1.11Hz: SSE=55.1 | G_ton=14.50, G_sc=10.09, G_phas=7.98, kp_p=0.01, k_g_dyn=31.4, k_g_stat=78.0
+Freq 2.48Hz: SSE=609.2 | G_ton=63.80, G_sc=20.44, G_phas=6.19, kp_p=1.41, k_g_dyn=30.0, k_g_stat=93.6
+Freq 5.52Hz: SSE=474.6 | G_ton=37.77, G_sc=19.24, G_phas=8.96, kp_p=2.00, k_g_dyn=40.5, k_g_stat=95.4
+Freq 7.95Hz: SSE=7.8 | G_ton=20.71, G_sc=1.01, G_phas=7.29, kp_p=1.97, k_g_dyn=33.8, k_g_stat=93.5
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 42891.7)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 192.3)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 8.4)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 304.6)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 1228.8)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 3892.4)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 3956.8)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1333.6)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 1182.6)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 6398.1)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 14.7)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 2697.9)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 4358.7)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 141.7)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 7719.4)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 53.4)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 56.2)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 54.9)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 58.9)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 2147.3)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 414.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1948.1)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 55.9)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 3562.4)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 11067.2)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 2520.0)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 1064.5)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 7723.4)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 59.0)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 749.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 60.5)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1900.9)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 57.9)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1764.0)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 59.3)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9839.2)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9566.6)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 57.3)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10564.2)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 9545.9)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 10463.5)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 9740.6)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10378.6)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10310.9)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10120.4)
+
+======================================== GENERATION 21 SUMMARY ========================================
+Freq 0.31Hz: SSE=9545.9 | G_ton=41.13, G_sc=2.13, G_phas=2.00, kp_p=0.01, k_g_dyn=29.2, k_g_stat=108.9
+Freq 1.11Hz: SSE=53.4 | G_ton=13.33, G_sc=10.28, G_phas=8.01, kp_p=0.01, k_g_dyn=31.4, k_g_stat=78.6
+Freq 2.48Hz: SSE=749.0 | G_ton=61.45, G_sc=21.51, G_phas=6.40, kp_p=2.20, k_g_dyn=33.5, k_g_stat=93.6
+Freq 5.52Hz: SSE=1228.8 | G_ton=13.70, G_sc=13.96, G_phas=8.79, kp_p=2.11, k_g_dyn=42.4, k_g_stat=96.2
+Freq 7.95Hz: SSE=8.4 | G_ton=19.69, G_sc=1.29, G_phas=6.75, kp_p=2.08, k_g_dyn=34.8, k_g_stat=95.4
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 13.8)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 807.2)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 3802.3)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 911.6)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 537.0)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 4160.0)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1131.7)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1350.3)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 618.9)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 751.6)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 34713.8)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 6.3)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 613.6)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 21.6)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 1661.6)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 53.3)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 55.1)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 62.0)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 54.1)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 23.8)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 2441.1)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 3448.3)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 515.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1365.2)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 54.4)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 698.1)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 37.9)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 54.4)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 893.0)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 664.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 833.6)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1934.3)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 55.1)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 9111.6)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 54.0)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 10123.4)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9522.3)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 54.9)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 9597.6)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9781.7)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 9691.7)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10267.8)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10059.0)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10133.5)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 12986.1)
+
+======================================== GENERATION 22 SUMMARY ========================================
+Freq 0.31Hz: SSE=9522.3 | G_ton=46.73, G_sc=2.39, G_phas=2.02, kp_p=0.11, k_g_dyn=28.1, k_g_stat=112.4
+Freq 1.11Hz: SSE=53.3 | G_ton=11.99, G_sc=9.79, G_phas=8.15, kp_p=0.01, k_g_dyn=31.9, k_g_stat=78.4
+Freq 2.48Hz: SSE=618.9 | G_ton=66.43, G_sc=24.97, G_phas=7.00, kp_p=2.18, k_g_dyn=23.7, k_g_stat=88.8
+Freq 5.52Hz: SSE=537.0 | G_ton=22.36, G_sc=14.28, G_phas=9.39, kp_p=1.73, k_g_dyn=49.5, k_g_stat=120.8
+Freq 7.95Hz: SSE=6.3 | G_ton=16.80, G_sc=0.80, G_phas=7.00, kp_p=2.09, k_g_dyn=36.8, k_g_stat=95.8
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 398.6)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 30.0)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 5.8)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 2508.6)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 3601.7)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 4997.0)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 9737.1)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1826.7)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 8010.4)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1722.6)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 1735.5)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 693.3)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 978.1)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 32.7)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 4632.6)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 54.6)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 53.9)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 60.8)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 56.3)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 12849.5)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 392.2)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 780.7)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 37.3)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1559.7)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 56.0)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 24.2)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 581.2)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 682.9)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 54.7)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 2420.3)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 905.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 12.0)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 52.6)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 635.7)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 63.2)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 55.0)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 9356.7)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9599.8)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9866.1)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 9844.6)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9813.6)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10071.8)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10409.4)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 10112.1)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10208.0)
+
+======================================== GENERATION 23 SUMMARY ========================================
+Freq 0.31Hz: SSE=9356.7 | G_ton=57.97, G_sc=1.17, G_phas=2.36, kp_p=0.07, k_g_dyn=20.1, k_g_stat=107.2
+Freq 1.11Hz: SSE=52.6 | G_ton=11.67, G_sc=9.89, G_phas=8.18, kp_p=0.01, k_g_dyn=32.8, k_g_stat=77.5
+Freq 2.48Hz: SSE=581.2 | G_ton=63.86, G_sc=22.79, G_phas=6.50, kp_p=2.50, k_g_dyn=20.3, k_g_stat=89.0
+Freq 5.52Hz: SSE=682.9 | G_ton=24.68, G_sc=11.77, G_phas=9.93, kp_p=1.87, k_g_dyn=78.5, k_g_stat=126.4
+Freq 7.95Hz: SSE=5.8 | G_ton=20.66, G_sc=0.63, G_phas=6.84, kp_p=2.16, k_g_dyn=35.4, k_g_stat=94.4
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 9194.6)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 405.9)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 24.3)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 6.4)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 4829.8)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 626.1)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 3660.3)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 1824.5)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 2848.2)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 2317.3)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 310.9)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 743.9)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 478.5)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 19.0)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 877.6)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 66.8)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 53.8)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 55.5)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 61.5)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1715.6)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 6339.2)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 17.7)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 56.4)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 3621.9)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 35.0)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 162.4)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 57.9)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 8045.6)
+⏳ TIMEOUT [F5-W8] at 5.52Hz
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 983.6)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 8410.2)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 58.6)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 27.6)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1242.9)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 667.0)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 8946.8)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 53.8)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 58.4)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 8520.4)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9619.6)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 7786.4)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10040.8)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 9474.4)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 9824.1)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10119.3)
+
+======================================== GENERATION 24 SUMMARY ========================================
+Freq 0.31Hz: SSE=7786.4 | G_ton=99.82, G_sc=3.80, G_phas=3.47, kp_p=0.39, k_g_dyn=31.0, k_g_stat=103.0
+Freq 1.11Hz: SSE=53.8 | G_ton=13.53, G_sc=10.19, G_phas=8.00, kp_p=0.01, k_g_dyn=32.0, k_g_stat=77.7
+Freq 2.48Hz: SSE=877.6 | G_ton=62.17, G_sc=22.75, G_phas=6.16, kp_p=2.48, k_g_dyn=27.4, k_g_stat=99.3
+Freq 5.52Hz: SSE=478.5 | G_ton=44.37, G_sc=18.54, G_phas=8.53, kp_p=1.39, k_g_dyn=79.7, k_g_stat=142.8
+Freq 7.95Hz: SSE=6.4 | G_ton=20.82, G_sc=0.58, G_phas=7.18, kp_p=1.97, k_g_dyn=34.0, k_g_stat=95.9
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 41.3)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 161.7)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 9.2)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 448.6)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 6492.6)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 897.4)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1958.6)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1178.4)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 620.6)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 7346.6)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1415.2)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 22.2)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 5417.6)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 5.4)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 2219.9)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 53.7)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 55.0)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 50.8)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 55.1)
+🛑 POOR FIT [F1-W2] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 18.2)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 4789.6)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1022.4)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 343.3)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 52.1)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 910.1)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 330.3)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 27.3)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 1917.1)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 54.3)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1689.6)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 5.3)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 2866.0)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 57.3)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 8186.7)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 54.8)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 54.8)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9460.1)
+🛑 POOR FIT [F1-W7] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 9661.1)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 7403.7)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 10362.4)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 8897.6)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 10216.6)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 9363.6)
+
+======================================== GENERATION 25 SUMMARY ========================================
+Freq 0.31Hz: SSE=7403.7 | G_ton=102.66, G_sc=1.66, G_phas=5.51, kp_p=0.54, k_g_dyn=21.9, k_g_stat=104.2
+Freq 1.11Hz: SSE=50.8 | G_ton=12.19, G_sc=10.43, G_phas=8.18, kp_p=0.04, k_g_dyn=33.7, k_g_stat=77.1
+Freq 2.48Hz: SSE=620.6 | G_ton=62.08, G_sc=21.87, G_phas=6.41, kp_p=2.23, k_g_dyn=21.3, k_g_stat=92.2
+Freq 5.52Hz: SSE=330.3 | G_ton=44.09, G_sc=11.20, G_phas=7.58, kp_p=2.50, k_g_dyn=71.9, k_g_stat=124.6
+Freq 7.95Hz: SSE=5.3 | G_ton=25.10, G_sc=0.87, G_phas=7.24, kp_p=1.93, k_g_dyn=33.3, k_g_stat=93.8
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 119.8)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 7.8)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 71.3)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 797.3)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 1334.1)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 925.1)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 2550.4)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1654.1)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 9556.4)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 8049.2)
+🛑 POOR FIT [F1-W5] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 62.1)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 1711.8)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 14466.1)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 58.7)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 53.4)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 51.3)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 52.4)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 54.3)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 945.9)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 746.5)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 4204.4)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 631.7)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 686.1)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 21342.6)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 2026.4)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 56.7)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 55.0)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 3052.1)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1603.1)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 50.1)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 57.6)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 925.2)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 50.0)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 5651.3)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 53.8)
+🛑 POOR FIT [F1-W8] at 0.31Hz (Score: 100000.0)
+🛑 POOR FIT [F1-W6] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 55.1)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 7543.6)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 8377.8)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 7965.0)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9780.2)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 10074.7)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 10634.1)
+
+======================================== GENERATION 26 SUMMARY ========================================
+Freq 0.31Hz: SSE=7543.6 | G_ton=104.11, G_sc=0.95, G_phas=5.26, kp_p=0.13, k_g_dyn=30.8, k_g_stat=92.5
+Freq 1.11Hz: SSE=50.1 | G_ton=10.63, G_sc=11.15, G_phas=8.31, kp_p=0.06, k_g_dyn=33.6, k_g_stat=77.9
+Freq 2.48Hz: SSE=746.5 | G_ton=63.95, G_sc=24.05, G_phas=6.74, kp_p=2.46, k_g_dyn=20.2, k_g_stat=95.0
+Freq 5.52Hz: SSE=797.3 | G_ton=30.55, G_sc=10.59, G_phas=9.19, kp_p=2.07, k_g_dyn=79.2, k_g_stat=88.4
+Freq 7.95Hz: SSE=7.8 | G_ton=17.98, G_sc=0.66, G_phas=7.09, kp_p=2.26, k_g_dyn=33.9, k_g_stat=94.6
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 688.8)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 39.9)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 531.7)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 815.5)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2556.8)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1249.3)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 1684.2)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 856.8)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1520.0)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 4820.6)
+🛑 POOR FIT [F1-W5] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 3.4)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 3062.9)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1240.7)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 929.9)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 882.5)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 55.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1053.2)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 67.9)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 61.8)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 11.2)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 105.5)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 2478.0)
+🛑 POOR FIT [F1-W3] at 0.31Hz (Score: 100000.0)
+🛑 POOR FIT [F1-W4] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 69.7)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 2264.5)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 426.2)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 5.3)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 5453.3)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 931.0)
+🛑 POOR FIT [F1-W9] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1440.4)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 50.1)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 1447.6)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 822.0)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1878.4)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 60.2)
+🛑 POOR FIT [F1-W8] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 55.9)
+🛑 POOR FIT [F1-W7] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 51.2)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9955.0)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 8341.6)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 7402.6)
+
+======================================== GENERATION 27 SUMMARY ========================================
+Freq 0.31Hz: SSE=7402.6 | G_ton=95.65, G_sc=0.55, G_phas=5.73, kp_p=1.10, k_g_dyn=36.4, k_g_stat=125.9
+Freq 1.11Hz: SSE=50.1 | G_ton=11.11, G_sc=10.96, G_phas=8.33, kp_p=0.03, k_g_dyn=33.0, k_g_stat=78.3
+Freq 2.48Hz: SSE=856.8 | G_ton=63.79, G_sc=24.63, G_phas=6.77, kp_p=2.35, k_g_dyn=30.5, k_g_stat=93.1
+Freq 5.52Hz: SSE=815.5 | G_ton=61.62, G_sc=9.55, G_phas=9.96, kp_p=1.95, k_g_dyn=72.5, k_g_stat=102.8
+Freq 7.95Hz: SSE=3.4 | G_ton=24.91, G_sc=0.50, G_phas=6.84, kp_p=2.29, k_g_dyn=33.9, k_g_stat=91.2
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 23.3)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 113.7)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1262.2)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 94.3)
+🛑 POOR FIT [F1-W3] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 2929.4)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 3807.9)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 830.0)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1124.2)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 962.5)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1162.0)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 54.6)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 904.7)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 8.8)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1005.0)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 801.8)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 9136.8)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 56.4)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 54.5)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 101.5)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 57.3)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 225.0)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1349.5)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 1040.8)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 588.6)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 30.1)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 50.5)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 7.9)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 686.1)
+🛑 POOR FIT [F1-W9] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 50.1)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 6908.3)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 2656.3)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 56.0)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 42.0)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 2704.2)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 53.2)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 52.5)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 8386.9)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 8971.8)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 10088.0)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9988.8)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 7741.3)
+✅ SUCCESS [F1-W6] at 0.31Hz (Score: 9440.8)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 6984.1)
+
+======================================== GENERATION 28 SUMMARY ========================================
+Freq 0.31Hz: SSE=6984.1 | G_ton=91.64, G_sc=2.63, G_phas=6.41, kp_p=1.44, k_g_dyn=37.3, k_g_stat=124.6
+Freq 1.11Hz: SSE=50.1 | G_ton=11.26, G_sc=10.73, G_phas=8.29, kp_p=0.01, k_g_dyn=33.9, k_g_stat=77.5
+Freq 2.48Hz: SSE=801.8 | G_ton=54.26, G_sc=18.96, G_phas=7.01, kp_p=2.23, k_g_dyn=31.3, k_g_stat=93.8
+Freq 5.52Hz: SSE=588.6 | G_ton=23.07, G_sc=12.09, G_phas=9.75, kp_p=2.33, k_g_dyn=79.1, k_g_stat=101.4
+Freq 7.95Hz: SSE=7.9 | G_ton=24.76, G_sc=1.01, G_phas=6.63, kp_p=2.30, k_g_dyn=34.6, k_g_stat=92.0
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 12.2)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 5.3)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 31.9)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 4242.6)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 604.1)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1315.8)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 7099.1)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 901.9)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1281.7)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 735.6)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 61.4)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 353.2)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1950.5)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 138.7)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 1164.1)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 69.0)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 50.6)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 52.0)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 52.5)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 26.0)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1865.4)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 1669.6)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 92.1)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 16.5)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1965.7)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 24.4)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 2557.4)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 1055.8)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 52.9)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 977.0)
+🛑 POOR FIT [F1-W6] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 14011.7)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 62.0)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 69.2)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 8040.2)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 49.7)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 9177.7)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 56.1)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 8171.5)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 8562.1)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9845.6)
+✅ SUCCESS [F1-W4] at 0.31Hz (Score: 8594.3)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 8624.9)
+✅ SUCCESS [F1-W8] at 0.31Hz (Score: 8312.8)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 9407.4)
+
+======================================== GENERATION 29 SUMMARY ========================================
+Freq 0.31Hz: SSE=8171.5 | G_ton=94.58, G_sc=0.54, G_phas=4.11, kp_p=1.05, k_g_dyn=42.3, k_g_stat=119.0
+Freq 1.11Hz: SSE=49.7 | G_ton=11.06, G_sc=11.28, G_phas=8.34, kp_p=0.06, k_g_dyn=36.1, k_g_stat=77.7
+Freq 2.48Hz: SSE=735.6 | G_ton=62.42, G_sc=22.75, G_phas=6.91, kp_p=2.15, k_g_dyn=33.6, k_g_stat=96.5
+Freq 5.52Hz: SSE=353.2 | G_ton=29.39, G_sc=15.67, G_phas=9.10, kp_p=2.24, k_g_dyn=79.7, k_g_stat=111.4
+Freq 7.95Hz: SSE=5.3 | G_ton=26.27, G_sc=0.63, G_phas=6.75, kp_p=2.42, k_g_dyn=36.5, k_g_stat=90.2
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 12.1)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 39.2)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 148.1)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 16891.7)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 1024.9)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 3275.4)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 1300.4)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 1293.1)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 484.3)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 1007.6)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 36.4)
+🛑 POOR FIT [F1-W5] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 3642.5)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1604.5)
+🛑 POOR FIT [F1-W6] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 127.4)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 615.3)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 60.1)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 70.7)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 67.7)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 50.7)
+🛑 POOR FIT [F1-W4] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 25.1)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1164.2)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 4542.8)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 14.3)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 1878.9)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 86.5)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 52.5)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 788.1)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 1433.3)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 54.9)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1942.7)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 34.3)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 29115.2)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1148.7)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 62.1)
+🛑 POOR FIT [F1-W8] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 57.2)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 73.7)
+🛑 POOR FIT [F1-W2] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9346.2)
+✅ SUCCESS [F1-W7] at 0.31Hz (Score: 9150.1)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9124.7)
+✅ SUCCESS [F1-W9] at 0.31Hz (Score: 9134.3)
+
+======================================== GENERATION 30 SUMMARY ========================================
+Freq 0.31Hz: SSE=9124.7 | G_ton=85.61, G_sc=9.16, G_phas=4.12, kp_p=1.48, k_g_dyn=49.4, k_g_stat=124.9
+Freq 1.11Hz: SSE=50.7 | G_ton=10.92, G_sc=11.79, G_phas=8.31, kp_p=0.11, k_g_dyn=36.4, k_g_stat=78.7
+Freq 2.48Hz: SSE=484.3 | G_ton=61.57, G_sc=21.99, G_phas=6.90, kp_p=2.31, k_g_dyn=38.3, k_g_stat=98.0
+Freq 5.52Hz: SSE=788.1 | G_ton=30.02, G_sc=16.20, G_phas=9.00, kp_p=2.02, k_g_dyn=79.7, k_g_stat=110.0
+Freq 7.95Hz: SSE=12.1 | G_ton=23.91, G_sc=1.35, G_phas=6.59, kp_p=2.45, k_g_dyn=38.1, k_g_stat=91.7
+🛑 POOR FIT [F1-W4] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F6-W1] at 7.95Hz (Score: 29.4)
+✅ SUCCESS [F6-W3] at 7.95Hz (Score: 4.2)
+✅ SUCCESS [F6-W2] at 7.95Hz (Score: 90.2)
+✅ SUCCESS [F5-W1] at 5.52Hz (Score: 6135.0)
+✅ SUCCESS [F5-W2] at 5.52Hz (Score: 627.0)
+✅ SUCCESS [F5-W3] at 5.52Hz (Score: 963.9)
+✅ SUCCESS [F4-W2] at 2.48Hz (Score: 755.8)
+✅ SUCCESS [F4-W3] at 2.48Hz (Score: 2389.1)
+✅ SUCCESS [F4-W1] at 2.48Hz (Score: 3186.1)
+✅ SUCCESS [F4-W4] at 2.48Hz (Score: 561.9)
+✅ SUCCESS [F6-W4] at 7.95Hz (Score: 33.7)
+✅ SUCCESS [F5-W4] at 5.52Hz (Score: 7373.2)
+✅ SUCCESS [F6-W5] at 7.95Hz (Score: 2101.4)
+✅ SUCCESS [F5-W5] at 5.52Hz (Score: 1185.1)
+✅ SUCCESS [F4-W5] at 2.48Hz (Score: 939.8)
+✅ SUCCESS [F5-W6] at 5.52Hz (Score: 1122.4)
+✅ SUCCESS [F6-W6] at 7.95Hz (Score: 7.6)
+✅ SUCCESS [F3-W2] at 1.11Hz (Score: 92.5)
+✅ SUCCESS [F3-W1] at 1.11Hz (Score: 67.8)
+✅ SUCCESS [F3-W3] at 1.11Hz (Score: 54.8)
+✅ SUCCESS [F3-W4] at 1.11Hz (Score: 50.9)
+✅ SUCCESS [F4-W6] at 2.48Hz (Score: 2496.2)
+✅ SUCCESS [F3-W5] at 1.11Hz (Score: 51.7)
+✅ SUCCESS [F5-W7] at 5.52Hz (Score: 3204.8)
+✅ SUCCESS [F4-W7] at 2.48Hz (Score: 840.1)
+✅ SUCCESS [F6-W7] at 7.95Hz (Score: 7.0)
+✅ SUCCESS [F6-W8] at 7.95Hz (Score: 170.1)
+🛑 POOR FIT [F1-W8] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F5-W8] at 5.52Hz (Score: 2042.5)
+🛑 POOR FIT [F1-W9] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F4-W8] at 2.48Hz (Score: 1194.6)
+✅ SUCCESS [F3-W6] at 1.11Hz (Score: 68.6)
+✅ SUCCESS [F6-W9] at 7.95Hz (Score: 60.2)
+✅ SUCCESS [F5-W9] at 5.52Hz (Score: 793.5)
+✅ SUCCESS [F3-W7] at 1.11Hz (Score: 55.0)
+✅ SUCCESS [F4-W9] at 2.48Hz (Score: 1953.7)
+✅ SUCCESS [F3-W8] at 1.11Hz (Score: 51.9)
+✅ SUCCESS [F3-W9] at 1.11Hz (Score: 51.2)
+🛑 POOR FIT [F1-W6] at 0.31Hz (Score: 100000.0)
+✅ SUCCESS [F1-W5] at 0.31Hz (Score: 8403.0)
+✅ SUCCESS [F1-W1] at 0.31Hz (Score: 9728.8)
+✅ SUCCESS [F1-W2] at 0.31Hz (Score: 8943.4)
+✅ SUCCESS [F1-W3] at 0.31Hz (Score: 9651.2)
+💥 CRASHED [F1-W7] at 0.31Hz: Gton=55.56, Gsc=10.11
