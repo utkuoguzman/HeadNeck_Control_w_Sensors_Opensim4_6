@@ -49,9 +49,12 @@ public:
     OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double, "Gain for Vestibular-driven Gamma_dyn");
     OpenSim_DECLARE_PROPERTY(K_gamma_stat, double, "Gain for Alpha-Gamma Coactivation");
     OpenSim_DECLARE_PROPERTY(K_gamma, double, "Gain for Gamma motor neuron dynamic setpoint shift (default: 1.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_task, double, "Task-Space Proportional Gain (Kp) for 3D Torque computation");
-    OpenSim_DECLARE_PROPERTY(Ki_task, double, "Task-Space Integral Gain (Ki) for posture maintenance against gravity");
-    OpenSim_DECLARE_PROPERTY(Kd_task, double, "Task-Space Derivative Gain (Kd) for 3D Torque computation");
+    OpenSim_DECLARE_PROPERTY(omega_n_pitch, double, "Natural frequency (rad/s) for pitch task tracking");
+    OpenSim_DECLARE_PROPERTY(zeta_pitch, double, "Damping ratio for pitch task tracking");
+    OpenSim_DECLARE_PROPERTY(omega_n_roll, double, "Natural frequency (rad/s) for roll task tracking");
+    OpenSim_DECLARE_PROPERTY(zeta_roll, double, "Damping ratio for roll task tracking");
+    OpenSim_DECLARE_PROPERTY(omega_n_yaw, double, "Natural frequency (rad/s) for yaw task tracking");
+    OpenSim_DECLARE_PROPERTY(zeta_yaw, double, "Damping ratio for yaw task tracking");
 
     // Cerebellar dynamic approximation toggle
     OpenSim_DECLARE_PROPERTY(use_dynamic_jacobian, bool, "If true, recalculates the TNT Metric Tensor at every step");

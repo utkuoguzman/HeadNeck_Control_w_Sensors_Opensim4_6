@@ -38,31 +38,31 @@ FIXED_ZETA = 1.98
 FIXED_KI = 6.54
 
 # Frequencies: We evaluate from highest to lowest for early stopping!
-# Order: F6, F5, F4, F3, F2, F1
+# Order: F6, F5, F4, F3, F2
 TARGETS = [
     (7.95, 0.443, -29.8),  # F6
     (5.52, 0.509, -29.0),  # F5
     (2.48, 0.655, -20.6),  # F4
     (1.11, 0.814, -10.9),  # F3
     (0.78, 0.840,  -8.1),  # F2
-    (0.31, 0.893,   2.5)   # F1
+    (0.31, 0.893,   2.5)   # F1 (Re-enabled for final fine-tuning)
 ]
 
 # Educated starting parameters based on VCR/CCR biological pathways
 x0 = np.array([
-    2.0, 5.0, 1.0,   # K_ton, z_ton, p_ton (Tonic: Angular Pos -> Torque. DC gain = 10.0, low-pass)
-    0.5, 1.0, 1.0,   # K_sc, z_sc, p_sc (SC: Angular Vel -> Torque. Flat damping = 0.5)
-    0.1, 1.0, 5.0,   # K_phas, z_phas, p_phas (Phasic: Lin Acc -> Torque. Low-pass inertia comp)
-    0.02, 100.0, 10.0, # kp_prop, z_ccr, p_ccr (CCR: Low high-freq gain, DC gain = 1.0)
-    0.13, 0.45       # k_dyn, k_stat (CCR: Spindle sensitivity drives)
+    16.38, 33.88, 3.43,   # K_ton, z_ton, p_ton (From 979.5 Score)
+    16.54, 9.60, 57.46,   # K_sc, z_sc, p_sc 
+    1.31, 11.80, 10.79,   # K_phas, z_phas, p_phas 
+    1.28, 24.06, 56.08,   # kp_prop, z_ccr, p_ccr 
+    3.56, 2.63       # k_dyn, k_stat 
 ])
 
 sigma0 = np.array([
-    1.0, 2.0, 0.5,   # K_ton, z, p
-    0.5, 1.0, 1.0,   # K_sc, z, p
-    0.1, 1.0, 2.0,  # K_phas, z, p
-    0.1, 5.0, 5.0,   # kp, z_ccr, p_ccr
-    0.1, 0.2        # k_dyn, k_stat
+    0.5, 1.0, 0.2,   # K_ton, z, p (Shrunk variance for fine-tuning)
+    0.5, 1.0, 1.0,   # K_sc, z, p 
+    0.1, 1.0, 1.0,   # K_phas, z, p 
+    0.1, 2.0, 2.0,   # kp, z_ccr, p_ccr 
+    0.1, 0.1        # k_dyn, k_stat 
 ])
 
 # Bounds
@@ -134,7 +134,7 @@ def main():
         # We start with target_idx = 0 (F6) and go down to 5 (F1)
         active_candidates = list(range(len(solutions)))
         
-        for target_idx in range(6):
+        for target_idx in range(len(TARGETS)):
             if not active_candidates:
                 break
                 
@@ -155,7 +155,7 @@ def main():
                         # EARLY STOPPING: This candidate failed a fast frequency.
                         # It doesn't get to run the slow frequencies!
                         # Add a massive penalty for the remaining frequencies.
-                        remaining_freqs = 5 - target_idx
+                        remaining_freqs = (len(TARGETS) - 1) - target_idx
                         penalty = remaining_freqs * 1000000.0
                         scores[idx] += penalty
                         active_candidates.remove(idx)

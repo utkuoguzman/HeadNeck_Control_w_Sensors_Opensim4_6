@@ -41,11 +41,33 @@ def run_peng_simulation():
     if controller is None:
         raise Exception("HeadNeckNeuralController not found!")
 
-    # Set parameters to default/converged values from CMA-ES
-    # Just picking reasonable values representing a well-tuned system
-    osim.PropertyHelper.setValueDouble(20.0, controller.updPropertyByName("Kp_task"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("Ki_task"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("Kd_task"))
+    # Set task parameters to defaults (will be optimized in CMA-ES)
+    osim.PropertyHelper.setValueDouble(4.47, controller.updPropertyByName("omega_n_pitch"))
+    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("zeta_pitch"))
+    osim.PropertyHelper.setValueDouble(4.47, controller.updPropertyByName("omega_n_roll"))
+    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("zeta_roll"))
+    osim.PropertyHelper.setValueDouble(4.47, controller.updPropertyByName("omega_n_yaw"))
+    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("zeta_yaw"))
+
+    # Set 14 Reflex parameters to the exact best values found in Phase 0 (Gen 4)
+    osim.PropertyHelper.setValueDouble(15.4172, controller.updPropertyByName("K_ton"))
+    osim.PropertyHelper.setValueDouble(34.0019, controller.updPropertyByName("z_ton"))
+    osim.PropertyHelper.setValueDouble(3.6907, controller.updPropertyByName("p_ton"))
+    
+    osim.PropertyHelper.setValueDouble(15.7436, controller.updPropertyByName("K_sc"))
+    osim.PropertyHelper.setValueDouble(9.5737, controller.updPropertyByName("z_sc"))
+    osim.PropertyHelper.setValueDouble(58.4690, controller.updPropertyByName("p_sc"))
+    
+    osim.PropertyHelper.setValueDouble(1.1765, controller.updPropertyByName("K_phas"))
+    osim.PropertyHelper.setValueDouble(12.9448, controller.updPropertyByName("z_phas"))
+    osim.PropertyHelper.setValueDouble(9.0170, controller.updPropertyByName("p_phas"))
+    
+    osim.PropertyHelper.setValueDouble(1.2452, controller.updPropertyByName("k_p"))
+    osim.PropertyHelper.setValueDouble(23.1813, controller.updPropertyByName("z_ccr"))
+    osim.PropertyHelper.setValueDouble(55.5098, controller.updPropertyByName("p_ccr"))
+    
+    osim.PropertyHelper.setValueDouble(3.7080, controller.updPropertyByName("K_gamma_dyn"))
+    osim.PropertyHelper.setValueDouble(2.6681, controller.updPropertyByName("K_gamma_stat"))
 
     # Initial desired states
     osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("desired_pitch"))
@@ -101,7 +123,7 @@ def run_peng_simulation():
     muscle_splen = model.getMuscles().get("splen_cap_sklthx")
     muscle_scm = model.getMuscles().get("stern_mast")
     
-    while current_t <= target_time:
+    while current_t < target_time - 1e-6:
         # Get target trajectory at current time
         pos, vel, acc = min_jerk(current_t - delay, movement_duration, amplitude_rad)
         

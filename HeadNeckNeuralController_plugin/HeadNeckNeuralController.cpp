@@ -40,9 +40,12 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_K_gamma_dyn(0.0);
     constructProperty_K_gamma_stat(1.0);
     constructProperty_K_gamma(1.0);
-    constructProperty_Kp_task(20.0);
-    constructProperty_Ki_task(0.0);
-    constructProperty_Kd_task(0.0);
+    constructProperty_omega_n_pitch(4.47);
+    constructProperty_zeta_pitch(1.0);
+    constructProperty_omega_n_roll(4.47);
+    constructProperty_zeta_roll(1.0);
+    constructProperty_omega_n_yaw(4.47);
+    constructProperty_zeta_yaw(1.0);
     constructProperty_use_dynamic_jacobian(true);
     
     double k_reg = 2.83, T1_reg = 0.0175, T2_reg = 0.0027, Tc_reg = 5.7;
@@ -993,15 +996,24 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     double I_head_roll = 0.05;
     double I_head_yaw = 0.05;
     
-    // Pitch uses the dynamically tuned Kp_task. Now tracking velocity and accel properly (Proprioceptive Tracking).
-    tau_vol[0] = get_Kp_task() * (get_desired_pitch() - head_pitch) 
-               + get_Kd_task() * (get_desired_pitch_v() - omega[2]) 
-               + get_Ki_task() * pitch_int 
+    // Pitch uses the dynamically tuned omega_n and zeta.
+    double kp_pitch = I_head_pitch * get_omega_n_pitch() * get_omega_n_pitch();
+    double kd_pitch = I_head_pitch * 2.0 * get_zeta_pitch() * get_omega_n_pitch();
+    tau_vol[0] = kp_pitch * (get_desired_pitch() - head_pitch) 
+               + kd_pitch * (get_desired_pitch_v() - omega[2]) 
                + I_head_pitch * get_desired_pitch_a();
                
-    tau_vol[1] = get_Kp_task() * (get_desired_roll() - head_roll) + get_Kd_task() * (get_desired_roll_v() - omega[0]) + get_Ki_task() * roll_int + I_head_roll * get_desired_roll_a();
+    double kp_roll = I_head_roll * get_omega_n_roll() * get_omega_n_roll();
+    double kd_roll = I_head_roll * 2.0 * get_zeta_roll() * get_omega_n_roll();
+    tau_vol[1] = kp_roll * (get_desired_roll() - head_roll) 
+               + kd_roll * (get_desired_roll_v() - omega[0]) 
+               + I_head_roll * get_desired_roll_a();
                
-    tau_vol[2] = get_Kp_task() * (get_desired_yaw() - head_yaw) + get_Kd_task() * (get_desired_yaw_v() - omega[1]) + get_Ki_task() * yaw_int + I_head_yaw * get_desired_yaw_a();
+    double kp_yaw = I_head_yaw * get_omega_n_yaw() * get_omega_n_yaw();
+    double kd_yaw = I_head_yaw * 2.0 * get_zeta_yaw() * get_omega_n_yaw();
+    tau_vol[2] = kp_yaw * (get_desired_yaw() - head_yaw) 
+               + kd_yaw * (get_desired_yaw_v() - omega[1]) 
+               + I_head_yaw * get_desired_yaw_a();
     
     // 3. Inject Cerebellar Disturbance Rejection (ESO)
     // We use the 2nd stage state for a 2nd-order critically damped low-pass response (-40 dB/dec)
