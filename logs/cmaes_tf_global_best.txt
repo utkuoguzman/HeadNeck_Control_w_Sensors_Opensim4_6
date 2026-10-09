@@ -1,0 +1,8 @@
+Generation 2 Best Parameters:
+--------------------------------------------------
+Total Score: 570131.93
+K_ton=1.1044, z_ton=7.1884, p_ton=0.6286
+K_sc=1.5131, z_sc=0.2945, p_sc=2.9081
+K_phas=0.1480, z_phas=1.6486, p_phas=5.4502
+kp=0.0175, z_ccr=99.4311, p_ccr=13.3672
+k_dyn=0.1306, k_stat=0.8362

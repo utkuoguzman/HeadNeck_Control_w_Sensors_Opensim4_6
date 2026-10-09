@@ -1,0 +1,135 @@
+diff --git a/HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp b/HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp
+index 884a4fb..90e233c 100644
+--- a/HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp
++++ b/HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp
+@@ -59,37 +59,37 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
+     for(int i=0; i<6; ++i) {
+         for(int j=0; j<2; ++j) {
+             for(int k=0; k<2; ++k) {
+-                addStateVariable("canal_" + std::to_string(i) + "_filter_" + std::to_string(j) + "_state_" + std::to_string(k), Stage::Dynamics);
++                addStateVariable("canal_" + std::to_string(i) + "_filter_" + std::to_string(j) + "_state_" + std::to_string(k), SimTK::Stage::Time);
+             }
+         }
+     }
+     
+     // PID Integral state variables
+-    addStateVariable("pitch_error_integral", Stage::Dynamics);
+-    addStateVariable("roll_error_integral", Stage::Dynamics);
+-    addStateVariable("yaw_error_integral", Stage::Dynamics);
++    addStateVariable("pitch_error_integral", SimTK::Stage::Time);
++    addStateVariable("roll_error_integral", SimTK::Stage::Time);
++    addStateVariable("yaw_error_integral", SimTK::Stage::Time);
+     
+     // SE_2(3) Spatial Observer States
+-    addStateVariable("obs_q0", Stage::Dynamics);
+-    addStateVariable("obs_q1", Stage::Dynamics);
+-    addStateVariable("obs_q2", Stage::Dynamics);
+-    addStateVariable("obs_q3", Stage::Dynamics);
+-    addStateVariable("obs_vx", Stage::Dynamics);
+-    addStateVariable("obs_vy", Stage::Dynamics);
+-    addStateVariable("obs_vz", Stage::Dynamics);
+-    addStateVariable("obs_px", Stage::Dynamics);
+-    addStateVariable("obs_py", Stage::Dynamics);
+-    addStateVariable("obs_pz", Stage::Dynamics);
++    addStateVariable("obs_q0", SimTK::Stage::Time);
++    addStateVariable("obs_q1", SimTK::Stage::Time);
++    addStateVariable("obs_q2", SimTK::Stage::Time);
++    addStateVariable("obs_q3", SimTK::Stage::Time);
++    addStateVariable("obs_vx", SimTK::Stage::Time);
++    addStateVariable("obs_vy", SimTK::Stage::Time);
++    addStateVariable("obs_vz", SimTK::Stage::Time);
++    addStateVariable("obs_px", SimTK::Stage::Time);
++    addStateVariable("obs_py", SimTK::Stage::Time);
++    addStateVariable("obs_pz", SimTK::Stage::Time);
+     
+     // Efference Copy States (Internal Forward Model)
+-    addStateVariable("eff_tau_pitch", Stage::Dynamics);
+-    addStateVariable("eff_tau_roll", Stage::Dynamics);
+-    addStateVariable("eff_tau_yaw", Stage::Dynamics);
++    addStateVariable("eff_tau_pitch", SimTK::Stage::Time);
++    addStateVariable("eff_tau_roll", SimTK::Stage::Time);
++    addStateVariable("eff_tau_yaw", SimTK::Stage::Time);
+     
+     // Cerebellar Disturbance Rejection (ESO) States
+-    addStateVariable("eso_tau_dist_pitch", Stage::Dynamics);
+-    addStateVariable("eso_tau_dist_roll", Stage::Dynamics);
+-    addStateVariable("eso_tau_dist_yaw", Stage::Dynamics);
++    addStateVariable("eso_tau_dist_pitch", SimTK::Stage::Time);
++    addStateVariable("eso_tau_dist_roll", SimTK::Stage::Time);
++    addStateVariable("eso_tau_dist_yaw", SimTK::Stage::Time);
+ }
+ 
+ void HeadNeckNeuralController::extendConnectToModel(Model& model) {
+@@ -496,6 +496,72 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
+         setStateVariableDerivativeValue(s, "obs_py", 0.0);
+         setStateVariableDerivativeValue(s, "obs_pz", 0.0);
+     }
++    // --- NEURAL TRANSFER FUNCTION DERIVATIVES ---
++    if (vcr_data.record.omega_recon.size() == 3) {
++        double est_roll = vcr_data.record.theta[0];
++        double est_yaw = vcr_data.record.theta[1];
++        double est_pitch = vcr_data.record.theta[2];
++        
++        double u_ton_pitch = (est_pitch - baseline_spatial_orientation[2]) - get_desired_pitch();
++        double u_ton_roll  = (est_roll - baseline_spatial_orientation[0]) - get_desired_roll();
++        double u_ton_yaw   = (est_yaw - baseline_spatial_orientation[1]) - get_desired_yaw();
++        
++        double u_sc_pitch = vcr_data.record.omega_recon[2] - get_desired_pitch_v();
++        double u_sc_roll  = vcr_data.record.omega_recon[0] - get_desired_roll_v();
++        double u_sc_yaw   = vcr_data.record.omega_recon[1] - get_desired_yaw_v();
++        
++        const Body& skull = model.getBodySet().get("skull");
++        SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
++        SimTK::Vec3 g_world(0.0, -9.81, 0.0);
++        SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world);
++        
++        SimTK::Rotation R_est;
++        R_est.setRotationToBodyFixedXYZ(SimTK::Vec3(est_roll, est_yaw, est_pitch));
++        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world);
++        
++        double r_head = 0.15; 
++        double expected_ah_x = get_desired_pitch_a() * r_head; 
++        double expected_ah_z = get_desired_roll_a() * r_head;
++        
++        double u_phas_pitch = a_lin_head[0] - expected_ah_x;
++        double u_phas_roll  = a_lin_head[2] - expected_ah_z;
++        double u_phas_yaw   = 0.0;
++
++        double x_ton_pitch = getStateVariableValue(s, "ton_state_pitch");
++        double x_ton_roll  = getStateVariableValue(s, "ton_state_roll");
++        double x_ton_yaw   = getStateVariableValue(s, "ton_state_yaw");
++        
++        double x_sc_pitch = getStateVariableValue(s, "sc_state_pitch");
++        double x_sc_roll  = getStateVariableValue(s, "sc_state_roll");
++        double x_sc_yaw   = getStateVariableValue(s, "sc_state_yaw");
++        
++        double x_phas_pitch = getStateVariableValue(s, "phas_state_pitch");
++        double x_phas_roll  = getStateVariableValue(s, "phas_state_roll");
++        double x_phas_yaw   = getStateVariableValue(s, "phas_state_yaw");
++
++        setStateVariableDerivativeValue(s, "ton_state_pitch", -get_p_ton() * x_ton_pitch + u_ton_pitch);
++        setStateVariableDerivativeValue(s, "ton_state_roll", -get_p_ton() * x_ton_roll + u_ton_roll);
++        setStateVariableDerivativeValue(s, "ton_state_yaw", -get_p_ton() * x_ton_yaw + u_ton_yaw);
++
++        setStateVariableDerivativeValue(s, "sc_state_pitch", -get_p_sc() * x_sc_pitch + u_sc_pitch);
++        setStateVariableDerivativeValue(s, "sc_state_roll", -get_p_sc() * x_sc_roll + u_sc_roll);
++        setStateVariableDerivativeValue(s, "sc_state_yaw", -get_p_sc() * x_sc_yaw + u_sc_yaw);
++
++        setStateVariableDerivativeValue(s, "phas_state_pitch", -get_p_phas() * x_phas_pitch + u_phas_pitch);
++        setStateVariableDerivativeValue(s, "phas_state_roll", -get_p_phas() * x_phas_roll + u_phas_roll);
++        setStateVariableDerivativeValue(s, "phas_state_yaw", -get_p_phas() * x_phas_yaw + u_phas_yaw);
++    } else {
++        setStateVariableDerivativeValue(s, "ton_state_pitch", 0.0);
++        setStateVariableDerivativeValue(s, "ton_state_roll", 0.0);
++        setStateVariableDerivativeValue(s, "ton_state_yaw", 0.0);
++        setStateVariableDerivativeValue(s, "sc_state_pitch", 0.0);
++        setStateVariableDerivativeValue(s, "sc_state_roll", 0.0);
++        setStateVariableDerivativeValue(s, "sc_state_yaw", 0.0);
++        setStateVariableDerivativeValue(s, "phas_state_pitch", 0.0);
++        setStateVariableDerivativeValue(s, "phas_state_roll", 0.0);
++        setStateVariableDerivativeValue(s, "phas_state_yaw", 0.0);
++    }
++
+ }
+ 
+ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vector& controls) const {

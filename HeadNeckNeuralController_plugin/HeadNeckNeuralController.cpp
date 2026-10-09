@@ -11,6 +11,8 @@ using namespace SimTK;
 HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_delay_time(0.013);
     constructProperty_Kp_proprioception(0.5); 
+    constructProperty_z_ccr(10.0);
+    constructProperty_p_ccr(10.0);
     constructProperty_K_recip_inhib(0.0); // 0.0 means complete reciprocal inhibition (no antagonist reflex)
     constructProperty_Kg_proprioception(0.0);
     constructProperty_K_vestibular(2.0);
@@ -24,17 +26,23 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_desired_yaw_a(0.0);
     constructProperty_desired_pitch_a(0.0);
     constructProperty_desired_roll_a(0.0);
-    constructProperty_G_sc(1.0);
-    constructProperty_G_ton(0.01);
-    constructProperty_G_phas(0.01);
+    constructProperty_K_ton(52.35);
+    constructProperty_z_ton(0.01);
+    constructProperty_p_ton(8.03);
+    constructProperty_K_sc(18.09);
+    constructProperty_z_sc(0.01);
+    constructProperty_p_sc(3.93);
+    constructProperty_K_phas(8.68);
+    constructProperty_z_phas(17.17);
+    constructProperty_p_phas(28.72);
     constructProperty_k_p(0.45);
     constructProperty_k_v(0.13);
     constructProperty_K_gamma_dyn(0.0);
     constructProperty_K_gamma_stat(1.0);
     constructProperty_K_gamma(1.0);
-    constructProperty_Kp_task(100.0);
+    constructProperty_Kp_task(20.0);
     constructProperty_Ki_task(0.0);
-    constructProperty_Kd_task(10.0);
+    constructProperty_Kd_task(0.0);
     constructProperty_use_dynamic_jacobian(true);
     
     double k_reg = 2.83, T1_reg = 0.0175, T2_reg = 0.0027, Tc_reg = 5.7;
@@ -59,37 +67,64 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     for(int i=0; i<6; ++i) {
         for(int j=0; j<2; ++j) {
             for(int k=0; k<2; ++k) {
-                addStateVariable("canal_" + std::to_string(i) + "_filter_" + std::to_string(j) + "_state_" + std::to_string(k), Stage::Dynamics);
+                addStateVariable("canal_" + std::to_string(i) + "_filter_" + std::to_string(j) + "_state_" + std::to_string(k), SimTK::Stage::Velocity);
             }
         }
     }
     
     // PID Integral state variables
-    addStateVariable("pitch_error_integral", Stage::Dynamics);
-    addStateVariable("roll_error_integral", Stage::Dynamics);
-    addStateVariable("yaw_error_integral", Stage::Dynamics);
+    addStateVariable("pitch_error_integral", SimTK::Stage::Velocity);
+    addStateVariable("roll_error_integral", SimTK::Stage::Velocity);
+    addStateVariable("yaw_error_integral", SimTK::Stage::Velocity);
     
     // SE_2(3) Spatial Observer States
-    addStateVariable("obs_q0", Stage::Dynamics);
-    addStateVariable("obs_q1", Stage::Dynamics);
-    addStateVariable("obs_q2", Stage::Dynamics);
-    addStateVariable("obs_q3", Stage::Dynamics);
-    addStateVariable("obs_vx", Stage::Dynamics);
-    addStateVariable("obs_vy", Stage::Dynamics);
-    addStateVariable("obs_vz", Stage::Dynamics);
-    addStateVariable("obs_px", Stage::Dynamics);
-    addStateVariable("obs_py", Stage::Dynamics);
-    addStateVariable("obs_pz", Stage::Dynamics);
+    addStateVariable("obs_q0", SimTK::Stage::Velocity);
+    addStateVariable("obs_q1", SimTK::Stage::Velocity);
+    addStateVariable("obs_q2", SimTK::Stage::Velocity);
+    addStateVariable("obs_q3", SimTK::Stage::Velocity);
+    addStateVariable("obs_vx", SimTK::Stage::Velocity);
+    addStateVariable("obs_vy", SimTK::Stage::Velocity);
+    addStateVariable("obs_vz", SimTK::Stage::Velocity);
+    addStateVariable("obs_px", SimTK::Stage::Velocity);
+    addStateVariable("obs_py", SimTK::Stage::Velocity);
+    addStateVariable("obs_pz", SimTK::Stage::Velocity);
     
     // Efference Copy States (Internal Forward Model)
-    addStateVariable("eff_tau_pitch", Stage::Dynamics);
-    addStateVariable("eff_tau_roll", Stage::Dynamics);
-    addStateVariable("eff_tau_yaw", Stage::Dynamics);
+    addStateVariable("eff_tau_pitch", SimTK::Stage::Velocity);
+    addStateVariable("eff_tau_roll", SimTK::Stage::Velocity);
+    addStateVariable("eff_tau_yaw", SimTK::Stage::Velocity);
     
     // Cerebellar Disturbance Rejection (ESO) States
-    addStateVariable("eso_tau_dist_pitch", Stage::Dynamics);
-    addStateVariable("eso_tau_dist_roll", Stage::Dynamics);
-    addStateVariable("eso_tau_dist_yaw", Stage::Dynamics);
+    addStateVariable("eso_tau_dist_pitch", SimTK::Stage::Velocity);
+    addStateVariable("eso_tau_dist_roll", SimTK::Stage::Velocity);
+    addStateVariable("eso_tau_dist_yaw", SimTK::Stage::Velocity);
+    
+    // 2nd stage of ESO (making it a 2nd-order low-pass filter)
+    addStateVariable("eso_tau_dist_pitch_2", SimTK::Stage::Velocity);
+    addStateVariable("eso_tau_dist_roll_2", SimTK::Stage::Velocity);
+    addStateVariable("eso_tau_dist_yaw_2", SimTK::Stage::Velocity);
+    
+    // Continuous dirty derivative states for acceleration
+    addStateVariable("omega_filt_pitch", SimTK::Stage::Velocity);
+    addStateVariable("omega_filt_roll", SimTK::Stage::Velocity);
+    addStateVariable("omega_filt_yaw", SimTK::Stage::Velocity);
+
+    addStateVariable("ton_state_pitch", SimTK::Stage::Velocity);
+    addStateVariable("ton_state_roll", SimTK::Stage::Velocity);
+    addStateVariable("ton_state_yaw", SimTK::Stage::Velocity);
+    addStateVariable("sc_state_pitch", SimTK::Stage::Velocity);
+    addStateVariable("sc_state_roll", SimTK::Stage::Velocity);
+    addStateVariable("sc_state_yaw", SimTK::Stage::Velocity);
+    addStateVariable("phas_state_pitch", SimTK::Stage::Velocity);
+    addStateVariable("phas_state_roll", SimTK::Stage::Velocity);
+    addStateVariable("phas_state_yaw", SimTK::Stage::Velocity);
+
+    // Cervico-Collic Reflex Continuous State Variables
+    // The number of muscles is fixed during model building.
+    const auto& muscles = getModel().getMuscles();
+    for (int i = 0; i < muscles.getSize(); ++i) {
+        addStateVariable("ccr_state_" + muscles.get(i).getName(), SimTK::Stage::Velocity);
+    }
 }
 
 void HeadNeckNeuralController::extendConnectToModel(Model& model) {
@@ -122,6 +157,19 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& s) co
     setStateVariableValue(s, "eso_tau_dist_pitch", 0.0);
     setStateVariableValue(s, "eso_tau_dist_roll", 0.0);
     setStateVariableValue(s, "eso_tau_dist_yaw", 0.0);
+    
+    setStateVariableValue(s, "eso_tau_dist_pitch_2", 0.0);
+    setStateVariableValue(s, "eso_tau_dist_roll_2", 0.0);
+    setStateVariableValue(s, "eso_tau_dist_yaw_2", 0.0);
+    
+    setStateVariableValue(s, "omega_filt_pitch", 0.0);
+    setStateVariableValue(s, "omega_filt_roll", 0.0);
+    setStateVariableValue(s, "omega_filt_yaw", 0.0);
+    
+    const auto& muscles = getModel().getMuscles();
+    for (int i = 0; i < muscles.getSize(); ++i) {
+        setStateVariableValue(s, "ccr_state_" + muscles.get(i).getName(), 0.0);
+    }
 }
 
 void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State& s) const {
@@ -250,11 +298,7 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
         SimTK::Vector w_old = it_old_prev->second.omega_recon * (1 - w_o) + it_old->second.omega_recon * w_o;
         
         result.a_lin = (res.v_lin - v_old) / dt_window;
-        if (res.omega_recon.size() == 3 && w_old.size() == 3) {
-            result.alpha_recon = (res.omega_recon - w_old) / dt_window;
-        } else {
-            result.alpha_recon = SimTK::Vector(3, 0.0);
-        }
+        result.alpha_recon = SimTK::Vector(3, 0.0); // Now calculated continuously via state-space dirty derivative
     } else {
         result.alpha_recon = SimTK::Vector(3, 0.0);
     }
@@ -361,12 +405,24 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double I_yaw = 0.035;
     double T_eso = 0.100;   // 100ms Cerebellar processing delay / low-pass filter
     
-    if (vcr_data.alpha_recon.size() == 3) {
-        // 1. Actual Acceleration (from delayed Vestibular data)
-        // Note: alpha_recon order is [Roll=0, Yaw=1, Pitch=2] to match omega_recon
-        double alpha_actual_pitch = vcr_data.alpha_recon[2]; 
-        double alpha_actual_roll = vcr_data.alpha_recon[0];
-        double alpha_actual_yaw = vcr_data.alpha_recon[1];
+    if (vcr_data.record.omega_recon.size() == 3) {
+        // --- CONTINUOUS DIRTY DERIVATIVE FOR ACCELERATION ---
+        double T_diff = 0.020; // 20ms smoothing time constant for derivative
+        double omega_raw_roll = vcr_data.record.omega_recon[0];
+        double omega_raw_yaw = vcr_data.record.omega_recon[1];
+        double omega_raw_pitch = vcr_data.record.omega_recon[2];
+        
+        double omega_filt_roll = getStateVariableValue(s, "omega_filt_roll");
+        double omega_filt_yaw = getStateVariableValue(s, "omega_filt_yaw");
+        double omega_filt_pitch = getStateVariableValue(s, "omega_filt_pitch");
+        
+        double alpha_actual_roll = (omega_raw_roll - omega_filt_roll) / T_diff;
+        double alpha_actual_yaw = (omega_raw_yaw - omega_filt_yaw) / T_diff;
+        double alpha_actual_pitch = (omega_raw_pitch - omega_filt_pitch) / T_diff;
+        
+        setStateVariableDerivativeValue(s, "omega_filt_roll", alpha_actual_roll);
+        setStateVariableDerivativeValue(s, "omega_filt_yaw", alpha_actual_yaw);
+        setStateVariableDerivativeValue(s, "omega_filt_pitch", alpha_actual_pitch);
         
         // 2. Expected Acceleration (from internal forward model)
         double alpha_expected_pitch = eff_tau_pitch / I_pitch;
@@ -378,18 +434,35 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         double tau_inst_roll = I_roll * (alpha_actual_roll - alpha_expected_roll);
         double tau_inst_yaw = I_yaw * (alpha_actual_yaw - alpha_expected_yaw);
         
-        // 4. Update the ESO Low-Pass Filter State
-        double tau_dist_pitch = getStateVariableValue(s, "eso_tau_dist_pitch");
-        double tau_dist_roll = getStateVariableValue(s, "eso_tau_dist_roll");
-        double tau_dist_yaw = getStateVariableValue(s, "eso_tau_dist_yaw");
+        // 4. Update the ESO Low-Pass Filter State (1st stage)
+        double tau_dist_pitch_1 = getStateVariableValue(s, "eso_tau_dist_pitch");
+        double tau_dist_roll_1 = getStateVariableValue(s, "eso_tau_dist_roll");
+        double tau_dist_yaw_1 = getStateVariableValue(s, "eso_tau_dist_yaw");
         
-        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch", (tau_inst_pitch - tau_dist_pitch) / T_eso);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_roll", (tau_inst_roll - tau_dist_roll) / T_eso);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw", (tau_inst_yaw - tau_dist_yaw) / T_eso);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch", (tau_inst_pitch - tau_dist_pitch_1) / T_eso);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_roll", (tau_inst_roll - tau_dist_roll_1) / T_eso);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw", (tau_inst_yaw - tau_dist_yaw_1) / T_eso);
+        
+        // 5. Update the ESO Low-Pass Filter State (2nd stage)
+        double tau_dist_pitch_2 = getStateVariableValue(s, "eso_tau_dist_pitch_2");
+        double tau_dist_roll_2 = getStateVariableValue(s, "eso_tau_dist_roll_2");
+        double tau_dist_yaw_2 = getStateVariableValue(s, "eso_tau_dist_yaw_2");
+        
+        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch_2", (tau_dist_pitch_1 - tau_dist_pitch_2) / T_eso);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_roll_2", (tau_dist_roll_1 - tau_dist_roll_2) / T_eso);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw_2", (tau_dist_yaw_1 - tau_dist_yaw_2) / T_eso);
     } else {
+        setStateVariableDerivativeValue(s, "omega_filt_roll", 0.0);
+        setStateVariableDerivativeValue(s, "omega_filt_yaw", 0.0);
+        setStateVariableDerivativeValue(s, "omega_filt_pitch", 0.0);
+        
         setStateVariableDerivativeValue(s, "eso_tau_dist_pitch", 0.0);
         setStateVariableDerivativeValue(s, "eso_tau_dist_roll", 0.0);
         setStateVariableDerivativeValue(s, "eso_tau_dist_yaw", 0.0);
+        
+        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch_2", 0.0);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_roll_2", 0.0);
+        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw_2", 0.0);
     }
     
     // --- SE_2(3) SPATIAL OBSERVER (Tilt-Translation Disambiguation) ---
@@ -496,6 +569,158 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         setStateVariableDerivativeValue(s, "obs_py", 0.0);
         setStateVariableDerivativeValue(s, "obs_pz", 0.0);
     }
+    // --- NEURAL TRANSFER FUNCTION DERIVATIVES ---
+    if (vcr_data.record.omega_recon.size() == 3) {
+        double est_roll = vcr_data.record.theta[0];
+        double est_yaw = vcr_data.record.theta[1];
+        double est_pitch = vcr_data.record.theta[2];
+        
+        double u_ton_pitch = (est_pitch - baseline_spatial_orientation[2]) - get_desired_pitch();
+        double u_ton_roll  = (est_roll - baseline_spatial_orientation[0]) - get_desired_roll();
+        double u_ton_yaw   = (est_yaw - baseline_spatial_orientation[1]) - get_desired_yaw();
+        
+        double u_sc_pitch = vcr_data.record.omega_recon[2] - get_desired_pitch_v();
+        double u_sc_roll  = vcr_data.record.omega_recon[0] - get_desired_roll_v();
+        double u_sc_yaw   = vcr_data.record.omega_recon[1] - get_desired_yaw_v();
+        
+        const Body& skull = model.getBodySet().get("skull");
+        SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
+        SimTK::Vec3 g_world(0.0, -9.81, 0.0);
+        SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world);
+        
+        SimTK::Rotation R_est;
+        R_est.setRotationToBodyFixedXYZ(SimTK::Vec3(est_roll, est_yaw, est_pitch));
+        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world);
+        
+        double r_head = 0.15; 
+        double expected_ah_x = get_desired_pitch_a() * r_head; 
+        double expected_ah_z = get_desired_roll_a() * r_head;
+        
+        double u_phas_pitch = a_lin_head[0] - expected_ah_x;
+        double u_phas_roll  = a_lin_head[2] - expected_ah_z;
+        double u_phas_yaw   = 0.0;
+
+        double x_ton_pitch = getStateVariableValue(s, "ton_state_pitch");
+        double x_ton_roll  = getStateVariableValue(s, "ton_state_roll");
+        double x_ton_yaw   = getStateVariableValue(s, "ton_state_yaw");
+        
+        double x_sc_pitch = getStateVariableValue(s, "sc_state_pitch");
+        double x_sc_roll  = getStateVariableValue(s, "sc_state_roll");
+        double x_sc_yaw   = getStateVariableValue(s, "sc_state_yaw");
+        
+        double x_phas_pitch = getStateVariableValue(s, "phas_state_pitch");
+        double x_phas_roll  = getStateVariableValue(s, "phas_state_roll");
+        double x_phas_yaw   = getStateVariableValue(s, "phas_state_yaw");
+
+        setStateVariableDerivativeValue(s, "ton_state_pitch", -get_p_ton() * x_ton_pitch + u_ton_pitch);
+        setStateVariableDerivativeValue(s, "ton_state_roll", -get_p_ton() * x_ton_roll + u_ton_roll);
+        setStateVariableDerivativeValue(s, "ton_state_yaw", -get_p_ton() * x_ton_yaw + u_ton_yaw);
+
+        setStateVariableDerivativeValue(s, "sc_state_pitch", -get_p_sc() * x_sc_pitch + u_sc_pitch);
+        setStateVariableDerivativeValue(s, "sc_state_roll", -get_p_sc() * x_sc_roll + u_sc_roll);
+        setStateVariableDerivativeValue(s, "sc_state_yaw", -get_p_sc() * x_sc_yaw + u_sc_yaw);
+
+        setStateVariableDerivativeValue(s, "phas_state_pitch", -get_p_phas() * x_phas_pitch + u_phas_pitch);
+        setStateVariableDerivativeValue(s, "phas_state_roll", -get_p_phas() * x_phas_roll + u_phas_roll);
+        setStateVariableDerivativeValue(s, "phas_state_yaw", -get_p_phas() * x_phas_yaw + u_phas_yaw);
+    } else {
+        setStateVariableDerivativeValue(s, "ton_state_pitch", 0.0);
+        setStateVariableDerivativeValue(s, "ton_state_roll", 0.0);
+        setStateVariableDerivativeValue(s, "ton_state_yaw", 0.0);
+        setStateVariableDerivativeValue(s, "sc_state_pitch", 0.0);
+        setStateVariableDerivativeValue(s, "sc_state_roll", 0.0);
+        setStateVariableDerivativeValue(s, "sc_state_yaw", 0.0);
+        setStateVariableDerivativeValue(s, "phas_state_pitch", 0.0);
+        setStateVariableDerivativeValue(s, "phas_state_roll", 0.0);
+        setStateVariableDerivativeValue(s, "phas_state_yaw", 0.0);
+    }
+
+    // --- NEURAL TRANSFER FUNCTION DERIVATIVES ---
+    if (vcr_data.record.omega_recon.size() == 3) {
+        double est_roll = vcr_data.record.theta[0];
+        double est_yaw = vcr_data.record.theta[1];
+        double est_pitch = vcr_data.record.theta[2];
+        
+        double u_ton_pitch = (est_pitch - baseline_spatial_orientation[2]) - get_desired_pitch();
+        double u_ton_roll  = (est_roll - baseline_spatial_orientation[0]) - get_desired_roll();
+        double u_ton_yaw   = (est_yaw - baseline_spatial_orientation[1]) - get_desired_yaw();
+        
+        double u_sc_pitch = vcr_data.record.omega_recon[2] - get_desired_pitch_v();
+        double u_sc_roll  = vcr_data.record.omega_recon[0] - get_desired_roll_v();
+        double u_sc_yaw   = vcr_data.record.omega_recon[1] - get_desired_yaw_v();
+        
+        const Body& skull = model.getBodySet().get("skull");
+        SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
+        SimTK::Vec3 g_world(0.0, -9.81, 0.0);
+        SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world);
+        
+        SimTK::Rotation R_est;
+        R_est.setRotationToBodyFixedXYZ(SimTK::Vec3(est_roll, est_yaw, est_pitch));
+        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world);
+        
+        double r_head = 0.15; 
+        double expected_ah_x = get_desired_pitch_a() * r_head; 
+        double expected_ah_z = get_desired_roll_a() * r_head;
+        
+        double u_phas_pitch = a_lin_head[0] - expected_ah_x;
+        double u_phas_roll  = a_lin_head[2] - expected_ah_z;
+        double u_phas_yaw   = 0.0;
+
+        double x_ton_pitch = getStateVariableValue(s, "ton_state_pitch");
+        double x_ton_roll  = getStateVariableValue(s, "ton_state_roll");
+        double x_ton_yaw   = getStateVariableValue(s, "ton_state_yaw");
+        
+        double x_sc_pitch = getStateVariableValue(s, "sc_state_pitch");
+        double x_sc_roll  = getStateVariableValue(s, "sc_state_roll");
+        double x_sc_yaw   = getStateVariableValue(s, "sc_state_yaw");
+        
+        double x_phas_pitch = getStateVariableValue(s, "phas_state_pitch");
+        double x_phas_roll  = getStateVariableValue(s, "phas_state_roll");
+        double x_phas_yaw   = getStateVariableValue(s, "phas_state_yaw");
+
+        setStateVariableDerivativeValue(s, "ton_state_pitch", -get_p_ton() * x_ton_pitch + u_ton_pitch);
+        setStateVariableDerivativeValue(s, "ton_state_roll", -get_p_ton() * x_ton_roll + u_ton_roll);
+        setStateVariableDerivativeValue(s, "ton_state_yaw", -get_p_ton() * x_ton_yaw + u_ton_yaw);
+
+        setStateVariableDerivativeValue(s, "sc_state_pitch", -get_p_sc() * x_sc_pitch + u_sc_pitch);
+        setStateVariableDerivativeValue(s, "sc_state_roll", -get_p_sc() * x_sc_roll + u_sc_roll);
+        setStateVariableDerivativeValue(s, "sc_state_yaw", -get_p_sc() * x_sc_yaw + u_sc_yaw);
+
+        setStateVariableDerivativeValue(s, "phas_state_pitch", -get_p_phas() * x_phas_pitch + u_phas_pitch);
+        setStateVariableDerivativeValue(s, "phas_state_roll", -get_p_phas() * x_phas_roll + u_phas_roll);
+        setStateVariableDerivativeValue(s, "phas_state_yaw", -get_p_phas() * x_phas_yaw + u_phas_yaw);
+    } else {
+        setStateVariableDerivativeValue(s, "ton_state_pitch", 0.0);
+        setStateVariableDerivativeValue(s, "ton_state_roll", 0.0);
+        setStateVariableDerivativeValue(s, "ton_state_yaw", 0.0);
+        setStateVariableDerivativeValue(s, "sc_state_pitch", 0.0);
+        setStateVariableDerivativeValue(s, "sc_state_roll", 0.0);
+        setStateVariableDerivativeValue(s, "sc_state_yaw", 0.0);
+        setStateVariableDerivativeValue(s, "phas_state_pitch", 0.0);
+        setStateVariableDerivativeValue(s, "phas_state_roll", 0.0);
+        setStateVariableDerivativeValue(s, "phas_state_yaw", 0.0);
+    }
+
+    double p_ccr = get_p_ccr();
+    DelayedData ccr_data = getDelayedData(s.getTime(), 0.018);
+    HistRecord ccr_record = ccr_data.record;
+    const auto& muscles = getModel().getMuscles();
+    
+    // Default to 0 for all
+    for (int i = 0; i < muscles.getSize(); ++i) {
+        setStateVariableDerivativeValue(s, "ccr_state_" + muscles.get(i).getName(), 0.0);
+    }
+    
+    if (ccr_record.Ia.size() == active_muscle_indices.size() && active_muscle_indices.size() > 0) {
+        for (size_t i = 0; i < active_muscle_indices.size(); ++i) {
+            const Muscle& m = muscles.get(active_muscle_indices[i]);
+            std::string state_name = "ccr_state_" + m.getName();
+            double x_ccr = getStateVariableValue(s, state_name);
+            double Ia_delayed = ccr_record.Ia[i];
+            setStateVariableDerivativeValue(s, state_name, -p_ccr * x_ccr + Ia_delayed);
+        }
+    }
+
 }
 
 void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vector& controls) const {
@@ -647,7 +872,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
                     double primary = s_max + S * s_min;
                     
                     if (primary < 0.0) primary = 0.0;
-                    if (primary > 100000.0) primary = 100000.0; // Avoid NaNs
+                    if (primary > 500.0) primary = 500.0; // Biological max firing rate (~500 Hz) to avoid torque spikes
                     
                     hr.Ia[i] = primary;
                 } catch(...) {
@@ -697,45 +922,65 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     
     // 1. Vestibular Reflex with Efference Copy Cancellation (expected vestibular firing from voluntary action)
     if (vcr_record.omega_recon.size() == 3) {
-        // G_ton (Otolith Tonic) acts as a proportional gravity compensator
-        // We subtract the Efference Copy of expected static tilt
-        tau_vcr[0] -= get_G_ton() * ((estimated_pitch - baseline_spatial_orientation[2]) - get_desired_pitch()); // pitch
-        tau_vcr[1] -= get_G_ton() * ((estimated_roll - baseline_spatial_orientation[0]) - get_desired_roll());  // roll
-        tau_vcr[2] -= get_G_ton() * ((estimated_yaw - baseline_spatial_orientation[1]) - get_desired_yaw());   // yaw
+        // Neural Transfer Functions Output Application
+        // y = K*(z - p)*x + K*u
         
-        // G_sc (Semicircular Canal) dampens angular velocity
-        // We subtract the Efference Copy of expected angular velocity
-        tau_vcr[0] -= get_G_sc() * (vcr_record.omega_recon[2] - get_desired_pitch_v()); // pitch
-        tau_vcr[1] -= get_G_sc() * (vcr_record.omega_recon[0] - get_desired_roll_v()); // roll
-        tau_vcr[2] -= get_G_sc() * (vcr_record.omega_recon[1] - get_desired_yaw_v()); // yaw
+        double est_roll = vcr_record.theta[0];
+        double est_yaw = vcr_record.theta[1];
+        double est_pitch = vcr_record.theta[2];
         
-        // G_phas (Otolith Phasic) dampens linear acceleration
-        // BIOLOGICAL REALISM: The controller now derives pure acceleration from the otoliths
-        // using the SE_2(3) spatial observer. It no longer relies on ground-truth physics!
+        double u_ton_pitch = (est_pitch - baseline_spatial_orientation[2]) - get_desired_pitch();
+        double u_ton_roll  = (est_roll - baseline_spatial_orientation[0]) - get_desired_roll();
+        double u_ton_yaw   = (est_yaw - baseline_spatial_orientation[1]) - get_desired_yaw();
         
-        // Simulate raw otolith specific force
+        double u_sc_pitch = vcr_record.omega_recon[2] - get_desired_pitch_v();
+        double u_sc_roll  = vcr_record.omega_recon[0] - get_desired_roll_v();
+        double u_sc_yaw   = vcr_record.omega_recon[1] - get_desired_yaw_v();
+        
         const Body& skull = model.getBodySet().get("skull");
         SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
         SimTK::Vec3 g_world(0.0, -9.81, 0.0);
         SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world); 
         
-        // Derive pure biological acceleration using our internal orientation belief
-        SimTK::Rotation R_est(SimTK::Quaternion(q0, q1, q2, q3)); 
-        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world); // R_est is World->Head, so R_est * g_world is g in head frame
+        SimTK::Rotation R_est;
+        R_est.setRotationToBodyFixedXYZ(SimTK::Vec3(est_roll, est_yaw, est_pitch));
+        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world);
         
-        double ah_x = a_lin_head[0];
-        double ah_y = a_lin_head[1];
-        double ah_z = a_lin_head[2];
-        
-        // Estimate expected linear acceleration caused by desired angular acceleration
-        // Approximating head radius (e.g. 0.15m from neck pivot to otoliths)
         double r_head = 0.15; 
         double expected_ah_x = get_desired_pitch_a() * r_head; 
         double expected_ah_z = get_desired_roll_a() * r_head;
         
-        // Pitch responds to X (Forward), Roll responds to Z (Lateral)
-        tau_vcr[0] -= get_G_phas() * (ah_x - expected_ah_x); 
-        tau_vcr[1] -= get_G_phas() * (ah_z - expected_ah_z); 
+        double u_phas_pitch = a_lin_head[0] - expected_ah_x;
+        double u_phas_roll  = a_lin_head[2] - expected_ah_z;
+        double u_phas_yaw   = 0.0;
+        
+        double x_ton_pitch = getStateVariableValue(s, "ton_state_pitch");
+        double x_ton_roll  = getStateVariableValue(s, "ton_state_roll");
+        double x_ton_yaw   = getStateVariableValue(s, "ton_state_yaw");
+        
+        double x_sc_pitch = getStateVariableValue(s, "sc_state_pitch");
+        double x_sc_roll  = getStateVariableValue(s, "sc_state_roll");
+        double x_sc_yaw   = getStateVariableValue(s, "sc_state_yaw");
+        
+        double x_phas_pitch = getStateVariableValue(s, "phas_state_pitch");
+        double x_phas_roll  = getStateVariableValue(s, "phas_state_roll");
+        double x_phas_yaw   = getStateVariableValue(s, "phas_state_yaw");
+        
+        double y_ton_pitch = get_K_ton() * get_p_ton() * x_ton_pitch;
+        double y_ton_roll  = get_K_ton() * get_p_ton() * x_ton_roll;
+        double y_ton_yaw   = get_K_ton() * get_p_ton() * x_ton_yaw;
+        
+        double y_sc_pitch = get_K_sc() * get_p_sc() * x_sc_pitch;
+        double y_sc_roll  = get_K_sc() * get_p_sc() * x_sc_roll;
+        double y_sc_yaw   = get_K_sc() * get_p_sc() * x_sc_yaw;
+        
+        double y_phas_pitch = get_K_phas() * get_p_phas() * x_phas_pitch;
+        double y_phas_roll  = get_K_phas() * get_p_phas() * x_phas_roll;
+        double y_phas_yaw   = get_K_phas() * get_p_phas() * x_phas_yaw;
+        
+        tau_vcr[0] -= y_ton_pitch + y_sc_pitch + y_phas_pitch;
+        tau_vcr[1] -= y_ton_roll  + y_sc_roll  + y_phas_roll;
+        tau_vcr[2] -= y_ton_yaw   + y_sc_yaw   + y_phas_yaw;
     }
     
     // 2. Voluntary Postural PID Drive (compensates for gravity droop / Na_post equivalent)
@@ -759,11 +1004,12 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     tau_vol[2] = get_Kp_task() * (get_desired_yaw() - head_yaw) + get_Kd_task() * (get_desired_yaw_v() - omega[1]) + get_Ki_task() * yaw_int + I_head_yaw * get_desired_yaw_a();
     
     // 3. Inject Cerebellar Disturbance Rejection (ESO)
-    double eso_pitch = getStateVariableValue(s, "eso_tau_dist_pitch");
-    double eso_roll = getStateVariableValue(s, "eso_tau_dist_roll");
-    double eso_yaw = getStateVariableValue(s, "eso_tau_dist_yaw");
+    // We use the 2nd stage state for a 2nd-order critically damped low-pass response (-40 dB/dec)
+    double eso_pitch = getStateVariableValue(s, "eso_tau_dist_pitch_2");
+    double eso_roll = getStateVariableValue(s, "eso_tau_dist_roll_2");
+    double eso_yaw = getStateVariableValue(s, "eso_tau_dist_yaw_2");
     
-    double K_eso = 0.8; // Fractional confidence to prevent inertia overestimation oscillations
+    double K_eso = 0.8; // Re-enabled! 2nd-order filter prevents high-frequency noise amplification
     tau_eso[0] = -K_eso * eso_pitch;
     tau_eso[1] = -K_eso * eso_roll;
     tau_eso[2] = -K_eso * eso_yaw;
@@ -851,7 +1097,13 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         
         if (ccr_record.Ia.size() == N) {
             // Cervico-Collic Reflex (CCR) - using biological firing rate!
-            double Ia_firing = ccr_record.Ia[i];
+            std::string state_name = "ccr_state_" + m.getName();
+            double x_ccr = getStateVariableValue(s, state_name);
+            double Ia_delayed = ccr_record.Ia[i];
+            double Ia_filtered = get_p_ccr() * x_ccr;
+            
+            // In case filter makes it negative
+            double Ia_firing = std::max(0.0, Ia_filtered);
             
             // Synergy-Based Reciprocal Inhibition (Descending Presynaptic Inhibition)
             // We use a C1-continuous smoothstep to prevent integrator chattering!

@@ -20,7 +20,7 @@ Cochlea (NONE):
 Sensors Real-Time Factor:
 * Real time factor of proprioception and vestibular is ~1:30 on 13600K. Which is really handy considering 1.1M AdEx Neuron with 1K synapse of NEST-GPU can run around 45s on RTX 4070 Ti. 
 
-Convergence Controller (MOSTLY MATURED)
+Convergence Controller (MOSTLY MATURED)t
 * I need this just to mimic the human behavior of natural convergence with is around 1m (with great variations from people to people from 40cm to infinity).
 * I takes a head frame target, and finds the necessary muscle commands to keep it. the VOR/COR controller will add onto it.
 * So far it works good.

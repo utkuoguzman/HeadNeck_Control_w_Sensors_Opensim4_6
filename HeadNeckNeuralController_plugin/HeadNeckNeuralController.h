@@ -14,6 +14,8 @@ OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 public:
     OpenSim_DECLARE_PROPERTY(delay_time, double, "Neural delay in seconds (default: 0.013)");
     OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for spindle Ia");
+    OpenSim_DECLARE_PROPERTY(z_ccr, double, "Cervico-Collic Reflex TF Zero");
+    OpenSim_DECLARE_PROPERTY(p_ccr, double, "Cervico-Collic Reflex TF Pole");
     OpenSim_DECLARE_PROPERTY(K_recip_inhib, double, "Reciprocal inhibition fraction for antagonists (0.0=full block, 1.0=no block)");
     OpenSim_DECLARE_PROPERTY(Kg_proprioception, double, "Gain for GTO Ib");
     OpenSim_DECLARE_PROPERTY(K_vestibular, double, "Gain for Vestibular descending drive");
@@ -31,9 +33,15 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_roll_a, double, "Voluntary desired roll accel (rad/s2)");
 
     // Vestibular & Reflex properties
-    OpenSim_DECLARE_PROPERTY(G_sc, double, "Vestibular semicircular canal gain");
-    OpenSim_DECLARE_PROPERTY(G_ton, double, "Tonic otolith gain");
-    OpenSim_DECLARE_PROPERTY(G_phas, double, "Phasic otolith gain");
+    OpenSim_DECLARE_PROPERTY(K_ton, double, "Tonic otolith TF Gain");
+    OpenSim_DECLARE_PROPERTY(z_ton, double, "Tonic otolith TF Zero");
+    OpenSim_DECLARE_PROPERTY(p_ton, double, "Tonic otolith TF Pole");
+    OpenSim_DECLARE_PROPERTY(K_sc, double, "Semicircular canal TF Gain");
+    OpenSim_DECLARE_PROPERTY(z_sc, double, "Semicircular canal TF Zero");
+    OpenSim_DECLARE_PROPERTY(p_sc, double, "Semicircular canal TF Pole");
+    OpenSim_DECLARE_PROPERTY(K_phas, double, "Phasic otolith TF Gain");
+    OpenSim_DECLARE_PROPERTY(z_phas, double, "Phasic otolith TF Zero");
+    OpenSim_DECLARE_PROPERTY(p_phas, double, "Phasic otolith TF Pole");
     OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
     OpenSim_DECLARE_PROPERTY(k_v, double, "Muscle-level CCR derivative gain");
 

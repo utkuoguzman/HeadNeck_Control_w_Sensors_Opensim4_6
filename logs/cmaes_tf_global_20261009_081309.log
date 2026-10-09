@@ -1,0 +1,16 @@
+==========================================================================================
+GLOBAL CMA-ES: CONTINUOUS TRANSFER FUNCTION OPTIMIZATION WITH EARLY STOPPING
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 14 (seed=42, Fri Oct  9 08:13:09 2026)
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W9] passed 7.95Hz (Score: 3855.6)
+? SUCCESS [W10] passed 7.95Hz (Score: 3784.2)
+? SUCCESS [W11] passed 7.95Hz (Score: 5445.0)
+? SUCCESS [W18] passed 7.95Hz (Score: 4803.8)
+? SUCCESS [W12] passed 7.95Hz (Score: 5924.5)
+? SUCCESS [W15] passed 7.95Hz (Score: 3724.1)
+? SUCCESS [W13] passed 7.95Hz (Score: 3574.7)
+? SUCCESS [W2] passed 7.95Hz (Score: 4020.9)
+? SUCCESS [W3] passed 7.95Hz (Score: 3522.9)
+? SUCCESS [W1] passed 7.95Hz (Score: 5390.5)

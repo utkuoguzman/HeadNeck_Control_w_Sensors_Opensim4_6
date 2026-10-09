@@ -1,0 +1,910 @@
+==========================================================================================
+GLOBAL CMA-ES: CONTINUOUS TRANSFER FUNCTION OPTIMIZATION WITH EARLY STOPPING
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 14 (seed=42, Fri Oct  9 07:13:04 2026)
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W10] passed 7.95Hz (Score: 3784.2)
+? SUCCESS [W11] passed 7.95Hz (Score: 5445.0)
+? SUCCESS [W2] passed 7.95Hz (Score: 4020.9)
+? SUCCESS [W15] passed 7.95Hz (Score: 3724.1)
+? SUCCESS [W14] passed 7.95Hz (Score: 4823.4)
+? SUCCESS [W5] passed 7.95Hz (Score: 5158.3)
+? SUCCESS [W18] passed 7.95Hz (Score: 4803.8)
+? SUCCESS [W9] passed 7.95Hz (Score: 3855.6)
+? SUCCESS [W3] passed 7.95Hz (Score: 3522.9)
+? SUCCESS [W4] passed 7.95Hz (Score: 3887.2)
+? SUCCESS [W13] passed 7.95Hz (Score: 3574.7)
+? SUCCESS [W8] passed 7.95Hz (Score: 3744.7)
+? SUCCESS [W1] passed 7.95Hz (Score: 5390.5)
+? SUCCESS [W7] passed 7.95Hz (Score: 5033.5)
+? SUCCESS [W12] passed 7.95Hz (Score: 5924.5)
+? SUCCESS [W17] passed 7.95Hz (Score: 3859.2)
+? SUCCESS [W6] passed 7.95Hz (Score: 7476.0)
+? SUCCESS [W16] passed 7.95Hz (Score: 5904.1)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 422347.6). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 427810.5). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 414952.8). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 417894.1). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 410995.3). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 430124.7). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 415716.1). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 427336.6). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 434093.6). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 430158.8). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 419625.3). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 418514.2). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 409319.6). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 424720.7). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 431654.0). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 414104.4). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 417911.3). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 423602.0). Penalty added.
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     18 8.130437253935274e+05 1.0e+00 9.61e-01  9e-02  5e+00 3:19.6  
+
+======================================== GENERATION 1 SUMMARY ========================================
+Best Total Score: 813043.7
+K_ton=1.12, z_ton=5.31, p_ton=1.03
+K_sc=0.17, z_sc=1.36, p_sc=1.56
+K_phas=0.16, z_phas=2.05, p_phas=2.24
+kp=0.02, z_ccr=99.67, p_ccr=12.57
+k_dyn=0.18, k_stat=1.22
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W3] passed 7.95Hz (Score: 7036.2)
+? SUCCESS [W4] passed 7.95Hz (Score: 3396.6)
+? SUCCESS [W9] passed 7.95Hz (Score: 3501.2)
+? SUCCESS [W13] passed 7.95Hz (Score: 3939.3)
+? SUCCESS [W2] passed 7.95Hz (Score: 7217.9)
+? SUCCESS [W1] passed 7.95Hz (Score: 9093.4)
+? SUCCESS [W18] passed 7.95Hz (Score: 6379.7)
+? SUCCESS [W5] passed 7.95Hz (Score: 3767.9)
+? SUCCESS [W15] passed 7.95Hz (Score: 6808.2)
+? SUCCESS [W8] passed 7.95Hz (Score: 4324.8)
+? SUCCESS [W10] passed 7.95Hz (Score: 3708.0)
+? SUCCESS [W7] passed 7.95Hz (Score: 3528.8)
+? SUCCESS [W14] passed 7.95Hz (Score: 4282.2)
+? SUCCESS [W12] passed 7.95Hz (Score: 4149.3)
+? SUCCESS [W11] passed 7.95Hz (Score: 4213.2)
+? SUCCESS [W16] passed 7.95Hz (Score: 5596.0)
+? SUCCESS [W6] passed 7.95Hz (Score: 4785.4)
+? SUCCESS [W17] passed 7.95Hz (Score: 6019.0)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 428979.5). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 406288.0). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 421349.3). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 412008.4). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 408561.2). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 431062.0). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 415790.2). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 432715.9). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 405070.7). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 414412.7). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 414701.0). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 424522.8). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 408545.1). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 422799.3). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 446549.1). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 447490.6). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 423905.5). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 401016.3). Penalty added.
+    2     36 8.045175245861744e+05 1.2e+00 9.60e-01  9e-02  5e+00 6:34.4  
+
+======================================== GENERATION 2 SUMMARY ========================================
+Best Total Score: 804517.5
+K_ton=1.58, z_ton=5.12, p_ton=0.79
+K_sc=0.27, z_sc=0.16, p_sc=0.59
+K_phas=0.17, z_phas=2.39, p_phas=1.15
+kp=0.08, z_ccr=99.81, p_ccr=18.49
+k_dyn=0.05, k_stat=0.67
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W3] passed 7.95Hz (Score: 3632.5)
+? SUCCESS [W13] passed 7.95Hz (Score: 3952.6)
+? SUCCESS [W10] passed 7.95Hz (Score: 5348.3)
+? SUCCESS [W1] passed 7.95Hz (Score: 3339.2)
+? SUCCESS [W18] passed 7.95Hz (Score: 3683.5)
+? SUCCESS [W9] passed 7.95Hz (Score: 4212.0)
+? SUCCESS [W16] passed 7.95Hz (Score: 4111.4)
+? SUCCESS [W15] passed 7.95Hz (Score: 3572.4)
+? SUCCESS [W7] passed 7.95Hz (Score: 3353.1)
+? SUCCESS [W12] passed 7.95Hz (Score: 4093.1)
+? SUCCESS [W4] passed 7.95Hz (Score: 3443.8)
+? SUCCESS [W5] passed 7.95Hz (Score: 4572.5)
+? SUCCESS [W2] passed 7.95Hz (Score: 4076.6)
+? SUCCESS [W17] passed 7.95Hz (Score: 5796.0)
+? SUCCESS [W14] passed 7.95Hz (Score: 4094.6)
+? SUCCESS [W6] passed 7.95Hz (Score: 4752.8)
+? SUCCESS [W11] passed 7.95Hz (Score: 3700.4)
+? SUCCESS [W8] passed 7.95Hz (Score: 4129.3)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 421201.3). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 396900.6). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 412507.2). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 404706.9). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 425596.0). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 415696.8). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 406242.5). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 414803.9). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 426093.8). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 400585.8). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 418139.3). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 410558.0). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 408863.4). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 410901.8). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 406219.1). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 409741.6). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 424101.9). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 406441.8). Penalty added.
+    3     54 8.006009318714754e+05 1.3e+00 9.81e-01  9e-02  5e+00 9:49.4  
+
+======================================== GENERATION 3 SUMMARY ========================================
+Best Total Score: 800600.9
+K_ton=1.68, z_ton=8.40, p_ton=0.92
+K_sc=0.71, z_sc=0.49, p_sc=0.43
+K_phas=0.15, z_phas=1.43, p_phas=0.31
+kp=0.19, z_ccr=93.56, p_ccr=10.72
+k_dyn=0.09, k_stat=0.68
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W14] passed 7.95Hz (Score: 4035.7)
+? SUCCESS [W3] passed 7.95Hz (Score: 4145.2)
+? SUCCESS [W7] passed 7.95Hz (Score: 3695.8)
+? SUCCESS [W18] passed 7.95Hz (Score: 4012.8)
+? SUCCESS [W10] passed 7.95Hz (Score: 3777.3)
+? SUCCESS [W6] passed 7.95Hz (Score: 3386.6)
+? SUCCESS [W17] passed 7.95Hz (Score: 3541.2)
+? SUCCESS [W16] passed 7.95Hz (Score: 3934.0)
+? SUCCESS [W13] passed 7.95Hz (Score: 3572.4)
+? SUCCESS [W15] passed 7.95Hz (Score: 3309.3)
+? SUCCESS [W9] passed 7.95Hz (Score: 3636.9)
+? SUCCESS [W11] passed 7.95Hz (Score: 3182.8)
+? SUCCESS [W12] passed 7.95Hz (Score: 3310.5)
+? SUCCESS [W8] passed 7.95Hz (Score: 3347.0)
+? SUCCESS [W5] passed 7.95Hz (Score: 4152.6)
+? SUCCESS [W2] passed 7.95Hz (Score: 3541.2)
+? SUCCESS [W4] passed 7.95Hz (Score: 3221.1)
+? SUCCESS [W1] passed 7.95Hz (Score: 3195.0)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 394795.2). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 401803.7). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 411332.4). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 412170.6). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 397748.0). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 399932.0). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 404582.3). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 404766.7). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 391031.9). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 396550.5). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 396774.2). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 398463.8). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 415253.8). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 392963.9). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 406533.7). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 407221.5). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 394563.7). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 417070.7). Penalty added.
+    4     72 7.942268497475476e+05 1.3e+00 1.05e+00  1e-01  5e+00 13:03.3  
+
+======================================== GENERATION 4 SUMMARY ========================================
+Best Total Score: 794226.8
+K_ton=1.42, z_ton=2.45, p_ton=0.06
+K_sc=0.17, z_sc=0.56, p_sc=0.10
+K_phas=0.12, z_phas=0.54, p_phas=0.52
+kp=0.16, z_ccr=97.74, p_ccr=16.75
+k_dyn=0.25, k_stat=1.14
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W13] passed 7.95Hz (Score: 3800.5)
+? SUCCESS [W1] passed 7.95Hz (Score: 3667.5)
+? SUCCESS [W3] passed 7.95Hz (Score: 3596.8)
+? SUCCESS [W17] passed 7.95Hz (Score: 4697.9)
+? SUCCESS [W10] passed 7.95Hz (Score: 3792.5)
+? SUCCESS [W6] passed 7.95Hz (Score: 3809.0)
+? SUCCESS [W8] passed 7.95Hz (Score: 4265.8)
+? SUCCESS [W15] passed 7.95Hz (Score: 3755.9)
+? SUCCESS [W9] passed 7.95Hz (Score: 3906.2)
+? SUCCESS [W11] passed 7.95Hz (Score: 4010.5)
+? SUCCESS [W12] passed 7.95Hz (Score: 5250.1)
+? SUCCESS [W5] passed 7.95Hz (Score: 5233.0)
+? SUCCESS [W4] passed 7.95Hz (Score: 3768.9)
+? SUCCESS [W18] passed 7.95Hz (Score: 3353.3)
+? SUCCESS [W16] passed 7.95Hz (Score: 3402.6)
+? SUCCESS [W14] passed 7.95Hz (Score: 3408.5)
+? SUCCESS [W7] passed 7.95Hz (Score: 6114.3)
+? SUCCESS [W2] passed 7.95Hz (Score: 3448.9)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 418607.2). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 395595.3). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 403419.1). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 407360.7). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 397680.5). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 408704.6). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 391106.7). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 419554.2). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 430364.2). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 399465.0). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 409355.1). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 403272.4). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 392718.1). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 413978.0). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 410969.8). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 405911.4). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 419237.9). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 405973.7). Penalty added.
+    5     90 7.944599545467107e+05 1.5e+00 1.08e+00  1e-01  6e+00 16:24.2  
+
+======================================== GENERATION 5 SUMMARY ========================================
+Best Total Score: 794460.0
+K_ton=0.54, z_ton=1.74, p_ton=0.42
+K_sc=0.94, z_sc=0.43, p_sc=0.10
+K_phas=0.10, z_phas=2.20, p_phas=0.26
+kp=0.13, z_ccr=99.83, p_ccr=9.71
+k_dyn=0.04, k_stat=0.94
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W12] passed 7.95Hz (Score: 3593.5)
+? SUCCESS [W9] passed 7.95Hz (Score: 3369.7)
+? SUCCESS [W8] passed 7.95Hz (Score: 3780.2)
+? SUCCESS [W13] passed 7.95Hz (Score: 3494.3)
+? SUCCESS [W4] passed 7.95Hz (Score: 3362.5)
+? SUCCESS [W6] passed 7.95Hz (Score: 3255.9)
+? SUCCESS [W1] passed 7.95Hz (Score: 3247.3)
+? SUCCESS [W7] passed 7.95Hz (Score: 3777.8)
+? SUCCESS [W3] passed 7.95Hz (Score: 4179.2)
+? SUCCESS [W14] passed 7.95Hz (Score: 3453.8)
+? SUCCESS [W17] passed 7.95Hz (Score: 4821.3)
+? SUCCESS [W10] passed 7.95Hz (Score: 3718.0)
+? SUCCESS [W16] passed 7.95Hz (Score: 3549.5)
+? SUCCESS [W5] passed 7.95Hz (Score: 3664.3)
+? SUCCESS [W2] passed 7.95Hz (Score: 5928.5)
+? SUCCESS [W11] passed 7.95Hz (Score: 3853.7)
+? SUCCESS [W18] passed 7.95Hz (Score: 4090.4)
+? SUCCESS [W15] passed 7.95Hz (Score: 3325.4)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 412623.9). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 402772.0). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 417826.3). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 413820.1). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 400299.6). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 403164.5). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 427403.0). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 396997.5). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 408540.9). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 404423.8). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 393809.6). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 399977.5). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 404317.4). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 399111.2). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 401757.2). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 392200.5). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 398173.2). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 396293.4). Penalty added.
+    6    108 7.954564331577192e+05 1.5e+00 1.08e+00  1e-01  6e+00 19:17.7  
+
+======================================== GENERATION 6 SUMMARY ========================================
+Best Total Score: 795456.4
+K_ton=0.13, z_ton=4.72, p_ton=0.34
+K_sc=0.24, z_sc=0.70, p_sc=0.29
+K_phas=0.14, z_phas=1.32, p_phas=0.29
+kp=0.23, z_ccr=94.89, p_ccr=19.69
+k_dyn=0.25, k_stat=1.23
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W9] passed 7.95Hz (Score: 4025.1)
+? SUCCESS [W11] passed 7.95Hz (Score: 4236.8)
+? SUCCESS [W18] passed 7.95Hz (Score: 3530.7)
+? SUCCESS [W3] passed 7.95Hz (Score: 3374.1)
+? SUCCESS [W10] passed 7.95Hz (Score: 3448.5)
+? SUCCESS [W8] passed 7.95Hz (Score: 6540.0)
+? SUCCESS [W1] passed 7.95Hz (Score: 4287.1)
+? SUCCESS [W7] passed 7.95Hz (Score: 3394.2)
+? SUCCESS [W6] passed 7.95Hz (Score: 5541.8)
+? SUCCESS [W17] passed 7.95Hz (Score: 3185.7)
+? SUCCESS [W14] passed 7.95Hz (Score: 3975.5)
+? SUCCESS [W15] passed 7.95Hz (Score: 4686.2)
+? SUCCESS [W16] passed 7.95Hz (Score: 3584.0)
+? SUCCESS [W2] passed 7.95Hz (Score: 7210.5)
+? SUCCESS [W5] passed 7.95Hz (Score: 3347.9)
+? SUCCESS [W12] passed 7.95Hz (Score: 3477.6)
+? SUCCESS [W4] passed 7.95Hz (Score: 3401.7)
+? SUCCESS [W13] passed 7.95Hz (Score: 3308.1)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 410807.3). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 410628.4). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 403534.0). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 394499.3). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 406578.6). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 405363.6). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 395679.0). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 398189.5). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 423717.0). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 397163.4). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 407739.6). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 403545.5). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 406826.4). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 427505.9). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 395338.7). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 405763.8). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 438510.6). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 406655.2). Penalty added.
+    7    126 7.978733934245170e+05 1.6e+00 1.05e+00  9e-02  6e+00 22:11.5  
+
+======================================== GENERATION 7 SUMMARY ========================================
+Best Total Score: 797873.4
+K_ton=0.68, z_ton=4.51, p_ton=0.18
+K_sc=0.10, z_sc=1.06, p_sc=1.05
+K_phas=0.21, z_phas=1.29, p_phas=0.49
+kp=0.11, z_ccr=99.29, p_ccr=10.53
+k_dyn=0.20, k_stat=0.71
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W4] passed 7.95Hz (Score: 3871.3)
+? SUCCESS [W14] passed 7.95Hz (Score: 3243.2)
+? SUCCESS [W1] passed 7.95Hz (Score: 3214.7)
+? SUCCESS [W16] passed 7.95Hz (Score: 3543.9)
+? SUCCESS [W18] passed 7.95Hz (Score: 3541.9)
+? SUCCESS [W17] passed 7.95Hz (Score: 3159.5)
+? SUCCESS [W3] passed 7.95Hz (Score: 5324.3)
+? SUCCESS [W10] passed 7.95Hz (Score: 3265.2)
+? SUCCESS [W12] passed 7.95Hz (Score: 3280.2)
+? SUCCESS [W13] passed 7.95Hz (Score: 3838.7)
+? SUCCESS [W6] passed 7.95Hz (Score: 3691.8)
+? SUCCESS [W5] passed 7.95Hz (Score: 3555.1)
+? SUCCESS [W15] passed 7.95Hz (Score: 4454.2)
+? SUCCESS [W11] passed 7.95Hz (Score: 5998.3)
+? SUCCESS [W8] passed 7.95Hz (Score: 3298.5)
+? SUCCESS [W9] passed 7.95Hz (Score: 4726.1)
+? SUCCESS [W2] passed 7.95Hz (Score: 3715.2)
+? SUCCESS [W7] passed 7.95Hz (Score: 3149.9)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 393675.1). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 393157.2). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 392169.2). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 393403.3). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 397329.3). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 388855.5). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 412574.6). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 400477.2). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 392073.0). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 400098.2). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 401228.4). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 402397.6). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 393046.8). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 389945.9). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 401324.0). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 407951.1). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 398169.9). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 405930.9). Penalty added.
+    8    144 7.920149458492487e+05 1.6e+00 1.01e+00  9e-02  5e+00 25:07.1  
+
+======================================== GENERATION 8 SUMMARY ========================================
+Best Total Score: 792014.9
+K_ton=0.17, z_ton=6.20, p_ton=0.53
+K_sc=0.26, z_sc=1.04, p_sc=0.01
+K_phas=0.12, z_phas=0.63, p_phas=0.01
+kp=0.19, z_ccr=98.37, p_ccr=17.17
+k_dyn=0.34, k_stat=0.78
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W18] passed 7.95Hz (Score: 3576.5)
+? SUCCESS [W14] passed 7.95Hz (Score: 3311.6)
+? SUCCESS [W2] passed 7.95Hz (Score: 3368.3)
+? SUCCESS [W12] passed 7.95Hz (Score: 3472.0)
+? SUCCESS [W9] passed 7.95Hz (Score: 4092.3)
+? SUCCESS [W1] passed 7.95Hz (Score: 3331.7)
+? SUCCESS [W8] passed 7.95Hz (Score: 5517.7)
+? SUCCESS [W10] passed 7.95Hz (Score: 4017.5)
+? SUCCESS [W6] passed 7.95Hz (Score: 3342.9)
+? SUCCESS [W17] passed 7.95Hz (Score: 3548.7)
+? SUCCESS [W5] passed 7.95Hz (Score: 4934.3)
+? SUCCESS [W15] passed 7.95Hz (Score: 3185.7)
+? SUCCESS [W13] passed 7.95Hz (Score: 3247.3)
+? SUCCESS [W4] passed 7.95Hz (Score: 3423.5)
+? SUCCESS [W7] passed 7.95Hz (Score: 3391.1)
+? SUCCESS [W11] passed 7.95Hz (Score: 3823.5)
+? SUCCESS [W3] passed 7.95Hz (Score: 3282.1)
+? SUCCESS [W16] passed 7.95Hz (Score: 4143.0)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 397142.0). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 406147.5). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 399935.7). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 406530.0). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 405819.6). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 405759.0). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 395332.1). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 393297.0). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 402422.6). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 397580.8). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 398614.5). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 388900.3). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 397115.3). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 410968.8). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 406162.7). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 396658.6). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 395619.4). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 403455.4). Penalty added.
+    9    162 7.921476044936760e+05 1.6e+00 1.08e+00  9e-02  6e+00 28:06.4  
+
+======================================== GENERATION 9 SUMMARY ========================================
+Best Total Score: 792147.6
+K_ton=1.33, z_ton=6.63, p_ton=0.03
+K_sc=0.13, z_sc=1.19, p_sc=0.34
+K_phas=0.25, z_phas=0.67, p_phas=0.03
+kp=0.15, z_ccr=99.99, p_ccr=10.57
+k_dyn=0.34, k_stat=1.22
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W10] passed 7.95Hz (Score: 3635.8)
+? SUCCESS [W5] passed 7.95Hz (Score: 3288.2)
+? SUCCESS [W3] passed 7.95Hz (Score: 3402.3)
+? SUCCESS [W15] passed 7.95Hz (Score: 3971.2)
+? SUCCESS [W17] passed 7.95Hz (Score: 3274.3)
+? SUCCESS [W9] passed 7.95Hz (Score: 3276.5)
+? SUCCESS [W16] passed 7.95Hz (Score: 5179.6)
+? SUCCESS [W18] passed 7.95Hz (Score: 3526.4)
+? SUCCESS [W11] passed 7.95Hz (Score: 3764.0)
+? SUCCESS [W7] passed 7.95Hz (Score: 3960.2)
+? SUCCESS [W13] passed 7.95Hz (Score: 3773.1)
+? SUCCESS [W1] passed 7.95Hz (Score: 3319.0)
+? SUCCESS [W12] passed 7.95Hz (Score: 3225.3)
+? SUCCESS [W14] passed 7.95Hz (Score: 3400.8)
+? SUCCESS [W6] passed 7.95Hz (Score: 4321.8)
+? SUCCESS [W2] passed 7.95Hz (Score: 4649.9)
+? SUCCESS [W8] passed 7.95Hz (Score: 3307.1)
+? SUCCESS [W4] passed 7.95Hz (Score: 4344.9)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 408528.5). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 395345.7). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 401388.4). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 402306.6). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 398918.3). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 409995.4). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 390958.4). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 402623.3). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 407959.5). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 400725.0). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 408577.7). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 390607.7). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 427032.6). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 395194.5). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 389369.5). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 407171.1). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 404108.4). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 402204.3). Penalty added.
+   10    180 7.926460166093505e+05 1.7e+00 1.08e+00  9e-02  6e+00 31:18.7  
+
+======================================== GENERATION 10 SUMMARY ========================================
+Best Total Score: 792646.0
+K_ton=0.30, z_ton=7.16, p_ton=0.22
+K_sc=0.12, z_sc=2.81, p_sc=0.43
+K_phas=0.10, z_phas=3.07, p_phas=0.03
+kp=0.14, z_ccr=98.77, p_ccr=6.45
+k_dyn=0.38, k_stat=0.98
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W1] passed 7.95Hz (Score: 3357.4)
+? SUCCESS [W11] passed 7.95Hz (Score: 3310.2)
+? SUCCESS [W2] passed 7.95Hz (Score: 4765.8)
+? SUCCESS [W9] passed 7.95Hz (Score: 3160.4)
+? SUCCESS [W12] passed 7.95Hz (Score: 3846.7)
+? SUCCESS [W3] passed 7.95Hz (Score: 3692.4)
+? SUCCESS [W4] passed 7.95Hz (Score: 3361.5)
+? SUCCESS [W13] passed 7.95Hz (Score: 3321.9)
+? SUCCESS [W15] passed 7.95Hz (Score: 4362.8)
+? SUCCESS [W17] passed 7.95Hz (Score: 4055.7)
+? SUCCESS [W7] passed 7.95Hz (Score: 3239.6)
+? SUCCESS [W10] passed 7.95Hz (Score: 3586.2)
+? SUCCESS [W8] passed 7.95Hz (Score: 3679.6)
+? SUCCESS [W5] passed 7.95Hz (Score: 4343.8)
+? SUCCESS [W14] passed 7.95Hz (Score: 4367.7)
+? SUCCESS [W6] passed 7.95Hz (Score: 3561.2)
+? SUCCESS [W18] passed 7.95Hz (Score: 3253.7)
+? SUCCESS [W16] passed 7.95Hz (Score: 5055.6)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 399710.0). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 409921.2). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 404066.2). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 408083.5). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 394767.0). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 401878.0). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 402288.8). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 397494.4). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 395935.4). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 399968.5). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 409150.4). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 395255.9). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 399019.3). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 414747.1). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 402964.5). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 391744.8). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 404806.9). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 419984.1). Penalty added.
+   11    198 7.949051824810456e+05 1.7e+00 1.06e+00  9e-02  6e+00 34:20.6  
+
+======================================== GENERATION 11 SUMMARY ========================================
+Best Total Score: 794905.2
+K_ton=0.80, z_ton=8.03, p_ton=0.68
+K_sc=0.63, z_sc=0.81, p_sc=0.00
+K_phas=0.11, z_phas=1.07, p_phas=0.42
+kp=0.21, z_ccr=99.87, p_ccr=17.67
+k_dyn=0.14, k_stat=0.64
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W8] passed 7.95Hz (Score: 4187.7)
+? SUCCESS [W16] passed 7.95Hz (Score: 5361.5)
+? SUCCESS [W4] passed 7.95Hz (Score: 3495.5)
+? SUCCESS [W15] passed 7.95Hz (Score: 3687.0)
+? SUCCESS [W13] passed 7.95Hz (Score: 3758.2)
+? SUCCESS [W6] passed 7.95Hz (Score: 3276.7)
+? SUCCESS [W5] passed 7.95Hz (Score: 5017.5)
+? SUCCESS [W12] passed 7.95Hz (Score: 3655.2)
+? SUCCESS [W9] passed 7.95Hz (Score: 4354.6)
+? SUCCESS [W14] passed 7.95Hz (Score: 3410.6)
+? SUCCESS [W17] passed 7.95Hz (Score: 3492.3)
+? SUCCESS [W10] passed 7.95Hz (Score: 3382.3)
+? SUCCESS [W18] passed 7.95Hz (Score: 3852.0)
+? SUCCESS [W1] passed 7.95Hz (Score: 3552.9)
+? SUCCESS [W7] passed 7.95Hz (Score: 3555.5)
+? SUCCESS [W3] passed 7.95Hz (Score: 3459.3)
+? SUCCESS [W11] passed 7.95Hz (Score: 4955.2)
+? SUCCESS [W2] passed 7.95Hz (Score: 3275.4)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 399177.2). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 402604.1). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 397139.4). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 391886.4). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 408008.5). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 399477.7). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 409632.6). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 395339.7). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 414887.9). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 405225.1). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 404493.9). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 393120.4). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 392943.6). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 393356.1). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 407296.5). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 419089.5). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 400154.8). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 392858.3). Penalty added.
+   12    216 7.951617305181560e+05 1.9e+00 1.04e+00  9e-02  5e+00 37:26.9  
+
+======================================== GENERATION 12 SUMMARY ========================================
+Best Total Score: 795161.7
+K_ton=1.50, z_ton=4.85, p_ton=0.30
+K_sc=0.13, z_sc=0.17, p_sc=0.42
+K_phas=0.15, z_phas=1.42, p_phas=0.36
+kp=0.18, z_ccr=96.05, p_ccr=10.44
+k_dyn=0.14, k_stat=0.80
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W8] passed 7.95Hz (Score: 3225.2)
+? SUCCESS [W18] passed 7.95Hz (Score: 3414.8)
+? SUCCESS [W17] passed 7.95Hz (Score: 3343.3)
+? SUCCESS [W11] passed 7.95Hz (Score: 3650.4)
+? SUCCESS [W4] passed 7.95Hz (Score: 3371.5)
+? SUCCESS [W1] passed 7.95Hz (Score: 3300.6)
+? SUCCESS [W15] passed 7.95Hz (Score: 3850.1)
+? SUCCESS [W10] passed 7.95Hz (Score: 3180.0)
+? SUCCESS [W12] passed 7.95Hz (Score: 3454.1)
+? SUCCESS [W13] passed 7.95Hz (Score: 4081.9)
+? SUCCESS [W3] passed 7.95Hz (Score: 4580.3)
+? SUCCESS [W7] passed 7.95Hz (Score: 3181.1)
+? SUCCESS [W16] passed 7.95Hz (Score: 3852.8)
+? SUCCESS [W14] passed 7.95Hz (Score: 3863.8)
+? SUCCESS [W6] passed 7.95Hz (Score: 3232.8)
+? SUCCESS [W9] passed 7.95Hz (Score: 5315.3)
+? SUCCESS [W2] passed 7.95Hz (Score: 3243.5)
+? SUCCESS [W5] passed 7.95Hz (Score: 4255.2)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 391184.7). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 397593.7). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 400556.4). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 408510.6). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 398512.6). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 398556.0). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 398465.1). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 402546.9). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 400285.1). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 393302.0). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 397415.5). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 402591.1). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 408176.9). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 393526.6). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 389669.2). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 417016.8). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 401134.4). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 400974.0). Penalty added.
+   13    234 7.928502803822418e+05 1.9e+00 9.84e-01  8e-02  5e+00 40:37.1  
+
+======================================== GENERATION 13 SUMMARY ========================================
+Best Total Score: 792850.3
+K_ton=0.98, z_ton=6.90, p_ton=0.21
+K_sc=0.31, z_sc=1.50, p_sc=0.03
+K_phas=0.16, z_phas=0.98, p_phas=0.15
+kp=0.12, z_ccr=98.86, p_ccr=18.74
+k_dyn=0.25, k_stat=0.88
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W6] passed 7.95Hz (Score: 4019.3)
+? SUCCESS [W12] passed 7.95Hz (Score: 3221.9)
+? SUCCESS [W4] passed 7.95Hz (Score: 4615.8)
+? SUCCESS [W11] passed 7.95Hz (Score: 3290.6)
+? SUCCESS [W16] passed 7.95Hz (Score: 3435.8)
+? SUCCESS [W13] passed 7.95Hz (Score: 3396.8)
+? SUCCESS [W18] passed 7.95Hz (Score: 3473.2)
+? SUCCESS [W8] passed 7.95Hz (Score: 3316.5)
+? SUCCESS [W2] passed 7.95Hz (Score: 3262.0)
+? SUCCESS [W14] passed 7.95Hz (Score: 3967.3)
+? SUCCESS [W7] passed 7.95Hz (Score: 3281.0)
+? SUCCESS [W9] passed 7.95Hz (Score: 3234.9)
+? SUCCESS [W5] passed 7.95Hz (Score: 4163.0)
+? SUCCESS [W15] passed 7.95Hz (Score: 3209.0)
+? SUCCESS [W10] passed 7.95Hz (Score: 3473.6)
+? SUCCESS [W1] passed 7.95Hz (Score: 3370.6)
+? SUCCESS [W3] passed 7.95Hz (Score: 3381.4)
+? SUCCESS [W17] passed 7.95Hz (Score: 3344.8)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 395866.7). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 391793.0). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 396352.0). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 401322.3). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 394878.2). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 392800.8). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 399595.5). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 402722.5). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 398318.3). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 399171.5). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 392601.9). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 396355.6). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 411876.3). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 391553.9). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 391992.4). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 395901.2). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 393193.4). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 404890.2). Penalty added.
+   14    252 7.947758359715419e+05 1.9e+00 9.71e-01  8e-02  5e+00 43:39.4  
+
+======================================== GENERATION 14 SUMMARY ========================================
+Best Total Score: 794775.8
+K_ton=2.20, z_ton=2.48, p_ton=0.31
+K_sc=0.17, z_sc=2.49, p_sc=0.12
+K_phas=0.10, z_phas=1.72, p_phas=0.47
+kp=0.12, z_ccr=99.89, p_ccr=13.49
+k_dyn=0.22, k_stat=1.33
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W12] passed 7.95Hz (Score: 3634.6)
+? SUCCESS [W7] passed 7.95Hz (Score: 3253.7)
+? SUCCESS [W14] passed 7.95Hz (Score: 3932.6)
+? SUCCESS [W2] passed 7.95Hz (Score: 3627.8)
+? SUCCESS [W3] passed 7.95Hz (Score: 3341.6)
+? SUCCESS [W8] passed 7.95Hz (Score: 3326.5)
+? SUCCESS [W4] passed 7.95Hz (Score: 3542.1)
+? SUCCESS [W1] passed 7.95Hz (Score: 3313.3)
+? SUCCESS [W13] passed 7.95Hz (Score: 3363.4)
+? SUCCESS [W10] passed 7.95Hz (Score: 3288.3)
+? SUCCESS [W18] passed 7.95Hz (Score: 3553.9)
+? SUCCESS [W15] passed 7.95Hz (Score: 3225.0)
+? SUCCESS [W9] passed 7.95Hz (Score: 3321.9)
+? SUCCESS [W6] passed 7.95Hz (Score: 3493.3)
+? SUCCESS [W17] passed 7.95Hz (Score: 3604.1)
+? SUCCESS [W5] passed 7.95Hz (Score: 3488.9)
+? SUCCESS [W16] passed 7.95Hz (Score: 3474.4)
+? SUCCESS [W11] passed 7.95Hz (Score: 3645.9)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 393460.0). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 391927.2). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 401103.0). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 392703.4). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 399652.7). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 396564.3). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 397656.2). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 398556.9). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 396229.1). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 394236.9). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 396516.2). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 393634.6). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 407854.1). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 390069.2). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 392889.7). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 406893.3). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 396475.8). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 391419.3). Penalty added.
+   15    270 7.933574561926920e+05 2.0e+00 9.47e-01  8e-02  5e+00 46:48.2  
+
+======================================== GENERATION 15 SUMMARY ========================================
+Best Total Score: 793357.5
+K_ton=3.29, z_ton=6.29, p_ton=0.03
+K_sc=0.41, z_sc=0.84, p_sc=0.09
+K_phas=0.10, z_phas=2.96, p_phas=0.08
+kp=0.02, z_ccr=98.14, p_ccr=6.71
+k_dyn=0.28, k_stat=1.13
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W6] passed 7.95Hz (Score: 3306.5)
+? SUCCESS [W12] passed 7.95Hz (Score: 3200.7)
+? SUCCESS [W11] passed 7.95Hz (Score: 3827.1)
+? SUCCESS [W2] passed 7.95Hz (Score: 3721.3)
+? SUCCESS [W13] passed 7.95Hz (Score: 3358.6)
+? SUCCESS [W1] passed 7.95Hz (Score: 3908.0)
+? SUCCESS [W8] passed 7.95Hz (Score: 3276.9)
+? SUCCESS [W7] passed 7.95Hz (Score: 3372.2)
+? SUCCESS [W16] passed 7.95Hz (Score: 3974.8)
+? SUCCESS [W18] passed 7.95Hz (Score: 3866.6)
+? SUCCESS [W4] passed 7.95Hz (Score: 3265.5)
+? SUCCESS [W9] passed 7.95Hz (Score: 3310.9)
+? SUCCESS [W3] passed 7.95Hz (Score: 4691.5)
+? SUCCESS [W14] passed 7.95Hz (Score: 3603.8)
+? SUCCESS [W5] passed 7.95Hz (Score: 3572.9)
+? SUCCESS [W17] passed 7.95Hz (Score: 6326.7)
+? SUCCESS [W15] passed 7.95Hz (Score: 4110.5)
+? SUCCESS [W10] passed 7.95Hz (Score: 3500.9)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 403783.9). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 397509.7). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 399099.6). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 404247.7). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 402791.3). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 395347.4). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 396157.9). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 402570.1). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 404250.9). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 405415.5). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 394092.3). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 394112.7). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 395879.4). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 389674.2). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 408931.4). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 403911.0). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 397981.3). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 401410.4). Penalty added.
+   16    288 7.928748565660580e+05 2.1e+00 8.89e-01  7e-02  5e+00 49:54.1  
+
+======================================== GENERATION 16 SUMMARY ========================================
+Best Total Score: 792874.9
+K_ton=0.70, z_ton=4.16, p_ton=0.16
+K_sc=0.60, z_sc=1.46, p_sc=0.03
+K_phas=0.10, z_phas=2.44, p_phas=0.32
+kp=0.17, z_ccr=95.33, p_ccr=11.24
+k_dyn=0.32, k_stat=1.16
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W2] passed 7.95Hz (Score: 4014.6)
+? SUCCESS [W11] passed 7.95Hz (Score: 3200.3)
+? SUCCESS [W18] passed 7.95Hz (Score: 3230.9)
+? SUCCESS [W3] passed 7.95Hz (Score: 3486.1)
+? SUCCESS [W10] passed 7.95Hz (Score: 3567.4)
+? SUCCESS [W4] passed 7.95Hz (Score: 4695.2)
+? SUCCESS [W7] passed 7.95Hz (Score: 3490.5)
+? SUCCESS [W12] passed 7.95Hz (Score: 3712.1)
+? SUCCESS [W9] passed 7.95Hz (Score: 3540.2)
+? SUCCESS [W1] passed 7.95Hz (Score: 3388.8)
+? SUCCESS [W14] passed 7.95Hz (Score: 3799.9)
+? SUCCESS [W16] passed 7.95Hz (Score: 4588.2)
+? SUCCESS [W8] passed 7.95Hz (Score: 3226.6)
+? SUCCESS [W13] passed 7.95Hz (Score: 3224.2)
+? SUCCESS [W5] passed 7.95Hz (Score: 3618.5)
+? SUCCESS [W6] passed 7.95Hz (Score: 3463.4)
+? SUCCESS [W17] passed 7.95Hz (Score: 3614.5)
+? SUCCESS [W15] passed 7.95Hz (Score: 3510.8)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 396477.4). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 391705.9). Penalty added.
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 392341.6). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 394899.3). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 401746.0). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 394752.0). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 393536.3). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 401126.5). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 402369.2). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 406754.0). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 398766.8). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 396087.3). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 392049.4). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 394754.1). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 403053.1). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 399750.2). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 389036.1). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 406049.5). Penalty added.
+   17    306 7.922602589988196e+05 2.2e+00 8.71e-01  7e-02  5e+00 53:00.9  
+
+======================================== GENERATION 17 SUMMARY ========================================
+Best Total Score: 792260.3
+K_ton=0.41, z_ton=4.05, p_ton=0.19
+K_sc=0.18, z_sc=1.14, p_sc=0.21
+K_phas=0.14, z_phas=0.89, p_phas=0.00
+kp=0.21, z_ccr=96.83, p_ccr=11.66
+k_dyn=0.33, k_stat=0.54
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W14] passed 7.95Hz (Score: 3339.6)
+? SUCCESS [W2] passed 7.95Hz (Score: 3354.3)
+? SUCCESS [W11] passed 7.95Hz (Score: 3648.9)
+? SUCCESS [W17] passed 7.95Hz (Score: 3247.5)
+? SUCCESS [W8] passed 7.95Hz (Score: 3409.1)
+? SUCCESS [W16] passed 7.95Hz (Score: 3199.6)
+? SUCCESS [W4] passed 7.95Hz (Score: 3288.8)
+? SUCCESS [W7] passed 7.95Hz (Score: 3493.5)
+? SUCCESS [W18] passed 7.95Hz (Score: 3745.6)
+? SUCCESS [W15] passed 7.95Hz (Score: 3276.2)
+? SUCCESS [W9] passed 7.95Hz (Score: 3790.7)
+? SUCCESS [W13] passed 7.95Hz (Score: 3325.4)
+? SUCCESS [W1] passed 7.95Hz (Score: 3276.1)
+? SUCCESS [W10] passed 7.95Hz (Score: 4883.2)
+? SUCCESS [W5] passed 7.95Hz (Score: 4420.8)
+? SUCCESS [W3] passed 7.95Hz (Score: 3412.4)
+? SUCCESS [W6] passed 7.95Hz (Score: 3278.0)
+? SUCCESS [W12] passed 7.95Hz (Score: 3300.0)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W17] failed on 5.52Hz (Score: 389594.0). Penalty added.
+?? EARLY STOPPING [W14] failed on 5.52Hz (Score: 395808.9). Penalty added.
+?? EARLY STOPPING [W11] failed on 5.52Hz (Score: 396327.6). Penalty added.
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 393455.9). Penalty added.
+?? EARLY STOPPING [W9] failed on 5.52Hz (Score: 398981.8). Penalty added.
+?? EARLY STOPPING [W16] failed on 5.52Hz (Score: 390585.8). Penalty added.
+?? EARLY STOPPING [W4] failed on 5.52Hz (Score: 391887.4). Penalty added.
+?? EARLY STOPPING [W8] failed on 5.52Hz (Score: 394066.1). Penalty added.
+?? EARLY STOPPING [W10] failed on 5.52Hz (Score: 400256.2). Penalty added.
+?? EARLY STOPPING [W15] failed on 5.52Hz (Score: 396622.6). Penalty added.
+?? EARLY STOPPING [W18] failed on 5.52Hz (Score: 394387.1). Penalty added.
+?? EARLY STOPPING [W1] failed on 5.52Hz (Score: 396180.6). Penalty added.
+?? EARLY STOPPING [W12] failed on 5.52Hz (Score: 395090.8). Penalty added.
+?? EARLY STOPPING [W2] failed on 5.52Hz (Score: 397359.0). Penalty added.
+?? EARLY STOPPING [W6] failed on 5.52Hz (Score: 391945.8). Penalty added.
+?? EARLY STOPPING [W7] failed on 5.52Hz (Score: 397448.7). Penalty added.
+?? EARLY STOPPING [W5] failed on 5.52Hz (Score: 400001.8). Penalty added.
+?? EARLY STOPPING [W3] failed on 5.52Hz (Score: 391931.6). Penalty added.
+   18    324 7.928415151916418e+05 2.3e+00 8.63e-01  7e-02  5e+00 56:04.0  
+
+======================================== GENERATION 18 SUMMARY ========================================
+Best Total Score: 792841.5
+K_ton=2.60, z_ton=4.48, p_ton=0.04
+K_sc=0.19, z_sc=2.28, p_sc=0.20
+K_phas=0.11, z_phas=2.56, p_phas=0.16
+kp=0.20, z_ccr=98.11, p_ccr=8.35
+k_dyn=0.43, k_stat=1.14
+
+--- Evaluating 18 candidates on 7.95Hz ---
+? SUCCESS [W14] passed 7.95Hz (Score: 4648.1)
+? SUCCESS [W12] passed 7.95Hz (Score: 3389.0)
+? SUCCESS [W5] passed 7.95Hz (Score: 3308.9)
+? SUCCESS [W8] passed 7.95Hz (Score: 4320.7)
+? SUCCESS [W7] passed 7.95Hz (Score: 4007.1)
+? SUCCESS [W9] passed 7.95Hz (Score: 3306.0)
+? SUCCESS [W2] passed 7.95Hz (Score: 3357.5)
+? SUCCESS [W3] passed 7.95Hz (Score: 3399.3)
+? SUCCESS [W16] passed 7.95Hz (Score: 3267.2)
+? SUCCESS [W11] passed 7.95Hz (Score: 3607.7)
+? SUCCESS [W17] passed 7.95Hz (Score: 3218.4)
+? SUCCESS [W1] passed 7.95Hz (Score: 3275.4)
+? SUCCESS [W15] passed 7.95Hz (Score: 3287.1)
+? SUCCESS [W18] passed 7.95Hz (Score: 3711.1)
+? SUCCESS [W13] passed 7.95Hz (Score: 3837.2)
+? SUCCESS [W6] passed 7.95Hz (Score: 3318.2)
+? SUCCESS [W4] passed 7.95Hz (Score: 3288.6)
+? SUCCESS [W10] passed 7.95Hz (Score: 3273.0)
+
+--- Evaluating 18 candidates on 5.52Hz ---
+?? EARLY STOPPING [W13] failed on 5.52Hz (Score: 100056.0). Penalty added.
