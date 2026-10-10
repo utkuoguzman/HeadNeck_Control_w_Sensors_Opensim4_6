@@ -1,0 +1,6 @@
+================================================================================
+OPTIMIZING FAST MIN-JERK TRACKING (wn, zeta for P/R/Y)
+================================================================================
+(6_w,12)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 6 (seed=663985, Fri Oct  9 22:50:16 2026)
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     12 3.370408689297623e-01 1.0e+00 1.24e+00  1e+00  1e+00 2:57.5  
