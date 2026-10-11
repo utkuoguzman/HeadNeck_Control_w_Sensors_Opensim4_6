@@ -4,8 +4,8 @@ import math
 import os
 import sys
 
-def generate_sto_for_freq(freq):
-    print(f"Generating STO for {freq} Hz...")
+def generate_mot_for_freq(freq):
+    print(f"Generating MOT for {freq} Hz...")
     
     os.environ["SIMB_NUM_THREADS"] = "1"
     os.environ["OMP_NUM_THREADS"] = "1"
@@ -25,13 +25,12 @@ def generate_sto_for_freq(freq):
         elif ctrl.getConcreteClassName() == "HeadNeckNeuralController":
             controller = ctrl
             
-    # Set Task properties to arbitrary holding values
-    osim.PropertyHelper.setValueDouble(4.47, controller.updPropertyByName("omega_n_pitch"))
-    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("zeta_pitch"))
-    osim.PropertyHelper.setValueDouble(4.47, controller.updPropertyByName("omega_n_roll"))
-    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("zeta_roll"))
-    osim.PropertyHelper.setValueDouble(4.47, controller.updPropertyByName("omega_n_yaw"))
-    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("zeta_yaw"))
+    # Base LQR costs
+    for ax in ['pitch', 'roll', 'yaw']:
+        osim.PropertyHelper.setValueDouble(400.0, controller.updPropertyByName(f"Wp_base_{ax}"))
+        osim.PropertyHelper.setValueDouble(40.0, controller.updPropertyByName(f"Wv_base_{ax}"))
+    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
+    osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
 
     # Gen 4 best parameters
     osim.PropertyHelper.setValueDouble(15.4172, controller.updPropertyByName("K_ton"))
@@ -57,19 +56,14 @@ def generate_sto_for_freq(freq):
     A = 0.1
     if freq < 0.5:
         target_time = 6.95
-        discard_time = 0.5
     elif freq < 1.0:
         target_time = 3.1
-        discard_time = 0.5
     elif freq < 2.0:
         target_time = 1.6
-        discard_time = 0.7
     elif freq < 4.0:
         target_time = 1.0
-        discard_time = 0.6
     else:
         target_time = 0.7
-        discard_time = 0.5
         
     num_points = 500
     times = osim.Vector(num_points, 0.0)
@@ -103,39 +97,58 @@ def generate_sto_for_freq(freq):
     coord_tx.setSpeedValue(state, 0.0)
     model.equilibrateMuscles(state)
 
+    cset = model.getCoordinateSet()
+    coord_names = [cset.get(i).getName() for i in range(cset.getSize())]
+    is_rot = [cset.get(i).getMotionType() != 2 for i in range(cset.getSize())]
+
     manager = osim.Manager(model)
-    manager.setIntegratorMethod(5)
+    manager.setIntegratorMethod(5) # SemiExplicitEuler2
     manager.setIntegratorAccuracy(1e-4)
     manager.setIntegratorMinimumStepSize(1e-4)
     manager.setIntegratorMaximumStepSize(0.01)
     
     state.setTime(0.0)
     manager.initialize(state)
-        
-    skull = model.getBodySet().get("skull")
-    R_head_to_world = skull.getTransformInGround(state).R()
-    q = osim.Rotation(R_head_to_world).convertRotationToQuaternion()
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q0", q.get(0))
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q1", q.get(1))
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
+
+    dt_sample = 0.01 # 100 Hz sampling for smooth, fast OpenSim GUI playback
+    current_t = 0.0
+    rows = []
+    
+    # Initial sample at t=0
+    st = manager.getState()
+    vals = [math.degrees(cset.get(i).getValue(st)) if is_rot[i] else cset.get(i).getValue(st) for i in range(cset.getSize())]
+    rows.append([0.0] + vals)
 
     step = min(0.01, (1.0/freq) / 40.0)
-    current_t = 0.0
+    last_sample_t = 0.0
     
     while current_t < target_time - 1e-6:
-        next_t = current_t + step
-        if next_t > target_time: next_t = target_time
+        next_t = min(current_t + step, target_time)
         manager.integrate(next_t)
         current_t = next_t
         
-    states_table = manager.getStatesTable()
+        if current_t - last_sample_t >= dt_sample - 1e-8:
+            st = manager.getState()
+            vals = [math.degrees(cset.get(i).getValue(st)) if is_rot[i] else cset.get(i).getValue(st) for i in range(cset.getSize())]
+            rows.append([current_t] + vals)
+            last_sample_t = current_t
+        
     os.makedirs("state_files/happee", exist_ok=True)
-    out_file = f"state_files/happee/happee_test_{freq}Hz.sto"
-    osim.STOFileAdapter.write(states_table, out_file)
-    print(f"Saved: {out_file}")
+    out_file = f"state_files/happee/happee_motion_{freq}Hz.mot"
+    with open(out_file, 'w') as f:
+        f.write("Coordinates\n")
+        f.write("version=1\n")
+        f.write(f"nRows={len(rows)}\n")
+        f.write(f"nColumns={len(coord_names) + 1}\n")
+        f.write("inDegrees=yes\n")
+        f.write("endheader\n")
+        f.write("\t".join(["time"] + coord_names) + "\n")
+        for r in rows:
+            f.write("\t".join(f"{x:.6f}" for x in r) + "\n")
+            
+    print(f"Saved: {out_file} ({len(rows)} rows, {os.path.getsize(out_file)/1024:.1f} KB)")
 
 if __name__ == '__main__':
     frequencies = [7.95, 5.52, 2.48, 1.11, 0.78, 0.31]
     for f in frequencies:
-        generate_sto_for_freq(f)
+        generate_mot_for_freq(f)
