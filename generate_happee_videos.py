@@ -125,7 +125,7 @@ def generate_mot_for_freq(freq):
     pitch_degs = []
 
     st = manager.getState()
-    vals = [math.degrees(cset.get(i).getValue(st)) if is_rot[i] else cset.get(i).getValue(st) for i in range(cset.getSize())]
+    vals = [cset.get(i).getValue(st) for i in range(cset.getSize())]
     rows.append([0.0] + vals)
 
     while current_t < target_time - 1e-6:
@@ -139,22 +139,22 @@ def generate_mot_for_freq(freq):
         pitch_degs.append(math.degrees(p1 + p2))
         
         if current_t - last_sample_t >= dt_sample - 1e-8:
-            vals = [math.degrees(cset.get(i).getValue(st)) if is_rot[i] else cset.get(i).getValue(st) for i in range(cset.getSize())]
+            vals = [cset.get(i).getValue(st) for i in range(cset.getSize())]
             rows.append([current_t] + vals)
             last_sample_t = current_t
 
     os.makedirs("state_files/happee", exist_ok=True)
     out_file = f"state_files/happee/happee_motion_{freq}Hz.mot"
     with open(out_file, 'w') as f:
-        f.write("Coordinates\n")
+        f.write(f"happee_motion_{freq}Hz\n")
         f.write("version=1\n")
         f.write(f"nRows={len(rows)}\n")
         f.write(f"nColumns={len(coord_names) + 1}\n")
-        f.write("inDegrees=yes\n")
+        f.write("inDegrees=no\n")
         f.write("endheader\n")
         f.write("\t".join(["time"] + coord_names) + "\n")
         for r in rows:
-            f.write("\t".join(f"{x:.6f}" for x in r) + "\n")
+            f.write("\t".join(f"{x:.8f}" for x in r) + "\n")
             
     print(f"Saved: {out_file} ({len(rows)} rows, pitch range: [{min(pitch_degs):.1f}°, {max(pitch_degs):.1f}°])")
 
