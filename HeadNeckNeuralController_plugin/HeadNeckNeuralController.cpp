@@ -42,6 +42,7 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     
     constructProperty_Wp_base_yaw(400.0);
     constructProperty_Wv_base_yaw(40.0);
+    constructProperty_Ki_task(6.54);
     constructProperty_trajectory_tau(0.1);
     constructProperty_use_dynamic_jacobian(true);
     
@@ -335,6 +336,13 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double traj_vel_yaw = getStateVariableValue(s, "traj_vel_yaw");
     double traj_acc_yaw = (1.0 / (tau_traj * tau_traj)) * (get_desired_yaw() - traj_pos_yaw) - (2.0 / tau_traj) * traj_vel_yaw;
 
+    setStateVariableDerivativeValue(s, "traj_pos_pitch", traj_vel_pitch);
+    setStateVariableDerivativeValue(s, "traj_vel_pitch", traj_acc_pitch);
+    setStateVariableDerivativeValue(s, "traj_pos_roll", traj_vel_roll);
+    setStateVariableDerivativeValue(s, "traj_vel_roll", traj_acc_roll);
+    setStateVariableDerivativeValue(s, "traj_pos_yaw", traj_vel_yaw);
+    setStateVariableDerivativeValue(s, "traj_vel_yaw", traj_acc_yaw);
+
     const Model& model = getModel();
     
     double u_p1 = model.getCoordinateSet().contains("pitch1") ? model.getCoordinateSet().get("pitch1").getSpeedValue(s) : 0;
@@ -597,72 +605,6 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         setStateVariableDerivativeValue(s, "obs_py", 0.0);
         setStateVariableDerivativeValue(s, "obs_pz", 0.0);
     }
-    // --- NEURAL TRANSFER FUNCTION DERIVATIVES ---
-    if (vcr_data.record.omega_recon.size() == 3) {
-        double est_roll = vcr_data.record.theta[0];
-        double est_yaw = vcr_data.record.theta[1];
-        double est_pitch = vcr_data.record.theta[2];
-        
-        double u_ton_pitch = (est_pitch - baseline_spatial_orientation[2]) - traj_pos_pitch;
-        double u_ton_roll  = (est_roll - baseline_spatial_orientation[0]) - traj_pos_roll;
-        double u_ton_yaw   = (est_yaw - baseline_spatial_orientation[1]) - traj_pos_yaw;
-        
-        double u_sc_pitch = vcr_data.record.omega_recon[2] - traj_vel_pitch;
-        double u_sc_roll  = vcr_data.record.omega_recon[0] - traj_vel_roll;
-        double u_sc_yaw   = vcr_data.record.omega_recon[1] - traj_vel_yaw;
-        
-        const Body& skull = model.getBodySet().get("skull");
-        SimTK::Rotation R_world_to_head = skull.getMobilizedBody().getBodyTransform(s).R().invert();
-        SimTK::Vec3 g_world(0.0, -9.81, 0.0);
-        SimTK::Vec3 f_oto = R_world_to_head * (vcr_data.a_lin - g_world);
-        
-        SimTK::Rotation R_est;
-        R_est.setRotationToBodyFixedXYZ(SimTK::Vec3(est_roll, est_yaw, est_pitch));
-        SimTK::Vec3 a_lin_head = f_oto + (R_est * g_world);
-        
-        double r_head = 0.15; 
-        double expected_ah_x = traj_acc_pitch * r_head; 
-        double expected_ah_z = traj_acc_roll * r_head;
-        
-        double u_phas_pitch = a_lin_head[0] - expected_ah_x;
-        double u_phas_roll  = a_lin_head[2] - expected_ah_z;
-        double u_phas_yaw   = 0.0;
-
-        double x_ton_pitch = getStateVariableValue(s, "ton_state_pitch");
-        double x_ton_roll  = getStateVariableValue(s, "ton_state_roll");
-        double x_ton_yaw   = getStateVariableValue(s, "ton_state_yaw");
-        
-        double x_sc_pitch = getStateVariableValue(s, "sc_state_pitch");
-        double x_sc_roll  = getStateVariableValue(s, "sc_state_roll");
-        double x_sc_yaw   = getStateVariableValue(s, "sc_state_yaw");
-        
-        double x_phas_pitch = getStateVariableValue(s, "phas_state_pitch");
-        double x_phas_roll  = getStateVariableValue(s, "phas_state_roll");
-        double x_phas_yaw   = getStateVariableValue(s, "phas_state_yaw");
-
-        setStateVariableDerivativeValue(s, "ton_state_pitch", -get_p_ton() * x_ton_pitch + u_ton_pitch);
-        setStateVariableDerivativeValue(s, "ton_state_roll", -get_p_ton() * x_ton_roll + u_ton_roll);
-        setStateVariableDerivativeValue(s, "ton_state_yaw", -get_p_ton() * x_ton_yaw + u_ton_yaw);
-
-        setStateVariableDerivativeValue(s, "sc_state_pitch", -get_p_sc() * x_sc_pitch + u_sc_pitch);
-        setStateVariableDerivativeValue(s, "sc_state_roll", -get_p_sc() * x_sc_roll + u_sc_roll);
-        setStateVariableDerivativeValue(s, "sc_state_yaw", -get_p_sc() * x_sc_yaw + u_sc_yaw);
-
-        setStateVariableDerivativeValue(s, "phas_state_pitch", -get_p_phas() * x_phas_pitch + u_phas_pitch);
-        setStateVariableDerivativeValue(s, "phas_state_roll", -get_p_phas() * x_phas_roll + u_phas_roll);
-        setStateVariableDerivativeValue(s, "phas_state_yaw", -get_p_phas() * x_phas_yaw + u_phas_yaw);
-    } else {
-        setStateVariableDerivativeValue(s, "ton_state_pitch", 0.0);
-        setStateVariableDerivativeValue(s, "ton_state_roll", 0.0);
-        setStateVariableDerivativeValue(s, "ton_state_yaw", 0.0);
-        setStateVariableDerivativeValue(s, "sc_state_pitch", 0.0);
-        setStateVariableDerivativeValue(s, "sc_state_roll", 0.0);
-        setStateVariableDerivativeValue(s, "sc_state_yaw", 0.0);
-        setStateVariableDerivativeValue(s, "phas_state_pitch", 0.0);
-        setStateVariableDerivativeValue(s, "phas_state_roll", 0.0);
-        setStateVariableDerivativeValue(s, "phas_state_yaw", 0.0);
-    }
-
     // --- NEURAL TRANSFER FUNCTION DERIVATIVES ---
     if (vcr_data.record.omega_recon.size() == 3) {
         double est_roll = vcr_data.record.theta[0];
@@ -1037,31 +979,28 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     
     // Pitch uses the dynamically tuned omega_n and zeta.
     double vigor_pitch = 1.0 + get_k_vigor() * std::abs(traj_vel_pitch);
-      double kp_pitch_lqr = std::sqrt(get_Wp_base_pitch() * vigor_pitch);
-      double kd_pitch_lqr = std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch_lqr);
-      double kp_pitch = I_head_pitch * kp_pitch_lqr;
-      double kd_pitch = I_head_pitch * kd_pitch_lqr;
-      tau_vol[0] = kp_pitch * (get_desired_pitch() - head_pitch) 
-                 + kd_pitch * (traj_vel_pitch - omega[2]) 
-                 + I_head_pitch * traj_acc_pitch;
+    double kp_pitch = std::sqrt(get_Wp_base_pitch() * vigor_pitch);
+    double kd_pitch = std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch);
+    tau_vol[0] = kp_pitch * (traj_pos_pitch - head_pitch) 
+               + kd_pitch * (traj_vel_pitch - omega[2]) 
+               + get_Ki_task() * pitch_int 
+               + I_head_pitch * traj_acc_pitch;
                
     double vigor_roll = 1.0 + get_k_vigor() * std::abs(traj_vel_roll);
-      double kp_roll_lqr = std::sqrt(get_Wp_base_roll() * vigor_roll);
-      double kd_roll_lqr = std::sqrt(get_Wv_base_roll() * vigor_roll + 2.0 * kp_roll_lqr);
-      double kp_roll = I_head_roll * kp_roll_lqr;
-      double kd_roll = I_head_roll * kd_roll_lqr;
-      tau_vol[1] = kp_roll * (get_desired_roll() - head_roll) 
-                 + kd_roll * (traj_vel_roll - omega[0]) 
-                 + I_head_roll * traj_acc_roll;
+    double kp_roll = std::sqrt(get_Wp_base_roll() * vigor_roll);
+    double kd_roll = std::sqrt(get_Wv_base_roll() * vigor_roll + 2.0 * kp_roll);
+    tau_vol[1] = kp_roll * (traj_pos_roll - head_roll) 
+               + kd_roll * (traj_vel_roll - omega[0]) 
+               + get_Ki_task() * roll_int 
+               + I_head_roll * traj_acc_roll;
                
     double vigor_yaw = 1.0 + get_k_vigor() * std::abs(traj_vel_yaw);
-      double kp_yaw_lqr = std::sqrt(get_Wp_base_yaw() * vigor_yaw);
-      double kd_yaw_lqr = std::sqrt(get_Wv_base_yaw() * vigor_yaw + 2.0 * kp_yaw_lqr);
-      double kp_yaw = I_head_yaw * kp_yaw_lqr;
-      double kd_yaw = I_head_yaw * kd_yaw_lqr;
-      tau_vol[2] = kp_yaw * (get_desired_yaw() - head_yaw) 
-                 + kd_yaw * (traj_vel_yaw - omega[1]) 
-                 + I_head_yaw * traj_acc_yaw;
+    double kp_yaw = std::sqrt(get_Wp_base_yaw() * vigor_yaw);
+    double kd_yaw = std::sqrt(get_Wv_base_yaw() * vigor_yaw + 2.0 * kp_yaw);
+    tau_vol[2] = kp_yaw * (traj_pos_yaw - head_yaw) 
+               + kd_yaw * (traj_vel_yaw - omega[1]) 
+               + get_Ki_task() * yaw_int 
+               + I_head_yaw * traj_acc_yaw;
     
     // 3. Inject Cerebellar Disturbance Rejection (ESO)
     // We use the 2nd stage state for a 2nd-order critically damped low-pass response (-40 dB/dec)

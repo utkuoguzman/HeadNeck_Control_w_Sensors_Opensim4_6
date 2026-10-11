@@ -5,7 +5,7 @@ import os
 import sys
 
 def generate_mot_for_freq(freq):
-    print(f"Generating MOT for {freq} Hz...")
+    print(f"Generating MOT for {freq:.2f} Hz...")
     
     os.environ["SIMB_NUM_THREADS"] = "1"
     os.environ["OMP_NUM_THREADS"] = "1"
@@ -46,60 +46,49 @@ def generate_mot_for_freq(freq):
     osim.PropertyHelper.setValueDouble(9.0202, controller.updPropertyByName("p_phas"))
     
     osim.PropertyHelper.setValueDouble(1.2476, controller.updPropertyByName("k_p"))
+    osim.PropertyHelper.setValueDouble(1.2476, controller.updPropertyByName("Kp_proprioception"))
+    osim.PropertyHelper.setValueDouble(6.54, controller.updPropertyByName("Ki_task"))
     osim.PropertyHelper.setValueDouble(23.1819, controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(55.5080, controller.updPropertyByName("p_ccr"))
     
     osim.PropertyHelper.setValueDouble(3.7051, controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(2.6738, controller.updPropertyByName("K_gamma_stat"))
 
-    delay = 0.5
-    A = 0.1
-    if freq < 0.5:
-        target_time = 6.95
-    elif freq < 1.0:
-        target_time = 3.1
-    elif freq < 2.0:
-        target_time = 1.6
-    elif freq < 4.0:
-        target_time = 1.0
-    else:
-        target_time = 0.7
-        
-    num_points = 500
-    times = osim.Vector(num_points, 0.0)
-    values = osim.Vector(num_points, 0.0)
-    
-    for i in range(num_points):
-        t = i * (target_time / (num_points - 1))
-        times.set(i, t)
-        
-        if t <= delay:
-            values.set(i, 0.0)
-        else:
-            t_eff = t - delay
-            envelope = 1.0
-            if t_eff < 0.2:
-                envelope = 0.5 - 0.5 * math.cos(math.pi * (t_eff / 0.2))
-            values.set(i, A * envelope * math.sin(2.0 * math.pi * freq * t_eff))
-            
-    spline = osim.GCVSpline()
-    spline.setDegree(3)
-    
-    for i in range(num_points):
-        spline.addPoint(times.get(i), values.get(i))
+    # Exactly lock base coordinates to ground
+    zero_func = osim.Constant(0.0)
+    for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:
+        c = model.updCoordinateSet().get(coord_name)
+        c.set_locked(False)
+        c.setDefaultIsPrescribed(True)
+        c.setPrescribedFunction(zero_func)
 
-    coord_tx = model.getCoordinateSet().get("spine_tx")
+    # Ensure yaw1 is dynamic (not prescribed)
+    c_yaw1 = model.updCoordinateSet().get("yaw1")
+    c_yaw1.set_locked(False)
+    c_yaw1.setDefaultIsPrescribed(False)
+
+    # Real Happee acceleration scaling: 2.15 cm at 0.835 Hz
+    amplitude = 0.0215 * (0.835 / freq)**2
+    delay = 0.5
+    period = 1.0 / freq
+    target_time = delay + 2.0 * period
+    
+    sine_function = osim.SimmSpline()
+    for t in np.arange(0.0, delay, 0.05):
+        sine_function.addPoint(t, 0.0)
+    for t in np.arange(delay, target_time + 0.1, 0.01):
+        y = amplitude * math.sin(2 * math.pi * freq * (t - delay))
+        sine_function.addPoint(t, y)
+
+    coord_tx = model.updCoordinateSet().get("spine_tx")
     coord_tx.set_locked(False)
     coord_tx.setDefaultIsPrescribed(True)
-    coord_tx.setPrescribedFunction(spline)
+    coord_tx.setPrescribedFunction(sine_function)
 
     state = model.initSystem()
+    c_yaw1.setIsPrescribed(state, False)
     coord_tx.setSpeedValue(state, 0.0)
     model.equilibrateMuscles(state)
-
-    cset = model.getCoordinateSet()
-    coord_names = [cset.get(i).getName() for i in range(cset.getSize())]
-    is_rot = [cset.get(i).getMotionType() != 2 for i in range(cset.getSize())]
 
     manager = osim.Manager(model)
     manager.setIntegratorMethod(5) # SemiExplicitEuler2
@@ -110,29 +99,50 @@ def generate_mot_for_freq(freq):
     state.setTime(0.0)
     manager.initialize(state)
 
-    dt_sample = 0.01 # 100 Hz sampling for smooth, fast OpenSim GUI playback
+    # Perfect SE(3) Observer Initialization
+    skull = model.getBodySet().get("skull")
+    R_head_to_world = skull.getTransformInGround(state).R()
+    q = osim.Rotation(R_head_to_world).convertRotationToQuaternion()
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q0", q.get(0))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q1", q.get(1))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
+
+    # Pre-load PID gravity compensation integral terms
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral", -0.01906)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/roll_error_integral", -0.01184)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/yaw_error_integral", 0.06309)
+
+    cset = model.getCoordinateSet()
+    coord_names = [cset.get(i).getName() for i in range(cset.getSize())]
+    is_rot = [cset.get(i).getMotionType() != 2 for i in range(cset.getSize())]
+
+    step = min(0.01, (1.0/freq) / 40.0)
+    dt_sample = 0.01
     current_t = 0.0
+    last_sample_t = 0.0
     rows = []
-    
-    # Initial sample at t=0
+    pitch_degs = []
+
     st = manager.getState()
     vals = [math.degrees(cset.get(i).getValue(st)) if is_rot[i] else cset.get(i).getValue(st) for i in range(cset.getSize())]
     rows.append([0.0] + vals)
 
-    step = min(0.01, (1.0/freq) / 40.0)
-    last_sample_t = 0.0
-    
     while current_t < target_time - 1e-6:
         next_t = min(current_t + step, target_time)
         manager.integrate(next_t)
         current_t = next_t
         
+        st = manager.getState()
+        p1 = cset.get("pitch1").getValue(st)
+        p2 = cset.get("pitch2").getValue(st)
+        pitch_degs.append(math.degrees(p1 + p2))
+        
         if current_t - last_sample_t >= dt_sample - 1e-8:
-            st = manager.getState()
             vals = [math.degrees(cset.get(i).getValue(st)) if is_rot[i] else cset.get(i).getValue(st) for i in range(cset.getSize())]
             rows.append([current_t] + vals)
             last_sample_t = current_t
-        
+
     os.makedirs("state_files/happee", exist_ok=True)
     out_file = f"state_files/happee/happee_motion_{freq}Hz.mot"
     with open(out_file, 'w') as f:
@@ -146,9 +156,9 @@ def generate_mot_for_freq(freq):
         for r in rows:
             f.write("\t".join(f"{x:.6f}" for x in r) + "\n")
             
-    print(f"Saved: {out_file} ({len(rows)} rows, {os.path.getsize(out_file)/1024:.1f} KB)")
+    print(f"Saved: {out_file} ({len(rows)} rows, pitch range: [{min(pitch_degs):.1f}°, {max(pitch_degs):.1f}°])")
 
 if __name__ == '__main__':
-    frequencies = [7.95, 5.52, 2.48, 1.11, 0.78, 0.31]
+    frequencies = [0.78, 1.11, 2.48, 5.52, 7.95, 0.31]
     for f in frequencies:
         generate_mot_for_freq(f)
