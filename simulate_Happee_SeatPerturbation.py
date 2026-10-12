@@ -51,10 +51,28 @@ for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:
 amplitude = 0.0215 # 2.15 cm
 frequency = 0.835 # 0.835 Hz (Middle of B1)
 
-sine_function = osim.Sine(amplitude, 2 * math.pi * frequency, 0)
+delay = 1.5  # Phase 1: 1.5s quiet settling
+ramp_duration = 1.0 / frequency  # Phase 2: 1 cycle ramp
+min_phase3_time = 2.0 / 1.8  # Phase 3: at least 2 periods of 1.8Hz (~1.11s)
+n_eval = max(1, math.ceil(min_phase3_time / ramp_duration))
+final_time = delay + ramp_duration + (n_eval * ramp_duration)
+
+import numpy as np
+sine_function = osim.SimmSpline()
+for t in np.arange(0.0, delay, 0.02):
+    sine_function.addPoint(t, 0.0)
+for t in np.arange(delay, final_time + 0.1, 0.01):
+    dt = t - delay
+    if dt < ramp_duration:
+        tau = dt / ramp_duration
+        w = 10.0 * (tau**3) - 15.0 * (tau**4) + 6.0 * (tau**5)
+    else:
+        w = 1.0
+    y = w * amplitude * math.sin(2.0 * math.pi * frequency * dt)
+    sine_function.addPoint(t, y)
+
 coord_tx = model.updCoordinateSet().get("spine_tx")
-# OpenSim 4.0+ sets prescribed motion directly on the coordinate!
-coord_tx.set_locked(False) # MUST UNLOCK FIRST
+coord_tx.set_locked(False)
 coord_tx.setDefaultIsPrescribed(True)
 coord_tx.setPrescribedFunction(sine_function)
 
@@ -69,10 +87,8 @@ model.updCoordinateSet().get("roll2").setValue(state, 0.0)
 model.updCoordinateSet().get("yaw1").setValue(state, 0.0)
 model.updCoordinateSet().get("yaw2").setValue(state, 0.0)
 
-# Set the initial velocity of the sled to match the prescribed sine wave derivative at t=0
-# v(0) = A * omega * cos(0)
-initial_velocity = amplitude * 2.0 * math.pi * frequency
-model.updCoordinateSet().get("spine_tx").setSpeedValue(state, initial_velocity)
+# Sled starts smoothly from rest (zero velocity)
+model.updCoordinateSet().get("spine_tx").setSpeedValue(state, 0.0)
 
 model.equilibrateMuscles(state)
 

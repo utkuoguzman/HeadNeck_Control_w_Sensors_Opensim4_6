@@ -31,28 +31,29 @@ def generate_mot_for_freq(freq):
         osim.PropertyHelper.setValueDouble(40.0, controller.updPropertyByName(f"Wv_base_{ax}"))
     osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
     osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
+    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("K_eso"))
 
-    # Gen 4 best parameters
-    osim.PropertyHelper.setValueDouble(15.4172, controller.updPropertyByName("K_ton"))
-    osim.PropertyHelper.setValueDouble(34.0019, controller.updPropertyByName("z_ton"))
-    osim.PropertyHelper.setValueDouble(3.6907, controller.updPropertyByName("p_ton"))
+    # Best reflex parameters (K_eso decoupled)
+    osim.PropertyHelper.setValueDouble(14.9888, controller.updPropertyByName("K_ton"))
+    osim.PropertyHelper.setValueDouble(37.0597, controller.updPropertyByName("z_ton"))
+    osim.PropertyHelper.setValueDouble(3.7444, controller.updPropertyByName("p_ton"))
     
-    osim.PropertyHelper.setValueDouble(15.7436, controller.updPropertyByName("K_sc"))
-    osim.PropertyHelper.setValueDouble(9.5737, controller.updPropertyByName("z_sc"))
-    osim.PropertyHelper.setValueDouble(58.4690, controller.updPropertyByName("p_sc"))
+    osim.PropertyHelper.setValueDouble(15.5036, controller.updPropertyByName("K_sc"))
+    osim.PropertyHelper.setValueDouble(9.4286, controller.updPropertyByName("z_sc"))
+    osim.PropertyHelper.setValueDouble(61.2809, controller.updPropertyByName("p_sc"))
     
-    osim.PropertyHelper.setValueDouble(1.1818, controller.updPropertyByName("K_phas"))
-    osim.PropertyHelper.setValueDouble(12.9370, controller.updPropertyByName("z_phas"))
-    osim.PropertyHelper.setValueDouble(9.0202, controller.updPropertyByName("p_phas"))
+    osim.PropertyHelper.setValueDouble(1.1486, controller.updPropertyByName("K_phas"))
+    osim.PropertyHelper.setValueDouble(12.1079, controller.updPropertyByName("z_phas"))
+    osim.PropertyHelper.setValueDouble(8.8767, controller.updPropertyByName("p_phas"))
     
-    osim.PropertyHelper.setValueDouble(1.2476, controller.updPropertyByName("k_p"))
-    osim.PropertyHelper.setValueDouble(1.2476, controller.updPropertyByName("Kp_proprioception"))
+    osim.PropertyHelper.setValueDouble(1.2955, controller.updPropertyByName("k_p"))
+    osim.PropertyHelper.setValueDouble(1.2955, controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(6.54, controller.updPropertyByName("Ki_task"))
-    osim.PropertyHelper.setValueDouble(23.1819, controller.updPropertyByName("z_ccr"))
-    osim.PropertyHelper.setValueDouble(55.5080, controller.updPropertyByName("p_ccr"))
+    osim.PropertyHelper.setValueDouble(24.0396, controller.updPropertyByName("z_ccr"))
+    osim.PropertyHelper.setValueDouble(57.8333, controller.updPropertyByName("p_ccr"))
     
-    osim.PropertyHelper.setValueDouble(3.7051, controller.updPropertyByName("K_gamma_dyn"))
-    osim.PropertyHelper.setValueDouble(2.6738, controller.updPropertyByName("K_gamma_stat"))
+    osim.PropertyHelper.setValueDouble(3.7202, controller.updPropertyByName("K_gamma_dyn"))
+    osim.PropertyHelper.setValueDouble(2.7454, controller.updPropertyByName("K_gamma_stat"))
 
     # Exactly lock base coordinates to ground
     zero_func = osim.Constant(0.0)
@@ -69,15 +70,26 @@ def generate_mot_for_freq(freq):
 
     # Real Happee acceleration scaling: 2.15 cm at 0.835 Hz
     amplitude = 0.0215 * (0.835 / freq)**2
-    delay = 0.5
+    delay = 1.5  # Phase 1: 1.5s quiet settling
     period = 1.0 / freq
-    target_time = delay + 2.0 * period
+    ramp_duration = period  # Phase 2: 1 cycle smooth ramp-in
+    min_phase3_time = 2.0 / 1.8  # Phase 3: at least 2 periods of 1.8Hz (~1.11s)
+    n_eval = max(1, math.ceil(min_phase3_time / period))
+    target_time = delay + ramp_duration + (n_eval * period)
     
+    # Smooth quintic ramp-in: C2 continuous (zero velocity jump, zero jerk spike)
     sine_function = osim.SimmSpline()
-    for t in np.arange(0.0, delay, 0.05):
+    for t in np.arange(0.0, delay, 0.02):
         sine_function.addPoint(t, 0.0)
-    for t in np.arange(delay, target_time + 0.1, 0.01):
-        y = amplitude * math.sin(2 * math.pi * freq * (t - delay))
+    spline_dt = min(0.01, period / 40.0)
+    for t in np.arange(delay, target_time + 0.05, spline_dt):
+        dt = t - delay
+        if dt < ramp_duration:
+            tau = dt / ramp_duration
+            w = 10.0 * (tau**3) - 15.0 * (tau**4) + 6.0 * (tau**5)
+        else:
+            w = 1.0
+        y = w * amplitude * math.sin(2.0 * math.pi * freq * dt)
         sine_function.addPoint(t, y)
 
     coord_tx = model.updCoordinateSet().get("spine_tx")

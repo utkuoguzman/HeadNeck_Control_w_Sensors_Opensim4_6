@@ -68,18 +68,23 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
     osim.PropertyHelper.setValueDouble(z_phas, controller.updPropertyByName("z_phas"))
     osim.PropertyHelper.setValueDouble(p_phas, controller.updPropertyByName("p_phas"))
     
-    osim.PropertyHelper.setValueDouble(0.45, controller.updPropertyByName("k_p"))
+    osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("k_p"))
     osim.PropertyHelper.setValueDouble(0.13, controller.updPropertyByName("k_v"))
 
-    osim.PropertyHelper.setValueDouble(kp, controller.updPropertyByName("Kp_task"))
+    # Base LQR costs
+    for ax in ['pitch', 'roll', 'yaw']:
+        osim.PropertyHelper.setValueDouble(400.0, controller.updPropertyByName(f"Wp_base_{ax}"))
+        osim.PropertyHelper.setValueDouble(40.0, controller.updPropertyByName(f"Wv_base_{ax}"))
+    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
+    osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
+    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("K_eso"))
+
     osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task"))
-    osim.PropertyHelper.setValueDouble(kd, controller.updPropertyByName("Kd_task"))
     osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(z_ccr, controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(p_ccr, controller.updPropertyByName("p_ccr"))
     osim.PropertyHelper.setValueDouble(k_gamma_dyn, controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(k_gamma_stat, controller.updPropertyByName("K_gamma_stat"))
-
 
     zero_func = osim.Constant(0.0)
     for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:
@@ -88,21 +93,40 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
         c.setDefaultIsPrescribed(True)
         c.setPrescribedFunction(zero_func)
 
+    # Ensure yaw1 is dynamic (not prescribed)
+    c_yaw1 = model.updCoordinateSet().get("yaw1")
+    c_yaw1.set_locked(False)
+    c_yaw1.setDefaultIsPrescribed(False)
+
     amplitude = 0.0215 * (0.835 / freq)**2
     
-    # User requested: Wait 0.5s for PID I-term to settle, THEN apply Sine wave for 2 periods
-    delay = 0.5
+    # 3-Phase Simulation Timeline:
+    # Phase 1: 1.5s quiet settling (sled stationary, Ki integral fully balances gravity)
+    # Phase 2: 1-cycle smooth quintic ramp-in (zero velocity jump, zero jerk spike)
+    # Phase 3: At least 2 periods of 1.8Hz (~1.11s) pure steady-state sine wave
+    delay = 1.5  # Phase 1 duration: 1.5s
     period = 1.0 / freq
-    target_time = delay + 2.0 * period # 2 full periods
-    
+    ramp_duration = period  # Phase 2 duration: 1 cycle ramp-in
+    min_phase3_time = 2.0 / 1.8  # Phase 3: at least 2 periods of 1.8Hz (~1.111s)
+    n_eval = max(1, math.ceil(min_phase3_time / period))  # Integer cycles in Phase 3
+    target_time = delay + ramp_duration + (n_eval * period)
+
     import numpy as np
     sine_function = osim.SimmSpline()
-    # Flat zero for the first 0.5 seconds
-    for t in np.arange(0.0, delay, 0.05):
+    # Flat zero during initial settle delay
+    for t in np.arange(0.0, delay, 0.02):
         sine_function.addPoint(t, 0.0)
-    # Sine wave starting from t=0.5
-    for t in np.arange(delay, target_time + 0.1, 0.01):
-        y = amplitude * math.sin(2 * math.pi * freq * (t - delay))
+    # Smooth ramped perturbation
+    spline_dt = min(0.01, period / 40.0)
+    for t in np.arange(delay, target_time + 0.05, spline_dt):
+        dt = t - delay
+        if dt < ramp_duration:
+            tau = dt / ramp_duration
+            # Quintic smoothstep: w(0)=0, w'(0)=0, w''(0)=0, w(1)=1, w'(1)=0, w''(1)=0
+            w = 10.0 * (tau**3) - 15.0 * (tau**4) + 6.0 * (tau**5)
+        else:
+            w = 1.0
+        y = w * amplitude * math.sin(2.0 * math.pi * freq * dt)
         sine_function.addPoint(t, y)
 
     coord_tx = model.updCoordinateSet().get("spine_tx")
@@ -111,6 +135,7 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
     coord_tx.setPrescribedFunction(sine_function)
 
     state = model.initSystem()
+    c_yaw1.setIsPrescribed(state, False)
     
     # We no longer need an initial velocity spike because the spline smoothly starts at 0.0
     coord_tx.setSpeedValue(state, 0.0)
@@ -123,9 +148,6 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
     manager.setIntegratorMinimumStepSize(1e-4)
     manager.setIntegratorMaximumStepSize(0.01)
     
-    state.setTime(0.0)
-    manager.initialize(state)
-        
     # Perfect SE(3) Observer Initialization
     skull = model.getBodySet().get("skull")
     R_head_to_world = skull.getTransformInGround(state).R()
@@ -135,10 +157,14 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
 
-    # NEW OPTIMIZATION: Pre-load the PID integral terms so we don't have to wait 2.5s to settle!
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral", -0.01906)
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/roll_error_integral", -0.01184)
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/yaw_error_integral", 0.06309)
+    # Pure symmetric posture: Roll and Yaw preloads are strictly 0.0
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral", 0.10528)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/roll_error_integral", 0.0)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/yaw_error_integral", 0.0)
+
+    # Initialize manager AFTER setting all state variables so SimTK integrator captures them!
+    state.setTime(0.0)
+    manager.initialize(state)
 
 
     step = min(0.01, (1.0/freq) / 40.0) # Always get at least 40 points per period! 
@@ -172,7 +198,7 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
         
         # EARLY ABORT: If the head collapses or explodes, kill the simulation instantly!
         if abs(head_pitch_deg) > 45.0 or abs(head_roll_deg) > 45.0 or abs(head_yaw_deg) > 45.0:
-            print(f"❌ [{worker_id} | {freq:.2f}Hz] ❌ KILLED: Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
+            print(f"[KILLED] [{worker_id} | {freq:.2f}Hz] Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
             # Give a graded penalty based on how early it failed so CMA-ES has a gradient
             survival_penalty = 1000000.0 + (5.0 - current_t) * 10000.0
             print(f"{survival_penalty}")
@@ -181,10 +207,11 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
         
         # Only print occasionally to avoid spamming the console too hard
         if round(current_t * 100) % 20 == 0: 
-            print(f"⏳ [{worker_id} | {freq:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
+            print(f"[{worker_id} | {freq:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
         
-    # Discard the first period to allow transient to settle, measure the second period.
-    discard_time = delay + period
+    # Discard Phase 1 (settle 1.5s) and Phase 2 (ramp 1 cycle).
+    # Measure only Phase 3 (pure steady-state, at least 2 periods of 1.8Hz).
+    discard_time = delay + ramp_duration
     amp_rad, phase_rad = extract_bode(t_history, pitch_history, freq, discard_time, delay)
     
     amp_deg = amp_rad * (180.0 / math.pi)

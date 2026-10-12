@@ -10,9 +10,9 @@ using namespace SimTK;
 
 HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_delay_time(0.013);
-    constructProperty_Kp_proprioception(0.5); 
-    constructProperty_z_ccr(10.0);
-    constructProperty_p_ccr(10.0);
+    constructProperty_Kp_proprioception(1.2476); 
+    constructProperty_z_ccr(23.1819);
+    constructProperty_p_ccr(55.5080);
     constructProperty_K_recip_inhib(0.0); // 0.0 means complete reciprocal inhibition (no antagonist reflex)
     constructProperty_Kg_proprioception(0.0);
     constructProperty_K_vestibular(2.0);
@@ -20,19 +20,19 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_desired_yaw(0.0);
     constructProperty_desired_pitch(0.0);
     constructProperty_desired_roll(0.0);
-    constructProperty_K_ton(52.35);
-    constructProperty_z_ton(0.01);
-    constructProperty_p_ton(8.03);
-    constructProperty_K_sc(18.09);
-    constructProperty_z_sc(0.01);
-    constructProperty_p_sc(3.93);
-    constructProperty_K_phas(8.68);
-    constructProperty_z_phas(17.17);
-    constructProperty_p_phas(28.72);
-    constructProperty_k_p(0.45);
+    constructProperty_K_ton(15.4172);
+    constructProperty_z_ton(34.0019);
+    constructProperty_p_ton(3.6907);
+    constructProperty_K_sc(15.7436);
+    constructProperty_z_sc(9.5737);
+    constructProperty_p_sc(58.4690);
+    constructProperty_K_phas(1.1818);
+    constructProperty_z_phas(12.9370);
+    constructProperty_p_phas(9.0202);
+    constructProperty_k_p(1.2476);
     constructProperty_k_v(0.13);
-    constructProperty_K_gamma_dyn(0.0);
-    constructProperty_K_gamma_stat(1.0);
+    constructProperty_K_gamma_dyn(3.7051);
+    constructProperty_K_gamma_stat(2.6738);
     constructProperty_K_gamma(1.0);
     constructProperty_Wp_base_pitch(400.0);
     constructProperty_Wv_base_pitch(40.0);
@@ -45,6 +45,7 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_Ki_task(6.54);
     constructProperty_trajectory_tau(0.1);
     constructProperty_use_dynamic_jacobian(true);
+    constructProperty_K_eso(0.0);
     
     double k_reg = 2.83, T1_reg = 0.0175, T2_reg = 0.0027, Tc_reg = 5.7;
     fparams[0].a0 = 1.0 / (Tc_reg * T2_reg);
@@ -1008,7 +1009,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     double eso_roll = getStateVariableValue(s, "eso_tau_dist_roll_2");
     double eso_yaw = getStateVariableValue(s, "eso_tau_dist_yaw_2");
     
-    double K_eso = 0.8; // Re-enabled! 2nd-order filter prevents high-frequency noise amplification
+    double K_eso = get_K_eso(); // Defaults to 0.0 to prevent internal model positive feedback runaway
     tau_eso[0] = -K_eso * eso_pitch;
     tau_eso[1] = -K_eso * eso_roll;
     tau_eso[2] = -K_eso * eso_yaw;
