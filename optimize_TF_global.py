@@ -52,22 +52,22 @@ TARGETS = [
     (0.31, 0.893,   2.5)   # F1 (Re-enabled for final fine-tuning)
 ]
 
-# Initialized with original baseline parameters (K_eso = 0.0 decoupled)
+# Initialized with Gen 5 best parameters (Score: 5132.50)
 x0 = np.array([
-    15.4172, 34.0019, 3.6907,   # K_ton, z_ton, p_ton
-    15.7436,  9.5737, 58.4690,  # K_sc, z_sc, p_sc 
-     1.1765, 12.9448,  9.0170,  # K_phas, z_phas, p_phas 
-     1.2452, 23.1813, 55.5098,  # kp_prop, z_ccr, p_ccr 
-     3.7080,  2.6681            # k_dyn, k_stat 
+    15.3215, 33.8800,  3.8980,  # K_ton, z_ton, p_ton
+    16.4291,  9.0505, 56.8736,  # K_sc, z_sc, p_sc 
+     1.3441, 12.5447, 10.3109,  # K_phas, z_phas, p_phas 
+     1.2193, 22.0746, 55.8447,  # kp_prop, z_ccr, p_ccr 
+     3.6906,  2.5544            # k_dyn, k_stat 
 ])
 
-# Small sigma for localized fine-tuning around previous best
+# Widened sigma for broader parameter exploration and faster convergence
 sigma0 = np.array([
-    0.3, 1.0, 0.15,   # K_ton, z, p
-    0.3, 0.5, 1.5,    # K_sc, z, p 
-    0.05, 0.5, 0.5,   # K_phas, z, p 
-    0.05, 1.0, 1.5,   # kp, z_ccr, p_ccr 
-    0.1,  0.1         # k_dyn, k_stat 
+    2.0,  4.0, 0.8,    # K_ton, z, p (~10-15% exploration width)
+    2.5,  2.0, 6.0,    # K_sc, z, p 
+    0.25, 2.0, 1.5,    # K_phas, z, p 
+    0.20, 3.0, 6.0,    # kp, z_ccr, p_ccr 
+    0.4,  0.4          # k_dyn, k_stat 
 ])
 
 # Bounds
@@ -82,8 +82,8 @@ upper_bounds = np.array([
     200.0, 100.0, 100.0,
     100.0, 100.0, 100.0,
     100.0, 100.0, 100.0,
-    5.0, 100.0, 100.0,
-    5.0, 5.0
+    10.0, 100.0, 100.0,
+    10.0, 10.0
 ])
 
 def evaluate_freq(candidate, target_idx, w_idx):
@@ -134,8 +134,8 @@ def main():
     })
     
     iteration = 0
-    global_best_score = float('inf')
-    global_best_sol = None
+    global_best_score = 5132.50
+    global_best_sol = x0.copy()
 
     while not es.stop():
         iteration += 1

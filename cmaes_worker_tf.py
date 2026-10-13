@@ -196,9 +196,9 @@ def run_simulation(kp, ki, kd, K_ton, z_ton, p_ton, K_sc, z_sc, p_sc, K_phas, z_
         t_history.append(current_t)
         pitch_history.append(p1 + p2)
         
-        # EARLY ABORT: If the head collapses or explodes, kill the simulation instantly!
-        if abs(head_pitch_deg) > 45.0 or abs(head_roll_deg) > 45.0 or abs(head_yaw_deg) > 45.0:
-            print(f"[KILLED] [{worker_id} | {freq:.2f}Hz] Head collapsed! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
+        # EARLY ABORT: If the head collapses or develops excessive cross-talk, kill the simulation instantly!
+        if abs(head_pitch_deg) > 45.0 or abs(head_roll_deg) > 30.0 or abs(head_yaw_deg) > 30.0:
+            print(f"[KILLED] [{worker_id} | {freq:.2f}Hz] Head collapsed/Cross-talk exceeded! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
             # Give a graded penalty based on how early it failed so CMA-ES has a gradient
             survival_penalty = 1000000.0 + (5.0 - current_t) * 10000.0
             print(f"{survival_penalty}")
