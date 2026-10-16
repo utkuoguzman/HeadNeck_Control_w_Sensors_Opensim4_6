@@ -75,6 +75,50 @@ public:
         return it->second.omega_recon[2];
     }
 
+    // Decoded proprioceptive relative state OpenSim Outputs (accessible by reporters and python scripts)
+    OpenSim_DECLARE_OUTPUT(est_neck_pitch, double, getOutputNeckPitch, SimTK::Stage::Velocity);
+    double getOutputNeckPitch(const SimTK::State& s) const { return est_neck_rel_angle[0]; }
+
+    OpenSim_DECLARE_OUTPUT(est_neck_roll, double, getOutputNeckRoll, SimTK::Stage::Velocity);
+    double getOutputNeckRoll(const SimTK::State& s) const { return est_neck_rel_angle[1]; }
+
+    OpenSim_DECLARE_OUTPUT(est_neck_yaw, double, getOutputNeckYaw, SimTK::Stage::Velocity);
+    double getOutputNeckYaw(const SimTK::State& s) const { return est_neck_rel_angle[2]; }
+
+    OpenSim_DECLARE_OUTPUT(est_neck_pitch_speed, double, getOutputNeckPitchSpeed, SimTK::Stage::Velocity);
+    double getOutputNeckPitchSpeed(const SimTK::State& s) const { return est_neck_rel_speed[0]; }
+
+    OpenSim_DECLARE_OUTPUT(est_neck_roll_speed, double, getOutputNeckRollSpeed, SimTK::Stage::Velocity);
+    double getOutputNeckRollSpeed(const SimTK::State& s) const { return est_neck_rel_speed[1]; }
+
+    OpenSim_DECLARE_OUTPUT(est_neck_yaw_speed, double, getOutputNeckYawSpeed, SimTK::Stage::Velocity);
+    double getOutputNeckYawSpeed(const SimTK::State& s) const { return est_neck_rel_speed[2]; }
+
+    // Mahony Spatial Observer OpenSim Outputs (accessible by reporters and python scripts)
+    OpenSim_DECLARE_OUTPUT(mahony_pitch, double, getMahonyPitch, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(mahony_roll, double, getMahonyRoll, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(mahony_yaw, double, getMahonyYaw, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(mahony_pitch_speed, double, getMahonyPitchSpeed, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(mahony_roll_speed, double, getMahonyRollSpeed, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(mahony_yaw_speed, double, getMahonyYawSpeed, SimTK::Stage::Velocity);
+
+    double getMahonyPitch(const SimTK::State& s) const;
+    double getMahonyRoll(const SimTK::State& s) const;
+    double getMahonyYaw(const SimTK::State& s) const;
+    double getMahonyPitchSpeed(const SimTK::State& s) const;
+    double getMahonyRollSpeed(const SimTK::State& s) const;
+    double getMahonyYawSpeed(const SimTK::State& s) const;
+
+    // Decoded proprioceptive relative state (passive observer / multisensory fusion)
+    const SimTK::Vec3& getEstimatedNeckRelativeAngle() const { return est_neck_rel_angle; }
+    const SimTK::Vec3& getEstimatedNeckRelativeSpeed() const { return est_neck_rel_speed; }
+    double getEstimatedNeckPitch() const { return est_neck_rel_angle[0]; }
+    double getEstimatedNeckRoll() const { return est_neck_rel_angle[1]; }
+    double getEstimatedNeckYaw() const { return est_neck_rel_angle[2]; }
+    double getEstimatedNeckPitchSpeed() const { return est_neck_rel_speed[0]; }
+    double getEstimatedNeckRollSpeed() const { return est_neck_rel_speed[1]; }
+    double getEstimatedNeckYawSpeed() const { return est_neck_rel_speed[2]; }
+
     void computeControls(const SimTK::State& s, SimTK::Vector& controls) const override;
     void computeStateVariableDerivatives(const SimTK::State& s) const override;
     
@@ -90,12 +134,16 @@ private:
     FilterParams fparams[2];
 
     struct HistRecord {
-        SimTK::Vector theta;       // size 3 (roll, yaw, pitch)
-        SimTK::Vector omega_recon; // size 3
-        SimTK::Vec3 v_lin;         // Linear velocity of the head
-        SimTK::Vector L;           // size N
-        SimTK::Vector L_dot;       // size N
-        SimTK::Vector Ia;          // size N (Spindle Firing Rate)
+        SimTK::Vector theta;        // size 3 (roll, yaw, pitch) - Head global orientation
+        SimTK::Vector omega_recon;  // size 3 - Head global angular velocity
+        SimTK::Vector theta_trunk;  // size 3 (roll, yaw, pitch) - Trunk global orientation
+        SimTK::Vector omega_trunk;  // size 3 (roll, yaw, pitch) - Trunk global angular velocity
+        SimTK::Vec3 v_lin;          // Linear velocity of the head
+        SimTK::Vector L;            // size N
+        SimTK::Vector L_dot;        // size N
+        SimTK::Vector Ia;           // size N (Spindle Firing Rate)
+        SimTK::Vec3 est_neck_rel_angle; // size 3 (pitch, roll, yaw)
+        SimTK::Vec3 est_neck_rel_speed; // size 3 (pitch, roll, yaw)
     };
     
     struct DelayedData {
@@ -108,7 +156,14 @@ private:
     
     DelayedData getDelayedData(double t, double delay) const;
     
-    mutable SimTK::Matrix J_moment_arms; // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
+    mutable SimTK::Matrix J_moment_arms; // 3 x N (pitch, roll, yaw)
+    mutable SimTK::Matrix K_proprio_decode; // 3 x N reconstruction matrix: -(J * J^T)^{-1} * J
+    mutable SimTK::Vec3 est_neck_rel_angle; // Decoded relative neck angle [pitch, roll, yaw] (rad)
+    mutable SimTK::Vec3 est_neck_rel_speed; // Decoded relative neck speed [pitch, roll, yaw] (rad/s)
+    mutable SimTK::Vec3 mahony_angle;       // Mahony estimated head attitude [pitch, roll, yaw] (rad)
+    mutable SimTK::Vec3 mahony_speed;       // Mahony estimated angular velocity [pitch, roll, yaw] (rad/s)
+    
+    void updateDecoderMatrix() const;
     
     mutable SimTK::Vector last_tau_des; // Store commanded torque for Efference Copy
     

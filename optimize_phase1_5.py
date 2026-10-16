@@ -144,7 +144,7 @@ def main():
         'CMA_stds': sigma0,
         'bounds': [lower_bounds, upper_bounds],
         'popsize': 18,
-        'maxiter': 30,
+        'maxiter': 9,
         'seed': 42
     })
     
