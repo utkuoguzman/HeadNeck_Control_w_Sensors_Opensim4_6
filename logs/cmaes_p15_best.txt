@@ -1,0 +1,8 @@
+Phase 1.5 Generation 11 Best Parameters:
+--------------------------------------------------
+Total Score: 73.37
+K_ton=75.9671, p_ton=19.0698
+K_sc=52.8441, z_sc=458.2638, p_sc=41.9575
+K_phas=6.1201, p_phas=61.9355
+kp=3.0188, z_ccr=344.9000, p_ccr=24.3920
+k_dyn=0.9000, k_stat=1.1318

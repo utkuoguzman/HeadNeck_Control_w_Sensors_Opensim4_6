@@ -34,13 +34,11 @@ public:
 
     // Vestibular & Reflex properties
     OpenSim_DECLARE_PROPERTY(K_ton, double, "Tonic otolith TF Gain");
-    OpenSim_DECLARE_PROPERTY(z_ton, double, "Tonic otolith TF Zero");
     OpenSim_DECLARE_PROPERTY(p_ton, double, "Tonic otolith TF Pole");
     OpenSim_DECLARE_PROPERTY(K_sc, double, "Semicircular canal TF Gain");
     OpenSim_DECLARE_PROPERTY(z_sc, double, "Semicircular canal TF Zero");
     OpenSim_DECLARE_PROPERTY(p_sc, double, "Semicircular canal TF Pole");
     OpenSim_DECLARE_PROPERTY(K_phas, double, "Phasic otolith TF Gain");
-    OpenSim_DECLARE_PROPERTY(z_phas, double, "Phasic otolith TF Zero");
     OpenSim_DECLARE_PROPERTY(p_phas, double, "Phasic otolith TF Pole");
     OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
     OpenSim_DECLARE_PROPERTY(k_v, double, "Muscle-level CCR derivative gain");

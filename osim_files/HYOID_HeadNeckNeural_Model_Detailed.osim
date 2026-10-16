@@ -3067,16 +3067,14 @@
 					<!--Voluntary desired roll angle for the head (rad)-->
 					<desired_roll>0</desired_roll>
 					<trajectory_tau>0.1</trajectory_tau>
-					<K_ton>15.4172</K_ton>
-					<z_ton>34.0019</z_ton>
-					<p_ton>3.6907</p_ton>
-					<K_sc>15.7436</K_sc>
-					<z_sc>9.5737</z_sc>
-					<p_sc>58.4690</p_sc>
-					<K_phas>1.1818</K_phas>
-					<z_phas>12.9370</z_phas>
-					<p_phas>9.0202</p_phas>
-					<k_p>1.2476</k_p>
+					<K_ton>74.3907</K_ton>
+					<p_ton>17.7531</p_ton>
+					<K_sc>49.3723</K_sc>
+					<z_sc>500.0</z_sc>
+					<p_sc>37.8562</p_sc>
+					<K_phas>4.9396</K_phas>
+					<p_phas>63.8079</p_phas>
+					<k_p>2.5030</k_p>
 					<k_v>0.13</k_v>
 					<K_gamma_dyn>3.7051</K_gamma_dyn>
 					<K_gamma_stat>2.6738</K_gamma_stat>

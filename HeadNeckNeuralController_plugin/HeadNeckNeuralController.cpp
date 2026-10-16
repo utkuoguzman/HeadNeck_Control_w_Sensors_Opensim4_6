@@ -10,9 +10,9 @@ using namespace SimTK;
 
 HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_delay_time(0.013);
-    constructProperty_Kp_proprioception(1.2476); 
-    constructProperty_z_ccr(23.1819);
-    constructProperty_p_ccr(55.5080);
+    constructProperty_Kp_proprioception(2.5030); 
+    constructProperty_z_ccr(500.0);
+    constructProperty_p_ccr(24.4852);
     constructProperty_K_recip_inhib(0.0); // 0.0 means complete reciprocal inhibition (no antagonist reflex)
     constructProperty_Kg_proprioception(0.0);
     constructProperty_K_vestibular(2.0);
@@ -20,16 +20,14 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_desired_yaw(0.0);
     constructProperty_desired_pitch(0.0);
     constructProperty_desired_roll(0.0);
-    constructProperty_K_ton(15.4172);
-    constructProperty_z_ton(34.0019);
-    constructProperty_p_ton(3.6907);
-    constructProperty_K_sc(15.7436);
-    constructProperty_z_sc(9.5737);
-    constructProperty_p_sc(58.4690);
-    constructProperty_K_phas(1.1818);
-    constructProperty_z_phas(12.9370);
-    constructProperty_p_phas(9.0202);
-    constructProperty_k_p(1.2476);
+    constructProperty_K_ton(74.3907);
+    constructProperty_p_ton(17.7531);
+    constructProperty_K_sc(49.3723);
+    constructProperty_z_sc(500.0);
+    constructProperty_p_sc(37.8562);
+    constructProperty_K_phas(4.9396);
+    constructProperty_p_phas(63.8079);
+    constructProperty_k_p(2.5030);
     constructProperty_k_v(0.13);
     constructProperty_K_gamma_dyn(3.7051);
     constructProperty_K_gamma_stat(2.6738);
@@ -955,9 +953,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         double y_ton_roll  = get_K_ton() * get_p_ton() * x_ton_roll;
         double y_ton_yaw   = get_K_ton() * get_p_ton() * x_ton_yaw;
         
-        double y_sc_pitch = get_K_sc() * get_p_sc() * x_sc_pitch;
-        double y_sc_roll  = get_K_sc() * get_p_sc() * x_sc_roll;
-        double y_sc_yaw   = get_K_sc() * get_p_sc() * x_sc_yaw;
+        double p_sc = get_p_sc();
+        double z_sc = get_z_sc();
+        if (std::abs(z_sc) < 1e-4) z_sc = (z_sc >= 0.0 ? 1e-4 : -1e-4);
+        double b_dir_sc = p_sc / z_sc;
+        double b_state_sc = (p_sc * (z_sc - p_sc)) / z_sc;
+
+        double y_sc_pitch = get_K_sc() * (b_dir_sc * u_sc_pitch + b_state_sc * x_sc_pitch);
+        double y_sc_roll  = get_K_sc() * (b_dir_sc * u_sc_roll  + b_state_sc * x_sc_roll);
+        double y_sc_yaw   = get_K_sc() * (b_dir_sc * u_sc_yaw   + b_state_sc * x_sc_yaw);
         
         double y_phas_pitch = get_K_phas() * get_p_phas() * x_phas_pitch;
         double y_phas_roll  = get_K_phas() * get_p_phas() * x_phas_roll;
@@ -1100,7 +1104,14 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
             std::string state_name = "ccr_state_" + m.getName();
             double x_ccr = getStateVariableValue(s, state_name);
             double Ia_delayed = ccr_record.Ia[i];
-            double Ia_filtered = get_p_ccr() * x_ccr;
+            
+            double p_ccr = get_p_ccr();
+            double z_ccr = get_z_ccr();
+            if (std::abs(z_ccr) < 1e-4) z_ccr = (z_ccr >= 0.0 ? 1e-4 : -1e-4);
+            double b_dir_ccr = p_ccr / z_ccr;
+            double b_state_ccr = (p_ccr * (z_ccr - p_ccr)) / z_ccr;
+
+            double Ia_filtered = b_dir_ccr * Ia_delayed + b_state_ccr * x_ccr;
             
             // In case filter makes it negative
             double Ia_firing = std::max(0.0, Ia_filtered);

@@ -1,8 +1,8 @@
-Generation 17 Best Parameters:
+Generation 30 Best Parameters:
 --------------------------------------------------
-Total Score: 1612.18
-K_ton=20.8696, z_ton=71.0617, p_ton=3.9843
-K_sc=34.5174, z_sc=13.1965, p_sc=19.2609
-K_phas=3.3254, z_phas=16.7621, p_phas=36.2261
-kp=2.0311, z_ccr=32.7098, p_ccr=38.4467
-k_dyn=3.0423, k_stat=3.1406
+Total Score: 882.29
+K_ton=74.3907, z_ton=98.8663, p_ton=17.7531
+K_sc=49.3723, z_sc=55.4303, p_sc=37.8562
+K_phas=4.9396, z_phas=39.2787, p_phas=63.8079
+kp=2.5030, z_ccr=30.6461, p_ccr=24.4852
+k_dyn=0.8897, k_stat=1.2004
