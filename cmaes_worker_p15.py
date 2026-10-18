@@ -235,16 +235,14 @@ if __name__ == "__main__":
             pass
         sim_gain, sim_phase = run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, freq, worker_name)
         
-        if freq < 1.0:
-            w_gain = 500.0
-            w_phase = 1500.0
-        elif freq < 3.0:
-            w_gain = 1000.0
-            w_phase = 1000.0
-        else:
-            w_gain = 1500.0
-            w_phase = 200.0
-            
+        # The "10-15 deg Corridor" Balanced Weighting
+        if freq >= 2.0:  # High frequencies (2.48, 5.52, 7.95 Hz) - heavy delay compensation
+            w_gain  = 600.0   # Relaxes gain tolerance to ~7.5 - 8.0%
+            w_phase = 1400.0  # Punishes phase errors > 15 deg heavily!
+        else:            # Low frequencies (0.31, 0.78, 1.11 Hz) - stiffness & tilt hold
+            w_gain  = 800.0   # Standard ~7.0% gain tolerance
+            w_phase = 1000.0  # Standard ~12.5 deg phase tolerance
+
         error = ((sim_gain - target_gain)/target_gain)**2 * w_gain + ((sim_phase - target_phase)/180.0)**2 * w_phase
         
         penalty = 0.0
@@ -252,6 +250,25 @@ if __name__ == "__main__":
         if ki > 500: penalty += (ki - 500) * 10
         
         final_score = error + penalty
+        try:
+            cand_dir = os.path.join("logs", "candidates")
+            os.makedirs(cand_dir, exist_ok=True)
+            res_file = os.path.join(cand_dir, f"{worker_name}_{freq:.2f}Hz.json")
+            with open(res_file, "w", encoding="utf-8") as f_res:
+                json.dump({
+                    "worker": worker_name,
+                    "freq": freq,
+                    "target_gain": target_gain,
+                    "sim_gain": sim_gain,
+                    "gain_err_pct": abs(sim_gain - target_gain) / target_gain * 100.0,
+                    "target_phase": target_phase,
+                    "sim_phase": sim_phase,
+                    "phase_err_deg": abs(sim_phase - target_phase),
+                    "score": final_score,
+                    "params": [K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat]
+                }, f_res)
+        except Exception:
+            pass
         print(f"{final_score}")
         sys.exit(0)
     except Exception as e:

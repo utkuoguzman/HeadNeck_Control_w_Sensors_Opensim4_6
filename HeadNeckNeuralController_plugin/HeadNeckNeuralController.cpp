@@ -96,25 +96,6 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("obs_py", SimTK::Stage::Velocity);
     addStateVariable("obs_pz", SimTK::Stage::Velocity);
     
-    // Efference Copy States (Internal Forward Model)
-    addStateVariable("eff_tau_pitch", SimTK::Stage::Velocity);
-    addStateVariable("eff_tau_roll", SimTK::Stage::Velocity);
-    addStateVariable("eff_tau_yaw", SimTK::Stage::Velocity);
-    
-    // Cerebellar Disturbance Rejection (ESO) States
-    addStateVariable("eso_tau_dist_pitch", SimTK::Stage::Velocity);
-    addStateVariable("eso_tau_dist_roll", SimTK::Stage::Velocity);
-    addStateVariable("eso_tau_dist_yaw", SimTK::Stage::Velocity);
-    
-    // 2nd stage of ESO (making it a 2nd-order low-pass filter)
-    addStateVariable("eso_tau_dist_pitch_2", SimTK::Stage::Velocity);
-    addStateVariable("eso_tau_dist_roll_2", SimTK::Stage::Velocity);
-    addStateVariable("eso_tau_dist_yaw_2", SimTK::Stage::Velocity);
-    
-    // Continuous dirty derivative states for acceleration
-    addStateVariable("omega_filt_pitch", SimTK::Stage::Velocity);
-    addStateVariable("omega_filt_roll", SimTK::Stage::Velocity);
-    addStateVariable("omega_filt_yaw", SimTK::Stage::Velocity);
 
     addStateVariable("ton_state_pitch", SimTK::Stage::Velocity);
     addStateVariable("ton_state_roll", SimTK::Stage::Velocity);
@@ -208,22 +189,6 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& s) co
     setStateVariableValue(s, "obs_px", 0.0);
     setStateVariableValue(s, "obs_py", 0.0);
     setStateVariableValue(s, "obs_pz", 0.0);
-    
-    setStateVariableValue(s, "eff_tau_pitch", 0.0);
-    setStateVariableValue(s, "eff_tau_roll", 0.0);
-    setStateVariableValue(s, "eff_tau_yaw", 0.0);
-    
-    setStateVariableValue(s, "eso_tau_dist_pitch", 0.0);
-    setStateVariableValue(s, "eso_tau_dist_roll", 0.0);
-    setStateVariableValue(s, "eso_tau_dist_yaw", 0.0);
-    
-    setStateVariableValue(s, "eso_tau_dist_pitch_2", 0.0);
-    setStateVariableValue(s, "eso_tau_dist_roll_2", 0.0);
-    setStateVariableValue(s, "eso_tau_dist_yaw_2", 0.0);
-    
-    setStateVariableValue(s, "omega_filt_pitch", 0.0);
-    setStateVariableValue(s, "omega_filt_roll", 0.0);
-    setStateVariableValue(s, "omega_filt_yaw", 0.0);
     
     const auto& muscles = getModel().getMuscles();
     for (int i = 0; i < muscles.getSize(); ++i) {
@@ -529,87 +494,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     if (y_int < -0.4 && y_err < 0) y_err = 0.0;
     setStateVariableDerivativeValue(s, "yaw_error_integral", y_err);
     
-    // --- EFFERENCE COPY (Muscle activation lag on commanded torque) ---
-    double T_muscle = 0.050; // 50ms lag
-    double eff_tau_pitch = getStateVariableValue(s, "eff_tau_pitch");
-    double eff_tau_roll = getStateVariableValue(s, "eff_tau_roll");
-    double eff_tau_yaw = getStateVariableValue(s, "eff_tau_yaw");
-    
-    double d_eff_pitch = (last_tau_des.size() == 3 ? last_tau_des[0] - eff_tau_pitch : 0.0) / T_muscle;
-    double d_eff_roll = (last_tau_des.size() == 3 ? last_tau_des[1] - eff_tau_roll : 0.0) / T_muscle;
-    double d_eff_yaw = (last_tau_des.size() == 3 ? last_tau_des[2] - eff_tau_yaw : 0.0) / T_muscle;
-    
-    setStateVariableDerivativeValue(s, "eff_tau_pitch", d_eff_pitch);
-    setStateVariableDerivativeValue(s, "eff_tau_roll", d_eff_roll);
-    setStateVariableDerivativeValue(s, "eff_tau_yaw", d_eff_yaw);
-    
-    // --- CEREBELLAR DISTURBANCE REJECTION (ESO) ---
     DelayedData vcr_data = getDelayedData(s.getTime(), 0.013);
-    
-    double I_pitch = 0.035; // Estimated Head Inertia (kg*m^2)
-    double I_roll = 0.035;
-    double I_yaw = 0.035;
-    double T_eso = 0.100;   // 100ms Cerebellar processing delay / low-pass filter
-    
-    if (vcr_data.record.omega_recon.size() == 3) {
-        // --- CONTINUOUS DIRTY DERIVATIVE FOR ACCELERATION ---
-        double T_diff = 0.020; // 20ms smoothing time constant for derivative
-        double omega_raw_roll = vcr_data.record.omega_recon[0];
-        double omega_raw_yaw = vcr_data.record.omega_recon[1];
-        double omega_raw_pitch = vcr_data.record.omega_recon[2];
-        
-        double omega_filt_roll = getStateVariableValue(s, "omega_filt_roll");
-        double omega_filt_yaw = getStateVariableValue(s, "omega_filt_yaw");
-        double omega_filt_pitch = getStateVariableValue(s, "omega_filt_pitch");
-        
-        double alpha_actual_roll = (omega_raw_roll - omega_filt_roll) / T_diff;
-        double alpha_actual_yaw = (omega_raw_yaw - omega_filt_yaw) / T_diff;
-        double alpha_actual_pitch = (omega_raw_pitch - omega_filt_pitch) / T_diff;
-        
-        setStateVariableDerivativeValue(s, "omega_filt_roll", alpha_actual_roll);
-        setStateVariableDerivativeValue(s, "omega_filt_yaw", alpha_actual_yaw);
-        setStateVariableDerivativeValue(s, "omega_filt_pitch", alpha_actual_pitch);
-        
-        // 2. Expected Acceleration (from internal forward model)
-        double alpha_expected_pitch = eff_tau_pitch / I_pitch;
-        double alpha_expected_roll = eff_tau_roll / I_roll;
-        double alpha_expected_yaw = eff_tau_yaw / I_yaw;
-        
-        // 3. Instantaneous Disturbance Torque
-        double tau_inst_pitch = I_pitch * (alpha_actual_pitch - alpha_expected_pitch);
-        double tau_inst_roll = I_roll * (alpha_actual_roll - alpha_expected_roll);
-        double tau_inst_yaw = I_yaw * (alpha_actual_yaw - alpha_expected_yaw);
-        
-        // 4. Update the ESO Low-Pass Filter State (1st stage)
-        double tau_dist_pitch_1 = getStateVariableValue(s, "eso_tau_dist_pitch");
-        double tau_dist_roll_1 = getStateVariableValue(s, "eso_tau_dist_roll");
-        double tau_dist_yaw_1 = getStateVariableValue(s, "eso_tau_dist_yaw");
-        
-        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch", (tau_inst_pitch - tau_dist_pitch_1) / T_eso);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_roll", (tau_inst_roll - tau_dist_roll_1) / T_eso);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw", (tau_inst_yaw - tau_dist_yaw_1) / T_eso);
-        
-        // 5. Update the ESO Low-Pass Filter State (2nd stage)
-        double tau_dist_pitch_2 = getStateVariableValue(s, "eso_tau_dist_pitch_2");
-        double tau_dist_roll_2 = getStateVariableValue(s, "eso_tau_dist_roll_2");
-        double tau_dist_yaw_2 = getStateVariableValue(s, "eso_tau_dist_yaw_2");
-        
-        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch_2", (tau_dist_pitch_1 - tau_dist_pitch_2) / T_eso);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_roll_2", (tau_dist_roll_1 - tau_dist_roll_2) / T_eso);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw_2", (tau_dist_yaw_1 - tau_dist_yaw_2) / T_eso);
-    } else {
-        setStateVariableDerivativeValue(s, "omega_filt_roll", 0.0);
-        setStateVariableDerivativeValue(s, "omega_filt_yaw", 0.0);
-        setStateVariableDerivativeValue(s, "omega_filt_pitch", 0.0);
-        
-        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch", 0.0);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_roll", 0.0);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw", 0.0);
-        
-        setStateVariableDerivativeValue(s, "eso_tau_dist_pitch_2", 0.0);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_roll_2", 0.0);
-        setStateVariableDerivativeValue(s, "eso_tau_dist_yaw_2", 0.0);
-    }
     
     // --- SE_2(3) SPATIAL OBSERVER (Tilt-Translation Disambiguation) ---
     // 1. Vestibular Sensor Readings (Skull angular velocity and Otolith specific force)
@@ -1094,7 +979,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     // --- DESCENDING TRACKS (Voluntary) vs ASCENDING TRACKS (Reflex) ---
     Vector tau_vcr(3, 0.0); // Restorative Vestibular Reflexes
     Vector tau_vol(3, 0.0); // Descending Voluntary Task Tracking
-    Vector tau_eso(3, 0.0); // Cerebellar Disturbance Rejection
     
     // Extract Estimated Angles from SE_2(3) Observer
     SimTK::Rotation R_head_curr(SimTK::Quaternion(q0, q1, q2, q3));
@@ -1215,22 +1099,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
                + get_Ki_task() * yaw_int 
                + I_head_yaw * traj_acc_yaw;
     
-    // 3. Inject Cerebellar Disturbance Rejection (ESO)
-    // We use the 2nd stage state for a 2nd-order critically damped low-pass response (-40 dB/dec)
-    double eso_pitch = getStateVariableValue(s, "eso_tau_dist_pitch_2");
-    double eso_roll = getStateVariableValue(s, "eso_tau_dist_roll_2");
-    double eso_yaw = getStateVariableValue(s, "eso_tau_dist_yaw_2");
-    
-    double K_eso = get_K_eso(); // Defaults to 0.0 to prevent internal model positive feedback runaway
-    tau_eso[0] = -K_eso * eso_pitch;
-    tau_eso[1] = -K_eso * eso_roll;
-    tau_eso[2] = -K_eso * eso_yaw;
-    
     // --- TOTAL MOTOR CORTEX DRIVE TO SPINAL CORD ---
     Vector tau_des(3, 0.0);
-    tau_des[0] = tau_vol[0] + tau_vcr[0] + tau_eso[0];
-    tau_des[1] = tau_vol[1] + tau_vcr[1] + tau_eso[1];
-    tau_des[2] = tau_vol[2] + tau_vcr[2] + tau_eso[2];
+    tau_des[0] = tau_vol[0] + tau_vcr[0];
+    tau_des[1] = tau_vol[1] + tau_vcr[1];
+    tau_des[2] = tau_vol[2] + tau_vcr[2];
     
     tau_des[0] = std::clamp(tau_des[0], -150.0, 150.0);
     tau_des[1] = std::clamp(tau_des[1], -100.0, 100.0);
