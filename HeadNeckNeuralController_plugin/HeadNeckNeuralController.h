@@ -26,6 +26,8 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_pitch, double, "Voluntary desired pitch angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(trajectory_tau, double, "Time constant for the internal 2nd-order trajectory planner");
+    OpenSim_DECLARE_PROPERTY(delay_voluntary, double, "Cortical/voluntary delay in seconds (default: 0.040)");
+    OpenSim_DECLARE_PROPERTY(fc_voluntary, double, "Voluntary controller low-pass cutoff frequency in Hz (default: 2.0)");
 
 
 
@@ -144,6 +146,8 @@ private:
         SimTK::Vector Ia;           // size N (Spindle Firing Rate)
         SimTK::Vec3 est_neck_rel_angle; // size 3 (pitch, roll, yaw)
         SimTK::Vec3 est_neck_rel_speed; // size 3 (pitch, roll, yaw)
+        SimTK::Vec3 neck_rel_q;         // size 3 (pitch, roll, yaw)
+        SimTK::Vec3 neck_rel_u;         // size 3 (pitch, roll, yaw)
     };
     
     struct DelayedData {

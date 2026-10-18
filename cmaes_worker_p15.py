@@ -176,11 +176,13 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
         pitch_history.append(head_pitch_deg)
 
     discard_time = delay + ramp_duration
-    amp_deg, phase_deg = extract_bode(t_history, pitch_history, freq, discard_time, delay)
+    amp_deg, phase_rad = extract_bode(t_history, pitch_history, freq, discard_time, delay)
     
     accel_amplitude = amplitude * (2.0 * math.pi * freq)**2
     gain_deg_ms2 = amp_deg / accel_amplitude
-    if phase_deg > 90: phase_deg -= 360
+    phase_deg = math.degrees(phase_rad)
+    while phase_deg > 90.0: phase_deg -= 360.0
+    while phase_deg < -270.0: phase_deg += 360.0
     
     return gain_deg_ms2, phase_deg
 
@@ -243,7 +245,8 @@ if __name__ == "__main__":
             w_gain  = 800.0   # Standard ~7.0% gain tolerance
             w_phase = 1000.0  # Standard ~12.5 deg phase tolerance
 
-        error = ((sim_gain - target_gain)/target_gain)**2 * w_gain + ((sim_phase - target_phase)/180.0)**2 * w_phase
+        phase_diff = (sim_phase - target_phase + 180.0) % 360.0 - 180.0
+        error = ((sim_gain - target_gain)/target_gain)**2 * w_gain + (phase_diff / 180.0)**2 * w_phase
         
         penalty = 0.0
         if kp > 500: penalty += (kp - 500) * 10
@@ -263,7 +266,7 @@ if __name__ == "__main__":
                     "gain_err_pct": abs(sim_gain - target_gain) / target_gain * 100.0,
                     "target_phase": target_phase,
                     "sim_phase": sim_phase,
-                    "phase_err_deg": abs(sim_phase - target_phase),
+                    "phase_err_deg": abs(phase_diff),
                     "score": final_score,
                     "params": [K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat]
                 }, f_res)
