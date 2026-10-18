@@ -1,0 +1,30 @@
+==========================================================================================
+PHASE 1.5 CONTINUATION (NO ESO): EXECUTING GENERATIONS 18 TO 20
+Targeting 10-15 deg Phase Corridor & 7-8% Gain Error (Objective Target ~50-55)
+Started at: 2026-10-18 09:16:49
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=45, Sun Oct 18 09:16:49 2026)
+
+=================================== STARTING GENERATION 18 at 09:16:49 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 18) ---
+[PASS] [W6_G18] passed 7.95Hz (Score: 102.7)
+[PASS] [W3_G18] passed 7.95Hz (Score: 44.2)
+[PASS] [W12_G18] passed 7.95Hz (Score: 131.2)
+[PASS] [W11_G18] passed 7.95Hz (Score: 46.2)
+[PASS] [W14_G18] passed 7.95Hz (Score: 44.1)
+[PASS] [W5_G18] passed 7.95Hz (Score: 149.5)
+[PASS] [W9_G18] passed 7.95Hz (Score: 79.2)
+[PASS] [W17_G18] passed 7.95Hz (Score: 58.0)
+[PASS] [W13_G18] passed 7.95Hz (Score: 43.9)
+[PASS] [W15_G18] passed 7.95Hz (Score: 51.1)
+[PASS] [W7_G18] passed 7.95Hz (Score: 301.5)
+[PASS] [W16_G18] passed 7.95Hz (Score: 113.0)
+[PASS] [W1_G18] passed 7.95Hz (Score: 95.6)
+[PASS] [W8_G18] passed 7.95Hz (Score: 90.1)
+[PASS] [W10_G18] passed 7.95Hz (Score: 42.6)
+[PASS] [W2_G18] passed 7.95Hz (Score: 72.5)
+[PASS] [W18_G18] passed 7.95Hz (Score: 43.1)
+[PASS] [W4_G18] passed 7.95Hz (Score: 57.2)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 18) ---
