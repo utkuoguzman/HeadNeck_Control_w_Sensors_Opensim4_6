@@ -237,10 +237,12 @@ python optimize_to_gen17.py
   - [x] 18-core CMA-ES parallel optimization of 12 neuromotor reflex parameters.
   - [x] Discovery of active phase-lead zeros ($z_{\text{ccr}} \approx 298\text{ rad/s}, z_{\text{sc}} \approx 491\text{ rad/s}$).
   - [ ] Optimization: is about to be ironed out.
-- [ ] **Phase 8.3: Ocular-Cervical Coordination (VOR / COR)**
+- [x] **Phase 8.3: Human Voluntary Tracking Benchmark Validation**
+  - [x] Replicate the human voluntary velocity profiles in the literature.
+- [ ] **Phase 8.4: Ocular-Cervical Coordination (VOR / COR)**
   - [ ] Connect vestibular canal outputs directly to FixationController eye muscles.
   - [ ] Replicate retinal slip minimization under erratic head perturbation.
-- [ ] **Phase 8.4: Implement the Motion Rig**
+- [ ] **Phase 8.5: Implement the Motion Rig**
   - [ ] Implement the motion rig.
   - [ ] Replicate real time motion rig experiments in simulation.
 - [ ] **Phase 9: GVS**
