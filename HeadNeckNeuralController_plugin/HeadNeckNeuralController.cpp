@@ -124,6 +124,7 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     const auto& muscles = getModel().getMuscles();
     for (int i = 0; i < muscles.getSize(); ++i) {
         std::string mname = muscles.get(i).getName();
+        if (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0) continue;
         addStateVariable("ccr_state_" + mname, SimTK::Stage::Velocity);
         addStateVariable("sp_dL_" + mname, SimTK::Stage::Velocity);
         addStateVariable("sp_v_" + mname, SimTK::Stage::Velocity);
@@ -217,6 +218,7 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& s) co
     const auto& muscles = getModel().getMuscles();
     for (int i = 0; i < muscles.getSize(); ++i) {
         std::string mname = muscles.get(i).getName();
+        if (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0) continue;
         setStateVariableValue(s, "ccr_state_" + mname, 0.0);
         setStateVariableValue(s, "sp_dL_" + mname, 0.0);
         setStateVariableValue(s, "sp_v_" + mname, 0.0);
@@ -267,9 +269,40 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     base_Ia.resize(num_muscles, 0.0);
     base_II.resize(num_muscles, 0.0);
     last_u_alpha.assign(num_muscles, 0.03);
+    name_ccr_state.resize(num_muscles);
+    name_sp_dL.resize(num_muscles);
+    name_sp_v.resize(num_muscles);
+    name_sp_fdyn.resize(num_muscles);
+    name_sp_fstat.resize(num_muscles);
+    sv_ccr_state.resize(num_muscles, nullptr);
+    sv_sp_dL.resize(num_muscles, nullptr);
+    sv_sp_v.resize(num_muscles, nullptr);
+    sv_sp_fdyn.resize(num_muscles, nullptr);
+    sv_sp_fstat.resize(num_muscles, nullptr);
+    cached_Ia_out.assign(num_muscles, nullptr);
+    cached_II_out.assign(num_muscles, nullptr);
+    cached_scale_L.resize(num_muscles, 0.0);
+    cached_scale_Ia.resize(num_muscles, 0.0);
+    cached_F_max.resize(num_muscles, 0.0);
     
     for(size_t i=0; i<active_muscle_indices.size(); ++i) {
         const Muscle& m = muscles.get(active_muscle_indices[i]);
+        std::string mname_i = m.getName();
+        name_ccr_state[i] = "ccr_state_" + mname_i;
+        name_sp_dL[i] = "sp_dL_" + mname_i;
+        name_sp_v[i] = "sp_v_" + mname_i;
+        name_sp_fdyn[i] = "sp_fdyn_" + mname_i;
+        name_sp_fstat[i] = "sp_fstat_" + mname_i;
+        sv_ccr_state[i] = traverseToStateVariable(name_ccr_state[i]);
+        sv_sp_dL[i] = traverseToStateVariable(name_sp_dL[i]);
+        sv_sp_v[i] = traverseToStateVariable(name_sp_v[i]);
+        sv_sp_fdyn[i] = traverseToStateVariable(name_sp_fdyn[i]);
+        sv_sp_fstat[i] = traverseToStateVariable(name_sp_fstat[i]);
+        double L0_i = m.getOptimalFiberLength();
+        double cos_p_i = std::max(0.5, std::cos(m.getPennationAngleAtOptimalFiberLength()));
+        cached_scale_L[i] = L0_i / (369.1427 * cos_p_i);
+        cached_scale_Ia[i] = L0_i / (35000.0 * cos_p_i);
+        cached_F_max[i] = m.getMaxIsometricForce();
         base_activations[i] = m.getActivation(s);
         const Component* spindle = nullptr;
         for (const auto& comp : m.getComponentList()) {
@@ -280,8 +313,10 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
         }
         if (spindle) {
             try {
-                base_Ia[i] = spindle->getOutputValue<double>(s, "primary_Ia");
-                base_II[i] = spindle->getOutputValue<double>(s, "secondary_II");
+                cached_Ia_out[i] = static_cast<const Output<double>*>(&spindle->getOutput("primary_Ia"));
+                cached_II_out[i] = static_cast<const Output<double>*>(&spindle->getOutput("secondary_II"));
+                base_Ia[i] = cached_Ia_out[i]->getValue(s);
+                base_II[i] = cached_II_out[i]->getValue(s);
             } catch(...) {
                 base_Ia[i] = 0.0;
                 base_II[i] = 0.0;
@@ -536,74 +571,45 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         initializeGeometryAndBaseline(s);
     }
     {
-        const auto& muscles_d = model.getMuscles();
-        for (int m_idx = 0; m_idx < muscles_d.getSize(); ++m_idx) {
-            std::string mname = muscles_d.get(m_idx).getName();
-            setStateVariableDerivativeValue(s, "sp_dL_" + mname, 0.0);
-            setStateVariableDerivativeValue(s, "sp_v_" + mname, 0.0);
-            setStateVariableDerivativeValue(s, "sp_fdyn_" + mname, 0.0);
-            setStateVariableDerivativeValue(s, "sp_fstat_" + mname, 0.0);
-        }
         int N_d = active_muscle_indices.size();
         SimTK::Vector est_dL_vec(N_d, 0.0);
         SimTK::Vector est_v_vec(N_d, 0.0);
-        const double Lp_sp = 120.0;
-        const double Lw_sp = 3600.0;
-        const double Lv_sp = 60.0;
+        const SimTK::Vector& Y_vec = s.getY();
+        const double k_gdyn = 100.0 * get_K_gamma_dyn();
+        const double k_gstat = 100.0 * get_K_gamma_stat();
+        const double tau_II = 0.055;
+        const double tau_v  = 0.025;
         for (int i = 0; i < N_d; ++i) {
-            const Muscle& m = muscles_d.get(active_muscle_indices[i]);
-            std::string mname = m.getName();
-            double sp_dL   = getStateVariableValue(s, "sp_dL_" + mname);
-            double sp_v    = getStateVariableValue(s, "sp_v_" + mname);
-            double f_dyn   = getStateVariableValue(s, "sp_fdyn_" + mname);
-            double f_stat  = getStateVariableValue(s, "sp_fstat_" + mname);
+            double sp_dL  = sv_sp_dL[i]->getValue(s);
+            double sp_v   = sv_sp_v[i]->getValue(s);
+            double f_dyn  = sv_sp_fdyn[i]->getValue(s);
+            double f_stat = sv_sp_fstat[i]->getValue(s);
 
             double u_a = (i < (int)last_u_alpha.size()) ? last_u_alpha[i] : 0.03;
-            double g_dyn  = 100.0 * get_K_gamma_dyn()  * u_a;
-            double g_stat = 100.0 * get_K_gamma_stat() * u_a;
+            double g_dyn  = k_gdyn  * u_a;
+            double g_stat = k_gstat * u_a;
             double f_dyn_inf   = (g_dyn * g_dyn)   / (g_dyn * g_dyn   + 3600.0);
             double f_stat_inf  = (g_stat * g_stat) / (g_stat * g_stat + 3600.0);
             double f_chain_now = (g_stat * g_stat) / (g_stat * g_stat + 8100.0);
 
-            setStateVariableDerivativeValue(s, "sp_fdyn_"  + mname, (f_dyn_inf  - f_dyn)  / 0.149);
-            setStateVariableDerivativeValue(s, "sp_fstat_" + mname, (f_stat_inf - f_stat) / 0.205);
+            sv_sp_fdyn[i]->setDerivative(s, (f_dyn_inf  - f_dyn)  / 0.149);
+            sv_sp_fstat[i]->setDerivative(s, (f_stat_inf - f_stat) / 0.205);
 
-            double Ia_val = base_Ia[i];
-            double II_val = base_II[i];
-            const Component* spindle = nullptr;
-            for (const auto& comp : m.getComponentList()) {
-                if (comp.getName() == "spindle") { spindle = &comp; break; }
-            }
-            if (spindle) {
-                try {
-                    Ia_val = spindle->getOutputValue<double>(s, "primary_Ia");
-                    II_val = spindle->getOutputValue<double>(s, "secondary_II");
-                } catch(...) {}
-            }
+            double Ia_val = cached_Ia_out[i] ? cached_Ia_out[i]->getValue(s) : base_Ia[i];
+            double II_val = cached_II_out[i] ? cached_II_out[i]->getValue(s) : base_II[i];
 
-            // Efference-copy cancellation of gamma-induced intrafusal tension shift
             double dII_gamma = 29.72138 * f_stat + 44.58207 * f_chain_now;
             double dIa_gamma = 54.45176 * f_dyn  + 0.21517  * dII_gamma;
             double delta_II = (II_val - base_II[i]) - dII_gamma;
             double delta_Ia = (Ia_val - base_Ia[i]) - dIa_gamma;
 
-            double L0 = m.getOptimalFiberLength();
-            double cos_p = std::max(0.5, std::cos(m.getPennationAngleAtOptimalFiberLength()));
-            double scale_L = L0 / (369.1427 * cos_p);
-            double scale_Ia = L0 / (35000.0 * cos_p);
-            const double tau_II = 0.055; // Instantaneous II velocity time constant
-            const double tau_v  = 0.025; // Velocity state smoothing time constant (25ms)
-
-            // 1. II relative to current baseline sp_dL gives instantaneous velocity: v_II = (y_II - sp_dL) / tau_II
-            // 2. Dynamic Ia excess gives velocity + acceleration lead: v_Ia = scale_Ia * delta_Ia_dyn
-            // 3. Baseline sp_dL updates as the exact integral of sp_v: d(sp_dL)/dt = sp_v
-            double y_II_i = scale_L * delta_II;
+            double y_II_i = cached_scale_L[i] * delta_II;
             double delta_Ia_dyn = delta_Ia - 1.37931034 * delta_II;
             double v_from_II = (y_II_i - sp_dL) / tau_II;
-            double v_lead_Ia = scale_Ia * delta_Ia_dyn;
+            double v_lead_Ia = cached_scale_Ia[i] * delta_Ia_dyn;
 
-            setStateVariableDerivativeValue(s, "sp_dL_" + mname, sp_v);
-            setStateVariableDerivativeValue(s, "sp_v_"  + mname, (v_from_II + v_lead_Ia - sp_v) / tau_v);
+            sv_sp_dL[i]->setDerivative(s, sp_v);
+            sv_sp_v[i]->setDerivative(s, (v_from_II + v_lead_Ia - sp_v) / tau_v);
 
             est_dL_vec[i] = sp_dL;
             est_v_vec[i]  = sp_v;
@@ -874,20 +880,16 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double p_ccr = get_p_ccr();
     DelayedData ccr_data = getDelayedData(s.getTime(), get_delay_ccr());
     HistRecord ccr_record = ccr_data.record;
-    const auto& muscles = getModel().getMuscles();
-    
-    // Default to 0 for all
-    for (int i = 0; i < muscles.getSize(); ++i) {
-        setStateVariableDerivativeValue(s, "ccr_state_" + muscles.get(i).getName(), 0.0);
-    }
-    
+    const SimTK::Vector& Y_ccr = s.getY();
     if (ccr_record.Ia.size() == active_muscle_indices.size() && active_muscle_indices.size() > 0) {
         for (size_t i = 0; i < active_muscle_indices.size(); ++i) {
-            const Muscle& m = muscles.get(active_muscle_indices[i]);
-            std::string state_name = "ccr_state_" + m.getName();
-            double x_ccr = getStateVariableValue(s, state_name);
+            double x_ccr = sv_ccr_state[i]->getValue(s);
             double Ia_delayed = ccr_record.Ia[i];
-            setStateVariableDerivativeValue(s, state_name, -p_ccr * x_ccr + Ia_delayed);
+            sv_ccr_state[i]->setDerivative(s, -p_ccr * x_ccr + Ia_delayed);
+        }
+    } else {
+        for (size_t i = 0; i < active_muscle_indices.size(); ++i) {
+            sv_ccr_state[i]->setDerivative(s, 0.0);
         }
     }
 
@@ -1039,46 +1041,20 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     
     if (history.empty()) {
         for (int i = 0; i < N; ++i) {
-            const Muscle& m = muscles.get(active_muscle_indices[i]);
-            const Component* spindle = nullptr;
-            for (const auto& comp : m.getComponentList()) {
-                if (comp.getName() == "spindle") { spindle = &comp; break; }
-            }
-            if (spindle) {
-                try {
-                    base_Ia[i] = spindle->getOutputValue<double>(s, "primary_Ia");
-                    base_II[i] = spindle->getOutputValue<double>(s, "secondary_II");
-                } catch(...) {
-                    base_Ia[i] = 0.0;
-                    base_II[i] = 0.0;
-                }
-            }
+            base_Ia[i] = cached_Ia_out[i] ? cached_Ia_out[i]->getValue(s) : 0.0;
+            base_II[i] = cached_II_out[i] ? cached_II_out[i]->getValue(s) : 0.0;
         }
     }
     hr.Ia.resize(N);
     SimTK::Vector est_dL_vec(N, 0.0);
     SimTK::Vector est_v_vec(N, 0.0);
+    const SimTK::Vector& Y_ctrl = s.getY();
     for(int i=0; i<N; ++i) {
-        const Muscle& m = muscles.get(active_muscle_indices[i]);
-        std::string mname = m.getName();
-        est_dL_vec[i] = getStateVariableValue(s, "sp_dL_" + mname);
-        est_v_vec[i]  = getStateVariableValue(s, "sp_v_" + mname);
-        hr.Ia[i] = 0.0;
-        
-        const Component* spindle = nullptr;
-        for (const auto& comp : m.getComponentList()) {
-            if (comp.getName() == "spindle") {
-                spindle = &comp;
-                break;
-            }
-        }
-        if (spindle) {
-            try {
-                double primary = spindle->getOutputValue<double>(s, "primary_Ia");
-                double delta_Ia = std::max(0.0, primary - base_Ia[i]);
-                hr.Ia[i] = std::clamp(delta_Ia, 0.0, 500.0);
-            } catch(...) {}
-        }
+        est_dL_vec[i] = sv_sp_dL[i]->getValue(s);
+        est_v_vec[i]  = sv_sp_v[i]->getValue(s);
+        double primary = cached_Ia_out[i] ? cached_Ia_out[i]->getValue(s) : base_Ia[i];
+        double delta_Ia = std::max(0.0, primary - base_Ia[i]);
+        hr.Ia[i] = std::clamp(delta_Ia, 0.0, 500.0);
     }
     
     // --- STAGE 2: 6-DOF PROPRIOCEPTIVE DECODER FROM 72 PER-SPINDLE LUENBERGER STATES ---
@@ -1285,8 +1261,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         
         if (ccr_record.Ia.size() == N) {
             // Cervico-Collic Reflex (CCR) - using biological firing rate!
-            std::string state_name = "ccr_state_" + m.getName();
-            double x_ccr = getStateVariableValue(s, state_name);
+            double x_ccr = sv_ccr_state[i]->getValue(s);
             double Ia_delayed = ccr_record.Ia[i];
             
             double p_ccr = get_p_ccr();

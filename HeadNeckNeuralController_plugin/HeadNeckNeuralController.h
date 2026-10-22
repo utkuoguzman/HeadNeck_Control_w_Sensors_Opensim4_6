@@ -171,6 +171,21 @@ private:
     
     mutable std::vector<int> active_muscle_indices;
     mutable std::vector<std::string> muscle_names;
+    mutable std::vector<std::string> name_ccr_state;
+    mutable std::vector<std::string> name_sp_dL;
+    mutable std::vector<std::string> name_sp_v;
+    mutable std::vector<std::string> name_sp_fdyn;
+    mutable std::vector<std::string> name_sp_fstat;
+    mutable std::vector<const StateVariable*> sv_ccr_state;
+    mutable std::vector<const StateVariable*> sv_sp_dL;
+    mutable std::vector<const StateVariable*> sv_sp_v;
+    mutable std::vector<const StateVariable*> sv_sp_fdyn;
+    mutable std::vector<const StateVariable*> sv_sp_fstat;
+    mutable std::vector<const OpenSim::Output<double>*> cached_Ia_out;
+    mutable std::vector<const OpenSim::Output<double>*> cached_II_out;
+    mutable std::vector<double> cached_scale_L;
+    mutable std::vector<double> cached_scale_Ia;
+    mutable std::vector<double> cached_F_max;
     mutable std::vector<double> base_activations;
     mutable std::vector<double> base_Ia;
     mutable std::vector<double> base_II;
