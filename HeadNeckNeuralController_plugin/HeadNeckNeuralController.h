@@ -142,13 +142,9 @@ private:
         SimTK::Vector theta_trunk;  // size 3 (roll, yaw, pitch) - Trunk global orientation
         SimTK::Vector omega_trunk;  // size 3 (roll, yaw, pitch) - Trunk global angular velocity
         SimTK::Vec3 v_lin;          // Linear velocity of the head
-        SimTK::Vector L;            // size N
-        SimTK::Vector L_dot;        // size N
         SimTK::Vector Ia;           // size N (Spindle Firing Rate)
         SimTK::Vec3 est_neck_rel_angle; // size 3 (pitch, roll, yaw)
         SimTK::Vec3 est_neck_rel_speed; // size 3 (pitch, roll, yaw)
-        SimTK::Vec3 neck_rel_q;         // size 3 (pitch, roll, yaw)
-        SimTK::Vec3 neck_rel_u;         // size 3 (pitch, roll, yaw)
     };
     
     struct DelayedData {
@@ -162,6 +158,7 @@ private:
     DelayedData getDelayedData(double t, double delay) const;
     
     mutable SimTK::Matrix J_moment_arms; // 3 x N (pitch, roll, yaw)
+    mutable SimTK::Matrix J_6dof_moment_arms; // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
     mutable SimTK::Matrix K_proprio_decode; // 3 x N reconstruction matrix: -(J * J^T)^{-1} * J
     mutable SimTK::Vec3 est_neck_rel_angle; // Decoded relative neck angle [pitch, roll, yaw] (rad)
     mutable SimTK::Vec3 est_neck_rel_speed; // Decoded relative neck speed [pitch, roll, yaw] (rad/s)
@@ -175,7 +172,9 @@ private:
     mutable std::vector<int> active_muscle_indices;
     mutable std::vector<std::string> muscle_names;
     mutable std::vector<double> base_activations;
-    mutable std::vector<double> base_lengths;
+    mutable std::vector<double> base_Ia;
+    mutable std::vector<double> base_II;
+    mutable std::vector<double> last_u_alpha;
     mutable bool is_initialized;
     mutable double last_jacobian_update_time;
     mutable SimTK::Vec3 baseline_spatial_orientation; // roll, yaw, pitch

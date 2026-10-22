@@ -62,8 +62,8 @@ public:
 	void setTensionChainDeriv(SimTK::State& s, double TensionDeriv) const;
 	
 	//outputs
-	OpenSim_DECLARE_OUTPUT(primary_Ia, double, getIaOutput, SimTK::Stage::Dynamics);
-	OpenSim_DECLARE_OUTPUT(secondary_II, double, getIIOutput, SimTK::Stage::Dynamics);
+	OpenSim_DECLARE_OUTPUT(primary_Ia, double, getIaOutput, SimTK::Stage::Velocity);
+	OpenSim_DECLARE_OUTPUT(secondary_II, double, getIIOutput, SimTK::Stage::Velocity);
 
 	//inputs
 	OpenSim_DECLARE_INPUT(dynamic_gamma, double, SimTK::Stage::Dynamics, "Dynamic gamma motoneuron input (pulses/s)");

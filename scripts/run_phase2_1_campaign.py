@@ -21,9 +21,9 @@ import random
 #  - Initialized with Phase 2 best parameters + analytical resonance zeros
 # ==============================================================================
 
-FIXED_W_N = 0.0
-FIXED_ZETA = 0.0
-FIXED_KI = 0.0
+FIXED_W_N = 10.1
+FIXED_ZETA = 1.98
+FIXED_KI = 40.2786
 
 # 6 Happee (2017) Experimental Frequencies (High-to-low early screening)
 TARGETS = [
@@ -35,35 +35,35 @@ TARGETS = [
     (0.31, 0.893,    4.5)
 ]
 
-# Consolidated Physiological Parameter Bounds
+# Consolidated Physiological Parameter Bounds (Recalibrated after TF & Spindle Fixes)
 lower_bounds = np.array([
-    0.50,   # 0: r_ton (K_ton / K_sc)
-    10.0,   # 1: p_ton (rad/s)
-    35.0,   # 2: K_sc (Nm/(rad/s))
-    0.10,   # 3: r_lead_sc (z_sc / p_sc) -> 30-50 deg lead
+    0.40,   # 0: r_ton (K_ton / K_sc)
+     8.0,   # 1: p_ton (rad/s)
+    25.0,   # 2: K_sc (Nm/(rad/s))
+    0.15,   # 3: r_lead_sc (z_sc / p_sc)
     20.0,   # 4: p_sc (rad/s)
-     2.0,   # 5: K_phas (Nm/(m/s^2))
-    30.0,   # 6: p_phas (rad/s)
-    0.80,   # 7: kp (spindle stiffness gain)
-    0.10,   # 8: r_lead_ccr (z_ccr / p_ccr) -> 30-50 deg lead
+     1.0,   # 5: K_phas (Nm/(m/s^2))
+    25.0,   # 6: p_phas (rad/s)
+    0.30,   # 7: kp (spindle stiffness gain, calibrated for G_pri=10000)
+    0.15,   # 8: r_lead_ccr (z_ccr / p_ccr)
     10.0,   # 9: p_ccr (rad/s)
-    0.20,   # 10: k_gamma_dyn
-    0.20    # 11: k_gamma_stat
+    0.10,   # 10: k_gamma_dyn (x100 pulses/s -> 10 to 120 pps)
+    0.10    # 11: k_gamma_stat (x100 pulses/s -> 10 to 120 pps)
 ])
 
 upper_bounds = np.array([
-    0.95,   # 0: r_ton
-    40.0,   # 1: p_ton
-    95.0,   # 2: K_sc (bounded away from 120 ceiling)
-    0.45,   # 3: r_lead_sc
+    0.90,   # 0: r_ton
+    38.0,   # 1: p_ton
+    85.0,   # 2: K_sc
+    0.65,   # 3: r_lead_sc
     70.0,   # 4: p_sc
-    15.0,   # 5: K_phas
-    90.0,   # 6: p_phas
-    1.70,   # 7: kp (bounded away from stiffness blowout)
-    0.45,   # 8: r_lead_ccr
+    12.0,   # 5: K_phas
+    85.0,   # 6: p_phas
+    1.30,   # 7: kp
+    0.65,   # 8: r_lead_ccr
     50.0,   # 9: p_ccr
-    2.00,   # 10: k_gamma_dyn
-    2.00    # 11: k_gamma_stat
+    1.20,   # 10: k_gamma_dyn
+    1.20    # 11: k_gamma_stat
 ])
 
 def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
@@ -105,36 +105,36 @@ def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
         return 100000.0 + random.uniform(0, 100.0)
 
 def main():
-    # Initial vector: Phase 2 champions + analytical lead zeros
+    # Initial vector recalibrated for fixed lead-lag TFs & live Mileusnic spindle (Baseline Score: 35,290.08)
     x0 = np.array([
-        0.80,   # 0: r_ton
-        22.0,   # 1: p_ton
-        55.0,   # 2: K_sc
-        0.20,   # 3: r_lead_sc (z_sc = 0.20 * 42 = 8.4 rad/s)
-        42.0,   # 4: p_sc
-         6.0,   # 5: K_phas
-        60.0,   # 6: p_phas
-        1.30,   # 7: kp
-        0.25,   # 8: r_lead_ccr (z_ccr = 0.25 * 25 = 6.25 rad/s)
+        0.72,   # 0: r_ton (K_ton = 36.0)
+        20.0,   # 1: p_ton
+        50.0,   # 2: K_sc
+        0.32,   # 3: r_lead_sc (z_sc = 12.8 rad/s)
+        40.0,   # 4: p_sc
+         5.0,   # 5: K_phas
+        55.0,   # 6: p_phas
+        0.70,   # 7: kp
+        0.35,   # 8: r_lead_ccr (z_ccr = 8.75 rad/s)
         25.0,   # 9: p_ccr
-        0.95,   # 10: k_dyn
-        0.98    # 11: k_stat
+        0.40,   # 10: k_dyn (40 pps)
+        0.45    # 11: k_stat (45 pps)
     ])
     
-    # Sensible standard deviations: ~10% of parameter range
+    # Sensible standard deviations (~12% of recalibrated parameter range)
     sigma0 = np.array([
-        0.05,   # r_ton
-        3.0,    # p_ton
-        6.0,    # K_sc
-        0.04,   # r_lead_sc
+        0.06,   # r_ton
+        3.5,    # p_ton
+        7.0,    # K_sc
+        0.06,   # r_lead_sc
         5.0,    # p_sc
         1.2,    # K_phas
         6.0,    # p_phas
-        0.10,   # kp
-        0.04,   # r_lead_ccr
+        0.12,   # kp
+        0.06,   # r_lead_ccr
         4.0,    # p_ccr
-        0.15,   # k_dyn
-        0.15    # k_stat
+        0.12,   # k_dyn
+        0.12    # k_stat
     ])
     
     num_generations = 25

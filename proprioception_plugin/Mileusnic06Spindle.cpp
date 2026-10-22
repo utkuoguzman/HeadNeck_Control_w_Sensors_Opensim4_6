@@ -38,7 +38,7 @@ void Mileusnic06Spindle::setDefaultActivation(double aDefaultActivation) {
 void Mileusnic06Spindle::constructProperties()
 {
 	setAuthors("Sergio Verduzco");
-	constructProperty_default_activation(0.05);
+	constructProperty_default_activation(0.0);
 }
 
 //--------------------------------------------------------------------------
@@ -133,7 +133,20 @@ void Mileusnic06Spindle::setTensionChainDeriv(SimTK::State& s, double TensionDer
 // output variables
 double Mileusnic06Spindle::getIaOutput(const SimTK::State& s) const
 {
-	return getCacheVariableValue<double>(s, "primaryIa"); 
+	if (!musclePtr) return 0.0;
+	double L0 = musclePtr->getOptimalFiberLength();
+	double L = musclePtr->getFiberLength(s) / L0;
+	double T1 = getTensionBag1(s);
+	double T2 = getTensionBag2(s);
+	double Tc = getTensionChain(s);
+	double APbag1 = bag1.G * ((T1 / bag1.K_SR) - (bag1.L_NSR - bag1.L_0SR));
+	double APbag2 = bag2.X * (bag2.L_sec / bag2.L_0SR) * ((T2 / bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0 - bag2.X) * (bag2.L_sec / bag2.L_0PR) * (L - (T2 / bag2.K_SR) - bag2.L_0SR - bag2.L_NPR);
+	double APchain = chain.X * (chain.L_sec / chain.L_0SR) * ((Tc / chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0 - chain.X) * (chain.L_sec / chain.L_0PR) * (L - (Tc / chain.K_SR) - chain.L_0SR - chain.L_NPR);
+	double pri_stat = bag2.G_pri * APbag2 + chain.G_pri * APchain;
+	double diff = APbag1 - pri_stat;
+	double s_max = 0.5 * (APbag1 + pri_stat + std::sqrt(diff * diff + 1e-4));
+	double s_min = 0.5 * (APbag1 + pri_stat - std::sqrt(diff * diff + 1e-4));
+	return s_max + S * s_min;
 }
 
 void Mileusnic06Spindle::setIaOutput(const SimTK::State& s, double IaOutput) const
@@ -143,7 +156,14 @@ void Mileusnic06Spindle::setIaOutput(const SimTK::State& s, double IaOutput) con
 
 double Mileusnic06Spindle::getIIOutput(const SimTK::State& s) const
 {
-	return getCacheVariableValue<double>(s, "secondaryII"); 
+	if (!musclePtr) return 0.0;
+	double L0 = musclePtr->getOptimalFiberLength();
+	double L = musclePtr->getFiberLength(s) / L0;
+	double T2 = getTensionBag2(s);
+	double Tc = getTensionChain(s);
+	double APbag2 = bag2.X * (bag2.L_sec / bag2.L_0SR) * ((T2 / bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0 - bag2.X) * (bag2.L_sec / bag2.L_0PR) * (L - (T2 / bag2.K_SR) - bag2.L_0SR - bag2.L_NPR);
+	double APchain = chain.X * (chain.L_sec / chain.L_0SR) * ((Tc / chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0 - chain.X) * (chain.L_sec / chain.L_0PR) * (L - (Tc / chain.K_SR) - chain.L_0SR - chain.L_NPR);
+	return bag2.G_sec * APbag2 + chain.G_sec * APchain;
 }
 
 void Mileusnic06Spindle::setIIOutput(const SimTK::State& s, double IIOutput) const
@@ -411,9 +431,9 @@ void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 	
 	double num_b1, num_b2, num_c;
 	double den_b1, den_b2, den_c;
-	num_b1 = bag1.K_SR*(L-bag1.L_0SR) + bag1.K_PR*bag1.L_0PR + Gamma_bag1;
-	num_b2 = bag2.K_SR*(L-bag2.L_0SR) + bag2.K_PR*bag2.L_0PR + Gamma_bag2;
-	num_c = chain.K_SR*(L-chain.L_0SR) + chain.K_PR*chain.L_0PR + Gamma_chain;
+	num_b1 = bag1.K_SR*(L-bag1.L_0SR) + bag1.K_PR*bag1.L_0PR - Gamma_bag1;
+	num_b2 = bag2.K_SR*(L-bag2.L_0SR) + bag2.K_PR*bag2.L_0PR - Gamma_bag2;
+	num_c = chain.K_SR*(L-chain.L_0SR) + chain.K_PR*chain.L_0PR - Gamma_chain;
 	den_b1 = bag1.K_SR + bag1.K_PR;
 	den_b2 = bag2.K_SR + bag2.K_PR;
 	den_c = chain.K_SR + chain.K_PR;

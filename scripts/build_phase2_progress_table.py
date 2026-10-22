@@ -105,24 +105,6 @@ def main():
     print(f"{'Happee (2017) Ref':<22} | " + " | ".join(f"{happee_row[freq]:^17}" for freq in FREQ_ORDER) + " | 3,835.00")
     print("-" * 135)
     
-    # Phase 2 (Generations 1 to 11)
-    for gen in range(1, 26):
-        worker, metrics, score = get_generation_best(gen, is_p21=False)
-        if not worker or not metrics:
-            continue
-        cells = []
-        for freq in FREQ_ORDER:
-            m = metrics.get(freq)
-            if m:
-                cell = f"{m['gain_err_pct']:.1f}% / {m['phase_err_deg']:.1f}°"
-            else:
-                cell = "[Evaluating...]"
-            cells.append(f"{cell:^17}")
-        is_complete = all(metrics.get(freq) is not None for freq in FREQ_ORDER)
-        label = f"P2 Gen {gen} ({worker})" if is_complete else f"P2 Gen {gen}* ({worker})"
-        score_str = f"{score:10.2f}" if score is not None else "[Running]"
-        print(f"{label:<22} | " + " | ".join(cells) + f" | {score_str}")
-
     # Phase 2.1 (Consolidated)
     for gen in range(1, 26):
         worker, metrics, score = get_generation_best(gen, is_p21=True)
