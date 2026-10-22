@@ -9,7 +9,9 @@ using namespace OpenSim;
 using namespace SimTK;
 
 HeadNeckNeuralController::HeadNeckNeuralController() {
-    constructProperty_delay_time(0.013);
+    constructProperty_delay_time(0.035);
+    constructProperty_delay_vcr(0.035);
+    constructProperty_delay_ccr(0.035);
     constructProperty_Kp_proprioception(2.5030); 
     constructProperty_z_ccr(500.0);
     constructProperty_p_ccr(24.4852);
@@ -28,7 +30,6 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_K_phas(4.9396);
     constructProperty_p_phas(63.8079);
     constructProperty_k_p(2.5030);
-    constructProperty_k_v(0.13);
     constructProperty_K_gamma_dyn(3.7051);
     constructProperty_K_gamma_stat(2.6738);
     constructProperty_K_gamma(1.0);
@@ -242,7 +243,7 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     int num_muscles = active_muscle_indices.size();
     J_moment_arms.resize(3, num_muscles);
     base_lengths.resize(num_muscles, 0.0);
-    base_activations.resize(num_muscles, 0.01);
+    base_activations.resize(num_muscles, 0.03);
     
     for(size_t i=0; i<active_muscle_indices.size(); ++i) {
         const Muscle& m = muscles.get(active_muscle_indices[i]);
@@ -558,7 +559,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     setStateVariableDerivativeValue(s, "vol_filt_roll",  omega_vol * (tau_vol_raw_roll  - vol_filt_roll));
     setStateVariableDerivativeValue(s, "vol_filt_yaw",   omega_vol * (tau_vol_raw_yaw   - vol_filt_yaw));
     
-    DelayedData vcr_data = getDelayedData(s.getTime(), 0.013);
+    DelayedData vcr_data = getDelayedData(s.getTime(), get_delay_vcr());
     
     // --- SE_2(3) SPATIAL OBSERVER (Tilt-Translation Disambiguation) ---
     // 1. Vestibular Sensor Readings (Skull angular velocity and Otolith specific force)
@@ -625,7 +626,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     
     // Multisensory gains:
     // Otolith gravity tether (Kp_oto ~ 0.05 rad/s)
-    double Kp_oto = 0.05;
+    double Kp_oto = 0.25;
     // Proprioceptive gains: strong in Yaw to prevent unobservable drift, moderate in Pitch/Roll
     double K_prop_roll = 0.2;
     double K_prop_yaw = 2.0;
@@ -736,7 +737,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     }
 
     double p_ccr = get_p_ccr();
-    DelayedData ccr_data = getDelayedData(s.getTime(), 0.018);
+    DelayedData ccr_data = getDelayedData(s.getTime(), get_delay_ccr());
     HistRecord ccr_record = ccr_data.record;
     const auto& muscles = getModel().getMuscles();
     
@@ -1044,8 +1045,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
         history.erase(history.begin());
     }
     
-    DelayedData vcr_data = getDelayedData(s.getTime(), 0.013);
-    DelayedData ccr_data = getDelayedData(s.getTime(), 0.018);
+    DelayedData vcr_data = getDelayedData(s.getTime(), get_delay_vcr());
+    DelayedData ccr_data = getDelayedData(s.getTime(), get_delay_ccr());
     
     HistRecord vcr_record = vcr_data.record;
     HistRecord ccr_record = ccr_data.record;
@@ -1154,7 +1155,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     std::vector<double> F_max(N);
     for(int i=0; i<N; ++i) F_max[i] = muscles.get(active_muscle_indices[i]).getMaxIsometricForce();
 
-    std::vector<double> u_alpha(N, 0.01);
+    std::vector<double> u_alpha(N, 0.03);
     std::vector<bool> is_free(N, true);
 
     for(int iter=0; iter<15; ++iter) {
@@ -1194,8 +1195,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
                 double a_unconstrained = 0.0;
                 for(int k=0; k<3; ++k) a_unconstrained += (J_moment_arms(k, i) * F_max[i]) * lambda_vec[k];
                 
-                if(a_unconstrained < 0.01) {
-                    u_alpha[i] = 0.01;
+                if(a_unconstrained < 0.03) {
+                    u_alpha[i] = 0.03;
                     is_free[i] = false;
                     bounds_violated = true;
                 } else if(a_unconstrained > 1.0) {
@@ -1239,8 +1240,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
             // By u_alpha = 0.05, the stretch reflex is fully active (1.0).
             double K_recip = get_K_recip_inhib();
             double inhibition_factor = 1.0;
-            double u_min = 0.01;
-            double u_max = 0.05;
+            double u_min = 0.03;
+            double u_max = 0.08;
             
             if (u_alpha[i] <= u_min) {
                 inhibition_factor = K_recip;
@@ -1256,7 +1257,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
             excitation += get_Kp_proprioception() * (Ia_firing / 100.0) * inhibition_factor; 
         }
         
-        excitation = std::clamp(excitation, 0.01, 1.0);
+        excitation = std::clamp(excitation, 0.03, 1.0);
         
         int n_controls = m.numControls();
         Vector my_ctrl(n_controls, 0.0);

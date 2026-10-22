@@ -59,7 +59,6 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     osim.PropertyHelper.setValueDouble(p_phas, controller.updPropertyByName("p_phas"))
     
     osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("k_p"))
-    osim.PropertyHelper.setValueDouble(0.13, controller.updPropertyByName("k_v"))
 
     # Base LQR costs
     for ax in ['pitch', 'roll', 'yaw']:
@@ -75,6 +74,9 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     osim.PropertyHelper.setValueDouble(p_ccr, controller.updPropertyByName("p_ccr"))
     osim.PropertyHelper.setValueDouble(k_gamma_dyn, controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(k_gamma_stat, controller.updPropertyByName("K_gamma_stat"))
+    osim.PropertyHelper.setValueDouble(0.035, controller.updPropertyByName("delay_vcr"))
+    osim.PropertyHelper.setValueDouble(0.035, controller.updPropertyByName("delay_ccr"))
+    osim.PropertyHelper.setValueDouble(0.035, controller.updPropertyByName("delay_time"))
 
     zero_func = osim.Constant(0.0)
     for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:
@@ -196,19 +198,43 @@ if __name__ == "__main__":
     ki = float(sys.argv[3])
     
     # 12 TF Parameters
-    K_ton = float(sys.argv[4])
+    raw_p0 = float(sys.argv[4])
     p_ton = float(sys.argv[5])
     
     K_sc = float(sys.argv[6])
-    z_sc = float(sys.argv[7])
+    raw_z_sc = float(sys.argv[7])
     p_sc = float(sys.argv[8])
+    
+    # Biological Ratio Coupling: r_ton = K_ton / K_sc
+    if raw_p0 <= 5.0:
+        r_ton = raw_p0
+        K_ton = r_ton * K_sc
+    else:
+        K_ton = raw_p0
+        r_ton = K_ton / K_sc
+        
+    # Biological Lead Ratio Coupling: z_sc = r_lead_sc * p_sc
+    if raw_z_sc <= 1.0:
+        r_lead_sc = raw_z_sc
+        z_sc = r_lead_sc * p_sc
+    else:
+        z_sc = raw_z_sc
+        r_lead_sc = z_sc / p_sc
     
     K_phas = float(sys.argv[9])
     p_phas = float(sys.argv[10])
     
     kp_prop = float(sys.argv[11])
-    z_ccr = float(sys.argv[12])
+    raw_z_ccr = float(sys.argv[12])
     p_ccr = float(sys.argv[13])
+    
+    # Biological Lead Ratio Coupling: z_ccr = r_lead_ccr * p_ccr
+    if raw_z_ccr <= 1.0:
+        r_lead_ccr = raw_z_ccr
+        z_ccr = r_lead_ccr * p_ccr
+    else:
+        z_ccr = raw_z_ccr
+        r_lead_ccr = z_ccr / p_ccr
     
     k_gamma_dyn = float(sys.argv[14])
     k_gamma_stat = float(sys.argv[15])
@@ -237,16 +263,18 @@ if __name__ == "__main__":
             pass
         sim_gain, sim_phase = run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, freq, worker_name)
         
-        # The "10-15 deg Corridor" Balanced Weighting
-        if freq >= 2.0:  # High frequencies (2.48, 5.52, 7.95 Hz) - heavy delay compensation
-            w_gain  = 600.0   # Relaxes gain tolerance to ~7.5 - 8.0%
-            w_phase = 1400.0  # Punishes phase errors > 15 deg heavily!
-        else:            # Low frequencies (0.31, 0.78, 1.11 Hz) - stiffness & tilt hold
-            w_gain  = 800.0   # Standard ~7.0% gain tolerance
-            w_phase = 1000.0  # Standard ~12.5 deg phase tolerance
-
+        # Equal-Corridor Balanced Loss (1% Gain Error == 1 deg Phase Error)
+        # Normalizes both gain and phase to identical 10% / 10 deg tolerance corridors:
+        #  5% gain error ==  5 deg phase error ->   25 pts
+        # 10% gain error == 10 deg phase error ->  100 pts
+        # 20% gain error == 20 deg phase error ->  400 pts
+        # 50% gain error == 50 deg phase error -> 2500 pts
+        w_gain = 10000.0
         phase_diff = (sim_phase - target_phase + 180.0) % 360.0 - 180.0
-        error = ((sim_gain - target_gain)/target_gain)**2 * w_gain + (phase_diff / 180.0)**2 * w_phase
+        
+        phase_loss = ((phase_diff / 10.0) ** 2) * 100.0
+        gain_loss = (((sim_gain - target_gain) / target_gain) ** 2) * w_gain
+        error = gain_loss + phase_loss
         
         penalty = 0.0
         if kp > 500: penalty += (kp - 500) * 10

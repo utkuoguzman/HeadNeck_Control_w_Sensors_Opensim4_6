@@ -12,7 +12,9 @@ class HeadNeckNeuralController : public Controller {
 OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 
 public:
-    OpenSim_DECLARE_PROPERTY(delay_time, double, "Neural delay in seconds (default: 0.013)");
+    OpenSim_DECLARE_PROPERTY(delay_time, double, "Neural delay in seconds (default: 0.015)");
+    OpenSim_DECLARE_PROPERTY(delay_vcr, double, "Vestibulo-Collic Reflex delay in seconds (default: 0.015)");
+    OpenSim_DECLARE_PROPERTY(delay_ccr, double, "Cervico-Collic Reflex delay in seconds (default: 0.020)");
     OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for spindle Ia");
     OpenSim_DECLARE_PROPERTY(z_ccr, double, "Cervico-Collic Reflex TF Zero");
     OpenSim_DECLARE_PROPERTY(p_ccr, double, "Cervico-Collic Reflex TF Pole");
@@ -43,7 +45,6 @@ public:
     OpenSim_DECLARE_PROPERTY(K_phas, double, "Phasic otolith TF Gain");
     OpenSim_DECLARE_PROPERTY(p_phas, double, "Phasic otolith TF Pole");
     OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
-    OpenSim_DECLARE_PROPERTY(k_v, double, "Muscle-level CCR derivative gain");
 
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
     OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double, "Gain for Vestibular-driven Gamma_dyn");
