@@ -120,49 +120,6 @@ The 12 reflex parameters were tuned across 6 discrete perturbation frequencies u
 Perturbation Frequencies: 0.31 Hz, 0.78 Hz, 1.11 Hz, 2.48 Hz, 5.52 Hz, 7.95 Hz
 ```
 
-### All-Time Record Optimization Results (Generation 15)
-
-$$\text{Global Best Objective Score: } \mathbf{52.93}$$
-
-| Perturbation Frequency | Human Target $(Gain, Phase)$ | Candidate W18 Score | Rel. Gain Error | Phase Discrepancy |
-| :--- | :--- | :--- | :--- | :--- |
-| **$7.95\text{ Hz}$** | $(0.280, -78.4^\circ)$ | **$9.4$** | **$\pm 5.6\%$** | **$26.0^\circ$** |
-| **$5.52\text{ Hz}$** | $(0.450, -56.3^\circ)$ | **$8.6$** | **$\pm 5.3\%$** | **$25.5^\circ$** |
-| **$2.48\text{ Hz}$** | $(0.650, -32.5^\circ)$ | **$12.3$** | **$\pm 7.8\%$** | **$14.1^\circ$** |
-| **$1.11\text{ Hz}$** | $(0.814, -10.9^\circ)$ | **$12.3$** | **$\pm 7.8\%$** | **$14.1^\circ$** |
-| **$0.78\text{ Hz}$** | $(0.840, -8.1^\circ)$ | **$2.9$** | **$\pm 5.4\%$** | **$5.6^\circ$** |
-| **$0.31\text{ Hz}$** | $(0.893, +2.5^\circ)$ | **$7.4$** | **$\pm 8.6\%$** | **$8.9^\circ$** |
-| **SPECTRUM AVERAGE** | — | **`8.8` / freq** | **`6.6%`** | **`12.5°`** |
-
-> [!NOTE]
-> An average gain accuracy of **$6.6\%$** and phase error of **$12.5^\circ$** across all 6 frequencies represents an extraordinary match to human reflex dynamics, sitting comfortably within biological subject-to-subject variance ($\pm 10-15\%$ gain SD, $\pm 15-20^\circ$ phase SD reported in human trials).
-
-### Optimal Neuromotor Parameter Set
-
-```yaml
-# Best parameters stored in logs/cmaes_p15_best.txt (Gen 15 Champion)
-Vestibular (VCR):
-  K_sc: 50.0221        # Semicircular canal high-frequency reflex gain
-  z_sc: 450.1711 rad/s # Semicircular canal phase-lead zero (~71.6 Hz)
-  p_sc: 41.4334 rad/s  # Semicircular canal high-frequency pole
-  K_ton: 72.3361       # Otolith tonic gain
-  p_ton: 16.0810 rad/s # Otolith tonic pole
-  K_phas: 5.6278       # Otolith phasic gain
-  p_phas: 68.2580 rad/s# Otolith phasic pole
-
-Proprioceptive (CCR):
-  kp: 2.5814           # Neck reflex proportional stiffness gain
-  z_ccr: 305.6754 rad/s# Active CCR phase-lead zero (~48.6 Hz)
-  p_ccr: 23.9168 rad/s # Active CCR pole
-  k_gamma_dyn: 0.8293  # Dynamic fusimotor spindle drive
-  k_gamma_stat: 1.1653 # Static fusimotor spindle drive
-
-Cortical Hold:
-  Ki: 40.2786          # Integral postural hold
-  I0: 0.10528          # Nominal gravity compensation integral state
-```
-
----
 
 ## ⚡ Computational Performance & Real-Time Factors
 
@@ -271,28 +228,36 @@ python optimize_to_gen17.py
 
 ## 🗺️ Project Roadmap
 
-- [x] **Phase 1: Biomechanical Infrastructure & Sensor Plugins**
+- [x] **Phase 8.1: Biomechanical Infrastructure & Sensor Plugins**
   - [x] OpenSim 4.6 integration with implicit `SemiExplicitEuler2` integrators.
   - [x] Mileusnic intrafusal spindle model smoothed for $C^2$ continuous solver stability.
   - [x] Bilateral non-orthogonal semicircular canal & otolith digital filter bank.
-- [x] **Phase 1.5: Human Kinematics Benchmark Validation**
+- [x] **Phase 8.2: Human Kinematics Benchmark Validation**
   - [x] Happee 2017 multi-frequency seat perturbation protocol ($0.31 - 7.95\text{ Hz}$).
   - [x] 18-core CMA-ES parallel optimization of 12 neuromotor reflex parameters.
   - [x] Discovery of active phase-lead zeros ($z_{\text{ccr}} \approx 298\text{ rad/s}, z_{\text{sc}} \approx 491\text{ rad/s}$).
-  - [x] All-time record score **`52.93`** achieved (hitting the theoretical 50–55 plateau).
-- [ ] **Phase 2: Ocular-Cervical Coordination (VOR / COR)**
+  - [ ] Optimization: is about to be ironed out.
+- [x] **Phase 8.3: Human Voluntary Tracking Benchmark Validation**
+  - [x] Replicate the human voluntary velocity profiles in the literature.
+- [ ] **Phase 8.4: Ocular-Cervical Coordination (VOR / COR)**
   - [ ] Connect vestibular canal outputs directly to FixationController eye muscles.
   - [ ] Replicate retinal slip minimization under erratic head perturbation.
-- [ ] **Phase 3: Binaural Spatial Audio & Cochlea**
-  - [ ] Convolve offline Head-Related Transfer Functions (HRTFs) and Room Impulse Responses (RIRs).
-  - [ ] Offload spatial audio convolution to Intel iGPU / E-cores to preserve simulation RT factor.
-- [ ] **Phase 4: Spinocerebellar Luenberger Observer & Factor Graph (GBP)**
-  - [ ] Per-muscle state estimation decoupling dynamic acceleration and velocity from intrafusal Ia/II spikes.
-  - [ ] Distributed Gaussian Belief Propagation (GBP) factor graph for multisensory state fusion.
-- [ ] **Phase 5: Spiking Neural Network (NEST-GPU)**
-  - [ ] Direct coupling with 1.1M AdEx spiking neurons on RTX 4070 Ti.
-  - [ ] Implementation of Galvanic Vestibular Stimulation (GVS).
-
+- [ ] **Phase 8.5: Implement the Motion Rig**
+  - [ ] Implement the motion rig.
+  - [ ] Replicate real time motion rig experiments in simulation.
+- [ ] **Phase 9: GVS**
+  - [ ] Implement the effect of GVS on the SCC afferents.
+  - [ ] Real world experiments and musculoskeletal model personalization per subject. 
+- [ ] **Phase 10: Spiking Neural Network (NEST-GPU)**
+  - [ ] Turn every control theoretical process into a neural one.
+  - [ ] Direct coupling with 1.1M LIF-based AdEx spiking neurons on RTX 4070 Ti.
+- [ ] **Phase 11.1: Binaural Spatial Audio & Cochlea**
+  - [ ] Convolve the offline calculated Head-Related Transfer Functions (HRTFs) and Room Impulse Responses (RIRs) in iGPU.
+  - [ ] Simulate the Gammatone excitation pattern changes as the head rotates.
+- [ ] **Phase 11.2: Spiking Neural Network (NEST-GPU)**
+  - [ ] Direct coupling with 1.1M LIF-based AdEx spiking neurons on RTX 4070 Ti.
+  - [ ] Direct coupling with 1.1M conductivity-based AdEx spiking neurons on RTX 4070 Ti.
+  - [ ] Naive discovery of the structure of the 3D space studies. 
 ---
 
 ## 📄 License & Attribution
