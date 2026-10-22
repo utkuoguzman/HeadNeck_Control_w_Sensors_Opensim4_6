@@ -178,12 +178,13 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
         t_history.append(current_time)
         pitch_history.append(head_pitch_deg)
 
-    discard_time = delay + ramp_duration
-    amp_deg, phase_deg = extract_bode(t_history, pitch_history, freq, discard_time, delay)
+    amp_deg, phase_rad = extract_bode(t_history, pitch_history, freq, discard_time, delay)
     
     accel_amplitude = amplitude * (2.0 * math.pi * freq)**2
     gain_deg_ms2 = amp_deg / accel_amplitude
-    if phase_deg > 90: phase_deg -= 360
+    phase_deg = math.degrees(phase_rad)
+    while phase_deg > 90.0: phase_deg -= 360.0
+    while phase_deg < -270.0: phase_deg += 360.0
     
     return gain_deg_ms2, phase_deg
 

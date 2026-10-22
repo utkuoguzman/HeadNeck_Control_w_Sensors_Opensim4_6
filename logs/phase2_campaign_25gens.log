@@ -1,0 +1,1278 @@
+==========================================================================================
+PHASE 2 FRESH OPTIMIZATION CAMPAIGN: 25 GENERATIONS (GEN 1 THROUGH 25)
+Model Plant: 35ms True Delay | 3% Co-Contraction | Kp_oto=0.25 | r_ton Coupling
+Started at: 2026-10-21 16:34:23
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=100, Wed Oct 21 16:34:23 2026)
+
+=================================== STARTING PHASE 2 GENERATION 1 of 25 at 16:34:23 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 1) ---
+[PASS] [W1_P2G1] passed 7.95Hz (Score: 15201.6)
+[PASS] [W3_P2G1] passed 7.95Hz (Score: 224.3)
+[PASS] [W4_P2G1] passed 7.95Hz (Score: 3221.3)
+[PASS] [W10_P2G1] passed 7.95Hz (Score: 7598.2)
+[PASS] [W12_P2G1] passed 7.95Hz (Score: 10955.2)
+[PASS] [W11_P2G1] passed 7.95Hz (Score: 4985.6)
+[PASS] [W17_P2G1] passed 7.95Hz (Score: 7530.3)
+[PASS] [W15_P2G1] passed 7.95Hz (Score: 6513.4)
+[PASS] [W2_P2G1] passed 7.95Hz (Score: 6062.5)
+[PASS] [W9_P2G1] passed 7.95Hz (Score: 15704.8)
+[PASS] [W7_P2G1] passed 7.95Hz (Score: 3142.6)
+[PASS] [W8_P2G1] passed 7.95Hz (Score: 8826.4)
+[PASS] [W13_P2G1] passed 7.95Hz (Score: 7039.8)
+[PASS] [W5_P2G1] passed 7.95Hz (Score: 3543.4)
+[PASS] [W18_P2G1] passed 7.95Hz (Score: 12628.6)
+[PASS] [W6_P2G1] passed 7.95Hz (Score: 14589.2)
+[PASS] [W16_P2G1] passed 7.95Hz (Score: 7354.9)
+[PASS] [W14_P2G1] passed 7.95Hz (Score: 4968.9)
+
+--- Evaluating 18 candidates on 5.52Hz (Phase 2 Gen 1) ---
+[PASS] [W17_P2G1] passed 5.52Hz (Score: 3239.2)
+[PASS] [W15_P2G1] passed 5.52Hz (Score: 13719.1)
+[PASS] [W8_P2G1] passed 5.52Hz (Score: 8605.0)
+[PASS] [W2_P2G1] passed 5.52Hz (Score: 3624.1)
+[PASS] [W12_P2G1] passed 5.52Hz (Score: 3700.2)
+[PASS] [W5_P2G1] passed 5.52Hz (Score: 9866.2)
+[PASS] [W10_P2G1] passed 5.52Hz (Score: 3264.3)
+[PASS] [W11_P2G1] passed 5.52Hz (Score: 5076.6)
+[PASS] [W1_P2G1] passed 5.52Hz (Score: 8100.2)
+[PASS] [W7_P2G1] passed 5.52Hz (Score: 3206.0)
+[PASS] [W18_P2G1] passed 5.52Hz (Score: 6065.4)
+[PASS] [W4_P2G1] passed 5.52Hz (Score: 3197.0)
+[PASS] [W9_P2G1] passed 5.52Hz (Score: 19090.4)
+[PASS] [W6_P2G1] passed 5.52Hz (Score: 7982.7)
+[PASS] [W13_P2G1] passed 5.52Hz (Score: 9735.3)
+[PASS] [W3_P2G1] passed 5.52Hz (Score: 3461.9)
+[PASS] [W14_P2G1] passed 5.52Hz (Score: 5371.7)
+[PASS] [W16_P2G1] passed 5.52Hz (Score: 8534.5)
+
+--- Evaluating 18 candidates on 2.48Hz (Phase 2 Gen 1) ---
+[EARLY STOPPING] [W17_P2G1] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[EARLY STOPPING] [W1_P2G1] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[PASS] [W13_P2G1] passed 2.48Hz (Score: 4581.8)
+[PASS] [W15_P2G1] passed 2.48Hz (Score: 2762.9)
+[PASS] [W16_P2G1] passed 2.48Hz (Score: 1658.2)
+[PASS] [W5_P2G1] passed 2.48Hz (Score: 3212.5)
+[PASS] [W2_P2G1] passed 2.48Hz (Score: 1995.0)
+[PASS] [W3_P2G1] passed 2.48Hz (Score: 1505.2)
+[PASS] [W10_P2G1] passed 2.48Hz (Score: 3305.7)
+[PASS] [W12_P2G1] passed 2.48Hz (Score: 1203.2)
+[PASS] [W6_P2G1] passed 2.48Hz (Score: 3877.9)
+[PASS] [W11_P2G1] passed 2.48Hz (Score: 1413.4)
+[PASS] [W7_P2G1] passed 2.48Hz (Score: 3831.9)
+[PASS] [W8_P2G1] passed 2.48Hz (Score: 2935.2)
+[PASS] [W4_P2G1] passed 2.48Hz (Score: 571.7)
+[PASS] [W18_P2G1] passed 2.48Hz (Score: 2518.7)
+[PASS] [W14_P2G1] passed 2.48Hz (Score: 2508.8)
+[PASS] [W9_P2G1] passed 2.48Hz (Score: 6555.5)
+
+--- Evaluating 16 candidates on 1.11Hz (Phase 2 Gen 1) ---
+[EARLY STOPPING] [W12_P2G1] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W3_P2G1] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W2_P2G1] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W13_P2G1] passed 1.11Hz (Score: 1837.5)
+[PASS] [W15_P2G1] passed 1.11Hz (Score: 19060.6)
+[PASS] [W6_P2G1] passed 1.11Hz (Score: 5747.8)
+[PASS] [W16_P2G1] passed 1.11Hz (Score: 22216.1)
+[PASS] [W4_P2G1] passed 1.11Hz (Score: 3482.8)
+[PASS] [W14_P2G1] passed 1.11Hz (Score: 1951.3)
+[PASS] [W11_P2G1] passed 1.11Hz (Score: 1320.7)
+[PASS] [W18_P2G1] passed 1.11Hz (Score: 4971.1)
+[PASS] [W5_P2G1] passed 1.11Hz (Score: 3216.0)
+[PASS] [W10_P2G1] passed 1.11Hz (Score: 6926.9)
+[PASS] [W7_P2G1] passed 1.11Hz (Score: 1427.7)
+[PASS] [W9_P2G1] passed 1.11Hz (Score: 7776.5)
+[PASS] [W8_P2G1] passed 1.11Hz (Score: 18630.9)
+
+--- Evaluating 13 candidates on 0.78Hz (Phase 2 Gen 1) ---
+[PASS] [W14_P2G1] passed 0.78Hz (Score: 2624.7)
+[PASS] [W6_P2G1] passed 0.78Hz (Score: 13905.5)
+[PASS] [W15_P2G1] passed 0.78Hz (Score: 18060.3)
+[PASS] [W9_P2G1] passed 0.78Hz (Score: 29408.6)
+[PASS] [W16_P2G1] passed 0.78Hz (Score: 7912.1)
+[PASS] [W18_P2G1] passed 0.78Hz (Score: 24406.1)
+[PASS] [W10_P2G1] passed 0.78Hz (Score: 6798.8)
+[PASS] [W5_P2G1] passed 0.78Hz (Score: 3267.3)
+[PASS] [W11_P2G1] passed 0.78Hz (Score: 14368.0)
+[PASS] [W4_P2G1] passed 0.78Hz (Score: 6987.2)
+[PASS] [W8_P2G1] passed 0.78Hz (Score: 30341.6)
+[PASS] [W13_P2G1] passed 0.78Hz (Score: 2024.4)
+[PASS] [W7_P2G1] passed 0.78Hz (Score: 1099.7)
+
+--- Evaluating 13 candidates on 0.31Hz (Phase 2 Gen 1) ---
+[EARLY STOPPING] [W5_P2G1] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W14_P2G1] failed on 0.31Hz (Score: 56934.8). Penalty added.
+[PASS] [W11_P2G1] passed 0.31Hz (Score: 11409.5)
+[PASS] [W8_P2G1] passed 0.31Hz (Score: 14812.5)
+[PASS] [W4_P2G1] passed 0.31Hz (Score: 11627.8)
+[PASS] [W16_P2G1] passed 0.31Hz (Score: 7814.4)
+[PASS] [W9_P2G1] passed 0.31Hz (Score: 12818.6)
+[PASS] [W6_P2G1] passed 0.31Hz (Score: 30791.8)
+[PASS] [W7_P2G1] passed 0.31Hz (Score: 35689.7)
+[PASS] [W13_P2G1] passed 0.31Hz (Score: 18944.1)
+[PASS] [W15_P2G1] passed 0.31Hz (Score: 6145.5)
+[PASS] [W10_P2G1] passed 0.31Hz (Score: 10312.1)
+[PASS] [W18_P2G1] passed 0.31Hz (Score: 27819.4)
+
+>>> NEW PHASE 2 RECORD in Gen 1: 29087.72 (Candidate W4_P2G1) <<<
+
+Phase 2 Generation 1 completed in 57.3 mins.
+Best Candidate: W4_P2G1 | Score: 29087.72
+r_ton: 0.919 | K_ton: 42.67 | K_sc: 46.44
+
+=================================== STARTING PHASE 2 GENERATION 2 of 25 at 17:31:43 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 2) ---
+[EARLY STOPPING] [W3_P2G2] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W6_P2G2] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W11_P2G2] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W4_P2G2] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[PASS] [W17_P2G2] passed 7.95Hz (Score: 4150.9)
+[PASS] [W16_P2G2] passed 7.95Hz (Score: 28103.3)
+[PASS] [W1_P2G2] passed 7.95Hz (Score: 14741.6)
+[PASS] [W5_P2G2] passed 7.95Hz (Score: 47398.0)
+[PASS] [W7_P2G2] passed 7.95Hz (Score: 5766.1)
+[PASS] [W8_P2G2] passed 7.95Hz (Score: 4611.3)
+[PASS] [W12_P2G2] passed 7.95Hz (Score: 17417.7)
+[PASS] [W9_P2G2] passed 7.95Hz (Score: 6143.9)
+[PASS] [W10_P2G2] passed 7.95Hz (Score: 7262.9)
+[PASS] [W15_P2G2] passed 7.95Hz (Score: 5461.4)
+[PASS] [W18_P2G2] passed 7.95Hz (Score: 1732.9)
+[PASS] [W14_P2G2] passed 7.95Hz (Score: 3340.1)
+[PASS] [W2_P2G2] passed 7.95Hz (Score: 5108.7)
+[PASS] [W13_P2G2] passed 7.95Hz (Score: 7912.1)
+
+--- Evaluating 14 candidates on 5.52Hz (Phase 2 Gen 2) ---
+[EARLY STOPPING] [W8_P2G2] failed on 5.52Hz (Score: 3859403853152.2). Penalty added.
+[EARLY STOPPING] [W5_P2G2] failed on 5.52Hz (Score: 3859403853152.2). Penalty added.
+[PASS] [W18_P2G2] passed 5.52Hz (Score: 6983.5)
+[PASS] [W1_P2G2] passed 5.52Hz (Score: 4022.1)
+[PASS] [W15_P2G2] passed 5.52Hz (Score: 5850.4)
+[PASS] [W9_P2G2] passed 5.52Hz (Score: 2637.0)
+[PASS] [W16_P2G2] passed 5.52Hz (Score: 5734.3)
+[PASS] [W10_P2G2] passed 5.52Hz (Score: 21794.8)
+[PASS] [W12_P2G2] passed 5.52Hz (Score: 6506.6)
+[PASS] [W7_P2G2] passed 5.52Hz (Score: 4837.0)
+[PASS] [W17_P2G2] passed 5.52Hz (Score: 6150.9)
+[PASS] [W2_P2G2] passed 5.52Hz (Score: 11907.5)
+[PASS] [W14_P2G2] passed 5.52Hz (Score: 3449.6)
+[PASS] [W13_P2G2] passed 5.52Hz (Score: 4301.7)
+
+--- Evaluating 12 candidates on 2.48Hz (Phase 2 Gen 2) ---
+[PASS] [W15_P2G2] passed 2.48Hz (Score: 2629.7)
+[EARLY STOPPING] [W17_P2G2] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[PASS] [W9_P2G2] passed 2.48Hz (Score: 1189.2)
+[PASS] [W18_P2G2] passed 2.48Hz (Score: 15.7)
+[PASS] [W14_P2G2] passed 2.48Hz (Score: 1079.9)
+[PASS] [W2_P2G2] passed 2.48Hz (Score: 10116.7)
+[PASS] [W7_P2G2] passed 2.48Hz (Score: 14307.1)
+[PASS] [W13_P2G2] passed 2.48Hz (Score: 2678.5)
+[PASS] [W12_P2G2] passed 2.48Hz (Score: 2147.4)
+[PASS] [W16_P2G2] passed 2.48Hz (Score: 1949.9)
+[PASS] [W1_P2G2] passed 2.48Hz (Score: 2338.3)
+[PASS] [W10_P2G2] passed 2.48Hz (Score: 6337.2)
+
+--- Evaluating 11 candidates on 1.11Hz (Phase 2 Gen 2) ---
+[EARLY STOPPING] [W18_P2G2] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W15_P2G2] passed 1.11Hz (Score: 5248.6)
+[PASS] [W16_P2G2] passed 1.11Hz (Score: 2813.2)
+[PASS] [W13_P2G2] passed 1.11Hz (Score: 3929.9)
+[PASS] [W10_P2G2] passed 1.11Hz (Score: 23916.1)
+[PASS] [W9_P2G2] passed 1.11Hz (Score: 2100.5)
+[PASS] [W1_P2G2] passed 1.11Hz (Score: 7476.1)
+[PASS] [W2_P2G2] passed 1.11Hz (Score: 20144.5)
+[PASS] [W12_P2G2] passed 1.11Hz (Score: 3621.8)
+[PASS] [W7_P2G2] passed 1.11Hz (Score: 7940.8)
+[PASS] [W14_P2G2] passed 1.11Hz (Score: 4191.2)
+
+--- Evaluating 10 candidates on 0.78Hz (Phase 2 Gen 2) ---
+[PASS] [W14_P2G2] passed 0.78Hz (Score: 7034.6)
+[PASS] [W9_P2G2] passed 0.78Hz (Score: 2707.5)
+[PASS] [W13_P2G2] passed 0.78Hz (Score: 630.9)
+[PASS] [W12_P2G2] passed 0.78Hz (Score: 7502.0)
+[PASS] [W10_P2G2] passed 0.78Hz (Score: 26171.0)
+[PASS] [W16_P2G2] passed 0.78Hz (Score: 3082.4)
+[PASS] [W15_P2G2] passed 0.78Hz (Score: 4761.6)
+[PASS] [W7_P2G2] passed 0.78Hz (Score: 34444.4)
+[PASS] [W1_P2G2] passed 0.78Hz (Score: 14569.7)
+[PASS] [W2_P2G2] passed 0.78Hz (Score: 28984.7)
+
+--- Evaluating 10 candidates on 0.31Hz (Phase 2 Gen 2) ---
+[EARLY STOPPING] [W13_P2G2] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W12_P2G2] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W7_P2G2] passed 0.31Hz (Score: 20249.1)
+[PASS] [W9_P2G2] passed 0.31Hz (Score: 3943.6)
+[PASS] [W1_P2G2] passed 0.31Hz (Score: 4348.8)
+[PASS] [W2_P2G2] passed 0.31Hz (Score: 20326.5)
+[PASS] [W10_P2G2] passed 0.31Hz (Score: 14158.7)
+[PASS] [W15_P2G2] passed 0.31Hz (Score: 21569.0)
+[PASS] [W16_P2G2] passed 0.31Hz (Score: 17008.8)
+[PASS] [W14_P2G2] passed 0.31Hz (Score: 17522.5)
+
+>>> NEW PHASE 2 RECORD in Gen 2: 18721.57 (Candidate W9_P2G2) <<<
+
+Phase 2 Generation 2 completed in 45.7 mins.
+Best Candidate: W9_P2G2 | Score: 18721.57
+r_ton: 0.856 | K_ton: 42.26 | K_sc: 49.34
+
+=================================== STARTING PHASE 2 GENERATION 3 of 25 at 18:17:25 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 3) ---
+[PASS] [W8_P2G3] passed 7.95Hz (Score: 12760.5)
+[PASS] [W2_P2G3] passed 7.95Hz (Score: 3035.8)
+[PASS] [W10_P2G3] passed 7.95Hz (Score: 5114.6)
+[PASS] [W11_P2G3] passed 7.95Hz (Score: 5840.0)
+[PASS] [W9_P2G3] passed 7.95Hz (Score: 6877.2)
+[PASS] [W4_P2G3] passed 7.95Hz (Score: 13853.9)
+[PASS] [W13_P2G3] passed 7.95Hz (Score: 7578.2)
+[PASS] [W18_P2G3] passed 7.95Hz (Score: 4359.5)
+[PASS] [W15_P2G3] passed 7.95Hz (Score: 8869.7)
+[PASS] [W1_P2G3] passed 7.95Hz (Score: 6415.8)
+[PASS] [W3_P2G3] passed 7.95Hz (Score: 7528.2)
+[PASS] [W14_P2G3] passed 7.95Hz (Score: 3396.7)
+[PASS] [W16_P2G3] passed 7.95Hz (Score: 3721.2)
+[PASS] [W12_P2G3] passed 7.95Hz (Score: 6308.7)
+[PASS] [W17_P2G3] passed 7.95Hz (Score: 4772.9)
+[PASS] [W7_P2G3] passed 7.95Hz (Score: 3857.6)
+[PASS] [W6_P2G3] passed 7.95Hz (Score: 5157.7)
+[PASS] [W5_P2G3] passed 7.95Hz (Score: 10907.5)
+
+--- Evaluating 18 candidates on 5.52Hz (Phase 2 Gen 3) ---
+[EARLY STOPPING] [W7_P2G3] failed on 5.52Hz (Score: 3859403853152.2). Penalty added.
+[PASS] [W10_P2G3] passed 5.52Hz (Score: 4810.8)
+[PASS] [W8_P2G3] passed 5.52Hz (Score: 3660.2)
+[PASS] [W15_P2G3] passed 5.52Hz (Score: 8846.3)
+[PASS] [W3_P2G3] passed 5.52Hz (Score: 6174.9)
+[PASS] [W2_P2G3] passed 5.52Hz (Score: 6537.4)
+[PASS] [W4_P2G3] passed 5.52Hz (Score: 10947.0)
+[PASS] [W9_P2G3] passed 5.52Hz (Score: 4593.7)
+[PASS] [W13_P2G3] passed 5.52Hz (Score: 7794.6)
+[PASS] [W12_P2G3] passed 5.52Hz (Score: 3586.3)
+[PASS] [W11_P2G3] passed 5.52Hz (Score: 6957.3)
+[PASS] [W5_P2G3] passed 5.52Hz (Score: 3263.4)
+[PASS] [W16_P2G3] passed 5.52Hz (Score: 7694.9)
+[PASS] [W17_P2G3] passed 5.52Hz (Score: 4311.7)
+[PASS] [W18_P2G3] passed 5.52Hz (Score: 4827.1)
+[PASS] [W1_P2G3] passed 5.52Hz (Score: 8450.0)
+[PASS] [W6_P2G3] passed 5.52Hz (Score: 6221.9)
+[PASS] [W14_P2G3] passed 5.52Hz (Score: 3938.7)
+
+--- Evaluating 17 candidates on 2.48Hz (Phase 2 Gen 3) ---
+[PASS] [W3_P2G3] passed 2.48Hz (Score: 10705.7)
+[PASS] [W12_P2G3] passed 2.48Hz (Score: 2610.5)
+[PASS] [W8_P2G3] passed 2.48Hz (Score: 1938.4)
+[PASS] [W2_P2G3] passed 2.48Hz (Score: 4239.9)
+[PASS] [W10_P2G3] passed 2.48Hz (Score: 3682.3)
+[PASS] [W14_P2G3] passed 2.48Hz (Score: 1143.9)
+[PASS] [W11_P2G3] passed 2.48Hz (Score: 1839.9)
+[PASS] [W4_P2G3] passed 2.48Hz (Score: 5246.8)
+[PASS] [W15_P2G3] passed 2.48Hz (Score: 5013.2)
+[PASS] [W18_P2G3] passed 2.48Hz (Score: 1467.8)
+[PASS] [W1_P2G3] passed 2.48Hz (Score: 5907.5)
+[PASS] [W17_P2G3] passed 2.48Hz (Score: 2118.4)
+[PASS] [W16_P2G3] passed 2.48Hz (Score: 4104.5)
+[PASS] [W5_P2G3] passed 2.48Hz (Score: 1182.3)
+[PASS] [W6_P2G3] passed 2.48Hz (Score: 20010.0)
+[PASS] [W13_P2G3] passed 2.48Hz (Score: 8658.4)
+[PASS] [W9_P2G3] passed 2.48Hz (Score: 1559.5)
+
+--- Evaluating 17 candidates on 1.11Hz (Phase 2 Gen 3) ---
+[EARLY STOPPING] [W9_P2G3] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W10_P2G3] passed 1.11Hz (Score: 4149.0)
+[PASS] [W4_P2G3] passed 1.11Hz (Score: 3678.2)
+[PASS] [W3_P2G3] passed 1.11Hz (Score: 7623.1)
+[PASS] [W11_P2G3] passed 1.11Hz (Score: 393.5)
+[PASS] [W16_P2G3] passed 1.11Hz (Score: 39291.0)
+[PASS] [W1_P2G3] passed 1.11Hz (Score: 4388.0)
+[PASS] [W14_P2G3] passed 1.11Hz (Score: 9842.3)
+[PASS] [W8_P2G3] passed 1.11Hz (Score: 4667.8)
+[PASS] [W15_P2G3] passed 1.11Hz (Score: 9421.2)
+[PASS] [W18_P2G3] passed 1.11Hz (Score: 3984.5)
+[PASS] [W2_P2G3] passed 1.11Hz (Score: 13056.1)
+[PASS] [W5_P2G3] passed 1.11Hz (Score: 2772.5)
+[PASS] [W6_P2G3] passed 1.11Hz (Score: 15043.2)
+[PASS] [W13_P2G3] passed 1.11Hz (Score: 34961.6)
+[PASS] [W12_P2G3] passed 1.11Hz (Score: 4996.0)
+[PASS] [W17_P2G3] passed 1.11Hz (Score: 8502.1)
+
+--- Evaluating 16 candidates on 0.78Hz (Phase 2 Gen 3) ---
+[PASS] [W10_P2G3] passed 0.78Hz (Score: 23477.6)
+[PASS] [W5_P2G3] passed 0.78Hz (Score: 4910.3)
+[PASS] [W6_P2G3] passed 0.78Hz (Score: 31206.4)
+[PASS] [W3_P2G3] passed 0.78Hz (Score: 26899.2)
+[PASS] [W4_P2G3] passed 0.78Hz (Score: 17234.2)
+[PASS] [W2_P2G3] passed 0.78Hz (Score: 6738.6)
+[PASS] [W15_P2G3] passed 0.78Hz (Score: 28329.9)
+[PASS] [W8_P2G3] passed 0.78Hz (Score: 6235.4)
+[PASS] [W11_P2G3] passed 0.78Hz (Score: 4718.3)
+[PASS] [W1_P2G3] passed 0.78Hz (Score: 28916.8)
+[PASS] [W16_P2G3] passed 0.78Hz (Score: 22879.1)
+[PASS] [W13_P2G3] passed 0.78Hz (Score: 619.8)
+[PASS] [W17_P2G3] passed 0.78Hz (Score: 205.1)
+[PASS] [W18_P2G3] passed 0.78Hz (Score: 993.9)
+[PASS] [W12_P2G3] passed 0.78Hz (Score: 7261.5)
+[PASS] [W14_P2G3] passed 0.78Hz (Score: 6018.1)
+
+--- Evaluating 16 candidates on 0.31Hz (Phase 2 Gen 3) ---
+[EARLY STOPPING] [W11_P2G3] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W8_P2G3] passed 0.31Hz (Score: 8863.1)
+[PASS] [W4_P2G3] passed 0.31Hz (Score: 6582.3)
+[EARLY STOPPING] [W2_P2G3] failed on 0.31Hz (Score: 80065.1). Penalty added.
+[PASS] [W3_P2G3] passed 0.31Hz (Score: 26306.1)
+[PASS] [W17_P2G3] passed 0.31Hz (Score: 34279.8)
+[PASS] [W13_P2G3] passed 0.31Hz (Score: 36253.5)
+[PASS] [W12_P2G3] passed 0.31Hz (Score: 6038.0)
+[EARLY STOPPING] [W5_P2G3] failed on 0.31Hz (Score: 61352.6). Penalty added.
+[PASS] [W15_P2G3] passed 0.31Hz (Score: 13316.5)
+[PASS] [W10_P2G3] passed 0.31Hz (Score: 26752.6)
+[PASS] [W14_P2G3] passed 0.31Hz (Score: 8367.6)
+[PASS] [W18_P2G3] passed 0.31Hz (Score: 8215.0)
+[PASS] [W1_P2G3] passed 0.31Hz (Score: 2808.0)
+[PASS] [W16_P2G3] passed 0.31Hz (Score: 13036.0)
+[PASS] [W6_P2G3] passed 0.31Hz (Score: 13890.9)
+
+Phase 2 Generation 3 completed in 61.9 mins.
+Best Candidate: W18_P2G3 | Score: 23847.85
+r_ton: 0.747 | K_ton: 52.24 | K_sc: 69.97
+
+=================================== STARTING PHASE 2 GENERATION 4 of 25 at 19:19:16 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 4) ---
+[EARLY STOPPING] [W16_P2G4] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W8_P2G4] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[PASS] [W4_P2G4] passed 7.95Hz (Score: 1255.7)
+[PASS] [W10_P2G4] passed 7.95Hz (Score: 2915.4)
+[PASS] [W18_P2G4] passed 7.95Hz (Score: 3252.4)
+[PASS] [W7_P2G4] passed 7.95Hz (Score: 5291.8)
+[PASS] [W3_P2G4] passed 7.95Hz (Score: 9406.3)
+[PASS] [W17_P2G4] passed 7.95Hz (Score: 4334.4)
+[PASS] [W14_P2G4] passed 7.95Hz (Score: 16137.8)
+[PASS] [W1_P2G4] passed 7.95Hz (Score: 7286.3)
+[PASS] [W9_P2G4] passed 7.95Hz (Score: 4362.8)
+[PASS] [W6_P2G4] passed 7.95Hz (Score: 9174.5)
+[PASS] [W15_P2G4] passed 7.95Hz (Score: 4097.5)
+[PASS] [W12_P2G4] passed 7.95Hz (Score: 5219.1)
+[PASS] [W5_P2G4] passed 7.95Hz (Score: 2787.1)
+[PASS] [W13_P2G4] passed 7.95Hz (Score: 7170.1)
+[PASS] [W11_P2G4] passed 7.95Hz (Score: 13291.0)
+[PASS] [W2_P2G4] passed 7.95Hz (Score: 5745.1)
+
+--- Evaluating 16 candidates on 5.52Hz (Phase 2 Gen 4) ---
+[PASS] [W18_P2G4] passed 5.52Hz (Score: 4345.2)
+[PASS] [W14_P2G4] passed 5.52Hz (Score: 1517.0)
+[PASS] [W12_P2G4] passed 5.52Hz (Score: 5788.7)
+[PASS] [W6_P2G4] passed 5.52Hz (Score: 4630.4)
+[PASS] [W1_P2G4] passed 5.52Hz (Score: 4263.5)
+[PASS] [W11_P2G4] passed 5.52Hz (Score: 4792.5)
+[PASS] [W7_P2G4] passed 5.52Hz (Score: 4219.4)
+[PASS] [W3_P2G4] passed 5.52Hz (Score: 2724.2)
+[PASS] [W15_P2G4] passed 5.52Hz (Score: 4848.9)
+[PASS] [W4_P2G4] passed 5.52Hz (Score: 7455.1)
+[PASS] [W13_P2G4] passed 5.52Hz (Score: 6054.3)
+[PASS] [W2_P2G4] passed 5.52Hz (Score: 3285.8)
+[PASS] [W9_P2G4] passed 5.52Hz (Score: 4304.3)
+[PASS] [W5_P2G4] passed 5.52Hz (Score: 7771.3)
+[PASS] [W17_P2G4] passed 5.52Hz (Score: 8417.1)
+[PASS] [W10_P2G4] passed 5.52Hz (Score: 5917.4)
+
+--- Evaluating 16 candidates on 2.48Hz (Phase 2 Gen 4) ---
+[PASS] [W3_P2G4] passed 2.48Hz (Score: 2049.8)
+[PASS] [W18_P2G4] passed 2.48Hz (Score: 3058.9)
+[PASS] [W1_P2G4] passed 2.48Hz (Score: 5866.6)
+[PASS] [W14_P2G4] passed 2.48Hz (Score: 1959.1)
+[PASS] [W6_P2G4] passed 2.48Hz (Score: 4219.3)
+[PASS] [W13_P2G4] passed 2.48Hz (Score: 2886.5)
+[EARLY STOPPING] [W5_P2G4] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[PASS] [W2_P2G4] passed 2.48Hz (Score: 2462.9)
+[PASS] [W7_P2G4] passed 2.48Hz (Score: 7363.8)
+[PASS] [W4_P2G4] passed 2.48Hz (Score: 4213.0)
+[PASS] [W11_P2G4] passed 2.48Hz (Score: 2235.8)
+[PASS] [W15_P2G4] passed 2.48Hz (Score: 5772.2)
+[PASS] [W17_P2G4] passed 2.48Hz (Score: 7127.7)
+[PASS] [W10_P2G4] passed 2.48Hz (Score: 6310.3)
+[PASS] [W9_P2G4] passed 2.48Hz (Score: 604.2)
+[PASS] [W12_P2G4] passed 2.48Hz (Score: 4211.3)
+
+--- Evaluating 15 candidates on 1.11Hz (Phase 2 Gen 4) ---
+[PASS] [W3_P2G4] passed 1.11Hz (Score: 1786.9)
+[PASS] [W13_P2G4] passed 1.11Hz (Score: 5604.0)
+[PASS] [W12_P2G4] passed 1.11Hz (Score: 15473.5)
+[PASS] [W14_P2G4] passed 1.11Hz (Score: 448.7)
+[PASS] [W15_P2G4] passed 1.11Hz (Score: 30512.1)
+[PASS] [W9_P2G4] passed 1.11Hz (Score: 12223.2)
+[PASS] [W1_P2G4] passed 1.11Hz (Score: 2298.2)
+[PASS] [W6_P2G4] passed 1.11Hz (Score: 4096.5)
+[PASS] [W11_P2G4] passed 1.11Hz (Score: 1609.4)
+[PASS] [W10_P2G4] passed 1.11Hz (Score: 19362.5)
+[PASS] [W2_P2G4] passed 1.11Hz (Score: 2530.0)
+[PASS] [W4_P2G4] passed 1.11Hz (Score: 1126.3)
+[PASS] [W18_P2G4] passed 1.11Hz (Score: 1874.2)
+[PASS] [W17_P2G4] passed 1.11Hz (Score: 25111.0)
+[PASS] [W7_P2G4] passed 1.11Hz (Score: 6945.8)
+
+--- Evaluating 15 candidates on 0.78Hz (Phase 2 Gen 4) ---
+[PASS] [W14_P2G4] passed 0.78Hz (Score: 1101.7)
+[PASS] [W2_P2G4] passed 0.78Hz (Score: 13284.3)
+[PASS] [W17_P2G4] passed 0.78Hz (Score: 26654.9)
+[PASS] [W3_P2G4] passed 0.78Hz (Score: 80.1)
+[PASS] [W6_P2G4] passed 0.78Hz (Score: 2493.2)
+[PASS] [W1_P2G4] passed 0.78Hz (Score: 4787.6)
+[PASS] [W4_P2G4] passed 0.78Hz (Score: 34087.0)
+[PASS] [W13_P2G4] passed 0.78Hz (Score: 5087.5)
+[PASS] [W10_P2G4] passed 0.78Hz (Score: 31357.0)
+[PASS] [W12_P2G4] passed 0.78Hz (Score: 19186.9)
+[PASS] [W18_P2G4] passed 0.78Hz (Score: 4315.8)
+[PASS] [W11_P2G4] passed 0.78Hz (Score: 32782.9)
+[PASS] [W7_P2G4] passed 0.78Hz (Score: 22517.8)
+[PASS] [W15_P2G4] passed 0.78Hz (Score: 20540.5)
+[PASS] [W9_P2G4] passed 0.78Hz (Score: 32162.2)
+
+--- Evaluating 15 candidates on 0.31Hz (Phase 2 Gen 4) ---
+[EARLY STOPPING] [W14_P2G4] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W6_P2G4] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W1_P2G4] passed 0.31Hz (Score: 7884.1)
+[PASS] [W18_P2G4] passed 0.31Hz (Score: 10592.6)
+[EARLY STOPPING] [W3_P2G4] failed on 0.31Hz (Score: 105916.8). Penalty added.
+[PASS] [W12_P2G4] passed 0.31Hz (Score: 10990.8)
+[PASS] [W2_P2G4] passed 0.31Hz (Score: 17081.4)
+[PASS] [W13_P2G4] passed 0.31Hz (Score: 9172.7)
+[PASS] [W10_P2G4] passed 0.31Hz (Score: 14845.4)
+[PASS] [W11_P2G4] passed 0.31Hz (Score: 11350.7)
+[PASS] [W9_P2G4] passed 0.31Hz (Score: 10064.9)
+[EARLY STOPPING] [W7_P2G4] failed on 0.31Hz (Score: 96019.7). Penalty added.
+[PASS] [W17_P2G4] passed 0.31Hz (Score: 8681.3)
+[PASS] [W15_P2G4] passed 0.31Hz (Score: 8248.6)
+[PASS] [W4_P2G4] passed 0.31Hz (Score: 13498.0)
+
+Phase 2 Generation 4 completed in 58.0 mins.
+Best Candidate: W18_P2G4 | Score: 27439.15
+r_ton: 0.740 | K_ton: 34.06 | K_sc: 46.01
+
+=================================== STARTING PHASE 2 GENERATION 5 of 25 at 20:17:14 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 5) ---
+[EARLY STOPPING] [W9_P2G5] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W11_P2G5] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W2_P2G5] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[PASS] [W6_P2G5] passed 7.95Hz (Score: 12830.0)
+[PASS] [W5_P2G5] passed 7.95Hz (Score: 8759.8)
+[PASS] [W10_P2G5] passed 7.95Hz (Score: 4185.6)
+[PASS] [W4_P2G5] passed 7.95Hz (Score: 21647.5)
+[PASS] [W12_P2G5] passed 7.95Hz (Score: 7268.9)
+[PASS] [W8_P2G5] passed 7.95Hz (Score: 6470.7)
+[PASS] [W16_P2G5] passed 7.95Hz (Score: 2527.7)
+[PASS] [W1_P2G5] passed 7.95Hz (Score: 11486.9)
+[PASS] [W14_P2G5] passed 7.95Hz (Score: 6124.5)
+[PASS] [W7_P2G5] passed 7.95Hz (Score: 24868.3)
+[PASS] [W17_P2G5] passed 7.95Hz (Score: 8875.7)
+[PASS] [W15_P2G5] passed 7.95Hz (Score: 38884.0)
+[PASS] [W3_P2G5] passed 7.95Hz (Score: 212.7)
+[PASS] [W13_P2G5] passed 7.95Hz (Score: 4079.5)
+[PASS] [W18_P2G5] passed 7.95Hz (Score: 8219.3)
+
+--- Evaluating 15 candidates on 5.52Hz (Phase 2 Gen 5) ---
+[EARLY STOPPING] [W7_P2G5] failed on 5.52Hz (Score: 3859403853152.2). Penalty added.
+[PASS] [W17_P2G5] passed 5.52Hz (Score: 6351.6)
+[PASS] [W14_P2G5] passed 5.52Hz (Score: 6720.9)
+[PASS] [W15_P2G5] passed 5.52Hz (Score: 3690.1)
+[PASS] [W6_P2G5] passed 5.52Hz (Score: 7696.3)
+[PASS] [W3_P2G5] passed 5.52Hz (Score: 2916.6)
+[PASS] [W16_P2G5] passed 5.52Hz (Score: 2707.8)
+[PASS] [W4_P2G5] passed 5.52Hz (Score: 5890.1)
+[PASS] [W1_P2G5] passed 5.52Hz (Score: 18636.3)
+[PASS] [W8_P2G5] passed 5.52Hz (Score: 8473.7)
+[PASS] [W12_P2G5] passed 5.52Hz (Score: 3934.4)
+[PASS] [W5_P2G5] passed 5.52Hz (Score: 903.0)
+[PASS] [W10_P2G5] passed 5.52Hz (Score: 16830.6)
+[PASS] [W13_P2G5] passed 5.52Hz (Score: 1723.9)
+[PASS] [W18_P2G5] passed 5.52Hz (Score: 4760.0)
+
+--- Evaluating 14 candidates on 2.48Hz (Phase 2 Gen 5) ---
+[PASS] [W3_P2G5] passed 2.48Hz (Score: 2376.5)
+[PASS] [W6_P2G5] passed 2.48Hz (Score: 5163.2)
+[PASS] [W10_P2G5] passed 2.48Hz (Score: 9226.1)
+[PASS] [W16_P2G5] passed 2.48Hz (Score: 6726.0)
+[PASS] [W14_P2G5] passed 2.48Hz (Score: 4628.7)
+[PASS] [W4_P2G5] passed 2.48Hz (Score: 1984.5)
+[PASS] [W13_P2G5] passed 2.48Hz (Score: 3886.3)
+[PASS] [W15_P2G5] passed 2.48Hz (Score: 1308.7)
+[PASS] [W8_P2G5] passed 2.48Hz (Score: 19002.4)
+[PASS] [W1_P2G5] passed 2.48Hz (Score: 1437.6)
+[PASS] [W5_P2G5] passed 2.48Hz (Score: 6835.3)
+[PASS] [W12_P2G5] passed 2.48Hz (Score: 6953.7)
+[PASS] [W18_P2G5] passed 2.48Hz (Score: 2541.9)
+[PASS] [W17_P2G5] passed 2.48Hz (Score: 2066.3)
+
+--- Evaluating 14 candidates on 1.11Hz (Phase 2 Gen 5) ---
+[EARLY STOPPING] [W15_P2G5] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W17_P2G5] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W6_P2G5] passed 1.11Hz (Score: 20614.3)
+[PASS] [W5_P2G5] passed 1.11Hz (Score: 9309.9)
+[PASS] [W8_P2G5] passed 1.11Hz (Score: 18228.4)
+[PASS] [W4_P2G5] passed 1.11Hz (Score: 1552.6)
+[PASS] [W13_P2G5] passed 1.11Hz (Score: 13150.6)
+[PASS] [W10_P2G5] passed 1.11Hz (Score: 7185.6)
+[PASS] [W18_P2G5] passed 1.11Hz (Score: 9706.7)
+[PASS] [W14_P2G5] passed 1.11Hz (Score: 5579.1)
+[PASS] [W3_P2G5] passed 1.11Hz (Score: 1314.3)
+[PASS] [W12_P2G5] passed 1.11Hz (Score: 7352.2)
+[PASS] [W1_P2G5] passed 1.11Hz (Score: 4552.5)
+[PASS] [W16_P2G5] passed 1.11Hz (Score: 6209.8)
+
+--- Evaluating 12 candidates on 0.78Hz (Phase 2 Gen 5) ---
+[EARLY STOPPING] [W4_P2G5] failed on 0.78Hz (Score: 1416995484633.8). Penalty added.
+[PASS] [W6_P2G5] passed 0.78Hz (Score: 38622.9)
+[PASS] [W12_P2G5] passed 0.78Hz (Score: 9139.9)
+[PASS] [W5_P2G5] passed 0.78Hz (Score: 28722.8)
+[PASS] [W3_P2G5] passed 0.78Hz (Score: 7247.0)
+[PASS] [W10_P2G5] passed 0.78Hz (Score: 1722.8)
+[PASS] [W13_P2G5] passed 0.78Hz (Score: 29456.6)
+[PASS] [W8_P2G5] passed 0.78Hz (Score: 36059.5)
+[PASS] [W14_P2G5] passed 0.78Hz (Score: 4752.8)
+[PASS] [W18_P2G5] passed 0.78Hz (Score: 5178.3)
+[PASS] [W16_P2G5] passed 0.78Hz (Score: 34050.9)
+[PASS] [W1_P2G5] passed 0.78Hz (Score: 672.0)
+
+--- Evaluating 11 candidates on 0.31Hz (Phase 2 Gen 5) ---
+[EARLY STOPPING] [W1_P2G5] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W12_P2G5] passed 0.31Hz (Score: 22118.7)
+[PASS] [W16_P2G5] passed 0.31Hz (Score: 17162.9)
+[PASS] [W18_P2G5] passed 0.31Hz (Score: 11404.6)
+[PASS] [W10_P2G5] passed 0.31Hz (Score: 12463.0)
+[PASS] [W6_P2G5] passed 0.31Hz (Score: 11529.1)
+[EARLY STOPPING] [W8_P2G5] failed on 0.31Hz (Score: 261332.9). Penalty added.
+[EARLY STOPPING] [W14_P2G5] failed on 0.31Hz (Score: 183249.1). Penalty added.
+[EARLY STOPPING] [W3_P2G5] failed on 0.31Hz (Score: 81296.8). Penalty added.
+[PASS] [W13_P2G5] passed 0.31Hz (Score: 15354.9)
+[PASS] [W5_P2G5] passed 0.31Hz (Score: 11159.8)
+
+Phase 2 Generation 5 completed in 72.5 mins.
+Best Candidate: W18_P2G5 | Score: 41810.87
+r_ton: 0.788 | K_ton: 36.14 | K_sc: 45.86
+
+=================================== STARTING PHASE 2 GENERATION 6 of 25 at 21:29:43 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 6) ---
+[PASS] [W14_P2G6] passed 7.95Hz (Score: 8530.9)
+[PASS] [W12_P2G6] passed 7.95Hz (Score: 4778.2)
+[PASS] [W1_P2G6] passed 7.95Hz (Score: 9477.7)
+[PASS] [W18_P2G6] passed 7.95Hz (Score: 1238.0)
+[PASS] [W15_P2G6] passed 7.95Hz (Score: 4889.4)
+[PASS] [W17_P2G6] passed 7.95Hz (Score: 6008.9)
+[PASS] [W11_P2G6] passed 7.95Hz (Score: 537.0)
+[PASS] [W2_P2G6] passed 7.95Hz (Score: 2048.0)
+[PASS] [W16_P2G6] passed 7.95Hz (Score: 5002.0)
+[PASS] [W10_P2G6] passed 7.95Hz (Score: 2386.5)
+[PASS] [W3_P2G6] passed 7.95Hz (Score: 5528.1)
+[PASS] [W9_P2G6] passed 7.95Hz (Score: 4556.6)
+[PASS] [W4_P2G6] passed 7.95Hz (Score: 3206.3)
+[PASS] [W5_P2G6] passed 7.95Hz (Score: 4106.8)
+[PASS] [W7_P2G6] passed 7.95Hz (Score: 10059.6)
+[PASS] [W6_P2G6] passed 7.95Hz (Score: 3461.6)
+[PASS] [W13_P2G6] passed 7.95Hz (Score: 15067.1)
+[PASS] [W8_P2G6] passed 7.95Hz (Score: 1357.8)
+
+--- Evaluating 18 candidates on 5.52Hz (Phase 2 Gen 6) ---
+[PASS] [W18_P2G6] passed 5.52Hz (Score: 4758.5)
+[PASS] [W14_P2G6] passed 5.52Hz (Score: 7931.8)
+[PASS] [W7_P2G6] passed 5.52Hz (Score: 4875.0)
+[PASS] [W9_P2G6] passed 5.52Hz (Score: 3236.1)
+[PASS] [W6_P2G6] passed 5.52Hz (Score: 4277.0)
+[PASS] [W1_P2G6] passed 5.52Hz (Score: 8251.0)
+[PASS] [W17_P2G6] passed 5.52Hz (Score: 9622.0)
+[PASS] [W15_P2G6] passed 5.52Hz (Score: 5827.0)
+[PASS] [W16_P2G6] passed 5.52Hz (Score: 2663.4)
+[PASS] [W2_P2G6] passed 5.52Hz (Score: 10980.6)
+[PASS] [W3_P2G6] passed 5.52Hz (Score: 4651.9)
+[PASS] [W10_P2G6] passed 5.52Hz (Score: 6786.1)
+[PASS] [W5_P2G6] passed 5.52Hz (Score: 4469.6)
+[PASS] [W13_P2G6] passed 5.52Hz (Score: 3224.2)
+[PASS] [W12_P2G6] passed 5.52Hz (Score: 4712.7)
+[PASS] [W4_P2G6] passed 5.52Hz (Score: 2069.2)
+[PASS] [W8_P2G6] passed 5.52Hz (Score: 7688.3)
+[PASS] [W11_P2G6] passed 5.52Hz (Score: 2679.3)
+
+--- Evaluating 18 candidates on 2.48Hz (Phase 2 Gen 6) ---
+[PASS] [W7_P2G6] passed 2.48Hz (Score: 10109.3)
+[PASS] [W13_P2G6] passed 2.48Hz (Score: 2995.7)
+[PASS] [W11_P2G6] passed 2.48Hz (Score: 6383.4)
+[PASS] [W10_P2G6] passed 2.48Hz (Score: 14390.7)
+[PASS] [W18_P2G6] passed 2.48Hz (Score: 1725.8)
+[PASS] [W5_P2G6] passed 2.48Hz (Score: 5186.2)
+[PASS] [W17_P2G6] passed 2.48Hz (Score: 7352.3)
+[PASS] [W2_P2G6] passed 2.48Hz (Score: 5160.6)
+[PASS] [W6_P2G6] passed 2.48Hz (Score: 4434.1)
+[PASS] [W3_P2G6] passed 2.48Hz (Score: 6036.4)
+[PASS] [W9_P2G6] passed 2.48Hz (Score: 4086.1)
+[PASS] [W12_P2G6] passed 2.48Hz (Score: 6670.1)
+[PASS] [W4_P2G6] passed 2.48Hz (Score: 2785.5)
+[PASS] [W16_P2G6] passed 2.48Hz (Score: 3179.0)
+[PASS] [W8_P2G6] passed 2.48Hz (Score: 4599.3)
+[PASS] [W15_P2G6] passed 2.48Hz (Score: 4064.0)
+[PASS] [W14_P2G6] passed 2.48Hz (Score: 12784.6)
+[PASS] [W1_P2G6] passed 2.48Hz (Score: 1268.3)
+
+--- Evaluating 18 candidates on 1.11Hz (Phase 2 Gen 6) ---
+[EARLY STOPPING] [W18_P2G6] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W14_P2G6] passed 1.11Hz (Score: 25945.5)
+[PASS] [W5_P2G6] passed 1.11Hz (Score: 10385.4)
+[PASS] [W2_P2G6] passed 1.11Hz (Score: 15569.8)
+[PASS] [W12_P2G6] passed 1.11Hz (Score: 8601.2)
+[PASS] [W4_P2G6] passed 1.11Hz (Score: 8591.0)
+[PASS] [W6_P2G6] passed 1.11Hz (Score: 5355.3)
+[PASS] [W7_P2G6] passed 1.11Hz (Score: 30996.8)
+[PASS] [W8_P2G6] passed 1.11Hz (Score: 12063.4)
+[PASS] [W13_P2G6] passed 1.11Hz (Score: 6180.0)
+[PASS] [W3_P2G6] passed 1.11Hz (Score: 13369.1)
+[PASS] [W11_P2G6] passed 1.11Hz (Score: 5936.7)
+[PASS] [W17_P2G6] passed 1.11Hz (Score: 8218.1)
+[PASS] [W10_P2G6] passed 1.11Hz (Score: 1624.1)
+[PASS] [W15_P2G6] passed 1.11Hz (Score: 6947.9)
+[PASS] [W9_P2G6] passed 1.11Hz (Score: 3813.0)
+[PASS] [W1_P2G6] passed 1.11Hz (Score: 10463.6)
+[PASS] [W16_P2G6] passed 1.11Hz (Score: 25830.5)
+
+--- Evaluating 17 candidates on 0.78Hz (Phase 2 Gen 6) ---
+[PASS] [W15_P2G6] passed 0.78Hz (Score: 1279.6)
+[PASS] [W7_P2G6] passed 0.78Hz (Score: 39844.9)
+[PASS] [W2_P2G6] passed 0.78Hz (Score: 25742.5)
+[PASS] [W13_P2G6] passed 0.78Hz (Score: 32424.3)
+[PASS] [W4_P2G6] passed 0.78Hz (Score: 16458.7)
+[PASS] [W6_P2G6] passed 0.78Hz (Score: 4456.3)
+[PASS] [W17_P2G6] passed 0.78Hz (Score: 4591.1)
+[PASS] [W3_P2G6] passed 0.78Hz (Score: 4805.2)
+[PASS] [W1_P2G6] passed 0.78Hz (Score: 24979.6)
+[PASS] [W10_P2G6] passed 0.78Hz (Score: 7238.4)
+[PASS] [W5_P2G6] passed 0.78Hz (Score: 28963.1)
+[PASS] [W8_P2G6] passed 0.78Hz (Score: 2575.0)
+[PASS] [W11_P2G6] passed 0.78Hz (Score: 7488.7)
+[PASS] [W16_P2G6] passed 0.78Hz (Score: 30210.1)
+[PASS] [W9_P2G6] passed 0.78Hz (Score: 3698.2)
+[PASS] [W12_P2G6] passed 0.78Hz (Score: 7003.3)
+[PASS] [W14_P2G6] passed 0.78Hz (Score: 32877.0)
+
+--- Evaluating 17 candidates on 0.31Hz (Phase 2 Gen 6) ---
+[EARLY STOPPING] [W13_P2G6] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W10_P2G6] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W14_P2G6] passed 0.31Hz (Score: 23215.3)
+[EARLY STOPPING] [W17_P2G6] failed on 0.31Hz (Score: 120336.8). Penalty added.
+[PASS] [W3_P2G6] passed 0.31Hz (Score: 9828.2)
+[PASS] [W12_P2G6] passed 0.31Hz (Score: 7108.6)
+[EARLY STOPPING] [W9_P2G6] failed on 0.31Hz (Score: 52572.8). Penalty added.
+[PASS] [W11_P2G6] passed 0.31Hz (Score: 7997.5)
+[PASS] [W7_P2G6] passed 0.31Hz (Score: 39101.5)
+[PASS] [W2_P2G6] passed 0.31Hz (Score: 39972.4)
+[PASS] [W6_P2G6] passed 0.31Hz (Score: 10345.4)
+[PASS] [W5_P2G6] passed 0.31Hz (Score: 6878.7)
+[EARLY STOPPING] [W15_P2G6] failed on 0.31Hz (Score: 116233.5). Penalty added.
+[PASS] [W16_P2G6] passed 0.31Hz (Score: 19948.0)
+[PASS] [W1_P2G6] passed 0.31Hz (Score: 25555.6)
+[PASS] [W8_P2G6] passed 0.31Hz (Score: 26184.4)
+[PASS] [W4_P2G6] passed 0.31Hz (Score: 16458.6)
+
+Phase 2 Generation 6 completed in 66.5 mins.
+Best Candidate: W11_P2G6 | Score: 31022.67
+r_ton: 0.797 | K_ton: 76.42 | K_sc: 95.89
+
+=================================== STARTING PHASE 2 GENERATION 7 of 25 at 22:36:16 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 7) ---
+
+==========================================================================================
+RESUMING PHASE 2 OPTIMIZATION CAMPAIGN (GENERATIONS 7 THROUGH 25)
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=100, Thu Oct 22 06:22:37 2026)
+[REPLAY] Generation 1 replayed successfully. Best score: 29087.72
+[REPLAY] Generation 2 replayed successfully. Best score: 18721.57
+[REPLAY] Generation 3 replayed successfully. Best score: 23847.85
+[REPLAY] Generation 4 replayed successfully. Best score: 27439.15
+[REPLAY] Generation 5 replayed successfully. Best score: 41810.87
+[REPLAY] Generation 6 replayed successfully. Best score: 31022.67
+
+Replayed 6 completed generations. Ready to resume from Generation 7!
+Current Global Best Score: 18721.57
+
+=================================== STARTING PHASE 2 GENERATION 7 of 25 at 06:22:37 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 7) ---
+[PASS] [W8_P2G7] passed 7.95Hz (Score: 8818.9)
+[PASS] [W6_P2G7] passed 7.95Hz (Score: 4212.4)
+[PASS] [W4_P2G7] passed 7.95Hz (Score: 12545.3)
+[PASS] [W15_P2G7] passed 7.95Hz (Score: 17149.3)
+[PASS] [W1_P2G7] passed 7.95Hz (Score: 5093.6)
+[PASS] [W3_P2G7] passed 7.95Hz (Score: 5396.7)
+[PASS] [W13_P2G7] passed 7.95Hz (Score: 4712.7)
+[PASS] [W12_P2G7] passed 7.95Hz (Score: 13844.4)
+[PASS] [W17_P2G7] passed 7.95Hz (Score: 4025.6)
+[PASS] [W5_P2G7] passed 7.95Hz (Score: 5925.0)
+[PASS] [W11_P2G7] passed 7.95Hz (Score: 6952.0)
+[PASS] [W10_P2G7] passed 7.95Hz (Score: 4201.7)
+[PASS] [W18_P2G7] passed 7.95Hz (Score: 6820.1)
+[PASS] [W7_P2G7] passed 7.95Hz (Score: 8584.2)
+[PASS] [W16_P2G7] passed 7.95Hz (Score: 4810.2)
+[PASS] [W14_P2G7] passed 7.95Hz (Score: 13106.5)
+[PASS] [W9_P2G7] passed 7.95Hz (Score: 2790.6)
+[PASS] [W2_P2G7] passed 7.95Hz (Score: 5666.2)
+
+--- Evaluating 18 candidates on 5.52Hz (Phase 2 Gen 7) ---
+[PASS] [W10_P2G7] passed 5.52Hz (Score: 3649.9)
+[PASS] [W5_P2G7] passed 5.52Hz (Score: 5403.0)
+[PASS] [W9_P2G7] passed 5.52Hz (Score: 3541.4)
+[PASS] [W3_P2G7] passed 5.52Hz (Score: 2181.3)
+[PASS] [W6_P2G7] passed 5.52Hz (Score: 5575.2)
+[PASS] [W4_P2G7] passed 5.52Hz (Score: 487.3)
+[PASS] [W14_P2G7] passed 5.52Hz (Score: 4502.6)
+[PASS] [W13_P2G7] passed 5.52Hz (Score: 3414.2)
+[PASS] [W12_P2G7] passed 5.52Hz (Score: 4709.7)
+[PASS] [W7_P2G7] passed 5.52Hz (Score: 1726.9)
+[PASS] [W11_P2G7] passed 5.52Hz (Score: 4982.7)
+[PASS] [W2_P2G7] passed 5.52Hz (Score: 3111.8)
+[PASS] [W16_P2G7] passed 5.52Hz (Score: 6872.8)
+[PASS] [W1_P2G7] passed 5.52Hz (Score: 4827.9)
+[PASS] [W8_P2G7] passed 5.52Hz (Score: 1767.4)
+[PASS] [W15_P2G7] passed 5.52Hz (Score: 6372.8)
+[PASS] [W17_P2G7] passed 5.52Hz (Score: 5582.8)
+[PASS] [W18_P2G7] passed 5.52Hz (Score: 6754.3)
+
+--- Evaluating 18 candidates on 2.48Hz (Phase 2 Gen 7) ---
+[PASS] [W17_P2G7] passed 2.48Hz (Score: 5718.3)
+[PASS] [W5_P2G7] passed 2.48Hz (Score: 3287.5)
+[PASS] [W10_P2G7] passed 2.48Hz (Score: 4063.3)
+[PASS] [W14_P2G7] passed 2.48Hz (Score: 620.5)
+[PASS] [W16_P2G7] passed 2.48Hz (Score: 7293.2)
+[PASS] [W18_P2G7] passed 2.48Hz (Score: 2568.3)
+[PASS] [W1_P2G7] passed 2.48Hz (Score: 5396.7)
+[PASS] [W9_P2G7] passed 2.48Hz (Score: 20707.0)
+[PASS] [W12_P2G7] passed 2.48Hz (Score: 4288.9)
+[PASS] [W4_P2G7] passed 2.48Hz (Score: 1259.6)
+[PASS] [W7_P2G7] passed 2.48Hz (Score: 5243.5)
+[PASS] [W6_P2G7] passed 2.48Hz (Score: 3622.6)
+[PASS] [W8_P2G7] passed 2.48Hz (Score: 3298.4)
+[PASS] [W13_P2G7] passed 2.48Hz (Score: 17490.0)
+[PASS] [W2_P2G7] passed 2.48Hz (Score: 2351.0)
+[PASS] [W3_P2G7] passed 2.48Hz (Score: 6989.9)
+[PASS] [W15_P2G7] passed 2.48Hz (Score: 2729.7)
+[PASS] [W11_P2G7] passed 2.48Hz (Score: 7393.7)
+
+--- Evaluating 18 candidates on 1.11Hz (Phase 2 Gen 7) ---
+[EARLY STOPPING] [W14_P2G7] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W18_P2G7] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W13_P2G7] passed 1.11Hz (Score: 8492.2)
+[PASS] [W15_P2G7] passed 1.11Hz (Score: 10292.2)
+[PASS] [W7_P2G7] passed 1.11Hz (Score: 3615.4)
+[PASS] [W12_P2G7] passed 1.11Hz (Score: 4518.5)
+[PASS] [W3_P2G7] passed 1.11Hz (Score: 9998.5)
+[PASS] [W2_P2G7] passed 1.11Hz (Score: 5307.5)
+[PASS] [W9_P2G7] passed 1.11Hz (Score: 10562.1)
+[PASS] [W17_P2G7] passed 1.11Hz (Score: 11324.6)
+[PASS] [W6_P2G7] passed 1.11Hz (Score: 17917.7)
+[PASS] [W4_P2G7] passed 1.11Hz (Score: 4647.5)
+[PASS] [W10_P2G7] passed 1.11Hz (Score: 1306.8)
+[PASS] [W5_P2G7] passed 1.11Hz (Score: 8632.6)
+[PASS] [W16_P2G7] passed 1.11Hz (Score: 7856.0)
+[PASS] [W8_P2G7] passed 1.11Hz (Score: 13697.9)
+[PASS] [W1_P2G7] passed 1.11Hz (Score: 13764.3)
+[PASS] [W11_P2G7] passed 1.11Hz (Score: 19901.9)
+
+--- Evaluating 16 candidates on 0.78Hz (Phase 2 Gen 7) ---
+[PASS] [W4_P2G7] passed 0.78Hz (Score: 1836.6)
+[PASS] [W5_P2G7] passed 0.78Hz (Score: 25258.9)
+[PASS] [W17_P2G7] passed 0.78Hz (Score: 7988.7)
+[PASS] [W6_P2G7] passed 0.78Hz (Score: 10355.3)
+[PASS] [W12_P2G7] passed 0.78Hz (Score: 817.6)
+[PASS] [W1_P2G7] passed 0.78Hz (Score: 5851.5)
+[PASS] [W7_P2G7] passed 0.78Hz (Score: 3308.5)
+[PASS] [W11_P2G7] passed 0.78Hz (Score: 10163.1)
+[PASS] [W2_P2G7] passed 0.78Hz (Score: 3715.7)
+[PASS] [W10_P2G7] passed 0.78Hz (Score: 922.7)
+[PASS] [W15_P2G7] passed 0.78Hz (Score: 10756.7)
+[PASS] [W16_P2G7] passed 0.78Hz (Score: 5859.3)
+[PASS] [W9_P2G7] passed 0.78Hz (Score: 470.3)
+[PASS] [W13_P2G7] passed 0.78Hz (Score: 21970.4)
+[PASS] [W8_P2G7] passed 0.78Hz (Score: 2006.3)
+[PASS] [W3_P2G7] passed 0.78Hz (Score: 5092.3)
+
+--- Evaluating 16 candidates on 0.31Hz (Phase 2 Gen 7) ---
+[EARLY STOPPING] [W4_P2G7] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W5_P2G7] passed 0.31Hz (Score: 2036.7)
+[PASS] [W17_P2G7] passed 0.31Hz (Score: 18693.1)
+[PASS] [W11_P2G7] passed 0.31Hz (Score: 12088.6)
+[PASS] [W7_P2G7] passed 0.31Hz (Score: 34473.2)
+[EARLY STOPPING] [W6_P2G7] failed on 0.31Hz (Score: 130123.4). Penalty added.
+[PASS] [W9_P2G7] passed 0.31Hz (Score: 43780.4)
+[PASS] [W1_P2G7] passed 0.31Hz (Score: 8878.6)
+[PASS] [W8_P2G7] passed 0.31Hz (Score: 26680.6)
+[PASS] [W3_P2G7] passed 0.31Hz (Score: 43882.5)
+[PASS] [W16_P2G7] passed 0.31Hz (Score: 26146.1)
+[EARLY STOPPING] [W10_P2G7] failed on 0.31Hz (Score: 85841.9). Penalty added.
+[PASS] [W15_P2G7] passed 0.31Hz (Score: 14060.7)
+[PASS] [W2_P2G7] passed 0.31Hz (Score: 5467.5)
+[PASS] [W12_P2G7] passed 0.31Hz (Score: 14051.9)
+[PASS] [W13_P2G7] passed 0.31Hz (Score: 3236.9)
+
+Phase 2 Generation 7 completed in 64.8 mins.
+Best Candidate: W2_P2G7 | Score: 25619.66
+r_ton: 0.763 | K_ton: 83.83 | K_sc: 109.90
+
+=================================== STARTING PHASE 2 GENERATION 8 of 25 at 07:27:28 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 8) ---
+[EARLY STOPPING] [W7_P2G8] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[EARLY STOPPING] [W9_P2G8] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[PASS] [W6_P2G8] passed 7.95Hz (Score: 10102.1)
+[PASS] [W17_P2G8] passed 7.95Hz (Score: 20739.5)
+[PASS] [W18_P2G8] passed 7.95Hz (Score: 6417.5)
+[PASS] [W8_P2G8] passed 7.95Hz (Score: 3256.9)
+[PASS] [W13_P2G8] passed 7.95Hz (Score: 1815.0)
+[PASS] [W15_P2G8] passed 7.95Hz (Score: 3547.1)
+[PASS] [W5_P2G8] passed 7.95Hz (Score: 7947.0)
+[PASS] [W1_P2G8] passed 7.95Hz (Score: 5748.0)
+[PASS] [W4_P2G8] passed 7.95Hz (Score: 6564.1)
+[PASS] [W12_P2G8] passed 7.95Hz (Score: 12165.6)
+[PASS] [W3_P2G8] passed 7.95Hz (Score: 4151.6)
+[PASS] [W14_P2G8] passed 7.95Hz (Score: 2675.3)
+[PASS] [W10_P2G8] passed 7.95Hz (Score: 8876.4)
+[PASS] [W2_P2G8] passed 7.95Hz (Score: 7161.0)
+[PASS] [W11_P2G8] passed 7.95Hz (Score: 4592.7)
+[PASS] [W16_P2G8] passed 7.95Hz (Score: 27005.9)
+
+--- Evaluating 16 candidates on 5.52Hz (Phase 2 Gen 8) ---
+[EARLY STOPPING] [W10_P2G8] failed on 5.52Hz (Score: 3859403853152.2). Penalty added.
+[PASS] [W8_P2G8] passed 5.52Hz (Score: 1723.3)
+[PASS] [W12_P2G8] passed 5.52Hz (Score: 28662.5)
+[PASS] [W16_P2G8] passed 5.52Hz (Score: 7065.0)
+[PASS] [W5_P2G8] passed 5.52Hz (Score: 12059.9)
+[PASS] [W14_P2G8] passed 5.52Hz (Score: 7922.2)
+[PASS] [W17_P2G8] passed 5.52Hz (Score: 2362.2)
+[PASS] [W18_P2G8] passed 5.52Hz (Score: 2100.8)
+[PASS] [W11_P2G8] passed 5.52Hz (Score: 1402.5)
+[PASS] [W3_P2G8] passed 5.52Hz (Score: 1107.9)
+[PASS] [W4_P2G8] passed 5.52Hz (Score: 3798.8)
+[PASS] [W15_P2G8] passed 5.52Hz (Score: 2001.4)
+[PASS] [W2_P2G8] passed 5.52Hz (Score: 3627.2)
+[PASS] [W13_P2G8] passed 5.52Hz (Score: 6028.9)
+[PASS] [W1_P2G8] passed 5.52Hz (Score: 4192.8)
+[PASS] [W6_P2G8] passed 5.52Hz (Score: 6650.0)
+
+--- Evaluating 15 candidates on 2.48Hz (Phase 2 Gen 8) ---
+[EARLY STOPPING] [W16_P2G8] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[PASS] [W6_P2G8] passed 2.48Hz (Score: 6081.3)
+[PASS] [W17_P2G8] passed 2.48Hz (Score: 7125.3)
+[PASS] [W18_P2G8] passed 2.48Hz (Score: 4606.6)
+[PASS] [W2_P2G8] passed 2.48Hz (Score: 8342.1)
+[PASS] [W15_P2G8] passed 2.48Hz (Score: 6584.9)
+[PASS] [W8_P2G8] passed 2.48Hz (Score: 1610.3)
+[PASS] [W13_P2G8] passed 2.48Hz (Score: 4358.0)
+[PASS] [W4_P2G8] passed 2.48Hz (Score: 492.6)
+[PASS] [W11_P2G8] passed 2.48Hz (Score: 6325.2)
+[PASS] [W5_P2G8] passed 2.48Hz (Score: 3945.0)
+[PASS] [W1_P2G8] passed 2.48Hz (Score: 1022.9)
+[PASS] [W14_P2G8] passed 2.48Hz (Score: 7572.2)
+[PASS] [W3_P2G8] passed 2.48Hz (Score: 3415.8)
+[PASS] [W12_P2G8] passed 2.48Hz (Score: 4298.6)
+
+--- Evaluating 14 candidates on 1.11Hz (Phase 2 Gen 8) ---
+[EARLY STOPPING] [W13_P2G8] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W15_P2G8] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W6_P2G8] passed 1.11Hz (Score: 10617.2)
+[PASS] [W8_P2G8] passed 1.11Hz (Score: 5058.9)
+[PASS] [W17_P2G8] passed 1.11Hz (Score: 4558.3)
+[PASS] [W14_P2G8] passed 1.11Hz (Score: 17361.4)
+[PASS] [W12_P2G8] passed 1.11Hz (Score: 4145.0)
+[PASS] [W18_P2G8] passed 1.11Hz (Score: 3775.4)
+[PASS] [W11_P2G8] passed 1.11Hz (Score: 15082.2)
+[PASS] [W3_P2G8] passed 1.11Hz (Score: 7891.9)
+[PASS] [W1_P2G8] passed 1.11Hz (Score: 3171.9)
+[PASS] [W4_P2G8] passed 1.11Hz (Score: 196.7)
+[PASS] [W5_P2G8] passed 1.11Hz (Score: 5025.4)
+[PASS] [W2_P2G8] passed 1.11Hz (Score: 7616.4)
+
+--- Evaluating 12 candidates on 0.78Hz (Phase 2 Gen 8) ---
+[PASS] [W1_P2G8] passed 0.78Hz (Score: 4794.3)
+[PASS] [W8_P2G8] passed 0.78Hz (Score: 22193.0)
+[PASS] [W3_P2G8] passed 0.78Hz (Score: 29704.4)
+[PASS] [W12_P2G8] passed 0.78Hz (Score: 662.9)
+[PASS] [W6_P2G8] passed 0.78Hz (Score: 27633.7)
+[PASS] [W17_P2G8] passed 0.78Hz (Score: 4736.1)
+[PASS] [W4_P2G8] passed 0.78Hz (Score: 1369.0)
+[PASS] [W14_P2G8] passed 0.78Hz (Score: 8341.8)
+[PASS] [W2_P2G8] passed 0.78Hz (Score: 5225.5)
+[PASS] [W11_P2G8] passed 0.78Hz (Score: 18115.4)
+[PASS] [W18_P2G8] passed 0.78Hz (Score: 1666.0)
+[PASS] [W5_P2G8] passed 0.78Hz (Score: 7148.6)
+
+--- Evaluating 12 candidates on 0.31Hz (Phase 2 Gen 8) ---
+[EARLY STOPPING] [W4_P2G8] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W17_P2G8] passed 0.31Hz (Score: 22930.3)
+[PASS] [W18_P2G8] passed 0.31Hz (Score: 5937.1)
+[PASS] [W14_P2G8] passed 0.31Hz (Score: 6865.2)
+[PASS] [W12_P2G8] passed 0.31Hz (Score: 10560.8)
+[PASS] [W8_P2G8] passed 0.31Hz (Score: 7323.7)
+[PASS] [W2_P2G8] passed 0.31Hz (Score: 8342.3)
+[PASS] [W1_P2G8] passed 0.31Hz (Score: 21936.9)
+[PASS] [W6_P2G8] passed 0.31Hz (Score: 17658.9)
+[PASS] [W3_P2G8] passed 0.31Hz (Score: 997.2)
+[PASS] [W5_P2G8] passed 0.31Hz (Score: 15582.6)
+[PASS] [W11_P2G8] passed 0.31Hz (Score: 27530.8)
+
+Phase 2 Generation 8 completed in 51.4 mins.
+Best Candidate: W18_P2G8 | Score: 24503.36
+r_ton: 0.554 | K_ton: 48.58 | K_sc: 87.68
+
+=================================== STARTING PHASE 2 GENERATION 9 of 25 at 08:18:49 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 9) ---
+[EARLY STOPPING] [W11_P2G9] failed on 7.95Hz (Score: 5095115921291.0). Penalty added.
+[PASS] [W2_P2G9] passed 7.95Hz (Score: 8977.1)
+[PASS] [W15_P2G9] passed 7.95Hz (Score: 8369.0)
+[PASS] [W10_P2G9] passed 7.95Hz (Score: 9309.3)
+[PASS] [W17_P2G9] passed 7.95Hz (Score: 2415.9)
+[PASS] [W16_P2G9] passed 7.95Hz (Score: 5871.4)
+[PASS] [W6_P2G9] passed 7.95Hz (Score: 40213.0)
+[PASS] [W5_P2G9] passed 7.95Hz (Score: 3957.1)
+[PASS] [W3_P2G9] passed 7.95Hz (Score: 6537.7)
+[PASS] [W14_P2G9] passed 7.95Hz (Score: 26844.4)
+[PASS] [W8_P2G9] passed 7.95Hz (Score: 18806.5)
+[PASS] [W9_P2G9] passed 7.95Hz (Score: 4381.6)
+[PASS] [W7_P2G9] passed 7.95Hz (Score: 13103.9)
+[PASS] [W4_P2G9] passed 7.95Hz (Score: 2774.3)
+[PASS] [W18_P2G9] passed 7.95Hz (Score: 3102.0)
+[PASS] [W1_P2G9] passed 7.95Hz (Score: 1764.9)
+[PASS] [W13_P2G9] passed 7.95Hz (Score: 1838.0)
+[PASS] [W12_P2G9] passed 7.95Hz (Score: 4071.3)
+
+--- Evaluating 17 candidates on 5.52Hz (Phase 2 Gen 9) ---
+[PASS] [W10_P2G9] passed 5.52Hz (Score: 5943.4)
+[PASS] [W7_P2G9] passed 5.52Hz (Score: 4404.3)
+[PASS] [W3_P2G9] passed 5.52Hz (Score: 8780.0)
+[PASS] [W8_P2G9] passed 5.52Hz (Score: 486.5)
+[PASS] [W9_P2G9] passed 5.52Hz (Score: 2866.4)
+[PASS] [W18_P2G9] passed 5.52Hz (Score: 2418.9)
+[PASS] [W14_P2G9] passed 5.52Hz (Score: 8162.7)
+[PASS] [W4_P2G9] passed 5.52Hz (Score: 3924.2)
+[PASS] [W2_P2G9] passed 5.52Hz (Score: 1068.1)
+[PASS] [W16_P2G9] passed 5.52Hz (Score: 722.0)
+[PASS] [W17_P2G9] passed 5.52Hz (Score: 4772.7)
+[PASS] [W1_P2G9] passed 5.52Hz (Score: 7630.8)
+[PASS] [W15_P2G9] passed 5.52Hz (Score: 9627.8)
+[PASS] [W5_P2G9] passed 5.52Hz (Score: 1912.5)
+[PASS] [W12_P2G9] passed 5.52Hz (Score: 2171.9)
+[PASS] [W6_P2G9] passed 5.52Hz (Score: 673.0)
+[PASS] [W13_P2G9] passed 5.52Hz (Score: 8348.7)
+
+--- Evaluating 17 candidates on 2.48Hz (Phase 2 Gen 9) ---
+[EARLY STOPPING] [W3_P2G9] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[PASS] [W9_P2G9] passed 2.48Hz (Score: 1196.0)
+[PASS] [W2_P2G9] passed 2.48Hz (Score: 5846.0)
+[PASS] [W16_P2G9] passed 2.48Hz (Score: 4427.4)
+[PASS] [W5_P2G9] passed 2.48Hz (Score: 3049.7)
+[PASS] [W15_P2G9] passed 2.48Hz (Score: 2297.0)
+[PASS] [W12_P2G9] passed 2.48Hz (Score: 5884.1)
+[PASS] [W7_P2G9] passed 2.48Hz (Score: 4258.0)
+[PASS] [W4_P2G9] passed 2.48Hz (Score: 6856.4)
+[PASS] [W8_P2G9] passed 2.48Hz (Score: 3969.9)
+[PASS] [W13_P2G9] passed 2.48Hz (Score: 5929.8)
+[PASS] [W14_P2G9] passed 2.48Hz (Score: 7001.8)
+[PASS] [W10_P2G9] passed 2.48Hz (Score: 7245.2)
+[PASS] [W6_P2G9] passed 2.48Hz (Score: 20655.8)
+[PASS] [W17_P2G9] passed 2.48Hz (Score: 14606.3)
+[PASS] [W18_P2G9] passed 2.48Hz (Score: 260.5)
+[PASS] [W1_P2G9] passed 2.48Hz (Score: 5964.4)
+
+--- Evaluating 16 candidates on 1.11Hz (Phase 2 Gen 9) ---
+[EARLY STOPPING] [W13_P2G9] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W6_P2G9] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W15_P2G9] passed 1.11Hz (Score: 2961.3)
+[PASS] [W14_P2G9] passed 1.11Hz (Score: 7104.2)
+[PASS] [W10_P2G9] passed 1.11Hz (Score: 28506.3)
+[PASS] [W1_P2G9] passed 1.11Hz (Score: 8858.7)
+[PASS] [W9_P2G9] passed 1.11Hz (Score: 2330.6)
+[PASS] [W7_P2G9] passed 1.11Hz (Score: 725.1)
+[PASS] [W16_P2G9] passed 1.11Hz (Score: 2591.9)
+[PASS] [W5_P2G9] passed 1.11Hz (Score: 8907.4)
+[PASS] [W18_P2G9] passed 1.11Hz (Score: 1048.8)
+[PASS] [W2_P2G9] passed 1.11Hz (Score: 4480.5)
+[PASS] [W4_P2G9] passed 1.11Hz (Score: 6633.1)
+[PASS] [W12_P2G9] passed 1.11Hz (Score: 7786.6)
+[PASS] [W8_P2G9] passed 1.11Hz (Score: 21001.7)
+[PASS] [W17_P2G9] passed 1.11Hz (Score: 25951.2)
+
+--- Evaluating 14 candidates on 0.78Hz (Phase 2 Gen 9) ---
+[PASS] [W10_P2G9] passed 0.78Hz (Score: 35326.6)
+[PASS] [W4_P2G9] passed 0.78Hz (Score: 4255.3)
+[PASS] [W9_P2G9] passed 0.78Hz (Score: 5135.9)
+[PASS] [W7_P2G9] passed 0.78Hz (Score: 1157.2)
+[PASS] [W5_P2G9] passed 0.78Hz (Score: 7743.6)
+[PASS] [W14_P2G9] passed 0.78Hz (Score: 1156.0)
+[PASS] [W8_P2G9] passed 0.78Hz (Score: 1141.8)
+[PASS] [W18_P2G9] passed 0.78Hz (Score: 4794.2)
+[PASS] [W1_P2G9] passed 0.78Hz (Score: 4347.3)
+[PASS] [W16_P2G9] passed 0.78Hz (Score: 6214.3)
+[PASS] [W15_P2G9] passed 0.78Hz (Score: 21640.4)
+[PASS] [W2_P2G9] passed 0.78Hz (Score: 4830.0)
+[PASS] [W12_P2G9] passed 0.78Hz (Score: 29281.5)
+[PASS] [W17_P2G9] passed 0.78Hz (Score: 21313.0)
+
+--- Evaluating 14 candidates on 0.31Hz (Phase 2 Gen 9) ---
+[EARLY STOPPING] [W5_P2G9] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W9_P2G9] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W17_P2G9] passed 0.31Hz (Score: 1824.1)
+[PASS] [W7_P2G9] passed 0.31Hz (Score: 10837.9)
+[PASS] [W2_P2G9] passed 0.31Hz (Score: 7236.1)
+[PASS] [W15_P2G9] passed 0.31Hz (Score: 24251.5)
+[PASS] [W18_P2G9] passed 0.31Hz (Score: 10283.1)
+[PASS] [W10_P2G9] passed 0.31Hz (Score: 11249.5)
+[EARLY STOPPING] [W1_P2G9] failed on 0.31Hz (Score: 91442.0). Penalty added.
+[PASS] [W16_P2G9] passed 0.31Hz (Score: 6567.9)
+[PASS] [W12_P2G9] passed 0.31Hz (Score: 8666.6)
+[PASS] [W14_P2G9] passed 0.31Hz (Score: 20640.5)
+[PASS] [W4_P2G9] passed 0.31Hz (Score: 21872.4)
+[PASS] [W8_P2G9] passed 0.31Hz (Score: 9936.6)
+
+Phase 2 Generation 9 completed in 57.9 mins.
+Best Candidate: W18_P2G9 | Score: 21907.59
+r_ton: 1.078 | K_ton: 128.25 | K_sc: 119.00
+
+=================================== STARTING PHASE 2 GENERATION 10 of 25 at 09:16:41 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 10) ---
+[PASS] [W14_P2G10] passed 7.95Hz (Score: 7190.0)
+[PASS] [W11_P2G10] passed 7.95Hz (Score: 15728.7)
+[PASS] [W5_P2G10] passed 7.95Hz (Score: 4900.5)
+[PASS] [W17_P2G10] passed 7.95Hz (Score: 8134.9)
+[PASS] [W15_P2G10] passed 7.95Hz (Score: 5945.4)
+[PASS] [W3_P2G10] passed 7.95Hz (Score: 7673.8)
+[PASS] [W7_P2G10] passed 7.95Hz (Score: 4436.5)
+[PASS] [W12_P2G10] passed 7.95Hz (Score: 4147.1)
+[PASS] [W13_P2G10] passed 7.95Hz (Score: 830.4)
+[PASS] [W9_P2G10] passed 7.95Hz (Score: 6929.0)
+[PASS] [W8_P2G10] passed 7.95Hz (Score: 1608.0)
+[PASS] [W18_P2G10] passed 7.95Hz (Score: 938.9)
+[PASS] [W1_P2G10] passed 7.95Hz (Score: 12939.3)
+[PASS] [W4_P2G10] passed 7.95Hz (Score: 923.1)
+[PASS] [W16_P2G10] passed 7.95Hz (Score: 27820.6)
+[PASS] [W10_P2G10] passed 7.95Hz (Score: 4260.4)
+[PASS] [W6_P2G10] passed 7.95Hz (Score: 5404.2)
+[PASS] [W2_P2G10] passed 7.95Hz (Score: 3903.9)
+
+--- Evaluating 18 candidates on 5.52Hz (Phase 2 Gen 10) ---
+[PASS] [W9_P2G10] passed 5.52Hz (Score: 4353.1)
+[PASS] [W16_P2G10] passed 5.52Hz (Score: 5427.4)
+[PASS] [W8_P2G10] passed 5.52Hz (Score: 5795.0)
+[PASS] [W11_P2G10] passed 5.52Hz (Score: 6799.8)
+[PASS] [W5_P2G10] passed 5.52Hz (Score: 3806.4)
+[PASS] [W1_P2G10] passed 5.52Hz (Score: 4310.8)
+[PASS] [W10_P2G10] passed 5.52Hz (Score: 3432.4)
+[PASS] [W7_P2G10] passed 5.52Hz (Score: 4781.5)
+[PASS] [W12_P2G10] passed 5.52Hz (Score: 5093.0)
+[PASS] [W15_P2G10] passed 5.52Hz (Score: 2732.2)
+[PASS] [W2_P2G10] passed 5.52Hz (Score: 1420.3)
+[PASS] [W6_P2G10] passed 5.52Hz (Score: 2914.9)
+[PASS] [W17_P2G10] passed 5.52Hz (Score: 5125.0)
+[PASS] [W14_P2G10] passed 5.52Hz (Score: 2878.9)
+[PASS] [W13_P2G10] passed 5.52Hz (Score: 905.7)
+[PASS] [W18_P2G10] passed 5.52Hz (Score: 4628.3)
+[PASS] [W4_P2G10] passed 5.52Hz (Score: 3111.3)
+[EARLY STOPPING] [W3_P2G10] failed on 5.52Hz (Score: 63163.2). Penalty added.
+
+--- Evaluating 17 candidates on 2.48Hz (Phase 2 Gen 10) ---
+[PASS] [W7_P2G10] passed 2.48Hz (Score: 29718.4)
+[PASS] [W1_P2G10] passed 2.48Hz (Score: 4389.0)
+[PASS] [W18_P2G10] passed 2.48Hz (Score: 11727.4)
+[PASS] [W12_P2G10] passed 2.48Hz (Score: 3319.1)
+[PASS] [W4_P2G10] passed 2.48Hz (Score: 32584.8)
+[PASS] [W17_P2G10] passed 2.48Hz (Score: 3000.2)
+[PASS] [W14_P2G10] passed 2.48Hz (Score: 5946.2)
+[PASS] [W15_P2G10] passed 2.48Hz (Score: 6964.5)
+[PASS] [W9_P2G10] passed 2.48Hz (Score: 5435.2)
+[PASS] [W11_P2G10] passed 2.48Hz (Score: 843.4)
+[PASS] [W8_P2G10] passed 2.48Hz (Score: 1013.8)
+[PASS] [W2_P2G10] passed 2.48Hz (Score: 4501.9)
+[PASS] [W10_P2G10] passed 2.48Hz (Score: 7498.6)
+[PASS] [W5_P2G10] passed 2.48Hz (Score: 6184.9)
+[PASS] [W16_P2G10] passed 2.48Hz (Score: 538.4)
+[PASS] [W13_P2G10] passed 2.48Hz (Score: 9145.1)
+[PASS] [W6_P2G10] passed 2.48Hz (Score: 4180.3)
+
+--- Evaluating 17 candidates on 1.11Hz (Phase 2 Gen 10) ---
+[EARLY STOPPING] [W16_P2G10] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W12_P2G10] passed 1.11Hz (Score: 4911.9)
+[PASS] [W18_P2G10] passed 1.11Hz (Score: 1317.4)
+[PASS] [W4_P2G10] passed 1.11Hz (Score: 7074.9)
+[PASS] [W15_P2G10] passed 1.11Hz (Score: 3156.1)
+[PASS] [W7_P2G10] passed 1.11Hz (Score: 7724.7)
+[PASS] [W14_P2G10] passed 1.11Hz (Score: 7476.6)
+[PASS] [W11_P2G10] passed 1.11Hz (Score: 218.8)
+[PASS] [W1_P2G10] passed 1.11Hz (Score: 7489.3)
+[PASS] [W10_P2G10] passed 1.11Hz (Score: 28093.4)
+[PASS] [W2_P2G10] passed 1.11Hz (Score: 3570.0)
+[PASS] [W9_P2G10] passed 1.11Hz (Score: 3901.6)
+[PASS] [W17_P2G10] passed 1.11Hz (Score: 3447.0)
+[PASS] [W13_P2G10] passed 1.11Hz (Score: 4133.8)
+[PASS] [W5_P2G10] passed 1.11Hz (Score: 1434.7)
+[PASS] [W8_P2G10] passed 1.11Hz (Score: 9054.8)
+[PASS] [W6_P2G10] passed 1.11Hz (Score: 7817.1)
+
+--- Evaluating 16 candidates on 0.78Hz (Phase 2 Gen 10) ---
+[PASS] [W13_P2G10] passed 0.78Hz (Score: 2112.3)
+[PASS] [W1_P2G10] passed 0.78Hz (Score: 5473.0)
+[PASS] [W5_P2G10] passed 0.78Hz (Score: 2345.9)
+[PASS] [W17_P2G10] passed 0.78Hz (Score: 709.8)
+[PASS] [W10_P2G10] passed 0.78Hz (Score: 2824.9)
+[PASS] [W8_P2G10] passed 0.78Hz (Score: 1614.8)
+[PASS] [W7_P2G10] passed 0.78Hz (Score: 30057.0)
+[PASS] [W12_P2G10] passed 0.78Hz (Score: 2371.6)
+[PASS] [W4_P2G10] passed 0.78Hz (Score: 25336.7)
+[PASS] [W2_P2G10] passed 0.78Hz (Score: 6442.4)
+[PASS] [W11_P2G10] passed 0.78Hz (Score: 8300.7)
+[PASS] [W14_P2G10] passed 0.78Hz (Score: 5287.3)
+[PASS] [W9_P2G10] passed 0.78Hz (Score: 30860.7)
+[PASS] [W15_P2G10] passed 0.78Hz (Score: 10853.4)
+[PASS] [W18_P2G10] passed 0.78Hz (Score: 5349.1)
+[PASS] [W6_P2G10] passed 0.78Hz (Score: 3522.5)
+
+--- Evaluating 16 candidates on 0.31Hz (Phase 2 Gen 10) ---
+[EARLY STOPPING] [W17_P2G10] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W11_P2G10] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W8_P2G10] passed 0.31Hz (Score: 37754.7)
+[PASS] [W14_P2G10] passed 0.31Hz (Score: 14972.5)
+[PASS] [W15_P2G10] passed 0.31Hz (Score: 12345.7)
+[PASS] [W18_P2G10] passed 0.31Hz (Score: 8118.2)
+[PASS] [W6_P2G10] passed 0.31Hz (Score: 39088.3)
+[PASS] [W9_P2G10] passed 0.31Hz (Score: 7881.9)
+[PASS] [W7_P2G10] passed 0.31Hz (Score: 8811.9)
+[PASS] [W4_P2G10] passed 0.31Hz (Score: 25428.5)
+[PASS] [W5_P2G10] passed 0.31Hz (Score: 18603.3)
+[PASS] [W12_P2G10] passed 0.31Hz (Score: 14273.2)
+[PASS] [W2_P2G10] passed 0.31Hz (Score: 31852.3)
+[PASS] [W10_P2G10] passed 0.31Hz (Score: 26626.8)
+[PASS] [W1_P2G10] passed 0.31Hz (Score: 11206.9)
+[PASS] [W13_P2G10] passed 0.31Hz (Score: 12596.5)
+
+Phase 2 Generation 10 completed in 68.7 mins.
+Best Candidate: W13_P2G10 | Score: 29723.84
+r_ton: 0.931 | K_ton: 111.26 | K_sc: 119.55
+
+=================================== STARTING PHASE 2 GENERATION 11 of 25 at 10:25:20 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 11) ---
+[PASS] [W12_P2G11] passed 7.95Hz (Score: 7232.7)
+[PASS] [W3_P2G11] passed 7.95Hz (Score: 6819.6)
+[PASS] [W11_P2G11] passed 7.95Hz (Score: 29961.2)
+[PASS] [W9_P2G11] passed 7.95Hz (Score: 1755.6)
+[PASS] [W14_P2G11] passed 7.95Hz (Score: 16924.2)
+[PASS] [W2_P2G11] passed 7.95Hz (Score: 5327.2)
+[PASS] [W13_P2G11] passed 7.95Hz (Score: 2302.4)
+[PASS] [W16_P2G11] passed 7.95Hz (Score: 13896.2)
+[PASS] [W8_P2G11] passed 7.95Hz (Score: 3923.4)
+[PASS] [W6_P2G11] passed 7.95Hz (Score: 8675.5)
+[PASS] [W4_P2G11] passed 7.95Hz (Score: 4328.7)
+[PASS] [W15_P2G11] passed 7.95Hz (Score: 3842.4)
+[PASS] [W18_P2G11] passed 7.95Hz (Score: 1739.0)
+[PASS] [W10_P2G11] passed 7.95Hz (Score: 6175.0)
+[PASS] [W5_P2G11] passed 7.95Hz (Score: 2304.8)
+[PASS] [W1_P2G11] passed 7.95Hz (Score: 6708.0)
+[PASS] [W7_P2G11] passed 7.95Hz (Score: 8637.5)
+[PASS] [W17_P2G11] passed 7.95Hz (Score: 13986.4)
+
+--- Evaluating 18 candidates on 5.52Hz (Phase 2 Gen 11) ---
+[PASS] [W13_P2G11] passed 5.52Hz (Score: 6077.5)
+[PASS] [W16_P2G11] passed 5.52Hz (Score: 4311.1)
+[PASS] [W12_P2G11] passed 5.52Hz (Score: 6323.7)
+[PASS] [W6_P2G11] passed 5.52Hz (Score: 3735.6)
+[PASS] [W17_P2G11] passed 5.52Hz (Score: 4094.7)
+[PASS] [W18_P2G11] passed 5.52Hz (Score: 8049.5)
+[PASS] [W1_P2G11] passed 5.52Hz (Score: 7325.3)
+[PASS] [W7_P2G11] passed 5.52Hz (Score: 661.4)
+[PASS] [W15_P2G11] passed 5.52Hz (Score: 4346.6)
+[PASS] [W3_P2G11] passed 5.52Hz (Score: 2640.9)
+[PASS] [W8_P2G11] passed 5.52Hz (Score: 7403.5)
+[PASS] [W10_P2G11] passed 5.52Hz (Score: 692.3)
+[PASS] [W2_P2G11] passed 5.52Hz (Score: 1397.1)
+[PASS] [W9_P2G11] passed 5.52Hz (Score: 3610.8)
+[PASS] [W14_P2G11] passed 5.52Hz (Score: 5188.1)
+[PASS] [W5_P2G11] passed 5.52Hz (Score: 4132.6)
+[PASS] [W11_P2G11] passed 5.52Hz (Score: 3812.1)
+[PASS] [W4_P2G11] passed 5.52Hz (Score: 1055.5)
+
+--- Evaluating 18 candidates on 2.48Hz (Phase 2 Gen 11) ---
+[PASS] [W6_P2G11] passed 2.48Hz (Score: 6128.8)
+[PASS] [W14_P2G11] passed 2.48Hz (Score: 1693.4)
+[PASS] [W1_P2G11] passed 2.48Hz (Score: 7446.0)
+[PASS] [W9_P2G11] passed 2.48Hz (Score: 4623.5)
+[PASS] [W16_P2G11] passed 2.48Hz (Score: 2278.8)
+[PASS] [W3_P2G11] passed 2.48Hz (Score: 2536.2)
+[PASS] [W7_P2G11] passed 2.48Hz (Score: 5608.1)
+[PASS] [W2_P2G11] passed 2.48Hz (Score: 2541.1)
+[PASS] [W18_P2G11] passed 2.48Hz (Score: 590.7)
+[PASS] [W4_P2G11] passed 2.48Hz (Score: 11457.9)
+[EARLY STOPPING] [W8_P2G11] failed on 2.48Hz (Score: 123049.9). Penalty added.
+[PASS] [W17_P2G11] passed 2.48Hz (Score: 757.8)
+[PASS] [W5_P2G11] passed 2.48Hz (Score: 5323.0)
+[PASS] [W12_P2G11] passed 2.48Hz (Score: 4631.6)
+[PASS] [W13_P2G11] passed 2.48Hz (Score: 11119.9)
+[PASS] [W11_P2G11] passed 2.48Hz (Score: 1818.5)
+[PASS] [W10_P2G11] passed 2.48Hz (Score: 5068.5)
+[PASS] [W15_P2G11] passed 2.48Hz (Score: 8715.9)
+
+--- Evaluating 17 candidates on 1.11Hz (Phase 2 Gen 11) ---
+[EARLY STOPPING] [W18_P2G11] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W3_P2G11] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W12_P2G11] passed 1.11Hz (Score: 8749.5)
+[PASS] [W14_P2G11] passed 1.11Hz (Score: 3976.4)
+[PASS] [W1_P2G11] passed 1.11Hz (Score: 6850.6)
+[PASS] [W4_P2G11] passed 1.11Hz (Score: 30530.5)
+[PASS] [W16_P2G11] passed 1.11Hz (Score: 3329.9)
+[PASS] [W7_P2G11] passed 1.11Hz (Score: 1893.1)
+[PASS] [W6_P2G11] passed 1.11Hz (Score: 8326.0)
+[PASS] [W5_P2G11] passed 1.11Hz (Score: 8447.6)
+[PASS] [W11_P2G11] passed 1.11Hz (Score: 994.7)
+[PASS] [W17_P2G11] passed 1.11Hz (Score: 2474.5)
+[PASS] [W10_P2G11] passed 1.11Hz (Score: 2179.4)
+[PASS] [W2_P2G11] passed 1.11Hz (Score: 594.5)
+[PASS] [W15_P2G11] passed 1.11Hz (Score: 8049.2)
+[PASS] [W13_P2G11] passed 1.11Hz (Score: 23518.3)
+[PASS] [W9_P2G11] passed 1.11Hz (Score: 4943.4)
+
+--- Evaluating 15 candidates on 0.78Hz (Phase 2 Gen 11) ---
+[PASS] [W12_P2G11] passed 0.78Hz (Score: 27557.2)
+[PASS] [W13_P2G11] passed 0.78Hz (Score: 29618.4)
+[PASS] [W11_P2G11] passed 0.78Hz (Score: 34224.5)
+[PASS] [W14_P2G11] passed 0.78Hz (Score: 5454.1)
+[PASS] [W10_P2G11] passed 0.78Hz (Score: 34855.6)
+[PASS] [W1_P2G11] passed 0.78Hz (Score: 7715.6)
+[PASS] [W5_P2G11] passed 0.78Hz (Score: 38390.4)
+[PASS] [W4_P2G11] passed 0.78Hz (Score: 32831.8)
+[PASS] [W9_P2G11] passed 0.78Hz (Score: 5366.7)
+[PASS] [W7_P2G11] passed 0.78Hz (Score: 586.0)
+[PASS] [W17_P2G11] passed 0.78Hz (Score: 33053.1)
+[PASS] [W6_P2G11] passed 0.78Hz (Score: 34813.9)
+[PASS] [W16_P2G11] passed 0.78Hz (Score: 4170.3)
+[PASS] [W15_P2G11] passed 0.78Hz (Score: 10131.3)
+[PASS] [W2_P2G11] passed 0.78Hz (Score: 25479.8)
+
+--- Evaluating 15 candidates on 0.31Hz (Phase 2 Gen 11) ---
+[EARLY STOPPING] [W10_P2G11] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W16_P2G11] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W15_P2G11] passed 0.31Hz (Score: 14821.7)
+[PASS] [W14_P2G11] passed 0.31Hz (Score: 14230.2)
+[PASS] [W6_P2G11] passed 0.31Hz (Score: 8645.5)
+[PASS] [W12_P2G11] passed 0.31Hz (Score: 15199.6)
+[PASS] [W7_P2G11] passed 0.31Hz (Score: 11914.7)
+[PASS] [W13_P2G11] passed 0.31Hz (Score: 10960.9)
+[EARLY STOPPING] [W1_P2G11] failed on 0.31Hz (Score: 156434.2). Penalty added.
+[PASS] [W2_P2G11] passed 0.31Hz (Score: 7617.7)
+[PASS] [W4_P2G11] passed 0.31Hz (Score: 9798.5)
+[PASS] [W17_P2G11] passed 0.31Hz (Score: 14693.1)
+[PASS] [W11_P2G11] passed 0.31Hz (Score: 8853.3)
+[PASS] [W5_P2G11] passed 0.31Hz (Score: 35158.2)
+[PASS] [W9_P2G11] passed 0.31Hz (Score: 19630.1)
+
+Phase 2 Generation 11 completed in 63.4 mins.
+Best Candidate: W7_P2G11 | Score: 29300.79
+r_ton: 1.006 | K_ton: 117.24 | K_sc: 116.57
+
+=================================== STARTING PHASE 2 GENERATION 12 of 25 at 11:28:43 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Phase 2 Gen 12) ---

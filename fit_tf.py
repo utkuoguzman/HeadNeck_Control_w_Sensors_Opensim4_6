@@ -47,7 +47,8 @@ print(f"kp_prop = {kp_p_avg:.4f}")
 print(f"k_gamma_dyn = {k_dyn_avg:.4f}")
 print(f"k_gamma_stat = {k_stat_avg:.4f}")
 
-with open("tf_initialization.txt", "w") as f:
+os.makedirs("logs", exist_ok=True)
+with open("logs/tf_initialization.txt", "w") as f:
     f.write(f"K_ton={K_ton:.4f}, z_ton={z_ton:.4f}, p_ton={p_ton:.4f}\n")
     f.write(f"K_sc={K_sc:.4f}, z_sc={z_sc:.4f}, p_sc={p_sc:.4f}\n")
     f.write(f"K_phas={K_phas:.4f}, z_phas={z_phas:.4f}, p_phas={p_phas:.4f}\n")
