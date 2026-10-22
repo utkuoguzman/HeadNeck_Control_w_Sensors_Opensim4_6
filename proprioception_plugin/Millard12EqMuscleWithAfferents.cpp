@@ -27,25 +27,43 @@ Millard12EqMuscleWithAfferents::Millard12EqMuscleWithAfferents(const std::string
 	// removed mutable init
 }
 
+void Millard12EqMuscleWithAfferents::ensureStatePointers() const
+{
+	if (!sv_lpf_vel) {
+		sv_lpf_vel = traverseToStateVariable("LPF_velocity");
+		sv_lpf_acc = traverseToStateVariable("LPF_acceleration");
+	}
+}
+
 // GET & SET "state variables" and their "derivatives"
 double Millard12EqMuscleWithAfferents::getLPFvelocity(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "LPF_velocity");
+	if (!isAfferentActive()) return 0.0;
+	ensureStatePointers();
+	return sv_lpf_vel ? sv_lpf_vel->getValue(s) : getStateVariableValue(s, "LPF_velocity");
 }	
 
 void Millard12EqMuscleWithAfferents::setLPFvelocity(SimTK::State& s, double Velocity) const
 {
-	setStateVariableValue(s, "LPF_velocity", Velocity);
+	if (!isAfferentActive()) return;
+	ensureStatePointers();
+	if (sv_lpf_vel) sv_lpf_vel->setValue(s, Velocity);
+	else setStateVariableValue(s, "LPF_velocity", Velocity);
 }
 
 double Millard12EqMuscleWithAfferents::getLPFacceleration(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "LPF_acceleration");
+	if (!isAfferentActive()) return 0.0;
+	ensureStatePointers();
+	return sv_lpf_acc ? sv_lpf_acc->getValue(s) : getStateVariableValue(s, "LPF_acceleration");
 }
 
 void Millard12EqMuscleWithAfferents::setLPFacceleration(SimTK::State& s, double Acceleration) const
 {
-	setStateVariableValue(s, "LPF_acceleration", Acceleration);
+	if (!isAfferentActive()) return;
+	ensureStatePointers();
+	if (sv_lpf_acc) sv_lpf_acc->setValue(s, Acceleration);
+	else setStateVariableValue(s, "LPF_acceleration", Acceleration);
 }
 
 // Get & Set the Properties
@@ -58,6 +76,7 @@ void Millard12EqMuscleWithAfferents::constructProperties()
 {
 	setAuthors("Utku Oguzman");
 	constructProperty_lpf_tau(0.01); // LPF time constant
+	constructProperty_enable_eye_afferents(false); // Disabled by default during neck study; set true for eye-movement study
 	constructProperty_spindle(Mileusnic06Spindle());
     constructProperty_GTO(Lin02GolgiTendonOrgan());
 	//All properties are added to the property set. Once added, they can be read in and written to files.
@@ -69,6 +88,7 @@ void Millard12EqMuscleWithAfferents::extendAddToSystem(SimTK::MultibodySystem& s
 {
 	// Allow Millard2012EquilibriumMuscle to add its states, cache, etc. to the MultiBody Solver
 	Super::extendAddToSystem(system);
+	if (!isAfferentActive()) return;
 	
 	// low-pass filtered state variables used to calculate derivatives 
 	addStateVariable("LPF_velocity"); // fiber velocity
@@ -80,6 +100,9 @@ void Millard12EqMuscleWithAfferents::extendAddToSystem(SimTK::MultibodySystem& s
 void Millard12EqMuscleWithAfferents::extendInitStateFromProperties(SimTK::State& s) const
 {
     Super::extendInitStateFromProperties(s);
+	sv_lpf_vel = nullptr;
+	sv_lpf_acc = nullptr;
+	if (!isAfferentActive()) return;
 	
 	// here we init the state directly, but not from any properties
 	setLPFvelocity(s, 0.0);
@@ -108,6 +131,7 @@ void Millard12EqMuscleWithAfferents::computeInitialFiberEquilibrium(SimTK::State
 {
 	// First let the muscle find an equilibrium state
 	Super::computeInitialFiberEquilibrium(s);
+	if (!isAfferentActive()) return;
 	
 	setLPFvelocity(s, getFiberVelocity(s));
 	// a simplifying assumption is a steady state
@@ -125,11 +149,16 @@ void Millard12EqMuscleWithAfferents::computeInitialFiberEquilibrium(SimTK::State
 void Millard12EqMuscleWithAfferents::computeStateVariableDerivatives(const SimTK::State& s) const
 {
 	Super::computeStateVariableDerivatives(s);
+	if (!isAfferentActive()) return;
+	ensureStatePointers();
 	
 	// Cascaded filter to get smooth velocity and acceleration
-	double curr_accel = (getFiberVelocity(s) - getLPFvelocity(s)) / getLPFtau();
-	setStateVariableDerivativeValue(s, "LPF_velocity", curr_accel);
-	setStateVariableDerivativeValue(s, "LPF_acceleration", (curr_accel - getLPFacceleration(s)) / getLPFtau());
+	double lpf_v = sv_lpf_vel->getValue(s);
+	double lpf_a = sv_lpf_acc->getValue(s);
+	double tau = getLPFtau();
+	double curr_accel = (getFiberVelocity(s) - lpf_v) / tau;
+	sv_lpf_vel->setDerivative(s, curr_accel);
+	sv_lpf_acc->setDerivative(s, (curr_accel - lpf_a) / tau);
 }
 
 //--------------------------------------------------------------------------

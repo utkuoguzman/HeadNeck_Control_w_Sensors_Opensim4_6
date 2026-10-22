@@ -54,6 +54,13 @@ friend class Mileusnic06Spindle;
 public:
 	/* PROPERTIES */
 	OpenSim_DECLARE_PROPERTY(lpf_tau, double, "time constant for all the low-pass filters");
+	OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Whether to enable LPF/spindle ODE states on extraocular eye muscles (r_*, l_*) (default: false during neck study)");
+
+	bool isAfferentActive() const {
+		const std::string& mname = getName();
+		bool is_eye = (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0);
+		return !is_eye || get_enable_eye_afferents();
+	}
 
 	// the afferents
 	OpenSim_DECLARE_PROPERTY(spindle, Mileusnic06Spindle, "Spindle model");
@@ -97,6 +104,9 @@ public:
 private:
 	/** construct the new properties and set their default values */
 	void constructProperties();
+	mutable const StateVariable* sv_lpf_vel = nullptr;
+	mutable const StateVariable* sv_lpf_acc = nullptr;
+	void ensureStatePointers() const;
 
 public:
 	/* OTHER SHORT METHODS */

@@ -29,6 +29,12 @@ public:
 //==============================================================================
 
 	OpenSim_DECLARE_PROPERTY(default_activation, double, "default value for both static and dynamic activation");
+	OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Whether to enable spindle ODE states on extraocular eye muscles (r_*, l_*) (default: false during neck study)");
+
+	bool isSpindleActive() const {
+		bool is_eye = (ownerMuscleName.rfind("r_", 0) == 0 || ownerMuscleName.rfind("l_", 0) == 0);
+		return !is_eye || get_enable_eye_afferents();
+	}
 
 //=============================================================================
 // METHODS
@@ -284,6 +290,21 @@ private:
 	 *  It can't be used to call non-const functions.
 	 *  Initialized in Mileusnic06Spindle::connectToModel */
 	const Muscle *musclePtr;
+
+	mutable const StateVariable* sv_dyn_act = nullptr;
+	mutable const StateVariable* sv_stat_act = nullptr;
+	mutable const StateVariable* sv_T_bag1 = nullptr;
+	mutable const StateVariable* sv_T_bag2 = nullptr;
+	mutable const StateVariable* sv_T_chain = nullptr;
+	mutable const StateVariable* sv_Td_bag1 = nullptr;
+	mutable const StateVariable* sv_Td_bag2 = nullptr;
+	mutable const StateVariable* sv_Td_chain = nullptr;
+	mutable bool inputs_checked = false;
+	mutable bool has_dyn_input = false;
+	mutable bool has_stat_input = false;
+	mutable double cached_Ia = 0.0;
+	mutable double cached_II = 0.0;
+	void ensureStatePointers() const;
 	
 	/** This is a utility function to get the sign of its argument.
 	 *  Returns 1 if positive, -1 if negative, 0 otherwise. */

@@ -105,23 +105,39 @@ def main():
     print(f"{'Happee (2017) Ref':<22} | " + " | ".join(f"{happee_row[freq]:^17}" for freq in FREQ_ORDER) + " | 3,835.00")
     print("-" * 135)
     
-    # Phase 2.1 (Consolidated)
-    for gen in range(1, 26):
+    # Phase 2.1 (Consolidated) - Collect completed generations
+    p21_results = []
+    for gen in range(1, 35):
         worker, metrics, score = get_generation_best(gen, is_p21=True)
-        if not worker or not metrics:
+        if not worker or not metrics or score is None:
             continue
-        cells = []
-        for freq in FREQ_ORDER:
-            m = metrics.get(freq)
-            if m:
-                cell = f"{m['gain_err_pct']:.1f}% / {m['phase_err_deg']:.1f}°"
-            else:
-                cell = "[Evaluating...]"
-            cells.append(f"{cell:^17}")
         is_complete = all(metrics.get(freq) is not None for freq in FREQ_ORDER)
-        label = f"P2.1 Gen {gen} ({worker})" if is_complete else f"P2.1 Gen {gen}* ({worker})"
-        score_str = f"{score:10.2f}" if score is not None else "[Running]"
-        print(f"{label:<22} | " + " | ".join(cells) + f" | {score_str}")
+        if is_complete:
+            p21_results.append((gen, worker, metrics, score))
+            
+    if p21_results:
+        # Find global champion among all completed generations
+        champ_score = min(item[3] for item in p21_results)
+        
+        # Keep last 5 generations OR earlier ones if they contain the champion
+        total_completed = len(p21_results)
+        display_items = []
+        for idx, item in enumerate(p21_results):
+            gen, worker, metrics, score = item
+            is_recent_5 = (idx >= total_completed - 5)
+            is_champion = (score == champ_score)
+            if is_recent_5 or is_champion:
+                display_items.append((item, is_champion))
+                
+        for (gen, worker, metrics, score), is_champ in display_items:
+            cells = []
+            for freq in FREQ_ORDER:
+                m = metrics.get(freq)
+                cell = f"{m['gain_err_pct']:.1f}% / {m['phase_err_deg']:.1f}°"
+                cells.append(f"{cell:^17}")
+            champ_marker = " [BEST]" if is_champ else ""
+            label = f"P2.1 Gen {gen} ({worker}){champ_marker}"
+            print(f"{label:<22} | " + " | ".join(cells) + f" | {score:10.2f}")
 
 if __name__ == "__main__":
     main()

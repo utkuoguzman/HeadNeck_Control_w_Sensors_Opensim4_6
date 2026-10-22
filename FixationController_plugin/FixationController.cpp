@@ -6,9 +6,6 @@
 #include <iostream>
 #include <algorithm>
 
-// Import Vestibular class to read firing rate
-#include "../vestibular_plugin/Schneider15VestibularAfferent.h"
-
 using namespace OpenSim;
 using namespace SimTK;
 
@@ -81,10 +78,14 @@ void FixationController::computeControls(const SimTK::State& s, SimTK::Vector& c
     const auto& ground = model.getGround();
     const auto& skull = model.getBodySet().get("skull");
 
-    // VOR: Get head rotation velocity from Vestibular Sensor
+    // VOR: Get 3D head angular velocity [roll, yaw, pitch] from the shared VCR Vestibular Sensor in HeadNeckNeuralController
     Vec3 canal_rate(0.0);
-    for (const auto& v : model.getComponentList<Schneider15VestibularAfferent>()) {
-        canal_rate = v.getCanalFiringRate(s);
+    for (int c_idx = 0; c_idx < model.getControllerSet().getSize(); ++c_idx) {
+        const Controller& ctrl = model.getControllerSet().get(c_idx);
+        if (ctrl.getConcreteClassName() == "HeadNeckNeuralController") {
+            canal_rate = ctrl.getOutputValue<SimTK::Vec3>(s, "vestibular_omega");
+            break;
+        }
     }
 
     // Update Jacobian (moment arms) sparsely (e.g. 50Hz) for speed

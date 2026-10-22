@@ -24,14 +24,16 @@ FIXED_W_N = 10.1
 FIXED_ZETA = 1.98
 FIXED_KI = 40.2786
 
-# 6 Happee (2017) Experimental Frequencies (High-to-low early screening)
+# 6 Happee (2017) Experimental Frequencies (Longest-Processing-Time First / LPT order:
+# schedules the heavy 0.31 Hz jobs first across physical cores so P-cores absorb extra
+# long jobs and no E-core stragglers occur at the end of a generation)
 TARGETS = [
-    (7.95, 0.443, -247.7),
+    (0.31, 0.893,    4.5),
+    (0.78, 0.840,  -98.9),
+    (1.11, 0.814, -112.6),
     (5.52, 0.509, -194.6),
     (2.48, 0.655, -163.7),
-    (1.11, 0.814, -112.6),
-    (0.78, 0.840,  -98.9),
-    (0.31, 0.893,    4.5)
+    (7.95, 0.443, -247.7)
 ]
 
 # Recalibrated Physiological Parameter Bounds for Sensor-Level Luenberger Pipeline
@@ -136,8 +138,8 @@ def main():
         0.12    # k_stat
     ])
     
-    max_total_generations = 25
-    target_stop_generation = int(os.environ.get("PHASE2_1_STOP_GEN", "3"))
+    max_total_generations = 30
+    target_stop_generation = int(os.environ.get("PHASE2_1_STOP_GEN", "30"))
     
     es = cma.CMAEvolutionStrategy(x0, 1.0, {
         'CMA_stds': sigma0,
@@ -183,11 +185,10 @@ def main():
         candidates = es.ask()
         all_scores = [0.0] * len(candidates)
         
-        # Barrier-Free Asynchronous Candidate Cascade across 18 workers:
-        # Submit frequency 0 (7.95 Hz) for all 18 candidates initially.
-        # As soon as candidate c_idx passes target_idx, immediately submit target_idx + 1
-        # without waiting for slower E-core candidates!
-        with concurrent.futures.ThreadPoolExecutor(max_workers=18) as executor:
+        # Barrier-Free Asynchronous LPT Cascade across 14 physical cores (6 P-cores + 8 E-cores):
+        # Submit frequency 0 (0.31 Hz, longest job) first across 14 workers to avoid Hyper-Threading
+        # FPU contention and ensure fast P-cores absorb the remaining 0.31 Hz jobs before E-cores finish.
+        with concurrent.futures.ThreadPoolExecutor(max_workers=14) as executor:
             future_to_task = {}
             for c_idx in range(len(candidates)):
                 fut = executor.submit(evaluate_freq, candidates[c_idx], 0, c_idx, iteration)

@@ -63,6 +63,7 @@ public:
     // Cerebellar dynamic approximation toggle
     OpenSim_DECLARE_PROPERTY(use_dynamic_jacobian, bool, "If true, recalculates the TNT Metric Tensor at every step");
     OpenSim_DECLARE_PROPERTY(K_eso, double, "Gain for Extended State Observer disturbance rejection (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "If true, includes extraocular eye muscles (r_*, l_*) in controller state allocation (default: false)");
 
     HeadNeckNeuralController();
     
@@ -74,8 +75,17 @@ public:
             if (history.empty()) return 0.0;
             --it;
         }
-        if (it->second.omega_recon.size() < 3) return 0.0;
+        if (!it->second.valid) return 0.0;
         return it->second.omega_recon[2];
+    }
+
+    // Shared 3D Vestibular Angular Velocity Output [roll, yaw, pitch] (rad/s) for VOR FixationController
+    OpenSim_DECLARE_OUTPUT(vestibular_omega, SimTK::Vec3, getVestibularOmega, SimTK::Stage::Velocity);
+    SimTK::Vec3 getVestibularOmega(const SimTK::State& s) const {
+        double wr = sv_luen_omega[0] ? sv_luen_omega[0]->getValue(s) : getStateVariableValue(s, "luen_omega_roll");
+        double wy = sv_luen_omega[1] ? sv_luen_omega[1]->getValue(s) : getStateVariableValue(s, "luen_omega_yaw");
+        double wp = sv_luen_omega[2] ? sv_luen_omega[2]->getValue(s) : getStateVariableValue(s, "luen_omega_pitch");
+        return SimTK::Vec3(wr, wy, wp);
     }
 
     // Decoded proprioceptive relative state OpenSim Outputs (accessible by reporters and python scripts)
@@ -137,20 +147,21 @@ private:
     FilterParams fparams[2];
 
     struct HistRecord {
-        SimTK::Vector theta;        // size 3 (roll, yaw, pitch) - Head global orientation
-        SimTK::Vector omega_recon;  // size 3 - Head global angular velocity
-        SimTK::Vector theta_trunk;  // size 3 (roll, yaw, pitch) - Trunk global orientation
-        SimTK::Vector omega_trunk;  // size 3 (roll, yaw, pitch) - Trunk global angular velocity
-        SimTK::Vec3 v_lin;          // Linear velocity of the head
-        SimTK::Vector Ia;           // size N (Spindle Firing Rate)
-        SimTK::Vec3 est_neck_rel_angle; // size 3 (pitch, roll, yaw)
-        SimTK::Vec3 est_neck_rel_speed; // size 3 (pitch, roll, yaw)
+        bool valid = false;
+        SimTK::Vec3 theta{0.0};        // (roll, yaw, pitch) - Head global orientation
+        SimTK::Vec3 omega_recon{0.0};  // Head global angular velocity
+        SimTK::Vec3 theta_trunk{0.0};  // (roll, yaw, pitch) - Trunk global orientation
+        SimTK::Vec3 omega_trunk{0.0};  // (roll, yaw, pitch) - Trunk global angular velocity
+        SimTK::Vec3 v_lin{0.0};        // Linear velocity of the head
+        SimTK::Vector Ia;              // size N (Spindle Firing Rate)
+        SimTK::Vec3 est_neck_rel_angle{0.0}; // size 3 (pitch, roll, yaw)
+        SimTK::Vec3 est_neck_rel_speed{0.0}; // size 3 (pitch, roll, yaw)
     };
     
     struct DelayedData {
         HistRecord record;
-        SimTK::Vec3 a_lin;         // Extracted linear acceleration
-        SimTK::Vector alpha_recon; // Extracted angular acceleration
+        SimTK::Vec3 a_lin{0.0};        // Extracted linear acceleration
+        SimTK::Vec3 alpha_recon{0.0};  // Extracted angular acceleration
     };
     
     mutable std::map<double, HistRecord> history;
@@ -181,6 +192,32 @@ private:
     mutable std::vector<const StateVariable*> sv_sp_v;
     mutable std::vector<const StateVariable*> sv_sp_fdyn;
     mutable std::vector<const StateVariable*> sv_sp_fstat;
+    mutable const StateVariable* sv_canal[6][2][2] = {{{nullptr}}};
+    mutable const StateVariable* sv_traj_pos[3] = {nullptr};
+    mutable const StateVariable* sv_traj_vel[3] = {nullptr};
+    mutable const StateVariable* sv_err_int[3] = {nullptr};
+    mutable const StateVariable* sv_vol_filt[3] = {nullptr};
+    mutable const StateVariable* sv_luen_omega[3] = {nullptr};
+    mutable const StateVariable* sv_obs_q[4] = {nullptr};
+    mutable const StateVariable* sv_obs_v[3] = {nullptr};
+    mutable const StateVariable* sv_obs_p[3] = {nullptr};
+    mutable const StateVariable* sv_ton[3] = {nullptr};
+    mutable const StateVariable* sv_sc[3] = {nullptr};
+    mutable const StateVariable* sv_phas[3] = {nullptr};
+    mutable const Coordinate* cached_coord_p1 = nullptr;
+    mutable const Coordinate* cached_coord_p2 = nullptr;
+    mutable const Coordinate* cached_coord_r1 = nullptr;
+    mutable const Coordinate* cached_coord_r2 = nullptr;
+    mutable const Coordinate* cached_coord_y1 = nullptr;
+    mutable const Coordinate* cached_coord_y2 = nullptr;
+    mutable const Coordinate* cached_coord_gnd_p = nullptr;
+    mutable const Coordinate* cached_coord_gnd_r = nullptr;
+    mutable const Coordinate* cached_coord_gnd_y = nullptr;
+    mutable const Body* cached_skull = nullptr;
+    SimTK::Mat33 B_R_mat;
+    SimTK::Mat33 B_L_mat;
+    SimTK::Mat33 B_R_inv_mat;
+    SimTK::Mat33 B_L_inv_mat;
     mutable std::vector<const OpenSim::Output<double>*> cached_Ia_out;
     mutable std::vector<const OpenSim::Output<double>*> cached_II_out;
     mutable std::vector<double> cached_scale_L;

@@ -12088,12 +12088,7 @@
 		</ProbeSet>
 		<!--Additional components in the model.-->
 		<ComponentSet name="componentset">
-			<objects>
-				<Schneider15VestibularAfferent name="vestibular_sensor">
-					<!--Path to a Component that satisfies the Socket 'head_frame' of type PhysicalFrame (description: The frame (e.g. skull/head) this vestibular sensor is attached to.).-->
-					<socket_head_frame>/bodyset/skull</socket_head_frame>
-				</Schneider15VestibularAfferent>
-			</objects>
+			<objects />
 			<groups />
 		</ComponentSet>
 	</Model>
