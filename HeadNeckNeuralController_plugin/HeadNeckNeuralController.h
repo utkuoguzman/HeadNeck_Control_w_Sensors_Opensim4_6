@@ -12,7 +12,7 @@ class HeadNeckNeuralController : public Controller {
 OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 
 public:
-    OpenSim_DECLARE_PROPERTY(delay_time, double, "Neural delay in seconds (default: 0.015)");
+
     OpenSim_DECLARE_PROPERTY(delay_vcr, double, "Vestibulo-Collic Reflex delay in seconds (default: 0.015)");
     OpenSim_DECLARE_PROPERTY(delay_ccr, double, "Cervico-Collic Reflex delay in seconds (default: 0.020)");
     OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for spindle Ia");

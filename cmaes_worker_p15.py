@@ -73,9 +73,9 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     osim.PropertyHelper.setValueDouble(p_ccr, controller.updPropertyByName("p_ccr"))
     osim.PropertyHelper.setValueDouble(k_gamma_dyn, controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(k_gamma_stat, controller.updPropertyByName("K_gamma_stat"))
-    osim.PropertyHelper.setValueDouble(0.035, controller.updPropertyByName("delay_vcr"))
-    osim.PropertyHelper.setValueDouble(0.035, controller.updPropertyByName("delay_ccr"))
-    osim.PropertyHelper.setValueDouble(0.035, controller.updPropertyByName("delay_time"))
+    osim.PropertyHelper.setValueDouble(0.015, controller.updPropertyByName("delay_vcr"))
+    osim.PropertyHelper.setValueDouble(0.015, controller.updPropertyByName("delay_ccr"))
+
 
     zero_func = osim.Constant(0.0)
     for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:

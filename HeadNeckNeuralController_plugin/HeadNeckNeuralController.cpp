@@ -9,7 +9,7 @@ using namespace OpenSim;
 using namespace SimTK;
 
 HeadNeckNeuralController::HeadNeckNeuralController() {
-    constructProperty_delay_time(0.035);
+
     constructProperty_delay_vcr(0.035);
     constructProperty_delay_ccr(0.035);
     constructProperty_Kp_proprioception(2.5030); 

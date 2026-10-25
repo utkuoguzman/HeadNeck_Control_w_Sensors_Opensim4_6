@@ -3048,7 +3048,8 @@
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
 					<!--Neural delay in seconds (default: 0.013)-->
-					<delay_time>0.013</delay_time>
+					<delay_vcr>0.015</delay_vcr>
+					<delay_ccr>0.015</delay_ccr>
 					<!--Gain for spindle Ia-->
 					<Kp_proprioception>1.2476</Kp_proprioception>
 					<z_ccr>23.1819</z_ccr>

@@ -41,7 +41,7 @@ lower_bounds = np.array([
     0.45,   # 0: r_ton (K_ton / K_sc)
      8.0,   # 1: p_ton (rad/s)
     30.0,   # 2: K_sc (Nm/(rad/s))
-    0.10,   # 3: r_lead_sc (z_sc / p_sc)
+    0.01,   # 3: r_lead_sc (z_sc / p_sc)
     25.0,   # 4: p_sc (rad/s)
      1.0,   # 5: K_phas (Nm/(m/s^2))
     25.0,   # 6: p_phas (rad/s)
@@ -53,7 +53,7 @@ lower_bounds = np.array([
 ])
 
 upper_bounds = np.array([
-    0.95,   # 0: r_ton
+    2.00,   # 0: r_ton
     40.0,   # 1: p_ton
     95.0,   # 2: K_sc
     0.55,   # 3: r_lead_sc
