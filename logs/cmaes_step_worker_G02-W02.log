@@ -1,0 +1,12 @@
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 101, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 73, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

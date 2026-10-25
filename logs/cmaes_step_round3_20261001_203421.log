@@ -1,0 +1,93 @@
+=================================================================
+ROUND 3: Step-Input PID Re-Optimization (with tuned reflexes)
+Frozen Reflexes: G_ton=8.76, G_sc=4.33, G_phas=6.06
+                 kp_prop=0.441, k_gamma_dyn=52.36, k_gamma_stat=92.37
+Searching: Kp, Ki, Kd
+=================================================================
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=963340, Thu Oct  1 20:34:21 2026)
+
+--- Generation 1 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensimFound simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+
+
+
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 150, in <module>
+    k_gamma_dyn = float(sys.argv[8])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W01 | Kp=133.86, Ki=14.54, Kd=15.80
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 150, in <module>
+    k_gamma_dyn = float(sys.argv[8])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 150, in <module>
+    k_gamma_dyn = float(sys.argv[8])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W02 | Kp=119.76, Ki=18.67, Kd=34.57
+Eval CRASHED: G01-W06 | Kp=103.49, Ki=24.74, Kd=22.11
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 150, in <module>
+    k_gamma_dyn = float(sys.argv[8])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W04 | Kp=156.73, Ki=5.98, Kd=31.52
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 150, in <module>
+    k_gamma_dyn = float(sys.argv[8])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W03 | Kp=111.26, Ki=23.27, Kd=48.26
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 150, in <module>
+    k_gamma_dyn = float(sys.argv[8])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 119, in evaluate_params
+    state = manager.integrate(t)
+            ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Eval CRASHED: G01-W05 | Kp=92.80, Ki=0.85, Kd=25.58

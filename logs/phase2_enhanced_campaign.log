@@ -1,0 +1,694 @@
+==========================================================================================
+PHASE 2 ENHANCED CAMPAIGN: GENERATIONS 56 THROUGH 65
+Incorporating True 35ms EMD Latency, 3% Postural Co-Contraction, and r_ton Coupling
+Started at: 2026-10-21 14:34:46
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=56, Wed Oct 21 14:34:46 2026)
+
+=================================== STARTING GENERATION 56 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 56) ---
+[ERROR] on 7.95Hz [W1_G56]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W3_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W2_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W5_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W7_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W9_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W13_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W15_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W17_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W4_G56]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W6_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G56]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G56]: 'Tee' object has no attribute 'fileno'
+
+[EARLY STOPPING] [W1_G56] failed on 7.95Hz (Score: 100069.9). Penalty added.[ERROR] on 7.95Hz [W18_G56]: 'Tee' object has no attribute 'fileno'
+
+
+[ERROR] on 7.95Hz [W8_G56]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+
+
+[ERROR] on 7.95Hz [W16_G56]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W2_G56] failed on 7.95Hz (Score: 100094.3). Penalty added.[ERROR] on 7.95Hz [W14_G56]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+
+[EARLY STOPPING] [W11_G56] failed on 7.95Hz (Score: 100010.3). Penalty added.
+[EARLY STOPPING] [W13_G56] failed on 7.95Hz (Score: 100084.4). Penalty added.
+[EARLY STOPPING] [W3_G56] failed on 7.95Hz (Score: 100060.3). Penalty added.
+[EARLY STOPPING] [W4_G56] failed on 7.95Hz (Score: 100080.2). Penalty added.
+[EARLY STOPPING] [W6_G56] failed on 7.95Hz (Score: 100088.0). Penalty added.
+[EARLY STOPPING] [W10_G56] failed on 7.95Hz (Score: 100008.2). Penalty added.
+[EARLY STOPPING] [W12_G56] failed on 7.95Hz (Score: 100097.1). Penalty added.
+[EARLY STOPPING] [W15_G56] failed on 7.95Hz (Score: 100010.1). Penalty added.
+[EARLY STOPPING] [W5_G56] failed on 7.95Hz (Score: 100010.3). Penalty added.
+[EARLY STOPPING] [W7_G56] failed on 7.95Hz (Score: 100042.4). Penalty added.
+[EARLY STOPPING] [W8_G56] failed on 7.95Hz (Score: 100099.9). Penalty added.
+[EARLY STOPPING] [W18_G56] failed on 7.95Hz (Score: 100028.5). Penalty added.
+[EARLY STOPPING] [W16_G56] failed on 7.95Hz (Score: 100087.3). Penalty added.
+[EARLY STOPPING] [W17_G56] failed on 7.95Hz (Score: 100008.7). Penalty added.
+[EARLY STOPPING] [W9_G56] failed on 7.95Hz (Score: 100062.6). Penalty added.
+[EARLY STOPPING] [W14_G56] failed on 7.95Hz (Score: 100087.5). Penalty added.
+
+Generation 56 completed in 0.0 mins.
+Gen 56 Best Candidate: W10_G56 | Score: 220008.23
+r_ton: 0.647 | K_ton: 43.53 | K_sc: 67.27
+
+=================================== STARTING GENERATION 57 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 57) ---
+[ERROR] on 7.95Hz [W1_G57]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G57]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W4_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W3_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W5_G57]: 'Tee' object has no attribute 'fileno'
+
+
+[ERROR] on 7.95Hz [W7_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W8_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W9_G57]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W6_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G57]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W13_G57]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W14_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W15_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G57]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W17_G57]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W16_G57]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W4_G57] failed on 7.95Hz (Score: 100094.6). Penalty added.[ERROR] on 7.95Hz [W18_G57]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+[ERROR] on 7.95Hz [W12_G57]: 'Tee' object has no attribute 'fileno'
+[EARLY STOPPING] [W7_G57] failed on 7.95Hz (Score: 100052.0). Penalty added.
+
+
+
+[EARLY STOPPING] [W5_G57] failed on 7.95Hz (Score: 100073.2). Penalty added.
+[EARLY STOPPING] [W1_G57] failed on 7.95Hz (Score: 100009.0). Penalty added.
+[EARLY STOPPING] [W2_G57] failed on 7.95Hz (Score: 100029.4). Penalty added.
+[EARLY STOPPING] [W3_G57] failed on 7.95Hz (Score: 100005.6). Penalty added.
+[EARLY STOPPING] [W9_G57] failed on 7.95Hz (Score: 100050.6). Penalty added.
+[EARLY STOPPING] [W8_G57] failed on 7.95Hz (Score: 100073.3). Penalty added.
+[EARLY STOPPING] [W11_G57] failed on 7.95Hz (Score: 100013.5). Penalty added.
+[EARLY STOPPING] [W15_G57] failed on 7.95Hz (Score: 100094.0). Penalty added.
+[EARLY STOPPING] [W6_G57] failed on 7.95Hz (Score: 100001.2). Penalty added.
+[EARLY STOPPING] [W13_G57] failed on 7.95Hz (Score: 100094.3). Penalty added.
+[EARLY STOPPING] [W17_G57] failed on 7.95Hz (Score: 100027.6). Penalty added.
+[EARLY STOPPING] [W16_G57] failed on 7.95Hz (Score: 100079.5). Penalty added.
+[EARLY STOPPING] [W18_G57] failed on 7.95Hz (Score: 100030.2). Penalty added.
+[EARLY STOPPING] [W10_G57] failed on 7.95Hz (Score: 100042.7). Penalty added.
+[EARLY STOPPING] [W12_G57] failed on 7.95Hz (Score: 100071.3). Penalty added.
+[EARLY STOPPING] [W14_G57] failed on 7.95Hz (Score: 100027.3). Penalty added.
+
+Generation 57 completed in 0.0 mins.
+Gen 57 Best Candidate: W6_G57 | Score: 220001.24
+r_ton: 0.756 | K_ton: 48.77 | K_sc: 64.50
+
+=================================== STARTING GENERATION 58 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 58) ---
+[ERROR] on 7.95Hz [W1_G58]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W3_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W4_G58]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W5_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W6_G58]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W7_G58]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W8_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G58]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W15_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W13_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W16_G58]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W14_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W18_G58]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W9_G58]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G58]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+
+
+
+
+[ERROR] on 7.95Hz [W17_G58]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W1_G58] failed on 7.95Hz (Score: 100092.4). Penalty added.
+[EARLY STOPPING] [W4_G58] failed on 7.95Hz (Score: 100095.3). Penalty added.
+[EARLY STOPPING] [W5_G58] failed on 7.95Hz (Score: 100058.7). Penalty added.
+[EARLY STOPPING] [W6_G58] failed on 7.95Hz (Score: 100053.6). Penalty added.
+[EARLY STOPPING] [W2_G58] failed on 7.95Hz (Score: 100055.5). Penalty added.
+[EARLY STOPPING] [W3_G58] failed on 7.95Hz (Score: 100068.4). Penalty added.
+[EARLY STOPPING] [W8_G58] failed on 7.95Hz (Score: 100059.6). Penalty added.
+[EARLY STOPPING] [W12_G58] failed on 7.95Hz (Score: 100013.9). Penalty added.
+[EARLY STOPPING] [W7_G58] failed on 7.95Hz (Score: 100061.1). Penalty added.
+[EARLY STOPPING] [W16_G58] failed on 7.95Hz (Score: 100045.0). Penalty added.
+[EARLY STOPPING] [W17_G58] failed on 7.95Hz (Score: 100026.5). Penalty added.
+[EARLY STOPPING] [W11_G58] failed on 7.95Hz (Score: 100022.3). Penalty added.
+[EARLY STOPPING] [W15_G58] failed on 7.95Hz (Score: 100041.7). Penalty added.
+[EARLY STOPPING] [W13_G58] failed on 7.95Hz (Score: 100075.4). Penalty added.
+[EARLY STOPPING] [W9_G58] failed on 7.95Hz (Score: 100063.2). Penalty added.
+[EARLY STOPPING] [W14_G58] failed on 7.95Hz (Score: 100018.4). Penalty added.
+[EARLY STOPPING] [W18_G58] failed on 7.95Hz (Score: 100081.8). Penalty added.
+[EARLY STOPPING] [W10_G58] failed on 7.95Hz (Score: 100053.0). Penalty added.
+
+Generation 58 completed in 0.0 mins.
+Gen 58 Best Candidate: W12_G58 | Score: 220013.90
+r_ton: 0.683 | K_ton: 43.88 | K_sc: 64.29
+
+=================================== STARTING GENERATION 59 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 59) ---
+[ERROR] on 7.95Hz [W1_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G59]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W3_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W4_G59]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W5_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W6_G59]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W7_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W9_G59]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G59]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W14_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W15_G59]: 'Tee' object has no attribute 'fileno'
+[EARLY STOPPING] [W1_G59] failed on 7.95Hz (Score: 100092.9). Penalty added.
+[ERROR] on 7.95Hz [W16_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W13_G59]: 'Tee' object has no attribute 'fileno'
+
+
+[EARLY STOPPING] [W7_G59] failed on 7.95Hz (Score: 100078.3). Penalty added.
+
+[ERROR] on 7.95Hz [W8_G59]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G59]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W18_G59]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W17_G59]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W4_G59] failed on 7.95Hz (Score: 100090.5). Penalty added.
+
+
+
+[EARLY STOPPING] [W2_G59] failed on 7.95Hz (Score: 100010.5). Penalty added.
+[EARLY STOPPING] [W3_G59] failed on 7.95Hz (Score: 100069.2). Penalty added.
+[EARLY STOPPING] [W6_G59] failed on 7.95Hz (Score: 100086.3). Penalty added.
+[EARLY STOPPING] [W5_G59] failed on 7.95Hz (Score: 100006.7). Penalty added.
+[EARLY STOPPING] [W10_G59] failed on 7.95Hz (Score: 100018.2). Penalty added.
+[EARLY STOPPING] [W12_G59] failed on 7.95Hz (Score: 100046.7). Penalty added.
+[EARLY STOPPING] [W16_G59] failed on 7.95Hz (Score: 100078.2). Penalty added.
+[EARLY STOPPING] [W9_G59] failed on 7.95Hz (Score: 100066.8). Penalty added.
+[EARLY STOPPING] [W15_G59] failed on 7.95Hz (Score: 100002.5). Penalty added.
+[EARLY STOPPING] [W14_G59] failed on 7.95Hz (Score: 100092.5). Penalty added.
+[EARLY STOPPING] [W8_G59] failed on 7.95Hz (Score: 100008.6). Penalty added.
+[EARLY STOPPING] [W11_G59] failed on 7.95Hz (Score: 100050.4). Penalty added.
+[EARLY STOPPING] [W13_G59] failed on 7.95Hz (Score: 100065.3). Penalty added.
+[EARLY STOPPING] [W17_G59] failed on 7.95Hz (Score: 100054.8). Penalty added.
+[EARLY STOPPING] [W18_G59] failed on 7.95Hz (Score: 100094.5). Penalty added.
+
+Generation 59 completed in 0.0 mins.
+Gen 59 Best Candidate: W15_G59 | Score: 220002.49
+r_ton: 0.645 | K_ton: 43.29 | K_sc: 67.07
+
+=================================== STARTING GENERATION 60 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 60) ---
+[ERROR] on 7.95Hz [W1_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W4_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W3_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W7_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W8_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W5_G60]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W6_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W9_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W10_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W11_G60]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W13_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W15_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W16_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W14_G60]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G60]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W5_G60] failed on 7.95Hz (Score: 100012.9). Penalty added.[ERROR] on 7.95Hz [W18_G60]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+[ERROR] on 7.95Hz [W17_G60]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+[EARLY STOPPING] [W4_G60] failed on 7.95Hz (Score: 100004.2). Penalty added.
+[EARLY STOPPING] [W3_G60] failed on 7.95Hz (Score: 100082.1). Penalty added.
+[EARLY STOPPING] [W9_G60] failed on 7.95Hz (Score: 100005.3). Penalty added.
+[EARLY STOPPING] [W1_G60] failed on 7.95Hz (Score: 100062.9). Penalty added.
+[EARLY STOPPING] [W7_G60] failed on 7.95Hz (Score: 100054.0). Penalty added.
+[EARLY STOPPING] [W2_G60] failed on 7.95Hz (Score: 100031.0). Penalty added.
+[EARLY STOPPING] [W8_G60] failed on 7.95Hz (Score: 100063.6). Penalty added.
+[EARLY STOPPING] [W10_G60] failed on 7.95Hz (Score: 100029.2). Penalty added.
+[EARLY STOPPING] [W16_G60] failed on 7.95Hz (Score: 100038.2). Penalty added.
+[EARLY STOPPING] [W11_G60] failed on 7.95Hz (Score: 100012.9). Penalty added.
+[EARLY STOPPING] [W12_G60] failed on 7.95Hz (Score: 100085.7). Penalty added.
+[EARLY STOPPING] [W15_G60] failed on 7.95Hz (Score: 100094.2). Penalty added.
+[EARLY STOPPING] [W14_G60] failed on 7.95Hz (Score: 100051.8). Penalty added.
+[EARLY STOPPING] [W6_G60] failed on 7.95Hz (Score: 100093.8). Penalty added.
+[EARLY STOPPING] [W18_G60] failed on 7.95Hz (Score: 100004.0). Penalty added.
+[EARLY STOPPING] [W17_G60] failed on 7.95Hz (Score: 100045.3). Penalty added.
+[EARLY STOPPING] [W13_G60] failed on 7.95Hz (Score: 100042.6). Penalty added.
+
+Generation 60 completed in 0.0 mins.
+Gen 60 Best Candidate: W18_G60 | Score: 220004.02
+r_ton: 0.701 | K_ton: 47.94 | K_sc: 68.41
+
+=================================== STARTING GENERATION 61 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 61) ---
+[ERROR] on 7.95Hz [W1_G61]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W3_G61]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W4_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W5_G61]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W9_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W7_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G61]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W13_G61]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W14_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W15_G61]: 'Tee' object has no attribute 'fileno'
+
+
+[ERROR] on 7.95Hz [W17_G61]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W6_G61]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W16_G61]: 'Tee' object has no attribute 'fileno'
+
+[EARLY STOPPING] [W1_G61] failed on 7.95Hz (Score: 100085.1). Penalty added.[ERROR] on 7.95Hz [W18_G61]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+[EARLY STOPPING] [W2_G61] failed on 7.95Hz (Score: 100030.4). Penalty added.[ERROR] on 7.95Hz [W8_G61]: 'Tee' object has no attribute 'fileno'
+
+[EARLY STOPPING] [W4_G61] failed on 7.95Hz (Score: 100092.6). Penalty added.
+[EARLY STOPPING] [W10_G61] failed on 7.95Hz (Score: 100048.3). Penalty added.
+[EARLY STOPPING] [W3_G61] failed on 7.95Hz (Score: 100076.1). Penalty added.
+[EARLY STOPPING] [W7_G61] failed on 7.95Hz (Score: 100069.1). Penalty added.
+[EARLY STOPPING] [W9_G61] failed on 7.95Hz (Score: 100056.7). Penalty added.
+[EARLY STOPPING] [W12_G61] failed on 7.95Hz (Score: 100014.2). Penalty added.
+[EARLY STOPPING] [W11_G61] failed on 7.95Hz (Score: 100071.2). Penalty added.
+[EARLY STOPPING] [W13_G61] failed on 7.95Hz (Score: 100002.4). Penalty added.
+[EARLY STOPPING] [W15_G61] failed on 7.95Hz (Score: 100059.9). Penalty added.
+[EARLY STOPPING] [W17_G61] failed on 7.95Hz (Score: 100069.1). Penalty added.
+[EARLY STOPPING] [W5_G61] failed on 7.95Hz (Score: 100073.4). Penalty added.
+[EARLY STOPPING] [W16_G61] failed on 7.95Hz (Score: 100015.3). Penalty added.
+[EARLY STOPPING] [W6_G61] failed on 7.95Hz (Score: 100032.5). Penalty added.
+[EARLY STOPPING] [W18_G61] failed on 7.95Hz (Score: 100065.3). Penalty added.
+[EARLY STOPPING] [W14_G61] failed on 7.95Hz (Score: 100025.1). Penalty added.
+[EARLY STOPPING] [W8_G61] failed on 7.95Hz (Score: 100023.3). Penalty added.
+
+Generation 61 completed in 0.0 mins.
+Gen 61 Best Candidate: W13_G61 | Score: 220002.41
+r_ton: 0.672 | K_ton: 43.76 | K_sc: 65.17
+
+=================================== STARTING GENERATION 62 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 62) ---
+[ERROR] on 7.95Hz [W1_G62]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G62]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W3_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W4_G62]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W5_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W6_G62]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W8_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W7_G62]: 'Tee' object has no attribute 'fileno'
+
+
+
+[ERROR] on 7.95Hz [W13_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G62]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W10_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W9_G62]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W3_G62] failed on 7.95Hz (Score: 100002.5). Penalty added.[ERROR] on 7.95Hz [W15_G62]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W17_G62]: 'Tee' object has no attribute 'fileno'
+
+
+[ERROR] on 7.95Hz [W18_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W16_G62]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W14_G62]: 'Tee' object has no attribute 'fileno'
+[EARLY STOPPING] [W8_G62] failed on 7.95Hz (Score: 100074.8). Penalty added.[ERROR] on 7.95Hz [W12_G62]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+[EARLY STOPPING] [W4_G62] failed on 7.95Hz (Score: 100078.0). Penalty added.
+[EARLY STOPPING] [W6_G62] failed on 7.95Hz (Score: 100079.6). Penalty added.
+[EARLY STOPPING] [W2_G62] failed on 7.95Hz (Score: 100075.0). Penalty added.
+[EARLY STOPPING] [W1_G62] failed on 7.95Hz (Score: 100027.4). Penalty added.
+[EARLY STOPPING] [W5_G62] failed on 7.95Hz (Score: 100092.2). Penalty added.
+[EARLY STOPPING] [W7_G62] failed on 7.95Hz (Score: 100027.6). Penalty added.
+[EARLY STOPPING] [W10_G62] failed on 7.95Hz (Score: 100044.1). Penalty added.
+[EARLY STOPPING] [W11_G62] failed on 7.95Hz (Score: 100060.9). Penalty added.
+[EARLY STOPPING] [W16_G62] failed on 7.95Hz (Score: 100081.3). Penalty added.
+[EARLY STOPPING] [W15_G62] failed on 7.95Hz (Score: 100056.8). Penalty added.
+[EARLY STOPPING] [W14_G62] failed on 7.95Hz (Score: 100070.8). Penalty added.
+[EARLY STOPPING] [W12_G62] failed on 7.95Hz (Score: 100008.0). Penalty added.
+[EARLY STOPPING] [W18_G62] failed on 7.95Hz (Score: 100055.7). Penalty added.
+[EARLY STOPPING] [W17_G62] failed on 7.95Hz (Score: 100068.2). Penalty added.
+[EARLY STOPPING] [W13_G62] failed on 7.95Hz (Score: 100003.7). Penalty added.
+[EARLY STOPPING] [W9_G62] failed on 7.95Hz (Score: 100040.7). Penalty added.
+
+Generation 62 completed in 0.0 mins.
+Gen 62 Best Candidate: W3_G62 | Score: 220002.47
+r_ton: 0.644 | K_ton: 42.69 | K_sc: 66.25
+
+=================================== STARTING GENERATION 63 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 63) ---
+[ERROR] on 7.95Hz [W1_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W3_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W4_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W6_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W5_G63]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W9_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W8_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W7_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W10_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W16_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W15_G63]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W18_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W13_G63]: 'Tee' object has no attribute 'fileno'
+
+
+[EARLY STOPPING] [W1_G63] failed on 7.95Hz (Score: 100005.5). Penalty added.[ERROR] on 7.95Hz [W14_G63]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W17_G63]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+[EARLY STOPPING] [W4_G63] failed on 7.95Hz (Score: 100009.0). Penalty added.
+
+[EARLY STOPPING] [W3_G63] failed on 7.95Hz (Score: 100046.2). Penalty added.
+[EARLY STOPPING] [W6_G63] failed on 7.95Hz (Score: 100003.8). Penalty added.
+[EARLY STOPPING] [W2_G63] failed on 7.95Hz (Score: 100027.7). Penalty added.
+[EARLY STOPPING] [W9_G63] failed on 7.95Hz (Score: 100025.4). Penalty added.
+[EARLY STOPPING] [W8_G63] failed on 7.95Hz (Score: 100019.9). Penalty added.
+[EARLY STOPPING] [W5_G63] failed on 7.95Hz (Score: 100021.8). Penalty added.
+[EARLY STOPPING] [W11_G63] failed on 7.95Hz (Score: 100003.7). Penalty added.
+[EARLY STOPPING] [W12_G63] failed on 7.95Hz (Score: 100078.6). Penalty added.
+[EARLY STOPPING] [W7_G63] failed on 7.95Hz (Score: 100088.6). Penalty added.
+[EARLY STOPPING] [W16_G63] failed on 7.95Hz (Score: 100003.3). Penalty added.
+[EARLY STOPPING] [W10_G63] failed on 7.95Hz (Score: 100051.0). Penalty added.
+[EARLY STOPPING] [W18_G63] failed on 7.95Hz (Score: 100075.9). Penalty added.
+[EARLY STOPPING] [W13_G63] failed on 7.95Hz (Score: 100078.4). Penalty added.
+[EARLY STOPPING] [W14_G63] failed on 7.95Hz (Score: 100033.9). Penalty added.
+[EARLY STOPPING] [W17_G63] failed on 7.95Hz (Score: 100009.6). Penalty added.
+[EARLY STOPPING] [W15_G63] failed on 7.95Hz (Score: 100052.9). Penalty added.
+
+Generation 63 completed in 0.0 mins.
+Gen 63 Best Candidate: W16_G63 | Score: 220003.30
+r_ton: 0.661 | K_ton: 43.73 | K_sc: 66.15
+
+=================================== STARTING GENERATION 64 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 64) ---
+[ERROR] on 7.95Hz [W1_G64]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G64]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W3_G64]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W4_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W5_G64]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W8_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W7_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W6_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W9_G64]: 'Tee' object has no attribute 'fileno'
+
+
+
+[ERROR] on 7.95Hz [W12_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W11_G64]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W13_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W16_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W18_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W17_G64]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W14_G64]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W4_G64] failed on 7.95Hz (Score: 100060.5). Penalty added.
+
+
+
+
+
+
+
+[ERROR] on 7.95Hz [W15_G64]: 'Tee' object has no attribute 'fileno'
+[EARLY STOPPING] [W5_G64] failed on 7.95Hz (Score: 100071.5). Penalty added.
+[EARLY STOPPING] [W3_G64] failed on 7.95Hz (Score: 100088.4). Penalty added.
+[EARLY STOPPING] [W2_G64] failed on 7.95Hz (Score: 100094.1). Penalty added.
+[EARLY STOPPING] [W9_G64] failed on 7.95Hz (Score: 100077.7). Penalty added.
+[EARLY STOPPING] [W7_G64] failed on 7.95Hz (Score: 100096.4). Penalty added.
+[EARLY STOPPING] [W1_G64] failed on 7.95Hz (Score: 100031.6). Penalty added.
+[EARLY STOPPING] [W8_G64] failed on 7.95Hz (Score: 100021.9). Penalty added.
+[EARLY STOPPING] [W10_G64] failed on 7.95Hz (Score: 100090.3). Penalty added.
+[EARLY STOPPING] [W6_G64] failed on 7.95Hz (Score: 100057.4). Penalty added.
+[EARLY STOPPING] [W13_G64] failed on 7.95Hz (Score: 100065.9). Penalty added.
+[EARLY STOPPING] [W12_G64] failed on 7.95Hz (Score: 100027.1). Penalty added.
+[EARLY STOPPING] [W14_G64] failed on 7.95Hz (Score: 100048.5). Penalty added.
+[EARLY STOPPING] [W18_G64] failed on 7.95Hz (Score: 100070.6). Penalty added.
+[EARLY STOPPING] [W17_G64] failed on 7.95Hz (Score: 100065.1). Penalty added.
+[EARLY STOPPING] [W16_G64] failed on 7.95Hz (Score: 100077.7). Penalty added.
+[EARLY STOPPING] [W11_G64] failed on 7.95Hz (Score: 100062.8). Penalty added.
+[EARLY STOPPING] [W15_G64] failed on 7.95Hz (Score: 100098.1). Penalty added.
+
+Generation 64 completed in 0.0 mins.
+Gen 64 Best Candidate: W8_G64 | Score: 220021.93
+r_ton: 0.706 | K_ton: 46.92 | K_sc: 66.42
+
+=================================== STARTING GENERATION 65 at 14:34:46 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 65) ---
+[ERROR] on 7.95Hz [W1_G65]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W2_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W3_G65]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W4_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W6_G65]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W5_G65]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W7_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W8_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W10_G65]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W9_G65]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W11_G65]: 'Tee' object has no attribute 'fileno'
+
+[ERROR] on 7.95Hz [W16_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W18_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W12_G65]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W13_G65]: 'Tee' object has no attribute 'fileno'[ERROR] on 7.95Hz [W14_G65]: 'Tee' object has no attribute 'fileno'
+[ERROR] on 7.95Hz [W15_G65]: 'Tee' object has no attribute 'fileno'[EARLY STOPPING] [W1_G65] failed on 7.95Hz (Score: 100088.0). Penalty added.[ERROR] on 7.95Hz [W17_G65]: 'Tee' object has no attribute 'fileno'
+
+
+
+
+
+
+[EARLY STOPPING] [W2_G65] failed on 7.95Hz (Score: 100036.7). Penalty added.
+[EARLY STOPPING] [W3_G65] failed on 7.95Hz (Score: 100056.1). Penalty added.
+[EARLY STOPPING] [W5_G65] failed on 7.95Hz (Score: 100000.5). Penalty added.
+[EARLY STOPPING] [W6_G65] failed on 7.95Hz (Score: 100087.3). Penalty added.
+[EARLY STOPPING] [W4_G65] failed on 7.95Hz (Score: 100053.4). Penalty added.
+[EARLY STOPPING] [W7_G65] failed on 7.95Hz (Score: 100066.5). Penalty added.
+[EARLY STOPPING] [W10_G65] failed on 7.95Hz (Score: 100063.5). Penalty added.
+[EARLY STOPPING] [W8_G65] failed on 7.95Hz (Score: 100095.2). Penalty added.
+[EARLY STOPPING] [W9_G65] failed on 7.95Hz (Score: 100081.0). Penalty added.
+[EARLY STOPPING] [W11_G65] failed on 7.95Hz (Score: 100028.9). Penalty added.
+[EARLY STOPPING] [W14_G65] failed on 7.95Hz (Score: 100014.3). Penalty added.
+[EARLY STOPPING] [W16_G65] failed on 7.95Hz (Score: 100082.6). Penalty added.
+[EARLY STOPPING] [W18_G65] failed on 7.95Hz (Score: 100083.8). Penalty added.
+[EARLY STOPPING] [W15_G65] failed on 7.95Hz (Score: 100037.4). Penalty added.
+[EARLY STOPPING] [W12_G65] failed on 7.95Hz (Score: 100077.5). Penalty added.
+[EARLY STOPPING] [W13_G65] failed on 7.95Hz (Score: 100055.1). Penalty added.
+[EARLY STOPPING] [W17_G65] failed on 7.95Hz (Score: 100003.5). Penalty added.
+
+Generation 65 completed in 0.0 mins.
+Gen 65 Best Candidate: W5_G65 | Score: 220000.52
+r_ton: 0.744 | K_ton: 48.31 | K_sc: 64.92
+
+Phase 2 Campaign Complete!
+Global Best Score: 8412.82
+==========================================================================================
+PHASE 2 ENHANCED CAMPAIGN: GENERATIONS 56 THROUGH 65
+Incorporating True 35ms EMD Latency, 3% Postural Co-Contraction, and r_ton Coupling
+Started at: 2026-10-21 14:37:53
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=56, Wed Oct 21 14:37:53 2026)
+
+=================================== STARTING GENERATION 56 at 14:37:53 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 56) ---
+[PASS] [W17_G56] passed 7.95Hz (Score: 13219.5)
+[PASS] [W9_G56] passed 7.95Hz (Score: 7788.1)
+[PASS] [W13_G56] passed 7.95Hz (Score: 6748.7)
+[PASS] [W15_G56] passed 7.95Hz (Score: 16326.0)
+[PASS] [W10_G56] passed 7.95Hz (Score: 20847.0)
+[PASS] [W11_G56] passed 7.95Hz (Score: 4775.5)
+[PASS] [W6_G56] passed 7.95Hz (Score: 4150.4)
+[PASS] [W18_G56] passed 7.95Hz (Score: 19176.5)
+[PASS] [W1_G56] passed 7.95Hz (Score: 27293.2)
+[PASS] [W3_G56] passed 7.95Hz (Score: 6640.5)
+[PASS] [W2_G56] passed 7.95Hz (Score: 23154.5)
+[PASS] [W16_G56] passed 7.95Hz (Score: 4606.2)
+[PASS] [W5_G56] passed 7.95Hz (Score: 4820.3)
+[PASS] [W8_G56] passed 7.95Hz (Score: 6672.4)
+[PASS] [W4_G56] passed 7.95Hz (Score: 3747.9)
+[PASS] [W14_G56] passed 7.95Hz (Score: 17785.6)
+[PASS] [W12_G56] passed 7.95Hz (Score: 7888.5)
+[PASS] [W7_G56] passed 7.95Hz (Score: 3950.7)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 56) ---
+[PASS] [W10_G56] passed 5.52Hz (Score: 9119.3)
+[PASS] [W13_G56] passed 5.52Hz (Score: 3201.9)
+[PASS] [W9_G56] passed 5.52Hz (Score: 6897.5)
+[PASS] [W7_G56] passed 5.52Hz (Score: 3226.9)
+[PASS] [W17_G56] passed 5.52Hz (Score: 5282.4)
+[PASS] [W5_G56] passed 5.52Hz (Score: 4989.8)
+[PASS] [W12_G56] passed 5.52Hz (Score: 5303.9)
+[PASS] [W8_G56] passed 5.52Hz (Score: 5371.5)
+[PASS] [W16_G56] passed 5.52Hz (Score: 2797.4)
+[PASS] [W2_G56] passed 5.52Hz (Score: 4322.0)
+[PASS] [W4_G56] passed 5.52Hz (Score: 4129.2)
+[PASS] [W3_G56] passed 5.52Hz (Score: 7127.2)
+[PASS] [W14_G56] passed 5.52Hz (Score: 13078.1)
+[PASS] [W6_G56] passed 5.52Hz (Score: 3252.8)
+[PASS] [W18_G56] passed 5.52Hz (Score: 9612.3)
+[PASS] [W15_G56] passed 5.52Hz (Score: 10967.1)
+[PASS] [W11_G56] passed 5.52Hz (Score: 4637.6)
+[PASS] [W1_G56] passed 5.52Hz (Score: 6370.7)
+
+--- Evaluating 18 candidates on 2.48Hz (Gen 56) ---
+[EARLY STOPPING] [W4_G56] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[EARLY STOPPING] [W2_G56] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+[PASS] [W12_G56] passed 2.48Hz (Score: 8237.9)
+[PASS] [W5_G56] passed 2.48Hz (Score: 1964.7)
+[PASS] [W18_G56] passed 2.48Hz (Score: 926.3)
+[PASS] [W16_G56] passed 2.48Hz (Score: 1454.7)
+[PASS] [W10_G56] passed 2.48Hz (Score: 1224.1)
+[PASS] [W3_G56] passed 2.48Hz (Score: 7213.7)
+[PASS] [W7_G56] passed 2.48Hz (Score: 487.5)
+[PASS] [W14_G56] passed 2.48Hz (Score: 1751.6)
+[PASS] [W9_G56] passed 2.48Hz (Score: 1096.1)
+[PASS] [W15_G56] passed 2.48Hz (Score: 1401.6)
+[PASS] [W1_G56] passed 2.48Hz (Score: 3909.4)
+[PASS] [W11_G56] passed 2.48Hz (Score: 2270.4)
+[PASS] [W17_G56] passed 2.48Hz (Score: 9352.6)
+[PASS] [W6_G56] passed 2.48Hz (Score: 2788.2)
+[PASS] [W8_G56] passed 2.48Hz (Score: 5044.1)
+[EARLY STOPPING] [W13_G56] failed on 2.48Hz (Score: 2330561192907.5). Penalty added.
+
+--- Evaluating 15 candidates on 1.11Hz (Gen 56) ---
+[EARLY STOPPING] [W10_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W17_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W1_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W18_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W7_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W3_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W12_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W9_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W15_G56] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W16_G56] passed 1.11Hz (Score: 300.3)
+[PASS] [W5_G56] passed 1.11Hz (Score: 1372.6)
+[PASS] [W14_G56] passed 1.11Hz (Score: 1719.6)
+[PASS] [W8_G56] passed 1.11Hz (Score: 802.8)
+[PASS] [W11_G56] passed 1.11Hz (Score: 1279.2)
+[PASS] [W6_G56] passed 1.11Hz (Score: 1673.5)
+
+--- Evaluating 6 candidates on 0.78Hz (Gen 56) ---
+[PASS] [W6_G56] passed 0.78Hz (Score: 13238.9)
+[PASS] [W5_G56] passed 0.78Hz (Score: 2988.3)
+[PASS] [W11_G56] passed 0.78Hz (Score: 12389.2)
+[PASS] [W8_G56] passed 0.78Hz (Score: 2896.3)
+[PASS] [W14_G56] passed 0.78Hz (Score: 4524.4)
+[PASS] [W16_G56] passed 0.78Hz (Score: 301.2)
+
+--- Evaluating 6 candidates on 0.31Hz (Gen 56) ---
+[EARLY STOPPING] [W14_G56] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W5_G56] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W11_G56] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W16_G56] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W8_G56] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W6_G56] passed 0.31Hz (Score: 11063.0)
+
+Generation 56 completed in 42.3 mins.
+Gen 56 Best Candidate: W6_G56 | Score: 36166.80
+r_ton: 0.910 | K_ton: 58.50 | K_sc: 64.25
+
+=================================== STARTING GENERATION 57 at 15:20:09 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 57) ---
+[PASS] [W3_G57] passed 7.95Hz (Score: 5345.8)
+[PASS] [W4_G57] passed 7.95Hz (Score: 2513.9)
+[PASS] [W15_G57] passed 7.95Hz (Score: 9575.8)
+[PASS] [W12_G57] passed 7.95Hz (Score: 768.5)
+[PASS] [W8_G57] passed 7.95Hz (Score: 488.6)
+[PASS] [W5_G57] passed 7.95Hz (Score: 2078.2)
+[PASS] [W10_G57] passed 7.95Hz (Score: 13141.3)
+[PASS] [W1_G57] passed 7.95Hz (Score: 2207.7)
+[PASS] [W18_G57] passed 7.95Hz (Score: 7844.2)
+[PASS] [W14_G57] passed 7.95Hz (Score: 4816.0)
+[PASS] [W2_G57] passed 7.95Hz (Score: 15083.2)
+[PASS] [W13_G57] passed 7.95Hz (Score: 8352.9)
+[PASS] [W7_G57] passed 7.95Hz (Score: 3035.9)
+[PASS] [W11_G57] passed 7.95Hz (Score: 4684.4)
+[PASS] [W9_G57] passed 7.95Hz (Score: 6259.2)
+[PASS] [W16_G57] passed 7.95Hz (Score: 3700.4)
+[PASS] [W6_G57] passed 7.95Hz (Score: 6864.4)
+[PASS] [W17_G57] passed 7.95Hz (Score: 22682.1)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 57) ---
+[PASS] [W12_G57] passed 5.52Hz (Score: 8877.1)
+[PASS] [W10_G57] passed 5.52Hz (Score: 4859.4)
+[PASS] [W3_G57] passed 5.52Hz (Score: 9602.4)
+[PASS] [W8_G57] passed 5.52Hz (Score: 5410.6)
+[PASS] [W14_G57] passed 5.52Hz (Score: 11287.9)
+[PASS] [W5_G57] passed 5.52Hz (Score: 5072.4)
+[PASS] [W11_G57] passed 5.52Hz (Score: 3852.2)
+[PASS] [W17_G57] passed 5.52Hz (Score: 12748.2)
+[PASS] [W7_G57] passed 5.52Hz (Score: 4888.2)
+[PASS] [W1_G57] passed 5.52Hz (Score: 2258.5)
+[PASS] [W9_G57] passed 5.52Hz (Score: 4780.4)
+[PASS] [W2_G57] passed 5.52Hz (Score: 21196.6)
+[PASS] [W6_G57] passed 5.52Hz (Score: 5721.8)
+[PASS] [W18_G57] passed 5.52Hz (Score: 7860.9)
+[PASS] [W4_G57] passed 5.52Hz (Score: 3330.9)
+[PASS] [W16_G57] passed 5.52Hz (Score: 6080.4)
+[PASS] [W13_G57] passed 5.52Hz (Score: 7319.7)
+[PASS] [W15_G57] passed 5.52Hz (Score: 4587.6)
+
+--- Evaluating 18 candidates on 2.48Hz (Gen 57) ---
+[PASS] [W10_G57] passed 2.48Hz (Score: 3471.5)
+[PASS] [W12_G57] passed 2.48Hz (Score: 1219.3)
+[PASS] [W3_G57] passed 2.48Hz (Score: 5429.2)
+[PASS] [W17_G57] passed 2.48Hz (Score: 1785.4)
+[PASS] [W16_G57] passed 2.48Hz (Score: 1708.7)
+[PASS] [W2_G57] passed 2.48Hz (Score: 2810.0)
+[PASS] [W4_G57] passed 2.48Hz (Score: 2290.6)
+[PASS] [W8_G57] passed 2.48Hz (Score: 3112.2)
+[PASS] [W14_G57] passed 2.48Hz (Score: 1356.6)
+[PASS] [W13_G57] passed 2.48Hz (Score: 3102.8)
+[PASS] [W7_G57] passed 2.48Hz (Score: 1585.7)
+[PASS] [W18_G57] passed 2.48Hz (Score: 2240.0)
+[PASS] [W1_G57] passed 2.48Hz (Score: 1549.7)
+[PASS] [W5_G57] passed 2.48Hz (Score: 1416.3)
+[PASS] [W9_G57] passed 2.48Hz (Score: 885.7)
+[PASS] [W15_G57] passed 2.48Hz (Score: 1426.3)
+[PASS] [W11_G57] passed 2.48Hz (Score: 2578.8)
+[PASS] [W6_G57] passed 2.48Hz (Score: 1540.3)
+
+--- Evaluating 18 candidates on 1.11Hz (Gen 57) ---
+[EARLY STOPPING] [W13_G57] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W12_G57] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W3_G57] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W9_G57] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[EARLY STOPPING] [W8_G57] failed on 1.11Hz (Score: 1508969590862.1). Penalty added.
+[PASS] [W4_G57] passed 1.11Hz (Score: 1288.8)
+[PASS] [W15_G57] passed 1.11Hz (Score: 1361.3)
+[PASS] [W7_G57] passed 1.11Hz (Score: 2783.0)
+[PASS] [W18_G57] passed 1.11Hz (Score: 1742.6)
+[PASS] [W6_G57] passed 1.11Hz (Score: 1847.4)
+[PASS] [W1_G57] passed 1.11Hz (Score: 1315.7)
+[PASS] [W11_G57] passed 1.11Hz (Score: 2235.5)
+[PASS] [W10_G57] passed 1.11Hz (Score: 1758.0)
+[PASS] [W2_G57] passed 1.11Hz (Score: 700.5)
+[PASS] [W14_G57] passed 1.11Hz (Score: 1561.2)
+[PASS] [W16_G57] passed 1.11Hz (Score: 798.0)
+[PASS] [W17_G57] passed 1.11Hz (Score: 2178.1)
+[PASS] [W5_G57] passed 1.11Hz (Score: 2813.2)
+
+--- Evaluating 13 candidates on 0.78Hz (Gen 57) ---
+[PASS] [W17_G57] passed 0.78Hz (Score: 1819.3)
+[PASS] [W1_G57] passed 0.78Hz (Score: 1038.2)
+[PASS] [W10_G57] passed 0.78Hz (Score: 1150.6)
+[PASS] [W5_G57] passed 0.78Hz (Score: 2376.7)
+[PASS] [W14_G57] passed 0.78Hz (Score: 196.4)
+[PASS] [W2_G57] passed 0.78Hz (Score: 17500.0)
+[PASS] [W4_G57] passed 0.78Hz (Score: 24230.9)
+[PASS] [W7_G57] passed 0.78Hz (Score: 4457.4)
+[PASS] [W6_G57] passed 0.78Hz (Score: 6172.7)
+[PASS] [W11_G57] passed 0.78Hz (Score: 31447.1)
+[PASS] [W16_G57] passed 0.78Hz (Score: 9234.9)
+[PASS] [W18_G57] passed 0.78Hz (Score: 3412.9)
+[PASS] [W15_G57] passed 0.78Hz (Score: 2737.5)
+
+--- Evaluating 13 candidates on 0.31Hz (Gen 57) ---
+[EARLY STOPPING] [W1_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W16_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W14_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W5_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W6_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W7_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W18_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[EARLY STOPPING] [W10_G57] failed on 0.31Hz (Score: 1253774734171.9). Penalty added.
+[PASS] [W15_G57] passed 0.31Hz (Score: 15973.1)
+[PASS] [W4_G57] passed 0.31Hz (Score: 10169.4)
+[PASS] [W2_G57] passed 0.31Hz (Score: 10945.6)
+[PASS] [W11_G57] passed 0.31Hz (Score: 10911.1)
+[PASS] [W17_G57] passed 0.31Hz (Score: 10389.2)
+
+Generation 57 completed in 56.4 mins.
+Gen 57 Best Candidate: W15_G57 | Score: 35661.59
+r_ton: 0.803 | K_ton: 50.39 | K_sc: 62.74
+
+=================================== STARTING GENERATION 58 at 16:16:34 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 58) ---
+[PASS] [W14_G58] passed 7.95Hz (Score: 686.7)
+[PASS] [W3_G58] passed 7.95Hz (Score: 12998.4)
+[PASS] [W13_G58] passed 7.95Hz (Score: 750.3)
+[PASS] [W1_G58] passed 7.95Hz (Score: 8933.9)
+[PASS] [W7_G58] passed 7.95Hz (Score: 6333.2)
+[PASS] [W12_G58] passed 7.95Hz (Score: 15237.8)
+[PASS] [W10_G58] passed 7.95Hz (Score: 24611.8)
+[PASS] [W2_G58] passed 7.95Hz (Score: 5005.4)
+[PASS] [W16_G58] passed 7.95Hz (Score: 6178.6)
+[PASS] [W6_G58] passed 7.95Hz (Score: 6002.0)
+[PASS] [W11_G58] passed 7.95Hz (Score: 6018.5)
+[PASS] [W18_G58] passed 7.95Hz (Score: 15726.5)
+[PASS] [W15_G58] passed 7.95Hz (Score: 7278.5)
+[PASS] [W4_G58] passed 7.95Hz (Score: 5160.9)
+[PASS] [W17_G58] passed 7.95Hz (Score: 6475.2)
+[PASS] [W5_G58] passed 7.95Hz (Score: 15982.5)
+[PASS] [W9_G58] passed 7.95Hz (Score: 2342.9)
+[PASS] [W8_G58] passed 7.95Hz (Score: 4648.5)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 58) ---

@@ -1,0 +1,1019 @@
+==========================================================================================
+GLOBAL CMA-ES: CONTINUOUS TRANSFER FUNCTION OPTIMIZATION WITH EARLY STOPPING
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=42, Thu Oct  8 08:14:14 2026)
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100095.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100080.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100074.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100050.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100018.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100032.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100091.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100059.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100034.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100032.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100072.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100011.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100071.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100080.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100014.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100065.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100023.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100063.9). Penalty added.
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     18 6.000110910844944e+05 1.0e+00 9.78e-01  5e-01  2e+01 2:17.0  
+
+======================================== GENERATION 1 SUMMARY ========================================
+Best Total Score: 600011.1
+K_ton=51.99, z_ton=1.56, p_ton=2.79
+K_sc=22.20, z_sc=0.08, p_sc=3.33
+K_phas=8.86, z_phas=7.23, p_phas=27.62
+kp=1.61, k_dyn=52.91, k_stat=96.38
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100085.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100013.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100062.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100057.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100017.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100065.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100097.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100008.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100057.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100075.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100047.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100069.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100004.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100028.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100056.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100026.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100001.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100016.4). Penalty added.
+    2     36 6.000010625869468e+05 1.2e+00 1.02e+00  5e-01  2e+01 4:33.6  
+
+======================================== GENERATION 2 SUMMARY ========================================
+Best Total Score: 600001.1
+K_ton=46.28, z_ton=0.27, p_ton=3.92
+K_sc=30.92, z_sc=1.06, p_sc=2.67
+K_phas=10.27, z_phas=1.55, p_phas=29.59
+kp=1.16, k_dyn=54.20, k_stat=71.99
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100052.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100080.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100004.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100043.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100075.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100014.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100013.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100032.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100023.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100045.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100011.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100000.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100070.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100039.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100059.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100073.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100081.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100056.2). Penalty added.
+    3     54 6.000007253294931e+05 1.3e+00 9.94e-01  5e-01  2e+01 6:50.2  
+
+======================================== GENERATION 3 SUMMARY ========================================
+Best Total Score: 600000.7
+K_ton=43.54, z_ton=0.29, p_ton=7.15
+K_sc=22.78, z_sc=0.11, p_sc=3.79
+K_phas=6.50, z_phas=12.12, p_phas=38.20
+kp=0.60, k_dyn=45.94, k_stat=120.38
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100001.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100081.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100075.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100051.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100026.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100020.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100058.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100064.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100078.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100063.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100019.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100033.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100001.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100075.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100004.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100034.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100096.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100063.7). Penalty added.
+    4     72 6.000009624934820e+05 1.4e+00 1.05e+00  5e-01  2e+01 9:06.8  
+
+======================================== GENERATION 4 SUMMARY ========================================
+Best Total Score: 600001.0
+K_ton=47.20, z_ton=1.77, p_ton=3.83
+K_sc=22.02, z_sc=0.11, p_sc=7.08
+K_phas=6.86, z_phas=1.86, p_phas=33.28
+kp=1.26, k_dyn=39.40, k_stat=113.81
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100022.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100067.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100075.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100020.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100078.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100078.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100052.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100041.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100045.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100001.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100015.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100065.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100075.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100046.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100087.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100061.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100051.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100045.9). Penalty added.
+    5     90 6.000011274791661e+05 1.6e+00 1.09e+00  6e-01  2e+01 11:23.2  
+
+======================================== GENERATION 5 SUMMARY ========================================
+Best Total Score: 600001.1
+K_ton=64.09, z_ton=1.63, p_ton=4.65
+K_sc=29.34, z_sc=1.15, p_sc=1.37
+K_phas=6.67, z_phas=1.63, p_phas=35.42
+kp=1.95, k_dyn=34.38, k_stat=92.92
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100006.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100000.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100070.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100072.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100025.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100001.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100042.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100079.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100017.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100043.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100080.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100058.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100093.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100067.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100083.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100045.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100008.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100090.3). Penalty added.
+    6    108 6.000006510021345e+05 1.6e+00 1.06e+00  6e-01  2e+01 13:39.3  
+
+======================================== GENERATION 6 SUMMARY ========================================
+Best Total Score: 600000.7
+K_ton=43.26, z_ton=0.90, p_ton=7.39
+K_sc=13.60, z_sc=1.12, p_sc=7.50
+K_phas=9.56, z_phas=7.37, p_phas=25.13
+kp=1.19, k_dyn=31.11, k_stat=119.73
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100067.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100013.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100089.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100095.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100094.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100087.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100098.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100090.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100018.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100080.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100052.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100016.0). Penalty added.
+?? TIMEOUT on 7.95Hz?? TIMEOUT on 7.95Hz
+
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100022.4). Penalty added.
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100098.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100008.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100036.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100076.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100048.8). Penalty added.
+    7    126 6.000088461253012e+05 1.7e+00 1.06e+00  5e-01  2e+01 15:55.2  
+
+======================================== GENERATION 7 SUMMARY ========================================
+Best Total Score: 600008.8
+K_ton=48.35, z_ton=2.79, p_ton=5.92
+K_sc=17.85, z_sc=1.40, p_sc=2.69
+K_phas=3.81, z_phas=0.17, p_phas=26.88
+kp=1.24, k_dyn=32.29, k_stat=115.02
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100021.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100047.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100087.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100065.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100082.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100015.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100016.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100004.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100082.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100062.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100042.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100098.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100063.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100098.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100046.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100039.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100071.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100015.6). Penalty added.
+    8    144 6.000047449678011e+05 1.7e+00 1.06e+00  6e-01  2e+01 18:10.9  
+
+======================================== GENERATION 8 SUMMARY ========================================
+Best Total Score: 600004.7
+K_ton=63.36, z_ton=0.47, p_ton=5.79
+K_sc=18.37, z_sc=2.66, p_sc=8.64
+K_phas=9.61, z_phas=3.38, p_phas=28.33
+kp=0.33, k_dyn=30.25, k_stat=131.44
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100031.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100035.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100075.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100013.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100073.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100049.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100017.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100018.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100019.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100079.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100051.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100025.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100063.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100082.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100095.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100084.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100040.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100060.6). Penalty added.
+    9    162 6.000138698888648e+05 1.8e+00 1.02e+00  5e-01  2e+01 20:27.0  
+
+======================================== GENERATION 9 SUMMARY ========================================
+Best Total Score: 600013.9
+K_ton=42.38, z_ton=0.70, p_ton=6.28
+K_sc=24.34, z_sc=2.27, p_sc=5.00
+K_phas=4.60, z_phas=9.86, p_phas=28.39
+kp=1.38, k_dyn=34.66, k_stat=99.00
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100044.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100035.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100094.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100056.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100095.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100040.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100034.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100019.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100036.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100063.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100077.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100051.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100092.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100078.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100020.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100003.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100012.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100078.7). Penalty added.
+   10    180 6.000030050359819e+05 1.8e+00 9.38e-01  5e-01  2e+01 22:42.7  
+
+======================================== GENERATION 10 SUMMARY ========================================
+Best Total Score: 600003.0
+K_ton=39.15, z_ton=0.54, p_ton=3.36
+K_sc=19.68, z_sc=0.99, p_sc=5.51
+K_phas=6.41, z_phas=10.02, p_phas=30.00
+kp=0.88, k_dyn=40.23, k_stat=94.88
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100071.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100029.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100051.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100040.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100031.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100051.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100010.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100066.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100038.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100020.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100080.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100045.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100028.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100091.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100097.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100000.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? TIMEOUT on 7.95Hz?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100065.3). Penalty added.
+
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100080.6). Penalty added.
+   11    198 6.000007453272610e+05 1.9e+00 8.93e-01  5e-01  2e+01 24:58.7  
+
+======================================== GENERATION 11 SUMMARY ========================================
+Best Total Score: 600000.7
+K_ton=36.92, z_ton=2.30, p_ton=4.42
+K_sc=25.43, z_sc=1.15, p_sc=5.36
+K_phas=6.24, z_phas=7.68, p_phas=32.88
+kp=0.95, k_dyn=50.69, k_stat=110.75
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100040.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100019.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100013.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100071.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100006.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100065.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100002.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100091.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100013.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100082.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100029.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100045.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100030.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100050.5). Penalty added.
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100039.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100045.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100061.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100076.8). Penalty added.
+   12    216 6.000026243034052e+05 1.9e+00 8.47e-01  4e-01  1e+01 27:14.6  
+
+======================================== GENERATION 12 SUMMARY ========================================
+Best Total Score: 600002.6
+K_ton=61.33, z_ton=1.04, p_ton=7.37
+K_sc=26.87, z_sc=1.14, p_sc=5.09
+K_phas=5.56, z_phas=9.22, p_phas=27.67
+kp=0.45, k_dyn=37.30, k_stat=108.23
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100027.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100074.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100090.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100024.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100002.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100070.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100052.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100007.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100092.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100038.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100001.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100012.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100006.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100007.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100080.4). Penalty added.?? TIMEOUT on 7.95Hz
+
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100003.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100041.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100095.7). Penalty added.
+   13    234 6.000017086685193e+05 2.0e+00 8.59e-01  4e-01  1e+01 29:30.4  
+
+======================================== GENERATION 13 SUMMARY ========================================
+Best Total Score: 600001.7
+K_ton=38.58, z_ton=2.21, p_ton=5.87
+K_sc=23.21, z_sc=2.03, p_sc=5.11
+K_phas=3.78, z_phas=4.32, p_phas=26.90
+kp=0.37, k_dyn=43.79, k_stat=107.33
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100084.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100007.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100079.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100061.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100012.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100010.0). Penalty added.
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100033.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100071.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100091.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100002.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100078.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100074.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100017.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100063.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100034.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100049.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100007.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100087.8). Penalty added.
+   14    252 6.000024946963713e+05 1.9e+00 8.80e-01  5e-01  2e+01 31:46.2  
+
+======================================== GENERATION 14 SUMMARY ========================================
+Best Total Score: 600002.5
+K_ton=61.70, z_ton=1.36, p_ton=7.27
+K_sc=19.66, z_sc=1.69, p_sc=3.31
+K_phas=5.52, z_phas=4.89, p_phas=27.11
+kp=0.68, k_dyn=35.02, k_stat=98.65
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100055.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100097.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100016.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100009.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100089.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100041.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100077.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100021.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100076.5). Penalty added.
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100001.1). Penalty added.
+?? TIMEOUT on 7.95Hz?? TIMEOUT on 7.95Hz
+
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100093.0). Penalty added.
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100047.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100010.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100087.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100044.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100084.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100077.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100092.1). Penalty added.
+   15    270 6.000011366457776e+05 2.0e+00 8.62e-01  4e-01  2e+01 34:02.2  
+
+======================================== GENERATION 15 SUMMARY ========================================
+Best Total Score: 600001.1
+K_ton=40.34, z_ton=1.21, p_ton=5.09
+K_sc=19.32, z_sc=0.36, p_sc=4.01
+K_phas=4.64, z_phas=3.65, p_phas=28.12
+kp=0.03, k_dyn=35.85, k_stat=141.41
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100034.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100045.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100077.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100060.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100031.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100041.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100076.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100058.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100062.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100001.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100048.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100015.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100074.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100022.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100059.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100083.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100067.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100044.2). Penalty added.
+   16    288 6.000012022445276e+05 1.9e+00 8.86e-01  5e-01  2e+01 36:18.3  
+
+======================================== GENERATION 16 SUMMARY ========================================
+Best Total Score: 600001.2
+K_ton=48.81, z_ton=0.47, p_ton=10.09
+K_sc=19.11, z_sc=1.36, p_sc=2.73
+K_phas=5.92, z_phas=10.78, p_phas=31.41
+kp=0.10, k_dyn=43.86, k_stat=121.32
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100070.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100054.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100053.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100004.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100027.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100056.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100082.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100087.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? TIMEOUT on 7.95Hz?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100021.1). Penalty added.
+
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100062.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100060.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100029.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100040.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100097.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100040.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100079.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100090.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100021.2). Penalty added.
+   17    306 6.000041275297465e+05 1.9e+00 9.53e-01  5e-01  2e+01 38:34.3  
+
+======================================== GENERATION 17 SUMMARY ========================================
+Best Total Score: 600004.1
+K_ton=47.12, z_ton=3.69, p_ton=9.17
+K_sc=29.29, z_sc=0.46, p_sc=3.98
+K_phas=2.58, z_phas=2.52, p_phas=32.26
+kp=0.72, k_dyn=36.56, k_stat=148.15
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100065.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100038.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100027.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100000.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100059.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100086.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100070.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100085.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100055.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100035.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100061.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100059.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100085.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100063.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100052.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100008.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100069.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100044.6). Penalty added.
+   18    324 6.000001780758046e+05 2.1e+00 1.03e+00  5e-01  2e+01 40:50.3  
+
+======================================== GENERATION 18 SUMMARY ========================================
+Best Total Score: 600000.2
+K_ton=50.03, z_ton=3.59, p_ton=5.65
+K_sc=26.29, z_sc=1.11, p_sc=4.53
+K_phas=3.64, z_phas=8.53, p_phas=27.48
+kp=0.51, k_dyn=42.41, k_stat=125.12
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100073.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100095.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100031.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100033.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100099.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100041.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100016.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100004.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100097.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100000.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100081.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100059.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100080.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100058.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100048.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100027.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100027.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100045.0). Penalty added.
+   19    342 6.000003885004265e+05 2.2e+00 1.03e+00  5e-01  2e+01 43:06.1  
+
+======================================== GENERATION 19 SUMMARY ========================================
+Best Total Score: 600000.4
+K_ton=60.88, z_ton=0.00, p_ton=3.77
+K_sc=24.71, z_sc=0.47, p_sc=0.22
+K_phas=4.60, z_phas=1.81, p_phas=25.19
+kp=1.03, k_dyn=51.16, k_stat=100.14
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100009.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100020.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100010.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100091.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100066.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100001.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100025.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100062.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100008.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100016.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100000.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100055.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100053.4). Penalty added.?? TIMEOUT on 7.95Hz
+
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100047.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100042.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100063.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100096.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100016.8). Penalty added.
+   20    360 6.000008785951611e+05 2.3e+00 1.05e+00  6e-01  2e+01 45:22.0  
+
+======================================== GENERATION 20 SUMMARY ========================================
+Best Total Score: 600000.9
+K_ton=59.75, z_ton=0.89, p_ton=4.08
+K_sc=22.92, z_sc=0.22, p_sc=0.07
+K_phas=3.35, z_phas=1.38, p_phas=36.59
+kp=1.46, k_dyn=48.92, k_stat=116.66
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100098.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100035.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100027.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100009.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100092.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100055.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100052.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100044.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100017.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100012.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100028.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100016.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100014.8). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100057.5). Penalty added.?? TIMEOUT on 7.95Hz
+
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100092.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100069.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100070.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100035.9). Penalty added.
+   21    378 6.000089778211315e+05 2.3e+00 1.13e+00  6e-01  2e+01 47:37.9  
+
+======================================== GENERATION 21 SUMMARY ========================================
+Best Total Score: 600009.0
+K_ton=61.84, z_ton=2.43, p_ton=5.76
+K_sc=28.42, z_sc=1.21, p_sc=2.92
+K_phas=4.09, z_phas=3.00, p_phas=31.94
+kp=0.32, k_dyn=48.56, k_stat=130.97
+
+--- Evaluating 18 candidates on 7.95Hz ---
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W7] failed on 7.95Hz (Score: 100083.1). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W6] failed on 7.95Hz (Score: 100085.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W1] failed on 7.95Hz (Score: 100017.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W8] failed on 7.95Hz (Score: 100043.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W18] failed on 7.95Hz (Score: 100064.6). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W16] failed on 7.95Hz (Score: 100087.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W17] failed on 7.95Hz (Score: 100016.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W15] failed on 7.95Hz (Score: 100009.4). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W14] failed on 7.95Hz (Score: 100001.0). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W13] failed on 7.95Hz (Score: 100081.3). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W9] failed on 7.95Hz (Score: 100098.8). Penalty added.?? TIMEOUT on 7.95Hz?? TIMEOUT on 7.95Hz
+
+
+?? EARLY STOPPING [W5] failed on 7.95Hz (Score: 100074.3). Penalty added.
+?? EARLY STOPPING [W4] failed on 7.95Hz (Score: 100006.9). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W10] failed on 7.95Hz (Score: 100003.5). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W2] failed on 7.95Hz (Score: 100053.2). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? TIMEOUT on 7.95Hz?? EARLY STOPPING [W11] failed on 7.95Hz (Score: 100098.9). Penalty added.
+
+?? EARLY STOPPING [W12] failed on 7.95Hz (Score: 100090.7). Penalty added.
+?? TIMEOUT on 7.95Hz
+?? EARLY STOPPING [W3] failed on 7.95Hz (Score: 100059.2). Penalty added.
+   22    396 6.000010020848506e+05 2.4e+00 1.10e+00  6e-01  2e+01 49:54.7  
+
+======================================== GENERATION 22 SUMMARY ========================================
+Best Total Score: 600001.0
+K_ton=53.62, z_ton=2.03, p_ton=3.71
+K_sc=18.93, z_sc=1.02, p_sc=0.16
+K_phas=2.83, z_phas=9.40, p_phas=26.79
+kp=1.33, k_dyn=47.31, k_stat=120.89
+
+--- Evaluating 18 candidates on 7.95Hz ---

@@ -1,0 +1,88 @@
+Starting Parallel CMA-ES for Step-Input PID optimisation (Kp, Ki, Kd)...
+(3_w,6)-aCMA-ES (mu_w=2.0,w_1=63%) in dimension 3 (seed=598900, Sun Sep 27 11:03:10 2026)
+
+--- Generation 1 ---
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 106, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 75, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 106, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 75, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 106, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 75, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 75, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: std::exception in 'SimTK::State const & OpenSim::Manager::integrate(double)': SimTK Exception thrown at AbstractIntegratorRep.cpp:428:
+  Integrator step failed at time 4.0383588292793089 apparently because:
+SimTK Exception thrown at AbstractIntegratorRep.cpp:547:
+  Error detected by Simbody method AbstractIntegrator::takeOneStep(): Unable to advance time past 4.03836.
+  (Required condition 't1 > t0' was not met.)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 106, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 91, in evaluate_params
+    log_f.close()
+KeyboardInterrupt
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 106, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 75, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+Found simbody-visualizer, setting SIMBODY_HOME env var to  C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim
+[Fixation Controller] Initialized 3-DOF Virtual Work tracking for Eyes.
+Traceback (most recent call last):
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 106, in <module>
+    err = evaluate_params(Kp, Ki, Kd, worker_id)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6\cmaes_step_worker.py", line 75, in evaluate_params
+    manager.integrate(t)
+  File "C:\Users\User\miniforge3\envs\opensim_env\Lib\opensim\simulation.py", line 28704, in integrate
+    return _simulation.Manager_integrate(self, finalTime)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

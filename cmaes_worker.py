@@ -4,7 +4,7 @@ import math
 import os
 import sys
 
-def extract_bode(t_array, pitch_array, frequency, discard_time):
+def extract_bode(t_array, pitch_array, frequency, discard_time, delay):
     valid_indices = [i for i, t in enumerate(t_array) if t >= discard_time]
     t_steady = np.array([t_array[i] for i in valid_indices])
     pitch_steady = np.array([pitch_array[i] for i in valid_indices])
@@ -19,10 +19,15 @@ def extract_bode(t_array, pitch_array, frequency, discard_time):
     # So we correlate against sin(omega * (t - delay)) and cos(omega * (t - delay)).
     # We can handle this elegantly by extracting relative to the actual sled position function!
     # Or just mathematically subtract the delay from t_steady!
-    t_shifted = t_steady - 0.5 # We hardcoded delay=0.5
+    t_shifted = t_steady - delay # We hardcoded delay=0.5
     
-    Is = 2.0 * np.mean(pitch_steady * np.sin(omega * t_shifted))
-    Ic = 2.0 * np.mean(pitch_steady * np.cos(omega * t_shifted))
+    # NEW: Detrend the data! If the head is slowly drooping over 6 seconds, 
+    # it ruins the Fourier extraction. We must remove the linear drift!
+    coeffs = np.polyfit(t_steady, pitch_steady, 1) # fit a line (slope and intercept)
+    pitch_detrended = pitch_steady - (coeffs[0] * t_steady + coeffs[1])
+    
+    Is = 2.0 * np.mean(pitch_detrended * np.sin(omega * t_shifted))
+    Ic = 2.0 * np.mean(pitch_detrended * np.cos(omega * t_shifted))
     
     amplitude_rad = np.sqrt(Is**2 + Ic**2)
     phase_rad = math.atan2(Ic, Is)
@@ -32,7 +37,7 @@ def extract_bode(t_array, pitch_array, frequency, discard_time):
 def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, frequency, worker_name="W-?"):
     # Prevent Simbody from secretly spawning hundreds of internal threads and thrashing the CPU!
     os.environ["SIMB_NUM_THREADS"] = "1"
-    os.environ["OMP_NUM_THREADS"] = "3"
+    os.environ["OMP_NUM_THREADS"] = "1"
     osim.Logger.setLevelString("Warn")
     osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'proprioception_plugin/build/Release/osimMillard12EqWithAff.dll'))
     osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'vestibular_plugin/build/Release/osimVestibular.dll'))
@@ -112,8 +117,23 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     
     state.setTime(0.0)
     manager.initialize(state)
+        
+    # Perfect SE(3) Observer Initialization
+    skull = model.getBodySet().get("skull")
+    R_head_to_world = skull.getTransformInGround(state).R()
+    q = osim.Rotation(R_head_to_world).convertRotationToQuaternion()
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q0", q.get(0))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q1", q.get(1))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
 
-    step = 0.05 
+    # NEW OPTIMIZATION: Pre-load the PID integral terms so we don't have to wait 2.5s to settle!
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral", -0.01906)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/roll_error_integral", -0.01184)
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/yaw_error_integral", 0.06309)
+
+
+    step = min(0.01, (1.0/frequency) / 40.0) # Always get at least 40 points per period! 
     current_t = 0.0
     
     t_history = []
@@ -139,17 +159,23 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
         head_pitch_deg = math.degrees(p1 + p2)
         head_roll_deg = math.degrees(r1 + r2)
         head_yaw_deg = math.degrees(y1 + y2)
-        
         t_history.append(current_t)
         pitch_history.append(p1 + p2)
         
+        # EARLY ABORT: If the head collapses or develops excessive cross-talk, kill the simulation instantly!
+        if abs(head_pitch_deg) > 45.0 or abs(head_roll_deg) > 30.0 or abs(head_yaw_deg) > 30.0:
+            print(f"❌ [{worker_id} | {frequency:.2f}Hz] ❌ KILLED: Head collapsed/Cross-talk exceeded! P:{head_pitch_deg:.1f} R:{head_roll_deg:.1f} Y:{head_yaw_deg:.1f}", file=sys.stderr, flush=True)
+            print("100000.0")
+            sys.exit(0)
+
+        
         # Only print occasionally to avoid spamming the console too hard
         if round(current_t * 100) % 20 == 0: 
-            print(f"[{worker_id} | {frequency:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
+            print(f"⏳ [{worker_id} | {frequency:.2f}Hz] t={current_t:.2f}s | P: {head_pitch_deg:5.1f} | R: {head_roll_deg:5.1f} | Y: {head_yaw_deg:5.1f}", file=sys.stderr, flush=True)
         
     # Discard the first period to allow transient to settle, measure the second period.
     discard_time = delay + period
-    amp_rad, phase_rad = extract_bode(t_history, pitch_history, frequency, discard_time)
+    amp_rad, phase_rad = extract_bode(t_history, pitch_history, frequency, discard_time, delay)
     
     amp_deg = amp_rad * (180.0 / math.pi)
     gain_deg_m = amp_deg / amplitude
@@ -160,12 +186,13 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
 
 if __name__ == "__main__":
     import sys
+    import os
     if len(sys.argv) < 13:
         sys.exit(1)
         
-    kp = float(sys.argv[1])
-    ki = float(sys.argv[2])
-    kd = float(sys.argv[3])
+    omega_n = float(sys.argv[1])
+    zeta = float(sys.argv[2])
+    ki = float(sys.argv[3])
     g_ton = float(sys.argv[4])
     g_sc = float(sys.argv[5])
     g_phas = float(sys.argv[6])
@@ -177,10 +204,15 @@ if __name__ == "__main__":
     target_gain = float(sys.argv[11])
     target_phase = float(sys.argv[12])
     
+    
+    I_eff = 1.0
+    kp = I_eff * (omega_n ** 2)
+    kd = 2.0 * zeta * I_eff * omega_n
+    
     try:
         worker_name = sys.argv[13] if len(sys.argv) >= 14 else f"W-{os.getpid()}"
         sim_gain, sim_phase = run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat, freq, worker_name)
-        error = (sim_gain - target_gain)**2 + 0.5*(sim_phase - target_phase)**2
+        error = ((sim_gain - target_gain)/target_gain)**2 * 10000.0 + 0.5*((sim_phase - target_phase)/180.0)**2 * 10000.0
         
         penalty = 0.0
         if kp > 500: penalty += (kp - 500) * 10
@@ -194,4 +226,3 @@ if __name__ == "__main__":
         traceback.print_exc(file=sys.stderr)
         print("100000.0")
         sys.exit(1)
-

@@ -1,0 +1,101 @@
+==========================================================================================
+CMA-ES: Bandwidth-Scheduled Bode Optimization (8 Dimensions)
+Searching: ['omega_n', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(7_w,14mirr3)-aCMA-ES (mu_w=4.3,w_1=36%) in dimension 8 (seed=87146, Sat Oct  3 09:44:03 2026)
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 1.12Hz: w_n=4.2, Gsc=3.68 => Est Score: 117500.0
+Eval EARLY ABORT at 2.12Hz: w_n=6.6, Gsc=1.85 => Est Score: 148828.7
+Eval EARLY ABORT at 1.12Hz: w_n=5.1, Gsc=2.87 => Est Score: 117500.0
+Eval EARLY ABORT at 2.12Hz: w_n=7.5, Gsc=4.67 => Est Score: 208052.0
+Eval TIMEOUT at 2.12Hz
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     14 5.679906340404422e+04 1.0e+00 1.75e+00  5e-01  1e+01 28:26.5  
+Gen 1: Best Bode SSE = 56799.1 | w_n=13.44 (Kp=180.8,Kd=26.9), Ki=15.5, G_ton=5.266, G_sc=2.432, G_phas=2.740
+
+Eval EARLY ABORT at 2.12Hz: w_n=7.5, Gsc=4.39 => Est Score: 164313.4
+    2     28 5.203523084408188e+04 1.2e+00 1.84e+00  5e-01  2e+01 67:04.5  
+Gen 2: Best Bode SSE = 52035.2 | w_n=17.48 (Kp=305.7,Kd=35.0), Ki=9.9, G_ton=6.105, G_sc=3.080, G_phas=2.181
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+    3     42 5.113949041540429e+04 1.3e+00 2.02e+00  6e-01  2e+01 110:22.5  
+Gen 3: Best Bode SSE = 51139.5 | w_n=17.21 (Kp=296.1,Kd=34.4), Ki=28.2, G_ton=6.942, G_sc=4.062, G_phas=2.496
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+    4     56 5.308046414734679e+04 1.4e+00 2.09e+00  6e-01  2e+01 154:37.9  
+Gen 4: Best Bode SSE = 53080.5 | w_n=20.00 (Kp=399.9,Kd=40.0), Ki=42.1, G_ton=6.588, G_sc=1.613, G_phas=3.693
+
+    5     70 4.915711658415336e+04 1.6e+00 2.05e+00  6e-01  2e+01 205:20.7  
+Gen 5: Best Bode SSE = 49157.1 | w_n=17.65 (Kp=311.5,Kd=35.3), Ki=12.3, G_ton=7.906, G_sc=2.911, G_phas=2.086
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+    6     84 5.139014420661809e+04 1.6e+00 2.23e+00  7e-01  2e+01 243:31.1  
+Gen 6: Best Bode SSE = 51390.1 | w_n=18.92 (Kp=358.1,Kd=37.8), Ki=26.7, G_ton=12.575, G_sc=1.527, G_phas=3.013
+
+Eval TIMEOUT at 2.12Hz
+    7     98 5.240138383459339e+04 1.7e+00 2.22e+00  7e-01  2e+01 287:02.3  
+Gen 7: Best Bode SSE = 52401.4 | w_n=18.94 (Kp=358.6,Kd=37.9), Ki=18.7, G_ton=19.046, G_sc=2.125, G_phas=2.794
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+    8    112 5.036467717444342e+04 1.7e+00 2.00e+00  6e-01  2e+01 327:18.2  
+Gen 8: Best Bode SSE = 50364.7 | w_n=19.70 (Kp=388.0,Kd=39.4), Ki=4.7, G_ton=17.838, G_sc=4.108, G_phas=2.904
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+    9    126 5.055636555237928e+04 1.8e+00 1.81e+00  6e-01  1e+01 370:28.8  
+Gen 9: Best Bode SSE = 50556.4 | w_n=16.44 (Kp=270.3,Kd=32.9), Ki=10.9, G_ton=8.527, G_sc=3.083, G_phas=2.051
+
+Eval EARLY ABORT at 2.12Hz: w_n=5.7, Gsc=4.54 => Est Score: 150656.8
+Eval TIMEOUT at 1.12Hz
+   10    140 5.135727989854206e+04 1.8e+00 1.74e+00  6e-01  1e+01 415:02.7  
+Gen 10: Best Bode SSE = 51357.3 | w_n=17.88 (Kp=319.7,Kd=35.8), Ki=13.7, G_ton=8.806, G_sc=3.478, G_phas=2.055
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 3.12Hz
+Eval TIMEOUT at 3.12Hz
+Eval TIMEOUT at 2.12Hz
+Eval TIMEOUT at 8.12Hz
+Eval TIMEOUT at 2.12Hz
+   11    154 5.231592533418942e+04 1.8e+00 1.67e+00  6e-01  1e+01 458:08.8  
+Gen 11: Best Bode SSE = 52315.9 | w_n=17.85 (Kp=318.7,Kd=35.7), Ki=7.8, G_ton=15.217, G_sc=4.798, G_phas=2.739
+
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+
+Eval TIMEOUT at 1.12Hz
+
+Eval TIMEOUT at 1.12Hz
+Eval CRASHED at 12.12Hz: w_n=18.2, Gton=9.24
+Eval CRASHED at 12.12Hz: w_n=20.0, Gton=12.43
+   12    168 1.000000000000000e+05 1.8e+00 1.79e+00  6e-01  1e+01 486:17.6  
+Gen 12: Best Bode SSE = 100000.0 | w_n=20.00 (Kp=400.0,Kd=40.0), Ki=19.3, G_ton=8.220, G_sc=4.837, G_phas=2.323
+
+Eval CRASHED at 1.12Hz: w_n=19.9, Gton=11.59
+Eval CRASHED at 1.12Hz: w_n=17.3, Gton=10.35
+Eval CRASHED at 1.12Hz: w_n=19.9, Gton=15.48
+Eval CRASHED at 1.12Hz: w_n=18.8, Gton=12.28
+Eval CRASHED at 1.12Hz: w_n=19.0, Gton=12.22
+Eval CRASHED at 1.12Hz: w_n=9.4, Gton=16.45
+Eval CRASHED at 1.12Hz: w_n=19.9, Gton=13.20Eval CRASHED at 1.12Hz: w_n=15.7, Gton=15.01Eval CRASHED at 1.12Hz: w_n=20.0, Gton=10.66Eval CRASHED at 1.12Hz: w_n=19.2, Gton=6.98
+Eval CRASHED at 1.12Hz: w_n=14.5, Gton=11.12
+
+
+
+Eval CRASHED at 1.12Hz: w_n=17.9, Gton=17.50
+Eval CRASHED at 1.12Hz: w_n=19.9, Gton=12.02
+Eval CRASHED at 1.12Hz: w_n=19.3, Gton=6.27
+   13    182 1.000000000000000e+05 2.0e+00 2.00e+00  7e-01  1e+01 486:18.4  
+Gen 13: Best Bode SSE = 100000.0 | w_n=19.93 (Kp=397.1,Kd=39.9), Ki=15.6, G_ton=15.481, G_sc=4.684, G_phas=2.453
+

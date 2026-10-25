@@ -1,0 +1,33 @@
+======================================================================
+Starting Round 2 CMA-ES: Perturbation Reflex Tuning (Happee Bode Response)
+Frozen PID (Gen 11): Kp=212.98, Ki=6.54, Kd=40.13
+Searching 6 Reflex Parameters: ['G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+======================================================================
+(5_w,10mirr2)-aCMA-ES (mu_w=3.2,w_1=45%) in dimension 6 (seed=618065, Sun Sep 27 12:55:36 2026)
+
+--- Generation 1 ---
+Eval EARLY ABORT at 1.12Hz: Gton=16.23, Gsc=1.90, Gphas=4.33 => Est Score: 24600.1
+Eval EARLY ABORT at 1.12Hz: Gton=11.30, Gsc=2.57, Gphas=3.89 => Est Score: 26633.8
+Eval EARLY ABORT at 1.12Hz: Gton=12.41, Gsc=2.67, Gphas=5.06 => Est Score: 24674.0
+Eval EARLY ABORT at 1.12Hz: Gton=11.14, Gsc=1.52, Gphas=4.89 => Est Score: 25205.4
+Eval EARLY ABORT at 1.12Hz: Gton=14.53, Gsc=1.27, Gphas=5.32 => Est Score: 23008.6
+Eval EARLY ABORT at 1.12Hz: Gton=14.06, Gsc=1.03, Gphas=5.59 => Est Score: 20455.3
+Eval EARLY ABORT at 1.12Hz: Gton=13.72, Gsc=1.39, Gphas=4.13 => Est Score: 26114.5
+Eval EARLY ABORT at 1.12Hz: Gton=15.44, Gsc=2.50, Gphas=3.83 => Est Score: 25835.3
+Eval EARLY ABORT at 1.12Hz: Gton=12.03, Gsc=0.91, Gphas=4.83 => Est Score: 24663.7
+Eval EARLY ABORT at 1.12Hz: Gton=11.95, Gsc=1.91, Gphas=4.76 => Est Score: 25048.9
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     10 2.045532947004699e+04 1.0e+00 8.32e-01  2e-01  4e+00 5:56.4  
+Gen 1: Best Bode SSE = 20455.3 | G_ton=14.061, G_sc=1.034, G_phas=5.589, kp_prop=0.040, k_gamma_dyn=32.993, k_gamma_stat=97.271
+
+--- Generation 2 ---
+Eval EARLY ABORT at 1.12Hz: Gton=12.54, Gsc=1.48, Gphas=4.92 => Est Score: 24094.1
+Eval EARLY ABORT at 1.12Hz: Gton=20.06, Gsc=1.92, Gphas=4.75 => Est Score: 23457.5
+Eval EARLY ABORT at 1.12Hz: Gton=10.94, Gsc=1.44, Gphas=5.57 => Est Score: 23679.6
+Eval EARLY ABORT at 1.12Hz: Gton=14.12, Gsc=1.06, Gphas=4.65 => Est Score: 25027.6
+Eval EARLY ABORT at 1.12Hz: Gton=12.75, Gsc=1.36, Gphas=6.00 => Est Score: 22843.1
+Eval EARLY ABORT at 1.12Hz: Gton=14.88, Gsc=0.56, Gphas=5.88 => Est Score: 19737.9
+Eval CRASHED at 1.12Hz: Gton=17.89, Gsc=2.16, Gphas=5.48, Kp_prop=0.223, K_gamma_dyn=36.2, K_gamma_stat=92.5
+Eval CRASHED at 1.12Hz: Gton=10.49, Gsc=0.24, Gphas=5.30, Kp_prop=0.219, K_gamma_dyn=32.5, K_gamma_stat=90.1
+Eval CRASHED at 1.12Hz: Gton=17.97, Gsc=1.90, Gphas=5.87, Kp_prop=0.365, K_gamma_dyn=37.1, K_gamma_stat=96.1
+Eval CRASHED at 1.12Hz: Gton=8.69, Gsc=0.53, Gphas=4.69, Kp_prop=0.250, K_gamma_dyn=30.8, K_gamma_stat=99.6

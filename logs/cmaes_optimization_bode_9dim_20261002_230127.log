@@ -1,0 +1,30 @@
+==========================================================================================
+CMA-ES: Decoupled Bode Frequency Response Optimization (9 Dimensions)
+Searching: ['Kp', 'Ki', 'Kd', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(8_w,16mirr3)-aCMA-ES (mu_w=4.8,w_1=32%) in dimension 9 (seed=1140639, Fri Oct  2 23:01:27 2026)
+Eval CRASHED at 1.12Hz: Kp=129.2, Gton=9.33, Gsc=4.70
+None
+Eval CRASHED at 1.12Hz: Kp=87.7, Gton=14.08, Gsc=3.75
+None
+Eval CRASHED at 1.12Hz: Kp=119.2, Gton=18.04, Gsc=4.57
+None
+Eval TIMEOUT at 1.12HzEval TIMEOUT at 1.12HzEval TIMEOUT at 1.12Hz
+
+
+Eval TIMEOUT at 1.12Hz
+Eval CRASHED at 1.12Hz: Kp=11.8, Gton=8.80, Gsc=4.22
+None
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval CRASHED at 1.12Hz: Kp=81.4, Gton=8.42, Gsc=4.18
+None
+Eval TIMEOUT at 1.12Hz
+Eval CRASHED at 1.12Hz: Kp=81.1, Gton=13.54, Gsc=4.39
+None
+Eval CRASHED at 1.12Hz: Kp=46.5, Gton=10.48, Gsc=3.60
+None
+Eval CRASHED at 1.12Hz: Kp=102.9, Gton=6.22, Gsc=3.06
+None
+Eval CRASHED at 1.12Hz: Kp=95.6, Gton=19.14, Gsc=4.37
+None

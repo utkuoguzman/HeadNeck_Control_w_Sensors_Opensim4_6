@@ -1,0 +1,4 @@
+K_ton=52.3461, z_ton=0.0100, p_ton=8.0288
+K_sc=18.0910, z_sc=0.0100, p_sc=3.9324
+K_phas=8.6751, z_phas=17.1684, p_phas=28.7249
+kp_prop=1.4317, k_gamma_dyn=38.1333, k_gamma_stat=106.7500

@@ -1,0 +1,16 @@
+Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Canals)...
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 9 (seed=578592, Sat Sep 26 22:13:20 2026)
+
+--- Generation 1 ---
+Eval TIMEOUT at 1.12Hz: Kp=65.6, Ki=40.1, Kd=15.0, Gton=19.05, Gsc=1.63, Gphas=6.19, Kp_prop=0.050, K_gamma_dyn=28.6, K_gamma_stat=93.8
+Eval TIMEOUT at 1.12Hz: Kp=62.3, Ki=34.2, Kd=15.3, Gton=11.27, Gsc=2.07, Gphas=4.48, Kp_prop=0.390, K_gamma_dyn=36.9, K_gamma_stat=92.2
+Eval TIMEOUT at 0.82Hz: Kp=68.1, Ki=35.9, Kd=12.1, Gton=8.48, Gsc=1.93, Gphas=5.03, Kp_prop=0.525, K_gamma_dyn=39.4, K_gamma_stat=89.5
+Eval TIMEOUT at 0.82Hz: Kp=66.1, Ki=37.2, Kd=13.2, Gton=13.55, Gsc=1.65, Gphas=5.16, Kp_prop=0.207, K_gamma_dyn=36.0, K_gamma_stat=96.6
+Eval TIMEOUT at 0.82Hz: Kp=74.7, Ki=36.3, Kd=13.5, Gton=13.32, Gsc=2.09, Gphas=5.61, Kp_prop=0.367, K_gamma_dyn=30.1, K_gamma_stat=98.4
+Eval TIMEOUT at 0.82Hz: Kp=67.1, Ki=37.4, Kd=15.4, Gton=14.67, Gsc=2.41, Gphas=5.66, Kp_prop=0.097, K_gamma_dyn=51.3, K_gamma_stat=96.4
+Eval TIMEOUT at 1.12Hz: Kp=65.3, Ki=35.1, Kd=11.4, Gton=5.98, Gsc=0.78, Gphas=5.18, Kp_prop=0.143, K_gamma_dyn=44.3, K_gamma_stat=94.8
+Eval TIMEOUT at 1.12Hz: Kp=64.2, Ki=28.1, Kd=16.0, Gton=14.30, Gsc=0.75, Gphas=5.29, Kp_prop=0.079, K_gamma_dyn=35.7, K_gamma_stat=105.9
+Eval TIMEOUT at 1.12Hz: Kp=71.2, Ki=38.2, Kd=16.2, Gton=10.27, Gsc=1.09, Gphas=6.07, Kp_prop=0.063, K_gamma_dyn=35.3, K_gamma_stat=94.4
+Eval CRASHED at 0.44Hz: Kp=61.9, Ki=37.5, Kd=16.1, Gton=16.88, Gsc=0.43, Gphas=4.86, Kp_prop=0.186, K_gamma_dyn=42.3, K_gamma_stat=99.0
+Eval CRASHED at 0.82Hz: Kp=69.6, Ki=34.8, Kd=14.2, Gton=9.13, Gsc=2.53, Gphas=4.34, Kp_prop=0.481, K_gamma_dyn=33.7, K_gamma_stat=89.9
+Eval CRASHED at 0.60Hz: Kp=61.7, Ki=37.6, Kd=9.0, Gton=9.65, Gsc=1.89, Gphas=3.81, Kp_prop=0.868, K_gamma_dyn=38.3, K_gamma_stat=99.7

@@ -1,0 +1,32 @@
+Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Canals)...
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 9 (seed=591629, Sat Sep 26 16:25:25 2026)
+
+--- Generation 1 ---
+Eval TIMEOUT at 1.12Hz: Kp=79.8, Ki=45.5, Kd=21.1, Gton=10.88, Gsc=2.40, Gphas=5.46, Kp_prop=1.088, K_gamma_dyn=41.8, K_gamma_stat=98.8
+Eval EARLY ABORT at 1.12Hz: Kp=76.0, Ki=39.1, Kd=19.0, Gsc=1.66, Gphas=5.94 => Est Score: 18902.5
+Eval EARLY ABORT at 1.12Hz: Kp=69.1, Ki=46.5, Kd=15.1, Gsc=1.53, Gphas=5.60 => Est Score: 17260.4
+Eval SUCCESS: Kp=74.3, Ki=36.7, Kd=11.4, Gton=14.89, Gsc=2.14, Gphas=2.43, Kp_prop=0.145, K_gamma_dyn=39.9, K_gamma_stat=100.0 => Bode Error: 11652.6
+Eval SUCCESS: Kp=62.1, Ki=37.2, Kd=15.0, Gton=11.96, Gsc=1.90, Gphas=4.44, Kp_prop=0.116, K_gamma_dyn=39.8, K_gamma_stat=95.9 => Bode Error: 8180.8
+Eval SUCCESS: Kp=65.2, Ki=44.6, Kd=18.4, Gton=8.09, Gsc=2.22, Gphas=4.74, Kp_prop=0.400, K_gamma_dyn=37.6, K_gamma_stat=94.3 => Bode Error: 9929.3
+Eval SUCCESS: Kp=63.3, Ki=42.1, Kd=12.9, Gton=11.69, Gsc=1.75, Gphas=4.77, Kp_prop=0.490, K_gamma_dyn=46.3, K_gamma_stat=84.0 => Bode Error: 9604.2
+Eval SUCCESS: Kp=71.3, Ki=48.7, Kd=14.5, Gton=12.94, Gsc=2.62, Gphas=4.89, Kp_prop=0.507, K_gamma_dyn=36.3, K_gamma_stat=91.9 => Bode Error: 10580.5
+Eval SUCCESS: Kp=69.7, Ki=48.7, Kd=19.6, Gton=9.80, Gsc=1.62, Gphas=3.65, Kp_prop=0.312, K_gamma_dyn=45.1, K_gamma_stat=98.0 => Bode Error: 13261.3
+Eval SUCCESS: Kp=73.7, Ki=40.8, Kd=16.7, Gton=14.68, Gsc=2.40, Gphas=4.88, Kp_prop=0.076, K_gamma_dyn=45.5, K_gamma_stat=95.5 => Bode Error: 9745.2
+Eval SUCCESS: Kp=69.6, Ki=47.1, Kd=16.3, Gton=15.48, Gsc=0.98, Gphas=4.83, Kp_prop=0.587, K_gamma_dyn=39.3, K_gamma_stat=88.1 => Bode Error: 8511.1
+Eval SUCCESS: Kp=74.4, Ki=33.5, Kd=16.5, Gton=14.32, Gsc=2.15, Gphas=4.60, Kp_prop=1.201, K_gamma_dyn=38.7, K_gamma_stat=101.2 => Bode Error: 10325.4
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     12 8.180775396719797e+03 1.0e+00 8.96e-01  3e-01  5e+00 43:20.9  
+
+--- Generation 2 ---
+Eval SUCCESS: Kp=60.3, Ki=43.9, Kd=12.7, Gton=6.12, Gsc=1.85, Gphas=3.35, Kp_prop=0.671, K_gamma_dyn=45.3, K_gamma_stat=93.0 => Bode Error: 12452.0
+Eval SUCCESS: Kp=56.5, Ki=37.9, Kd=10.6, Gton=13.98, Gsc=1.15, Gphas=3.75, Kp_prop=0.135, K_gamma_dyn=41.4, K_gamma_stat=88.2 => Bode Error: 13135.4
+Eval EARLY ABORT at 1.12Hz: Kp=68.1, Ki=45.6, Kd=9.6, Gsc=1.14, Gphas=5.95 => Est Score: 18227.6
+Eval SUCCESS: Kp=72.0, Ki=38.6, Kd=14.0, Gton=11.08, Gsc=2.10, Gphas=4.25, Kp_prop=0.399, K_gamma_dyn=40.2, K_gamma_stat=93.8 => Bode Error: 9695.1
+Eval SUCCESS: Kp=70.8, Ki=41.8, Kd=12.3, Gton=10.77, Gsc=0.98, Gphas=4.44, Kp_prop=0.769, K_gamma_dyn=38.4, K_gamma_stat=102.8 => Bode Error: 9445.3
+Eval SUCCESS: Kp=73.4, Ki=38.0, Kd=19.0, Gton=14.11, Gsc=1.61, Gphas=3.96, Kp_prop=0.186, K_gamma_dyn=28.8, K_gamma_stat=87.5 => Bode Error: 11442.1
+Eval SUCCESS: Kp=65.1, Ki=37.2, Kd=16.0, Gton=16.75, Gsc=2.02, Gphas=5.23, Kp_prop=0.675, K_gamma_dyn=39.3, K_gamma_stat=88.8 => Bode Error: 11198.2
+Eval SUCCESS: Kp=62.0, Ki=44.8, Kd=12.6, Gton=10.78, Gsc=0.91, Gphas=4.22, Kp_prop=0.286, K_gamma_dyn=45.2, K_gamma_stat=95.6 => Bode Error: 9238.8
+Eval SUCCESS: Kp=63.1, Ki=39.4, Kd=16.8, Gton=11.75, Gsc=2.10, Gphas=4.32, Kp_prop=0.315, K_gamma_dyn=42.1, K_gamma_stat=94.3 => Bode Error: 8790.2
+Eval SUCCESS: Kp=63.6, Ki=44.7, Kd=17.0, Gton=11.07, Gsc=1.84, Gphas=4.58, Kp_prop=0.104, K_gamma_dyn=32.9, K_gamma_stat=92.6 => Bode Error: 9314.2
+Eval SUCCESS: Kp=62.2, Ki=40.2, Kd=10.2, Gton=16.15, Gsc=2.85, Gphas=4.12, Kp_prop=0.137, K_gamma_dyn=44.3, K_gamma_stat=100.2 => Bode Error: 12142.3
+Eval CRASHED at 0.32Hz: Kp=65.9, Ki=46.1, Kd=15.6, Gton=14.64, Gsc=3.11, Gphas=5.47, Kp_prop=0.187, K_gamma_dyn=50.4, K_gamma_stat=92.7

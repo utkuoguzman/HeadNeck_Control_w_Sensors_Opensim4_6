@@ -1,0 +1,324 @@
+===========================================================================
+Starting Round 2 (7-Parameter) Parallel CMA-ES Optimization
+Frozen Gains: Ki=6.54, Kd=40.13
+Searching: ['Kp', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+===========================================================================
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 7 (seed=655805, Sun Sep 27 13:16:32 2026)
+
+--- Generation 1 ---
+Eval EARLY ABORT at 1.12Hz: Kp=116.2, Gton=13.05, Gsc=2.16, Gphas=4.29 => Est Score: 23254.0
+Eval EARLY ABORT at 1.12Hz: Kp=182.5, Gton=10.97, Gsc=1.89, Gphas=4.28 => Est Score: 25730.0
+Eval SUCCESS: Kp=185.8, Gton=18.38, Gsc=1.11, Gphas=4.37, Kp_prop=0.480, K_gamma_dyn=31.1, K_gamma_stat=104.3 => Bode Error: 26264.2
+Eval SUCCESS: Kp=145.4, Gton=19.12, Gsc=2.04, Gphas=4.72, Kp_prop=0.246, K_gamma_dyn=31.4, K_gamma_stat=106.1 => Bode Error: 22671.3
+Eval SUCCESS: Kp=170.2, Gton=15.87, Gsc=1.47, Gphas=5.21, Kp_prop=0.374, K_gamma_dyn=38.2, K_gamma_stat=100.1 => Bode Error: 22610.7
+Eval SUCCESS: Kp=141.7, Gton=18.64, Gsc=2.78, Gphas=6.32, Kp_prop=0.132, K_gamma_dyn=31.6, K_gamma_stat=91.5 => Bode Error: 16959.5
+Eval EARLY ABORT at 1.12Hz: Kp=138.2, Gton=10.08, Gsc=1.12, Gphas=4.51 => Est Score: 23446.7
+Eval SUCCESS: Kp=155.4, Gton=16.01, Gsc=0.67, Gphas=4.80, Kp_prop=0.183, K_gamma_dyn=36.4, K_gamma_stat=102.5 => Bode Error: 24004.0
+Eval SUCCESS: Kp=138.7, Gton=13.70, Gsc=1.76, Gphas=5.16, Kp_prop=0.014, K_gamma_dyn=47.0, K_gamma_stat=96.2 => Bode Error: 22092.4
+Eval SUCCESS: Kp=154.6, Gton=13.18, Gsc=1.21, Gphas=5.12, Kp_prop=0.011, K_gamma_dyn=33.2, K_gamma_stat=89.0 => Bode Error: 22085.3
+Eval SUCCESS: Kp=110.6, Gton=17.42, Gsc=1.54, Gphas=5.42, Kp_prop=0.011, K_gamma_dyn=41.4, K_gamma_stat=97.1 => Bode Error: 17603.9
+Eval SUCCESS: Kp=149.5, Gton=13.57, Gsc=2.45, Gphas=6.50, Kp_prop=0.633, K_gamma_dyn=33.3, K_gamma_stat=103.1 => Bode Error: 14967.9
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     12 1.496793529000253e+04 1.0e+00 1.21e+00  4e-01  2e+01 63:16.1  
+Gen 1: Best Bode SSE = 14967.9 | Kp=149.52, G_ton=13.57, G_sc=2.45, G_phas=6.50, kp_prop=0.63, k_gamma_dyn=33.25, k_gamma_stat=103.11
+
+--- Generation 2 ---
+Eval TIMEOUT at 1.12Hz: Kp=108.8, Gton=16.68, Gsc=1.79, Gphas=6.64, Kp_prop=0.083Eval TIMEOUT at 1.12Hz: Kp=142.0, Gton=13.15, Gsc=2.83, Gphas=7.36, Kp_prop=0.880
+
+Eval TIMEOUT at 1.12Hz: Kp=141.7, Gton=20.69, Gsc=2.16, Gphas=6.88, Kp_prop=0.177
+Eval TIMEOUT at 1.12Hz: Kp=130.6, Gton=17.01, Gsc=3.24, Gphas=7.20, Kp_prop=0.062
+Eval SUCCESS: Kp=174.5, Gton=12.15, Gsc=3.06, Gphas=6.09, Kp_prop=1.023, K_gamma_dyn=36.4, K_gamma_stat=97.5 => Bode Error: 22679.5
+Eval SUCCESS: Kp=116.1, Gton=11.11, Gsc=2.46, Gphas=6.40, Kp_prop=0.702, K_gamma_dyn=38.5, K_gamma_stat=92.3 => Bode Error: 15690.0
+Eval SUCCESS: Kp=150.7, Gton=14.84, Gsc=1.24, Gphas=5.45, Kp_prop=0.892, K_gamma_dyn=33.6, K_gamma_stat=97.0 => Bode Error: 21059.1
+Eval SUCCESS: Kp=156.5, Gton=12.60, Gsc=2.19, Gphas=6.17, Kp_prop=0.299, K_gamma_dyn=37.8, K_gamma_stat=92.9 => Bode Error: 20914.2
+Eval SUCCESS: Kp=130.1, Gton=11.89, Gsc=0.13, Gphas=5.75, Kp_prop=0.241, K_gamma_dyn=37.3, K_gamma_stat=94.3 => Bode Error: 16090.2
+Eval TIMEOUT at 1.12Hz: Kp=143.0, Gton=8.30, Gsc=2.68, Gphas=7.50, Kp_prop=0.774
+Eval SUCCESS: Kp=121.8, Gton=16.52, Gsc=1.41, Gphas=5.49, Kp_prop=0.215, K_gamma_dyn=42.5, K_gamma_stat=98.7 => Bode Error: 16787.0
+Eval SUCCESS: Kp=140.5, Gton=14.38, Gsc=1.94, Gphas=5.98, Kp_prop=0.088, K_gamma_dyn=38.2, K_gamma_stat=95.5 => Bode Error: 19147.3
+    2     24 1.568995875372304e+04 1.3e+00 1.28e+00  4e-01  3e+01 125:05.3  
+Gen 2: Best Bode SSE = 14967.9 | Kp=149.52, G_ton=13.57, G_sc=2.45, G_phas=6.50, kp_prop=0.63, k_gamma_dyn=33.25, k_gamma_stat=103.11
+
+--- Generation 3 ---
+Eval TIMEOUT at 1.12Hz: Kp=116.3, Gton=21.78, Gsc=3.10, Gphas=6.98, Kp_prop=0.424
+Eval TIMEOUT at 1.12Hz: Kp=129.4, Gton=13.21, Gsc=0.81, Gphas=6.58, Kp_prop=0.421
+Eval SUCCESS: Kp=125.7, Gton=7.51, Gsc=1.64, Gphas=5.16, Kp_prop=0.514, K_gamma_dyn=41.2, K_gamma_stat=90.3 => Bode Error: 22420.2
+Eval SUCCESS: Kp=125.0, Gton=16.97, Gsc=1.32, Gphas=5.14, Kp_prop=0.121, K_gamma_dyn=42.4, K_gamma_stat=90.4 => Bode Error: 19787.3
+Eval SUCCESS: Kp=97.2, Gton=16.99, Gsc=2.15, Gphas=5.22, Kp_prop=0.570, K_gamma_dyn=29.0, K_gamma_stat=101.5 => Bode Error: 16895.5
+Eval SUCCESS: Kp=102.8, Gton=20.24, Gsc=1.93, Gphas=6.00, Kp_prop=0.229, K_gamma_dyn=38.0, K_gamma_stat=95.1 => Bode Error: 14044.2
+Eval EARLY ABORT at 1.12Hz: Kp=111.6, Gton=9.14, Gsc=2.77, Gphas=4.06 => Est Score: 24934.0
+Eval EARLY ABORT at 1.12Hz: Kp=132.4, Gton=11.35, Gsc=0.56, Gphas=6.01 => Est Score: 24365.0
+Eval SUCCESS: Kp=165.2, Gton=13.94, Gsc=0.45, Gphas=5.86, Kp_prop=0.020, K_gamma_dyn=32.9, K_gamma_stat=96.2 => Bode Error: 23930.4
+Eval TIMEOUT at 1.12Hz: Kp=140.4, Gton=9.06, Gsc=2.91, Gphas=7.73, Kp_prop=0.638
+Eval SUCCESS: Kp=131.4, Gton=10.03, Gsc=2.28, Gphas=5.30, Kp_prop=0.402, K_gamma_dyn=33.1, K_gamma_stat=91.5 => Bode Error: 22056.6
+Eval SUCCESS: Kp=153.6, Gton=14.76, Gsc=0.72, Gphas=6.01, Kp_prop=0.636, K_gamma_dyn=31.7, K_gamma_stat=93.8 => Bode Error: 20131.2
+    3     36 1.404424149535809e+04 1.3e+00 1.24e+00  4e-01  3e+01 187:32.2  
+Gen 3: Best Bode SSE = 14044.2 | Kp=102.77, G_ton=20.24, G_sc=1.93, G_phas=6.00, kp_prop=0.23, k_gamma_dyn=37.95, k_gamma_stat=95.12
+
+--- Generation 4 ---
+Eval TIMEOUT at 1.12Hz: Kp=142.4, Gton=20.39, Gsc=1.41, Gphas=7.26, Kp_prop=0.555
+Eval TIMEOUT at 1.12Hz: Kp=153.4, Gton=18.73, Gsc=1.22, Gphas=5.15, Kp_prop=0.573
+Eval TIMEOUT at 1.12Hz: Kp=120.0, Gton=14.63, Gsc=1.48, Gphas=7.13, Kp_prop=0.416
+Eval TIMEOUT at 1.12Hz: Kp=99.8, Gton=21.72, Gsc=1.35, Gphas=6.62, Kp_prop=0.503
+Eval SUCCESS: Kp=98.3, Gton=21.08, Gsc=0.49, Gphas=3.92, Kp_prop=0.141, K_gamma_dyn=36.1, K_gamma_stat=92.8 => Bode Error: 21000.8
+Eval SUCCESS: Kp=110.4, Gton=9.98, Gsc=1.50, Gphas=4.50, Kp_prop=0.607, K_gamma_dyn=43.2, K_gamma_stat=95.9 => Bode Error: 23035.5
+Eval SUCCESS: Kp=109.0, Gton=16.99, Gsc=2.57, Gphas=5.04, Kp_prop=0.355, K_gamma_dyn=38.3, K_gamma_stat=88.8 => Bode Error: 18396.1
+Eval SUCCESS: Kp=135.2, Gton=20.94, Gsc=2.45, Gphas=5.86, Kp_prop=0.146, K_gamma_dyn=36.6, K_gamma_stat=89.2 => Bode Error: 18161.7
+Eval SUCCESS: Kp=135.2, Gton=22.29, Gsc=1.95, Gphas=5.84, Kp_prop=0.440, K_gamma_dyn=42.2, K_gamma_stat=91.4 => Bode Error: 16754.6
+Eval SUCCESS: Kp=90.8, Gton=13.36, Gsc=0.80, Gphas=5.32, Kp_prop=0.099, K_gamma_dyn=47.9, K_gamma_stat=93.9 => Bode Error: 15469.0
+Eval SUCCESS: Kp=99.2, Gton=14.90, Gsc=1.17, Gphas=5.06, Kp_prop=0.372, K_gamma_dyn=30.9, K_gamma_stat=94.9 => Bode Error: 18143.1
+Eval SUCCESS: Kp=94.4, Gton=17.10, Gsc=1.60, Gphas=5.94, Kp_prop=0.044, K_gamma_dyn=27.5, K_gamma_stat=82.5 => Bode Error: 13674.6
+    4     48 1.367459931207392e+04 1.4e+00 1.38e+00  4e-01  3e+01 248:00.6  
+Gen 4: Best Bode SSE = 13674.6 | Kp=94.40, G_ton=17.10, G_sc=1.60, G_phas=5.94, kp_prop=0.04, k_gamma_dyn=27.47, k_gamma_stat=82.52
+
+--- Generation 5 ---
+Eval TIMEOUT at 1.12Hz: Kp=107.3, Gton=20.26, Gsc=1.94, Gphas=6.37, Kp_prop=0.334
+Eval TIMEOUT at 1.12Hz: Kp=130.5, Gton=19.77, Gsc=1.24, Gphas=6.16, Kp_prop=0.072
+Eval TIMEOUT at 1.12Hz: Kp=90.5, Gton=9.71, Gsc=1.76, Gphas=6.02, Kp_prop=0.621Eval TIMEOUT at 1.12Hz: Kp=95.9, Gton=10.22, Gsc=0.77, Gphas=5.26, Kp_prop=0.605
+
+Eval TIMEOUT at 1.12Hz: Kp=110.8, Gton=12.79, Gsc=1.90, Gphas=4.64, Kp_prop=0.144
+Eval TIMEOUT at 1.12Hz: Kp=90.4, Gton=13.95, Gsc=0.23, Gphas=6.92, Kp_prop=0.706
+Eval SUCCESS: Kp=107.9, Gton=17.26, Gsc=0.57, Gphas=3.47, Kp_prop=0.015, K_gamma_dyn=35.0, K_gamma_stat=82.1 => Bode Error: 24726.2
+Eval SUCCESS: Kp=93.5, Gton=15.02, Gsc=1.72, Gphas=4.52, Kp_prop=0.133, K_gamma_dyn=33.4, K_gamma_stat=93.7 => Bode Error: 20160.2
+Eval SUCCESS: Kp=102.1, Gton=16.84, Gsc=3.13, Gphas=6.22, Kp_prop=0.564, K_gamma_dyn=38.1, K_gamma_stat=87.5 => Bode Error: 13626.7
+Eval SUCCESS: Kp=99.0, Gton=15.21, Gsc=2.00, Gphas=4.73, Kp_prop=0.122, K_gamma_dyn=47.5, K_gamma_stat=90.3 => Bode Error: 18844.2
+Eval SUCCESS: Kp=99.1, Gton=5.94, Gsc=0.78, Gphas=5.98, Kp_prop=0.564, K_gamma_dyn=38.7, K_gamma_stat=86.4 => Bode Error: 18941.9
+Eval SUCCESS: Kp=141.6, Gton=27.85, Gsc=1.09, Gphas=6.24, Kp_prop=0.323, K_gamma_dyn=38.1, K_gamma_stat=86.9 => Bode Error: 17461.0
+    5     60 1.362671911882390e+04 1.6e+00 1.42e+00  5e-01  3e+01 289:03.2  
+Gen 5: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 6 ---
+Eval TIMEOUT at 1.12Hz: Kp=99.3, Gton=15.11, Gsc=1.86, Gphas=5.56, Kp_prop=0.494
+Eval TIMEOUT at 1.12Hz: Kp=91.0, Gton=23.56, Gsc=2.20, Gphas=5.98, Kp_prop=0.523
+Eval TIMEOUT at 1.12Hz: Kp=129.7, Gton=12.17, Gsc=2.07, Gphas=5.58, Kp_prop=0.261
+Eval TIMEOUT at 1.12Hz: Kp=90.1, Gton=20.89, Gsc=1.47, Gphas=5.80, Kp_prop=0.796
+Eval TIMEOUT at 1.12Hz: Kp=108.6, Gton=21.07, Gsc=4.10, Gphas=6.39, Kp_prop=0.683
+Eval EARLY ABORT at 1.12Hz: Kp=91.0, Gton=11.04, Gsc=1.16, Gphas=3.53 => Est Score: 25722.4
+Eval TIMEOUT at 1.12Hz: Kp=111.1, Gton=19.82, Gsc=2.12, Gphas=6.68, Kp_prop=0.583Eval TIMEOUT at 1.12Hz: Kp=144.0, Gton=17.01, Gsc=2.35, Gphas=6.53, Kp_prop=1.236Eval TIMEOUT at 1.12Hz: Kp=90.1, Gton=25.07, Gsc=1.45, Gphas=6.30, Kp_prop=0.756
+
+
+Eval SUCCESS: Kp=116.9, Gton=20.43, Gsc=2.99, Gphas=4.86, Kp_prop=0.187, K_gamma_dyn=45.5, K_gamma_stat=88.4 => Bode Error: 19009.8
+Eval SUCCESS: Kp=97.1, Gton=19.63, Gsc=1.60, Gphas=4.92, Kp_prop=0.223, K_gamma_dyn=41.4, K_gamma_stat=85.9 => Bode Error: 17064.0
+Eval SUCCESS: Kp=136.3, Gton=22.83, Gsc=3.30, Gphas=7.03, Kp_prop=0.018, K_gamma_dyn=38.3, K_gamma_stat=87.8 => Bode Error: 18200.2
+    6     72 1.706401963421124e+04 1.7e+00 1.34e+00  4e-01  3e+01 345:21.2  
+Gen 6: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 7 ---
+Eval TIMEOUT at 1.12Hz: Kp=115.7, Gton=25.07, Gsc=2.33, Gphas=5.80, Kp_prop=0.203
+Eval TIMEOUT at 1.12Hz: Kp=134.6, Gton=8.18, Gsc=0.89, Gphas=4.41, Kp_prop=0.148
+Eval TIMEOUT at 1.12Hz: Kp=90.5, Gton=23.12, Gsc=2.28, Gphas=5.55, Kp_prop=0.073
+Eval TIMEOUT at 1.12Hz: Kp=117.0, Gton=25.30, Gsc=2.34, Gphas=5.03, Kp_prop=0.634
+Eval TIMEOUT at 1.12Hz: Kp=112.3, Gton=16.05, Gsc=2.61, Gphas=5.17, Kp_prop=0.109
+Eval TIMEOUT at 1.12Hz: Kp=93.5, Gton=17.92, Gsc=0.50, Gphas=4.66, Kp_prop=0.211
+Eval TIMEOUT at 1.12Hz: Kp=116.8, Gton=24.73, Gsc=3.16, Gphas=6.99, Kp_prop=0.054
+Eval TIMEOUT at 1.12Hz: Kp=108.9, Gton=21.08, Gsc=1.95, Gphas=4.54, Kp_prop=0.449Eval TIMEOUT at 1.12Hz: Kp=101.2, Gton=12.47, Gsc=1.32, Gphas=4.67, Kp_prop=0.323
+
+Eval TIMEOUT at 1.12Hz: Kp=93.6, Gton=22.48, Gsc=2.91, Gphas=4.56, Kp_prop=0.270
+Eval TIMEOUT at 1.12Hz: Kp=95.7, Gton=23.32, Gsc=1.20, Gphas=5.39, Kp_prop=0.140
+Eval TIMEOUT at 1.12Hz: Kp=151.8, Gton=20.30, Gsc=2.63, Gphas=5.86, Kp_prop=0.140
+    7     84 1.000081695330340e+05 1.7e+00 1.29e+00  4e-01  3e+01 353:41.4  
+Gen 7: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 8 ---
+Eval EARLY ABORT at 1.12Hz: Kp=111.4, Gton=11.96, Gsc=1.13, Gphas=3.79 => Est Score: 23742.1
+Eval TIMEOUT at 1.12Hz: Kp=144.5, Gton=16.91, Gsc=3.47, Gphas=5.54, Kp_prop=0.016
+Eval TIMEOUT at 1.12Hz: Kp=134.3, Gton=9.58, Gsc=1.52, Gphas=5.00, Kp_prop=0.492
+Eval TIMEOUT at 1.12Hz: Kp=113.4, Gton=15.93, Gsc=1.94, Gphas=5.13, Kp_prop=0.355
+Eval TIMEOUT at 1.12Hz: Kp=115.6, Gton=8.27, Gsc=3.50, Gphas=5.23, Kp_prop=0.335
+Eval TIMEOUT at 1.12Hz: Kp=98.7, Gton=16.61, Gsc=1.57, Gphas=3.85, Kp_prop=0.077
+Eval TIMEOUT at 1.12Hz: Kp=147.8, Gton=13.49, Gsc=4.73, Gphas=5.32, Kp_prop=0.107
+Eval TIMEOUT at 1.12Hz: Kp=107.1, Gton=18.64, Gsc=2.79, Gphas=5.20, Kp_prop=0.521
+Eval TIMEOUT at 1.12Hz: Kp=124.7, Gton=8.35, Gsc=1.66, Gphas=5.79, Kp_prop=0.012
+Eval TIMEOUT at 1.12Hz: Kp=100.5, Gton=18.69, Gsc=2.29, Gphas=4.93, Kp_prop=0.011
+Eval TIMEOUT at 1.12Hz: Kp=123.4, Gton=20.16, Gsc=1.44, Gphas=4.73, Kp_prop=0.254
+Eval TIMEOUT at 1.12Hz: Kp=105.7, Gton=11.76, Gsc=1.17, Gphas=4.41, Kp_prop=0.425
+    8     96 2.374210747459988e+04 1.7e+00 1.35e+00  4e-01  3e+01 362:01.7  
+Gen 8: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 9 ---
+Eval TIMEOUT at 1.12Hz: Kp=142.3, Gton=8.02, Gsc=1.47, Gphas=4.61, Kp_prop=0.238
+Eval TIMEOUT at 1.12Hz: Kp=116.3, Gton=18.57, Gsc=1.57, Gphas=4.11, Kp_prop=0.074Eval TIMEOUT at 1.12Hz: Kp=119.5, Gton=6.55, Gsc=2.33, Gphas=4.82, Kp_prop=0.014
+
+Eval TIMEOUT at 1.12Hz: Kp=90.4, Gton=19.11, Gsc=2.00, Gphas=5.17, Kp_prop=0.648
+Eval TIMEOUT at 1.12Hz: Kp=99.8, Gton=21.61, Gsc=2.60, Gphas=4.24, Kp_prop=0.121
+Eval TIMEOUT at 1.12Hz: Kp=126.1, Gton=13.41, Gsc=0.16, Gphas=4.57, Kp_prop=0.099
+Eval TIMEOUT at 1.12Hz: Kp=98.4, Gton=18.89, Gsc=2.41, Gphas=4.40, Kp_prop=0.544
+Eval TIMEOUT at 1.12Hz: Kp=133.1, Gton=7.59, Gsc=1.98, Gphas=5.02, Kp_prop=0.441Eval TIMEOUT at 1.12Hz: Kp=132.9, Gton=12.55, Gsc=2.18, Gphas=4.62, Kp_prop=0.209
+
+Eval TIMEOUT at 1.12Hz: Kp=95.1, Gton=17.72, Gsc=1.94, Gphas=5.83, Kp_prop=0.214
+Eval TIMEOUT at 1.12Hz: Kp=107.5, Gton=14.31, Gsc=1.77, Gphas=4.56, Kp_prop=0.120
+Eval TIMEOUT at 1.12Hz: Kp=122.7, Gton=9.01, Gsc=1.61, Gphas=5.12, Kp_prop=0.388
+    9    108 1.000053592355441e+05 1.6e+00 1.20e+00  4e-01  2e+01 370:21.9  
+Gen 9: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 10 ---
+Eval TIMEOUT at 1.12Hz: Kp=106.2, Gton=15.51, Gsc=2.75, Gphas=2.97, Kp_prop=0.030
+Eval TIMEOUT at 1.12Hz: Kp=94.8, Gton=15.75, Gsc=3.69, Gphas=3.86, Kp_prop=0.163Eval TIMEOUT at 1.12Hz: Kp=108.4, Gton=13.47, Gsc=2.50, Gphas=5.90, Kp_prop=0.419
+
+Eval TIMEOUT at 1.12Hz: Kp=119.9, Gton=13.57, Gsc=2.45, Gphas=4.87, Kp_prop=0.014
+Eval TIMEOUT at 1.12Hz: Kp=106.1, Gton=19.48, Gsc=1.64, Gphas=4.08, Kp_prop=0.017
+Eval TIMEOUT at 1.12Hz: Kp=121.5, Gton=11.43, Gsc=1.91, Gphas=4.90, Kp_prop=0.509
+Eval TIMEOUT at 1.12Hz: Kp=93.9, Gton=19.45, Gsc=1.15, Gphas=5.11, Kp_prop=0.089Eval TIMEOUT at 1.12Hz: Kp=130.5, Gton=4.17, Gsc=2.01, Gphas=5.19, Kp_prop=0.041
+
+Eval TIMEOUT at 1.12Hz: Kp=109.4, Gton=12.31, Gsc=1.52, Gphas=4.35, Kp_prop=0.033
+Eval TIMEOUT at 1.12Hz: Kp=102.5, Gton=12.65, Gsc=0.79, Gphas=3.51, Kp_prop=1.406Eval TIMEOUT at 1.12Hz: Kp=97.8, Gton=23.77, Gsc=2.85, Gphas=3.58, Kp_prop=0.030
+
+Eval TIMEOUT at 1.12Hz: Kp=119.1, Gton=8.75, Gsc=2.42, Gphas=4.64, Kp_prop=0.050
+   10    120 1.000125672608563e+05 1.6e+00 1.10e+00  3e-01  2e+01 378:42.1  
+Gen 10: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 11 ---
+Eval TIMEOUT at 1.12Hz: Kp=112.5, Gton=7.50, Gsc=3.18, Gphas=4.35, Kp_prop=0.380
+Eval TIMEOUT at 1.12Hz: Kp=126.9, Gton=9.15, Gsc=3.41, Gphas=4.15, Kp_prop=0.328
+Eval TIMEOUT at 1.12Hz: Kp=127.8, Gton=9.20, Gsc=3.14, Gphas=4.96, Kp_prop=0.312Eval TIMEOUT at 1.12Hz: Kp=112.4, Gton=15.13, Gsc=2.07, Gphas=3.37, Kp_prop=0.017
+
+Eval TIMEOUT at 1.12Hz: Kp=103.9, Gton=13.84, Gsc=1.89, Gphas=5.00, Kp_prop=0.061
+Eval TIMEOUT at 1.12Hz: Kp=107.9, Gton=19.33, Gsc=2.33, Gphas=5.39, Kp_prop=0.355
+Eval TIMEOUT at 1.12Hz: Kp=97.0, Gton=12.57, Gsc=3.13, Gphas=4.96, Kp_prop=0.037Eval TIMEOUT at 1.12Hz: Kp=99.4, Gton=15.27, Gsc=4.17, Gphas=5.40, Kp_prop=0.178
+
+Eval TIMEOUT at 1.12Hz: Kp=100.1, Gton=10.96, Gsc=3.60, Gphas=4.56, Kp_prop=0.233
+Eval TIMEOUT at 1.12Hz: Kp=109.1, Gton=19.68, Gsc=3.63, Gphas=4.57, Kp_prop=1.086
+Eval TIMEOUT at 1.12Hz: Kp=132.9, Gton=13.46, Gsc=1.88, Gphas=5.69, Kp_prop=0.406
+Eval TIMEOUT at 1.12Hz: Kp=138.0, Gton=11.07, Gsc=0.77, Gphas=4.63, Kp_prop=0.147
+   11    132 1.000082560060238e+05 1.7e+00 1.12e+00  4e-01  2e+01 387:02.3  
+Gen 11: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 12 ---
+Eval TIMEOUT at 1.12Hz: Kp=98.2, Gton=17.20, Gsc=0.79, Gphas=5.03, Kp_prop=0.313Eval TIMEOUT at 1.12Hz: Kp=102.2, Gton=5.87, Gsc=1.22, Gphas=4.48, Kp_prop=0.145
+
+Eval TIMEOUT at 1.12Hz: Kp=137.0, Gton=11.50, Gsc=2.72, Gphas=4.73, Kp_prop=0.132
+Eval TIMEOUT at 1.12Hz: Kp=134.4, Gton=12.64, Gsc=1.74, Gphas=4.38, Kp_prop=0.471
+Eval TIMEOUT at 1.12Hz: Kp=103.8, Gton=12.33, Gsc=2.79, Gphas=3.52, Kp_prop=0.286
+Eval TIMEOUT at 1.12Hz: Kp=92.6, Gton=18.38, Gsc=1.72, Gphas=5.70, Kp_prop=0.132
+Eval TIMEOUT at 1.12Hz: Kp=105.2, Gton=20.04, Gsc=2.91, Gphas=5.34, Kp_prop=0.702
+Eval TIMEOUT at 1.12Hz: Kp=143.2, Gton=12.09, Gsc=2.41, Gphas=5.04, Kp_prop=0.483Eval TIMEOUT at 1.12Hz: Kp=94.1, Gton=9.57, Gsc=0.82, Gphas=3.94, Kp_prop=0.557
+
+Eval TIMEOUT at 1.12Hz: Kp=104.7, Gton=13.95, Gsc=2.73, Gphas=4.30, Kp_prop=0.496Eval TIMEOUT at 1.12Hz: Kp=141.7, Gton=11.36, Gsc=1.24, Gphas=4.57, Kp_prop=0.270
+
+Eval TIMEOUT at 1.12Hz: Kp=117.8, Gton=17.45, Gsc=3.87, Gphas=3.68, Kp_prop=0.854
+   12    144 1.000009630764419e+05 1.8e+00 1.05e+00  3e-01  2e+01 395:22.6  
+Gen 12: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 13 ---
+Eval TIMEOUT at 1.12Hz: Kp=125.2, Gton=21.69, Gsc=1.83, Gphas=5.06, Kp_prop=0.010
+Eval TIMEOUT at 1.12Hz: Kp=125.8, Gton=7.55, Gsc=3.30, Gphas=5.88, Kp_prop=0.745Eval TIMEOUT at 1.12Hz: Kp=90.4, Gton=18.67, Gsc=1.79, Gphas=4.96, Kp_prop=0.711
+
+Eval TIMEOUT at 1.12Hz: Kp=94.2, Gton=24.17, Gsc=1.75, Gphas=4.81, Kp_prop=0.171
+Eval TIMEOUT at 1.12Hz: Kp=93.2, Gton=18.35, Gsc=2.06, Gphas=4.57, Kp_prop=0.354
+Eval TIMEOUT at 1.12Hz: Kp=90.0, Gton=23.14, Gsc=2.73, Gphas=5.85, Kp_prop=0.209
+Eval TIMEOUT at 1.12Hz: Kp=113.5, Gton=11.11, Gsc=2.82, Gphas=4.56, Kp_prop=0.027
+Eval TIMEOUT at 1.12Hz: Kp=103.0, Gton=17.33, Gsc=2.38, Gphas=5.33, Kp_prop=0.446Eval TIMEOUT at 1.12Hz: Kp=101.3, Gton=17.17, Gsc=1.57, Gphas=5.34, Kp_prop=0.362
+
+Eval TIMEOUT at 1.12Hz: Kp=96.1, Gton=17.73, Gsc=1.92, Gphas=5.11, Kp_prop=0.532
+Eval TIMEOUT at 1.12Hz: Kp=91.1, Gton=22.11, Gsc=1.63, Gphas=5.52, Kp_prop=0.452
+Eval TIMEOUT at 1.12Hz: Kp=100.8, Gton=21.08, Gsc=1.68, Gphas=5.72, Kp_prop=0.435
+   13    156 1.000035212348668e+05 2.0e+00 8.98e-01  3e-01  2e+01 403:42.8  
+Gen 13: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 14 ---
+Eval TIMEOUT at 1.12Hz: Kp=98.2, Gton=6.89, Gsc=1.66, Gphas=5.05, Kp_prop=0.419
+Eval TIMEOUT at 1.12Hz: Kp=110.8, Gton=19.35, Gsc=2.63, Gphas=4.34, Kp_prop=0.714
+Eval TIMEOUT at 1.12Hz: Kp=132.6, Gton=14.66, Gsc=2.31, Gphas=5.01, Kp_prop=0.652
+Eval TIMEOUT at 1.12Hz: Kp=97.2, Gton=17.43, Gsc=2.74, Gphas=4.74, Kp_prop=0.397
+Eval TIMEOUT at 1.12Hz: Kp=90.7, Gton=18.04, Gsc=1.99, Gphas=4.95, Kp_prop=0.475
+Eval TIMEOUT at 1.12Hz: Kp=123.3, Gton=13.43, Gsc=3.25, Gphas=5.33, Kp_prop=0.383
+Eval TIMEOUT at 1.12Hz: Kp=131.6, Gton=15.68, Gsc=2.33, Gphas=4.58, Kp_prop=0.028
+Eval TIMEOUT at 1.12Hz: Kp=104.5, Gton=17.75, Gsc=1.86, Gphas=4.55, Kp_prop=0.484
+Eval TIMEOUT at 1.12Hz: Kp=103.7, Gton=22.45, Gsc=1.17, Gphas=5.37, Kp_prop=0.114
+Eval TIMEOUT at 1.12Hz: Kp=109.8, Gton=13.30, Gsc=1.40, Gphas=5.58, Kp_prop=0.922
+Eval TIMEOUT at 1.12Hz: Kp=127.0, Gton=13.51, Gsc=1.17, Gphas=4.77, Kp_prop=0.126
+Eval TIMEOUT at 1.12Hz: Kp=108.3, Gton=18.49, Gsc=2.06, Gphas=5.22, Kp_prop=0.450
+   14    168 1.000001182656293e+05 2.0e+00 8.79e-01  3e-01  2e+01 412:03.0  
+Gen 14: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 15 ---
+Eval TIMEOUT at 1.12Hz: Kp=114.4, Gton=19.73, Gsc=2.02, Gphas=4.80, Kp_prop=0.139
+Eval TIMEOUT at 1.12Hz: Kp=139.6, Gton=16.12, Gsc=0.76, Gphas=4.62, Kp_prop=0.269
+Eval TIMEOUT at 1.12Hz: Kp=119.6, Gton=13.52, Gsc=2.12, Gphas=4.84, Kp_prop=0.085
+Eval TIMEOUT at 1.12Hz: Kp=141.2, Gton=11.74, Gsc=2.36, Gphas=4.68, Kp_prop=0.217
+Eval TIMEOUT at 1.12Hz: Kp=127.1, Gton=21.55, Gsc=1.72, Gphas=4.03, Kp_prop=0.283
+Eval TIMEOUT at 1.12Hz: Kp=128.4, Gton=14.69, Gsc=1.80, Gphas=4.98, Kp_prop=0.012
+Eval TIMEOUT at 1.12Hz: Kp=106.3, Gton=18.60, Gsc=2.11, Gphas=5.31, Kp_prop=0.104
+Eval TIMEOUT at 1.12Hz: Kp=125.2, Gton=11.94, Gsc=0.92, Gphas=4.05, Kp_prop=0.297
+Eval TIMEOUT at 1.12Hz: Kp=127.3, Gton=14.83, Gsc=1.65, Gphas=5.56, Kp_prop=0.019
+Eval TIMEOUT at 1.12Hz: Kp=135.9, Gton=13.16, Gsc=1.40, Gphas=5.89, Kp_prop=0.022
+Eval TIMEOUT at 1.12Hz: Kp=129.9, Gton=14.49, Gsc=3.12, Gphas=5.29, Kp_prop=0.381
+Eval TIMEOUT at 1.12Hz: Kp=119.9, Gton=14.91, Gsc=0.42, Gphas=4.53, Kp_prop=0.208
+   15    180 1.000126647021186e+05 2.3e+00 9.73e-01  3e-01  2e+01 420:23.2  
+Gen 15: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 16 ---
+Eval TIMEOUT at 1.12Hz: Kp=150.9, Gton=9.70, Gsc=0.87, Gphas=4.60, Kp_prop=0.606
+Eval TIMEOUT at 1.12Hz: Kp=90.0, Gton=14.11, Gsc=1.92, Gphas=4.92, Kp_prop=0.102
+Eval TIMEOUT at 1.12Hz: Kp=134.7, Gton=9.15, Gsc=0.74, Gphas=4.62, Kp_prop=0.013
+Eval TIMEOUT at 1.12Hz: Kp=113.9, Gton=8.25, Gsc=0.44, Gphas=4.09, Kp_prop=0.221
+Eval TIMEOUT at 1.12Hz: Kp=157.8, Gton=13.91, Gsc=0.88, Gphas=4.35, Kp_prop=0.142
+Eval TIMEOUT at 1.12Hz: Kp=129.5, Gton=15.36, Gsc=0.64, Gphas=4.59, Kp_prop=0.240
+Eval TIMEOUT at 1.12Hz: Kp=138.1, Gton=11.85, Gsc=0.89, Gphas=5.18, Kp_prop=0.022
+Eval TIMEOUT at 1.12Hz: Kp=143.3, Gton=13.90, Gsc=0.57, Gphas=4.70, Kp_prop=0.223
+Eval TIMEOUT at 1.12Hz: Kp=122.6, Gton=16.21, Gsc=0.55, Gphas=5.12, Kp_prop=0.148
+Eval TIMEOUT at 1.12Hz: Kp=103.3, Gton=15.75, Gsc=2.36, Gphas=4.71, Kp_prop=0.124
+Eval TIMEOUT at 1.12Hz: Kp=132.4, Gton=8.41, Gsc=1.00, Gphas=4.51, Kp_prop=0.052
+Eval TIMEOUT at 1.12Hz: Kp=114.0, Gton=17.20, Gsc=1.79, Gphas=4.91, Kp_prop=0.017
+   16    192 1.000021294538951e+05 2.5e+00 7.90e-01  3e-01  2e+01 428:43.4  
+Gen 16: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 17 ---
+Eval TIMEOUT at 1.12Hz: Kp=138.7, Gton=15.38, Gsc=1.74, Gphas=5.40, Kp_prop=0.419
+Eval TIMEOUT at 1.12Hz: Kp=111.4, Gton=14.95, Gsc=2.31, Gphas=4.65, Kp_prop=0.357
+Eval TIMEOUT at 1.12Hz: Kp=134.9, Gton=12.26, Gsc=1.76, Gphas=4.24, Kp_prop=0.047Eval TIMEOUT at 1.12Hz: Kp=136.2, Gton=9.66, Gsc=0.64, Gphas=4.29, Kp_prop=0.113
+
+Eval TIMEOUT at 1.12Hz: Kp=124.4, Gton=18.19, Gsc=1.02, Gphas=4.07, Kp_prop=0.086Eval TIMEOUT at 1.12Hz: Kp=112.8, Gton=12.47, Gsc=1.85, Gphas=4.61, Kp_prop=0.358
+
+Eval TIMEOUT at 1.12Hz: Kp=141.4, Gton=16.12, Gsc=1.41, Gphas=3.93, Kp_prop=0.306
+Eval TIMEOUT at 1.12Hz: Kp=126.9, Gton=11.00, Gsc=1.90, Gphas=5.19, Kp_prop=0.017
+Eval TIMEOUT at 1.12Hz: Kp=114.0, Gton=12.98, Gsc=0.69, Gphas=4.63, Kp_prop=0.057
+Eval TIMEOUT at 1.12Hz: Kp=118.3, Gton=16.44, Gsc=1.29, Gphas=4.48, Kp_prop=0.058
+Eval TIMEOUT at 1.12Hz: Kp=104.9, Gton=13.62, Gsc=1.37, Gphas=4.46, Kp_prop=0.094
+Eval TIMEOUT at 1.12Hz: Kp=122.5, Gton=10.47, Gsc=1.53, Gphas=4.33, Kp_prop=0.257
+   17    204 1.000119169744938e+05 2.5e+00 6.46e-01  2e-01  1e+01 437:03.6  
+Gen 17: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 18 ---
+Eval TIMEOUT at 1.12Hz: Kp=111.3, Gton=16.39, Gsc=1.47, Gphas=4.60, Kp_prop=0.020
+Eval TIMEOUT at 1.12Hz: Kp=124.9, Gton=14.51, Gsc=1.55, Gphas=4.56, Kp_prop=0.270Eval TIMEOUT at 1.12Hz: Kp=131.0, Gton=18.92, Gsc=2.44, Gphas=5.32, Kp_prop=0.433
+
+Eval TIMEOUT at 1.12Hz: Kp=150.5, Gton=11.10, Gsc=1.72, Gphas=4.15, Kp_prop=0.032
+Eval TIMEOUT at 1.12Hz: Kp=138.6, Gton=13.54, Gsc=1.80, Gphas=4.77, Kp_prop=0.256Eval TIMEOUT at 1.12Hz: Kp=106.4, Gton=15.08, Gsc=2.31, Gphas=4.69, Kp_prop=0.010
+
+Eval TIMEOUT at 1.12Hz: Kp=115.2, Gton=18.98, Gsc=2.45, Gphas=4.18, Kp_prop=0.010
+Eval TIMEOUT at 1.12Hz: Kp=127.5, Gton=10.76, Gsc=2.29, Gphas=4.61, Kp_prop=0.027
+Eval TIMEOUT at 1.12Hz: Kp=108.2, Gton=14.74, Gsc=1.24, Gphas=4.55, Kp_prop=0.077
+Eval TIMEOUT at 1.12Hz: Kp=99.5, Gton=12.78, Gsc=1.83, Gphas=4.75, Kp_prop=0.387
+Eval TIMEOUT at 1.12Hz: Kp=91.3, Gton=17.81, Gsc=2.49, Gphas=4.87, Kp_prop=0.188
+Eval TIMEOUT at 1.12Hz: Kp=140.8, Gton=10.92, Gsc=1.57, Gphas=3.88, Kp_prop=0.298
+   18    216 1.000073930570989e+05 2.6e+00 6.06e-01  2e-01  1e+01 445:23.8  
+Gen 18: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 19 ---
+Eval TIMEOUT at 1.12Hz: Kp=110.3, Gton=14.77, Gsc=1.35, Gphas=3.67, Kp_prop=0.017Eval TIMEOUT at 1.12Hz: Kp=113.5, Gton=20.86, Gsc=2.12, Gphas=4.87, Kp_prop=0.080Eval TIMEOUT at 1.12Hz: Kp=107.3, Gton=18.15, Gsc=2.38, Gphas=4.66, Kp_prop=0.012Eval TIMEOUT at 1.12Hz: Kp=132.9, Gton=15.39, Gsc=1.40, Gphas=4.38, Kp_prop=0.152
+
+
+
+Eval TIMEOUT at 1.12Hz: Kp=136.5, Gton=11.72, Gsc=1.68, Gphas=4.44, Kp_prop=0.011
+Eval TIMEOUT at 1.12Hz: Kp=126.6, Gton=20.94, Gsc=2.02, Gphas=4.55, Kp_prop=0.265
+Eval TIMEOUT at 1.12Hz: Kp=128.4, Gton=14.12, Gsc=1.68, Gphas=4.76, Kp_prop=0.230Eval TIMEOUT at 1.12Hz: Kp=125.9, Gton=15.54, Gsc=2.34, Gphas=3.75, Kp_prop=0.064
+
+Eval TIMEOUT at 1.12Hz: Kp=125.1, Gton=13.54, Gsc=2.48, Gphas=4.54, Kp_prop=0.089
+Eval TIMEOUT at 1.12Hz: Kp=131.8, Gton=14.29, Gsc=2.52, Gphas=4.93, Kp_prop=0.052
+Eval TIMEOUT at 1.12Hz: Kp=121.7, Gton=16.04, Gsc=1.90, Gphas=4.28, Kp_prop=0.377
+Eval TIMEOUT at 1.12Hz: Kp=126.3, Gton=14.07, Gsc=1.97, Gphas=4.27, Kp_prop=0.297
+   19    228 1.000059897349210e+05 2.6e+00 5.63e-01  2e-01  1e+01 453:44.0  
+Gen 19: Best Bode SSE = 13626.7 | Kp=102.07, G_ton=16.84, G_sc=3.13, G_phas=6.22, kp_prop=0.56, k_gamma_dyn=38.11, k_gamma_stat=87.47
+
+--- Generation 20 ---
+Eval CRASHED at 1.12Hz: Kp=121.3, Gton=18.67, Gsc=1.49, Gphas=4.27, Kp_prop=0.034
+Eval CRASHED at 1.12Hz: Kp=127.2, Gton=14.36, Gsc=1.49, Gphas=3.86, Kp_prop=0.039
+Eval CRASHED at 1.12Hz: Kp=106.2, Gton=16.94, Gsc=1.00, Gphas=3.82, Kp_prop=0.235
+Eval CRASHED at 1.12Hz: Kp=120.1, Gton=14.78, Gsc=1.73, Gphas=5.28, Kp_prop=0.024
+Eval CRASHED at 1.12Hz: Kp=118.1, Gton=15.03, Gsc=1.64, Gphas=4.41, Kp_prop=0.098
+Eval CRASHED at 1.12Hz: Kp=138.3, Gton=12.04, Gsc=1.34, Gphas=4.15, Kp_prop=0.016
+Eval CRASHED at 1.12Hz: Kp=103.8, Gton=17.26, Gsc=1.66, Gphas=3.99, Kp_prop=0.049
+Eval CRASHED at 1.12Hz: Kp=102.4, Gton=14.25, Gsc=0.33, Gphas=4.04, Kp_prop=0.067
+Eval CRASHED at 1.12Hz: Kp=105.2, Gton=15.95, Gsc=2.01, Gphas=4.06, Kp_prop=0.383
+Eval CRASHED at 1.12Hz: Kp=127.1, Gton=12.76, Gsc=1.57, Gphas=4.37, Kp_prop=0.113
+Eval CRASHED at 1.12Hz: Kp=125.3, Gton=12.73, Gsc=2.09, Gphas=4.59, Kp_prop=0.128

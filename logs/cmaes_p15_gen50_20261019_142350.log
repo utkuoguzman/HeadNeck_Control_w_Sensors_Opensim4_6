@@ -1,0 +1,8 @@
+==========================================================================================
+PHASE 1.5 CONTINUATION: EXECUTING GENERATIONS 28 THROUGH 50
+Targeting Happee (2017) Real Experimental Bode Curves (Angular Phase & Gain)
+Started at: 2026-10-19 14:23:50
+==========================================================================================
+Loaded champion seed with baseline score: 553.08
+Inherited adapted CMA-ES sigma=1.0353 and coordinate stds from outcmaes/stddev.dat
+Loaded successfully, TARGETS: [(7.95, 0.443, -247.7), (5.52, 0.509, -194.6), (2.48, 0.655, -163.7), (1.11, 0.814, -112.6), (0.78, 0.84, -98.9), (0.31, 0.893, 4.5)]

@@ -1,0 +1,802 @@
+Dynamic head-neck stabilization and modulation with perturbation
+bandwidth investigated using a multisegment neuromuscular model
+Riender Happee a,⇑,1, Edo de Bruijn a,1, Patrick A. Forbes a,c, Frans C.T. van der Helm a,b
+a Department of Biomechanical Engineering, Delft University of Technology, Delft, The Netherlands
+b Laboratory of Biomechanical Engineering, University of Twente, Enschede, The Netherlands
+c Department of Neuroscience, Erasmus Medical Centre, Rotterdam, The Netherlands
+article info
+Article history:
+Accepted 8 May 2017
+Keywords:
+Postural control
+Musculoskeletal model
+Neck
+Feedback
+Vestibular
+VCR
+CCR
+Co-contraction
+abstract
+The human head-neck system requires continuous stabilization in the presence of gravity and trunk
+motion. We investigated contributions of the vestibulocollic reﬂex (VCR), the cervicocollic reﬂex (CCR),
+and neck muscle co-contraction to head-in-space and head-on-trunk stabilization, and investigated mod-
+ulation of the stabilization strategy with the frequency content of trunk perturbations and the presence of
+visual feedback.
+We developed a multisegment cervical spine model where reﬂex gains (VCR and CCR) and neck muscle
+co-contraction were estimated by ﬁtting the model to the response of young healthy subjects, seated and
+exposed to anterior-posterior trunk motion, with frequency content from 0.3 up to 1, 2, 4 and 8 Hz, with
+and without visual feedback.
+The VCR contributed to head-in-space stabilization with a strong reduction of head rotation (<8 Hz)
+and a moderate reduction of head translation (>1 Hz). The CCR contributed to head-on-trunk stabilization
+with a reduction of head rotation and head translation relative to the trunk (<2 Hz). The CCR also proved
+essential to stabilize the individual intervertebral joints and prevent neck buckling. Co-contraction was
+estimated to be of minor relevance. Control strategies employed during low bandwidth perturbations
+most effectively reduced head rotation and head relative displacement up to 3 Hz while control strategies
+employed during high bandwidth perturbations reduced head global translation between 1 and 4 Hz.
+This indicates a shift from minimizing head-on-trunk rotation and translation during low bandwidth per-
+turbations to minimizing head-in-space translation during high bandwidth perturbations. Presence of
+visual feedback had limited effects suggesting increased usage of vestibular feedback.
+/C2112017 The Author(s). Published by Elsevier Ltd. This is an open access article under the CC BY-NC-ND
+license (http://creativecommons.org/licenses/by-nc-nd/4.0/).
+1. Introduction
+The human head-neck system is a complex and highly ﬂexible
+biomechanical structure, requiring continuous active stabilization
+in the presence of gravity. Coordinated feedback control of neck
+muscle segments is needed to position and stabilize the head in
+space, and to stabilize the individual neck joints in the presence
+of trunk motion and other perturbations. These are partly conﬂict-
+ing control objectives. In the presence of dynamic trunk motion, for
+example while walking or riding in a vehicle, it may be beneﬁcial
+to minimize head rotation and translation to improve vision and
+comfort. This can be achieved with a so called head-in-space
+control strategy using vestibular and visual feedback. In contrast,
+humans may employ a head-on-trunk control strategy using mus-
+cle spindle feedback and co-contraction of antagonist muscles to
+stiffen the neck and stabilize individual neck joints to prevent neck
+buckling (collapse) in the presence of gravity.
+Experimental studies have demonstrated that muscle spindle
+and vestibular afferent information contribute to head-neck stabi-
+lization through the cervicocollic reﬂex (CCR) and the vestibulocol-
+lic reﬂex (VCR), respectively ( Keshner et al., 1999; Keshner, 2009;
+Goldberg and Cullen, 2011; Cullen, 2012; Forbes et al., 2013a ). This
+paper investigates the role of the VCR, CCR and co-contraction
+using an advanced neuromuscular model. An early model captured
+human response data to sagittal plane torso perturbations with a
+two-pivot head-neck model ( Peng, 1996 ). The model attributed
+substantial VCR and CCR contributions to head pitch rotation con-
+trol, but head translation, which is commonly assumed to be also
+under VCR and CCR control was not reported. Thus our study aims
+http://dx.doi.org/10.1016/j.jbiomech.2017.05.005
+0021-9290//C2112017 The Author(s). Published by Elsevier Ltd.
+This is an open access article under the CC BY-NC-ND license ( http://creativecommons.org/licenses/by-nc-nd/4.0/).
+⇑ Corresponding author at: Faculty of Mechanical, Maritime and Materials
+Engineering (3mE), Delft University of Technology, The Netherlands.
+E-mail address: R.Happee@tudelft.nl (R. Happee).
+1 Both authors contributed equally.
+Journal of Biomechanics 58 (2017) 203–211
+Contents lists available at ScienceDirect
+Journal of Biomechanics
+journal homepage: www.elsevi er.com/locate/jbiomech
+www.JBiomech.com
+
+to corroborate previous ﬁndings on head rotation control and
+extend them to head translation to support hypothesis 1: The
+VCR contributes to head-in-space stabilization and substantially
+reduces head rotation and translation in space, while the CCR con-
+tributes to head-on-trunk stabilization and substantially reduces head
+rotation and translation relative to the trunk .
+Local neck deformation like S-shaped bending cannot be (accu-
+rately) sensed by the vestibular organ, since it encodes head
+motion in gravito-inertial coordinates. As a result, muscle length
+and velocity feedback are expected to be essential for the stabiliza-
+tion of the individual neck joints and to prevent neck buckling (col-
+lapse) in the presence of gravity. We therefore deﬁne hypothesis 2:
+The CCR stabilizes the intervertebral joints and prevents neck buckling .
+Experimental and modelling studies on the extremities and
+lumbar spine have shown substantial contributions of muscle co-
+contraction, where simultaneous activation of antagonist muscles
+creates an ‘‘intrinsic resistance” which can be of a similar magni-
+tude as the ‘‘reﬂexive resistance” ( Kearney et al., 1997;
+Mirbagheri et al., 2000; de Vlugt et al., 2006; van Drunen et al.,
+2013). Keshner (2000) reported effects of neck muscle co-
+contraction when young (20–40 year) subjects were asked to stif-
+fen their necks, but this effect was absent when subjects performed
+mental arithmetic or relax tasks. This motivates hypothesis 3: Co-
+contraction can contribute to head-on-trunk stabilization, but this
+contribution will be minor in natural stabilization conditions .
+Experimental studies have shown the ability of the central ner-
+vous system (CNS) to modulate neck afferent feedback in response
+to changing external environments ( Goldberg and Peterson, 1986;
+Gillies et al., 1998; Keshner et al., 1999; Fard et al., 2004; Liang and
+Chiang, 2008; Reynolds et al., 2008 ). We demonstrated modulation
+of neck afferent feedback with the frequency bandwidth of
+anterior-posterior trunk perturbations ( Forbes et al., 2013b ), with
+modest effects of the presence of vision. We tentatively associated
+this modulation with the attenuation of oscillations, and with a shift
+from head-on-trunk to head-in-space to stabilization. In line with the
+experimental data (Forbes et al., 2013b) we deﬁne hypothesis 4: The
+presence of higher frequencies in the perturbations will induce a shift
+from head-on-trunk to head-in-space stabilization. The head-in-space
+strategy will minimize the seat to head transmission, which can be
+beneﬁcial for motion comfort (Paddan and Grifﬁn, 1998).
+To evaluate the above hypotheses, we developed an advanced
+neuromuscular model of the human head-neck system. Contribu-
+tions of VCR, CCR and co-contraction were investigated ﬁtting
+the model to responses of young healthy subjects exposed to
+anterior-posterior trunk perturbations with varying bandwidth,
+during eyes closed and eyes open conditions ( Forbes et al., 2013b ).
+2. Methods
+Neuromuscular neck models presented in the literature range from 1-pivot
+models ( Peng, 1996; Peng et al., 1997; Peng et al., 1999; Fard et al., 2003;
+Rahmatalla and Liu, 2012; Wang and Rahmatalla, 2013 ) to detailed multisegment
+models ( van Ee et al., 2000; Wittek et al., 2000; Yoganandan et al., 2002; Chancey
+et al., 2003; Stemper et al., 2004; Brolin et al., 2008; Hedenstierna, 2008; Almeida
+et al., 2009; Meijer et al., 2013; Östh et al., 2016 ). To study stabilization of the indi-
+vidual intervertebral joints, a multisegment model is needed. Chancey et al. (2003)
+presented a multisegment neck model and used optimization to generate balanced
+activations of 23 muscle pairs representing relaxed and maximally tensed initial
+states, minimising intervertebral motion while exposing the model to gravity for
+100 ms. However we found no proof that any existing multisegment neck model
+stabilizes the individual joints in the presence of gravity with prolonged dynamic
+perturbations. The VCR and CCR can separately control head rotation and transla-
+tion, but we are not aware of any model including such separate feedback loops.
+In order to address the above limitations, a three-dimensional (3D) multiseg-
+ment nonlinear neck model ( de Jager, 1996; van der Horst, 2002; de Bruijn et al.,
+2015) was extended with a new control model ( Fig. 1 ).
+2.1. Biomechanical head-neck model
+The model contains nine rigid bodies representing the head, seven cervical ver-
+tebrae (C1–C7), and the ﬁrst thoracic vertebra (T1). The head mass is 4.69 kg and
+the total neck mass is 1.63 kg ( van der Horst, 2002 ). The 8 intervertebral joints
+allow 3D rotational and translational motion, resulting in a total of 48 degrees of
+freedom (DOF). Centers of rotation are not imposed and joint motion is governed
+by non-linear models of the passive structures. Intervertebral discs, ligaments
+actH
+ccrτ
++
+G
+ton
+0L
+G
+phas
+pk
+G
+cc
+vk
+G
+sc Naext-r
+Naflex-r
+NaCC
+tonH
+scH
+phasH
+ae
+++
+-
+L
+L
+θ >0
+<0
+vcrτ
+[0 1]
++
+Naext-t
+Naflex-t
+>0
+<0
++
+Napost
+θ
+X
+..
+1TX
+Fig. 1. Neural control model. Blue blocks contain sensory and muscle activation dynamics and delays, orange blocks contain the feedback sensitivity (gain) and co-contraction
+parameters. Green blocks are muscle synergy vectors converting scalar control signals to an appropriate activation of multiple muscle segments for ﬂexion ( Naﬂex-r for
+rotation, Naﬂex-t for translation), extension ( Naext-r for rotation, Naext-t for translation), co-contraction ( Nacc) and postural activity counteracting gravity ( Napost). The VCR
+provides feedback of head angular velocity _h, angle h, and acceleration €X with sensor dynamics Hsc, Hton, Hphas, and feedback sensitivity parameters Gsc, Gton, Gphas. The CCR
+provides feedback of muscle contractile element (CE) length L with sensitivity parameter kp and velocity _L with sensitivity parameter kv where muscle CE reference length L0
+represents the desired posture. Neural pathway delays are deﬁned for VCR ( svcr) and CCR ( sccr). Hact captures muscular activation dynamics transforming neural excitation ( e)
+into muscle active state ( a). XT1 is the applied mechanical perturbation being translation of the base of the neck. Thick lines indicate multiple signals for all 258 muscle
+segments.
+204 R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211
+and facet joints were captured with nonlinear models using biomechanical litera-
+ture ( Pintar, 1986; Yoganandan et al., 1998; Panjabi et al., 2001; van der Horst,
+2002). Muscles (34 muscles, totalling 129 elements per body side) were imple-
+mented as line elements based on dissection of a single specimen ( Borst et al.,
+2011). Intermediate ‘via points’ connecting muscles to adjacent vertebrae were
+implemented to ensure the muscles took on a curved path during head-neck dis-
+placement. The non-linear Hill type muscle dynamics are described in the Appendix
+and further information on the biomechanical model as well as its isometric and
+passive validation can be found in de Bruijn et al., (2015) . Gravity was simulated
+as a 9.81 m/s 2 gravitational ﬁeld acting on the skull and the vertebrae.
+2.2. Neural control
+The neural controller was implemented to stabilize the head-neck model in the
+anterior-posterior direction in order to simulate the experimental conditions
+described by Forbes et al. (2013b) (Fig. 1 ). The activation of muscle segments was
+regulated by vestibular (VCR) and muscle (CCR) afferent feedback as well as neck
+muscle co-contraction. The VCR was comprised of three sensory feedback path-
+ways: 1) canal feedback ( Hsc, Gsc) evoked by head angular (pitch) velocity ( _h), 2) oto-
+lith tonic feedback representing graviception ( Hton, Gton) evoked by head pitch angle
+(h), and 3) otolith phasic feedback ( Hphas, Gphas) evoked by global head acceleration
+(€X) in the anterior-posterior direction. In these loops, H captures the sensor dynam-
+ics while G is the feedback sensitivity parameter. The CCR was modelled using feed-
+back of muscle length ( parameter k p) and velocity ( parameter k v) for each muscle
+element. Muscle co-contraction was modiﬁed using the parameter Gcc representing
+an average baseline muscle activation level, and an additional postural activity
+Napost was deﬁned to counteract gravity. Hact captures muscular activation dynam-
+ics. Details can be found in the Appendix.
+2.3. Experimental data
+We investigated head-neck stabilization by ﬁtting the model to experimental
+data reported by Forbes et al. (2013b) . Twelve subjects (nine men) of 22–26 years
+were restrained by a ﬁve point harness on a rigid seat with a 10 /C176inclined backrest.
+Subjects were instructed to take on a comfortable upright seating position, main-
+taining the head comfortably above the torso. Tests were performed with eyes
+closed (EC) as well as with eyes open (EO). In EC, subjects were blindfolded. In
+EO, subjects were instructed to maintain visual focus on a stationary target 3 m
+in front of the platform. During all trials, subjects listened to a science-based radio
+program to distract them from the stabilization process and minimize voluntary
+responses. Anterior-posterior pseudorandom multisine (sum of sinusoids) pertur-
+bations were applied to the seat using a motion platform. Experiments were per-
+formed with four perturbation bandwidths: 0.3–1.2 Hz (B1); 0.3–2.0 Hz (B2); 0.3–
+4.0 Hz (B4); 0.3–8.0 Hz (B8) all with a root-mean-square (RMS) seat velocity of
+0.08 m/s and RMS T1 acceleration of 0.42 (B1); 0.66 (B2); 1.07 (B4); 2.1 (B8) m/s 2.
+Motion of the seat, T1, and the head were measured using a motion capture system
+(Qualisys AB, Gothenburg, Sweden), providing head pitch angle and angular veloc-
+ity ðh; _hÞ, global head forward displacement and velocity ðXGH ; _XGH Þ, and head for-
+ward displacement and velocity relative to T1 ðXRH ; _XRH Þ. The control parameters
+were estimated ﬁtting the model to the experimental head translation and rotation
+using the response averaged over subjects as described in the Appendix.
+3. Results
+3.1. Model ﬁt to experimental data
+The model reproduced the experimentally observed head trans-
+lation and rotation with good ﬁts in time and frequency domain
+(Fig. 2 ) and a variance accounted for (VAF) of 93% averaged over
+four bandwidths ( Table 1) for the eyes closed condition. With eyes
+open a reasonable ﬁt was obtained with an average VAF of 82%
+(Fig. 3 and Table 1 ).
+Static stability was evaluated checking head rotation and inter-
+vertebral rotations in prolonged simulations without perturbations
+and with all perturbation conditions. Some parameter variations
+induced excessive static intervertebral joint motions leading to
+buckling of the neck and excessive static head rotations in partic-
+Fig. 2. Model ﬁt with eyes closed. Experimental and modelled kinematic responses in global translational head velocity _XGH , angular head velocity _h, and relative translational
+head velocity _XRH for the lowest bandwidth (B1-blue) and highest bandwidth (B8-red). Upper plots provide time domain responses, while lower plots provide gain and pha se
+of frequency response functions from T1 translation to head motion.
+R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211 205
+ular during B1 (see Fig. 4). Apparently in these variations the static
+feedback gains kp and Gton and the passive neck stiffness were
+insufﬁcient to counter the destabilizing effects of gravity. Static
+stability was achieved by constraining kp to be greater than 0.45
+while Gton was ﬁxed at a value of 2. Gton below 2 induced slow for-
+ward or rearward head rotation, in particular with low kp. A grid
+search indicated limited effects of Gton on the model ﬁt ( Eq. 4 in
+the Appendix ) with optimal Gton below 3 and an adequate model
+ﬁt with Gton =2 .
+3.2. Contributions of individual feedback pathways and co-contraction
+To examine the inﬂuence of VCR, CCR and muscle co-
+contraction, we simulated different combinations of model param-
+eters varying the best ﬁt parameter sets in Table 1 . Omitting the
+VCR or the CCR strongly affected the static and dynamic response
+in all conditions. Omitting the VCR resulted in static head rotations
+up to 13 /C176. Re-optimizing the CCR without VCR provided a reason-
+able ﬁt (78.5% VAF with kp = 0.45 and kv = 0.159 for B1EC and
+Table 1
+Parameters and variance accounted for (VAF) for the four perturbation bandwidths obtained by ﬁtting the model to experimental data.
+Bandwidth 0.3–1.2 Hz (B1) 0.3–2.0 Hz (B2) 0.3–4.0 Hz (B4) 0.3–8.0 Hz (B8)
+Visual feedback EC EO EC EO EC EO EC EO
+Gsc [Nm/(rad/s)] 1.73 2.17 2.11 2.40 0.95 1.22 0.55 1.11
+Gton [Nm/rad] 2 * 2* 2* 2* 2* 2* 2* 2*
+Gphas [N/(m/s2)] 0.87 0.48 3.43 2.46 3.06 2.44 0.87 3.74
+kp [] 0.45* 0.45* 0.45* 0.45* 0.56 0.55 0.81 0.65
+kv [1/(1/s)] 0.13 0.12 0.10 0.10 0.10 0.10 0.08 0.07
+Gcc [%] 1.21 1.08 0.92 0.73 0.84 0.73 0.00 0.00
+VAF _XGH 99.5 97.9 96.9 92.6 97.7 94.9 94.9 92.7
+VAF _h 93.8 78.7 93.4 89.7 97.1 96.0 93.6 81.7
+VAF _XRH 92.0 69.2 89.4 74.7 98.0 96.1 97.7 97.3
+VAF XGH 99.5 97.3 98.8 94.9 98.8 95.2 97.8 96.3
+VAF h 86.5 48.7 87.0 67.2 91.8 78.4 87.3 83.5
+VAF XRH 85.7 38.0 85.2 53.7 92.5 73.4 87.3 81.4
+Average VAF 92.8 71.6 91.8 78.8 96.0 89.0 93.1 88.8
+* kp was constrained to be at least 0.45 and Gton was ﬁxed, see text.
+Fig. 3. Model ﬁt with eyes open (further as in Fig. 2 ).
+206 R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211
+85.3% VAF with kp = 1.06 and kv = 0.146 for B8EC). Omitting the
+CCR resulted in neck buckling with static head rotations up to
+37/C176(e.g. Fig. 4 ). Variation of the six individual control parameters
+strongly affected the frequency response functions (see Fig. 5 for
+gain responses in B8EC). As expected, feedback of head angular
+velocity (Gsc) strongly reduced head rotation and this was effective
+at all tested frequencies (0.3–8 Hz). Hence this feedback is effective
+beyond the 2–3 Hz range which is often referred to as the reso-
+nance frequency of the head-neck system. In addition, Gsc reduced
+head relative translation up to 2 Hz and dampened low frequency
+oscillations in head rotation and translation. Feedback of head
+rotation angle ( Gton) effectively reduced head rotation up to
+Fig. 4. Static stability illustrated for B1EC. Initial posture (left), forward bending when CCR is disabled (middle), and adequate head position with eleva ted vestibular feedback
+(Gton = 12) while CCR is still disabled (right). In the latter condition (right) the spine is locally unstable in the initial posture resulting in rearward bu ckling of the upper neck
+segments with joints reaching their range of motion and being stabilized by passive structures.
+0.2
+0.5
+1
+2
+gain Xgh []
+Gsc Gton Gphas kp kv Gcc
+30
+100
+300
+1000gain θ [o/m]
+0.3 1 3 8
+0.1
+0.3
+1
+2
+gain Xrh []
+0.55 best fit
+0.83
+0
+0.3 1 3 8
+2 best fit
+1
+4
+0.3 1 3 8
+frequency [Hz]
+0.87 best fit
+3
+0
+0.3 1 3 8
+0.81 best fit
+1.2
+0.45
+0.3 1 3 8
+0.078 best fit
+0.12
+0
+0.3 1 3 8
+0 best fit
+1
+2
+Fig. 5. Variation of the six individual control parameters of the VCR (Gsc,G ton,G phas), CCR (kp,k v) and co-contraction ( Gcc). The frequency response function from T1 translation
+to global translational head velocity _XGH (upper plots), head angular velocity _h (middle plots), and relative translational head velocity _XRH (lower plots) is depicted for B8EC
+where the best ﬁt (blue) is equal in all graphs.
+R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211 207
+0.7 Hz while being counter-effective at higher frequencies. Feed-
+back of head translational acceleration ( Gphas) had moderate effects
+reducing head in space translation above 1 Hz at the cost of
+increased head in space translation below 1 Hz and increased head
+rotation and relative translation below 2 Hz. As expected, the CCR
+(kp and kv) reduced head rotation and relative translation. CCR
+length feedback ( kp) was effective up to 0.7 Hz but induced oscilla-
+tions at 1.1 Hz when raised 50% above the best ﬁt value. CCR veloc-
+ity feedback ( kv) was effective up to 2 Hz. Co-contraction ( Gcc) was
+estimated to be zero for B8 and increasing co-contraction to 1%
+(similar to the estimate for B1, B2 and B4) led to a relevant reduc-
+tion of head rotation and head relative displacement up to 1 Hz.
+Co-contraction increased the head global displacement up to
+5 Hz due to a reduced phase lag of the head relative displacement
+(not shown). It shall be noted that the average muscle activation
+estimated with the model ( /C24 3% for B8 and /C24 4% for B1, B2, B4)
+exceeded the co-contraction level. This is partly due to the postural
+activity Napost counteracting gravity resulting in around 5.5%
+extensor activation and 2.1% activation averaged over all muscles.
+Additional muscle activation originates from reﬂexive stabilization
+in response to the dynamic perturbations. The activation determi-
+nes muscular damping through the contractile element (CE) force
+velocity relationship. We explored this effect by doubling the CE
+maximum shortening velocity parameter vmax, which effectively
+reduced the CE damping by a factor two. This reduced CE damping
+had notable effects at all frequencies. Thus, while co-contraction
+was estimated to be limited or zero, intrinsic muscle damping
+had a relevant inﬂuence on head-neck stabilization.
+3.3. Modulation with perturbation bandwidth and vision
+The estimated control parameters indicate profound effects of
+bandwidth with modest effects of vision ( Fig. 6 and Table 1 ).
+Effects of bandwidth were similar with and without vision (with
+an exception for Gphas at B8 where Gphas hardly affected the crite-
+rion optimized). The presence of vision led to higher Gsc suggesting
+an increased effort to minimize head rotation. To further analyse
+effects of bandwidth we also simulated perturbation condition
+B8 with the parameter sets P1, P2, P4 estimated for the lower
+bandwidths B1, B2 and B4 and simulated perturbation condition
+B1 with parameter set P8 estimated for B8 (all with EC). This
+allowed us to predict effects of low bandwidth control strategies
+at higher frequencies. The frequency response functions in Fig. 7
+show that P1 more effectively reduced head rotation and head rel-
+ative translation up to 3 Hz (up to a factor 3 at 0.3 Hz) and slightly
+enlarged head global translation below 1 Hz (17% at 0.7 Hz). P8
+reduced global head translation between 1 and 4 Hz with a maxi-
+mum reduction of 55% at 2.3 Hz. Parameter sets P2 and P4 applied
+with B8 provided intermediate responses indicating gradual mod-
+ulation with perturbation bandwidth (not shown). These results
+indicate a shift towards head-in-space stabilization with higher
+perturbation bandwidth.
+Fig. 7 shows no apparent oscillations in the form of peaks in the
+frequency response functions. The only slight oscillation occurs at
+0.7 Hz where the head global translation gain is 1.26 for P8 at B1
+and 1.07 for P1 at B1.
+Fig. 7 shows slightly different frequency response functions
+applying low or high bandwidth perturbations while maintaining
+the same control parameters (compare continuous and dotted lines
+of the same colour in Fig. 7 ). This can be attributed to non-linear
+model components such as the Hill type muscle model and the
+activation dynamics.
+4. Discussion
+We developed a neuromuscular model to investigate contribu-
+tions of CRR, VCR and muscle co-contraction to head-neck stabi-
+lization and modulation of control strategies with perturbation
+bandwidth and vision.
+4.1. Neuromuscular model
+The 3D multisegment neck model was developed and validated
+for impact applications (de Jager, 1996; van der Horst, 2002; Meijer
+et al., 2013 ) and was recently enhanced, including validation of
+muscle moment arms, passive bending stiffness and isometric
+force generation ( de Bruijn et al., 2015 ). In the current study, we
+developed a controller for anterior-posterior head-neck stabiliza-
+tion. To our knowledge this is the ﬁrst multisegment head-neck
+model including three vestibular feedback loops, length/velocity
+feedback of individual muscle segments and co-contraction
+(Fig. 1 ). Other models include neck muscle synergies grouping
+muscles as ﬂexors and extensors applying the same activation for
+all muscles within groups ( Brolin et al., 2008; Hedenstierna et al.,
+2008; Fice et al., 2011; Östh et al., 2012; Dibb et al., 2013; Meijer
+et al., 2013 ). We deﬁned muscle synergies generating translational
+head force, head moments and co-contraction using isometric
+analyses (de Bruijn et al., 2015 ). These synergies apply speciﬁc acti-
+vation levels for each muscle segment depending on muscle func-
+tion, taking into account the moment balance at all joints, enabling
+separate control of head translation and rotation.
+We estimated six neuromuscular control parameters (feedback
+gains and muscle co-contraction) ﬁtting simulated responses to
+experiments in which anterior-posterior trunk perturbations were
+applied to human subjects ( Forbes et al., 2013b ). The model cap-
+tured the experimental responses well with some deviations in
+gain and phase at the lowest frequencies in particular with eyes
+open. This suggests a need for an additional visual feedback loop,
+taking into account optokinetic contributions to neck muscle activ-
+ity. This will best be derived using perturbations with even lower
+frequencies and manipulating visual information. In the presence
+of gravity the head-neck system is inherently unstable. Static sta-
+bility could only be obtained setting minimal values for the two
+static feedback gains ( kp > 0.45 and G ton = 2) capturing muscle
+length and vestibular head pitch angle feedback. These were
+B1 B2 B4 B8
+0
+0.5
+1
+1.5
+2
+2.5
+3
+Gsc
+B1 B2 B4 B8
+0
+1
+2
+3
+4
+Gphas
+B1 B2 B4 B8
+0
+0.2
+0.4
+0.6
+0.8
+1
+kp
+B1 B2 B4 B8
+0
+0.05
+0.1
+0.15
+kv
+B1 B2 B4 B8
+0
+0.5
+1
+1.5
+Gcc
+EC
+EO
+Fig. 6. Effects of bandwidth and vision on the model parameters, estimated for the four perturbation bandwidth conditions (B1–B8) with eyes closed (EC) and e yes open (EO).
+208 R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211
+partially interchangeable; selecting higher kp values a lower Gton
+could still stabilize head rotation, but kp was essential to stabilize
+the intervertebral joints, and Gton was most effective to minimize
+static head rotation. A more precise estimation of these parameters
+may be possible using experiments with low frequency perturba-
+tions, where the distinct role of kp (head-on-trunk) and Gton
+(head-in-space) could be revealed using independent torso transla-
+tion and rotation perturbations. The other control parameters ( Gsc,
+Gphas, kv, Gcc) could well be estimated by ﬁtting head translation
+and rotation kinematics, where Fig. 5 shows that these parameters
+have markedly different effects. Here it is noted that the model
+contains many parameters characterising discs, facet joints and
+ligaments. The resulting intervertebral bending stiffness has been
+validated by de Bruijn et al. (2015) , but dynamic validation of the
+passive spine is recommended. With further validation, the model
+can be of value in the medical ﬁeld for research, diagnosis and
+treatment of neck disorders and in ﬁelds such as vehicle comfort
+and impact biomechanics.
+4.2. Contributions of individual feedback pathways and co-contraction
+The VCR contributed to head-in-space stabilization through a
+strong reduction of head rotation and a moderate reduction of
+head global translation. The CCR contributed to head-on-trunk sta-
+bilization with a substantial reduction of head rotation and head
+relative translation. These results support hypothesis 1 where con-
+tributions vary in magnitude and frequency range. The VCR
+reduced head rotation with a substantial contribution of semicir-
+cular feedback ( Gsc) at all tested frequencies ( Fig. 5) and with tonic
+otolith feedback ( Gton) contributing to static stability. The VCR
+reduced head-in-space translation through phasic otolith feedback
+(Gphas)( Fig. 5 ). CCR velocity feedback ( kv) reduced head rotation
+and relative translation up to 2 Hz while length feedback ( kp)
+was effective up to 0.7 Hz ( Fig. 5 ). These results are in line with
+modelling studies reporting a similar magnitude of VCR and CCR
+contributions to control head rotation in the sagittal plane ( Peng,
+1996; Peng et al., 1997 ). We are not aware of any other model con-
+trolling head-in-space translation using otolith feedback. In our
+model this feedback was moderately effective above 1 Hz while
+at lower frequencies both experiment and model show head-on-
+trunk stabilization. This aligns with the selected otolith transfer
+function, which has a low sensitivity below 1 Hz ( Fig. 9 right ). Fur-
+ther exploration of otolith feedback contributions to head transla-
+tion control could thus focus on perturbations above 1 Hz.
+The CCR proved essential to stabilize the individual interverte-
+bral joints and prevent neck buckling, which conﬁrms hypothesis
+2. Without CCR, static stability could not be achieved resulting in
+excessive static ﬂexion or extension of the individual neck joints
+and the entire neck ( Fig. 4 ). A model without VCR could be stabi-
+lized provided CCR gains were adapted, which is also seen in
+vestibular loss patients where ‘‘there are no dramatic differences
+between patients and controls” in conditions similar to the current
+study ( Keshner, 2003 ).
+The level of co-contraction ( Gcc) was estimated to be around 1%
+for bandwidths B1, B2, B4 and zero with the highest bandwidth B8.
+The 1% co-contraction contributed to head-on-trunk stabilization
+up to 1 Hz ( Fig. 5 ) but was not essential for dynamic and static
+stabilization. This supports hypothesis 3, and highlights a minor
+Fig. 7. Effects of bandwidth; parameter set (P1) estimated for the lowest bandwidth (B1) and parameter set P8 estimated for the highest bandwidth (B8) with ey es closed,
+have been used to simulate both conditions (B1&B8).
+R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211 209
+contribution of co-contraction in natural head-neck stabilization
+conditions. However, additional postural activation to counteract
+gravity and reﬂexive activation in response to the dynamic pertur-
+bations resulted in average muscle activation levels of 3–4% induc-
+ing relevant intrinsic muscle resistance through the contractile
+element (CE) force velocity relationship. Here it shall be noted that
+Keshner (2000) found that both younger (20–40 years) and older
+(65–88 year) subjects showed effective co-contraction when asked
+to stiffen their necks, while the older subjects also showed effec-
+tive co-contraction with mental arithmetic and relax tasks.
+4.3. Modulation with perturbation bandwidth and vision
+The estimated control parameters indicate profound effects of
+bandwidth with modest effects of vision ( Fig. 6 and Table 1 ).
+Effects of bandwidth were similar with and without vision. Vision
+led to increased semicircular feedback ( Gsc) indicating elevated
+efforts to minimize head rotation. This concurs with the notion
+that vestibular and visual senses integrate to improve the percep-
+tion of motion ( Angelaki et al., 2011 ). The current model captured
+this in a simpliﬁed manner as an increased usage of vestibular
+feedback. Other parameters also suggest a shift towards head-in-
+space stabilization with vision, but effects were small for kv and
+Gcc and present only at the highest bandwidth for Gphas and kp.
+Studies on the extremities indicate that feedback gains are
+reduced with increasing perturbation bandwidths to prevent feed-
+back induced oscillations at the system’s natural frequency
+(Kearney et al., 1997; Mugge et al., 2010). In our experimental study
+(Forbes et al., 2013b ), we hypothesized a similar feedback gain
+reduction in the neck with perturbation bandwidths exceeding
+the natural frequency. The parameter estimates from our model
+(Fig. 6 ) indeed showed reduced feedback gains Gsc and kv with
+higher bandwidths, but this is accompanied with increased gains
+Gphas and kp. The model allowed us to predict the effects of control
+strategies identiﬁed for high bandwidth conditions with lower
+bandwidth perturbations (and vice versa). As illustrated in Fig. 7 ,
+the low bandwidth control strategy P1 does not induce apparent
+oscillations when simulated with the highest bandwidth perturba-
+tion (i.e. B8 with P1). Therefore we conclude that attenuation of
+oscillations does not explain the observed modulation of neck sta-
+bilization strategies with changes in perturbation bandwidth.
+The experimental data up to 1.2 Hz (see Figs. 2 and 3) motivated
+hypothesis 4: The presence of higher frequencies in the perturbations
+will induce a shift from head-on-trunk to head-in-space stabilization .
+Our neuromuscular model supported hypothesis 4 also for fre-
+quencies above 1.2 Hz. As illustrated in Fig. 7 , the control strategy
+employed at the lowest bandwidth more effectively reduced head
+rotation and head relative displacement up to 3 Hz as compared to
+the high bandwidth control strategy. In contrast, the control strat-
+egy employed at the highest bandwidth reduced head global trans-
+lation between 1 and 4 Hz, an outcome that could not be identiﬁed
+experimentally. In terms of head translation, this indicates a shift
+from head-on-trunk stabilization at the lowest bandwidth to
+head-in-space stabilization at the highest bandwidth. Our parame-
+ter estimates suggest that this was realized by reduced muscle
+velocity feedback ( kv) and co-contraction ( Gcc), combined with
+increased head translational acceleration feedback ( Gton). In terms
+of head rotation, the experiment did not discriminate between
+head-in-space and head-on-trunk stabilization because the trunk
+was perturbed in translation only. Experiments inducing trunk
+rotation could provide further insight in the interacting and par-
+tially opposing VCR and CCR contributions to control head rotation.
+The control strategy with the highest perturbation bandwidth led
+to an increased head rotation which may not seem beneﬁcial, but
+apparently helps to reduce head global translation from 1 to 4 Hz
+(Fig. 7 ). This interaction is also apparent in the effect of Gsc on
+Xgh in Fig. 5 . Summarizing results for translation and rotation, we
+observe a shift in control strategy from minimizing head-on-
+trunk rotation and translation during low bandwidth perturbations
+to minimizing head-in-space translation during high bandwidth
+perturbations. This modulation of control may well be beneﬁcial
+in terms of comfort, limiting the transfer of 1–4 Hz horizontal seat
+motions to the head, where comfort standards for whole body
+vibration attribute considerable weight to these frequencies ( ISO-
+2631-1 1997 ).
+Conﬂicts of interest statement
+The authors declare that no conﬂict of interest were associated
+with the present study.
+Acknowledgements
+This research was supported by the Dutch Technology Founda-
+tion STW, which is part of the Netherlands Organization for Scien-
+tiﬁc Research (NWO) and partly funded by the Ministry of
+Economic Affairs, Agriculture and Innovation ( www.neurosipe.nl
+project 10736: torticollis). We acknowledge the advice of M. Jamali
+and K. Cullen for the implementation of vestibular functions, and
+TNO and TASS International for supporting the model
+implementation.
+Appendix A. Model equations and parameter estimation
+Supplementary data associated with this article can be found, in
+the online version, at http://dx.doi.org/10.1016/j.jbiomech.2017.
+05.005.
+References
+Almeida, J., Fraga, F., Silva, M., Silva-Carvalho, L., 2009. Feedback control of the head-
+neck complex for nonimpact scenarios using multibody dynamics. Multibody
+Sys.Dyn. 21, 395–416. http://dx.doi.org/10.1007/s11044-009-9148-4.
+Angelaki, D.E., Gu, Y., Deangelis, G.C., 2011. Visual and vestibular cue integration for
+heading perception in extrastriate visual cortex. J. Physiol. 589, 825–833. http://
+dx.doi.org/10.1113/jphysiol.2010.194720.
+Borst, J., Forbes, P.A., Happee, R., Veeger, H.E.J., 2011. Muscle parameters for
+musculoskeletal modelling of the human neck. Clin. Biomech. (Bristol, Avon) 26,
+343–351. http://dx.doi.org/10.1016/j.clinbiomech.2010.11.019. S0268-0033
+(10)00313-X [pii].
+Brolin, K., Hedenstierna, S., Halldin, P., Bass, C., Alem, N., 2008. The importance
+of muscle tension on the outcome of impacts with a major vertical component.
+Int. J. Crashworthiness 13, 487–498. http://dx.doi.org/10.1080/
+13588260802215510.
+Chancey, V.C., Nightingale, R.W., Van Ee, C.A., Knaub, K.E., Myers, B.S., 2003.
+Improved estimation of human neck tensile tolerance: reducing the range of
+reported tolerance using anthropometrically correct muscles and optimized
+physiologic initial conditions. Stapp Car Crash J. 47, 135–153. doi: 2003-22-
+0008 [pii] .
+Cullen, K.E., 2012. The vestibular system: multimodal integration and encoding of
+self-motion for motor control. Trends Neurosci. 35, 185–196. http://dx.doi.org/
+10.1016/j.tins.2011.12.001.
+de Bruijn, E., van der Helm, F.C.T., Happee, R., 2015. Analysis of isometric cervical
+strength with a nonlinear musculoskeletal model with 48 degrees of
+freedom. Multibody Sys.Dyn. 36, 339–362. http://dx.doi.org/10.1007/s11044-
+015-9461-z.
+de Jager, M.K.J., 1996. Mathematical Head-Neck Models for Acceleration Impacts.
+PhD thesis. In. University of Eindhoven, p. 143.
+de Vlugt, E., Schouten, A.C., van der Helm, F.C.T., 2006. Quantiﬁcation of intrinsic
+and reﬂexive properties during multijoint arm posture. J. Neurosci. Methods
+155, 328–349. http://dx.doi.org/10.1016/j.jneumeth.2006.01.022.
+Dibb, A.T., Cox, C.A., Nightingale, R.W., et al., 2013. Importance of muscle activations
+for bioﬁdelic pediatric neck response in computational models. Trafﬁc Injury
+Prevent. 14, S116–S127. http://dx.doi.org/10.1080/15389588.2013.806795.
+Fard, M.A., Ishihara, T., Inooka, H., 2003. Dynamics of the head-neck complex in
+response to the trunk horizontal vibration: modeling and identiﬁcation. J.
+Biomech. Eng. 125, 533–539 .
+Fard, M.A., Ishihara, T., Inooka, H., 2004. Identiﬁcation of the head-neck complex in
+response to trunk horizontal vibration. Biol. Cybern. 90, 418–426. http://dx.doi.
+org/10.1007/s00422-004-0489-z.
+210 R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211
+Fice, J.B., Cronin, D.S., Panzer, M.B., 2011. Cervical spine model to predict capsular
+ligament response in rear impact. Ann. Biomed. Eng. 39, 2152–2162. http://dx.
+doi.org/10.1007/s10439-011-0315-4.
+Forbes, P.A., Dakin, C.J., Vardy, A.N., Happee, R., Siegmund, G.P., Schouten, A.C.,
+Blouin, J.S., 2013a. Frequency response of vestibular reﬂexes in neck, back, and
+lower limb muscles. J. Neurophysiol. 110, 1869–1881. http://dx.doi.org/
+10.1152/jn.00196.2013.
+Forbes, P.A., de Bruijn, E., Schouten, A.C., van der Helm, F.C.T., Happee, R., 2013b.
+Dependency of human neck reﬂex responses on the bandwidth of
+pseudorandom anterior-posterior torso perturbations. Exp. Brain Res. 226, 1–
+14. http://dx.doi.org/10.1007/s00221-012-3388-x.
+Gillies, G.T., Broaddus, W.C., Stenger, J.M., Taylor, A.G., 1998. A biomechanical model
+of the craniomandibular complex and cervical spine based on the inverted
+pendulum. J. Med. Eng. Technol. 22, 263–269 .
+Goldberg, J., Peterson, B.W., 1986. Reﬂex and mechanical contributions to head
+stabilization in alert cats. J. Neurophysiol. 56, 857–875 .
+Goldberg, J.M., Cullen, K.E., 2011. Vestibular control of the head: possible functions
+of the vestibulocollic reﬂex. Exp. Brain Res. 210, 331–345. http://dx.doi.org/
+10.1007/s00221-011-2611-5.
+Hedenstierna, S., 2008. 3D Finite Element Modeling of Cervical Musculature and its
+Effect on Neck Injury Prevention. In. KTH, PhD thesis, Stockholm, pp. vii, 60.
+Hedenstierna, S., Halldin, P., Brolin, K., 2008. Evaluation of a combination of
+continuum and truss ﬁnite elements in a model of passive and active muscle
+tissue. Comp. Methods Biomech. Biomed. Eng. 11, 627–639. http://dx.doi.org/
+10.1080/17474230802312516.
+ISO-2631-1., 1997. Mechanical Vibration and Shock: Evaluation of Human Exposure
+to Whole-Body Vibration.
+Kearney, R.E., Stein, R.B., Parameswaran, L., 1997. Identiﬁcation of intrinsic and
+reﬂex contributions to human ankle stiffness dynamics. IEEE Trans. Biomed.
+Eng. 44, 493–504 .
+Keshner, E.A., 2000. Modulating active stiffness affects head stabilizing strategies in
+young and elderly adults during trunk rotations in the vertical plane. Gait
+Posture 11, 1–11 .
+Keshner, E.A., 2003. Head-trunk coordination during linear anterior-posterior
+translations. J. Neurophysiol. 89, 1891–1901. http://dx.doi.org/10.1152/
+jn.00836.2001.
+Keshner, E.A., 2009. Vestibulocollic and cervicocollic control. In: Binder, M.D.,
+Jirokawa, N., Windhorst, U. (Eds.), Encyclopedia of Neuroscience. Springer-
+Verlag, Berlin, Heidelberg, pp. 4222–4224 .
+Keshner, E.A., Hain, T.C., Chen, K.J., 1999. Predicting control mechanisms for human
+head stabilization by altering the passive mechanics. J. Vestib. Res. 9, 423–434 .
+Liang, C.C., Chiang, C.F., 2008. Modeling of a seated human body exposed to vertical
+vibrations in various automotive postures. Ind. Health 46, 125–137. http://dx.
+doi.org/10.2486/indhealth.46.125.
+Meijer, R., Broos, J., Elrofai, H., de Bruijn, E., Forbes, P.A., Happee, R., 2013. Modelling
+of bracing in a multi-body active human model. In: IRCOBI, vol. IRC-13-67,
+Gothenburg, Sweden, pp. 576-587.
+Mirbagheri, M.M., Barbeau, H., Kearney, R.E., 2000. Intrinsic and reﬂex contributions
+to human ankle stiffness: variation with activation level and position. Exp. Brain
+Res. 135, 423–436 .
+Mugge, W., Abbink, D.A., Schouten, A.C., Dewald, J.P.A., van der Helm, F.C.T., 2010. A
+rigorous model of reﬂex function indicates that position and force feedback are
+ﬂexibly tuned to position and force tasks. Exp. Brain Res. 200, 325–340. http://
+dx.doi.org/10.1007/s00221-009-1985-0.
+Östh, J., Brolin, K., Carlsson, S., Wismans, J., Davidsson, J., 2012. The occupant
+response to autonomous braking: a modeling approach that accounts for active
+musculature. Trafﬁc Inj Prev 13, 265–277. http://dx.doi.org/10.1080/
+15389588.2011.649437.
+Östh, J., Brolin, K., Svensson, M.Y., Linder, A., 2016. A female ligamentous cervical
+spine ﬁnite element model validated for physiological loads. J. Biomech. Eng.
+138. http://dx.doi.org/10.1115/1.4032966.
+Paddan, G.S., Grifﬁn, M.J., 1998. A review of the transmission of translational seat
+vibration to the head. J. Sound Vib. 215, 863–882 .
+Panjabi, M.M., Crisco, J.J., Vasavada, A., Oda, T., Cholewicki, J., Nibu, K., Shin, E., 2001.
+Mechanical properties of the human cervical spine as shown by three-
+dimensional load-displacement curves. Spine 26, 2692–2700. http://dx.doi.
+org/10.1097/00007632-200112150-00012.
+Peng, G.C., Hain, T.C., Peterson, B.W., 1999. Predicting vestibular, proprioceptive,
+and biomechanical control strategies in normal and pathological head
+movements. IEEE Trans. Biomed. Eng. 46, 1269–1280. http://dx.doi.org/
+10.1109/10.797986.
+Peng, G.C.Y., 1996. Dynamics and control of head, neck and eye stabilization:
+neuromechanical and experimental models. In: vol. PhD Thesis. Northwestern
+University.
+Peng, G.C.Y., Hain, T.C., Peterson, B.W., 1997. How is the head held up? Modeling
+mechanisms for head stability in the sagittal plane. In: Boom, H., Robinson, C.,
+Rutten, W., Neuman, M., Wijkstra, H. (Eds.), Proceedings of the 18th Annual
+International Conference of the IEEE Engineering in Medicine and Biology
+Society, vol. 18, Pts 1–5, vol. 18, pp. 627–628.
+Pintar, F.A., 1986. The biomechanics of spinal elements (ligaments, vertebral body,
+disc). In: Marquette University, PhD thesis.
+Rahmatalla, S., Liu, Y., 2012. An active head-neck model in whole-body vibration:
+vibration magnitude and softening. J. Biomech. 45, 925–930. http://dx.doi.org/
+10.1016/j.jbiomech.2012.01.022.
+Reynolds, J.S., Blum, D., Gdowski, G.T., 2008. Reweighting sensory signals to
+maintain head stability: adaptive properties of the cervicocollic reﬂex. J.
+Neurophysiol. 99, 3123–3135. http://dx.doi.org/10.1152/jn.00793.2007.
+Stemper, B.D., Yoganandan, N., Pintar, F.A., 2004. Validation of a head-neck
+computer model for whiplash simulation. Med. Biol. Eng. Compu. 42, 333–
+338. http://dx.doi.org/10.1007/bf02344708.
+van der Horst, M.J., 2002. Human head and neck response in frontal, lateral, and
+impact loading. PhD thesis. In: Technical University of Eindhoven, Eindhoven, p.
+218.
+van Drunen, P., Maaswinkel, E., van der Helm, F.C.T., van Dieën, J.H., Happee, R.,
+2013. Identifying intrinsic and reﬂexive contributions to low-back stabilization.
+J. Biomech. 46, 1440–1446. http://dx.doi.org/10.1016/j.jbiomech.2013.03.007.
+van Ee, C.A., Nightingale, R.W., Camacho, D.L., Chancey, V.C., Knaub, K.E., Sun, E.A.,
+Myers, B.S., 2000. Tensile properties of the human muscular and ligamentous
+cervical spine. Stapp Car Crash J. 44, 85–102. doi: 2000-01-SC07 [pii] .
+Wang, Y., Rahmatalla, S., 2013. Human head-neck models in whole-body vibration:
+effect of posture. J. Biomech. 46, 702–710. http://dx.doi.org/10.1016/j.
+jbiomech.2012.11.037.
+Wittek, A., Kajzer, J., Haug, E., 2000. Hill-type muscle model for analysis of
+mechanical effect of muscle tension on the human body response in a car
+collision using an explicit ﬁnite element code. Jsme Int. J. Ser. Solid Mech. Mater.
+Eng. 43, 8–18 .
+Yoganandan, N., Pintar, F.A., Cusick, J.F., 2002. Biomechanical analyses of whiplash
+injuries using an experimental model. Accid. Anal. Prev. 34, 663–671. http://dx.
+doi.org/10.1016/s0001-4575(01)00066-5.
+Yoganandan, N., Pintar, F., Kumaresan, S., Elhagediab, A., 1998. Biomechanical
+assessment of human cervical spine ligaments. SAE Tech. Pap., 983159 http://
+dx.doi.org/10.4271/983159.
+R. Happee et al. / Journal of Biomechanics 58 (2017) 203–211 211

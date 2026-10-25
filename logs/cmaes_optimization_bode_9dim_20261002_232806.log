@@ -1,0 +1,253 @@
+==========================================================================================
+CMA-ES: Decoupled Bode Frequency Response Optimization (9 Dimensions)
+Searching: ['Kp', 'Ki', 'Kd', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(8_w,16mirr3)-aCMA-ES (mu_w=4.8,w_1=32%) in dimension 9 (seed=1062211, Fri Oct  2 23:28:06 2026)
+Eval EARLY ABORT at 1.12Hz: Kp=18.3, Gsc=3.89 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=87.3, Gsc=4.23 => Est Score: 47973.2
+Eval EARLY ABORT at 1.12Hz: Kp=123.3, Gsc=1.61 => Est Score: 34914.3
+Eval EARLY ABORT at 1.12Hz: Kp=83.5, Gsc=4.60 => Est Score: 39905.6
+Eval EARLY ABORT at 1.12Hz: Kp=88.2, Gsc=3.51 => Est Score: 28575.0
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 1.12Hz: Kp=24.6, Gsc=4.96 => Est Score: 117500.0
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 1.12Hz: Kp=92.7, Gsc=2.81 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=71.7, Gsc=2.85 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=97.8, Gsc=2.80 => Est Score: 46713.5
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 1.12Hz: Kp=145.7, Gsc=3.04 => Est Score: 36670.7
+Eval EARLY ABORT at 1.12Hz: Kp=116.0, Gsc=2.78 => Est Score: 37967.4
+Eval EARLY ABORT at 1.12Hz: Kp=147.3, Gsc=3.23 => Est Score: 58787.5
+Eval EARLY ABORT at 1.12Hz: Kp=142.2, Gsc=4.44 => Est Score: 62485.2
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     16 2.857502462361245e+04 1.0e+00 2.04e+00  6e-01  4e+01 10:40.5  
+Gen 1: Best Bode SSE = 28575.0 | Kp=88.2, Ki=8.5, Kd=4.6, G_ton=10.416, G_sc=3.506, G_phas=2.917, kp_prop=0.672, k_gamma_dyn=69.989, k_gamma_stat=103.031
+
+Eval EARLY ABORT at 1.12Hz: Kp=109.9, Gsc=4.02 => Est Score: 36323.2
+Eval EARLY ABORT at 1.12Hz: Kp=130.3, Gsc=4.23 => Est Score: 40399.6
+Eval EARLY ABORT at 1.12Hz: Kp=87.8, Gsc=1.63 => Est Score: 35781.9
+Eval EARLY ABORT at 1.12Hz: Kp=133.3, Gsc=4.89 => Est Score: 32495.7
+Eval EARLY ABORT at 1.12Hz: Kp=143.3, Gsc=2.03 => Est Score: 202385.2
+Eval EARLY ABORT at 1.12Hz: Kp=63.9, Gsc=4.79 => Est Score: 48210.0
+Eval EARLY ABORT at 1.12Hz: Kp=111.7, Gsc=1.61 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=120.6, Gsc=2.56 => Est Score: 41763.2
+Eval EARLY ABORT at 1.12Hz: Kp=148.4, Gsc=2.36 => Est Score: 29426.6
+Eval EARLY ABORT at 2.12Hz: Kp=149.5, Gsc=3.65 => Est Score: 18965364.7
+Eval EARLY ABORT at 1.12Hz: Kp=94.6, Gsc=2.01 => Est Score: 45156.1
+Eval EARLY ABORT at 1.12Hz: Kp=18.5, Gsc=2.24 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=103.7, Gsc=1.14 => Est Score: 43211.2
+Eval EARLY ABORT at 1.12Hz: Kp=139.1, Gsc=4.84 => Est Score: 36622.2
+Eval EARLY ABORT at 1.12Hz: Kp=70.3, Gsc=3.66 => Est Score: 57527.0
+Eval EARLY ABORT at 1.12Hz: Kp=103.6, Gsc=4.71 => Est Score: 39026.4
+    2     32 2.942663438781742e+04 1.3e+00 1.94e+00  6e-01  4e+01 19:49.3  
+Gen 2: Best Bode SSE = 29426.6 | Kp=148.4, Ki=16.1, Kd=7.5, G_ton=5.395, G_sc=2.362, G_phas=3.330, kp_prop=0.045, k_gamma_dyn=53.231, k_gamma_stat=104.410
+
+Eval EARLY ABORT at 1.12Hz: Kp=61.0, Gsc=0.58 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=93.8, Gsc=1.18 => Est Score: 40189.9
+Eval EARLY ABORT at 1.12Hz: Kp=148.4, Gsc=1.67 => Est Score: 34819.1
+Eval EARLY ABORT at 1.12Hz: Kp=121.8, Gsc=3.95 => Est Score: 36608.0
+Eval EARLY ABORT at 1.12Hz: Kp=83.5, Gsc=2.85 => Est Score: 40737.1
+Eval EARLY ABORT at 1.12Hz: Kp=80.2, Gsc=4.27 => Est Score: 41126.7
+Eval EARLY ABORT at 1.12Hz: Kp=132.9, Gsc=1.66 => Est Score: 39027.8
+Eval EARLY ABORT at 1.12Hz: Kp=82.5, Gsc=3.74 => Est Score: 40097.3
+Eval EARLY ABORT at 1.12Hz: Kp=120.8, Gsc=1.12 => Est Score: 37424.2
+Eval EARLY ABORT at 1.12Hz: Kp=103.1, Gsc=4.14 => Est Score: 40776.3
+Eval EARLY ABORT at 1.12Hz: Kp=149.6, Gsc=3.99 => Est Score: 40442.7
+Eval EARLY ABORT at 1.12Hz: Kp=144.3, Gsc=3.20 => Est Score: 33044.9
+Eval EARLY ABORT at 1.12Hz: Kp=145.7, Gsc=0.68 => Est Score: 146019.3
+Eval EARLY ABORT at 1.12Hz: Kp=149.9, Gsc=4.12 => Est Score: 97299.2
+Eval EARLY ABORT at 1.12Hz: Kp=81.5, Gsc=4.89 => Est Score: 41976.8
+Eval EARLY ABORT at 1.12Hz: Kp=122.4, Gsc=0.76 => Est Score: 62373.0
+    3     48 3.304488603529873e+04 1.3e+00 2.14e+00  7e-01  4e+01 28:35.7  
+Gen 3: Best Bode SSE = 33044.9 | Kp=144.3, Ki=6.6, Kd=9.1, G_ton=5.465, G_sc=3.199, G_phas=2.736, kp_prop=0.033, k_gamma_dyn=79.366, k_gamma_stat=105.879
+
+Eval EARLY ABORT at 1.12Hz: Kp=141.3, Gsc=1.86 => Est Score: 38789.9
+Eval EARLY ABORT at 1.12Hz: Kp=70.4, Gsc=4.86 => Est Score: 51168.8
+Eval EARLY ABORT at 1.12Hz: Kp=119.5, Gsc=2.25 => Est Score: 35665.1
+Eval EARLY ABORT at 1.12Hz: Kp=128.3, Gsc=4.81 => Est Score: 35557.7
+Eval EARLY ABORT at 1.12Hz: Kp=83.1, Gsc=4.96 => Est Score: 47127.3
+Eval EARLY ABORT at 1.12Hz: Kp=140.2, Gsc=4.45 => Est Score: 38813.5
+Eval EARLY ABORT at 1.12Hz: Kp=108.1, Gsc=2.56 => Est Score: 37393.9
+Eval EARLY ABORT at 1.12Hz: Kp=134.5, Gsc=2.30 => Est Score: 36913.3
+Eval EARLY ABORT at 1.12Hz: Kp=150.0, Gsc=0.75 => Est Score: 34330.8
+Eval EARLY ABORT at 1.12Hz: Kp=148.5, Gsc=0.50 => Est Score: 32406.0
+Eval EARLY ABORT at 1.12Hz: Kp=119.2, Gsc=2.26 => Est Score: 38203.3
+Eval EARLY ABORT at 1.12Hz: Kp=141.2, Gsc=1.79 => Est Score: 37271.6
+Eval EARLY ABORT at 1.12Hz: Kp=135.4, Gsc=2.61 => Est Score: 34301.5
+Eval EARLY ABORT at 1.12Hz: Kp=101.9, Gsc=1.02 => Est Score: 38347.1
+Eval EARLY ABORT at 1.12Hz: Kp=71.2, Gsc=0.95 => Est Score: 44796.8
+Eval EARLY ABORT at 1.12Hz: Kp=92.7, Gsc=0.79 => Est Score: 41389.4
+    4     64 3.240599262664500e+04 1.5e+00 2.14e+00  7e-01  4e+01 37:12.4  
+Gen 4: Best Bode SSE = 32406.0 | Kp=148.5, Ki=9.7, Kd=8.0, G_ton=12.935, G_sc=0.502, G_phas=2.790, kp_prop=0.295, k_gamma_dyn=63.024, k_gamma_stat=120.189
+
+Eval EARLY ABORT at 1.12Hz: Kp=105.5, Gsc=0.63 => Est Score: 37292.8
+Eval EARLY ABORT at 1.12Hz: Kp=127.6, Gsc=0.52 => Est Score: 34886.1
+Eval EARLY ABORT at 1.12Hz: Kp=95.2, Gsc=3.54 => Est Score: 44542.4
+Eval EARLY ABORT at 1.12Hz: Kp=111.4, Gsc=3.38 => Est Score: 37616.4
+Eval EARLY ABORT at 1.12Hz: Kp=105.0, Gsc=0.92 => Est Score: 50892.2
+Eval EARLY ABORT at 1.12Hz: Kp=129.4, Gsc=1.98 => Est Score: 29377.0
+Eval EARLY ABORT at 1.12Hz: Kp=110.6, Gsc=1.73 => Est Score: 35445.6
+Eval EARLY ABORT at 1.12Hz: Kp=86.5, Gsc=0.81 => Est Score: 40723.2
+Eval EARLY ABORT at 1.12Hz: Kp=143.5, Gsc=1.27 => Est Score: 37200.9
+Eval EARLY ABORT at 1.12Hz: Kp=97.1, Gsc=1.55 => Est Score: 38805.3
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+Eval TIMEOUT at 1.12Hz
+    5     80 2.937700370625576e+04 1.6e+00 2.74e+00  8e-01  5e+01 124:58.8  
+Gen 5: Best Bode SSE = 29377.0 | Kp=129.4, Ki=6.7, Kd=6.5, G_ton=5.251, G_sc=1.983, G_phas=2.922, kp_prop=0.710, k_gamma_dyn=79.951, k_gamma_stat=140.493
+
+Eval EARLY ABORT at 1.12Hz: Kp=65.4, Gsc=0.82 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=116.0, Gsc=0.59 => Est Score: 39665.3
+Eval EARLY ABORT at 1.12Hz: Kp=59.3, Gsc=1.65 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=123.6, Gsc=1.42 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=107.5, Gsc=1.01 => Est Score: 56279.6
+Eval EARLY ABORT at 1.12Hz: Kp=93.1, Gsc=1.24 => Est Score: 37190.6
+Eval EARLY ABORT at 1.12Hz: Kp=149.4, Gsc=3.58 => Est Score: 34697.5
+Eval EARLY ABORT at 1.12Hz: Kp=34.0, Gsc=0.78 => Est Score: 53682.0
+Eval EARLY ABORT at 1.12Hz: Kp=97.3, Gsc=1.90 => Est Score: 29051.0
+Eval EARLY ABORT at 1.12Hz: Kp=111.9, Gsc=0.56 => Est Score: 38771.7
+Eval EARLY ABORT at 1.12Hz: Kp=51.5, Gsc=0.59 => Est Score: 41273.5
+Eval EARLY ABORT at 1.12Hz: Kp=128.7, Gsc=0.89 => Est Score: 28603.2
+Eval EARLY ABORT at 1.12Hz: Kp=134.2, Gsc=2.89 => Est Score: 34542.7
+Eval EARLY ABORT at 1.12Hz: Kp=122.9, Gsc=1.22 => Est Score: 36504.0
+Eval EARLY ABORT at 1.12Hz: Kp=103.8, Gsc=1.76 => Est Score: 39061.2
+Eval EARLY ABORT at 1.12Hz: Kp=110.1, Gsc=1.90 => Est Score: 37888.2
+    6     96 2.860321937073931e+04 1.9e+00 2.93e+00  8e-01  5e+01 133:48.7  
+Gen 6: Best Bode SSE = 28603.2 | Kp=128.7, Ki=6.3, Kd=7.8, G_ton=5.767, G_sc=0.893, G_phas=3.496, kp_prop=0.660, k_gamma_dyn=69.403, k_gamma_stat=137.799
+
+Eval EARLY ABORT at 1.12Hz: Kp=97.3, Gsc=0.85 => Est Score: 41157.8
+Eval EARLY ABORT at 1.12Hz: Kp=56.4, Gsc=0.83 => Est Score: 46285.4
+Eval EARLY ABORT at 1.12Hz: Kp=124.5, Gsc=1.65 => Est Score: 40066.5
+Eval EARLY ABORT at 1.12Hz: Kp=134.1, Gsc=1.17 => Est Score: 36049.0
+Eval EARLY ABORT at 1.12Hz: Kp=148.1, Gsc=1.18 => Est Score: 34785.4
+Eval EARLY ABORT at 1.12Hz: Kp=60.0, Gsc=1.01 => Est Score: 59522.8
+Eval EARLY ABORT at 1.12Hz: Kp=75.6, Gsc=2.61 => Est Score: 41668.4
+Eval EARLY ABORT at 1.12Hz: Kp=139.7, Gsc=0.66 => Est Score: 33366.0
+Eval EARLY ABORT at 1.12Hz: Kp=143.1, Gsc=0.98 => Est Score: 40186.6
+Eval EARLY ABORT at 1.12Hz: Kp=100.9, Gsc=2.78 => Est Score: 35670.8
+Eval EARLY ABORT at 1.12Hz: Kp=147.7, Gsc=1.83 => Est Score: 35348.1
+Eval EARLY ABORT at 1.12Hz: Kp=149.5, Gsc=1.06 => Est Score: 37480.8
+Eval EARLY ABORT at 1.12Hz: Kp=116.1, Gsc=2.89 => Est Score: 43550.8
+Eval EARLY ABORT at 1.12Hz: Kp=135.4, Gsc=2.25 => Est Score: 33760.6
+Eval EARLY ABORT at 1.12Hz: Kp=130.9, Gsc=3.62 => Est Score: 37607.9
+Eval EARLY ABORT at 1.12Hz: Kp=120.3, Gsc=0.94 => Est Score: 35808.5
+    7    112 3.336604197902525e+04 2.2e+00 2.67e+00  7e-01  4e+01 142:14.9  
+Gen 7: Best Bode SSE = 33366.0 | Kp=139.7, Ki=14.8, Kd=9.9, G_ton=9.481, G_sc=0.656, G_phas=4.118, kp_prop=1.114, k_gamma_dyn=79.589, k_gamma_stat=129.562
+
+Eval EARLY ABORT at 1.12Hz: Kp=147.5, Gsc=0.54 => Est Score: 34375.7
+Eval EARLY ABORT at 1.12Hz: Kp=139.2, Gsc=1.16 => Est Score: 37719.4
+Eval EARLY ABORT at 1.12Hz: Kp=130.2, Gsc=0.51 => Est Score: 35386.1
+Eval EARLY ABORT at 1.12Hz: Kp=106.0, Gsc=1.27 => Est Score: 38866.8
+Eval EARLY ABORT at 1.12Hz: Kp=144.9, Gsc=0.75 => Est Score: 37884.0
+Eval EARLY ABORT at 1.12Hz: Kp=100.4, Gsc=2.01 => Est Score: 44417.0
+Eval EARLY ABORT at 1.12Hz: Kp=135.0, Gsc=2.00 => Est Score: 47134.1
+Eval TIMEOUT at 1.12Hz
+Eval EARLY ABORT at 1.12Hz: Kp=132.0, Gsc=2.18 => Est Score: 34834.7
+Eval EARLY ABORT at 1.12Hz: Kp=95.0, Gsc=2.07 => Est Score: 46272.7
+Eval EARLY ABORT at 1.12Hz: Kp=146.7, Gsc=0.99 => Est Score: 34101.3
+Eval EARLY ABORT at 1.12Hz: Kp=78.0, Gsc=2.90 => Est Score: 41167.5
+Eval EARLY ABORT at 1.12Hz: Kp=87.6, Gsc=0.63 => Est Score: 39096.8
+Eval EARLY ABORT at 1.12Hz: Kp=122.0, Gsc=1.09 => Est Score: 31691.2
+Eval EARLY ABORT at 1.12Hz: Kp=148.1, Gsc=2.83 => Est Score: 489682.6
+Eval EARLY ABORT at 1.12Hz: Kp=133.0, Gsc=1.49 => Est Score: 308752.7
+    8    128 3.169120728914163e+04 2.2e+00 2.27e+00  6e-01  3e+01 151:12.9  
+Gen 8: Best Bode SSE = 31691.2 | Kp=122.0, Ki=15.4, Kd=7.1, G_ton=8.278, G_sc=1.087, G_phas=2.314, kp_prop=0.340, k_gamma_dyn=71.886, k_gamma_stat=134.862
+
+Eval EARLY ABORT at 1.12Hz: Kp=149.8, Gsc=1.12 => Est Score: 117500.0
+Eval EARLY ABORT at 1.12Hz: Kp=141.8, Gsc=2.25 => Est Score: 35122.4
+Eval EARLY ABORT at 1.12Hz: Kp=131.7, Gsc=0.62 => Est Score: 33906.8
+Eval EARLY ABORT at 1.12Hz: Kp=134.7, Gsc=0.96 => Est Score: 29121.8
+Eval EARLY ABORT at 1.12Hz: Kp=132.7, Gsc=1.36 => Est Score: 56983.9
+Eval EARLY ABORT at 1.12Hz: Kp=120.6, Gsc=0.50 => Est Score: 32279.9
+Eval EARLY ABORT at 1.12Hz: Kp=141.8, Gsc=1.52 => Est Score: 33769.3
+Eval EARLY ABORT at 1.12Hz: Kp=149.6, Gsc=1.09 => Est Score: 37907.4
+Eval EARLY ABORT at 1.12Hz: Kp=124.7, Gsc=0.54 => Est Score: 34945.7
+Eval EARLY ABORT at 1.12Hz: Kp=111.7, Gsc=1.70 => Est Score: 60364.3
+Eval EARLY ABORT at 1.12Hz: Kp=138.0, Gsc=2.51 => Est Score: 40218.6
+Eval EARLY ABORT at 1.12Hz: Kp=143.3, Gsc=1.29 => Est Score: 30315.6
+Eval EARLY ABORT at 1.12Hz: Kp=110.8, Gsc=0.84 => Est Score: 39362.0
+Eval EARLY ABORT at 1.12Hz: Kp=118.8, Gsc=1.12 => Est Score: 37609.3
+Eval EARLY ABORT at 1.12Hz: Kp=118.3, Gsc=0.51 => Est Score: 98584.5
+Eval EARLY ABORT at 1.12Hz: Kp=147.0, Gsc=2.15 => Est Score: 42479.1
+    9    144 2.912179484741401e+04 2.3e+00 1.92e+00  5e-01  3e+01 160:04.0  
+Gen 9: Best Bode SSE = 29121.8 | Kp=134.7, Ki=14.0, Kd=6.6, G_ton=8.918, G_sc=0.964, G_phas=2.080, kp_prop=0.051, k_gamma_dyn=66.409, k_gamma_stat=126.900
+
+Eval EARLY ABORT at 1.12Hz: Kp=149.0, Gsc=0.79 => Est Score: 35719.6
+Eval EARLY ABORT at 1.12Hz: Kp=135.2, Gsc=1.06 => Est Score: 37357.1
+Eval EARLY ABORT at 1.12Hz: Kp=131.2, Gsc=1.76 => Est Score: 35401.3
+Eval EARLY ABORT at 1.12Hz: Kp=132.4, Gsc=1.29 => Est Score: 39627.1
+Eval EARLY ABORT at 1.12Hz: Kp=130.0, Gsc=0.51 => Est Score: 34763.3
+Eval EARLY ABORT at 1.12Hz: Kp=104.5, Gsc=0.55 => Est Score: 40515.2
+Eval EARLY ABORT at 1.12Hz: Kp=102.3, Gsc=0.51 => Est Score: 41582.2
+Eval EARLY ABORT at 1.12Hz: Kp=145.9, Gsc=0.68 => Est Score: 35240.9
+Eval EARLY ABORT at 1.12Hz: Kp=127.7, Gsc=0.50 => Est Score: 37364.0
+Eval EARLY ABORT at 1.12Hz: Kp=150.0, Gsc=0.88 => Est Score: 34818.0
+Eval EARLY ABORT at 1.12Hz: Kp=139.1, Gsc=0.57 => Est Score: 37280.2
+Eval EARLY ABORT at 1.12Hz: Kp=149.6, Gsc=1.33 => Est Score: 34027.9
+Eval EARLY ABORT at 1.12Hz: Kp=124.1, Gsc=0.52 => Est Score: 36250.5
+Eval EARLY ABORT at 1.12Hz: Kp=122.6, Gsc=1.33 => Est Score: 47016.4
+Eval EARLY ABORT at 1.12Hz: Kp=148.8, Gsc=0.95 => Est Score: 37961.4
+Eval EARLY ABORT at 1.12Hz: Kp=149.0, Gsc=1.92 => Est Score: 31201.1
+   10    160 3.120108939717598e+04 2.3e+00 1.83e+00  5e-01  3e+01 167:21.3  
+Gen 10: Best Bode SSE = 31201.1 | Kp=149.0, Ki=20.6, Kd=8.2, G_ton=5.236, G_sc=1.919, G_phas=2.832, kp_prop=0.042, k_gamma_dyn=77.298, k_gamma_stat=135.566
+
+Eval EARLY ABORT at 1.12Hz: Kp=125.8, Gsc=0.97 => Est Score: 37203.8
+Eval EARLY ABORT at 1.12Hz: Kp=126.8, Gsc=1.62 => Est Score: 35267.5
+Eval EARLY ABORT at 1.12Hz: Kp=130.6, Gsc=2.78 => Est Score: 35033.5
+Eval EARLY ABORT at 1.12Hz: Kp=149.7, Gsc=1.33 => Est Score: 33404.8
+Eval EARLY ABORT at 1.12Hz: Kp=121.1, Gsc=1.73 => Est Score: 33656.1
+Eval EARLY ABORT at 1.12Hz: Kp=133.5, Gsc=2.25 => Est Score: 31347.1
+Eval EARLY ABORT at 1.12Hz: Kp=145.1, Gsc=0.51 => Est Score: 34735.9
+Eval EARLY ABORT at 1.12Hz: Kp=149.8, Gsc=2.49 => Est Score: 32843.2
+Eval EARLY ABORT at 1.12Hz: Kp=150.0, Gsc=2.84 => Est Score: 32491.4
+Eval EARLY ABORT at 1.12Hz: Kp=116.8, Gsc=0.50 => Est Score: 36665.2
+Eval EARLY ABORT at 1.12Hz: Kp=150.0, Gsc=1.13 => Est Score: 33133.8
+Eval EARLY ABORT at 1.12Hz: Kp=149.4, Gsc=0.65 => Est Score: 36860.3
+Eval EARLY ABORT at 1.12Hz: Kp=141.4, Gsc=0.77 => Est Score: 34677.1
+Eval EARLY ABORT at 1.12Hz: Kp=147.2, Gsc=1.65 => Est Score: 32516.4
+Eval EARLY ABORT at 1.12Hz: Kp=147.1, Gsc=0.93 => Est Score: 32517.7
+Eval EARLY ABORT at 1.12Hz: Kp=142.8, Gsc=0.50 => Est Score: 33716.7
+   11    176 3.134706879352909e+04 2.4e+00 1.66e+00  5e-01  2e+01 175:51.8  
+Gen 11: Best Bode SSE = 31347.1 | Kp=133.5, Ki=8.0, Kd=8.0, G_ton=5.727, G_sc=2.254, G_phas=4.165, kp_prop=0.271, k_gamma_dyn=78.171, k_gamma_stat=119.302
+
+Eval EARLY ABORT at 1.12Hz: Kp=147.7, Gsc=0.50 => Est Score: 32663.6
+Eval EARLY ABORT at 1.12Hz: Kp=146.5, Gsc=1.06 => Est Score: 36072.8
+Eval EARLY ABORT at 1.12Hz: Kp=115.6, Gsc=0.62 => Est Score: 35223.1
+Eval EARLY ABORT at 1.12Hz: Kp=149.8, Gsc=1.97 => Est Score: 33107.9
+Eval EARLY ABORT at 1.12Hz: Kp=126.6, Gsc=1.49 => Est Score: 33865.3
+Eval EARLY ABORT at 1.12Hz: Kp=149.8, Gsc=1.36 => Est Score: 31838.8
+Eval EARLY ABORT at 1.12Hz: Kp=135.0, Gsc=0.51 => Est Score: 33461.9
+Eval EARLY ABORT at 1.12Hz: Kp=113.1, Gsc=1.42 => Est Score: 38324.7
+Eval EARLY ABORT at 1.12Hz: Kp=133.0, Gsc=1.33 => Est Score: 35931.1
+Eval EARLY ABORT at 1.12Hz: Kp=146.3, Gsc=1.70 => Est Score: 32397.9
+Eval EARLY ABORT at 1.12Hz: Kp=150.0, Gsc=0.84 => Est Score: 32781.5
+Eval EARLY ABORT at 1.12Hz: Kp=146.1, Gsc=0.75 => Est Score: 41588.0
+Eval EARLY ABORT at 1.12Hz: Kp=142.8, Gsc=1.75 => Est Score: 34253.1
+Eval EARLY ABORT at 1.12Hz: Kp=118.6, Gsc=1.06 => Est Score: 36037.8
+Eval EARLY ABORT at 1.12Hz: Kp=140.8, Gsc=0.97 => Est Score: 42599.8
+Eval EARLY ABORT at 1.12Hz: Kp=146.7, Gsc=0.53 => Est Score: 34663.8
+   12    192 3.183877012371492e+04 2.6e+00 1.65e+00  5e-01  2e+01 183:56.1  
+Gen 12: Best Bode SSE = 31838.8 | Kp=149.8, Ki=0.1, Kd=7.6, G_ton=5.832, G_sc=1.357, G_phas=4.805, kp_prop=0.291, k_gamma_dyn=72.746, k_gamma_stat=141.923
+
+Eval EARLY ABORT at 1.12Hz: Kp=146.0, Gsc=1.08 => Est Score: 33597.1
+Eval EARLY ABORT at 1.12Hz: Kp=147.1, Gsc=0.61 => Est Score: 33422.5
+Eval EARLY ABORT at 1.12Hz: Kp=134.5, Gsc=1.30 => Est Score: 34187.8
+Eval EARLY ABORT at 1.12Hz: Kp=128.2, Gsc=1.82 => Est Score: 35128.4
+Eval EARLY ABORT at 1.12Hz: Kp=135.8, Gsc=0.77 => Est Score: 42147.2
+Eval EARLY ABORT at 1.12Hz: Kp=146.0, Gsc=2.29 => Est Score: 44191.6
+Eval EARLY ABORT at 1.12Hz: Kp=126.2, Gsc=2.11 => Est Score: 35417.9
+Eval EARLY ABORT at 1.12Hz: Kp=133.7, Gsc=0.66 => Est Score: 34446.9
+Eval EARLY ABORT at 1.12Hz: Kp=109.3, Gsc=0.95 => Est Score: 36840.1
+Eval EARLY ABORT at 1.12Hz: Kp=133.9, Gsc=1.57 => Est Score: 69006.9
+Eval EARLY ABORT at 1.12Hz: Kp=138.9, Gsc=2.11 => Est Score: 33570.3
+Eval EARLY ABORT at 1.12Hz: Kp=141.0, Gsc=0.88 => Est Score: 32417.2
+Eval EARLY ABORT at 1.12Hz: Kp=128.1, Gsc=0.61 => Est Score: 38594.9
+Eval EARLY ABORT at 1.12Hz: Kp=140.3, Gsc=0.94 => Est Score: 45823.1
+Eval EARLY ABORT at 1.12Hz: Kp=148.3, Gsc=0.97 => Est Score: 35636.1
+Eval EARLY ABORT at 1.12Hz: Kp=137.2, Gsc=1.03 => Est Score: 28828.8
+   13    208 2.882882465785824e+04 2.8e+00 1.58e+00  4e-01  2e+01 193:36.3  
+Gen 13: Best Bode SSE = 28828.8 | Kp=137.2, Ki=7.3, Kd=8.8, G_ton=7.368, G_sc=1.028, G_phas=4.753, kp_prop=0.361, k_gamma_dyn=70.638, k_gamma_stat=128.821
+

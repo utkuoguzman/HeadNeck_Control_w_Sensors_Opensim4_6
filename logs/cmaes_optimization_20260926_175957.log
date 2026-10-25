@@ -1,0 +1,32 @@
+Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Canals)...
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 9 (seed=618082, Sat Sep 26 17:59:57 2026)
+
+--- Generation 1 ---
+Eval SUCCESS: Kp=58.5, Ki=39.6, Kd=12.3, Gton=10.41, Gsc=0.86, Gphas=3.95, Kp_prop=0.235, K_gamma_dyn=33.1, K_gamma_stat=84.5 => Bode Error: 9186.4
+Eval SUCCESS: Kp=60.5, Ki=33.4, Kd=14.2, Gton=13.22, Gsc=1.76, Gphas=3.36, Kp_prop=0.221, K_gamma_dyn=50.2, K_gamma_stat=95.0 => Bode Error: 9764.2
+Eval SUCCESS: Kp=60.2, Ki=36.4, Kd=12.7, Gton=15.06, Gsc=2.82, Gphas=3.47, Kp_prop=0.418, K_gamma_dyn=48.1, K_gamma_stat=101.1 => Bode Error: 9309.0
+Eval SUCCESS: Kp=61.0, Ki=40.0, Kd=17.2, Gton=15.34, Gsc=1.98, Gphas=3.81, Kp_prop=0.221, K_gamma_dyn=39.0, K_gamma_stat=98.8 => Bode Error: 9514.7
+Eval SUCCESS: Kp=59.6, Ki=39.4, Kd=13.4, Gton=16.33, Gsc=2.42, Gphas=4.38, Kp_prop=0.274, K_gamma_dyn=38.3, K_gamma_stat=87.7 => Bode Error: 10424.3
+Eval SUCCESS: Kp=60.2, Ki=35.9, Kd=21.2, Gton=12.37, Gsc=1.03, Gphas=4.09, Kp_prop=0.598, K_gamma_dyn=42.0, K_gamma_stat=95.3 => Bode Error: 12684.4
+Eval SUCCESS: Kp=60.7, Ki=35.4, Kd=16.7, Gton=16.27, Gsc=1.25, Gphas=3.82, Kp_prop=0.458, K_gamma_dyn=38.4, K_gamma_stat=95.7 => Bode Error: 8712.2
+Eval SUCCESS: Kp=66.2, Ki=39.4, Kd=13.6, Gton=14.39, Gsc=1.87, Gphas=4.56, Kp_prop=0.204, K_gamma_dyn=33.2, K_gamma_stat=91.8 => Bode Error: 9344.2
+Eval SUCCESS: Kp=66.4, Ki=36.0, Kd=15.5, Gton=12.57, Gsc=0.46, Gphas=4.76, Kp_prop=0.359, K_gamma_dyn=34.9, K_gamma_stat=97.8 => Bode Error: 8283.8
+Eval SUCCESS: Kp=64.6, Ki=40.4, Kd=16.0, Gton=8.58, Gsc=1.10, Gphas=4.46, Kp_prop=0.450, K_gamma_dyn=39.3, K_gamma_stat=92.8 => Bode Error: 9148.2
+Eval SUCCESS: Kp=68.0, Ki=36.6, Kd=15.7, Gton=10.17, Gsc=2.46, Gphas=4.60, Kp_prop=0.289, K_gamma_dyn=40.2, K_gamma_stat=97.2 => Bode Error: 9269.3
+Eval SUCCESS: Kp=65.5, Ki=33.8, Kd=21.8, Gton=11.57, Gsc=1.77, Gphas=5.50, Kp_prop=0.276, K_gamma_dyn=39.4, K_gamma_stat=100.6 => Bode Error: 8404.4
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     12 8.283821899224156e+03 1.0e+00 9.57e-01  3e-01  5e+00 50:34.7  
+
+--- Generation 2 ---
+Eval TIMEOUT at 0.60Hz: Kp=64.1, Ki=35.9, Kd=21.5, Gton=15.91, Gsc=2.26, Gphas=5.12, Kp_prop=0.429, K_gamma_dyn=37.7, K_gamma_stat=97.4
+Eval TIMEOUT at 1.12Hz: Kp=64.5, Ki=35.0, Kd=22.7, Gton=13.45, Gsc=1.66, Gphas=5.66, Kp_prop=0.414, K_gamma_dyn=27.0, K_gamma_stat=101.5
+Eval TIMEOUT at 1.12Hz: Kp=65.2, Ki=37.8, Kd=17.6, Gton=12.39, Gsc=2.27, Gphas=5.59, Kp_prop=0.091, K_gamma_dyn=36.2, K_gamma_stat=93.9
+Eval SUCCESS: Kp=68.8, Ki=37.4, Kd=17.7, Gton=13.53, Gsc=0.55, Gphas=4.47, Kp_prop=0.396, K_gamma_dyn=38.4, K_gamma_stat=92.1 => Bode Error: 9498.8
+Eval SUCCESS: Kp=61.8, Ki=34.1, Kd=18.3, Gton=12.32, Gsc=1.28, Gphas=4.30, Kp_prop=0.435, K_gamma_dyn=32.6, K_gamma_stat=102.6 => Bode Error: 8580.9
+Eval SUCCESS: Kp=66.8, Ki=34.1, Kd=18.5, Gton=8.62, Gsc=0.60, Gphas=4.76, Kp_prop=0.550, K_gamma_dyn=38.4, K_gamma_stat=103.9 => Bode Error: 9269.9
+Eval SUCCESS: Kp=65.6, Ki=36.6, Kd=14.1, Gton=12.15, Gsc=1.48, Gphas=4.89, Kp_prop=0.052, K_gamma_dyn=36.0, K_gamma_stat=97.2 => Bode Error: 7873.7
+Eval CRASHED at 0.32Hz: Kp=74.9, Ki=38.9, Kd=20.2, Gton=21.69, Gsc=0.21, Gphas=4.88, Kp_prop=0.138, K_gamma_dyn=37.9, K_gamma_stat=97.5
+Eval CRASHED at 0.82Hz: Kp=64.2, Ki=36.9, Kd=14.0, Gton=7.68, Gsc=0.73, Gphas=4.13, Kp_prop=0.209, K_gamma_dyn=36.5, K_gamma_stat=93.0
+Eval CRASHED at 0.60Hz: Kp=67.5, Ki=39.6, Kd=18.4, Gton=11.55, Gsc=0.71, Gphas=4.64, Kp_prop=0.540, K_gamma_dyn=41.7, K_gamma_stat=88.8
+Eval CRASHED at 1.12Hz: Kp=68.0, Ki=36.1, Kd=19.5, Gton=8.72, Gsc=1.46, Gphas=4.56, Kp_prop=0.241, K_gamma_dyn=30.2, K_gamma_stat=93.6
+Eval CRASHED at 0.82Hz: Kp=52.3, Ki=39.4, Kd=17.9, Gton=12.58, Gsc=0.11, Gphas=4.78, Kp_prop=0.104, K_gamma_dyn=43.7, K_gamma_stat=91.5

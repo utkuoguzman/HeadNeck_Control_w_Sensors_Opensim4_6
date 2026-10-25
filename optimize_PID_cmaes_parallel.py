@@ -3,15 +3,13 @@ import concurrent.futures
 import subprocess
 import sys
 import numpy as np
-import random
-
 import os
 import datetime
 
 class Tee(object):
     def __init__(self, name, mode):
         os.makedirs(os.path.dirname(name), exist_ok=True)
-        self.file = open(name, mode)
+        self.file = open(name, mode, encoding="utf-8")
         self.stdout = sys.stdout
         sys.stdout = self
     def __del__(self):
@@ -27,84 +25,121 @@ class Tee(object):
         self.stdout.flush()
 
 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-sys.stdout = Tee(f"logs/cmaes_optimization_{timestamp}.log", "a")
+sys.stdout = Tee(f"logs/cmaes_opt_bandwidth_8dim_{timestamp}.log", "a")
 
+# ============================================================
+# ROUND 4: Bandwidth-Scheduled (omega_n) Optimization
+# Optimizing 8 parameters. Kp and Kd are dynamically linked 
+# by omega_n to guarantee zeta = 1.0 (no vibrations!).
+# ============================================================
+
+PARAM_NAMES = ["omega_n", "zeta", "Ki", "G_ton", "G_sc", "G_phas", "kp_prop", "k_gamma_dyn", "k_gamma_stat"]
 
 def objective_wrapper(args):
     x, gen_idx, w_idx = args
-    kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat = x
-    
-    if kp < 2.0 or ki < 0.0 or kd < 0.0 or g_ton < 0.0 or g_sc < 0.0 or g_phas < 0.0:
+    omega_n, zeta, ki, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamma_stat = x
+
+    # Non-negativity check
+    if omega_n < 0.0 or ki < 0.0 or g_ton < 0.0 or g_sc < 0.0 or g_phas < 0.0 or kp_prop < 0.0:
         return 100000.0
-        
+
     targets = [
-        # (freq, gain, phase, timeout_seconds)
-        # We process highest frequency first because it is fastest!
-        (1.124195, 149.430277, -81.089109, 250),   # Tiny amplitude (1.2cm). 
-        (0.823652, 106.268348, -85.537188, 350),   # Small amplitude (2cm). 
-        (0.603456, 81.029187, -86.129080, 500),    # Medium amplitude (4cm). 
-        (0.442127, 63.821646, -82.694072, 800),    # Large amplitude (7.6cm). 
-        (0.323929, 50.868070, -77.524752, 2000)    # Massive amplitude (14cm).
+        (1.12, 1.30, 29),
+        (2.12, 0.90, 75),
+        (3.12, 0.95, 126),
+        (4.12, 0.96, 175),
+        (8.12, 1.20, -78),  
+        (12.12, 0.85, 33)   
     ]
-    
+
     total_sse = 0.0
-    for freq, target_gain, target_phase, max_timeout in targets:
+    for freq_idx, (freq, t_gain, t_phase) in enumerate(targets):
         try:
             result = subprocess.run(
-                [sys.executable, "cmaes_worker.py", str(kp), str(ki), str(kd), str(g_ton), str(g_sc), str(g_phas), str(kp_prop), str(k_gamma_dyn), str(k_gamma_stat), str(freq), str(target_gain), str(target_phase), f"G{gen_idx:02d}-W{w_idx:02d}"],
-                stdout=subprocess.PIPE,
-                text=True,
-                timeout=max_timeout
+                [
+                    sys.executable, "cmaes_worker.py",
+                    str(omega_n), str(zeta), str(ki),
+                    str(g_ton), str(g_sc), str(g_phas),
+                    str(kp_prop), str(k_gamma_dyn), str(k_gamma_stat),
+                    str(freq), str(t_gain), str(t_phase),
+                    f"G{gen_idx:02d}-W{w_idx:02d}"
+                ],
+                stdout=subprocess.PIPE, stderr=sys.stderr, text=True, timeout=600
             )
-            
+
             if result.returncode == 0 and result.stdout.strip():
                 score = float(result.stdout.strip().split('\n')[-1])
                 total_sse += score
+
+                # Cascaded early rejection
+                if score >= 90000.0: # ONLY abort on physical crash (100000.0) or timeout
+                    remaining_freqs = len(targets) - (freq_idx + 1)
+                    penalized_score = total_sse + remaining_freqs * 3500.0
+                    print(f"Eval EARLY ABORT at {freq:.2f}Hz: w_n={omega_n:.1f}, Gsc={g_sc:.2f} => Est Score: {penalized_score:.1f}")
+                    return penalized_score
             else:
-                print(f"Eval CRASHED at {freq:.2f}Hz: Kp={kp:.1f}, Ki={ki:.1f}, Kd={kd:.1f}, Gton={g_ton:.2f}, Gsc={g_sc:.2f}, Gphas={g_phas:.2f}, Kp_prop={kp_prop:.3f}, K_gamma_dyn={k_gamma_dyn:.1f}, K_gamma_stat={k_gamma_stat:.1f}")
-                return 100000.0 + np.random.rand() * 100.0
+                print(f"Eval CRASHED at {freq:.2f}Hz: w_n={omega_n:.1f}, Gton={g_ton:.2f}")
+                return 100000.0
         except subprocess.TimeoutExpired:
-            print(f"Eval TIMEOUT at {freq:.2f}Hz: Kp={kp:.1f}, Ki={ki:.1f}, Kd={kd:.1f}, Gton={g_ton:.2f}, Gsc={g_sc:.2f}, Gphas={g_phas:.2f}, Kp_prop={kp_prop:.3f}, K_gamma_dyn={k_gamma_dyn:.1f}, K_gamma_stat={k_gamma_stat:.1f}")
-            return 100000.0 + np.random.rand() * 100.0
-        except Exception as e:
-            print(f"Eval ERROR at {freq:.2f}Hz: {e}")
-            return 100000.0 + np.random.rand() * 100.0
-            
-    print(f"Eval SUCCESS: Kp={kp:.1f}, Ki={ki:.1f}, Kd={kd:.1f}, Gton={g_ton:.2f}, Gsc={g_sc:.2f}, Gphas={g_phas:.2f}, Kp_prop={kp_prop:.3f}, K_gamma_dyn={k_gamma_dyn:.1f}, K_gamma_stat={k_gamma_stat:.1f} => Bode Error: {total_sse:.1f}")
+            print(f"Eval TIMEOUT at {freq:.2f}Hz")
+            return 100000.0
+
+    print(f"✅ SUCCESS [G{gen_idx:02d}-W{w_idx:02d}]: Completed all frequencies! Final Score = {total_sse:.1f}")
     return total_sse
 
-if __name__ == "__main__":
-    print("Starting BULLETPROOF Parallel Bode Plot CMA-ES Optimization (6 Parameters)...")
-    # Parameters: Kp, Ki, Kd, G_ton, G_sc, G_phas
-    x0 = [75.3, 43.4, 9.0, 9.21, 2.41, 4.93, 0.1, 50.0, 100.0]
-    sigma0 = 5.0 
-    
+def main():
+    print("=" * 90)
+    print("CMA-ES: Bandwidth-Scheduled Bode Optimization (9 Dimensions)")
+    print(f"Searching: {PARAM_NAMES}")
+    print("=" * 90)
+
+    # Initial Guess (x0)
+    # omega_n = 9.0 gives Kp ~ 81.0, Kd ~ 18.0 (critically damped)
+    x0 = [19.97, 0.266, 15.2, 13.407, 3.810, 3.236, 2.482, 79.99, 136.49]
+    sigma0 = 0.5 
+
     bounds = [
-        [2.0, 0.0, 0.0, 0.1, 0.1, 0.1, 0.0, 0.0, 0.0], 
-        [500.0, 500.0, 50.0, 20.0, 20.0, 20.0, 2.0, 200.0, 300.0]
+        # w_n,   Ki,  G_ton, G_sc, G_phas, kp_prop, k_gamma_dyn, k_gamma_stat
+        [ 4.0,  0.1, 10.0,   5.0,  0.5,   2.0,    0.01,        20.0,         50.0  ],  # LOWER
+        [25.0, 0.8, 200.0,  25.0,  5.0,  10.0,    2.50,        80.0,        150.0  ]   # UPPER
     ]
-    es = cma.CMAEvolutionStrategy(x0, sigma0, {'bounds': bounds, 'popsize': 12})
-    
-    # We use ThreadPoolExecutor because subprocess.run releases the GIL anyway.
-    # 16 workers mapping perfectly to popsize=16 with SIMB_NUM_THREADS=1
+
+    opts = {
+        'bounds': bounds,
+        'popsize': 15, 
+        'CMA_active': True,
+        'CMA_mirrors': 0.5,
+        'CMA_stds': [2.0, 0.2, 10.0, 3.8, 0.75, 0.68, 0.3, 4.5, 4.9]
+    }
+
+    es = cma.CMAEvolutionStrategy(x0, sigma0, opts)
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=6) as executor:
         iteration = 0
-        while not es.stop() and iteration < 50:
+        while not es.stop() and iteration < 45:
             iteration += 1
-            print(f"\n--- Generation {iteration} ---")
             solutions = es.ask()
             
-            # Map solutions to isolated background subprocesses
-            tasks = [(x, iteration, i+1) for i, x in enumerate(solutions)]
-            fitnesses = list(executor.map(objective_wrapper, tasks))
+            args_list = [(sol, iteration, i+1) for i, sol in enumerate(solutions)]
+            scores = list(executor.map(objective_wrapper, args_list))
             
-            es.tell(solutions, fitnesses)
+            es.tell(solutions, scores)
+            es.logger.add()
             es.disp()
             
-        res = es.result
-        print("\n===============================")
-        print("Optimization Finished!")
-        print(f"Best Kp: {res.xbest[0]:.2f}")
-        print(f"Best Ki: {res.xbest[1]:.2f}")
-        print(f"Best Kd: {res.xbest[2]:.2f}")
-        print(f"Best Bode SSE: {res.fbest:.1f}")
+            best_idx = np.argmin(scores)
+            best_sol = solutions[best_idx]
+            
+            w_n = best_sol[0]
+            kp = w_n**2
+            kd = 2.0 * best_sol[1] * w_n
+            print(f"Gen {iteration}: Best Bode SSE = {scores[best_idx]:.1f} | w_n={w_n:.2f}, zeta={best_sol[1]:.3f} (Kp={kp:.1f},Kd={kd:.1f}), Ki={best_sol[2]:.1f}, G_ton={best_sol[3]:.3f}, G_sc={best_sol[4]:.3f}, G_phas={best_sol[5]:.3f}\n")
+            
+            with open("logs/cmaes_bandwidth_bode_best.txt", "w") as f:
+                f.write(f"omega_n={best_sol[0]:.4f}, zeta={best_sol[1]:.4f}, Ki={best_sol[2]:.4f}\n")
+                f.write(f"G_ton={best_sol[3]:.4f}, G_sc={best_sol[4]:.4f}, G_phas={best_sol[5]:.4f}\n")
+                f.write(f"kp_prop={best_sol[6]:.4f}, k_gamma_dyn={best_sol[7]:.4f}, k_gamma_stat={best_sol[8]:.4f}\n")
+                f.write(f"Bode_SSE={scores[best_idx]:.2f}\n")
+
+if __name__ == "__main__":
+    main()

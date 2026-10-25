@@ -38,7 +38,27 @@ void Mileusnic06Spindle::setDefaultActivation(double aDefaultActivation) {
 void Mileusnic06Spindle::constructProperties()
 {
 	setAuthors("Sergio Verduzco");
-	constructProperty_default_activation(0.05);
+	constructProperty_default_activation(0.0);
+	constructProperty_enable_eye_afferents(false); // Disabled by default during neck study; set true for eye-movement study
+}
+
+void Mileusnic06Spindle::ensureStatePointers() const
+{
+	if (!sv_dyn_act) {
+		sv_dyn_act  = traverseToStateVariable("dynamic_activation");
+		sv_stat_act = traverseToStateVariable("static_activation");
+		sv_T_bag1   = traverseToStateVariable("tension_bag1");
+		sv_T_bag2   = traverseToStateVariable("tension_bag2");
+		sv_T_chain  = traverseToStateVariable("tension_chain");
+		sv_Td_bag1  = traverseToStateVariable("tension_bag1_deriv");
+		sv_Td_bag2  = traverseToStateVariable("tension_bag2_deriv");
+		sv_Td_chain = traverseToStateVariable("tension_chain_deriv");
+	}
+	if (!inputs_checked) {
+		has_dyn_input  = getInput("dynamic_gamma").isConnected();
+		has_stat_input = getInput("static_gamma").isConnected();
+		inputs_checked = true;
+	}
 }
 
 //--------------------------------------------------------------------------
@@ -48,107 +68,167 @@ void Mileusnic06Spindle::constructProperties()
 // dynamic_activation
 double Mileusnic06Spindle::getDynamicActivation(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "dynamic_activation"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_dyn_act ? sv_dyn_act->getValue(s) : getStateVariableValue(s, "dynamic_activation"); 
 }
 
 void Mileusnic06Spindle::setDynamicActivation(SimTK::State& s, double Activation) const
 {
-	setStateVariableValue(s, "dynamic_activation", Activation); 
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_dyn_act) sv_dyn_act->setValue(s, Activation);
+	else setStateVariableValue(s, "dynamic_activation", Activation); 
 }
 
 // static_activation
 double Mileusnic06Spindle::getStaticActivation(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "static_activation"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_stat_act ? sv_stat_act->getValue(s) : getStateVariableValue(s, "static_activation"); 
 }
 
 void Mileusnic06Spindle::setStaticActivation(SimTK::State& s, double Activation) const
 {
-	setStateVariableValue(s, "static_activation", Activation); 
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_stat_act) sv_stat_act->setValue(s, Activation);
+	else setStateVariableValue(s, "static_activation", Activation); 
 }
 
 // bag1 tension
 double Mileusnic06Spindle::getTensionBag1(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "tension_bag1"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_T_bag1 ? sv_T_bag1->getValue(s) : getStateVariableValue(s, "tension_bag1"); 
 }
 
 void Mileusnic06Spindle::setTensionBag1(SimTK::State& s, double Tension) const
 {
-	setStateVariableValue(s, "tension_bag1", Tension); 
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_T_bag1) sv_T_bag1->setValue(s, Tension);
+	else setStateVariableValue(s, "tension_bag1", Tension); 
 }
 
 double Mileusnic06Spindle::getTensionBag1Deriv(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "tension_bag1_deriv"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_Td_bag1 ? sv_Td_bag1->getValue(s) : getStateVariableValue(s, "tension_bag1_deriv"); 
 }
 
 void Mileusnic06Spindle::setTensionBag1Deriv(SimTK::State& s, double TensionDeriv) const
 {
-	setStateVariableValue(s, "tension_bag1_deriv", TensionDeriv);
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_Td_bag1) sv_Td_bag1->setValue(s, TensionDeriv);
+	else setStateVariableValue(s, "tension_bag1_deriv", TensionDeriv);
 }
 
 // bag2 tension
 double Mileusnic06Spindle::getTensionBag2(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "tension_bag2"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_T_bag2 ? sv_T_bag2->getValue(s) : getStateVariableValue(s, "tension_bag2"); 
 }
 
 void Mileusnic06Spindle::setTensionBag2(SimTK::State& s, double Tension) const
 {
-	setStateVariableValue(s, "tension_bag2", Tension); 
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_T_bag2) sv_T_bag2->setValue(s, Tension);
+	else setStateVariableValue(s, "tension_bag2", Tension); 
 }
 
 double Mileusnic06Spindle::getTensionBag2Deriv(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "tension_bag2_deriv"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_Td_bag2 ? sv_Td_bag2->getValue(s) : getStateVariableValue(s, "tension_bag2_deriv"); 
 }
 
 void Mileusnic06Spindle::setTensionBag2Deriv(SimTK::State& s, double TensionDeriv) const
 {
-	setStateVariableValue(s, "tension_bag2_deriv", TensionDeriv);
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_Td_bag2) sv_Td_bag2->setValue(s, TensionDeriv);
+	else setStateVariableValue(s, "tension_bag2_deriv", TensionDeriv);
 }
 
 // chain tension
 double Mileusnic06Spindle::getTensionChain(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "tension_chain"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_T_chain ? sv_T_chain->getValue(s) : getStateVariableValue(s, "tension_chain"); 
 }
 
 void Mileusnic06Spindle::setTensionChain(SimTK::State& s, double Tension) const
 {
-	setStateVariableValue(s, "tension_chain", Tension); 
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_T_chain) sv_T_chain->setValue(s, Tension);
+	else setStateVariableValue(s, "tension_chain", Tension); 
 }
 
 double Mileusnic06Spindle::getTensionChainDeriv(const SimTK::State& s) const
 {
-	return getStateVariableValue(s, "tension_chain_deriv"); 
+	if (!isSpindleActive()) return 0.0;
+	ensureStatePointers();
+	return sv_Td_chain ? sv_Td_chain->getValue(s) : getStateVariableValue(s, "tension_chain_deriv"); 
 }
 
 void Mileusnic06Spindle::setTensionChainDeriv(SimTK::State& s, double TensionDeriv) const
 {
-	setStateVariableValue(s, "tension_chain_deriv", TensionDeriv);
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+	if (sv_Td_chain) sv_Td_chain->setValue(s, TensionDeriv);
+	else setStateVariableValue(s, "tension_chain_deriv", TensionDeriv);
 }
 
 // output variables
 double Mileusnic06Spindle::getIaOutput(const SimTK::State& s) const
 {
-	return getCacheVariableValue<double>(s, "primaryIa"); 
+	if (!musclePtr || !isSpindleActive()) return 0.0;
+	double L0 = musclePtr->getOptimalFiberLength();
+	double L = musclePtr->getFiberLength(s) / L0;
+	double T1 = getTensionBag1(s);
+	double T2 = getTensionBag2(s);
+	double Tc = getTensionChain(s);
+	double APbag1 = bag1.G * ((T1 / bag1.K_SR) - (bag1.L_NSR - bag1.L_0SR));
+	double APbag2 = bag2.X * (bag2.L_sec / bag2.L_0SR) * ((T2 / bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0 - bag2.X) * (bag2.L_sec / bag2.L_0PR) * (L - (T2 / bag2.K_SR) - bag2.L_0SR - bag2.L_NPR);
+	double APchain = chain.X * (chain.L_sec / chain.L_0SR) * ((Tc / chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0 - chain.X) * (chain.L_sec / chain.L_0PR) * (L - (Tc / chain.K_SR) - chain.L_0SR - chain.L_NPR);
+	double pri_stat = bag2.G_pri * APbag2 + chain.G_pri * APchain;
+	double diff = APbag1 - pri_stat;
+	double s_max = 0.5 * (APbag1 + pri_stat + std::sqrt(diff * diff + 1e-4));
+	double s_min = 0.5 * (APbag1 + pri_stat - std::sqrt(diff * diff + 1e-4));
+	return s_max + S * s_min;
 }
 
 void Mileusnic06Spindle::setIaOutput(const SimTK::State& s, double IaOutput) const
 {
-    setCacheVariableValue(s, "primaryIa",IaOutput);
+    cached_Ia = IaOutput;
 }
 
 double Mileusnic06Spindle::getIIOutput(const SimTK::State& s) const
 {
-	return getCacheVariableValue<double>(s, "secondaryII"); 
+	if (!musclePtr || !isSpindleActive()) return 0.0;
+	double L0 = musclePtr->getOptimalFiberLength();
+	double L = musclePtr->getFiberLength(s) / L0;
+	double T2 = getTensionBag2(s);
+	double Tc = getTensionChain(s);
+	double APbag2 = bag2.X * (bag2.L_sec / bag2.L_0SR) * ((T2 / bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0 - bag2.X) * (bag2.L_sec / bag2.L_0PR) * (L - (T2 / bag2.K_SR) - bag2.L_0SR - bag2.L_NPR);
+	double APchain = chain.X * (chain.L_sec / chain.L_0SR) * ((Tc / chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0 - chain.X) * (chain.L_sec / chain.L_0PR) * (L - (Tc / chain.K_SR) - chain.L_0SR - chain.L_NPR);
+	return bag2.G_sec * APbag2 + chain.G_sec * APchain;
 }
 
 void Mileusnic06Spindle::setIIOutput(const SimTK::State& s, double IIOutput) const
 {
-	setCacheVariableValue(s, "secondaryII",IIOutput);
+	cached_II = IIOutput;
 }
 
 
@@ -163,6 +243,7 @@ void Mileusnic06Spindle::setOwnerMuscleName(std::string OwnerMuscleName)
 void Mileusnic06Spindle::extendAddToSystem(SimTK::MultibodySystem& system) const
 {
 	Super::extendAddToSystem(system);
+	if (!isSpindleActive()) return;
 	
 	// adding state variables 
 	addStateVariable("dynamic_activation");
@@ -203,6 +284,16 @@ void Mileusnic06Spindle::extendAddToSystem(SimTK::MultibodySystem& system) const
 void Mileusnic06Spindle::extendInitStateFromProperties(SimTK::State& s) const
 {
     Super::extendInitStateFromProperties(s);
+	sv_dyn_act = nullptr;
+	sv_stat_act = nullptr;
+	sv_T_bag1 = nullptr;
+	sv_T_bag2 = nullptr;
+	sv_T_chain = nullptr;
+	sv_Td_bag1 = nullptr;
+	sv_Td_bag2 = nullptr;
+	sv_Td_chain = nullptr;
+	inputs_checked = false;
+	if (!isSpindleActive()) return;
 
 	//initiate activation input	
 	setDynamicActivation(s,getDefaultActivation());
@@ -237,6 +328,9 @@ void Mileusnic06Spindle::extendConnectToModel(Model& aModel)
 // COMPUTATION OF DERIVATIVES
 void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) const
 {
+	if (!isSpindleActive()) return;
+	ensureStatePointers();
+
 	// The fusimotor inputs come from an AfferentController object that provides 3 controls to the muscle.
 	// ctrlVec[0] --> muscle excitation (alpha)
 	// ctrlVec[1] --> dynamic fusimotor inputs (dynamic gamma)
@@ -244,8 +338,8 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	SimTK::Vector ctrlVec = musclePtr->getControls(s);	
 
 	// Modernize: Read from connected Inputs if available, otherwise fallback to ctrlVec
-	double dyn_gamma_input = getInput("dynamic_gamma").isConnected() ? getInputValue<double>(s, "dynamic_gamma") : ctrlVec[1];
-	double stat_gamma_input = getInput("static_gamma").isConnected() ? getInputValue<double>(s, "static_gamma") : ctrlVec[2];
+	double dyn_gamma_input = has_dyn_input ? getInputValue<double>(s, "dynamic_gamma") : ctrlVec[1];
+	double stat_gamma_input = has_stat_input ? getInputValue<double>(s, "static_gamma") : ctrlVec[2];
 
 	// Calculating activation derivatives
 	double gdsq = dyn_gamma_input * dyn_gamma_input;  // intermediate variables to make Equation 1 smaller
@@ -254,44 +348,39 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	double fssq = (bag2.freq)*(bag2.freq);  
 	double fcsq = (chain.freq)*(chain.freq);
 
+	double dyn_act = sv_dyn_act->getValue(s);
+	double stat_act = sv_stat_act->getValue(s);
+
 	// Dynamic Activation (Equation 1)
-	setStateVariableDerivativeValue(s, "dynamic_activation",( (gdsq/(gdsq+fdsq)) - getDynamicActivation(s) )/bag1.tau);
+	sv_dyn_act->setDerivative(s, ( (gdsq/(gdsq+fdsq)) - dyn_act )/bag1.tau);
 
 	// Static Activation (Equation 1)
-	setStateVariableDerivativeValue(s, "static_activation",( (gssq/(gssq+fssq)) - getStaticActivation(s) )/bag2.tau);
+	sv_stat_act->setDerivative(s, ( (gssq/(gssq+fssq)) - stat_act )/bag2.tau);
 
 	// calculating chain fiber activation, which is instantaneous (Equation 1)
-	double ch_act;
-	ch_act = gssq / ( gssq + fcsq );
+	double ch_act = gssq / ( gssq + fcsq );
 	
 	// Calculating damping terms (beta)
-	double beta_bag1, beta_bag2, beta_chain;
-
-	// dynamic damping term. Equation 4 with beta_2 = 0.
-	beta_bag1 = bag1.beta_0 + bag1.beta_1*getDynamicActivation(s);
-
-	// static bag damping term. Equation 4 with beta_1 = 0.
-	beta_bag2 = bag2.beta_0 + bag2.beta_2*getStaticActivation(s);
-
-	// chain damping term. Equation 4 with beta_1 = 0.
-	beta_chain = chain.beta_0 + chain.beta_2*ch_act;
+	double beta_bag1 = bag1.beta_0 + bag1.beta_1 * dyn_act;
+	double beta_bag2 = bag2.beta_0 + bag2.beta_2 * stat_act;
+	double beta_chain = chain.beta_0 + chain.beta_2 * ch_act;
 	
 	// calculating the force generator terms (Gamma)
-	double Gamma_bag1, Gamma_bag2, Gamma_chain;
+	double Gamma_bag1 = bag1.Gamma_1 * dyn_act;
+	double Gamma_bag2 = bag2.Gamma_2 * stat_act;
+	double Gamma_chain = chain.Gamma_2 * ch_act;
 
-	// bag1 force generator term. Equation 5 with Gamma_2 = 0
-	Gamma_bag1 = bag1.Gamma_1*getDynamicActivation(s);
-
-	// bag2 force generator term. Equation 5 with Gamma_1 = 0
-	Gamma_bag2 = bag2.Gamma_2*getStaticActivation(s);
-
-	// chain force generator term. Equation 5 with Gamma_1 = 0
-	Gamma_chain = chain.Gamma_2*ch_act;
+	double T1  = sv_T_bag1->getValue(s);
+	double Tp1 = sv_Td_bag1->getValue(s);
+	double T2  = sv_T_bag2->getValue(s);
+	double Tp2 = sv_Td_bag2->getValue(s);
+	double Tc  = sv_T_chain->getValue(s);
+	double Tpc = sv_Td_chain->getValue(s);
 
 	// The first derivative of the tension state variables comes from another set of state variables
-	setStateVariableDerivativeValue(s, "tension_bag1",getTensionBag1Deriv(s));
-	setStateVariableDerivativeValue(s, "tension_bag2",getTensionBag2Deriv(s));
-	setStateVariableDerivativeValue(s, "tension_chain",getTensionChainDeriv(s));
+	sv_T_bag1->setDerivative(s, Tp1);
+	sv_T_bag2->setDerivative(s, Tp2);
+	sv_T_chain->setDerivative(s, Tpc);
 	
 	// Now let's compute the second derivative of the tension (Eq. 6), and also get the afferent potentials (Eqs. 7, 8)
 	
@@ -304,14 +393,14 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	
 	// Tension 2nd derivative for bag1 
 	C = (Lp>0.0) ? bag1.C_L : bag1.C_S;
-	T = getTensionBag1(s);
-	Tp = getTensionBag1Deriv(s);
+	T = T1;
+	Tp = Tp1;
 	 
 	double V_diff_bag1 = Lp - (Tp/bag1.K_SR);
 	term1 = C * beta_bag1 * V_diff_bag1 * std::pow(std::sqrt(V_diff_bag1*V_diff_bag1 + 1e-4), bag1.a - 1.0) * (L - bag1.L_0SR - (T/bag1.K_SR) - bag1.R);
 	term2 = bag1.K_PR*(L - bag1.L_0SR - (T/bag1.K_SR) - bag1.L_0PR);
 	
-	setStateVariableDerivativeValue(s, "tension_bag1_deriv",(bag1.K_SR/bag1.M) * ( term1 + term2 + bag1.M*Lpp + Gamma_bag1 - T ));
+	sv_Td_bag1->setDerivative(s, (bag1.K_SR/bag1.M) * ( term1 + term2 + bag1.M*Lpp + Gamma_bag1 - T ));
 	 
 	// afferent potential for bag1 (equation 7)
 	double APbag1; 
@@ -319,14 +408,14 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 			
 	// Tension 2nd derivative for bag2 
 	C = (Lp>0.0) ? bag2.C_L : bag2.C_S;
-	T = getTensionBag2(s);
-	Tp = getTensionBag2Deriv(s);
+	T = T2;
+	Tp = Tp2;
 	 
 	double V_diff_bag2 = Lp - (Tp/bag2.K_SR);
 	term1 = C * beta_bag2 * V_diff_bag2 * std::pow(std::sqrt(V_diff_bag2*V_diff_bag2 + 1e-4), bag2.a - 1.0) * (L - bag2.L_0SR - (T/bag2.K_SR) - bag2.R);
 	term2 = bag2.K_PR*(L - bag2.L_0SR - (T/bag2.K_SR) - bag2.L_0PR);
 	
-	setStateVariableDerivativeValue(s, "tension_bag2_deriv",(bag2.K_SR/bag2.M) * ( term1 + term2 + bag2.M*Lpp + Gamma_bag2 - T ));
+	sv_Td_bag2->setDerivative(s, (bag2.K_SR/bag2.M) * ( term1 + term2 + bag2.M*Lpp + Gamma_bag2 - T ));
 			
 	// afferent potential for bag2 (equation 8 except G product)
 	double APbag2;
@@ -334,14 +423,14 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 					
 	// Tension 2nd derivative for the chain fiber
 	C = (Lp>0.0) ? chain.C_L : chain.C_S;
-	T = getTensionChain(s);
-	Tp = getTensionChainDeriv(s);
+	T = Tc;
+	Tp = Tpc;
 	
 	double V_diff_chain = Lp - (Tp/chain.K_SR);
 	term1 = C * beta_chain * V_diff_chain * std::pow(std::sqrt(V_diff_chain*V_diff_chain + 1e-4), chain.a - 1.0) * (L - chain.L_0SR - (T/chain.K_SR) - chain.R);	
 	term2 = chain.K_PR*(L - chain.L_0SR - (T/chain.K_SR) - chain.L_0PR);
 	
-	setStateVariableDerivativeValue(s, "tension_chain_deriv",(chain.K_SR/chain.M) * ( term1 + term2 + chain.M*Lpp + Gamma_chain - T ));
+	sv_Td_chain->setDerivative(s, (chain.K_SR/chain.M) * ( term1 + term2 + chain.M*Lpp + Gamma_chain - T ));
 	
 	// afferent potential for chain (equation 8 except G product)
 	double APchain;
@@ -367,6 +456,7 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 //--------------------------------------------------------------------------
 void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 {	
+	if (!isSpindleActive()) return;
 	// Calculating damping terms (beta)
 	double beta_bag1, beta_bag2, beta_chain;
 	// dynamic damping term. Equation 4 with beta_2 = 0.
@@ -411,9 +501,9 @@ void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 	
 	double num_b1, num_b2, num_c;
 	double den_b1, den_b2, den_c;
-	num_b1 = bag1.K_SR*(L-bag1.L_0SR) + bag1.K_PR*bag1.L_0PR + Gamma_bag1;
-	num_b2 = bag2.K_SR*(L-bag2.L_0SR) + bag2.K_PR*bag2.L_0PR + Gamma_bag2;
-	num_c = chain.K_SR*(L-chain.L_0SR) + chain.K_PR*chain.L_0PR + Gamma_chain;
+	num_b1 = bag1.K_SR*(L-bag1.L_0SR) + bag1.K_PR*bag1.L_0PR - Gamma_bag1;
+	num_b2 = bag2.K_SR*(L-bag2.L_0SR) + bag2.K_PR*bag2.L_0PR - Gamma_bag2;
+	num_c = chain.K_SR*(L-chain.L_0SR) + chain.K_PR*chain.L_0PR - Gamma_chain;
 	den_b1 = bag1.K_SR + bag1.K_PR;
 	den_b2 = bag2.K_SR + bag2.K_PR;
 	den_c = chain.K_SR + chain.K_PR;

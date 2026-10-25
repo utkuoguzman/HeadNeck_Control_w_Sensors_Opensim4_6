@@ -1,0 +1,19 @@
+==========================================================================================
+Alpha-Scaled CMA-ES: Bode Frequency Response Optimization (STRICT LITERATURE BOUNDS)
+Base PID (Step Gen 15): Kp=696.79, Ki=179.12, Kd=120.92
+Searching: ['alpha', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 7 (seed=923877, Thu Oct  1 23:11:12 2026)
+
+--- Generation 1 ---
+Eval CRASHED at 1.12Hz: a=3.20(Kp=68.2,Ki=5.5,Kd=37.8), Gton=6.15, Gsc=2.69
+Eval CRASHED at 1.12Hz: a=5.27(Kp=25.1,Ki=1.2,Kd=23.0), Gton=7.53, Gsc=4.51
+Eval CRASHED at 1.12Hz: a=4.04(Kp=42.7,Ki=2.7,Kd=29.9), Gton=5.90, Gsc=3.64
+Eval CRASHED at 1.12Hz: a=5.30(Kp=24.8,Ki=1.2,Kd=22.8), Gton=7.20, Gsc=4.99
+Eval CRASHED at 1.12Hz: a=5.42(Kp=23.7,Ki=1.1,Kd=22.3), Gton=7.35, Gsc=4.56
+Eval CRASHED at 1.12Hz: a=5.30(Kp=24.8,Ki=1.2,Kd=22.8), Gton=7.99, Gsc=3.99
+Eval CRASHED at 1.12Hz: a=5.56(Kp=22.6,Ki=1.0,Kd=21.8), Gton=9.32, Gsc=4.19
+Eval CRASHED at 1.12Hz: a=5.28(Kp=25.0,Ki=1.2,Kd=22.9), Gton=5.06, Gsc=3.97
+Eval CRASHED at 1.12Hz: a=5.09(Kp=26.9,Ki=1.4,Kd=23.8), Gton=12.23, Gsc=4.73
+Eval CRASHED at 1.12Hz: a=5.02(Kp=27.6,Ki=1.4,Kd=24.1), Gton=6.07, Gsc=4.91
+Eval CRASHED at 1.12Hz: a=4.31(Kp=37.4,Ki=2.2,Kd=28.0), Gton=9.05, Gsc=3.68

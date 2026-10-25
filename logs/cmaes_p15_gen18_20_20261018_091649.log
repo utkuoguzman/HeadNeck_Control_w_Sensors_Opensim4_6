@@ -1,0 +1,410 @@
+==========================================================================================
+PHASE 1.5 CONTINUATION (NO ESO): EXECUTING GENERATIONS 18 TO 20
+Targeting 10-15 deg Phase Corridor & 7-8% Gain Error (Objective Target ~50-55)
+Started at: 2026-10-18 09:16:49
+==========================================================================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=45, Sun Oct 18 09:16:49 2026)
+
+=================================== STARTING GENERATION 18 at 09:16:49 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 18) ---
+[PASS] [W6_G18] passed 7.95Hz (Score: 102.7)
+[PASS] [W3_G18] passed 7.95Hz (Score: 44.2)
+[PASS] [W12_G18] passed 7.95Hz (Score: 131.2)
+[PASS] [W11_G18] passed 7.95Hz (Score: 46.2)
+[PASS] [W14_G18] passed 7.95Hz (Score: 44.1)
+[PASS] [W5_G18] passed 7.95Hz (Score: 149.5)
+[PASS] [W9_G18] passed 7.95Hz (Score: 79.2)
+[PASS] [W17_G18] passed 7.95Hz (Score: 58.0)
+[PASS] [W13_G18] passed 7.95Hz (Score: 43.9)
+[PASS] [W15_G18] passed 7.95Hz (Score: 51.1)
+[PASS] [W7_G18] passed 7.95Hz (Score: 301.5)
+[PASS] [W16_G18] passed 7.95Hz (Score: 113.0)
+[PASS] [W1_G18] passed 7.95Hz (Score: 95.6)
+[PASS] [W8_G18] passed 7.95Hz (Score: 90.1)
+[PASS] [W10_G18] passed 7.95Hz (Score: 42.6)
+[PASS] [W2_G18] passed 7.95Hz (Score: 72.5)
+[PASS] [W18_G18] passed 7.95Hz (Score: 43.1)
+[PASS] [W4_G18] passed 7.95Hz (Score: 57.2)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 18) ---
+[PASS] [W3_G18] passed 5.52Hz (Score: 103.4)
+[PASS] [W17_G18] passed 5.52Hz (Score: 45.8)
+[PASS] [W14_G18] passed 5.52Hz (Score: 68.0)
+[PASS] [W4_G18] passed 5.52Hz (Score: 49.7)
+[PASS] [W2_G18] passed 5.52Hz (Score: 70.8)
+[PASS] [W9_G18] passed 5.52Hz (Score: 51.2)
+[PASS] [W13_G18] passed 5.52Hz (Score: 79.4)
+[PASS] [W5_G18] passed 5.52Hz (Score: 53.7)
+[PASS] [W11_G18] passed 5.52Hz (Score: 60.2)
+[PASS] [W7_G18] passed 5.52Hz (Score: 38.4)
+[PASS] [W15_G18] passed 5.52Hz (Score: 32.3)
+[PASS] [W18_G18] passed 5.52Hz (Score: 44.7)
+[PASS] [W6_G18] passed 5.52Hz (Score: 49.7)
+[PASS] [W10_G18] passed 5.52Hz (Score: 40.2)
+[PASS] [W1_G18] passed 5.52Hz (Score: 101.0)
+[PASS] [W8_G18] passed 5.52Hz (Score: 56.1)
+[PASS] [W12_G18] passed 5.52Hz (Score: 30.0)
+[PASS] [W16_G18] passed 5.52Hz (Score: 32.0)
+
+--- Evaluating 18 candidates on 2.48Hz (Gen 18) ---
+[PASS] [W18_G18] passed 2.48Hz (Score: 15.3)
+[PASS] [W16_G18] passed 2.48Hz (Score: 24.7)
+[PASS] [W13_G18] passed 2.48Hz (Score: 37.6)
+[PASS] [W11_G18] passed 2.48Hz (Score: 52.1)
+[PASS] [W8_G18] passed 2.48Hz (Score: 27.3)
+[PASS] [W6_G18] passed 2.48Hz (Score: 17.2)
+[PASS] [W17_G18] passed 2.48Hz (Score: 19.3)
+[PASS] [W10_G18] passed 2.48Hz (Score: 21.4)
+[PASS] [W2_G18] passed 2.48Hz (Score: 23.7)
+[PASS] [W1_G18] passed 2.48Hz (Score: 68.6)
+[PASS] [W15_G18] passed 2.48Hz (Score: 17.2)
+[PASS] [W3_G18] passed 2.48Hz (Score: 41.2)
+[PASS] [W14_G18] passed 2.48Hz (Score: 28.3)
+[PASS] [W4_G18] passed 2.48Hz (Score: 31.9)
+[PASS] [W5_G18] passed 2.48Hz (Score: 22.7)
+[PASS] [W12_G18] passed 2.48Hz (Score: 26.9)
+[PASS] [W7_G18] passed 2.48Hz (Score: 49.6)
+[PASS] [W9_G18] passed 2.48Hz (Score: 21.2)
+
+--- Evaluating 18 candidates on 1.11Hz (Gen 18) ---
+[PASS] [W7_G18] passed 1.11Hz (Score: 20.3)
+[PASS] [W9_G18] passed 1.11Hz (Score: 20.5)
+[PASS] [W3_G18] passed 1.11Hz (Score: 8.1)
+[PASS] [W14_G18] passed 1.11Hz (Score: 42.1)
+[PASS] [W10_G18] passed 1.11Hz (Score: 32.5)
+[PASS] [W17_G18] passed 1.11Hz (Score: 20.9)
+[PASS] [W1_G18] passed 1.11Hz (Score: 26.2)
+[PASS] [W12_G18] passed 1.11Hz (Score: 19.0)
+[PASS] [W8_G18] passed 1.11Hz (Score: 24.0)
+[PASS] [W18_G18] passed 1.11Hz (Score: 45.7)
+[PASS] [W5_G18] passed 1.11Hz (Score: 10.5)
+[PASS] [W4_G18] passed 1.11Hz (Score: 7.3)
+[PASS] [W15_G18] passed 1.11Hz (Score: 23.4)
+[PASS] [W2_G18] passed 1.11Hz (Score: 13.9)
+[PASS] [W6_G18] passed 1.11Hz (Score: 19.6)
+[PASS] [W11_G18] passed 1.11Hz (Score: 3.0)
+[PASS] [W13_G18] passed 1.11Hz (Score: 8.9)
+[PASS] [W16_G18] passed 1.11Hz (Score: 10.6)
+
+--- Evaluating 18 candidates on 0.78Hz (Gen 18) ---
+[PASS] [W6_G18] passed 0.78Hz (Score: 1.5)
+[PASS] [W8_G18] passed 0.78Hz (Score: 1.5)
+[PASS] [W4_G18] passed 0.78Hz (Score: 27.9)
+[PASS] [W9_G18] passed 0.78Hz (Score: 2.3)
+[PASS] [W1_G18] passed 0.78Hz (Score: 1.6)
+[PASS] [W7_G18] passed 0.78Hz (Score: 11.6)
+[PASS] [W10_G18] passed 0.78Hz (Score: 4.0)
+[PASS] [W17_G18] passed 0.78Hz (Score: 19.5)
+[PASS] [W15_G18] passed 0.78Hz (Score: 17.2)
+[PASS] [W12_G18] passed 0.78Hz (Score: 6.3)
+[PASS] [W13_G18] passed 0.78Hz (Score: 4.4)
+[PASS] [W18_G18] passed 0.78Hz (Score: 43.6)
+[PASS] [W11_G18] passed 0.78Hz (Score: 1.6)
+[PASS] [W5_G18] passed 0.78Hz (Score: 1.6)
+[PASS] [W2_G18] passed 0.78Hz (Score: 6.5)
+[PASS] [W14_G18] passed 0.78Hz (Score: 4.6)
+[PASS] [W3_G18] passed 0.78Hz (Score: 2.9)
+[PASS] [W16_G18] passed 0.78Hz (Score: 1.4)
+
+--- Evaluating 18 candidates on 0.31Hz (Gen 18) ---
+[PASS] [W3_G18] passed 0.31Hz (Score: 49.6)
+[PASS] [W13_G18] passed 0.31Hz (Score: 53.6)
+[PASS] [W12_G18] passed 0.31Hz (Score: 36.1)
+[PASS] [W9_G18] passed 0.31Hz (Score: 72.2)
+[PASS] [W7_G18] passed 0.31Hz (Score: 36.5)
+[PASS] [W16_G18] passed 0.31Hz (Score: 65.1)
+[PASS] [W15_G18] passed 0.31Hz (Score: 36.0)
+[PASS] [W5_G18] passed 0.31Hz (Score: 38.1)
+[PASS] [W17_G18] passed 0.31Hz (Score: 45.7)
+[PASS] [W2_G18] passed 0.31Hz (Score: 64.9)
+[PASS] [W10_G18] passed 0.31Hz (Score: 17.4)
+[PASS] [W8_G18] passed 0.31Hz (Score: 43.4)
+[PASS] [W11_G18] passed 0.31Hz (Score: 85.0)
+[PASS] [W1_G18] passed 0.31Hz (Score: 97.0)
+[PASS] [W4_G18] passed 0.31Hz (Score: 41.6)
+[PASS] [W6_G18] passed 0.31Hz (Score: 25.4)
+[PASS] [W18_G18] passed 0.31Hz (Score: 20.7)
+[PASS] [W14_G18] passed 0.31Hz (Score: 54.5)
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     18 1.581055821296216e+02 1.0e+00 1.02e+00  3e-02  4e+01 65:37.6  
+
+======================================== PHASE 1.5 GENERATION 18 SUMMARY ========================================
+Duration: 65.6 min (3937.6 s)
+Gen Best Score: 158.11
+K_ton=70.31, p_ton=14.48
+K_sc=51.30, z_sc=441.19, p_sc=40.62
+K_phas=5.98, p_phas=66.93
+kp=2.33, z_ccr=373.07, p_ccr=22.40
+k_dyn=0.81, k_stat=1.07
+[NEW ALL-TIME BEST SCORE: 158.11] Saving to logs/cmaes_p15_best.txt...
+
+=================================== STARTING GENERATION 19 at 10:22:27 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 19) ---
+[PASS] [W11_G19] passed 7.95Hz (Score: 44.7)
+[PASS] [W16_G19] passed 7.95Hz (Score: 65.1)
+[PASS] [W14_G19] passed 7.95Hz (Score: 55.0)
+[PASS] [W13_G19] passed 7.95Hz (Score: 43.8)
+[PASS] [W1_G19] passed 7.95Hz (Score: 43.6)
+[PASS] [W5_G19] passed 7.95Hz (Score: 44.8)
+[PASS] [W8_G19] passed 7.95Hz (Score: 43.4)
+[PASS] [W9_G19] passed 7.95Hz (Score: 47.1)
+[PASS] [W2_G19] passed 7.95Hz (Score: 46.2)
+[PASS] [W6_G19] passed 7.95Hz (Score: 86.1)
+[PASS] [W7_G19] passed 7.95Hz (Score: 49.2)
+[PASS] [W17_G19] passed 7.95Hz (Score: 48.6)
+[PASS] [W4_G19] passed 7.95Hz (Score: 47.0)
+[PASS] [W3_G19] passed 7.95Hz (Score: 50.2)
+[PASS] [W10_G19] passed 7.95Hz (Score: 47.3)
+[PASS] [W12_G19] passed 7.95Hz (Score: 136.0)
+[PASS] [W15_G19] passed 7.95Hz (Score: 123.6)
+[PASS] [W18_G19] passed 7.95Hz (Score: 71.6)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 19) ---
+[PASS] [W5_G19] passed 5.52Hz (Score: 29.7)
+[PASS] [W8_G19] passed 5.52Hz (Score: 59.8)
+[PASS] [W11_G19] passed 5.52Hz (Score: 35.0)
+[PASS] [W12_G19] passed 5.52Hz (Score: 32.3)
+[PASS] [W13_G19] passed 5.52Hz (Score: 29.8)
+[PASS] [W6_G19] passed 5.52Hz (Score: 51.1)
+[PASS] [W7_G19] passed 5.52Hz (Score: 30.9)
+[PASS] [W2_G19] passed 5.52Hz (Score: 44.9)
+[PASS] [W14_G19] passed 5.52Hz (Score: 44.5)
+[PASS] [W17_G19] passed 5.52Hz (Score: 29.5)
+[PASS] [W1_G19] passed 5.52Hz (Score: 42.8)
+[PASS] [W16_G19] passed 5.52Hz (Score: 30.4)
+[PASS] [W4_G19] passed 5.52Hz (Score: 101.3)
+[PASS] [W9_G19] passed 5.52Hz (Score: 41.2)
+[PASS] [W18_G19] passed 5.52Hz (Score: 30.9)
+[PASS] [W10_G19] passed 5.52Hz (Score: 58.6)
+[PASS] [W15_G19] passed 5.52Hz (Score: 39.0)
+[PASS] [W3_G19] passed 5.52Hz (Score: 36.1)
+
+--- Evaluating 18 candidates on 2.48Hz (Gen 19) ---
+[PASS] [W7_G19] passed 2.48Hz (Score: 21.6)
+[PASS] [W12_G19] passed 2.48Hz (Score: 17.2)
+[PASS] [W14_G19] passed 2.48Hz (Score: 15.6)
+[PASS] [W4_G19] passed 2.48Hz (Score: 72.2)
+[PASS] [W11_G19] passed 2.48Hz (Score: 40.9)
+[PASS] [W8_G19] passed 2.48Hz (Score: 21.4)
+[PASS] [W9_G19] passed 2.48Hz (Score: 19.0)
+[PASS] [W2_G19] passed 2.48Hz (Score: 16.5)
+[PASS] [W5_G19] passed 2.48Hz (Score: 17.1)
+[PASS] [W15_G19] passed 2.48Hz (Score: 27.5)
+[PASS] [W10_G19] passed 2.48Hz (Score: 22.9)
+[PASS] [W3_G19] passed 2.48Hz (Score: 15.6)
+[PASS] [W18_G19] passed 2.48Hz (Score: 24.9)
+[PASS] [W6_G19] passed 2.48Hz (Score: 23.6)
+[PASS] [W1_G19] passed 2.48Hz (Score: 15.6)
+[PASS] [W17_G19] passed 2.48Hz (Score: 43.0)
+[PASS] [W16_G19] passed 2.48Hz (Score: 16.6)
+[PASS] [W13_G19] passed 2.48Hz (Score: 15.8)
+
+--- Evaluating 18 candidates on 1.11Hz (Gen 19) ---
+[PASS] [W1_G19] passed 1.11Hz (Score: 62.3)
+[PASS] [W18_G19] passed 1.11Hz (Score: 18.4)
+[PASS] [W3_G19] passed 1.11Hz (Score: 27.9)
+[PASS] [W11_G19] passed 1.11Hz (Score: 38.5)
+[PASS] [W14_G19] passed 1.11Hz (Score: 45.3)
+[PASS] [W15_G19] passed 1.11Hz (Score: 23.2)
+[PASS] [W7_G19] passed 1.11Hz (Score: 19.7)
+[PASS] [W2_G19] passed 1.11Hz (Score: 27.3)
+[PASS] [W12_G19] passed 1.11Hz (Score: 49.3)
+[PASS] [W13_G19] passed 1.11Hz (Score: 15.0)
+[PASS] [W8_G19] passed 1.11Hz (Score: 32.1)
+[PASS] [W9_G19] passed 1.11Hz (Score: 29.0)
+[PASS] [W10_G19] passed 1.11Hz (Score: 7.6)
+[PASS] [W17_G19] passed 1.11Hz (Score: 17.1)
+[PASS] [W6_G19] passed 1.11Hz (Score: 13.3)
+[PASS] [W16_G19] passed 1.11Hz (Score: 21.9)
+[PASS] [W5_G19] passed 1.11Hz (Score: 29.1)
+[PASS] [W4_G19] passed 1.11Hz (Score: 10.1)
+
+--- Evaluating 18 candidates on 0.78Hz (Gen 19) ---
+[PASS] [W3_G19] passed 0.78Hz (Score: 5.2)
+[PASS] [W7_G19] passed 0.78Hz (Score: 1.8)
+[PASS] [W13_G19] passed 0.78Hz (Score: 7.6)
+[PASS] [W4_G19] passed 0.78Hz (Score: 2.5)
+[PASS] [W2_G19] passed 0.78Hz (Score: 9.2)
+[PASS] [W18_G19] passed 0.78Hz (Score: 12.0)
+[PASS] [W9_G19] passed 0.78Hz (Score: 5.3)
+[PASS] [W8_G19] passed 0.78Hz (Score: 7.5)
+[PASS] [W6_G19] passed 0.78Hz (Score: 2.5)
+[PASS] [W16_G19] passed 0.78Hz (Score: 1.5)
+[PASS] [W14_G19] passed 0.78Hz (Score: 13.3)
+[PASS] [W12_G19] passed 0.78Hz (Score: 8.6)
+[PASS] [W10_G19] passed 0.78Hz (Score: 18.6)
+[PASS] [W11_G19] passed 0.78Hz (Score: 1.4)
+[PASS] [W15_G19] passed 0.78Hz (Score: 7.9)
+[PASS] [W5_G19] passed 0.78Hz (Score: 1.6)
+[PASS] [W17_G19] passed 0.78Hz (Score: 2.6)
+[PASS] [W1_G19] passed 0.78Hz (Score: 3.7)
+
+--- Evaluating 18 candidates on 0.31Hz (Gen 19) ---
+[PASS] [W4_G19] passed 0.31Hz (Score: 61.0)
+[PASS] [W14_G19] passed 0.31Hz (Score: 41.7)
+[PASS] [W16_G19] passed 0.31Hz (Score: 42.1)
+[PASS] [W12_G19] passed 0.31Hz (Score: 38.7)
+[PASS] [W6_G19] passed 0.31Hz (Score: 55.2)
+[PASS] [W5_G19] passed 0.31Hz (Score: 77.1)
+[PASS] [W7_G19] passed 0.31Hz (Score: 30.7)
+[PASS] [W3_G19] passed 0.31Hz (Score: 46.6)
+[PASS] [W15_G19] passed 0.31Hz (Score: 66.4)
+[PASS] [W11_G19] passed 0.31Hz (Score: 57.4)
+[PASS] [W13_G19] passed 0.31Hz (Score: 25.6)
+[PASS] [W10_G19] passed 0.31Hz (Score: 68.1)
+[PASS] [W8_G19] passed 0.31Hz (Score: 44.6)
+[PASS] [W17_G19] passed 0.31Hz (Score: 74.7)
+[PASS] [W2_G19] passed 0.31Hz (Score: 36.6)
+[PASS] [W9_G19] passed 0.31Hz (Score: 60.7)
+[PASS] [W1_G19] passed 0.31Hz (Score: 21.5)
+[PASS] [W18_G19] passed 0.31Hz (Score: 24.9)
+    2     36 1.376477964042006e+02 1.2e+00 1.03e+00  3e-02  4e+01 130:30.2  
+
+======================================== PHASE 1.5 GENERATION 19 SUMMARY ========================================
+Duration: 64.9 min (3892.6 s)
+Gen Best Score: 137.65
+K_ton=68.88, p_ton=15.07
+K_sc=50.41, z_sc=478.29, p_sc=42.37
+K_phas=5.79, p_phas=65.87
+kp=2.47, z_ccr=406.36, p_ccr=23.33
+k_dyn=0.84, k_stat=1.10
+[NEW ALL-TIME BEST SCORE: 137.65] Saving to logs/cmaes_p15_best.txt...
+
+=================================== STARTING GENERATION 20 at 11:27:20 ===================================
+
+--- Evaluating 18 candidates on 7.95Hz (Gen 20) ---
+[PASS] [W18_G20] passed 7.95Hz (Score: 62.0)
+[PASS] [W3_G20] passed 7.95Hz (Score: 44.6)
+[PASS] [W4_G20] passed 7.95Hz (Score: 64.1)
+[PASS] [W12_G20] passed 7.95Hz (Score: 73.0)
+[PASS] [W15_G20] passed 7.95Hz (Score: 45.7)
+[PASS] [W1_G20] passed 7.95Hz (Score: 56.4)
+[PASS] [W2_G20] passed 7.95Hz (Score: 44.0)
+[PASS] [W7_G20] passed 7.95Hz (Score: 47.7)
+[PASS] [W17_G20] passed 7.95Hz (Score: 58.5)
+[PASS] [W10_G20] passed 7.95Hz (Score: 70.0)
+[PASS] [W16_G20] passed 7.95Hz (Score: 83.8)
+[PASS] [W9_G20] passed 7.95Hz (Score: 53.5)
+[PASS] [W11_G20] passed 7.95Hz (Score: 45.5)
+[PASS] [W8_G20] passed 7.95Hz (Score: 83.3)
+[PASS] [W14_G20] passed 7.95Hz (Score: 43.1)
+[PASS] [W13_G20] passed 7.95Hz (Score: 43.7)
+[PASS] [W5_G20] passed 7.95Hz (Score: 56.3)
+[PASS] [W6_G20] passed 7.95Hz (Score: 78.0)
+
+--- Evaluating 18 candidates on 5.52Hz (Gen 20) ---
+[PASS] [W18_G20] passed 5.52Hz (Score: 58.7)
+[PASS] [W6_G20] passed 5.52Hz (Score: 49.5)
+[PASS] [W2_G20] passed 5.52Hz (Score: 97.7)
+[PASS] [W1_G20] passed 5.52Hz (Score: 57.5)
+[PASS] [W14_G20] passed 5.52Hz (Score: 29.0)
+[PASS] [W17_G20] passed 5.52Hz (Score: 36.8)
+[PASS] [W12_G20] passed 5.52Hz (Score: 48.7)
+[PASS] [W16_G20] passed 5.52Hz (Score: 30.9)
+[PASS] [W11_G20] passed 5.52Hz (Score: 32.8)
+[PASS] [W13_G20] passed 5.52Hz (Score: 91.5)
+[PASS] [W9_G20] passed 5.52Hz (Score: 34.1)
+[PASS] [W10_G20] passed 5.52Hz (Score: 34.9)
+[PASS] [W5_G20] passed 5.52Hz (Score: 49.6)
+[PASS] [W7_G20] passed 5.52Hz (Score: 31.0)
+[PASS] [W4_G20] passed 5.52Hz (Score: 92.1)
+[PASS] [W15_G20] passed 5.52Hz (Score: 37.9)
+[PASS] [W3_G20] passed 5.52Hz (Score: 29.6)
+[PASS] [W8_G20] passed 5.52Hz (Score: 45.7)
+
+--- Evaluating 18 candidates on 2.48Hz (Gen 20) ---
+[PASS] [W6_G20] passed 2.48Hz (Score: 16.0)
+[PASS] [W5_G20] passed 2.48Hz (Score: 15.7)
+[PASS] [W4_G20] passed 2.48Hz (Score: 23.0)
+[PASS] [W7_G20] passed 2.48Hz (Score: 16.7)
+[PASS] [W2_G20] passed 2.48Hz (Score: 32.3)
+[PASS] [W1_G20] passed 2.48Hz (Score: 15.3)
+[PASS] [W12_G20] passed 2.48Hz (Score: 18.7)
+[PASS] [W8_G20] passed 2.48Hz (Score: 25.2)
+[PASS] [W13_G20] passed 2.48Hz (Score: 17.7)
+[PASS] [W10_G20] passed 2.48Hz (Score: 21.1)
+[PASS] [W17_G20] passed 2.48Hz (Score: 15.2)
+[PASS] [W9_G20] passed 2.48Hz (Score: 17.3)
+[PASS] [W15_G20] passed 2.48Hz (Score: 22.8)
+[PASS] [W14_G20] passed 2.48Hz (Score: 25.2)
+[PASS] [W18_G20] passed 2.48Hz (Score: 21.2)
+[PASS] [W16_G20] passed 2.48Hz (Score: 15.1)
+[PASS] [W3_G20] passed 2.48Hz (Score: 18.1)
+[PASS] [W11_G20] passed 2.48Hz (Score: 15.8)
+
+--- Evaluating 18 candidates on 1.11Hz (Gen 20) ---
+[PASS] [W9_G20] passed 1.11Hz (Score: 47.0)
+[PASS] [W16_G20] passed 1.11Hz (Score: 31.7)
+[PASS] [W12_G20] passed 1.11Hz (Score: 5.8)
+[PASS] [W13_G20] passed 1.11Hz (Score: 13.1)
+[PASS] [W3_G20] passed 1.11Hz (Score: 58.5)
+[PASS] [W18_G20] passed 1.11Hz (Score: 20.3)
+[PASS] [W15_G20] passed 1.11Hz (Score: 25.5)
+[PASS] [W4_G20] passed 1.11Hz (Score: 23.0)
+[PASS] [W8_G20] passed 1.11Hz (Score: 42.1)
+[PASS] [W1_G20] passed 1.11Hz (Score: 33.1)
+[PASS] [W7_G20] passed 1.11Hz (Score: 43.4)
+[PASS] [W14_G20] passed 1.11Hz (Score: 36.6)
+[PASS] [W17_G20] passed 1.11Hz (Score: 41.8)
+[PASS] [W10_G20] passed 1.11Hz (Score: 28.8)
+[PASS] [W11_G20] passed 1.11Hz (Score: 30.9)
+[PASS] [W5_G20] passed 1.11Hz (Score: 61.9)
+[PASS] [W2_G20] passed 1.11Hz (Score: 10.2)
+[PASS] [W6_G20] passed 1.11Hz (Score: 37.0)
+
+--- Evaluating 18 candidates on 0.78Hz (Gen 20) ---
+[PASS] [W13_G20] passed 0.78Hz (Score: 1.7)
+[PASS] [W2_G20] passed 0.78Hz (Score: 17.0)
+[PASS] [W9_G20] passed 0.78Hz (Score: 11.8)
+[PASS] [W1_G20] passed 0.78Hz (Score: 9.3)
+[PASS] [W7_G20] passed 0.78Hz (Score: 27.1)
+[PASS] [W6_G20] passed 0.78Hz (Score: 6.9)
+[PASS] [W4_G20] passed 0.78Hz (Score: 2.6)
+[PASS] [W12_G20] passed 0.78Hz (Score: 1.7)
+[PASS] [W15_G20] passed 0.78Hz (Score: 9.1)
+[PASS] [W17_G20] passed 0.78Hz (Score: 2.0)
+[PASS] [W5_G20] passed 0.78Hz (Score: 36.8)
+[PASS] [W3_G20] passed 0.78Hz (Score: 11.5)
+[PASS] [W8_G20] passed 0.78Hz (Score: 3.8)
+[PASS] [W10_G20] passed 0.78Hz (Score: 10.8)
+[PASS] [W11_G20] passed 0.78Hz (Score: 2.5)
+[PASS] [W14_G20] passed 0.78Hz (Score: 11.0)
+[PASS] [W16_G20] passed 0.78Hz (Score: 3.4)
+[PASS] [W18_G20] passed 0.78Hz (Score: 7.9)
+
+--- Evaluating 18 candidates on 0.31Hz (Gen 20) ---
+[PASS] [W18_G20] passed 0.31Hz (Score: 105.7)
+[PASS] [W2_G20] passed 0.31Hz (Score: 16.1)
+[PASS] [W14_G20] passed 0.31Hz (Score: 7.2)
+[PASS] [W8_G20] passed 0.31Hz (Score: 51.2)
+[PASS] [W9_G20] passed 0.31Hz (Score: 26.0)
+[PASS] [W1_G20] passed 0.31Hz (Score: 24.8)
+[PASS] [W16_G20] passed 0.31Hz (Score: 49.5)
+[PASS] [W7_G20] passed 0.31Hz (Score: 42.3)
+[PASS] [W13_G20] passed 0.31Hz (Score: 20.3)
+[PASS] [W11_G20] passed 0.31Hz (Score: 43.8)
+[PASS] [W4_G20] passed 0.31Hz (Score: 62.8)
+[PASS] [W12_G20] passed 0.31Hz (Score: 29.7)
+[PASS] [W5_G20] passed 0.31Hz (Score: 33.7)
+[PASS] [W10_G20] passed 0.31Hz (Score: 91.5)
+[PASS] [W15_G20] passed 0.31Hz (Score: 43.7)
+[PASS] [W17_G20] passed 0.31Hz (Score: 22.4)
+[PASS] [W3_G20] passed 0.31Hz (Score: 7.2)
+[PASS] [W6_G20] passed 0.31Hz (Score: 41.8)
+    3     54 1.520846085374932e+02 1.3e+00 1.03e+00  3e-02  4e+01 196:17.4  
+
+======================================== PHASE 1.5 GENERATION 20 SUMMARY ========================================
+Duration: 65.8 min (3947.2 s)
+Gen Best Score: 152.08
+K_ton=67.40, p_ton=14.86
+K_sc=49.14, z_sc=459.93, p_sc=41.48
+K_phas=5.78, p_phas=67.75
+kp=2.39, z_ccr=449.39, p_ccr=23.74
+k_dyn=0.90, k_stat=1.09
+
+==========================================================================================
+ALL 3 GENERATIONS (18-20) COMPLETED AT 12:33:07!
+Final Champion Score: 137.65
+==========================================================================================

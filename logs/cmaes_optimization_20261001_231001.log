@@ -1,0 +1,9 @@
+==========================================================================================
+Alpha-Scaled CMA-ES: Bode Frequency Response Optimization (STRICT LITERATURE BOUNDS)
+Base PID (Step Gen 15): Kp=696.79, Ki=179.12, Kd=120.92
+Searching: ['alpha', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 7 (seed=1012617, Thu Oct  1 23:10:01 2026)
+
+--- Generation 1 ---
+Eval CRASHED at 1.12Hz: a=5.55(Kp=22.6,Ki=1.0,Kd=21.8), Gton=7.28, Gsc=3.71Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=4.05(Kp=42.6,Ki=2.7,Kd=29.9), Gton=6.63, Gsc=4.48Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=4.47(Kp=34.9,Ki=2.0,Kd=27.1), Gton=8.50, Gsc=3.72Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=5.78(Kp=20.9,Ki=0.9,Kd=20.9), Gton=10.44, Gsc=3.13Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=4.76(Kp=30.8,Ki=1.7,Kd=25.4), Gton=14.17, Gsc=5.00Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=3.63(Kp=52.9,Ki=3.8,Kd=33.3), Gton=6.92, Gsc=4.94Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=4.19(Kp=39.6,Ki=2.4,Kd=28.8), Gton=5.00, Gsc=3.98Eval ERROR at 1.12Hz: [Errno 22] Invalid argumentEval CRASHED at 1.12Hz: a=4.46(Kp=35.1,Ki=2.0,Kd=27.1), Gton=5.59, Gsc=4.52Eval ERROR at 1.12Hz: [Errno 22] Invalid argument

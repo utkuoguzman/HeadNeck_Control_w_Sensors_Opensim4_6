@@ -29,6 +29,7 @@ friend class AfferentAnalysis;
 
 public:
 	OpenSim_DECLARE_PROPERTY(lpf_tau, double, "time constant for the low-pass filters");
+	OpenSim_DECLARE_PROPERTY(enable_GTO, bool, "Whether to add and integrate GTO ODE states (default: false until GTO study)");
 
 	Lin02GolgiTendonOrgan();  // the constructor
 	
@@ -133,6 +134,12 @@ private:
 	mutable SimTK::Vec<3> ts, nl, Dnl; 
 	mutable SimTK::Mat33 C0;
 	mutable SimTK::Mat44 C1;
+	mutable const StateVariable* sv_nonlinear = nullptr;
+	mutable const StateVariable* sv_nonlinear_deriv = nullptr;
+	mutable const StateVariable* sv_filter_out = nullptr;
+	mutable const StateVariable* sv_filter_out_deriv = nullptr;
+	mutable double cached_gto_out = 0.0;
+	void ensureStatePointers() const;
 
 }; // end of class Lin02GolgiTendonOrgan
 	

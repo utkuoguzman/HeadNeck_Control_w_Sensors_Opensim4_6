@@ -1,0 +1,16 @@
+Starting ENHANCED Active+Mirrored Parallel CMA-ES Optimization (Della Santina Canals)...
+(6_w,12mirr2)-aCMA-ES (mu_w=3.7,w_1=40%) in dimension 9 (seed=543653, Sat Sep 26 16:03:18 2026)
+
+--- Generation 1 ---
+Eval EARLY ABORT at 1.12Hz: Kp=72.3, Ki=41.6, Kd=5.5, Gsc=1.89, Gphas=5.40 => Est Score: 40103.1
+Eval CRASHED at 0.82Hz: Kp=73.6, Ki=44.7, Kd=17.1, Gton=7.95, Gsc=1.43, Gphas=5.61, Kp_prop=0.754, K_gamma_dyn=37.1, K_gamma_stat=90.4
+Eval CRASHED at 0.60Hz: Kp=75.9, Ki=35.5, Kd=20.0, Gton=17.05, Gsc=1.00, Gphas=4.25, Kp_prop=0.543, K_gamma_dyn=38.5, K_gamma_stat=92.7
+Eval CRASHED at 0.82Hz: Kp=74.0, Ki=48.1, Kd=20.2, Gton=9.42, Gsc=2.12, Gphas=5.09, Kp_prop=0.694, K_gamma_dyn=46.4, K_gamma_stat=98.0
+Eval CRASHED at 0.60Hz: Kp=72.8, Ki=46.3, Kd=12.5, Gton=12.30, Gsc=2.02, Gphas=4.36, Kp_prop=0.796, K_gamma_dyn=44.6, K_gamma_stat=88.7
+Eval CRASHED at 0.60Hz: Kp=71.7, Ki=41.3, Kd=14.9, Gton=7.06, Gsc=0.46, Gphas=3.15, Kp_prop=0.841, K_gamma_dyn=37.6, K_gamma_stat=99.0
+Eval CRASHED at 0.82Hz: Kp=65.9, Ki=38.4, Kd=12.6, Gton=9.60, Gsc=0.31, Gphas=3.98, Kp_prop=0.317, K_gamma_dyn=40.2, K_gamma_stat=87.0
+Eval CRASHED at 1.12Hz: Kp=75.8, Ki=41.6, Kd=17.5, Gton=15.83, Gsc=1.97, Gphas=4.00, Kp_prop=0.901, K_gamma_dyn=42.1, K_gamma_stat=91.8
+Eval CRASHED at 1.12Hz: Kp=70.6, Ki=49.6, Kd=15.3, Gton=14.62, Gsc=3.72, Gphas=4.89, Kp_prop=0.059, K_gamma_dyn=46.4, K_gamma_stat=87.6
+Eval CRASHED at 1.12Hz: Kp=75.6, Ki=47.6, Kd=15.2, Gton=10.88, Gsc=1.38, Gphas=3.73, Kp_prop=0.951, K_gamma_dyn=43.9, K_gamma_stat=95.5
+Eval CRASHED at 0.82Hz: Kp=72.3, Ki=43.7, Kd=15.9, Gton=16.80, Gsc=2.54, Gphas=2.80, Kp_prop=0.439, K_gamma_dyn=42.4, K_gamma_stat=100.6
+Eval CRASHED at 1.12Hz: Kp=65.6, Ki=44.1, Kd=13.1, Gton=9.04, Gsc=2.91, Gphas=3.76, Kp_prop=0.444, K_gamma_dyn=39.4, K_gamma_stat=92.2

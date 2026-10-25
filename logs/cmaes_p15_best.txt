@@ -1,0 +1,8 @@
+Generation: 54
+Candidate: W11_G54
+Total Score: 8412.8193
+K_ton=76.881021, p_ton=18.053569
+K_sc=66.090868, z_sc=166.329626, p_sc=54.765758
+K_phas=6.330666, p_phas=53.185912
+kp=1.675781, z_ccr=600.319456, p_ccr=21.065616
+k_dyn=0.879237, k_stat=1.045739

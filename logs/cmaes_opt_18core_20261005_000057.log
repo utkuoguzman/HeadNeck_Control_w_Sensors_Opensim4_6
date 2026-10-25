@@ -1,0 +1,27 @@
+==========================================================================================
+CMA-ES: 18-Core Parallel Frequency Optimization
+Searching: ['omega_n', 'zeta', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================
+(9_w,18mirr3)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 9 (seed=227225, Mon Oct  5 00:00:57 2026)
+💥 CRASHED [G01-W02] at 0.78Hz: w_n=18.9, Gton=12.75💥 CRASHED [G01-W03] at 1.11Hz: w_n=19.7, Gton=16.03
+
+💥 CRASHED [G01-W04] at 2.48Hz: w_n=21.5, Gton=13.25💥 CRASHED [G01-W01] at 0.31Hz: w_n=19.1, Gton=11.05
+
+💥 CRASHED [G01-W10] at 2.48Hz: w_n=19.7, Gton=14.36
+💥 CRASHED [G01-W07] at 0.31Hz: w_n=20.2, Gton=12.96💥 CRASHED [G01-W05] at 5.52Hz: w_n=19.1, Gton=14.17💥 CRASHED [G01-W13] at 0.31Hz: w_n=20.2, Gton=13.46💥 CRASHED [G01-W06] at 7.95Hz: w_n=21.9, Gton=11.34💥 CRASHED [G01-W16] at 2.48Hz: w_n=18.6, Gton=10.00💥 CRASHED [G01-W09] at 1.11Hz: w_n=18.3, Gton=11.30💥 CRASHED [G01-W17] at 5.52Hz: w_n=19.4, Gton=14.04💥 CRASHED [G01-W12] at 7.95Hz: w_n=21.5, Gton=14.83💥 CRASHED [G01-W08] at 0.78Hz: w_n=21.1, Gton=15.44
+
+
+💥 CRASHED [G01-W11] at 5.52Hz: w_n=19.5, Gton=15.02
+💥 CRASHED [G01-W15] at 1.11Hz: w_n=20.4, Gton=11.59💥 CRASHED [G01-W18] at 7.95Hz: w_n=19.4, Gton=12.87
+💥 CRASHED [G01-W14] at 0.78Hz: w_n=21.5, Gton=11.40
+
+
+
+
+
+
+
+Iterat #Fevals   function value  axis ratio  sigma  min&max std  t[m:s]
+    1     18 1.000000000000000e+05 1.0e+00 4.84e-01  1e-01  5e+00 0:00.1  
+Gen 1: Best Bode SSE = 100000.0 | w_n=19.13, zeta=0.238 (Kp=366.0,Kd=9.1), Ki=16.6, G_ton=11.049, G_sc=4.102, G_phas=3.289
+

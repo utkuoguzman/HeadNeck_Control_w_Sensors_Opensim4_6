@@ -1,0 +1,5 @@
+Optimal Ki_task: 40.2786
+Steady-State Pitch Error: -0.540 deg
+Preload Integral Pitch: 0.10528
+Preload Integral Roll: 0.01252
+Preload Integral Yaw: -0.00944

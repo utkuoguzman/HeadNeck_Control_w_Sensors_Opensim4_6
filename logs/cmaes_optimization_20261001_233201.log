@@ -1,0 +1,5 @@
+==========================================================================================
+Alpha-Scaled CMA-ES: Bode Frequency Response Optimization (STRICT LITERATURE BOUNDS)
+Base PID (Step Gen 15): Kp=786.01, Ki=128.66, Kd=15.68
+Searching: ['alpha', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
+==========================================================================================

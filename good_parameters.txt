@@ -1,1 +1,17 @@
-Eval SUCCESS: Kp=75.3, Ki=43.4, Kd=9.0, Gton=9.21, Gsc=2.41, Gphas=4.93 => Bode Error: 13618.7
+F1 (0.31 Hz) — Score: 5311.50
+G_ton = 5.08, G_sc = 4.12, G_phas = 6.96, kp_prop = 1.52, k_gamma_dyn = 41.30, k_gamma_stat = 126.70
+
+F2 (0.78 Hz) — Score: 25.90
+G_ton = 26.39, G_sc = 23.96, G_phas = 2.13, kp_prop = 0.41, k_gamma_dyn = 40.10, k_gamma_stat = 113.80
+
+F3 (1.11 Hz) — Score: 6.50
+G_ton = 23.39, G_sc = 5.26, G_phas = 7.06, kp_prop = 0.23, k_gamma_dyn = 42.90, k_gamma_stat = 90.10
+
+F4 (2.48 Hz) — Score: 316.00
+G_ton = 82.34, G_sc = 27.94, G_phas = 5.68, kp_prop = 1.28, k_gamma_dyn = 16.60, k_gamma_stat = 83.50
+
+F5 (5.52 Hz) — Score: 5.50
+G_ton = 48.26, G_sc = 22.55, G_phas = 8.15, kp_prop = 3.32, k_gamma_dyn = 62.60, k_gamma_stat = 133.10
+
+F6 (7.95 Hz) — Score: 1.20
+G_ton = 31.61, G_sc = 6.57, G_phas = 7.54, kp_prop = 1.83, k_gamma_dyn = 25.30, k_gamma_stat = 93.30
