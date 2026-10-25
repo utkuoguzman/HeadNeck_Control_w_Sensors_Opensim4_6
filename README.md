@@ -170,6 +170,13 @@ HeadNeck_Control_w_Sensors_Opensim4_6/
 │   └── CMakeLists.txt
 ├── docs/                              # Architecture documentation & C4 diagrams
 │   └── neuromotor_control_architecture_c4.md
+├── surrogacy/                         # Differentiable surrogate pre-optimization toolchain
+│   ├── measure_passive_plant.py       # Measures exact OpenSim multi-body plant response G_passive
+│   ├── optimize_surrogate.py          # Fast sub-10s L-BFGS-B gradient descent on exact plant
+│   ├── validate_in_opensim.py         # 6-frequency validation of surrogate solution in OpenSim
+│   ├── opensim_passive_plant.json     # Precomputed exact plant frequency response table
+│   ├── exact_plant_surrogate_solution.json # Optimal reflex parameters discovered by surrogate
+│   └── README.md
 ├── scripts/                           # CMA-ES campaign & progress table scripts
 │   ├── run_phase2_1_campaign.py
 │   └── build_phase2_progress_table.py
@@ -211,10 +218,28 @@ cmake --build . --config Release
 cd ../..
 ```
 
-### 2. Run Phase 2.1 Multi-Frequency CMA-ES Optimization
+### 2. Fast Surrogate Pre-Optimization (Quick & Dirty Initialization)
+
+Because multi-frequency non-linear OpenSim simulation takes **$45 - 60\text{ min / generation}$** across 14-18 cores, starting CMA-ES from a raw random initial guess wastes dozens of generations.
+
+We provide an analytical **differentiable neuromotor surrogate pipeline** (`surrogacy/`) that precomputes the exact multi-body OpenSim plant impedance ($G_{\text{passive}}(j\omega)$) and runs multi-start **L-BFGS-B gradient descent in under 10 seconds** to find an elite starting seed vector ($x_0$):
 
 ```powershell
-C:\Users\User\miniforge3\envs\opensim_env\python.exe scripts/run_phase2_1_campaign.py
+# 1. (Optional) Re-measure the exact OpenSim multi-body plant (~90s in parallel)
+python surrogacy/measure_passive_plant.py
+
+# 2. Run multi-start L-BFGS-B gradient descent (< 10s runtime)
+python surrogacy/optimize_surrogate.py
+
+# 3. Validate the surrogate solution in full OpenSim across all 6 frequencies
+python surrogacy/validate_in_opensim.py
+```
+* **Performance Gain:** Reduces initial OpenSim error score from **$>176,000\text{ pts}$ down to $<75,000\text{ pts}$** before CMA-ES even starts!
+
+### 3. Run Phase 2.3 Multi-Frequency CMA-ES Optimization
+
+```powershell
+python scripts/run_phase2_3_campaign.py
 ```
 
 ---

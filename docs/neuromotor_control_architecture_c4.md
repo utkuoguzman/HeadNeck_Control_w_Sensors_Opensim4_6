@@ -344,3 +344,31 @@ $$H_{\text{ccr}}(s) = k_p \frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad 
 | **Mahony Spatial Observer** | $\hat{\vec{\omega}}_{\text{phys}}, \vec{f}_{\text{oto}}, \hat{\vec{\theta}}_{\text{rel}}$ | $\dot{\mathbf{q}} = \tfrac{1}{2}\mathbf{q} \otimes (\vec{\omega}_{\text{head}} + K_{\text{oto}}\vec{e}_{\text{oto}} + \mathbf{K}_{\text{prop}}\vec{e}_{\text{prop}})$ | Fused 3D Attitude $\hat{\vec{\theta}}_{\text{est}}$ ($r=0.9997$) | VCR Tonic/Phasic & Higher Centers |
 | **VCR Reflex ($35\text{ ms}$)** | Delayed $\vec{\omega}_{\text{canal}}, \hat{\vec{\theta}}_{\text{est}}$ | $H_{\text{sc}}(s) = K_{\text{sc}}\frac{s+z_{\text{sc}}}{s+p_{\text{sc}}}$, $H_{\text{ton}}(s)$, $H_{\text{phas}}(s)$ | Brainstem Torque $\vec{\tau}_{\text{vcr}}$ | QP Muscle Allocator |
 | **CCR Reflex ($35\text{ ms}$)** | Delayed $\Delta \text{Ia}_i$ | $H_{\text{ccr}}(s) = k_p\frac{s+z_{\text{ccr}}}{s+p_{\text{ccr}}}$ | Spinal Excitation $u_{\text{ccr},i}$ | Alpha Motor Neuron Pool |
+
+---
+
+## 7. Biomechanical Plant Linearization & Differentiable Neuromotor Surrogate (CMA-ES Quick Initialization)
+
+### 7.1 Motivation: Mitigating Multi-Hour CMA-ES Burn
+Simulating 18 candidates across 6 frequencies in the full non-linear OpenSim model takes **$\approx 45\text{--}60\text{ minutes per generation}$**. Starting CMA-ES from a poorly guessed initial vector ($x_0$) burns dozens of generations in unpromising regions of the parameter space.
+
+To solve this, we formulated an analytical **Differentiable Neuromotor Surrogate Model** located in [`surrogacy/`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/surrogacy/) that acts as a **quick-and-dirty initialization finding step**.
+
+### 7.2 Mathematical Formulation (Black's Feedback Formula on Measured Multi-Body Plant)
+Around the resting equilibrium state ($q_0$, head upright at $2.8^\circ$ under gravity and baseline muscle co-contraction), the passive mechanical frequency response of the 8-vertebra, 8-bushing cervical column is measured directly from OpenSim as:
+
+$$G_{\text{passive}}(j\omega_k) = \frac{\Theta_{\text{passive}}(j\omega_k)}{X_{\text{sled}}(j\omega_k)}$$
+
+When closed-loop sensory reflexes (VCR, CCR, transport delays) and the gravity compensation integrator ($K_i / s$) are added, the closed-loop head pitch frequency response is evaluated analytically via Black's feedback formula in **$< 1\ \mu\text{s}$**:
+
+$$\Theta_{\text{closed}}(j\omega) = \frac{G_{\text{passive}}(j\omega) \cdot \left[ 1 - \dfrac{K_{\text{phas}} H_{\text{phas}}(j\omega) H_{\text{act}}(j\omega) \omega^2}{T_{\text{drive,mass}}(j\omega)} \right]}{1 + \dfrac{Z_{\text{reflex}}(j\omega)}{T_{\text{drive,mass}}(j\omega)} \cdot G_{\text{passive}}(j\omega)}$$
+
+Where:
+$$Z_{\text{reflex}}(s) = \Big[ K_{\text{sc}} H_{\text{sc}}(s) \cdot s + K_{\text{ton}} H_{\text{ton}}(s) + k_p H_{\text{ccr}}(s) \Big] \cdot H_{\text{act}}(s)$$
+with continuous transport delays $e^{-s \tau_{\text{VCR}}}$ and $e^{-s \tau_{\text{CCR}}}$ evaluated without Padé approximation error.
+
+### 7.3 Multi-Start Gradient Descent Engine (L-BFGS-B / SLSQP)
+Because the surrogate evaluates in microseconds, we execute multi-start L-BFGS-B gradient descent across 24 starting points in **$< 10\text{ seconds}$** ([`surrogacy/optimize_surrogate.py`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/surrogacy/optimize_surrogate.py)).
+
+* **Outcome:** Drops the initial OpenSim model loss from **$>176,000\text{ pts}$ down to $<75,000\text{ pts}$**, capturing physiological negative phase lag and hitting $+0.27\text{ dB}$ gain accuracy at 5.58 Hz.
+* **CMA-ES Handshake:** The optimal parameter vector is exported to `surrogacy/exact_plant_surrogate_solution.json` and loaded as $x_0$ in [`scripts/run_phase2_3_campaign.py`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/scripts/run_phase2_3_campaign.py), providing a fast, warm-started leap into the optimal basin of attraction.

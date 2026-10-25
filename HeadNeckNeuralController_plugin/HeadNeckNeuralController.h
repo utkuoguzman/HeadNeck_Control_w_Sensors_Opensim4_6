@@ -223,6 +223,7 @@ private:
     mutable std::vector<double> cached_scale_L;
     mutable std::vector<double> cached_scale_Ia;
     mutable std::vector<double> cached_F_max;
+    mutable std::vector<double> cached_u_min;
     mutable std::vector<double> base_activations;
     mutable std::vector<double> base_Ia;
     mutable std::vector<double> base_II;

@@ -350,10 +350,43 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     cached_scale_L.resize(num_muscles, 0.0);
     cached_scale_Ia.resize(num_muscles, 0.0);
     cached_F_max.resize(num_muscles, 0.0);
+    cached_u_min.resize(num_muscles, 0.03);
     
     for(size_t i=0; i<active_muscle_indices.size(); ++i) {
         const Muscle& m = muscles.get(active_muscle_indices[i]);
         std::string mname_i = m.getName();
+        
+        // Anatomical Co-Contraction Tiers
+        double u_val = 0.030; // Default for eye muscles / unclassified
+        if (mname_i.find("stern_mast") != std::string::npos ||
+            mname_i.find("cleid_mast") != std::string::npos ||
+            mname_i.find("cleid_occ")  != std::string::npos ||
+            mname_i.find("digastric")  != std::string::npos ||
+            mname_i.find("Geniohyoid") != std::string::npos ||
+            mname_i.find("Mylohyoid")  != std::string::npos ||
+            mname_i.find("Stylohyoid") != std::string::npos ||
+            mname_i.find("Sterno_hyoid") != std::string::npos ||
+            mname_i.find("SternoThyroid") != std::string::npos ||
+            mname_i.find("Omo_hyoid")  != std::string::npos) {
+            u_val = 0.025; // Superficial Flexors (2.5%)
+        } else if (mname_i.find("long_cap") != std::string::npos ||
+                   mname_i.find("long_col") != std::string::npos ||
+                   mname_i.find("scalenus") != std::string::npos) {
+            u_val = 0.040; // Deep Cervical Flexors (4.0%)
+        } else if (mname_i.find("trap_") != std::string::npos ||
+                   mname_i.find("splen_cap") != std::string::npos ||
+                   mname_i.find("splen_cerv") != std::string::npos ||
+                   mname_i.find("levator_scap") != std::string::npos) {
+            u_val = 0.050; // Superficial Extensors (5.0%)
+        } else if (mname_i.find("semi_cap") != std::string::npos ||
+                   mname_i.find("semi_cerv") != std::string::npos ||
+                   mname_i.find("longissi_") != std::string::npos ||
+                   mname_i.find("iliocost_") != std::string::npos ||
+                   mname_i.find("rectcap_") != std::string::npos ||
+                   mname_i.find("obl_cap")  != std::string::npos) {
+            u_val = 0.070; // Deep Cervical Extensors (7.0%)
+        }
+        cached_u_min[i] = u_val;
         name_ccr_state[i] = "ccr_state_" + mname_i;
         name_sp_dL[i] = "sp_dL_" + mname_i;
         name_sp_v[i] = "sp_v_" + mname_i;
@@ -1203,7 +1236,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
     // --- QP SOLVER ---
     const std::vector<double>& F_max = cached_F_max;
 
-    std::vector<double> u_alpha(N, 0.03);
+    std::vector<double> u_alpha(N);
+    for(int i=0; i<N; ++i) u_alpha[i] = cached_u_min[i];
     std::vector<bool> is_free(N, true);
 
     for(int iter=0; iter<15; ++iter) {
@@ -1243,8 +1277,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
                 double a_unconstrained = 0.0;
                 for(int k=0; k<3; ++k) a_unconstrained += (J_moment_arms(k, i) * F_max[i]) * lambda_vec[k];
                 
-                if(a_unconstrained < 0.03) {
-                    u_alpha[i] = 0.03;
+                if(a_unconstrained < cached_u_min[i]) {
+                    u_alpha[i] = cached_u_min[i];
                     is_free[i] = false;
                     bounds_violated = true;
                 } else if(a_unconstrained > 1.0) {
@@ -1292,15 +1326,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
                 0.0, 1.0);
             double K_recip = 1.0 - vol_act * (1.0 - get_K_recip_inhib());
             double inhibition_factor = 1.0;
-            double u_min = 0.03;
-            double u_max = 0.08;
+            double u_min_i = cached_u_min[i];
+            double u_max_i = u_min_i + 0.05;
             
-            if (u_alpha[i] <= u_min) {
+            if (u_alpha[i] <= u_min_i) {
                 inhibition_factor = K_recip;
-            } else if (u_alpha[i] >= u_max) {
+            } else if (u_alpha[i] >= u_max_i) {
                 inhibition_factor = 1.0;
             } else {
-                double t = (u_alpha[i] - u_min) / (u_max - u_min);
+                double t = (u_alpha[i] - u_min_i) / (u_max_i - u_min_i);
                 double smooth_t = t * t * (3.0 - 2.0 * t);
                 inhibition_factor = K_recip + smooth_t * (1.0 - K_recip);
             }
@@ -1309,7 +1343,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& s, SimTK::Vec
             excitation += get_Kp_proprioception() * (Ia_firing / 100.0) * inhibition_factor; 
         }
         
-        excitation = std::clamp(excitation, 0.03, 1.0);
+        excitation = std::clamp(excitation, cached_u_min[i], 1.0);
         
         int n_controls = m.numControls();
         Vector my_ctrl(n_controls, 0.0);

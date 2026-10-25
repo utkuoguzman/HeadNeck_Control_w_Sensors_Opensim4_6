@@ -1,0 +1,11 @@
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Sun Oct 25 20:48:00 2026)
+
+Phase 2.3 Initialized. Starting from Generation 1 up to Generation 30
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+
+=================================== STARTING PHASE 2.3 GENERATION 1 of 30 at 20:48:00 ===================================
