@@ -9,3 +9,1626 @@ Sigma0:
 [0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
 
 =================================== STARTING PHASE 2.3 GENERATION 1 of 30 at 20:48:00 ===================================
+[PASS] [W8_P23G1] passed 0.324Hz (1/6) (Score: 62666.9 | Cum: 62666.9)
+[PASS] [W1_P23G1] passed 0.324Hz (1/6) (Score: 71864.6 | Cum: 71864.6)
+[PASS] [W14_P23G1] passed 0.324Hz (1/6) (Score: 75678.9 | Cum: 75678.9)
+[PASS] [W12_P23G1] passed 0.324Hz (1/6) (Score: 60221.5 | Cum: 60221.5)
+[PASS] [W7_P23G1] passed 0.324Hz (1/6) (Score: 57076.8 | Cum: 57076.8)
+[PASS] [W4_P23G1] passed 0.324Hz (1/6) (Score: 57007.5 | Cum: 57007.5)
+[PASS] [W2_P23G1] passed 0.324Hz (1/6) (Score: 83012.1 | Cum: 83012.1)
+[PASS] [W6_P23G1] passed 0.324Hz (1/6) (Score: 86346.7 | Cum: 86346.7)
+[PASS] [W13_P23G1] passed 0.324Hz (1/6) (Score: 56937.3 | Cum: 56937.3)
+[PASS] [W9_P23G1] passed 0.324Hz (1/6) (Score: 54014.3 | Cum: 54014.3)
+[PASS] [W11_P23G1] passed 0.324Hz (1/6) (Score: 65022.1 | Cum: 65022.1)
+[PASS] [W10_P23G1] passed 0.324Hz (1/6) (Score: 48750.3 | Cum: 48750.3)
+[PASS] [W3_P23G1] passed 0.324Hz (1/6) (Score: 142581.8 | Cum: 142581.8)
+[PASS] [W5_P23G1] passed 0.324Hz (1/6) (Score: 53480.9 | Cum: 53480.9)
+[PASS] [W8_P23G1] passed 0.783Hz (2/6) (Score: 31458.0 | Cum: 94124.9)
+[PASS] [W1_P23G1] passed 0.783Hz (2/6) (Score: 20588.6 | Cum: 92453.2)
+[PASS] [W14_P23G1] passed 0.783Hz (2/6) (Score: 46691.4 | Cum: 122370.3)
+[PASS] [W12_P23G1] passed 0.783Hz (2/6) (Score: 44859.2 | Cum: 105080.7)
+[PASS] [W4_P23G1] passed 0.783Hz (2/6) (Score: 38656.5 | Cum: 95664.0)
+[PASS] [W7_P23G1] passed 0.783Hz (2/6) (Score: 41453.2 | Cum: 98530.0)
+[PASS] [W9_P23G1] passed 0.783Hz (2/6) (Score: 29639.1 | Cum: 83653.3)
+[PASS] [W6_P23G1] passed 0.783Hz (2/6) (Score: 45526.3 | Cum: 131873.0)
+[PASS] [W13_P23G1] passed 0.783Hz (2/6) (Score: 32192.1 | Cum: 89129.4)
+[PASS] [W2_P23G1] passed 0.783Hz (2/6) (Score: 69106.6 | Cum: 152118.7)
+[PASS] [W10_P23G1] passed 0.783Hz (2/6) (Score: 27440.8 | Cum: 76191.1)
+[PASS] [W11_P23G1] passed 0.783Hz (2/6) (Score: 41862.4 | Cum: 106884.6)
+[PASS] [W3_P23G1] passed 0.783Hz (2/6) (Score: 75404.4 | Cum: 217986.2)
+[PASS] [W5_P23G1] passed 0.783Hz (2/6) (Score: 27637.0 | Cum: 81117.9)
+[PASS] [W16_P23G1] passed 0.324Hz (1/6) (Score: 66253.5 | Cum: 66253.5)
+[PASS] [W17_P23G1] passed 0.324Hz (1/6) (Score: 57970.8 | Cum: 57970.8)
+[PASS] [W18_P23G1] passed 0.324Hz (1/6) (Score: 152789.4 | Cum: 152789.4)
+[PASS] [W1_P23G1] passed 1.099Hz (3/6) (Score: 25917.7 | Cum: 118370.8)
+[PASS] [W8_P23G1] passed 1.099Hz (3/6) (Score: 25653.2 | Cum: 119778.1)
+[PASS] [W14_P23G1] passed 1.099Hz (3/6) (Score: 46299.5 | Cum: 168669.8)
+[PASS] [W7_P23G1] passed 1.099Hz (3/6) (Score: 22642.2 | Cum: 121172.2)
+[PASS] [W12_P23G1] passed 1.099Hz (3/6) (Score: 46649.6 | Cum: 151730.3)
+[PASS] [W4_P23G1] passed 1.099Hz (3/6) (Score: 24833.7 | Cum: 120497.7)
+[PASS] [W15_P23G1] passed 0.324Hz (1/6) (Score: 68401.2 | Cum: 68401.2)
+[PASS] [W1_P23G1] passed 5.583Hz (4/6) (Score: 884.2 | Cum: 119255.0)
+[PASS] [W8_P23G1] passed 5.583Hz (4/6) (Score: 583.9 | Cum: 120362.0)
+[PASS] [W14_P23G1] passed 5.583Hz (4/6) (Score: 1928.5 | Cum: 170598.3)
+[PASS] [W6_P23G1] passed 1.099Hz (3/6) (Score: 27540.2 | Cum: 159413.2)
+[PASS] [W9_P23G1] passed 1.099Hz (3/6) (Score: 36481.4 | Cum: 120134.7)
+[PASS] [W13_P23G1] passed 1.099Hz (3/6) (Score: 19530.5 | Cum: 108659.9)
+[PASS] [W2_P23G1] passed 1.099Hz (3/6) (Score: 40876.2 | Cum: 192994.9)
+[PASS] [W17_P23G1] passed 0.783Hz (2/6) (Score: 23876.4 | Cum: 81847.2)
+[PASS] [W16_P23G1] passed 0.783Hz (2/6) (Score: 52859.7 | Cum: 119113.3)
+[PASS] [W10_P23G1] passed 1.099Hz (3/6) (Score: 19246.4 | Cum: 95437.5)
+[PASS] [W11_P23G1] passed 1.099Hz (3/6) (Score: 19696.0 | Cum: 126580.6)
+[PASS] [W18_P23G1] passed 0.783Hz (2/6) (Score: 138786.6 | Cum: 291576.0)
+[PASS] [W3_P23G1] passed 1.099Hz (3/6) (Score: 60233.1 | Cum: 278219.3)
+[PASS] [W5_P23G1] passed 1.099Hz (3/6) (Score: 29912.9 | Cum: 111030.9)
+[PASS] [W7_P23G1] passed 5.583Hz (4/6) (Score: 147.7 | Cum: 121320.0)
+[PASS] [W4_P23G1] passed 5.583Hz (4/6) (Score: 613.7 | Cum: 121111.4)
+[PASS] [W12_P23G1] passed 5.583Hz (4/6) (Score: 729.4 | Cum: 152459.8)
+[PASS] [W1_P23G1] passed 2.446Hz (5/6) (Score: 5076.8 | Cum: 124331.8)
+[PASS] [W8_P23G1] passed 2.446Hz (5/6) (Score: 12273.7 | Cum: 132635.6)
+[PASS] [W14_P23G1] passed 2.446Hz (5/6) (Score: 5334.5 | Cum: 175932.8)
+[PASS] [W9_P23G1] passed 5.583Hz (4/6) (Score: 136.4 | Cum: 120271.1)
+[PASS] [W13_P23G1] passed 5.583Hz (4/6) (Score: 760.4 | Cum: 109420.4)
+[PASS] [W6_P23G1] passed 5.583Hz (4/6) (Score: 4261.0 | Cum: 163674.2)
+[PASS] [W2_P23G1] passed 5.583Hz (4/6) (Score: 1201.6 | Cum: 194196.5)
+[PASS] [W10_P23G1] passed 5.583Hz (4/6) (Score: 371.1 | Cum: 95808.6)
+[PASS] [W15_P23G1] passed 0.783Hz (2/6) (Score: 52536.5 | Cum: 120937.7)
+[PASS] [W17_P23G1] passed 1.099Hz (3/6) (Score: 31692.5 | Cum: 113539.8)
+[PASS] [W16_P23G1] passed 1.099Hz (3/6) (Score: 46677.6 | Cum: 165790.9)
+[PASS] [W11_P23G1] passed 5.583Hz (4/6) (Score: 5689.4 | Cum: 132270.0)
+[PASS] [W3_P23G1] passed 5.583Hz (4/6) (Score: 71.8 | Cum: 278291.1)
+[PASS] [W5_P23G1] passed 5.583Hz (4/6) (Score: 104.4 | Cum: 111135.3)
+[PASS] [W7_P23G1] passed 2.446Hz (5/6) (Score: 7712.2 | Cum: 129032.2)
+[PASS] [W4_P23G1] passed 2.446Hz (5/6) (Score: 12233.5 | Cum: 133344.9)
+[PASS] [W12_P23G1] passed 2.446Hz (5/6) (Score: 10067.2 | Cum: 162526.9)
+[PASS] [W1_P23G1] passed 7.927Hz (6/6) (Score: 12739.7 | Cum: 137071.5)
+[COMPLETE] [W1_P23G1] finished all 6 frequencies! Total Score: 137071.51
+[PASS] [W8_P23G1] passed 7.927Hz (6/6) (Score: 21249.3 | Cum: 153884.9)
+[COMPLETE] [W8_P23G1] finished all 6 frequencies! Total Score: 153884.90
+[PASS] [W14_P23G1] passed 7.927Hz (6/6) (Score: 16369.1 | Cum: 192301.9)
+[COMPLETE] [W14_P23G1] finished all 6 frequencies! Total Score: 192301.89
+[PASS] [W18_P23G1] passed 1.099Hz (3/6) (Score: 214339.4 | Cum: 505915.4)
+[PASS] [W9_P23G1] passed 2.446Hz (5/6) (Score: 8472.7 | Cum: 128743.8)
+[PASS] [W13_P23G1] passed 2.446Hz (5/6) (Score: 5824.1 | Cum: 115244.4)
+[PASS] [W6_P23G1] passed 2.446Hz (5/6) (Score: 9783.0 | Cum: 173457.2)
+[PASS] [W2_P23G1] passed 2.446Hz (5/6) (Score: 21643.0 | Cum: 215839.5)
+[PASS] [W10_P23G1] passed 2.446Hz (5/6) (Score: 10948.0 | Cum: 106756.6)
+[PASS] [W17_P23G1] passed 5.583Hz (4/6) (Score: 1505.8 | Cum: 115045.6)
+[PASS] [W16_P23G1] passed 5.583Hz (4/6) (Score: 854.6 | Cum: 166645.5)
+[PASS] [W11_P23G1] passed 2.446Hz (5/6) (Score: 6988.5 | Cum: 139258.5)
+[PASS] [W3_P23G1] passed 2.446Hz (5/6) (Score: 18435.4 | Cum: 296726.5)
+[PASS] [W7_P23G1] passed 7.927Hz (6/6) (Score: 6697.1 | Cum: 135729.2)
+[COMPLETE] [W7_P23G1] finished all 6 frequencies! Total Score: 135729.24
+[PASS] [W4_P23G1] passed 7.927Hz (6/6) (Score: 10728.9 | Cum: 144073.9)
+[COMPLETE] [W4_P23G1] finished all 6 frequencies! Total Score: 144073.86
+[PASS] [W5_P23G1] passed 2.446Hz (5/6) (Score: 8036.9 | Cum: 119172.2)
+[PASS] [W12_P23G1] passed 7.927Hz (6/6) (Score: 16928.2 | Cum: 179455.2)
+[COMPLETE] [W12_P23G1] finished all 6 frequencies! Total Score: 179455.15
+[PASS] [W15_P23G1] passed 1.099Hz (3/6) (Score: 37840.0 | Cum: 158777.7)
+[PASS] [W18_P23G1] passed 5.583Hz (4/6) (Score: 18429.0 | Cum: 524344.3)
+[PASS] [W9_P23G1] passed 7.927Hz (6/6) (Score: 16083.4 | Cum: 144827.2)
+[COMPLETE] [W9_P23G1] finished all 6 frequencies! Total Score: 144827.21
+[PASS] [W13_P23G1] passed 7.927Hz (6/6) (Score: 16011.6 | Cum: 131256.0)
+[COMPLETE] [W13_P23G1] finished all 6 frequencies! Total Score: 131256.00
+[PASS] [W6_P23G1] passed 7.927Hz (6/6) (Score: 14967.1 | Cum: 188424.3)
+[COMPLETE] [W6_P23G1] finished all 6 frequencies! Total Score: 188424.31
+[PASS] [W2_P23G1] passed 7.927Hz (6/6) (Score: 1856.8 | Cum: 217696.4)
+[COMPLETE] [W2_P23G1] finished all 6 frequencies! Total Score: 217696.39
+[PASS] [W10_P23G1] passed 7.927Hz (6/6) (Score: 15428.1 | Cum: 122184.7)
+[COMPLETE] [W10_P23G1] finished all 6 frequencies! Total Score: 122184.72
+[PASS] [W17_P23G1] passed 2.446Hz (5/6) (Score: 2650.1 | Cum: 117695.7)
+[PASS] [W11_P23G1] passed 7.927Hz (6/6) (Score: 19634.3 | Cum: 158892.7)
+[COMPLETE] [W11_P23G1] finished all 6 frequencies! Total Score: 158892.71
+[PASS] [W16_P23G1] passed 2.446Hz (5/6) (Score: 13788.8 | Cum: 180434.4)
+[PASS] [W3_P23G1] passed 7.927Hz (6/6) (Score: 6909.6 | Cum: 303636.2)
+[COMPLETE] [W3_P23G1] finished all 6 frequencies! Total Score: 303636.17
+[PASS] [W5_P23G1] passed 7.927Hz (6/6) (Score: 11499.6 | Cum: 130671.8)
+[COMPLETE] [W5_P23G1] finished all 6 frequencies! Total Score: 130671.78
+[PASS] [W15_P23G1] passed 5.583Hz (4/6) (Score: 262.0 | Cum: 159039.7)
+[PASS] [W18_P23G1] passed 2.446Hz (5/6) (Score: 30361.7 | Cum: 554706.1)
+[PASS] [W17_P23G1] passed 7.927Hz (6/6) (Score: 17289.5 | Cum: 134985.2)
+[COMPLETE] [W17_P23G1] finished all 6 frequencies! Total Score: 134985.17
+[PASS] [W16_P23G1] passed 7.927Hz (6/6) (Score: 14549.4 | Cum: 194983.8)
+[COMPLETE] [W16_P23G1] finished all 6 frequencies! Total Score: 194983.79
+[PASS] [W15_P23G1] passed 2.446Hz (5/6) (Score: 12834.0 | Cum: 171873.7)
+[PASS] [W18_P23G1] passed 7.927Hz (6/6) (Score: 3123.9 | Cum: 557830.0)
+[COMPLETE] [W18_P23G1] finished all 6 frequencies! Total Score: 557829.98
+[PASS] [W15_P23G1] passed 7.927Hz (6/6) (Score: 11555.2 | Cum: 183429.0)
+[COMPLETE] [W15_P23G1] finished all 6 frequencies! Total Score: 183428.98
+
+>>> NEW PHASE 2.3 RECORD in Gen 1: 122184.72 (Candidate W10_P23G1) <<<
+
+Phase 2.3 Generation 1 completed in 108.1 mins.
+Best Candidate: W10_P23G1 | Score: 122184.72 (Target: < 2803.88)
+r_ton: 0.200 | K_ton: 1.71 | K_sc: 8.56 | z_sc: 2.31 | z_ccr: 0.41
+
+
+=================================== STARTING PHASE 2.3 GENERATION 2 of 30 at 22:36:05 ===================================
+[PASS] [W13_P23G2] passed 0.324Hz (1/6) (Score: 58805.7 | Cum: 58805.7)
+[PASS] [W2_P23G2] passed 0.324Hz (1/6) (Score: 59380.2 | Cum: 59380.2)
+[PASS] [W4_P23G2] passed 0.324Hz (1/6) (Score: 53072.3 | Cum: 53072.3)
+[PASS] [W6_P23G2] passed 0.324Hz (1/6) (Score: 91109.2 | Cum: 91109.2)
+[PASS] [W8_P23G2] passed 0.324Hz (1/6) (Score: 47760.2 | Cum: 47760.2)
+[PASS] [W3_P23G2] passed 0.324Hz (1/6) (Score: 46189.0 | Cum: 46189.0)
+[PASS] [W14_P23G2] passed 0.324Hz (1/6) (Score: 52788.4 | Cum: 52788.4)
+[PASS] [W7_P23G2] passed 0.324Hz (1/6) (Score: 80961.7 | Cum: 80961.7)
+[PASS] [W12_P23G2] passed 0.324Hz (1/6) (Score: 74667.3 | Cum: 74667.3)
+[PASS] [W11_P23G2] passed 0.324Hz (1/6) (Score: 43798.2 | Cum: 43798.2)
+[PASS] [W1_P23G2] passed 0.324Hz (1/6) (Score: 67816.0 | Cum: 67816.0)
+[PASS] [W10_P23G2] passed 0.324Hz (1/6) (Score: 45890.5 | Cum: 45890.5)
+[PASS] [W9_P23G2] passed 0.324Hz (1/6) (Score: 56088.0 | Cum: 56088.0)
+[PASS] [W5_P23G2] passed 0.324Hz (1/6) (Score: 60208.0 | Cum: 60208.0)
+[PASS] [W12_P23G2] passed 0.783Hz (2/6) (Score: 49052.4 | Cum: 123719.7)
+[PASS] [W11_P23G2] passed 0.783Hz (2/6) (Score: 26249.7 | Cum: 70048.0)
+[PASS] [W7_P23G2] passed 0.783Hz (2/6) (Score: 39925.3 | Cum: 120886.9)
+[PASS] [W14_P23G2] passed 0.783Hz (2/6) (Score: 16960.2 | Cum: 69748.6)
+[PASS] [W6_P23G2] passed 0.783Hz (2/6) (Score: 71058.6 | Cum: 162167.7)
+[PASS] [W2_P23G2] passed 0.783Hz (2/6) (Score: 28378.1 | Cum: 87758.3)
+[PASS] [W8_P23G2] passed 0.783Hz (2/6) (Score: 22004.5 | Cum: 69764.7)
+[PASS] [W4_P23G2] passed 0.783Hz (2/6) (Score: 20434.9 | Cum: 73507.2)
+[PASS] [W13_P23G2] passed 0.783Hz (2/6) (Score: 35389.5 | Cum: 94195.2)
+[PASS] [W3_P23G2] passed 0.783Hz (2/6) (Score: 26524.3 | Cum: 72713.2)
+[PASS] [W1_P23G2] passed 0.783Hz (2/6) (Score: 28155.5 | Cum: 95971.5)
+[PASS] [W10_P23G2] passed 0.783Hz (2/6) (Score: 26778.9 | Cum: 72669.5)
+[PASS] [W9_P23G2] passed 0.783Hz (2/6) (Score: 30627.7 | Cum: 86715.7)
+[PASS] [W5_P23G2] passed 0.783Hz (2/6) (Score: 37719.2 | Cum: 97927.1)
+[PASS] [W11_P23G2] passed 1.099Hz (3/6) (Score: 22329.3 | Cum: 92377.2)
+[PASS] [W14_P23G2] passed 1.099Hz (3/6) (Score: 13062.1 | Cum: 82810.7)
+[PASS] [W12_P23G2] passed 1.099Hz (3/6) (Score: 31082.7 | Cum: 154802.3)
+[PASS] [W7_P23G2] passed 1.099Hz (3/6) (Score: 32579.1 | Cum: 153466.1)
+[PASS] [W2_P23G2] passed 1.099Hz (3/6) (Score: 19079.6 | Cum: 106837.9)
+[PASS] [W6_P23G2] passed 1.099Hz (3/6) (Score: 49976.1 | Cum: 212143.8)
+[PASS] [W17_P23G2] passed 0.324Hz (1/6) (Score: 40478.1 | Cum: 40478.1)
+[PASS] [W15_P23G2] passed 0.324Hz (1/6) (Score: 58484.8 | Cum: 58484.8)
+[PASS] [W16_P23G2] passed 0.324Hz (1/6) (Score: 45464.1 | Cum: 45464.1)
+[PASS] [W18_P23G2] passed 0.324Hz (1/6) (Score: 51073.2 | Cum: 51073.2)
+[PASS] [W14_P23G2] passed 5.583Hz (4/6) (Score: 444.0 | Cum: 83254.7)
+[PASS] [W11_P23G2] passed 5.583Hz (4/6) (Score: 1767.7 | Cum: 94145.0)
+[PASS] [W12_P23G2] passed 5.583Hz (4/6) (Score: 515.0 | Cum: 155317.4)
+[PASS] [W2_P23G2] passed 5.583Hz (4/6) (Score: 2819.5 | Cum: 109657.4)
+[PASS] [W7_P23G2] passed 5.583Hz (4/6) (Score: 2102.2 | Cum: 155568.3)
+[PASS] [W6_P23G2] passed 5.583Hz (4/6) (Score: 7177.3 | Cum: 219321.1)
+[PASS] [W13_P23G2] passed 1.099Hz (3/6) (Score: 17911.8 | Cum: 112107.1)
+[PASS] [W8_P23G2] passed 1.099Hz (3/6) (Score: 13735.9 | Cum: 83500.6)
+[PASS] [W4_P23G2] passed 1.099Hz (3/6) (Score: 21105.9 | Cum: 94613.1)
+[PASS] [W3_P23G2] passed 1.099Hz (3/6) (Score: 21701.4 | Cum: 94414.7)
+[PASS] [W9_P23G2] passed 1.099Hz (3/6) (Score: 23289.3 | Cum: 110005.1)
+[PASS] [W1_P23G2] passed 1.099Hz (3/6) (Score: 23478.3 | Cum: 119449.8)
+[PASS] [W10_P23G2] passed 1.099Hz (3/6) (Score: 21448.4 | Cum: 94117.9)
+[PASS] [W5_P23G2] passed 1.099Hz (3/6) (Score: 21413.3 | Cum: 119340.5)
+[PASS] [W14_P23G2] passed 2.446Hz (5/6) (Score: 2842.6 | Cum: 86097.3)
+[PASS] [W11_P23G2] passed 2.446Hz (5/6) (Score: 4421.0 | Cum: 98566.0)
+[PASS] [W12_P23G2] passed 2.446Hz (5/6) (Score: 13420.0 | Cum: 168737.4)
+[PASS] [W2_P23G2] passed 2.446Hz (5/6) (Score: 670.8 | Cum: 110328.2)
+[PASS] [W7_P23G2] passed 2.446Hz (5/6) (Score: 10169.6 | Cum: 165737.9)
+[PASS] [W17_P23G2] passed 0.783Hz (2/6) (Score: 14060.6 | Cum: 54538.7)
+[PASS] [W6_P23G2] passed 2.446Hz (5/6) (Score: 71106.9 | Cum: 290428.0)
+[PASS] [W15_P23G2] passed 0.783Hz (2/6) (Score: 23913.1 | Cum: 82397.8)
+[PASS] [W18_P23G2] passed 0.783Hz (2/6) (Score: 27079.2 | Cum: 78152.3)
+[PASS] [W16_P23G2] passed 0.783Hz (2/6) (Score: 20598.6 | Cum: 66062.7)
+[PASS] [W4_P23G2] passed 5.583Hz (4/6) (Score: 2082.2 | Cum: 96695.3)
+[PASS] [W13_P23G2] passed 5.583Hz (4/6) (Score: 151.4 | Cum: 112258.5)
+[PASS] [W8_P23G2] passed 5.583Hz (4/6) (Score: 2013.7 | Cum: 85514.3)
+[PASS] [W3_P23G2] passed 5.583Hz (4/6) (Score: 3158.8 | Cum: 97573.5)
+[PASS] [W9_P23G2] passed 5.583Hz (4/6) (Score: 1092.8 | Cum: 111097.9)
+[PASS] [W1_P23G2] passed 5.583Hz (4/6) (Score: 16.4 | Cum: 119466.2)
+[PASS] [W14_P23G2] passed 7.927Hz (6/6) (Score: 14860.0 | Cum: 100957.3)
+[COMPLETE] [W14_P23G2] finished all 6 frequencies! Total Score: 100957.28
+[PASS] [W10_P23G2] passed 5.583Hz (4/6) (Score: 930.5 | Cum: 95048.4)
+[PASS] [W5_P23G2] passed 5.583Hz (4/6) (Score: 233.9 | Cum: 119574.4)
+[PASS] [W11_P23G2] passed 7.927Hz (6/6) (Score: 20134.9 | Cum: 118700.9)
+[COMPLETE] [W11_P23G2] finished all 6 frequencies! Total Score: 118700.86
+[PASS] [W12_P23G2] passed 7.927Hz (6/6) (Score: 9227.1 | Cum: 177964.5)
+[COMPLETE] [W12_P23G2] finished all 6 frequencies! Total Score: 177964.46
+[PASS] [W2_P23G2] passed 7.927Hz (6/6) (Score: 16382.2 | Cum: 126710.4)
+[COMPLETE] [W2_P23G2] finished all 6 frequencies! Total Score: 126710.39
+[PASS] [W7_P23G2] passed 7.927Hz (6/6) (Score: 13185.6 | Cum: 178923.5)
+[COMPLETE] [W7_P23G2] finished all 6 frequencies! Total Score: 178923.50
+[PASS] [W6_P23G2] passed 7.927Hz (6/6) (Score: 14266.0 | Cum: 304694.0)
+[COMPLETE] [W6_P23G2] finished all 6 frequencies! Total Score: 304694.03
+[PASS] [W17_P23G2] passed 1.099Hz (3/6) (Score: 11638.4 | Cum: 66177.1)
+[PASS] [W15_P23G2] passed 1.099Hz (3/6) (Score: 18415.1 | Cum: 100813.0)
+[PASS] [W18_P23G2] passed 1.099Hz (3/6) (Score: 32325.7 | Cum: 110478.1)
+[PASS] [W16_P23G2] passed 1.099Hz (3/6) (Score: 23155.6 | Cum: 89218.3)
+[PASS] [W4_P23G2] passed 2.446Hz (5/6) (Score: 15780.6 | Cum: 112475.9)
+[PASS] [W13_P23G2] passed 2.446Hz (5/6) (Score: 3121.8 | Cum: 115380.3)
+[PASS] [W8_P23G2] passed 2.446Hz (5/6) (Score: 52621.3 | Cum: 138135.6)
+[PASS] [W3_P23G2] passed 2.446Hz (5/6) (Score: 9013.3 | Cum: 106586.8)
+[PASS] [W9_P23G2] passed 2.446Hz (5/6) (Score: 4837.4 | Cum: 115935.3)
+[PASS] [W10_P23G2] passed 2.446Hz (5/6) (Score: 11761.9 | Cum: 106810.3)
+[PASS] [W5_P23G2] passed 2.446Hz (5/6) (Score: 7081.1 | Cum: 126655.5)
+[PASS] [W1_P23G2] passed 2.446Hz (5/6) (Score: 7288.6 | Cum: 126754.8)
+[PASS] [W17_P23G2] passed 5.583Hz (4/6) (Score: 8959.6 | Cum: 75136.7)
+[PASS] [W18_P23G2] passed 5.583Hz (4/6) (Score: 805.7 | Cum: 111283.8)
+[PASS] [W15_P23G2] passed 5.583Hz (4/6) (Score: 764.7 | Cum: 101577.6)
+[PASS] [W16_P23G2] passed 5.583Hz (4/6) (Score: 7326.6 | Cum: 96544.9)
+[PASS] [W4_P23G2] passed 7.927Hz (6/6) (Score: 12358.9 | Cum: 124834.8)
+[COMPLETE] [W4_P23G2] finished all 6 frequencies! Total Score: 124834.81
+[PASS] [W13_P23G2] passed 7.927Hz (6/6) (Score: 10904.9 | Cum: 126285.1)
+[COMPLETE] [W13_P23G2] finished all 6 frequencies! Total Score: 126285.15
+[PASS] [W8_P23G2] passed 7.927Hz (6/6) (Score: 19061.8 | Cum: 157197.3)
+[COMPLETE] [W8_P23G2] finished all 6 frequencies! Total Score: 157197.33
+[PASS] [W9_P23G2] passed 7.927Hz (6/6) (Score: 10711.6 | Cum: 126646.8)
+[COMPLETE] [W9_P23G2] finished all 6 frequencies! Total Score: 126646.84
+[PASS] [W3_P23G2] passed 7.927Hz (6/6) (Score: 22093.4 | Cum: 128680.2)
+[COMPLETE] [W3_P23G2] finished all 6 frequencies! Total Score: 128680.20
+[PASS] [W10_P23G2] passed 7.927Hz (6/6) (Score: 11746.4 | Cum: 118556.7)
+[COMPLETE] [W10_P23G2] finished all 6 frequencies! Total Score: 118556.67
+[PASS] [W5_P23G2] passed 7.927Hz (6/6) (Score: 9242.1 | Cum: 135897.6)
+[COMPLETE] [W5_P23G2] finished all 6 frequencies! Total Score: 135897.58
+[PASS] [W1_P23G2] passed 7.927Hz (6/6) (Score: 6044.4 | Cum: 132799.2)
+[COMPLETE] [W1_P23G2] finished all 6 frequencies! Total Score: 132799.19
+[PASS] [W17_P23G2] passed 2.446Hz (5/6) (Score: 7017.4 | Cum: 82154.1)
+[PASS] [W18_P23G2] passed 2.446Hz (5/6) (Score: 9397.5 | Cum: 120681.3)
+[PASS] [W15_P23G2] passed 2.446Hz (5/6) (Score: 10578.4 | Cum: 112156.0)
+[PASS] [W16_P23G2] passed 2.446Hz (5/6) (Score: 6411.6 | Cum: 102956.5)
+[PASS] [W17_P23G2] passed 7.927Hz (6/6) (Score: 16792.0 | Cum: 98946.2)
+[COMPLETE] [W17_P23G2] finished all 6 frequencies! Total Score: 98946.16
+[PASS] [W18_P23G2] passed 7.927Hz (6/6) (Score: 12142.2 | Cum: 132823.5)
+[COMPLETE] [W18_P23G2] finished all 6 frequencies! Total Score: 132823.54
+[PASS] [W15_P23G2] passed 7.927Hz (6/6) (Score: 10736.6 | Cum: 122892.6)
+[COMPLETE] [W15_P23G2] finished all 6 frequencies! Total Score: 122892.61
+[PASS] [W16_P23G2] passed 7.927Hz (6/6) (Score: 13949.4 | Cum: 116905.9)
+[COMPLETE] [W16_P23G2] finished all 6 frequencies! Total Score: 116905.92
+
+>>> NEW PHASE 2.3 RECORD in Gen 2: 98946.16 (Candidate W17_P23G2) <<<
+
+Phase 2.3 Generation 2 completed in 88.5 mins.
+Best Candidate: W17_P23G2 | Score: 98946.16 (Target: < 2803.88)
+r_ton: 0.481 | K_ton: 2.75 | K_sc: 5.71 | z_sc: 6.96 | z_ccr: 0.70
+
+
+=================================== STARTING PHASE 2.3 GENERATION 3 of 30 at 00:04:37 ===================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 00:10:14 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+
+Phase 2.3 Initialized. Starting from Generation 3 up to Generation 2
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+PHASE 2.3 TARGET GENERATIONS (1..2) COMPLETE!
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 00:10:24 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+
+Phase 2.3 Initialized. Starting from Generation 3 up to Generation 30
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+[BOUNDS EXPANSION] Active bounds for Generation 3: r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 3 of 30 at 00:10:24 ===================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 00:12:47 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+
+Phase 2.3 Initialized. Starting from Generation 3 up to Generation 2
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+PHASE 2.3 TARGET GENERATIONS (1..2) COMPLETE!
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 06:31:46 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+
+Phase 2.3 Initialized. Starting from Generation 3 up to Generation 30
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+[BOUNDS EXPANSION] Active bounds for Generation 3: r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 3 of 30 at 06:31:46 ===================================
+[PASS] [W13_P23G3] passed 0.324Hz (1/6) (Score: 32714.9 | Cum: 32714.9)
+[PASS] [W14_P23G3] passed 0.324Hz (1/6) (Score: 43800.5 | Cum: 43800.5)
+[PASS] [W10_P23G3] passed 0.324Hz (1/6) (Score: 35673.9 | Cum: 35673.9)
+[PASS] [W4_P23G3] passed 0.324Hz (1/6) (Score: 45931.2 | Cum: 45931.2)
+[PASS] [W2_P23G3] passed 0.324Hz (1/6) (Score: 54539.4 | Cum: 54539.4)
+[PASS] [W5_P23G3] passed 0.324Hz (1/6) (Score: 51491.1 | Cum: 51491.1)
+[PASS] [W6_P23G3] passed 0.324Hz (1/6) (Score: 50189.1 | Cum: 50189.1)
+[PASS] [W3_P23G3] passed 0.324Hz (1/6) (Score: 43654.1 | Cum: 43654.1)
+[PASS] [W8_P23G3] passed 0.324Hz (1/6) (Score: 46108.5 | Cum: 46108.5)
+[PASS] [W11_P23G3] passed 0.324Hz (1/6) (Score: 48011.4 | Cum: 48011.4)
+[PASS] [W12_P23G3] passed 0.324Hz (1/6) (Score: 27738.4 | Cum: 27738.4)
+[PASS] [W9_P23G3] passed 0.324Hz (1/6) (Score: 49953.5 | Cum: 49953.5)
+[PASS] [W1_P23G3] passed 0.324Hz (1/6) (Score: 34224.5 | Cum: 34224.5)
+[PASS] [W7_P23G3] passed 0.324Hz (1/6) (Score: 45893.2 | Cum: 45893.2)
+[PASS] [W14_P23G3] passed 0.783Hz (2/6) (Score: 32379.1 | Cum: 76179.6)
+[PASS] [W13_P23G3] passed 0.783Hz (2/6) (Score: 13886.7 | Cum: 46601.6)
+[PASS] [W10_P23G3] passed 0.783Hz (2/6) (Score: 20932.7 | Cum: 56606.6)
+[PASS] [W6_P23G3] passed 0.783Hz (2/6) (Score: 21042.9 | Cum: 71232.0)
+[PASS] [W5_P23G3] passed 0.783Hz (2/6) (Score: 18533.8 | Cum: 70024.9)
+[PASS] [W2_P23G3] passed 0.783Hz (2/6) (Score: 67838.6 | Cum: 122378.0)
+[PASS] [W4_P23G3] passed 0.783Hz (2/6) (Score: 22960.3 | Cum: 68891.5)
+[PASS] [W8_P23G3] passed 0.783Hz (2/6) (Score: 21884.9 | Cum: 67993.3)
+[PASS] [W3_P23G3] passed 0.783Hz (2/6) (Score: 22529.4 | Cum: 66183.4)
+[PASS] [W11_P23G3] passed 0.783Hz (2/6) (Score: 29821.0 | Cum: 77832.4)
+[PASS] [W12_P23G3] passed 0.783Hz (2/6) (Score: 19781.8 | Cum: 47520.2)
+[PASS] [W9_P23G3] passed 0.783Hz (2/6) (Score: 21884.0 | Cum: 71837.5)
+[PASS] [W1_P23G3] passed 0.783Hz (2/6) (Score: 12347.0 | Cum: 46571.5)
+[PASS] [W7_P23G3] passed 0.783Hz (2/6) (Score: 24354.6 | Cum: 70247.8)
+[PASS] [W16_P23G3] passed 0.324Hz (1/6) (Score: 53254.7 | Cum: 53254.7)
+[PASS] [W15_P23G3] passed 0.324Hz (1/6) (Score: 41187.1 | Cum: 41187.1)
+[PASS] [W18_P23G3] passed 0.324Hz (1/6) (Score: 43513.1 | Cum: 43513.1)
+[PASS] [W13_P23G3] passed 1.099Hz (3/6) (Score: 9659.6 | Cum: 56261.2)
+[PASS] [W14_P23G3] passed 1.099Hz (3/6) (Score: 16654.2 | Cum: 92833.8)
+[PASS] [W10_P23G3] passed 1.099Hz (3/6) (Score: 11551.1 | Cum: 68157.7)
+[PASS] [W2_P23G3] passed 1.099Hz (3/6) (Score: 35439.9 | Cum: 157817.9)
+[PASS] [W6_P23G3] passed 1.099Hz (3/6) (Score: 15502.4 | Cum: 86734.4)
+[PASS] [W17_P23G3] passed 0.324Hz (1/6) (Score: 28561.2 | Cum: 28561.2)
+[PASS] [W5_P23G3] passed 1.099Hz (3/6) (Score: 16576.3 | Cum: 86601.2)
+[PASS] [W14_P23G3] passed 5.583Hz (4/6) (Score: 2780.0 | Cum: 95613.8)
+[PASS] [W10_P23G3] passed 5.583Hz (4/6) (Score: 31670.8 | Cum: 99828.5)
+[PASS] [W4_P23G3] passed 1.099Hz (3/6) (Score: 27239.5 | Cum: 96131.0)
+[PASS] [W13_P23G3] passed 5.583Hz (4/6) (Score: 21948.8 | Cum: 78209.9)
+[PASS] [W8_P23G3] passed 1.099Hz (3/6) (Score: 17532.8 | Cum: 85526.1)
+[PASS] [W3_P23G3] passed 1.099Hz (3/6) (Score: 25729.4 | Cum: 91912.9)
+[PASS] [W11_P23G3] passed 1.099Hz (3/6) (Score: 19523.5 | Cum: 97355.9)
+[PASS] [W1_P23G3] passed 1.099Hz (3/6) (Score: 19949.5 | Cum: 66521.0)
+[PASS] [W12_P23G3] passed 1.099Hz (3/6) (Score: 12423.4 | Cum: 59943.6)
+[PASS] [W9_P23G3] passed 1.099Hz (3/6) (Score: 17590.3 | Cum: 89427.8)
+[PASS] [W15_P23G3] passed 0.783Hz (2/6) (Score: 23662.1 | Cum: 64849.2)
+[PASS] [W7_P23G3] passed 1.099Hz (3/6) (Score: 20851.0 | Cum: 91098.8)
+[PASS] [W16_P23G3] passed 0.783Hz (2/6) (Score: 32668.5 | Cum: 85923.2)
+[PASS] [W18_P23G3] passed 0.783Hz (2/6) (Score: 14094.9 | Cum: 57608.0)
+[PASS] [W2_P23G3] passed 5.583Hz (4/6) (Score: 43.4 | Cum: 157861.3)
+[PASS] [W6_P23G3] passed 5.583Hz (4/6) (Score: 1494.4 | Cum: 88228.8)
+[PASS] [W14_P23G3] passed 2.446Hz (5/6) (Score: 14694.7 | Cum: 110308.5)
+[PASS] [W5_P23G3] passed 5.583Hz (4/6) (Score: 152.1 | Cum: 86753.2)
+[PASS] [W10_P23G3] passed 2.446Hz (5/6) (Score: 3214.2 | Cum: 103042.7)
+[PASS] [W13_P23G3] passed 2.446Hz (5/6) (Score: 2918.1 | Cum: 81128.0)
+[PASS] [W4_P23G3] passed 5.583Hz (4/6) (Score: 1794.4 | Cum: 97925.4)
+[PASS] [W8_P23G3] passed 5.583Hz (4/6) (Score: 521.8 | Cum: 86047.9)
+[PASS] [W3_P23G3] passed 5.583Hz (4/6) (Score: 644.5 | Cum: 92557.4)
+[PASS] [W11_P23G3] passed 5.583Hz (4/6) (Score: 7929.9 | Cum: 105285.8)
+[PASS] [W1_P23G3] passed 5.583Hz (4/6) (Score: 10967.8 | Cum: 77488.8)
+[PASS] [W12_P23G3] passed 5.583Hz (4/6) (Score: 25564.0 | Cum: 85507.6)
+[PASS] [W17_P23G3] passed 0.783Hz (2/6) (Score: 8812.8 | Cum: 37374.0)
+[PASS] [W9_P23G3] passed 5.583Hz (4/6) (Score: 1677.5 | Cum: 91105.3)
+[PASS] [W7_P23G3] passed 5.583Hz (4/6) (Score: 1024.8 | Cum: 92123.6)
+[PASS] [W2_P23G3] passed 2.446Hz (5/6) (Score: 10289.5 | Cum: 168150.9)
+[PASS] [W6_P23G3] passed 2.446Hz (5/6) (Score: 4746.1 | Cum: 92974.9)
+[PASS] [W5_P23G3] passed 2.446Hz (5/6) (Score: 8253.6 | Cum: 95006.9)
+[PASS] [W14_P23G3] passed 7.927Hz (6/6) (Score: 15765.0 | Cum: 126073.6)
+[COMPLETE] [W14_P23G3] finished all 6 frequencies! Total Score: 126073.56
+[PASS] [W4_P23G3] passed 2.446Hz (5/6) (Score: 11855.2 | Cum: 109780.5)
+[PASS] [W13_P23G3] passed 7.927Hz (6/6) (Score: 9775.9 | Cum: 90904.0)
+[COMPLETE] [W13_P23G3] finished all 6 frequencies! Total Score: 90903.96
+[PASS] [W10_P23G3] passed 7.927Hz (6/6) (Score: 16357.8 | Cum: 119400.5)
+[COMPLETE] [W10_P23G3] finished all 6 frequencies! Total Score: 119400.51
+[PASS] [W8_P23G3] passed 2.446Hz (5/6) (Score: 13263.2 | Cum: 99311.1)
+[PASS] [W3_P23G3] passed 2.446Hz (5/6) (Score: 3657.6 | Cum: 96215.0)
+[PASS] [W15_P23G3] passed 1.099Hz (3/6) (Score: 17624.1 | Cum: 82473.3)
+[PASS] [W16_P23G3] passed 1.099Hz (3/6) (Score: 24578.3 | Cum: 110501.5)
+[PASS] [W18_P23G3] passed 1.099Hz (3/6) (Score: 14636.8 | Cum: 72244.8)
+[PASS] [W11_P23G3] passed 2.446Hz (5/6) (Score: 4319.0 | Cum: 109604.8)
+[PASS] [W1_P23G3] passed 2.446Hz (5/6) (Score: 3815.9 | Cum: 81304.7)
+[PASS] [W12_P23G3] passed 2.446Hz (5/6) (Score: 3730.0 | Cum: 89237.6)
+[PASS] [W9_P23G3] passed 2.446Hz (5/6) (Score: 2362.9 | Cum: 93468.2)
+[PASS] [W7_P23G3] passed 2.446Hz (5/6) (Score: 6029.9 | Cum: 98153.5)
+[PASS] [W2_P23G3] passed 7.927Hz (6/6) (Score: 14763.0 | Cum: 182913.8)
+[COMPLETE] [W2_P23G3] finished all 6 frequencies! Total Score: 182913.81
+[PASS] [W6_P23G3] passed 7.927Hz (6/6) (Score: 17926.1 | Cum: 110901.0)
+[COMPLETE] [W6_P23G3] finished all 6 frequencies! Total Score: 110900.99
+[PASS] [W5_P23G3] passed 7.927Hz (6/6) (Score: 9069.7 | Cum: 104076.6)
+[COMPLETE] [W5_P23G3] finished all 6 frequencies! Total Score: 104076.57
+[PASS] [W4_P23G3] passed 7.927Hz (6/6) (Score: 25375.3 | Cum: 135155.8)
+[COMPLETE] [W4_P23G3] finished all 6 frequencies! Total Score: 135155.82
+[PASS] [W3_P23G3] passed 7.927Hz (6/6) (Score: 12405.5 | Cum: 108620.5)
+[COMPLETE] [W3_P23G3] finished all 6 frequencies! Total Score: 108620.48
+[PASS] [W8_P23G3] passed 7.927Hz (6/6) (Score: 19042.6 | Cum: 118353.7)
+[COMPLETE] [W8_P23G3] finished all 6 frequencies! Total Score: 118353.71
+[PASS] [W15_P23G3] passed 5.583Hz (4/6) (Score: 3372.0 | Cum: 85845.4)
+[PASS] [W16_P23G3] passed 5.583Hz (4/6) (Score: 148.2 | Cum: 110649.7)
+[PASS] [W18_P23G3] passed 5.583Hz (4/6) (Score: 5763.2 | Cum: 78007.9)
+[PASS] [W17_P23G3] passed 1.099Hz (3/6) (Score: 6979.4 | Cum: 44353.4)
+[PASS] [W11_P23G3] passed 7.927Hz (6/6) (Score: 16668.2 | Cum: 126273.0)
+[COMPLETE] [W11_P23G3] finished all 6 frequencies! Total Score: 126273.04
+[PASS] [W1_P23G3] passed 7.927Hz (6/6) (Score: 20064.4 | Cum: 101369.1)
+[COMPLETE] [W1_P23G3] finished all 6 frequencies! Total Score: 101369.06
+[PASS] [W12_P23G3] passed 7.927Hz (6/6) (Score: 10080.6 | Cum: 99318.2)
+[COMPLETE] [W12_P23G3] finished all 6 frequencies! Total Score: 99318.20
+[PASS] [W9_P23G3] passed 7.927Hz (6/6) (Score: 18231.5 | Cum: 111699.7)
+[COMPLETE] [W9_P23G3] finished all 6 frequencies! Total Score: 111699.72
+[PASS] [W7_P23G3] passed 7.927Hz (6/6) (Score: 11569.7 | Cum: 109723.1)
+[COMPLETE] [W7_P23G3] finished all 6 frequencies! Total Score: 109723.13
+[PASS] [W15_P23G3] passed 2.446Hz (5/6) (Score: 7541.6 | Cum: 93387.0)
+[PASS] [W16_P23G3] passed 2.446Hz (5/6) (Score: 9078.5 | Cum: 119728.2)
+[PASS] [W18_P23G3] passed 2.446Hz (5/6) (Score: 2956.0 | Cum: 80964.0)
+[PASS] [W17_P23G3] passed 5.583Hz (4/6) (Score: 23096.4 | Cum: 67449.8)
+[PASS] [W15_P23G3] passed 7.927Hz (6/6) (Score: 12376.5 | Cum: 105763.4)
+[COMPLETE] [W15_P23G3] finished all 6 frequencies! Total Score: 105763.43
+[PASS] [W16_P23G3] passed 7.927Hz (6/6) (Score: 18018.0 | Cum: 137746.2)
+[COMPLETE] [W16_P23G3] finished all 6 frequencies! Total Score: 137746.18
+[PASS] [W18_P23G3] passed 7.927Hz (6/6) (Score: 19895.9 | Cum: 100859.8)
+[COMPLETE] [W18_P23G3] finished all 6 frequencies! Total Score: 100859.82
+[PASS] [W17_P23G3] passed 2.446Hz (5/6) (Score: 2996.8 | Cum: 70446.6)
+[PASS] [W17_P23G3] passed 7.927Hz (6/6) (Score: 7970.3 | Cum: 78416.8)
+[COMPLETE] [W17_P23G3] finished all 6 frequencies! Total Score: 78416.83
+
+>>> NEW PHASE 2.3 RECORD in Gen 3: 78416.83 (Candidate W17_P23G3) <<<
+
+Phase 2.3 Generation 3 completed in 53.2 mins.
+Best Candidate: W17_P23G3 | Score: 78416.83 (Target: < 2803.88)
+r_ton: 0.611 | K_ton: 3.44 | K_sc: 5.63 | z_sc: 9.25 | z_ccr: 0.64
+
+[BOUNDS EXPANSION] Active bounds for Generation 4: r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 4 of 30 at 07:25:00 ===================================
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 07:39:31 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+[REPLAY] Phase 2.3 Generation 3 replayed. Best score: 78416.83
+
+Phase 2.3 Initialized. Starting from Generation 4 up to Generation 3
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+PHASE 2.3 TARGET GENERATIONS (1..3) COMPLETE!
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 07:39:37 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+[REPLAY] Phase 2.3 Generation 3 replayed. Best score: 78416.83
+
+Phase 2.3 Initialized. Starting from Generation 4 up to Generation 30
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+[BOUNDS EXPANSION] Active bounds for Generation 4: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 4 of 30 at 07:39:37 ===================================
+[PASS] [W5_P23G4] passed 0.324Hz (1/6) (Score: 42572.2 | Cum: 42572.2)
+[PASS] [W10_P23G4] passed 0.324Hz (1/6) (Score: 52991.1 | Cum: 52991.1)
+[PASS] [W1_P23G4] passed 0.324Hz (1/6) (Score: 26585.8 | Cum: 26585.8)
+[PASS] [W2_P23G4] passed 0.324Hz (1/6) (Score: 33683.7 | Cum: 33683.7)
+[PASS] [W13_P23G4] passed 0.324Hz (1/6) (Score: 43125.1 | Cum: 43125.1)
+[PASS] [W4_P23G4] passed 0.324Hz (1/6) (Score: 26934.7 | Cum: 26934.7)
+[PASS] [W3_P23G4] passed 0.324Hz (1/6) (Score: 30196.1 | Cum: 30196.1)
+[PASS] [W7_P23G4] passed 0.324Hz (1/6) (Score: 18964.2 | Cum: 18964.2)
+[PASS] [W12_P23G4] passed 0.324Hz (1/6) (Score: 40073.3 | Cum: 40073.3)
+[PASS] [W14_P23G4] passed 0.324Hz (1/6) (Score: 24986.3 | Cum: 24986.3)
+[PASS] [W8_P23G4] passed 0.324Hz (1/6) (Score: 39088.2 | Cum: 39088.2)
+[PASS] [W11_P23G4] passed 0.324Hz (1/6) (Score: 33608.2 | Cum: 33608.2)
+[PASS] [W9_P23G4] passed 0.324Hz (1/6) (Score: 38147.5 | Cum: 38147.5)
+[PASS] [W6_P23G4] passed 0.324Hz (1/6) (Score: 24649.5 | Cum: 24649.5)
+[PASS] [W3_P23G4] passed 0.783Hz (2/6) (Score: 10050.9 | Cum: 40247.0)
+[PASS] [W7_P23G4] passed 0.783Hz (2/6) (Score: 7363.4 | Cum: 26327.5)
+[PASS] [W12_P23G4] passed 0.783Hz (2/6) (Score: 16755.5 | Cum: 56828.7)
+[PASS] [W14_P23G4] passed 0.783Hz (2/6) (Score: 14706.9 | Cum: 39693.2)
+[PASS] [W10_P23G4] passed 0.783Hz (2/6) (Score: 32870.8 | Cum: 85861.9)
+[PASS] [W5_P23G4] passed 0.783Hz (2/6) (Score: 15284.3 | Cum: 57856.5)
+[PASS] [W2_P23G4] passed 0.783Hz (2/6) (Score: 27936.4 | Cum: 61620.2)
+[PASS] [W1_P23G4] passed 0.783Hz (2/6) (Score: 7561.3 | Cum: 34147.2)
+[PASS] [W4_P23G4] passed 0.783Hz (2/6) (Score: 18433.0 | Cum: 45367.6)
+[PASS] [W13_P23G4] passed 0.783Hz (2/6) (Score: 21692.5 | Cum: 64817.6)
+[PASS] [W8_P23G4] passed 0.783Hz (2/6) (Score: 26997.3 | Cum: 66085.5)
+[PASS] [W11_P23G4] passed 0.783Hz (2/6) (Score: 12429.6 | Cum: 46037.7)
+[PASS] [W9_P23G4] passed 0.783Hz (2/6) (Score: 25043.8 | Cum: 63191.3)
+[PASS] [W6_P23G4] passed 0.783Hz (2/6) (Score: 13324.4 | Cum: 37973.9)
+[PASS] [W17_P23G4] passed 0.324Hz (1/6) (Score: 55542.6 | Cum: 55542.6)
+[PASS] [W7_P23G4] passed 1.099Hz (3/6) (Score: 5531.3 | Cum: 31858.8)
+[PASS] [W3_P23G4] passed 1.099Hz (3/6) (Score: 6720.8 | Cum: 46967.8)
+[PASS] [W12_P23G4] passed 1.099Hz (3/6) (Score: 14937.1 | Cum: 71765.8)
+[PASS] [W10_P23G4] passed 1.099Hz (3/6) (Score: 19716.1 | Cum: 105578.0)
+[PASS] [W5_P23G4] passed 1.099Hz (3/6) (Score: 9387.3 | Cum: 67243.8)
+[PASS] [W14_P23G4] passed 1.099Hz (3/6) (Score: 10094.5 | Cum: 49787.8)
+[PASS] [W16_P23G4] passed 0.324Hz (1/6) (Score: 12819.5 | Cum: 12819.5)
+[PASS] [W15_P23G4] passed 0.324Hz (1/6) (Score: 20938.7 | Cum: 20938.7)
+[PASS] [W18_P23G4] passed 0.324Hz (1/6) (Score: 28160.1 | Cum: 28160.1)
+[PASS] [W2_P23G4] passed 1.099Hz (3/6) (Score: 19247.8 | Cum: 80867.9)
+[PASS] [W7_P23G4] passed 5.583Hz (4/6) (Score: 23795.2 | Cum: 55654.0)
+[PASS] [W4_P23G4] passed 1.099Hz (3/6) (Score: 12813.1 | Cum: 58180.7)
+[PASS] [W3_P23G4] passed 5.583Hz (4/6) (Score: 27628.7 | Cum: 74596.5)
+[PASS] [W13_P23G4] passed 1.099Hz (3/6) (Score: 25936.4 | Cum: 90754.0)
+[PASS] [W1_P23G4] passed 1.099Hz (3/6) (Score: 5272.0 | Cum: 39419.1)
+[PASS] [W12_P23G4] passed 5.583Hz (4/6) (Score: 4844.6 | Cum: 76610.4)
+[PASS] [W5_P23G4] passed 5.583Hz (4/6) (Score: 19557.7 | Cum: 86801.5)
+[PASS] [W10_P23G4] passed 5.583Hz (4/6) (Score: 19172.8 | Cum: 124750.8)
+[PASS] [W9_P23G4] passed 1.099Hz (3/6) (Score: 14892.8 | Cum: 78084.1)
+[PASS] [W8_P23G4] passed 1.099Hz (3/6) (Score: 13829.7 | Cum: 79915.3)
+[PASS] [W17_P23G4] passed 0.783Hz (2/6) (Score: 26965.3 | Cum: 82507.9)
+[PASS] [W11_P23G4] passed 1.099Hz (3/6) (Score: 7869.1 | Cum: 53906.8)
+[PASS] [W6_P23G4] passed 1.099Hz (3/6) (Score: 8837.9 | Cum: 46811.8)
+[PASS] [W14_P23G4] passed 5.583Hz (4/6) (Score: 24831.5 | Cum: 74619.3)
+[PASS] [W7_P23G4] passed 2.446Hz (5/6) (Score: 1971.6 | Cum: 57625.6)
+[PASS] [W2_P23G4] passed 5.583Hz (4/6) (Score: 934.8 | Cum: 81802.8)
+[PASS] [W4_P23G4] passed 5.583Hz (4/6) (Score: 26678.3 | Cum: 84859.0)
+[PASS] [W13_P23G4] passed 5.583Hz (4/6) (Score: 5876.0 | Cum: 96630.0)
+[PASS] [W3_P23G4] passed 2.446Hz (5/6) (Score: 2627.5 | Cum: 77224.0)
+[PASS] [W1_P23G4] passed 5.583Hz (4/6) (Score: 28860.8 | Cum: 68280.0)
+[PASS] [W12_P23G4] passed 2.446Hz (5/6) (Score: 8726.1 | Cum: 85336.5)
+[PASS] [W16_P23G4] passed 0.783Hz (2/6) (Score: 4539.6 | Cum: 17359.1)
+[PASS] [W15_P23G4] passed 0.783Hz (2/6) (Score: 9068.9 | Cum: 30007.6)
+[PASS] [W18_P23G4] passed 0.783Hz (2/6) (Score: 18608.5 | Cum: 46768.6)
+[PASS] [W10_P23G4] passed 2.446Hz (5/6) (Score: 1148.1 | Cum: 125898.9)
+[PASS] [W5_P23G4] passed 2.446Hz (5/6) (Score: 2348.7 | Cum: 89150.2)
+[PASS] [W9_P23G4] passed 5.583Hz (4/6) (Score: 27876.6 | Cum: 105960.6)
+[PASS] [W11_P23G4] passed 5.583Hz (4/6) (Score: 29090.5 | Cum: 82997.4)
+[PASS] [W8_P23G4] passed 5.583Hz (4/6) (Score: 8009.3 | Cum: 87924.6)
+[PASS] [W14_P23G4] passed 2.446Hz (5/6) (Score: 3454.1 | Cum: 78073.3)
+[PASS] [W7_P23G4] passed 7.927Hz (6/6) (Score: 6796.3 | Cum: 64421.9)
+[COMPLETE] [W7_P23G4] finished all 6 frequencies! Total Score: 64421.87
+[PASS] [W6_P23G4] passed 5.583Hz (4/6) (Score: 20054.9 | Cum: 66866.8)
+[PASS] [W2_P23G4] passed 2.446Hz (5/6) (Score: 4549.1 | Cum: 86351.9)
+[PASS] [W4_P23G4] passed 2.446Hz (5/6) (Score: 2927.2 | Cum: 87786.2)
+[PASS] [W3_P23G4] passed 7.927Hz (6/6) (Score: 8768.9 | Cum: 85992.8)
+[COMPLETE] [W3_P23G4] finished all 6 frequencies! Total Score: 85992.84
+[PASS] [W13_P23G4] passed 2.446Hz (5/6) (Score: 3346.9 | Cum: 99976.9)
+[PASS] [W1_P23G4] passed 2.446Hz (5/6) (Score: 2331.7 | Cum: 70611.7)
+[PASS] [W12_P23G4] passed 7.927Hz (6/6) (Score: 21844.3 | Cum: 107180.8)
+[COMPLETE] [W12_P23G4] finished all 6 frequencies! Total Score: 107180.75
+[PASS] [W17_P23G4] passed 1.099Hz (3/6) (Score: 8023.2 | Cum: 90531.1)
+[PASS] [W15_P23G4] passed 1.099Hz (3/6) (Score: 6079.6 | Cum: 36087.2)
+[PASS] [W16_P23G4] passed 1.099Hz (3/6) (Score: 3160.1 | Cum: 20519.2)
+[PASS] [W5_P23G4] passed 7.927Hz (6/6) (Score: 13208.5 | Cum: 102358.7)
+[COMPLETE] [W5_P23G4] finished all 6 frequencies! Total Score: 102358.69
+[PASS] [W10_P23G4] passed 7.927Hz (6/6) (Score: 17754.8 | Cum: 143653.8)
+[COMPLETE] [W10_P23G4] finished all 6 frequencies! Total Score: 143653.76
+[PASS] [W11_P23G4] passed 2.446Hz (5/6) (Score: 3596.7 | Cum: 86594.0)
+[PASS] [W9_P23G4] passed 2.446Hz (5/6) (Score: 4754.2 | Cum: 110714.9)
+[PASS] [W8_P23G4] passed 2.446Hz (5/6) (Score: 2391.3 | Cum: 90315.8)
+[PASS] [W4_P23G4] passed 7.927Hz (6/6) (Score: 10239.7 | Cum: 98025.9)
+[COMPLETE] [W4_P23G4] finished all 6 frequencies! Total Score: 98025.86
+[PASS] [W13_P23G4] passed 7.927Hz (6/6) (Score: 21615.8 | Cum: 121592.7)
+[COMPLETE] [W13_P23G4] finished all 6 frequencies! Total Score: 121592.68
+[PASS] [W14_P23G4] passed 7.927Hz (6/6) (Score: 11412.9 | Cum: 89486.2)
+[COMPLETE] [W14_P23G4] finished all 6 frequencies! Total Score: 89486.19
+[PASS] [W2_P23G4] passed 7.927Hz (6/6) (Score: 18380.7 | Cum: 104732.6)
+[COMPLETE] [W2_P23G4] finished all 6 frequencies! Total Score: 104732.62
+[PASS] [W6_P23G4] passed 2.446Hz (5/6) (Score: 2720.9 | Cum: 69587.6)
+[PASS] [W1_P23G4] passed 7.927Hz (6/6) (Score: 10028.7 | Cum: 80640.4)
+[COMPLETE] [W1_P23G4] finished all 6 frequencies! Total Score: 80640.39
+[PASS] [W18_P23G4] passed 1.099Hz (3/6) (Score: 10696.6 | Cum: 57465.3)
+[PASS] [W17_P23G4] passed 5.583Hz (4/6) (Score: 11321.2 | Cum: 101852.3)
+[PASS] [W15_P23G4] passed 5.583Hz (4/6) (Score: 24950.2 | Cum: 61037.4)
+[PASS] [W11_P23G4] passed 7.927Hz (6/6) (Score: 9539.4 | Cum: 96133.5)
+[COMPLETE] [W11_P23G4] finished all 6 frequencies! Total Score: 96133.47
+[PASS] [W9_P23G4] passed 7.927Hz (6/6) (Score: 7755.6 | Cum: 118470.5)
+[COMPLETE] [W9_P23G4] finished all 6 frequencies! Total Score: 118470.46
+[PASS] [W16_P23G4] passed 5.583Hz (4/6) (Score: 26680.6 | Cum: 47199.8)
+[PASS] [W8_P23G4] passed 7.927Hz (6/6) (Score: 22216.5 | Cum: 112532.4)
+[COMPLETE] [W8_P23G4] finished all 6 frequencies! Total Score: 112532.36
+[PASS] [W6_P23G4] passed 7.927Hz (6/6) (Score: 11378.8 | Cum: 80966.5)
+[COMPLETE] [W6_P23G4] finished all 6 frequencies! Total Score: 80966.46
+[PASS] [W18_P23G4] passed 5.583Hz (4/6) (Score: 22544.4 | Cum: 80009.7)
+[PASS] [W17_P23G4] passed 2.446Hz (5/6) (Score: 1283.7 | Cum: 103136.0)
+[PASS] [W15_P23G4] passed 2.446Hz (5/6) (Score: 2580.2 | Cum: 63617.5)
+[PASS] [W16_P23G4] passed 2.446Hz (5/6) (Score: 1263.7 | Cum: 48463.6)
+[PASS] [W18_P23G4] passed 2.446Hz (5/6) (Score: 2686.9 | Cum: 82696.6)
+[PASS] [W17_P23G4] passed 7.927Hz (6/6) (Score: 18567.7 | Cum: 121703.7)
+[COMPLETE] [W17_P23G4] finished all 6 frequencies! Total Score: 121703.73
+[PASS] [W15_P23G4] passed 7.927Hz (6/6) (Score: 6888.7 | Cum: 70506.3)
+[COMPLETE] [W15_P23G4] finished all 6 frequencies! Total Score: 70506.28
+[PASS] [W16_P23G4] passed 7.927Hz (6/6) (Score: 8217.5 | Cum: 56681.1)
+[COMPLETE] [W16_P23G4] finished all 6 frequencies! Total Score: 56681.08
+[PASS] [W18_P23G4] passed 7.927Hz (6/6) (Score: 11435.0 | Cum: 94131.6)
+[COMPLETE] [W18_P23G4] finished all 6 frequencies! Total Score: 94131.64
+
+>>> NEW PHASE 2.3 RECORD in Gen 4: 56681.08 (Candidate W16_P23G4) <<<
+
+Phase 2.3 Generation 4 completed in 55.9 mins.
+Best Candidate: W16_P23G4 | Score: 56681.08 (Target: < 2803.88)
+r_ton: 0.294 | K_ton: 0.06 | K_sc: 0.22 | z_sc: 6.18 | z_ccr: 0.40
+
+[BOUNDS EXPANSION] Active bounds for Generation 5: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 5 of 30 at 08:35:32 ===================================
+[PASS] [W9_P23G5] passed 0.324Hz (1/6) (Score: 2457.3 | Cum: 2457.3)
+[PASS] [W2_P23G5] passed 0.324Hz (1/6) (Score: 23134.2 | Cum: 23134.2)
+[PASS] [W11_P23G5] passed 0.324Hz (1/6) (Score: 31567.4 | Cum: 31567.4)
+[PASS] [W1_P23G5] passed 0.324Hz (1/6) (Score: 16745.7 | Cum: 16745.7)
+[PASS] [W10_P23G5] passed 0.324Hz (1/6) (Score: 8728.2 | Cum: 8728.2)
+[PASS] [W12_P23G5] passed 0.324Hz (1/6) (Score: 13342.3 | Cum: 13342.3)
+[PASS] [W3_P23G5] passed 0.324Hz (1/6) (Score: 31672.5 | Cum: 31672.5)
+[PASS] [W7_P23G5] passed 0.324Hz (1/6) (Score: 9064.8 | Cum: 9064.8)
+[PASS] [W13_P23G5] passed 0.324Hz (1/6) (Score: 33249.1 | Cum: 33249.1)
+[PASS] [W6_P23G5] passed 0.324Hz (1/6) (Score: 11689.6 | Cum: 11689.6)
+[PASS] [W8_P23G5] passed 0.324Hz (1/6) (Score: 24367.7 | Cum: 24367.7)
+[PASS] [W4_P23G5] passed 0.324Hz (1/6) (Score: 33042.6 | Cum: 33042.6)
+[PASS] [W14_P23G5] passed 0.324Hz (1/6) (Score: 26929.8 | Cum: 26929.8)
+[PASS] [W5_P23G5] passed 0.324Hz (1/6) (Score: 15339.4 | Cum: 15339.4)
+[PASS] [W9_P23G5] passed 0.783Hz (2/6) (Score: 1102.5 | Cum: 3559.8)
+[PASS] [W2_P23G5] passed 0.783Hz (2/6) (Score: 6402.4 | Cum: 29536.6)
+[PASS] [W11_P23G5] passed 0.783Hz (2/6) (Score: 10497.9 | Cum: 42065.4)
+[PASS] [W3_P23G5] passed 0.783Hz (2/6) (Score: 9340.4 | Cum: 41012.9)
+[PASS] [W13_P23G5] passed 0.783Hz (2/6) (Score: 10990.1 | Cum: 44239.2)
+[PASS] [W12_P23G5] passed 0.783Hz (2/6) (Score: 3904.5 | Cum: 17246.8)
+[PASS] [W7_P23G5] passed 0.783Hz (2/6) (Score: 1756.7 | Cum: 10821.5)
+[PASS] [W6_P23G5] passed 0.783Hz (2/6) (Score: 2563.9 | Cum: 14253.5)
+[PASS] [W10_P23G5] passed 0.783Hz (2/6) (Score: 1914.3 | Cum: 10642.5)
+[PASS] [W1_P23G5] passed 0.783Hz (2/6) (Score: 7606.2 | Cum: 24352.0)
+[PASS] [W8_P23G5] passed 0.783Hz (2/6) (Score: 7232.6 | Cum: 31600.3)
+[PASS] [W4_P23G5] passed 0.783Hz (2/6) (Score: 18294.4 | Cum: 51337.0)
+[PASS] [W15_P23G5] passed 0.324Hz (1/6) (Score: 24230.9 | Cum: 24230.9)
+[PASS] [W14_P23G5] passed 0.783Hz (2/6) (Score: 13866.7 | Cum: 40796.5)
+[PASS] [W18_P23G5] passed 0.324Hz (1/6) (Score: 15784.0 | Cum: 15784.0)
+[PASS] [W17_P23G5] passed 0.324Hz (1/6) (Score: 48879.7 | Cum: 48879.7)
+[PASS] [W3_P23G5] passed 1.099Hz (3/6) (Score: 6636.3 | Cum: 47649.3)
+[PASS] [W9_P23G5] passed 1.099Hz (3/6) (Score: 511.2 | Cum: 4071.0)
+[PASS] [W5_P23G5] passed 0.783Hz (2/6) (Score: 5382.9 | Cum: 20722.3)
+[PASS] [W2_P23G5] passed 1.099Hz (3/6) (Score: 4611.2 | Cum: 34147.8)
+[PASS] [W11_P23G5] passed 1.099Hz (3/6) (Score: 25650.0 | Cum: 67715.4)
+[PASS] [W13_P23G5] passed 1.099Hz (3/6) (Score: 7960.3 | Cum: 52199.5)
+[PASS] [W16_P23G5] passed 0.324Hz (1/6) (Score: 22103.5 | Cum: 22103.5)
+[PASS] [W12_P23G5] passed 1.099Hz (3/6) (Score: 2988.1 | Cum: 20234.9)
+[PASS] [W7_P23G5] passed 1.099Hz (3/6) (Score: 1395.3 | Cum: 12216.9)
+[PASS] [W9_P23G5] passed 5.583Hz (4/6) (Score: 21660.9 | Cum: 25731.9)
+[PASS] [W3_P23G5] passed 5.583Hz (4/6) (Score: 12235.1 | Cum: 59884.4)
+[PASS] [W2_P23G5] passed 5.583Hz (4/6) (Score: 25322.7 | Cum: 59470.5)
+[PASS] [W10_P23G5] passed 1.099Hz (3/6) (Score: 1639.0 | Cum: 12281.5)
+[PASS] [W6_P23G5] passed 1.099Hz (3/6) (Score: 1660.4 | Cum: 15913.9)
+[PASS] [W1_P23G5] passed 1.099Hz (3/6) (Score: 5548.1 | Cum: 29900.0)
+[PASS] [W8_P23G5] passed 1.099Hz (3/6) (Score: 4675.6 | Cum: 36275.9)
+[PASS] [W18_P23G5] passed 0.783Hz (2/6) (Score: 3074.9 | Cum: 18858.9)
+[PASS] [W15_P23G5] passed 0.783Hz (2/6) (Score: 7031.2 | Cum: 31262.0)
+[PASS] [W4_P23G5] passed 1.099Hz (3/6) (Score: 11714.5 | Cum: 63051.5)
+[PASS] [W17_P23G5] passed 0.783Hz (2/6) (Score: 31645.0 | Cum: 80524.7)
+[PASS] [W14_P23G5] passed 1.099Hz (3/6) (Score: 7375.0 | Cum: 48171.6)
+[PASS] [W5_P23G5] passed 1.099Hz (3/6) (Score: 3926.9 | Cum: 24649.1)
+[PASS] [W11_P23G5] passed 5.583Hz (4/6) (Score: 8546.0 | Cum: 76261.4)
+[PASS] [W9_P23G5] passed 2.446Hz (5/6) (Score: 14424.5 | Cum: 40156.4)
+[PASS] [W13_P23G5] passed 5.583Hz (4/6) (Score: 1878.0 | Cum: 54077.5)
+[PASS] [W12_P23G5] passed 5.583Hz (4/6) (Score: 21151.3 | Cum: 41386.2)
+[PASS] [W7_P23G5] passed 5.583Hz (4/6) (Score: 29428.3 | Cum: 41645.2)
+[PASS] [W3_P23G5] passed 2.446Hz (5/6) (Score: 2749.8 | Cum: 62634.2)
+[PASS] [W2_P23G5] passed 2.446Hz (5/6) (Score: 2358.4 | Cum: 61829.0)
+[PASS] [W10_P23G5] passed 5.583Hz (4/6) (Score: 32426.7 | Cum: 44708.3)
+[PASS] [W8_P23G5] passed 5.583Hz (4/6) (Score: 21285.3 | Cum: 57561.2)
+[PASS] [W1_P23G5] passed 5.583Hz (4/6) (Score: 24194.0 | Cum: 54094.0)
+[PASS] [W6_P23G5] passed 5.583Hz (4/6) (Score: 25975.2 | Cum: 41889.2)
+[PASS] [W16_P23G5] passed 0.783Hz (2/6) (Score: 10189.4 | Cum: 32293.0)
+[PASS] [W18_P23G5] passed 1.099Hz (3/6) (Score: 2226.1 | Cum: 21085.0)
+[PASS] [W4_P23G5] passed 5.583Hz (4/6) (Score: 20174.9 | Cum: 83226.4)
+[PASS] [W15_P23G5] passed 1.099Hz (3/6) (Score: 4082.1 | Cum: 35344.1)
+[PASS] [W14_P23G5] passed 5.583Hz (4/6) (Score: 17847.8 | Cum: 66019.4)
+[PASS] [W9_P23G5] passed 7.927Hz (6/6) (Score: 4489.4 | Cum: 44645.8)
+[COMPLETE] [W9_P23G5] finished all 6 frequencies! Total Score: 44645.85
+[PASS] [W5_P23G5] passed 5.583Hz (4/6) (Score: 31616.8 | Cum: 56266.0)
+[PASS] [W11_P23G5] passed 2.446Hz (5/6) (Score: 2055.7 | Cum: 78317.1)
+[PASS] [W13_P23G5] passed 2.446Hz (5/6) (Score: 3235.7 | Cum: 57313.1)
+[PASS] [W3_P23G5] passed 7.927Hz (6/6) (Score: 17509.1 | Cum: 80143.2)
+[COMPLETE] [W3_P23G5] finished all 6 frequencies! Total Score: 80143.25
+[PASS] [W12_P23G5] passed 2.446Hz (5/6) (Score: 1524.6 | Cum: 42910.7)
+[PASS] [W2_P23G5] passed 7.927Hz (6/6) (Score: 4526.3 | Cum: 66355.3)
+[COMPLETE] [W2_P23G5] finished all 6 frequencies! Total Score: 66355.32
+[PASS] [W7_P23G5] passed 2.446Hz (5/6) (Score: 2496.2 | Cum: 44141.4)
+[PASS] [W17_P23G5] passed 1.099Hz (3/6) (Score: 34649.0 | Cum: 115173.7)
+[PASS] [W10_P23G5] passed 2.446Hz (5/6) (Score: 1861.2 | Cum: 46569.5)
+[PASS] [W8_P23G5] passed 2.446Hz (5/6) (Score: 2187.8 | Cum: 59749.0)
+[PASS] [W6_P23G5] passed 2.446Hz (5/6) (Score: 2888.5 | Cum: 44777.6)
+[PASS] [W1_P23G5] passed 2.446Hz (5/6) (Score: 1383.9 | Cum: 55477.9)
+[PASS] [W18_P23G5] passed 5.583Hz (4/6) (Score: 22893.2 | Cum: 43978.2)
+[PASS] [W4_P23G5] passed 2.446Hz (5/6) (Score: 3488.4 | Cum: 86714.9)
+[PASS] [W15_P23G5] passed 5.583Hz (4/6) (Score: 31079.9 | Cum: 66424.0)
+[PASS] [W14_P23G5] passed 2.446Hz (5/6) (Score: 2108.3 | Cum: 68127.7)
+[PASS] [W11_P23G5] passed 7.927Hz (6/6) (Score: 23602.5 | Cum: 101919.6)
+[COMPLETE] [W11_P23G5] finished all 6 frequencies! Total Score: 101919.65
+[PASS] [W13_P23G5] passed 7.927Hz (6/6) (Score: 6902.3 | Cum: 64215.4)
+[COMPLETE] [W13_P23G5] finished all 6 frequencies! Total Score: 64215.42
+[PASS] [W5_P23G5] passed 2.446Hz (5/6) (Score: 2280.7 | Cum: 58546.6)
+[PASS] [W12_P23G5] passed 7.927Hz (6/6) (Score: 7396.9 | Cum: 50307.6)
+[COMPLETE] [W12_P23G5] finished all 6 frequencies! Total Score: 50307.63
+[PASS] [W7_P23G5] passed 7.927Hz (6/6) (Score: 7446.8 | Cum: 51588.2)
+[COMPLETE] [W7_P23G5] finished all 6 frequencies! Total Score: 51588.20
+[PASS] [W17_P23G5] passed 5.583Hz (4/6) (Score: 1773.6 | Cum: 116947.3)
+[PASS] [W16_P23G5] passed 1.099Hz (3/6) (Score: 7683.9 | Cum: 39976.9)
+[PASS] [W10_P23G5] passed 7.927Hz (6/6) (Score: 9462.3 | Cum: 56031.8)
+[COMPLETE] [W10_P23G5] finished all 6 frequencies! Total Score: 56031.83
+[PASS] [W8_P23G5] passed 7.927Hz (6/6) (Score: 8632.2 | Cum: 68381.2)
+[COMPLETE] [W8_P23G5] finished all 6 frequencies! Total Score: 68381.21
+[PASS] [W6_P23G5] passed 7.927Hz (6/6) (Score: 4003.1 | Cum: 48780.7)
+[COMPLETE] [W6_P23G5] finished all 6 frequencies! Total Score: 48780.72
+[PASS] [W1_P23G5] passed 7.927Hz (6/6) (Score: 6086.9 | Cum: 61564.8)
+[COMPLETE] [W1_P23G5] finished all 6 frequencies! Total Score: 61564.85
+[PASS] [W4_P23G5] passed 7.927Hz (6/6) (Score: 13950.7 | Cum: 100665.5)
+[COMPLETE] [W4_P23G5] finished all 6 frequencies! Total Score: 100665.54
+[PASS] [W15_P23G5] passed 2.446Hz (5/6) (Score: 1656.0 | Cum: 68080.0)
+[PASS] [W18_P23G5] passed 2.446Hz (5/6) (Score: 3370.3 | Cum: 47348.5)
+[PASS] [W14_P23G5] passed 7.927Hz (6/6) (Score: 11920.0 | Cum: 80047.7)
+[COMPLETE] [W14_P23G5] finished all 6 frequencies! Total Score: 80047.66
+[PASS] [W5_P23G5] passed 7.927Hz (6/6) (Score: 8840.1 | Cum: 67386.7)
+[COMPLETE] [W5_P23G5] finished all 6 frequencies! Total Score: 67386.72
+[PASS] [W17_P23G5] passed 2.446Hz (5/6) (Score: 9057.3 | Cum: 126004.6)
+[PASS] [W16_P23G5] passed 5.583Hz (4/6) (Score: 15975.2 | Cum: 55952.1)
+[PASS] [W15_P23G5] passed 7.927Hz (6/6) (Score: 8987.3 | Cum: 77067.4)
+[COMPLETE] [W15_P23G5] finished all 6 frequencies! Total Score: 77067.38
+[PASS] [W18_P23G5] passed 7.927Hz (6/6) (Score: 5403.3 | Cum: 52751.8)
+[COMPLETE] [W18_P23G5] finished all 6 frequencies! Total Score: 52751.82
+[PASS] [W17_P23G5] passed 7.927Hz (6/6) (Score: 25346.9 | Cum: 151351.5)
+[COMPLETE] [W17_P23G5] finished all 6 frequencies! Total Score: 151351.54
+[PASS] [W16_P23G5] passed 2.446Hz (5/6) (Score: 2676.5 | Cum: 58628.6)
+[PASS] [W16_P23G5] passed 7.927Hz (6/6) (Score: 7846.5 | Cum: 66475.0)
+[COMPLETE] [W16_P23G5] finished all 6 frequencies! Total Score: 66475.02
+
+>>> NEW PHASE 2.3 RECORD in Gen 5: 44645.85 (Candidate W9_P23G5) <<<
+
+Phase 2.3 Generation 5 completed in 59.6 mins.
+Best Candidate: W9_P23G5 | Score: 44645.85 (Target: < 2803.88)
+r_ton: 0.400 | K_ton: 2.42 | K_sc: 6.05 | z_sc: 7.73 | z_ccr: 0.16
+
+[BOUNDS EXPANSION] Active bounds for Generation 6: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 6 of 30 at 09:35:09 ===================================
+[PASS] [W12_P23G6] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W14_P23G6] passed 0.324Hz (1/6) (Score: 1013.2 | Cum: 1013.2)
+[PASS] [W15_P23G6] passed 0.324Hz (1/6) (Score: 1532.0 | Cum: 1532.0)
+[PASS] [W6_P23G6] passed 0.324Hz (1/6) (Score: 17041.8 | Cum: 17041.8)
+[PASS] [W3_P23G6] passed 0.324Hz (1/6) (Score: 32014.2 | Cum: 32014.2)
+[PASS] [W9_P23G6] passed 0.324Hz (1/6) (Score: 3285.3 | Cum: 3285.3)
+[PASS] [W7_P23G6] passed 0.324Hz (1/6) (Score: 5619.8 | Cum: 5619.8)
+[PASS] [W8_P23G6] passed 0.324Hz (1/6) (Score: 19251.4 | Cum: 19251.4)
+[PASS] [W10_P23G6] passed 0.324Hz (1/6) (Score: 10383.6 | Cum: 10383.6)
+[PASS] [W12_P23G6] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W11_P23G6] passed 0.324Hz (1/6) (Score: 15032.1 | Cum: 15032.1)
+[PASS] [W4_P23G6] passed 0.324Hz (1/6) (Score: 4713.2 | Cum: 4713.2)
+[PASS] [W5_P23G6] passed 0.324Hz (1/6) (Score: 18442.6 | Cum: 18442.6)
+[PASS] [W1_P23G6] passed 0.324Hz (1/6) (Score: 29647.3 | Cum: 29647.3)
+[PASS] [W2_P23G6] passed 0.324Hz (1/6) (Score: 33199.8 | Cum: 33199.8)
+[PASS] [W13_P23G6] passed 0.324Hz (1/6) (Score: 9979.0 | Cum: 9979.0)
+[PASS] [W12_P23G6] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W14_P23G6] passed 0.783Hz (2/6) (Score: 183.6 | Cum: 1196.7)
+[PASS] [W15_P23G6] passed 0.783Hz (2/6) (Score: 5916.5 | Cum: 7448.5)
+[PASS] [W9_P23G6] passed 0.783Hz (2/6) (Score: 296.6 | Cum: 3582.0)
+[PASS] [W3_P23G6] passed 0.783Hz (2/6) (Score: 18042.1 | Cum: 50056.3)
+[PASS] [W7_P23G6] passed 0.783Hz (2/6) (Score: 483.0 | Cum: 6102.8)
+[PASS] [W6_P23G6] passed 0.783Hz (2/6) (Score: 4291.5 | Cum: 21333.4)
+[PASS] [W8_P23G6] passed 0.783Hz (2/6) (Score: 5834.8 | Cum: 25086.1)
+[PASS] [W12_P23G6] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W10_P23G6] passed 0.783Hz (2/6) (Score: 1755.2 | Cum: 12138.8)
+[PASS] [W11_P23G6] passed 0.783Hz (2/6) (Score: 4790.6 | Cum: 19822.8)
+[PASS] [W4_P23G6] passed 0.783Hz (2/6) (Score: 1418.6 | Cum: 6131.9)
+[PASS] [W5_P23G6] passed 0.783Hz (2/6) (Score: 6913.6 | Cum: 25356.2)
+[PASS] [W12_P23G6] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W1_P23G6] passed 0.783Hz (2/6) (Score: 13907.3 | Cum: 43554.6)
+[PASS] [W16_P23G6] passed 0.324Hz (1/6) (Score: 9068.4 | Cum: 9068.4)
+[PASS] [W17_P23G6] passed 0.324Hz (1/6) (Score: 11988.8 | Cum: 11988.8)
+[PASS] [W18_P23G6] passed 0.324Hz (1/6) (Score: 9051.2 | Cum: 9051.2)
+[PASS] [W15_P23G6] passed 1.099Hz (3/6) (Score: 6670.8 | Cum: 14119.4)
+[PASS] [W9_P23G6] passed 1.099Hz (3/6) (Score: 765.3 | Cum: 4347.3)
+[PASS] [W14_P23G6] passed 1.099Hz (3/6) (Score: 630.2 | Cum: 1827.0)
+[PASS] [W13_P23G6] passed 0.783Hz (2/6) (Score: 1441.2 | Cum: 11420.2)
+[PASS] [W2_P23G6] passed 0.783Hz (2/6) (Score: 10849.6 | Cum: 44049.3)
+[PASS] [W12_P23G6] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W12_P23G6] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W3_P23G6] passed 1.099Hz (3/6) (Score: 12160.0 | Cum: 62216.3)
+[PASS] [W7_P23G6] passed 1.099Hz (3/6) (Score: 868.3 | Cum: 6971.1)
+[PASS] [W6_P23G6] passed 1.099Hz (3/6) (Score: 2203.0 | Cum: 23536.4)
+[PASS] [W8_P23G6] passed 1.099Hz (3/6) (Score: 4168.3 | Cum: 29254.5)
+[PASS] [W10_P23G6] passed 1.099Hz (3/6) (Score: 1478.2 | Cum: 13617.0)
+[PASS] [W9_P23G6] passed 5.583Hz (4/6) (Score: 18459.9 | Cum: 22807.2)
+[PASS] [W15_P23G6] passed 5.583Hz (4/6) (Score: 1718.2 | Cum: 15837.5)
+[PASS] [W14_P23G6] passed 5.583Hz (4/6) (Score: 16994.9 | Cum: 18821.8)
+[PASS] [W11_P23G6] passed 1.099Hz (3/6) (Score: 3301.6 | Cum: 23124.3)
+[PASS] [W3_P23G6] passed 5.583Hz (4/6) (Score: 767.8 | Cum: 62984.1)
+[PASS] [W4_P23G6] passed 1.099Hz (3/6) (Score: 551.0 | Cum: 6682.9)
+[PASS] [W16_P23G6] passed 0.783Hz (2/6) (Score: 1263.7 | Cum: 10332.1)
+[PASS] [W5_P23G6] passed 1.099Hz (3/6) (Score: 4710.4 | Cum: 30066.6)
+[PASS] [W17_P23G6] passed 0.783Hz (2/6) (Score: 2680.5 | Cum: 14669.3)
+[PASS] [W1_P23G6] passed 1.099Hz (3/6) (Score: 7943.5 | Cum: 51498.1)
+[PASS] [W18_P23G6] passed 0.783Hz (2/6) (Score: 1851.4 | Cum: 10902.6)
+[PASS] [W7_P23G6] passed 5.583Hz (4/6) (Score: 19587.1 | Cum: 26558.2)
+[PASS] [W13_P23G6] passed 1.099Hz (3/6) (Score: 878.5 | Cum: 12298.7)
+[PASS] [W2_P23G6] passed 1.099Hz (3/6) (Score: 7256.7 | Cum: 51306.0)
+[PASS] [W10_P23G6] passed 5.583Hz (4/6) (Score: 22429.8 | Cum: 36046.8)
+[PASS] [W6_P23G6] passed 5.583Hz (4/6) (Score: 29610.5 | Cum: 53146.9)
+[PASS] [W8_P23G6] passed 5.583Hz (4/6) (Score: 37208.4 | Cum: 66462.9)
+[PASS] [W9_P23G6] passed 2.446Hz (5/6) (Score: 9929.8 | Cum: 32737.1)
+[PASS] [W15_P23G6] passed 2.446Hz (5/6) (Score: 40978.7 | Cum: 56816.2)
+[PASS] [W14_P23G6] passed 2.446Hz (5/6) (Score: 6358.6 | Cum: 25180.5)
+[PASS] [W4_P23G6] passed 5.583Hz (4/6) (Score: 12230.1 | Cum: 18913.0)
+[PASS] [W11_P23G6] passed 5.583Hz (4/6) (Score: 20872.8 | Cum: 43997.2)
+[PASS] [W3_P23G6] passed 2.446Hz (5/6) (Score: 18806.3 | Cum: 81790.4)
+[PASS] [W5_P23G6] passed 5.583Hz (4/6) (Score: 29533.2 | Cum: 59599.8)
+[PASS] [W1_P23G6] passed 5.583Hz (4/6) (Score: 29673.5 | Cum: 81171.6)
+[PASS] [W16_P23G6] passed 1.099Hz (3/6) (Score: 902.8 | Cum: 11234.8)
+[PASS] [W17_P23G6] passed 1.099Hz (3/6) (Score: 1575.2 | Cum: 16244.6)
+[PASS] [W7_P23G6] passed 2.446Hz (5/6) (Score: 9875.2 | Cum: 36433.4)
+[PASS] [W18_P23G6] passed 1.099Hz (3/6) (Score: 1270.7 | Cum: 12173.3)
+[PASS] [W13_P23G6] passed 5.583Hz (4/6) (Score: 20040.5 | Cum: 32339.2)
+[PASS] [W2_P23G6] passed 5.583Hz (4/6) (Score: 19070.9 | Cum: 70376.9)
+[PASS] [W10_P23G6] passed 2.446Hz (5/6) (Score: 6493.1 | Cum: 42539.9)
+[PASS] [W6_P23G6] passed 2.446Hz (5/6) (Score: 2274.3 | Cum: 55421.2)
+[PASS] [W8_P23G6] passed 2.446Hz (5/6) (Score: 2229.4 | Cum: 68692.3)
+[PASS] [W14_P23G6] passed 7.927Hz (6/6) (Score: 4572.7 | Cum: 29753.2)
+[COMPLETE] [W14_P23G6] finished all 6 frequencies! Total Score: 29753.19
+[PASS] [W9_P23G6] passed 7.927Hz (6/6) (Score: 5998.3 | Cum: 38735.4)
+[COMPLETE] [W9_P23G6] finished all 6 frequencies! Total Score: 38735.42
+[PASS] [W15_P23G6] passed 7.927Hz (6/6) (Score: 7236.2 | Cum: 64052.4)
+[COMPLETE] [W15_P23G6] finished all 6 frequencies! Total Score: 64052.38
+[PASS] [W4_P23G6] passed 2.446Hz (5/6) (Score: 4815.2 | Cum: 23728.2)
+[PASS] [W11_P23G6] passed 2.446Hz (5/6) (Score: 2477.7 | Cum: 46474.8)
+[PASS] [W3_P23G6] passed 7.927Hz (6/6) (Score: 5625.4 | Cum: 87415.8)
+[COMPLETE] [W3_P23G6] finished all 6 frequencies! Total Score: 87415.77
+[PASS] [W5_P23G6] passed 2.446Hz (5/6) (Score: 1650.2 | Cum: 61250.0)
+[PASS] [W1_P23G6] passed 2.446Hz (5/6) (Score: 3551.8 | Cum: 84723.4)
+[PASS] [W16_P23G6] passed 5.583Hz (4/6) (Score: 21185.4 | Cum: 32420.2)
+[PASS] [W17_P23G6] passed 5.583Hz (4/6) (Score: 21022.3 | Cum: 37266.9)
+[PASS] [W7_P23G6] passed 7.927Hz (6/6) (Score: 6790.1 | Cum: 43223.5)
+[COMPLETE] [W7_P23G6] finished all 6 frequencies! Total Score: 43223.54
+[PASS] [W18_P23G6] passed 5.583Hz (4/6) (Score: 29551.8 | Cum: 41725.1)
+[PASS] [W13_P23G6] passed 2.446Hz (5/6) (Score: 4767.2 | Cum: 37106.4)
+[PASS] [W2_P23G6] passed 2.446Hz (5/6) (Score: 2492.9 | Cum: 72869.8)
+[PASS] [W10_P23G6] passed 7.927Hz (6/6) (Score: 5333.6 | Cum: 47873.5)
+[COMPLETE] [W10_P23G6] finished all 6 frequencies! Total Score: 47873.47
+[PASS] [W8_P23G6] passed 7.927Hz (6/6) (Score: 7684.4 | Cum: 76376.7)
+[COMPLETE] [W8_P23G6] finished all 6 frequencies! Total Score: 76376.70
+[PASS] [W6_P23G6] passed 7.927Hz (6/6) (Score: 6035.8 | Cum: 61457.0)
+[COMPLETE] [W6_P23G6] finished all 6 frequencies! Total Score: 61456.98
+[PASS] [W4_P23G6] passed 7.927Hz (6/6) (Score: 4532.2 | Cum: 28260.5)
+[COMPLETE] [W4_P23G6] finished all 6 frequencies! Total Score: 28260.48
+[PASS] [W11_P23G6] passed 7.927Hz (6/6) (Score: 5059.2 | Cum: 51534.0)
+[COMPLETE] [W11_P23G6] finished all 6 frequencies! Total Score: 51533.98
+[PASS] [W5_P23G6] passed 7.927Hz (6/6) (Score: 5973.4 | Cum: 67223.4)
+[COMPLETE] [W5_P23G6] finished all 6 frequencies! Total Score: 67223.43
+[PASS] [W1_P23G6] passed 7.927Hz (6/6) (Score: 8312.5 | Cum: 93036.0)
+[COMPLETE] [W1_P23G6] finished all 6 frequencies! Total Score: 93035.96
+[PASS] [W16_P23G6] passed 2.446Hz (5/6) (Score: 4824.9 | Cum: 37245.1)
+[PASS] [W17_P23G6] passed 2.446Hz (5/6) (Score: 3645.6 | Cum: 40912.5)
+[PASS] [W18_P23G6] passed 2.446Hz (5/6) (Score: 2303.3 | Cum: 44028.4)
+[PASS] [W2_P23G6] passed 7.927Hz (6/6) (Score: 9755.9 | Cum: 82625.7)
+[COMPLETE] [W2_P23G6] finished all 6 frequencies! Total Score: 82625.72
+[PASS] [W13_P23G6] passed 7.927Hz (6/6) (Score: 2458.3 | Cum: 39564.7)
+[COMPLETE] [W13_P23G6] finished all 6 frequencies! Total Score: 39564.72
+[PASS] [W16_P23G6] passed 7.927Hz (6/6) (Score: 3298.9 | Cum: 40544.0)
+[COMPLETE] [W16_P23G6] finished all 6 frequencies! Total Score: 40544.01
+[PASS] [W17_P23G6] passed 7.927Hz (6/6) (Score: 2294.8 | Cum: 43207.3)
+[COMPLETE] [W17_P23G6] finished all 6 frequencies! Total Score: 43207.29
+[PASS] [W18_P23G6] passed 7.927Hz (6/6) (Score: 5611.9 | Cum: 49640.3)
+[COMPLETE] [W18_P23G6] finished all 6 frequencies! Total Score: 49640.31
+
+>>> NEW PHASE 2.3 RECORD in Gen 6: 28260.48 (Candidate W4_P23G6) <<<
+
+Phase 2.3 Generation 6 completed in 54.3 mins.
+Best Candidate: W4_P23G6 | Score: 28260.48 (Target: < 2803.88)
+r_ton: 0.210 | K_ton: 0.85 | K_sc: 4.07 | z_sc: 1.06 | z_ccr: 0.21
+
+[BOUNDS EXPANSION] Active bounds for Generation 7: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 7 of 30 at 10:29:30 ===================================
+[PASS] [W1_P23G7] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W3_P23G7] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W5_P23G7] passed 0.324Hz (1/6) (Score: 9646.1 | Cum: 9646.1)
+[PASS] [W6_P23G7] passed 0.324Hz (1/6) (Score: 4668.3 | Cum: 4668.3)
+[PASS] [W14_P23G7] passed 0.324Hz (1/6) (Score: 1038.2 | Cum: 1038.2)
+[PASS] [W15_P23G7] passed 0.324Hz (1/6) (Score: 1727.8 | Cum: 1727.8)
+[PASS] [W9_P23G7] passed 0.324Hz (1/6) (Score: 11441.6 | Cum: 11441.6)
+[PASS] [W12_P23G7] passed 0.324Hz (1/6) (Score: 7408.6 | Cum: 7408.6)
+[PASS] [W8_P23G7] passed 0.324Hz (1/6) (Score: 65409.3 | Cum: 65409.3)
+[PASS] [W4_P23G7] passed 0.324Hz (1/6) (Score: 4731.7 | Cum: 4731.7)
+[PASS] [W7_P23G7] passed 0.324Hz (1/6) (Score: 33912.6 | Cum: 33912.6)
+[PASS] [W1_P23G7] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W11_P23G7] passed 0.324Hz (1/6) (Score: 18929.9 | Cum: 18929.9)
+[PASS] [W10_P23G7] passed 0.324Hz (1/6) (Score: 4880.8 | Cum: 4880.8)
+[PASS] [W2_P23G7] passed 0.324Hz (1/6) (Score: 2556.0 | Cum: 2556.0)
+[PASS] [W13_P23G7] passed 0.324Hz (1/6) (Score: 4361.7 | Cum: 4361.7)
+[PASS] [W1_P23G7] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W5_P23G7] passed 0.783Hz (2/6) (Score: 8476.6 | Cum: 18122.7)
+[PASS] [W6_P23G7] passed 0.783Hz (2/6) (Score: 10314.4 | Cum: 14982.7)
+[PASS] [W3_P23G7] passed 0.783Hz (2/6) (Score: 3410.6 | Cum: 173654.7)
+[PASS] [W14_P23G7] passed 0.783Hz (2/6) (Score: 892.6 | Cum: 1930.8)
+[PASS] [W9_P23G7] passed 0.783Hz (2/6) (Score: 2473.8 | Cum: 13915.4)
+[PASS] [W12_P23G7] passed 0.783Hz (2/6) (Score: 577.2 | Cum: 7985.8)
+[PASS] [W15_P23G7] passed 0.783Hz (2/6) (Score: 10729.1 | Cum: 12456.9)
+[PASS] [W8_P23G7] passed 0.783Hz (2/6) (Score: 19225.9 | Cum: 84635.2)
+[PASS] [W4_P23G7] passed 0.783Hz (2/6) (Score: 1248.6 | Cum: 5980.3)
+[PASS] [W7_P23G7] passed 0.783Hz (2/6) (Score: 12946.5 | Cum: 46859.1)
+[PASS] [W16_P23G7] passed 0.324Hz (1/6) (Score: 14686.8 | Cum: 14686.8)
+[PASS] [W1_P23G7] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W11_P23G7] passed 0.783Hz (2/6) (Score: 9197.0 | Cum: 28126.9)
+[PASS] [W5_P23G7] passed 1.099Hz (3/6) (Score: 5446.2 | Cum: 23568.9)
+[PASS] [W10_P23G7] passed 0.783Hz (2/6) (Score: 1012.2 | Cum: 5893.0)
+[PASS] [W17_P23G7] passed 0.324Hz (1/6) (Score: 5909.2 | Cum: 5909.2)
+[PASS] [W2_P23G7] passed 0.783Hz (2/6) (Score: 3544.9 | Cum: 6100.9)
+[PASS] [W18_P23G7] passed 0.324Hz (1/6) (Score: 20049.1 | Cum: 20049.1)
+[PASS] [W6_P23G7] passed 1.099Hz (3/6) (Score: 19281.4 | Cum: 34264.2)
+[PASS] [W13_P23G7] passed 0.783Hz (2/6) (Score: 238.3 | Cum: 4599.9)
+[PASS] [W1_P23G7] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W9_P23G7] passed 1.099Hz (3/6) (Score: 1929.9 | Cum: 15845.3)
+[PASS] [W12_P23G7] passed 1.099Hz (3/6) (Score: 92.1 | Cum: 8077.9)
+[PASS] [W14_P23G7] passed 1.099Hz (3/6) (Score: 1797.3 | Cum: 3728.1)
+[PASS] [W3_P23G7] passed 1.099Hz (3/6) (Score: 5984.9 | Cum: 179639.6)
+[PASS] [W15_P23G7] passed 1.099Hz (3/6) (Score: 2946.6 | Cum: 15403.5)
+[PASS] [W8_P23G7] passed 1.099Hz (3/6) (Score: 16292.8 | Cum: 100927.9)
+[PASS] [W1_P23G7] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W1_P23G7] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W4_P23G7] passed 1.099Hz (3/6) (Score: 838.2 | Cum: 6818.5)
+[PASS] [W5_P23G7] passed 5.583Hz (4/6) (Score: 21854.6 | Cum: 45423.5)
+[PASS] [W6_P23G7] passed 5.583Hz (4/6) (Score: 53216.8 | Cum: 87481.0)
+[PASS] [W16_P23G7] passed 0.783Hz (2/6) (Score: 935.8 | Cum: 15622.6)
+[PASS] [W9_P23G7] passed 5.583Hz (4/6) (Score: 22623.6 | Cum: 38468.9)
+[PASS] [W11_P23G7] passed 1.099Hz (3/6) (Score: 6850.5 | Cum: 34977.3)
+[PASS] [W12_P23G7] passed 5.583Hz (4/6) (Score: 4874.4 | Cum: 12952.3)
+[PASS] [W7_P23G7] passed 1.099Hz (3/6) (Score: 11629.4 | Cum: 58488.5)
+[PASS] [W17_P23G7] passed 0.783Hz (2/6) (Score: 1938.1 | Cum: 7847.3)
+[PASS] [W10_P23G7] passed 1.099Hz (3/6) (Score: 164.8 | Cum: 6057.7)
+[PASS] [W14_P23G7] passed 5.583Hz (4/6) (Score: 20263.9 | Cum: 23992.0)
+[PASS] [W2_P23G7] passed 1.099Hz (3/6) (Score: 5034.8 | Cum: 11135.6)
+[PASS] [W18_P23G7] passed 0.783Hz (2/6) (Score: 9227.8 | Cum: 29276.9)
+[PASS] [W3_P23G7] passed 5.583Hz (4/6) (Score: 48681.9 | Cum: 228321.6)
+[PASS] [W13_P23G7] passed 1.099Hz (3/6) (Score: 361.7 | Cum: 4961.6)
+[PASS] [W15_P23G7] passed 5.583Hz (4/6) (Score: 8070.4 | Cum: 23473.9)
+[PASS] [W5_P23G7] passed 2.446Hz (5/6) (Score: 30344.7 | Cum: 75768.2)
+[PASS] [W4_P23G7] passed 5.583Hz (4/6) (Score: 17202.9 | Cum: 24021.4)
+[PASS] [W8_P23G7] passed 5.583Hz (4/6) (Score: 4823.3 | Cum: 105751.2)
+[PASS] [W6_P23G7] passed 2.446Hz (5/6) (Score: 55078.2 | Cum: 142559.2)
+[PASS] [W9_P23G7] passed 2.446Hz (5/6) (Score: 2167.1 | Cum: 40636.0)
+[PASS] [W12_P23G7] passed 2.446Hz (5/6) (Score: 1589.7 | Cum: 14542.0)
+[PASS] [W11_P23G7] passed 5.583Hz (4/6) (Score: 17030.1 | Cum: 52007.4)
+[PASS] [W7_P23G7] passed 5.583Hz (4/6) (Score: 9250.9 | Cum: 67739.4)
+[PASS] [W16_P23G7] passed 1.099Hz (3/6) (Score: 1121.7 | Cum: 16744.3)
+[PASS] [W14_P23G7] passed 2.446Hz (5/6) (Score: 13331.4 | Cum: 37323.4)
+[PASS] [W10_P23G7] passed 5.583Hz (4/6) (Score: 21453.5 | Cum: 27511.2)
+[PASS] [W2_P23G7] passed 5.583Hz (4/6) (Score: 17172.1 | Cum: 28307.7)
+[PASS] [W17_P23G7] passed 1.099Hz (3/6) (Score: 1496.5 | Cum: 9343.8)
+[PASS] [W5_P23G7] passed 7.927Hz (6/6) (Score: 8858.6 | Cum: 84626.8)
+[COMPLETE] [W5_P23G7] finished all 6 frequencies! Total Score: 84626.80
+[PASS] [W3_P23G7] passed 2.446Hz (5/6) (Score: 48057.8 | Cum: 276379.3)
+[PASS] [W13_P23G7] passed 5.583Hz (4/6) (Score: 14398.1 | Cum: 19359.8)
+[PASS] [W15_P23G7] passed 2.446Hz (5/6) (Score: 33861.3 | Cum: 57335.2)
+[PASS] [W18_P23G7] passed 1.099Hz (3/6) (Score: 4107.8 | Cum: 33384.8)
+[PASS] [W6_P23G7] passed 7.927Hz (6/6) (Score: 33354.0 | Cum: 175913.2)
+[COMPLETE] [W6_P23G7] finished all 6 frequencies! Total Score: 175913.19
+[PASS] [W8_P23G7] passed 2.446Hz (5/6) (Score: 6694.6 | Cum: 112445.9)
+[PASS] [W4_P23G7] passed 2.446Hz (5/6) (Score: 6528.0 | Cum: 30549.4)
+[PASS] [W9_P23G7] passed 7.927Hz (6/6) (Score: 6326.9 | Cum: 46963.0)
+[COMPLETE] [W9_P23G7] finished all 6 frequencies! Total Score: 46962.97
+[PASS] [W12_P23G7] passed 7.927Hz (6/6) (Score: 10988.7 | Cum: 25530.7)
+[COMPLETE] [W12_P23G7] finished all 6 frequencies! Total Score: 25530.71
+[PASS] [W16_P23G7] passed 5.583Hz (4/6) (Score: 34083.8 | Cum: 50828.0)
+[PASS] [W11_P23G7] passed 2.446Hz (5/6) (Score: 1874.5 | Cum: 53881.9)
+[PASS] [W7_P23G7] passed 2.446Hz (5/6) (Score: 5822.0 | Cum: 73561.4)
+[PASS] [W14_P23G7] passed 7.927Hz (6/6) (Score: 13529.4 | Cum: 50852.8)
+[COMPLETE] [W14_P23G7] finished all 6 frequencies! Total Score: 50852.83
+[PASS] [W10_P23G7] passed 2.446Hz (5/6) (Score: 10895.8 | Cum: 38407.0)
+[PASS] [W2_P23G7] passed 2.446Hz (5/6) (Score: 32346.1 | Cum: 60653.7)
+[PASS] [W3_P23G7] passed 7.927Hz (6/6) (Score: 5693.0 | Cum: 282072.3)
+[COMPLETE] [W3_P23G7] finished all 6 frequencies! Total Score: 282072.34
+[PASS] [W17_P23G7] passed 5.583Hz (4/6) (Score: 21590.5 | Cum: 30934.3)
+[PASS] [W15_P23G7] passed 7.927Hz (6/6) (Score: 15432.4 | Cum: 72767.6)
+[COMPLETE] [W15_P23G7] finished all 6 frequencies! Total Score: 72767.64
+[PASS] [W13_P23G7] passed 2.446Hz (5/6) (Score: 9905.9 | Cum: 29265.7)
+[PASS] [W8_P23G7] passed 7.927Hz (6/6) (Score: 9689.8 | Cum: 122135.7)
+[COMPLETE] [W8_P23G7] finished all 6 frequencies! Total Score: 122135.67
+[PASS] [W16_P23G7] passed 2.446Hz (5/6) (Score: 8019.3 | Cum: 58847.3)
+[PASS] [W18_P23G7] passed 5.583Hz (4/6) (Score: 28629.5 | Cum: 62014.3)
+[PASS] [W4_P23G7] passed 7.927Hz (6/6) (Score: 3939.6 | Cum: 34489.0)
+[COMPLETE] [W4_P23G7] finished all 6 frequencies! Total Score: 34489.05
+[PASS] [W11_P23G7] passed 7.927Hz (6/6) (Score: 9130.9 | Cum: 63012.7)
+[COMPLETE] [W11_P23G7] finished all 6 frequencies! Total Score: 63012.74
+[PASS] [W7_P23G7] passed 7.927Hz (6/6) (Score: 11702.2 | Cum: 85263.5)
+[COMPLETE] [W7_P23G7] finished all 6 frequencies! Total Score: 85263.54
+[PASS] [W2_P23G7] passed 7.927Hz (6/6) (Score: 7571.9 | Cum: 68225.7)
+[COMPLETE] [W2_P23G7] finished all 6 frequencies! Total Score: 68225.68
+[PASS] [W10_P23G7] passed 7.927Hz (6/6) (Score: 14142.2 | Cum: 52549.2)
+[COMPLETE] [W10_P23G7] finished all 6 frequencies! Total Score: 52549.23
+[PASS] [W17_P23G7] passed 2.446Hz (5/6) (Score: 1772.2 | Cum: 32706.5)
+[PASS] [W16_P23G7] passed 7.927Hz (6/6) (Score: 20108.6 | Cum: 78956.0)
+[COMPLETE] [W16_P23G7] finished all 6 frequencies! Total Score: 78955.96
+[PASS] [W13_P23G7] passed 7.927Hz (6/6) (Score: 7838.0 | Cum: 37103.7)
+[COMPLETE] [W13_P23G7] finished all 6 frequencies! Total Score: 37103.70
+[PASS] [W18_P23G7] passed 2.446Hz (5/6) (Score: 2782.7 | Cum: 64797.1)
+[PASS] [W17_P23G7] passed 7.927Hz (6/6) (Score: 5082.3 | Cum: 37788.9)
+[COMPLETE] [W17_P23G7] finished all 6 frequencies! Total Score: 37788.88
+[PASS] [W18_P23G7] passed 7.927Hz (6/6) (Score: 5779.0 | Cum: 70576.0)
+[COMPLETE] [W18_P23G7] finished all 6 frequencies! Total Score: 70576.05
+
+>>> NEW PHASE 2.3 RECORD in Gen 7: 25530.71 (Candidate W12_P23G7) <<<
+
+Phase 2.3 Generation 7 completed in 52.0 mins.
+Best Candidate: W12_P23G7 | Score: 25530.71 (Target: < 2803.88)
+r_ton: 0.231 | K_ton: 0.31 | K_sc: 1.33 | z_sc: 0.18 | z_ccr: 3.43
+
+[BOUNDS EXPANSION] Active bounds for Generation 8: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 8 of 30 at 11:21:29 ===================================
+[PASS] [W3_P23G8] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W10_P23G8] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W7_P23G8] passed 0.324Hz (1/6) (Score: 4841.8 | Cum: 4841.8)
+[PASS] [W12_P23G8] passed 0.324Hz (1/6) (Score: 2373.4 | Cum: 2373.4)
+[PASS] [W14_P23G8] passed 0.324Hz (1/6) (Score: 10942.2 | Cum: 10942.2)
+[PASS] [W13_P23G8] passed 0.324Hz (1/6) (Score: 39710.0 | Cum: 39710.0)
+[PASS] [W1_P23G8] passed 0.324Hz (1/6) (Score: 5383.4 | Cum: 5383.4)
+[PASS] [W4_P23G8] passed 0.324Hz (1/6) (Score: 11709.3 | Cum: 11709.3)
+[PASS] [W2_P23G8] passed 0.324Hz (1/6) (Score: 31829.9 | Cum: 31829.9)
+[PASS] [W11_P23G8] passed 0.324Hz (1/6) (Score: 24693.2 | Cum: 24693.2)
+[PASS] [W8_P23G8] passed 0.324Hz (1/6) (Score: 4027.3 | Cum: 4027.3)
+[PASS] [W9_P23G8] passed 0.324Hz (1/6) (Score: 7271.4 | Cum: 7271.4)
+[PASS] [W5_P23G8] passed 0.324Hz (1/6) (Score: 11101.9 | Cum: 11101.9)
+[PASS] [W6_P23G8] passed 0.324Hz (1/6) (Score: 34059.1 | Cum: 34059.1)
+[PASS] [W15_P23G8] passed 0.324Hz (1/6) (Score: 5251.6 | Cum: 5251.6)
+[PASS] [W3_P23G8] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W12_P23G8] passed 0.783Hz (2/6) (Score: 1396.7 | Cum: 3770.1)
+[PASS] [W14_P23G8] passed 0.783Hz (2/6) (Score: 2330.9 | Cum: 13273.2)
+[PASS] [W13_P23G8] passed 0.783Hz (2/6) (Score: 10165.9 | Cum: 49875.9)
+[PASS] [W7_P23G8] passed 0.783Hz (2/6) (Score: 2133.5 | Cum: 6975.3)
+[PASS] [W1_P23G8] passed 0.783Hz (2/6) (Score: 1114.3 | Cum: 6497.7)
+[PASS] [W4_P23G8] passed 0.783Hz (2/6) (Score: 2079.4 | Cum: 13788.7)
+[PASS] [W2_P23G8] passed 0.783Hz (2/6) (Score: 8636.1 | Cum: 40466.0)
+[PASS] [W10_P23G8] passed 0.783Hz (2/6) (Score: 11320.7 | Cum: 181564.8)
+[PASS] [W11_P23G8] passed 0.783Hz (2/6) (Score: 8490.4 | Cum: 33183.7)
+[PASS] [W8_P23G8] passed 0.783Hz (2/6) (Score: 230.0 | Cum: 4257.3)
+[PASS] [W9_P23G8] passed 0.783Hz (2/6) (Score: 818.7 | Cum: 8090.1)
+[PASS] [W3_P23G8] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W16_P23G8] passed 0.324Hz (1/6) (Score: 24838.2 | Cum: 24838.2)
+[PASS] [W17_P23G8] passed 0.324Hz (1/6) (Score: 7087.6 | Cum: 7087.6)
+[PASS] [W15_P23G8] passed 0.783Hz (2/6) (Score: 381.7 | Cum: 5633.4)
+[PASS] [W6_P23G8] passed 0.783Hz (2/6) (Score: 19040.8 | Cum: 53099.9)
+[PASS] [W12_P23G8] passed 1.099Hz (3/6) (Score: 445.7 | Cum: 4215.8)
+[PASS] [W5_P23G8] passed 0.783Hz (2/6) (Score: 2207.4 | Cum: 13309.3)
+[PASS] [W7_P23G8] passed 1.099Hz (3/6) (Score: 1581.4 | Cum: 8556.7)
+[PASS] [W14_P23G8] passed 1.099Hz (3/6) (Score: 1554.7 | Cum: 14827.8)
+[PASS] [W13_P23G8] passed 1.099Hz (3/6) (Score: 6731.3 | Cum: 56607.2)
+[PASS] [W1_P23G8] passed 1.099Hz (3/6) (Score: 787.8 | Cum: 7285.4)
+[PASS] [W4_P23G8] passed 1.099Hz (3/6) (Score: 1524.2 | Cum: 15312.9)
+[PASS] [W18_P23G8] passed 0.324Hz (1/6) (Score: 32021.3 | Cum: 32021.3)
+[PASS] [W3_P23G8] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W2_P23G8] passed 1.099Hz (3/6) (Score: 6478.2 | Cum: 46944.2)
+[PASS] [W10_P23G8] passed 1.099Hz (3/6) (Score: 13030.0 | Cum: 194594.8)
+[PASS] [W11_P23G8] passed 1.099Hz (3/6) (Score: 5055.9 | Cum: 38239.6)
+[PASS] [W12_P23G8] passed 5.583Hz (4/6) (Score: 18586.5 | Cum: 22802.3)
+[PASS] [W7_P23G8] passed 5.583Hz (4/6) (Score: 16360.7 | Cum: 24917.4)
+[PASS] [W14_P23G8] passed 5.583Hz (4/6) (Score: 28480.2 | Cum: 43308.1)
+[PASS] [W13_P23G8] passed 5.583Hz (4/6) (Score: 1396.2 | Cum: 58003.4)
+[PASS] [W1_P23G8] passed 5.583Hz (4/6) (Score: 18281.0 | Cum: 25566.4)
+[PASS] [W4_P23G8] passed 5.583Hz (4/6) (Score: 11314.1 | Cum: 26627.0)
+[PASS] [W3_P23G8] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W17_P23G8] passed 0.783Hz (2/6) (Score: 1401.5 | Cum: 8489.1)
+[PASS] [W15_P23G8] passed 1.099Hz (3/6) (Score: 911.5 | Cum: 6544.8)
+[PASS] [W8_P23G8] passed 1.099Hz (3/6) (Score: 1102.6 | Cum: 5360.0)
+[PASS] [W16_P23G8] passed 0.783Hz (2/6) (Score: 7974.8 | Cum: 32813.0)
+[PASS] [W6_P23G8] passed 1.099Hz (3/6) (Score: 14035.8 | Cum: 67135.7)
+[PASS] [W9_P23G8] passed 1.099Hz (3/6) (Score: 691.9 | Cum: 8782.0)
+[PASS] [W5_P23G8] passed 1.099Hz (3/6) (Score: 1328.5 | Cum: 14637.8)
+[PASS] [W3_P23G8] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W3_P23G8] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W18_P23G8] passed 0.783Hz (2/6) (Score: 8148.3 | Cum: 40169.6)
+[PASS] [W2_P23G8] passed 5.583Hz (4/6) (Score: 274.0 | Cum: 47218.3)
+[PASS] [W7_P23G8] passed 2.446Hz (5/6) (Score: 13611.1 | Cum: 38528.6)
+[PASS] [W10_P23G8] passed 5.583Hz (4/6) (Score: 16355.6 | Cum: 210950.3)
+[PASS] [W12_P23G8] passed 2.446Hz (5/6) (Score: 8940.4 | Cum: 31742.7)
+[PASS] [W14_P23G8] passed 2.446Hz (5/6) (Score: 3532.8 | Cum: 46840.8)
+[PASS] [W11_P23G8] passed 5.583Hz (4/6) (Score: 463.5 | Cum: 38703.1)
+[PASS] [W13_P23G8] passed 2.446Hz (5/6) (Score: 5873.2 | Cum: 63876.6)
+[PASS] [W1_P23G8] passed 2.446Hz (5/6) (Score: 4883.6 | Cum: 30450.0)
+[PASS] [W4_P23G8] passed 2.446Hz (5/6) (Score: 743.6 | Cum: 27370.6)
+[PASS] [W15_P23G8] passed 5.583Hz (4/6) (Score: 21268.8 | Cum: 27813.6)
+[PASS] [W8_P23G8] passed 5.583Hz (4/6) (Score: 12158.6 | Cum: 17518.6)
+[PASS] [W17_P23G8] passed 1.099Hz (3/6) (Score: 1052.2 | Cum: 9541.3)
+[PASS] [W6_P23G8] passed 5.583Hz (4/6) (Score: 18292.0 | Cum: 85427.7)
+[PASS] [W16_P23G8] passed 1.099Hz (3/6) (Score: 4113.4 | Cum: 36926.4)
+[PASS] [W9_P23G8] passed 5.583Hz (4/6) (Score: 25280.2 | Cum: 34062.2)
+[PASS] [W7_P23G8] passed 7.927Hz (6/6) (Score: 8569.3 | Cum: 47097.9)
+[COMPLETE] [W7_P23G8] finished all 6 frequencies! Total Score: 47097.85
+[PASS] [W5_P23G8] passed 5.583Hz (4/6) (Score: 19379.6 | Cum: 34017.4)
+[PASS] [W2_P23G8] passed 2.446Hz (5/6) (Score: 2313.3 | Cum: 49531.6)
+[PASS] [W10_P23G8] passed 2.446Hz (5/6) (Score: 39110.3 | Cum: 250060.6)
+[PASS] [W12_P23G8] passed 7.927Hz (6/6) (Score: 6170.9 | Cum: 37913.6)
+[COMPLETE] [W12_P23G8] finished all 6 frequencies! Total Score: 37913.60
+[PASS] [W14_P23G8] passed 7.927Hz (6/6) (Score: 6271.6 | Cum: 53112.5)
+[COMPLETE] [W14_P23G8] finished all 6 frequencies! Total Score: 53112.47
+[PASS] [W11_P23G8] passed 2.446Hz (5/6) (Score: 757.3 | Cum: 39460.4)
+[PASS] [W13_P23G8] passed 7.927Hz (6/6) (Score: 7569.6 | Cum: 71446.2)
+[COMPLETE] [W13_P23G8] finished all 6 frequencies! Total Score: 71446.21
+[PASS] [W1_P23G8] passed 7.927Hz (6/6) (Score: 6654.4 | Cum: 37104.4)
+[COMPLETE] [W1_P23G8] finished all 6 frequencies! Total Score: 37104.39
+[PASS] [W18_P23G8] passed 1.099Hz (3/6) (Score: 5835.1 | Cum: 46004.7)
+[PASS] [W4_P23G8] passed 7.927Hz (6/6) (Score: 10796.4 | Cum: 38167.0)
+[COMPLETE] [W4_P23G8] finished all 6 frequencies! Total Score: 38167.04
+[PASS] [W15_P23G8] passed 2.446Hz (5/6) (Score: 11129.6 | Cum: 38943.3)
+[PASS] [W8_P23G8] passed 2.446Hz (5/6) (Score: 21867.9 | Cum: 39386.6)
+[PASS] [W17_P23G8] passed 5.583Hz (4/6) (Score: 20653.0 | Cum: 30194.3)
+[PASS] [W6_P23G8] passed 2.446Hz (5/6) (Score: 2982.4 | Cum: 88410.1)
+[PASS] [W16_P23G8] passed 5.583Hz (4/6) (Score: 24121.0 | Cum: 61047.4)
+[PASS] [W5_P23G8] passed 2.446Hz (5/6) (Score: 4989.5 | Cum: 39006.9)
+[PASS] [W9_P23G8] passed 2.446Hz (5/6) (Score: 3465.0 | Cum: 37527.2)
+[PASS] [W10_P23G8] passed 7.927Hz (6/6) (Score: 21340.3 | Cum: 271400.9)
+[COMPLETE] [W10_P23G8] finished all 6 frequencies! Total Score: 271400.90
+[PASS] [W2_P23G8] passed 7.927Hz (6/6) (Score: 8705.1 | Cum: 58236.7)
+[COMPLETE] [W2_P23G8] finished all 6 frequencies! Total Score: 58236.69
+[PASS] [W11_P23G8] passed 7.927Hz (6/6) (Score: 12687.7 | Cum: 52148.1)
+[COMPLETE] [W11_P23G8] finished all 6 frequencies! Total Score: 52148.09
+[PASS] [W18_P23G8] passed 5.583Hz (4/6) (Score: 20594.1 | Cum: 66598.8)
+[PASS] [W15_P23G8] passed 7.927Hz (6/6) (Score: 5527.1 | Cum: 44470.3)
+[COMPLETE] [W15_P23G8] finished all 6 frequencies! Total Score: 44470.34
+[PASS] [W8_P23G8] passed 7.927Hz (6/6) (Score: 412.2 | Cum: 39798.8)
+[COMPLETE] [W8_P23G8] finished all 6 frequencies! Total Score: 39798.81
+[PASS] [W16_P23G8] passed 2.446Hz (5/6) (Score: 2524.3 | Cum: 63571.6)
+[PASS] [W5_P23G8] passed 7.927Hz (6/6) (Score: 9001.0 | Cum: 48007.9)
+[COMPLETE] [W5_P23G8] finished all 6 frequencies! Total Score: 48007.85
+[PASS] [W9_P23G8] passed 7.927Hz (6/6) (Score: 5819.8 | Cum: 43347.0)
+[COMPLETE] [W9_P23G8] finished all 6 frequencies! Total Score: 43347.03
+[PASS] [W17_P23G8] passed 2.446Hz (5/6) (Score: 3112.3 | Cum: 33306.6)
+[PASS] [W6_P23G8] passed 7.927Hz (6/6) (Score: 9764.5 | Cum: 98174.6)
+[COMPLETE] [W6_P23G8] finished all 6 frequencies! Total Score: 98174.55
+[PASS] [W18_P23G8] passed 2.446Hz (5/6) (Score: 1806.0 | Cum: 68404.8)
+[PASS] [W16_P23G8] passed 7.927Hz (6/6) (Score: 7633.5 | Cum: 71205.1)
+[COMPLETE] [W16_P23G8] finished all 6 frequencies! Total Score: 71205.11
+[PASS] [W17_P23G8] passed 7.927Hz (6/6) (Score: 2737.8 | Cum: 36044.4)
+[COMPLETE] [W17_P23G8] finished all 6 frequencies! Total Score: 36044.42
+[PASS] [W18_P23G8] passed 7.927Hz (6/6) (Score: 14100.4 | Cum: 82505.2)
+[COMPLETE] [W18_P23G8] finished all 6 frequencies! Total Score: 82505.19
+Phase 2.3 Generation 8 completed in 51.6 mins.
+Best Candidate: W17_P23G8 | Score: 36044.42 (Target: < 2803.88)
+r_ton: 0.717 | K_ton: 3.01 | K_sc: 4.20 | z_sc: 6.74 | z_ccr: 0.50
+
+[BOUNDS EXPANSION] Active bounds for Generation 9: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 9 of 30 at 12:13:07 ===================================
+[PASS] [W4_P23G9] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W2_P23G9] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W10_P23G9] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W15_P23G9] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W5_P23G9] passed 0.324Hz (1/6) (Score: 4514.3 | Cum: 4514.3)
+[PASS] [W14_P23G9] passed 0.324Hz (1/6) (Score: 1672.0 | Cum: 1672.0)
+[PASS] [W7_P23G9] passed 0.324Hz (1/6) (Score: 27565.8 | Cum: 27565.8)
+[PASS] [W1_P23G9] passed 0.324Hz (1/6) (Score: 1532.6 | Cum: 1532.6)
+[PASS] [W11_P23G9] passed 0.324Hz (1/6) (Score: 4031.8 | Cum: 4031.8)
+[PASS] [W8_P23G9] passed 0.324Hz (1/6) (Score: 1392.1 | Cum: 1392.1)
+[PASS] [W12_P23G9] passed 0.324Hz (1/6) (Score: 8763.0 | Cum: 8763.0)
+[PASS] [W3_P23G9] passed 0.324Hz (1/6) (Score: 19913.1 | Cum: 19913.1)
+[PASS] [W9_P23G9] passed 0.324Hz (1/6) (Score: 22088.4 | Cum: 22088.4)
+[PASS] [W13_P23G9] passed 0.324Hz (1/6) (Score: 19088.0 | Cum: 19088.0)
+[PASS] [W6_P23G9] passed 0.324Hz (1/6) (Score: 14225.8 | Cum: 14225.8)
+[PASS] [W15_P23G9] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W4_P23G9] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W16_P23G9] passed 0.324Hz (1/6) (Score: 12371.3 | Cum: 12371.3)
+[PASS] [W2_P23G9] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W17_P23G9] passed 0.324Hz (1/6) (Score: 25106.1 | Cum: 25106.1)
+[PASS] [W10_P23G9] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W15_P23G9] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W18_P23G9] passed 0.324Hz (1/6) (Score: 3368.7 | Cum: 3368.7)
+[PASS] [W4_P23G9] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W2_P23G9] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W10_P23G9] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W15_P23G9] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W14_P23G9] passed 0.783Hz (2/6) (Score: 781.1 | Cum: 2453.1)
+[PASS] [W5_P23G9] passed 0.783Hz (2/6) (Score: 218.9 | Cum: 4733.2)
+[PASS] [W1_P23G9] passed 0.783Hz (2/6) (Score: 1397.6 | Cum: 2930.2)
+[PASS] [W8_P23G9] passed 0.783Hz (2/6) (Score: 473.3 | Cum: 1865.4)
+[PASS] [W7_P23G9] passed 0.783Hz (2/6) (Score: 14072.4 | Cum: 41638.2)
+[PASS] [W11_P23G9] passed 0.783Hz (2/6) (Score: 487.6 | Cum: 4519.4)
+[PASS] [W12_P23G9] passed 0.783Hz (2/6) (Score: 1687.4 | Cum: 10450.4)
+[PASS] [W3_P23G9] passed 0.783Hz (2/6) (Score: 5445.5 | Cum: 25358.6)
+[PASS] [W9_P23G9] passed 0.783Hz (2/6) (Score: 5347.9 | Cum: 27436.3)
+[PASS] [W13_P23G9] passed 0.783Hz (2/6) (Score: 5399.6 | Cum: 24487.6)
+[PASS] [W15_P23G9] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W6_P23G9] passed 0.783Hz (2/6) (Score: 4723.4 | Cum: 18949.2)
+[PASS] [W4_P23G9] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W2_P23G9] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W10_P23G9] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W16_P23G9] passed 0.783Hz (2/6) (Score: 2422.4 | Cum: 14793.8)
+[PASS] [W17_P23G9] passed 0.783Hz (2/6) (Score: 7731.9 | Cum: 32838.0)
+[PASS] [W4_P23G9] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W2_P23G9] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W10_P23G9] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W15_P23G9] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W15_P23G9] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W18_P23G9] passed 0.783Hz (2/6) (Score: 742.8 | Cum: 4111.5)
+[PASS] [W8_P23G9] passed 1.099Hz (3/6) (Score: 1202.7 | Cum: 3068.1)
+[PASS] [W7_P23G9] passed 1.099Hz (3/6) (Score: 11180.9 | Cum: 52819.1)
+[PASS] [W11_P23G9] passed 1.099Hz (3/6) (Score: 459.3 | Cum: 4978.7)
+[PASS] [W14_P23G9] passed 1.099Hz (3/6) (Score: 1469.9 | Cum: 3923.0)
+[PASS] [W3_P23G9] passed 1.099Hz (3/6) (Score: 4451.0 | Cum: 29809.6)
+[PASS] [W12_P23G9] passed 1.099Hz (3/6) (Score: 1098.5 | Cum: 11548.8)
+[PASS] [W5_P23G9] passed 1.099Hz (3/6) (Score: 602.4 | Cum: 5335.6)
+[PASS] [W9_P23G9] passed 1.099Hz (3/6) (Score: 3170.9 | Cum: 30607.2)
+[PASS] [W1_P23G9] passed 1.099Hz (3/6) (Score: 1648.1 | Cum: 4578.3)
+[PASS] [W13_P23G9] passed 1.099Hz (3/6) (Score: 4691.0 | Cum: 29178.6)
+[PASS] [W4_P23G9] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W4_P23G9] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W6_P23G9] passed 1.099Hz (3/6) (Score: 3934.0 | Cum: 22883.2)
+[PASS] [W2_P23G9] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W2_P23G9] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W10_P23G9] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W10_P23G9] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W16_P23G9] passed 1.099Hz (3/6) (Score: 1480.4 | Cum: 16274.2)
+[PASS] [W17_P23G9] passed 1.099Hz (3/6) (Score: 6285.7 | Cum: 39123.7)
+[PASS] [W8_P23G9] passed 5.583Hz (4/6) (Score: 17697.1 | Cum: 20765.2)
+[PASS] [W7_P23G9] passed 5.583Hz (4/6) (Score: 22140.5 | Cum: 74959.6)
+[PASS] [W14_P23G9] passed 5.583Hz (4/6) (Score: 18597.8 | Cum: 22520.8)
+[PASS] [W11_P23G9] passed 5.583Hz (4/6) (Score: 19318.9 | Cum: 24297.6)
+[PASS] [W5_P23G9] passed 5.583Hz (4/6) (Score: 19896.1 | Cum: 25231.7)
+[PASS] [W3_P23G9] passed 5.583Hz (4/6) (Score: 22445.0 | Cum: 52254.6)
+[PASS] [W12_P23G9] passed 5.583Hz (4/6) (Score: 24861.0 | Cum: 36409.8)
+[PASS] [W1_P23G9] passed 5.583Hz (4/6) (Score: 15577.9 | Cum: 20156.2)
+[PASS] [W9_P23G9] passed 5.583Hz (4/6) (Score: 27999.1 | Cum: 58606.3)
+[PASS] [W13_P23G9] passed 5.583Hz (4/6) (Score: 18956.6 | Cum: 48135.2)
+[PASS] [W6_P23G9] passed 5.583Hz (4/6) (Score: 21467.0 | Cum: 44350.2)
+[PASS] [W18_P23G9] passed 1.099Hz (3/6) (Score: 391.4 | Cum: 4502.9)
+[PASS] [W16_P23G9] passed 5.583Hz (4/6) (Score: 3210.8 | Cum: 19485.0)
+[PASS] [W17_P23G9] passed 5.583Hz (4/6) (Score: 25317.4 | Cum: 64441.1)
+[PASS] [W8_P23G9] passed 2.446Hz (5/6) (Score: 21967.0 | Cum: 42732.2)
+[PASS] [W7_P23G9] passed 2.446Hz (5/6) (Score: 3778.8 | Cum: 78738.4)
+[PASS] [W5_P23G9] passed 2.446Hz (5/6) (Score: 8004.8 | Cum: 33236.5)
+[PASS] [W14_P23G9] passed 2.446Hz (5/6) (Score: 31854.9 | Cum: 54375.7)
+[PASS] [W1_P23G9] passed 2.446Hz (5/6) (Score: 23261.7 | Cum: 43417.9)
+[PASS] [W3_P23G9] passed 2.446Hz (5/6) (Score: 2364.3 | Cum: 54618.9)
+[PASS] [W12_P23G9] passed 2.446Hz (5/6) (Score: 2755.7 | Cum: 39165.5)
+[PASS] [W11_P23G9] passed 2.446Hz (5/6) (Score: 6253.1 | Cum: 30550.7)
+[PASS] [W9_P23G9] passed 2.446Hz (5/6) (Score: 3154.9 | Cum: 61761.2)
+[PASS] [W13_P23G9] passed 2.446Hz (5/6) (Score: 2100.4 | Cum: 50235.6)
+[PASS] [W6_P23G9] passed 2.446Hz (5/6) (Score: 2643.2 | Cum: 46993.4)
+[PASS] [W18_P23G9] passed 5.583Hz (4/6) (Score: 7680.6 | Cum: 12183.6)
+[PASS] [W16_P23G9] passed 2.446Hz (5/6) (Score: 773.9 | Cum: 20258.9)
+[PASS] [W17_P23G9] passed 2.446Hz (5/6) (Score: 2477.9 | Cum: 66919.0)
+[PASS] [W8_P23G9] passed 7.927Hz (6/6) (Score: 11226.2 | Cum: 53958.4)
+[COMPLETE] [W8_P23G9] finished all 6 frequencies! Total Score: 53958.43
+[PASS] [W1_P23G9] passed 7.927Hz (6/6) (Score: 4704.5 | Cum: 48122.4)
+[COMPLETE] [W1_P23G9] finished all 6 frequencies! Total Score: 48122.41
+[PASS] [W3_P23G9] passed 7.927Hz (6/6) (Score: 6406.0 | Cum: 61024.9)
+[COMPLETE] [W3_P23G9] finished all 6 frequencies! Total Score: 61024.87
+[PASS] [W12_P23G9] passed 7.927Hz (6/6) (Score: 2283.0 | Cum: 41448.5)
+[COMPLETE] [W12_P23G9] finished all 6 frequencies! Total Score: 41448.50
+[PASS] [W7_P23G9] passed 7.927Hz (6/6) (Score: 8559.3 | Cum: 87297.7)
+[COMPLETE] [W7_P23G9] finished all 6 frequencies! Total Score: 87297.70
+[PASS] [W5_P23G9] passed 7.927Hz (6/6) (Score: 8720.7 | Cum: 41957.2)
+[COMPLETE] [W5_P23G9] finished all 6 frequencies! Total Score: 41957.19
+[PASS] [W14_P23G9] passed 7.927Hz (6/6) (Score: 7375.3 | Cum: 61751.0)
+[COMPLETE] [W14_P23G9] finished all 6 frequencies! Total Score: 61750.99
+[PASS] [W11_P23G9] passed 7.927Hz (6/6) (Score: 2778.0 | Cum: 33328.7)
+[COMPLETE] [W11_P23G9] finished all 6 frequencies! Total Score: 33328.69
+[PASS] [W9_P23G9] passed 7.927Hz (6/6) (Score: 6758.2 | Cum: 68519.5)
+[COMPLETE] [W9_P23G9] finished all 6 frequencies! Total Score: 68519.45
+[PASS] [W13_P23G9] passed 7.927Hz (6/6) (Score: 4905.3 | Cum: 55140.9)
+[COMPLETE] [W13_P23G9] finished all 6 frequencies! Total Score: 55140.93
+[PASS] [W6_P23G9] passed 7.927Hz (6/6) (Score: 5752.9 | Cum: 52746.3)
+[COMPLETE] [W6_P23G9] finished all 6 frequencies! Total Score: 52746.31
+[PASS] [W18_P23G9] passed 2.446Hz (5/6) (Score: 14627.2 | Cum: 26810.8)
+[PASS] [W17_P23G9] passed 7.927Hz (6/6) (Score: 10546.6 | Cum: 77465.6)
+[COMPLETE] [W17_P23G9] finished all 6 frequencies! Total Score: 77465.57
+[PASS] [W16_P23G9] passed 7.927Hz (6/6) (Score: 5403.3 | Cum: 25662.1)
+[COMPLETE] [W16_P23G9] finished all 6 frequencies! Total Score: 25662.13
+[PASS] [W18_P23G9] passed 7.927Hz (6/6) (Score: 791.0 | Cum: 27601.8)
+[COMPLETE] [W18_P23G9] finished all 6 frequencies! Total Score: 27601.80
+Phase 2.3 Generation 9 completed in 45.3 mins.
+Best Candidate: W16_P23G9 | Score: 25662.13 (Target: < 2803.88)
+r_ton: 0.331 | K_ton: 2.20 | K_sc: 6.65 | z_sc: 13.22 | z_ccr: 3.09
+
+[BOUNDS EXPANSION] Active bounds for Generation 10: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 10 of 30 at 12:58:25 ===================================
+[PASS] [W4_P23G10] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W13_P23G10] passed 0.324Hz (1/6) (Score: 2257.3 | Cum: 2257.3)
+[PASS] [W6_P23G10] passed 0.324Hz (1/6) (Score: 621.7 | Cum: 621.7)
+[PASS] [W1_P23G10] passed 0.324Hz (1/6) (Score: 7435.4 | Cum: 7435.4)
+[PASS] [W8_P23G10] passed 0.324Hz (1/6) (Score: 496.4 | Cum: 496.4)
+[PASS] [W2_P23G10] passed 0.324Hz (1/6) (Score: 1335.3 | Cum: 1335.3)
+[PASS] [W9_P23G10] passed 0.324Hz (1/6) (Score: 3793.5 | Cum: 3793.5)
+[PASS] [W3_P23G10] passed 0.324Hz (1/6) (Score: 13301.7 | Cum: 13301.7)
+[PASS] [W7_P23G10] passed 0.324Hz (1/6) (Score: 3563.3 | Cum: 3563.3)
+[PASS] [W10_P23G10] passed 0.324Hz (1/6) (Score: 27651.9 | Cum: 27651.9)
+[PASS] [W11_P23G10] passed 0.324Hz (1/6) (Score: 5385.6 | Cum: 5385.6)
+[PASS] [W14_P23G10] passed 0.324Hz (1/6) (Score: 19998.9 | Cum: 19998.9)
+[PASS] [W12_P23G10] passed 0.324Hz (1/6) (Score: 11227.0 | Cum: 11227.0)
+[PASS] [W5_P23G10] passed 0.324Hz (1/6) (Score: 8445.9 | Cum: 8445.9)
+[PASS] [W15_P23G10] passed 0.324Hz (1/6) (Score: 7564.0 | Cum: 7564.0)
+[PASS] [W4_P23G10] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W13_P23G10] passed 0.783Hz (2/6) (Score: 546.7 | Cum: 2804.0)
+[PASS] [W1_P23G10] passed 0.783Hz (2/6) (Score: 3331.2 | Cum: 10766.6)
+[PASS] [W6_P23G10] passed 0.783Hz (2/6) (Score: 2752.9 | Cum: 3374.7)
+[PASS] [W8_P23G10] passed 0.783Hz (2/6) (Score: 2425.4 | Cum: 2921.7)
+[PASS] [W2_P23G10] passed 0.783Hz (2/6) (Score: 1285.4 | Cum: 2620.7)
+[PASS] [W9_P23G10] passed 0.783Hz (2/6) (Score: 804.6 | Cum: 4598.2)
+[PASS] [W3_P23G10] passed 0.783Hz (2/6) (Score: 2876.7 | Cum: 16178.4)
+[PASS] [W10_P23G10] passed 0.783Hz (2/6) (Score: 8271.8 | Cum: 35923.7)
+[PASS] [W7_P23G10] passed 0.783Hz (2/6) (Score: 644.2 | Cum: 4207.5)
+[PASS] [W11_P23G10] passed 0.783Hz (2/6) (Score: 710.6 | Cum: 6096.1)
+[PASS] [W14_P23G10] passed 0.783Hz (2/6) (Score: 5514.0 | Cum: 25513.0)
+[PASS] [W1_P23G10] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 112123.1)
+[PASS] [W4_P23G10] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W12_P23G10] passed 0.783Hz (2/6) (Score: 1253.5 | Cum: 12480.5)
+[PASS] [W13_P23G10] passed 1.099Hz (3/6) (Score: 8991.3 | Cum: 11795.2)
+[PASS] [W15_P23G10] passed 0.783Hz (2/6) (Score: 325.7 | Cum: 7889.7)
+[PASS] [W16_P23G10] passed 0.324Hz (1/6) (Score: 8404.6 | Cum: 8404.6)
+[PASS] [W5_P23G10] passed 0.783Hz (2/6) (Score: 993.4 | Cum: 9439.2)
+[PASS] [W17_P23G10] passed 0.324Hz (1/6) (Score: 1535.8 | Cum: 1535.8)
+[PASS] [W18_P23G10] passed 0.324Hz (1/6) (Score: 5981.7 | Cum: 5981.7)
+[PASS] [W6_P23G10] passed 1.099Hz (3/6) (Score: 1353.2 | Cum: 4727.9)
+[PASS] [W8_P23G10] passed 1.099Hz (3/6) (Score: 998.0 | Cum: 3919.8)
+[PASS] [W2_P23G10] passed 1.099Hz (3/6) (Score: 1965.9 | Cum: 4586.6)
+[PASS] [W4_P23G10] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W9_P23G10] passed 1.099Hz (3/6) (Score: 503.6 | Cum: 5101.7)
+[PASS] [W3_P23G10] passed 1.099Hz (3/6) (Score: 2278.2 | Cum: 18456.6)
+[PASS] [W1_P23G10] passed 5.583Hz (4/6) (Score: 1365.2 | Cum: 113488.3)
+[PASS] [W13_P23G10] passed 5.583Hz (4/6) (Score: 31363.2 | Cum: 43158.5)
+[PASS] [W10_P23G10] passed 1.099Hz (3/6) (Score: 6508.6 | Cum: 42432.3)
+[PASS] [W7_P23G10] passed 1.099Hz (3/6) (Score: 937.5 | Cum: 5145.0)
+[PASS] [W11_P23G10] passed 1.099Hz (3/6) (Score: 538.8 | Cum: 6634.9)
+[PASS] [W14_P23G10] passed 1.099Hz (3/6) (Score: 3666.7 | Cum: 29179.7)
+[PASS] [W12_P23G10] passed 1.099Hz (3/6) (Score: 1004.8 | Cum: 13485.3)
+[PASS] [W15_P23G10] passed 1.099Hz (3/6) (Score: 141.4 | Cum: 8031.2)
+[PASS] [W16_P23G10] passed 0.783Hz (2/6) (Score: 2181.7 | Cum: 10586.3)
+[PASS] [W17_P23G10] passed 0.783Hz (2/6) (Score: 3693.8 | Cum: 5229.6)
+[PASS] [W5_P23G10] passed 1.099Hz (3/6) (Score: 844.7 | Cum: 10283.9)
+[PASS] [W4_P23G10] passed 2.446Hz (5/6) (Score: 57955.5 | Cum: 537202.2)
+[PASS] [W2_P23G10] passed 5.583Hz (4/6) (Score: 12247.4 | Cum: 16834.0)
+[PASS] [W8_P23G10] passed 5.583Hz (4/6) (Score: 16623.6 | Cum: 20543.4)
+[PASS] [W6_P23G10] passed 5.583Hz (4/6) (Score: 14866.5 | Cum: 19594.3)
+[PASS] [W9_P23G10] passed 5.583Hz (4/6) (Score: 17405.1 | Cum: 22506.8)
+[PASS] [W18_P23G10] passed 0.783Hz (2/6) (Score: 1315.9 | Cum: 7297.6)
+[PASS] [W3_P23G10] passed 5.583Hz (4/6) (Score: 26913.2 | Cum: 45369.8)
+[PASS] [W13_P23G10] passed 2.446Hz (5/6) (Score: 85869.8 | Cum: 129028.3)
+[PASS] [W1_P23G10] passed 2.446Hz (5/6) (Score: 52397.0 | Cum: 165885.3)
+[PASS] [W10_P23G10] passed 5.583Hz (4/6) (Score: 1186.4 | Cum: 43618.7)
+[PASS] [W7_P23G10] passed 5.583Hz (4/6) (Score: 18066.7 | Cum: 23211.7)
+[PASS] [W14_P23G10] passed 5.583Hz (4/6) (Score: 32216.9 | Cum: 61396.6)
+[PASS] [W11_P23G10] passed 5.583Hz (4/6) (Score: 14579.7 | Cum: 21214.6)
+[PASS] [W12_P23G10] passed 5.583Hz (4/6) (Score: 24708.5 | Cum: 38193.8)
+[PASS] [W4_P23G10] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 611542.0)
+[COMPLETE] [W4_P23G10] finished all 6 frequencies! Total Score: 611542.00
+[PASS] [W15_P23G10] passed 5.583Hz (4/6) (Score: 7985.6 | Cum: 16016.8)
+[PASS] [W5_P23G10] passed 5.583Hz (4/6) (Score: 26181.9 | Cum: 36465.8)
+[PASS] [W2_P23G10] passed 2.446Hz (5/6) (Score: 30659.8 | Cum: 47493.7)
+[PASS] [W6_P23G10] passed 2.446Hz (5/6) (Score: 30707.8 | Cum: 50302.1)
+[PASS] [W8_P23G10] passed 2.446Hz (5/6) (Score: 26186.7 | Cum: 46730.1)
+[PASS] [W17_P23G10] passed 1.099Hz (3/6) (Score: 4663.8 | Cum: 9893.4)
+[PASS] [W16_P23G10] passed 1.099Hz (3/6) (Score: 1690.9 | Cum: 12277.2)
+[PASS] [W9_P23G10] passed 2.446Hz (5/6) (Score: 6063.5 | Cum: 28570.4)
+[PASS] [W13_P23G10] passed 7.927Hz (6/6) (Score: 26463.5 | Cum: 155491.8)
+[COMPLETE] [W13_P23G10] finished all 6 frequencies! Total Score: 155491.76
+[PASS] [W1_P23G10] passed 7.927Hz (6/6) (Score: 21130.9 | Cum: 187016.2)
+[COMPLETE] [W1_P23G10] finished all 6 frequencies! Total Score: 187016.20
+[PASS] [W3_P23G10] passed 2.446Hz (5/6) (Score: 1641.9 | Cum: 47011.7)
+[PASS] [W10_P23G10] passed 2.446Hz (5/6) (Score: 5652.9 | Cum: 49271.5)
+[PASS] [W18_P23G10] passed 1.099Hz (3/6) (Score: 969.2 | Cum: 8266.7)
+[PASS] [W7_P23G10] passed 2.446Hz (5/6) (Score: 18256.4 | Cum: 41468.1)
+[PASS] [W14_P23G10] passed 2.446Hz (5/6) (Score: 2254.0 | Cum: 63650.6)
+[PASS] [W11_P23G10] passed 2.446Hz (5/6) (Score: 7961.3 | Cum: 29176.0)
+[PASS] [W12_P23G10] passed 2.446Hz (5/6) (Score: 4585.9 | Cum: 42779.7)
+[PASS] [W15_P23G10] passed 2.446Hz (5/6) (Score: 745.4 | Cum: 16762.1)
+[PASS] [W5_P23G10] passed 2.446Hz (5/6) (Score: 5351.0 | Cum: 41816.8)
+[PASS] [W2_P23G10] passed 7.927Hz (6/6) (Score: 3971.9 | Cum: 51465.6)
+[COMPLETE] [W2_P23G10] finished all 6 frequencies! Total Score: 51465.60
+[PASS] [W6_P23G10] passed 7.927Hz (6/6) (Score: 4384.9 | Cum: 54687.0)
+[COMPLETE] [W6_P23G10] finished all 6 frequencies! Total Score: 54686.99
+[PASS] [W8_P23G10] passed 7.927Hz (6/6) (Score: 4849.0 | Cum: 51579.1)
+[COMPLETE] [W8_P23G10] finished all 6 frequencies! Total Score: 51579.08
+[PASS] [W17_P23G10] passed 5.583Hz (4/6) (Score: 22537.2 | Cum: 32430.5)
+[PASS] [W16_P23G10] passed 5.583Hz (4/6) (Score: 21898.7 | Cum: 34175.9)
+[PASS] [W9_P23G10] passed 7.927Hz (6/6) (Score: 6800.4 | Cum: 35370.8)
+[COMPLETE] [W9_P23G10] finished all 6 frequencies! Total Score: 35370.79
+[PASS] [W3_P23G10] passed 7.927Hz (6/6) (Score: 5096.3 | Cum: 52108.0)
+[COMPLETE] [W3_P23G10] finished all 6 frequencies! Total Score: 52108.02
+[PASS] [W10_P23G10] passed 7.927Hz (6/6) (Score: 9692.5 | Cum: 58964.1)
+[COMPLETE] [W10_P23G10] finished all 6 frequencies! Total Score: 58964.08
+[PASS] [W18_P23G10] passed 5.583Hz (4/6) (Score: 18724.8 | Cum: 26991.5)
+[PASS] [W7_P23G10] passed 7.927Hz (6/6) (Score: 10583.5 | Cum: 52051.6)
+[COMPLETE] [W7_P23G10] finished all 6 frequencies! Total Score: 52051.59
+[PASS] [W14_P23G10] passed 7.927Hz (6/6) (Score: 7118.0 | Cum: 70768.6)
+[COMPLETE] [W14_P23G10] finished all 6 frequencies! Total Score: 70768.60
+[PASS] [W11_P23G10] passed 7.927Hz (6/6) (Score: 6275.9 | Cum: 35451.9)
+[COMPLETE] [W11_P23G10] finished all 6 frequencies! Total Score: 35451.91
+[PASS] [W15_P23G10] passed 7.927Hz (6/6) (Score: 7491.3 | Cum: 24253.5)
+[COMPLETE] [W15_P23G10] finished all 6 frequencies! Total Score: 24253.49
+[PASS] [W12_P23G10] passed 7.927Hz (6/6) (Score: 6934.4 | Cum: 49714.1)
+[COMPLETE] [W12_P23G10] finished all 6 frequencies! Total Score: 49714.07
+[PASS] [W5_P23G10] passed 7.927Hz (6/6) (Score: 6048.3 | Cum: 47865.1)
+[COMPLETE] [W5_P23G10] finished all 6 frequencies! Total Score: 47865.09
+[PASS] [W17_P23G10] passed 2.446Hz (5/6) (Score: 36006.9 | Cum: 68437.4)
+[PASS] [W16_P23G10] passed 2.446Hz (5/6) (Score: 3219.1 | Cum: 37394.9)
+[PASS] [W18_P23G10] passed 2.446Hz (5/6) (Score: 4538.0 | Cum: 31529.6)
+[PASS] [W17_P23G10] passed 7.927Hz (6/6) (Score: 13628.1 | Cum: 82065.5)
+[COMPLETE] [W17_P23G10] finished all 6 frequencies! Total Score: 82065.53
+[PASS] [W16_P23G10] passed 7.927Hz (6/6) (Score: 2563.5 | Cum: 39958.4)
+[COMPLETE] [W16_P23G10] finished all 6 frequencies! Total Score: 39958.40
+[PASS] [W18_P23G10] passed 7.927Hz (6/6) (Score: 5100.8 | Cum: 36630.4)
+[COMPLETE] [W18_P23G10] finished all 6 frequencies! Total Score: 36630.36
+
+>>> NEW PHASE 2.3 RECORD in Gen 10: 24253.49 (Candidate W15_P23G10) <<<
+
+Phase 2.3 Generation 10 completed in 56.5 mins.
+Best Candidate: W15_P23G10 | Score: 24253.49 (Target: < 2803.88)
+r_ton: 0.401 | K_ton: 0.66 | K_sc: 1.63 | z_sc: 1.06 | z_ccr: 9.60
+
+[BOUNDS EXPANSION] Active bounds for Generation 11: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 11 of 30 at 13:54:53 ===================================
+[PASS] [W10_P23G11] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W2_P23G11] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W16_P23G11] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W7_P23G11] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W8_P23G11] passed 0.324Hz (1/6) (Score: 12184.7 | Cum: 12184.7)
+[PASS] [W10_P23G11] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W6_P23G11] passed 0.324Hz (1/6) (Score: 3821.6 | Cum: 3821.6)
+[PASS] [W9_P23G11] passed 0.324Hz (1/6) (Score: 677.5 | Cum: 677.5)
+[PASS] [W3_P23G11] passed 0.324Hz (1/6) (Score: 2291.3 | Cum: 2291.3)
+[PASS] [W13_P23G11] passed 0.324Hz (1/6) (Score: 52285.4 | Cum: 52285.4)
+[PASS] [W16_P23G11] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W1_P23G11] passed 0.324Hz (1/6) (Score: 2760.6 | Cum: 2760.6)
+[PASS] [W5_P23G11] passed 0.324Hz (1/6) (Score: 22686.9 | Cum: 22686.9)
+[PASS] [W11_P23G11] passed 0.324Hz (1/6) (Score: 51478.7 | Cum: 51478.7)
+[PASS] [W12_P23G11] passed 0.324Hz (1/6) (Score: 14607.7 | Cum: 14607.7)
+[PASS] [W14_P23G11] passed 0.324Hz (1/6) (Score: 7969.5 | Cum: 7969.5)
+[PASS] [W2_P23G11] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W4_P23G11] passed 0.324Hz (1/6) (Score: 6547.4 | Cum: 6547.4)
+[PASS] [W10_P23G11] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W16_P23G11] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W15_P23G11] passed 0.324Hz (1/6) (Score: 36263.1 | Cum: 36263.1)
+[PASS] [W17_P23G11] passed 0.324Hz (1/6) (Score: 7457.3 | Cum: 7457.3)
+[PASS] [W2_P23G11] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W10_P23G11] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W16_P23G11] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W8_P23G11] passed 0.783Hz (2/6) (Score: 19366.0 | Cum: 31550.7)
+[PASS] [W7_P23G11] passed 0.783Hz (2/6) (Score: 6866.5 | Cum: 177110.6)
+[PASS] [W9_P23G11] passed 0.783Hz (2/6) (Score: 162.1 | Cum: 839.6)
+[PASS] [W13_P23G11] passed 0.783Hz (2/6) (Score: 23644.2 | Cum: 75929.6)
+[PASS] [W3_P23G11] passed 0.783Hz (2/6) (Score: 92.3 | Cum: 2383.6)
+[PASS] [W1_P23G11] passed 0.783Hz (2/6) (Score: 8261.0 | Cum: 11021.6)
+[PASS] [W6_P23G11] passed 0.783Hz (2/6) (Score: 3056.7 | Cum: 6878.3)
+[PASS] [W2_P23G11] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W5_P23G11] passed 0.783Hz (2/6) (Score: 4501.1 | Cum: 27188.0)
+[PASS] [W11_P23G11] passed 0.783Hz (2/6) (Score: 34210.2 | Cum: 85688.9)
+[PASS] [W10_P23G11] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W16_P23G11] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W12_P23G11] passed 0.783Hz (2/6) (Score: 4776.2 | Cum: 19383.9)
+[PASS] [W14_P23G11] passed 0.783Hz (2/6) (Score: 886.1 | Cum: 8855.7)
+[PASS] [W18_P23G11] passed 0.324Hz (1/6) (Score: 7756.6 | Cum: 7756.6)
+[PASS] [W4_P23G11] passed 0.783Hz (2/6) (Score: 971.2 | Cum: 7518.6)
+[PASS] [W2_P23G11] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W16_P23G11] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W16_P23G11] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W10_P23G11] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W10_P23G11] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W15_P23G11] passed 0.783Hz (2/6) (Score: 11784.8 | Cum: 48047.9)
+[PASS] [W17_P23G11] passed 0.783Hz (2/6) (Score: 992.7 | Cum: 8450.0)
+[PASS] [W8_P23G11] passed 1.099Hz (3/6) (Score: 35153.7 | Cum: 66704.4)
+[PASS] [W7_P23G11] passed 1.099Hz (3/6) (Score: 2744.5 | Cum: 179855.1)
+[PASS] [W9_P23G11] passed 1.099Hz (3/6) (Score: 453.2 | Cum: 1292.8)
+[PASS] [W2_P23G11] passed 7.927Hz (6/6) (Score: 74339.8 | Cum: 655056.4)
+[COMPLETE] [W2_P23G11] finished all 6 frequencies! Total Score: 655056.36
+[PASS] [W13_P23G11] passed 1.099Hz (3/6) (Score: 14775.7 | Cum: 90705.3)
+[PASS] [W3_P23G11] passed 1.099Hz (3/6) (Score: 906.9 | Cum: 3290.5)
+[PASS] [W6_P23G11] passed 1.099Hz (3/6) (Score: 4372.4 | Cum: 11250.6)
+[PASS] [W1_P23G11] passed 1.099Hz (3/6) (Score: 5673.3 | Cum: 16694.9)
+[PASS] [W5_P23G11] passed 1.099Hz (3/6) (Score: 3742.4 | Cum: 30930.4)
+[PASS] [W11_P23G11] passed 1.099Hz (3/6) (Score: 30429.8 | Cum: 116118.7)
+[PASS] [W12_P23G11] passed 1.099Hz (3/6) (Score: 2832.0 | Cum: 22215.9)
+[PASS] [W18_P23G11] passed 0.783Hz (2/6) (Score: 867.5 | Cum: 8624.1)
+[PASS] [W14_P23G11] passed 1.099Hz (3/6) (Score: 635.2 | Cum: 9490.9)
+[PASS] [W8_P23G11] passed 5.583Hz (4/6) (Score: 304.8 | Cum: 67009.2)
+[PASS] [W4_P23G11] passed 1.099Hz (3/6) (Score: 516.8 | Cum: 8035.4)
+[PASS] [W7_P23G11] passed 5.583Hz (4/6) (Score: 716.6 | Cum: 180571.7)
+[PASS] [W9_P23G11] passed 5.583Hz (4/6) (Score: 21519.9 | Cum: 22812.7)
+[PASS] [W3_P23G11] passed 5.583Hz (4/6) (Score: 15425.8 | Cum: 18716.4)
+[PASS] [W6_P23G11] passed 5.583Hz (4/6) (Score: 16161.5 | Cum: 27412.2)
+[PASS] [W13_P23G11] passed 5.583Hz (4/6) (Score: 1212.6 | Cum: 91917.9)
+[PASS] [W1_P23G11] passed 5.583Hz (4/6) (Score: 13611.3 | Cum: 30306.2)
+[PASS] [W15_P23G11] passed 1.099Hz (3/6) (Score: 6065.6 | Cum: 54113.6)
+[PASS] [W5_P23G11] passed 5.583Hz (4/6) (Score: 1870.1 | Cum: 32800.5)
+[PASS] [W17_P23G11] passed 1.099Hz (3/6) (Score: 863.2 | Cum: 9313.2)
+[PASS] [W11_P23G11] passed 5.583Hz (4/6) (Score: 4394.0 | Cum: 120512.7)
+[PASS] [W12_P23G11] passed 5.583Hz (4/6) (Score: 18533.8 | Cum: 40749.7)
+[PASS] [W8_P23G11] passed 2.446Hz (5/6) (Score: 22049.6 | Cum: 89058.8)
+[PASS] [W14_P23G11] passed 5.583Hz (4/6) (Score: 14048.1 | Cum: 23538.9)
+[PASS] [W18_P23G11] passed 1.099Hz (3/6) (Score: 1114.2 | Cum: 9738.3)
+[PASS] [W7_P23G11] passed 2.446Hz (5/6) (Score: 68716.8 | Cum: 249288.5)
+[PASS] [W9_P23G11] passed 2.446Hz (5/6) (Score: 8778.6 | Cum: 31591.3)
+[PASS] [W4_P23G11] passed 5.583Hz (4/6) (Score: 14628.7 | Cum: 22664.1)
+[PASS] [W6_P23G11] passed 2.446Hz (5/6) (Score: 41505.8 | Cum: 68918.0)
+[PASS] [W3_P23G11] passed 2.446Hz (5/6) (Score: 9680.8 | Cum: 28397.1)
+[PASS] [W13_P23G11] passed 2.446Hz (5/6) (Score: 7721.8 | Cum: 99639.7)
+[PASS] [W1_P23G11] passed 2.446Hz (5/6) (Score: 28233.7 | Cum: 58539.9)
+[PASS] [W15_P23G11] passed 5.583Hz (4/6) (Score: 22185.2 | Cum: 76298.8)
+[PASS] [W5_P23G11] passed 2.446Hz (5/6) (Score: 755.0 | Cum: 33555.5)
+[PASS] [W17_P23G11] passed 5.583Hz (4/6) (Score: 15736.3 | Cum: 25049.5)
+[PASS] [W11_P23G11] passed 2.446Hz (5/6) (Score: 28414.0 | Cum: 148926.8)
+[PASS] [W8_P23G11] passed 7.927Hz (6/6) (Score: 1505.6 | Cum: 90564.4)
+[COMPLETE] [W8_P23G11] finished all 6 frequencies! Total Score: 90564.43
+[PASS] [W12_P23G11] passed 2.446Hz (5/6) (Score: 2755.3 | Cum: 43505.0)
+[PASS] [W7_P23G11] passed 7.927Hz (6/6) (Score: 42326.9 | Cum: 291615.4)
+[COMPLETE] [W7_P23G11] finished all 6 frequencies! Total Score: 291615.39
+[PASS] [W9_P23G11] passed 7.927Hz (6/6) (Score: 11537.3 | Cum: 43128.6)
+[COMPLETE] [W9_P23G11] finished all 6 frequencies! Total Score: 43128.60
+[PASS] [W14_P23G11] passed 2.446Hz (5/6) (Score: 4864.8 | Cum: 28403.8)
+[PASS] [W6_P23G11] passed 7.927Hz (6/6) (Score: 14514.2 | Cum: 83432.2)
+[COMPLETE] [W6_P23G11] finished all 6 frequencies! Total Score: 83432.24
+[PASS] [W18_P23G11] passed 5.583Hz (4/6) (Score: 16594.5 | Cum: 26332.8)
+[PASS] [W4_P23G11] passed 2.446Hz (5/6) (Score: 5341.7 | Cum: 28005.8)
+[PASS] [W3_P23G11] passed 7.927Hz (6/6) (Score: 13316.0 | Cum: 41713.1)
+[COMPLETE] [W3_P23G11] finished all 6 frequencies! Total Score: 41713.08
+[PASS] [W13_P23G11] passed 7.927Hz (6/6) (Score: 5926.0 | Cum: 105565.6)
+[COMPLETE] [W13_P23G11] finished all 6 frequencies! Total Score: 105565.64
+[PASS] [W1_P23G11] passed 7.927Hz (6/6) (Score: 21799.4 | Cum: 80339.3)
+[COMPLETE] [W1_P23G11] finished all 6 frequencies! Total Score: 80339.29
+[PASS] [W15_P23G11] passed 2.446Hz (5/6) (Score: 2042.0 | Cum: 78340.7)
+[PASS] [W5_P23G11] passed 7.927Hz (6/6) (Score: 14379.5 | Cum: 47935.0)
+[COMPLETE] [W5_P23G11] finished all 6 frequencies! Total Score: 47935.03
+[PASS] [W17_P23G11] passed 2.446Hz (5/6) (Score: 1385.6 | Cum: 26435.1)
+[PASS] [W11_P23G11] passed 7.927Hz (6/6) (Score: 6754.3 | Cum: 155681.1)
+[COMPLETE] [W11_P23G11] finished all 6 frequencies! Total Score: 155681.05
+[PASS] [W12_P23G11] passed 7.927Hz (6/6) (Score: 2290.5 | Cum: 45795.5)
+[COMPLETE] [W12_P23G11] finished all 6 frequencies! Total Score: 45795.53
+[PASS] [W14_P23G11] passed 7.927Hz (6/6) (Score: 1264.0 | Cum: 29667.8)
+[COMPLETE] [W14_P23G11] finished all 6 frequencies! Total Score: 29667.80
+[PASS] [W18_P23G11] passed 2.446Hz (5/6) (Score: 8882.9 | Cum: 35215.7)
+[PASS] [W4_P23G11] passed 7.927Hz (6/6) (Score: 3148.5 | Cum: 31154.4)
+[COMPLETE] [W4_P23G11] finished all 6 frequencies! Total Score: 31154.39
+[PASS] [W15_P23G11] passed 7.927Hz (6/6) (Score: 7437.0 | Cum: 85777.8)
+[COMPLETE] [W15_P23G11] finished all 6 frequencies! Total Score: 85777.75
+[PASS] [W17_P23G11] passed 7.927Hz (6/6) (Score: 6509.6 | Cum: 32944.7)
+[COMPLETE] [W17_P23G11] finished all 6 frequencies! Total Score: 32944.67
+[PASS] [W18_P23G11] passed 7.927Hz (6/6) (Score: 4961.4 | Cum: 40177.1)
+[COMPLETE] [W18_P23G11] finished all 6 frequencies! Total Score: 40177.06
+Phase 2.3 Generation 11 completed in 46.0 mins.
+Best Candidate: W14_P23G11 | Score: 29667.80 (Target: < 2803.88)
+r_ton: 0.350 | K_ton: 0.16 | K_sc: 0.47 | z_sc: 3.37 | z_ccr: 8.64
+
+[BOUNDS EXPANSION] Active bounds for Generation 12: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 12 of 30 at 14:40:55 ===================================
+[PASS] [W13_P23G12] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Mon Oct 26 14:43:06 2026)
+[REPLAY] Phase 2.3 Generation 1 replayed. Best score: 122184.72
+[REPLAY] Phase 2.3 Generation 2 replayed. Best score: 98946.16
+[REPLAY] Phase 2.3 Generation 3 replayed. Best score: 78416.83
+[REPLAY] Phase 2.3 Generation 4 replayed. Best score: 56681.08
+[REPLAY] Phase 2.3 Generation 5 replayed. Best score: 44645.85
+[REPLAY] Phase 2.3 Generation 6 replayed. Best score: 28260.48
+[REPLAY] Phase 2.3 Generation 7 replayed. Best score: 25530.71
+[REPLAY] Phase 2.3 Generation 8 replayed. Best score: 36044.42
+[REPLAY] Phase 2.3 Generation 9 replayed. Best score: 25662.13
+[REPLAY] Phase 2.3 Generation 10 replayed. Best score: 24253.49
+[REPLAY] Phase 2.3 Generation 11 replayed. Best score: 29667.80
+
+Phase 2.3 Initialized. Starting from Generation 12 up to Generation 30
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88
+Initial Candidate x0:
+[3.300e-01 4.000e+01 1.000e+01 9.000e-02 5.572e+01 3.810e+00 6.000e+01
+ 3.000e+00 3.000e-02 1.500e+01 2.500e-01 4.000e-01]
+Sigma0:
+[0.15 5.   2.5  0.05 8.   1.2  6.   0.35 0.04 6.   0.12 0.15]
+[BOUNDS EXPANSION] Active bounds for Generation 12: k_dyn in [0.10, 1.50] (expanded headroom), k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]
+
+=================================== STARTING PHASE 2.3 GENERATION 12 of 30 at 14:43:06 ===================================
+[PASS] [W13_P23G12] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W2_P23G12] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W6_P23G12] passed 0.324Hz (1/6) (Score: 170244.1 | Cum: 170244.1)
+[PASS] [W3_P23G12] passed 0.324Hz (1/6) (Score: 5989.0 | Cum: 5989.0)
+[PASS] [W10_P23G12] passed 0.324Hz (1/6) (Score: 8229.6 | Cum: 8229.6)
+[PASS] [W15_P23G12] passed 0.324Hz (1/6) (Score: 2387.6 | Cum: 2387.6)
+[PASS] [W4_P23G12] passed 0.324Hz (1/6) (Score: 4976.6 | Cum: 4976.6)
+[PASS] [W13_P23G12] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W12_P23G12] passed 0.324Hz (1/6) (Score: 6272.6 | Cum: 6272.6)
+[PASS] [W9_P23G12] passed 0.324Hz (1/6) (Score: 6030.1 | Cum: 6030.1)
+[PASS] [W5_P23G12] passed 0.324Hz (1/6) (Score: 16243.8 | Cum: 16243.8)
+[PASS] [W14_P23G12] passed 0.324Hz (1/6) (Score: 3682.5 | Cum: 3682.5)
+[PASS] [W8_P23G12] passed 0.324Hz (1/6) (Score: 5331.0 | Cum: 5331.0)
+[PASS] [W11_P23G12] passed 0.324Hz (1/6) (Score: 4419.7 | Cum: 4419.7)
+[PASS] [W1_P23G12] passed 0.324Hz (1/6) (Score: 57030.8 | Cum: 57030.8)
+[PASS] [W7_P23G12] passed 0.324Hz (1/6) (Score: 17591.7 | Cum: 17591.7)
+[PASS] [W13_P23G12] passed 1.099Hz (3/6) (Score: 101356.5 | Cum: 386676.2)
+[PASS] [W16_P23G12] passed 0.324Hz (1/6) (Score: 76.6 | Cum: 76.6)
+[PASS] [W17_P23G12] passed 0.324Hz (1/6) (Score: 17473.9 | Cum: 17473.9)
+[PASS] [W2_P23G12] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W6_P23G12] passed 0.783Hz (2/6) (Score: 115075.6 | Cum: 285319.7)
+[PASS] [W13_P23G12] passed 5.583Hz (4/6) (Score: 92570.4 | Cum: 479246.7)
+[PASS] [W3_P23G12] passed 0.783Hz (2/6) (Score: 840.4 | Cum: 6829.5)
+[PASS] [W10_P23G12] passed 0.783Hz (2/6) (Score: 708.2 | Cum: 8937.8)
+[PASS] [W4_P23G12] passed 0.783Hz (2/6) (Score: 5088.8 | Cum: 10065.4)
+[PASS] [W15_P23G12] passed 0.783Hz (2/6) (Score: 2649.6 | Cum: 5037.1)
+[PASS] [W12_P23G12] passed 0.783Hz (2/6) (Score: 493.5 | Cum: 6766.1)
+[PASS] [W9_P23G12] passed 0.783Hz (2/6) (Score: 505.9 | Cum: 6536.0)
+[PASS] [W5_P23G12] passed 0.783Hz (2/6) (Score: 6600.7 | Cum: 22844.5)
+[PASS] [W14_P23G12] passed 0.783Hz (2/6) (Score: 833.3 | Cum: 4515.8)
+[PASS] [W13_P23G12] passed 2.446Hz (5/6) (Score: 101469.9 | Cum: 580716.5)
+[PASS] [W8_P23G12] passed 0.783Hz (2/6) (Score: 241.8 | Cum: 5572.8)
+[PASS] [W11_P23G12] passed 0.783Hz (2/6) (Score: 3231.1 | Cum: 7650.8)
+[PASS] [W1_P23G12] passed 0.783Hz (2/6) (Score: 15898.3 | Cum: 72929.1)

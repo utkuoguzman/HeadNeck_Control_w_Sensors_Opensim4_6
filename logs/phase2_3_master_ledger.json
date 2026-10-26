@@ -1,0 +1,639 @@
+{
+  "benchmark": {
+    "name": "Happee (2017) Benchmark",
+    "score": 2803.88,
+    "bode": {
+      "0.324": {
+        "gain_db": -2.5,
+        "phase_err": 39.1
+      },
+      "0.783": {
+        "gain_db": 0.0,
+        "phase_err": 3.0
+      },
+      "1.099": {
+        "gain_db": 0.7,
+        "phase_err": 9.1
+      },
+      "2.446": {
+        "gain_db": -0.9,
+        "phase_err": 0.1
+      },
+      "5.583": {
+        "gain_db": -0.7,
+        "phase_err": 6.7
+      },
+      "7.927": {
+        "gain_db": 1.0,
+        "phase_err": 14.8
+      }
+    }
+  },
+  "generations": [
+    {
+      "generation": 1,
+      "candidate": "W10_P23G1",
+      "score": 122184.72,
+      "duration_min": 108.1,
+      "params": {
+        "r_ton": 0.2,
+        "K_ton": 1.712,
+        "p_ton": 44.4953,
+        "K_sc": 8.5598,
+        "r_lead_sc": 0.0499,
+        "z_sc": 2.3117,
+        "p_sc": 46.3686,
+        "K_phas": 5.0463,
+        "p_phas": 56.3643,
+        "kp": 2.8311,
+        "r_lead_ccr": 0.0234,
+        "z_ccr": 0.4112,
+        "p_ccr": 17.5841,
+        "k_dyn": 0.3917,
+        "k_stat": 0.4539
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -21.3,
+          "phase_err": 59.2,
+          "score": 48750.3
+        },
+        "0.783": {
+          "gain_db": -16.5,
+          "phase_err": 12.8,
+          "score": 27440.8
+        },
+        "1.099": {
+          "gain_db": -13.5,
+          "phase_err": 30.9,
+          "score": 19246.4
+        },
+        "2.446": {
+          "gain_db": -10.2,
+          "phase_err": 21.4,
+          "score": 10948.0
+        },
+        "5.583": {
+          "gain_db": 1.7,
+          "phase_err": 8.7,
+          "score": 371.1
+        },
+        "7.927": {
+          "gain_db": 12.2,
+          "phase_err": 20.8,
+          "score": 15428.1
+        }
+      }
+    },
+    {
+      "generation": 2,
+      "candidate": "W17_P23G2",
+      "score": 98946.16,
+      "duration_min": 88.5,
+      "params": {
+        "r_ton": 0.4813,
+        "K_ton": 2.7461,
+        "p_ton": 42.5902,
+        "K_sc": 5.7058,
+        "r_lead_sc": 0.1411,
+        "z_sc": 6.9564,
+        "p_sc": 49.3125,
+        "K_phas": 6.2058,
+        "p_phas": 55.5189,
+        "kp": 2.4009,
+        "r_lead_ccr": 0.0364,
+        "z_ccr": 0.6961,
+        "p_ccr": 19.1089,
+        "k_dyn": 0.4057,
+        "k_stat": 0.4141
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -19.7,
+          "phase_err": 42.6,
+          "score": 40478.1
+        },
+        "0.783": {
+          "gain_db": -11.7,
+          "phase_err": 18.3,
+          "score": 14060.6
+        },
+        "1.099": {
+          "gain_db": -10.7,
+          "phase_err": 16.8,
+          "score": 11638.4
+        },
+        "2.446": {
+          "gain_db": -2.8,
+          "phase_err": 78.9,
+          "score": 7017.4
+        },
+        "5.583": {
+          "gain_db": 9.0,
+          "phase_err": 30.8,
+          "score": 8959.6
+        },
+        "7.927": {
+          "gain_db": 12.3,
+          "phase_err": 41.9,
+          "score": 16792.0
+        }
+      }
+    },
+    {
+      "generation": 3,
+      "candidate": "W17_P23G3",
+      "score": 78416.83,
+      "duration_min": 53.2,
+      "params": {
+        "r_ton": 0.6107,
+        "K_ton": 3.4411,
+        "p_ton": 40.0416,
+        "K_sc": 5.6348,
+        "r_lead_sc": 0.1408,
+        "z_sc": 9.2472,
+        "p_sc": 65.6874,
+        "K_phas": 8.3734,
+        "p_phas": 62.8887,
+        "kp": 2.2287,
+        "r_lead_ccr": 0.0374,
+        "z_ccr": 0.6447,
+        "p_ccr": 17.2401,
+        "k_dyn": 0.5177,
+        "k_stat": 0.1502
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -16.3,
+          "phase_err": 45.3,
+          "score": 28561.2
+        },
+        "0.783": {
+          "gain_db": -9.2,
+          "phase_err": 16.8,
+          "score": 8812.8
+        },
+        "1.099": {
+          "gain_db": -7.8,
+          "phase_err": 30.0,
+          "score": 6979.4
+        },
+        "2.446": {
+          "gain_db": -1.5,
+          "phase_err": 52.6,
+          "score": 2996.8
+        },
+        "5.583": {
+          "gain_db": 14.9,
+          "phase_err": 27.9,
+          "score": 23096.4
+        },
+        "7.927": {
+          "gain_db": 4.8,
+          "phase_err": 75.0,
+          "score": 7970.3
+        }
+      }
+    },
+    {
+      "generation": 4,
+      "candidate": "W16_P23G4",
+      "score": 56681.08,
+      "duration_min": 55.9,
+      "params": {
+        "r_ton": 0.2939,
+        "K_ton": 0.0639,
+        "p_ton": 38.0544,
+        "K_sc": 0.2174,
+        "r_lead_sc": 0.1109,
+        "z_sc": 6.1814,
+        "p_sc": 55.7425,
+        "K_phas": 10.0423,
+        "p_phas": 50.987,
+        "kp": 2.0014,
+        "r_lead_ccr": 0.0233,
+        "z_ccr": 0.3965,
+        "p_ccr": 17.0146,
+        "k_dyn": 0.5943,
+        "k_stat": 0.1532
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -9.8,
+          "phase_err": 57.5,
+          "score": 12819.5
+        },
+        "0.783": {
+          "gain_db": -6.6,
+          "phase_err": 14.5,
+          "score": 4539.6
+        },
+        "1.099": {
+          "gain_db": -5.0,
+          "phase_err": 25.6,
+          "score": 3160.1
+        },
+        "2.446": {
+          "gain_db": 0.5,
+          "phase_err": 35.2,
+          "score": 1263.7
+        },
+        "5.583": {
+          "gain_db": 15.4,
+          "phase_err": 55.3,
+          "score": 26680.6
+        },
+        "7.927": {
+          "gain_db": 5.4,
+          "phase_err": 73.1,
+          "score": 8217.5
+        }
+      }
+    },
+    {
+      "generation": 5,
+      "candidate": "W9_P23G5",
+      "score": 44645.85,
+      "duration_min": 59.6,
+      "params": {
+        "r_ton": 0.4003,
+        "K_ton": 2.4208,
+        "p_ton": 44.0321,
+        "K_sc": 6.0478,
+        "r_lead_sc": 0.1739,
+        "z_sc": 7.728,
+        "p_sc": 44.4423,
+        "K_phas": 9.126,
+        "p_phas": 62.2647,
+        "kp": 0.7852,
+        "r_lead_ccr": 0.013,
+        "z_ccr": 0.1595,
+        "p_ccr": 12.2783,
+        "k_dyn": 0.1442,
+        "k_stat": 0.1513
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -4.3,
+          "phase_err": 24.8,
+          "score": 2457.3
+        },
+        "0.783": {
+          "gain_db": -3.1,
+          "phase_err": 11.0,
+          "score": 1102.5
+        },
+        "1.099": {
+          "gain_db": -0.5,
+          "phase_err": 21.9,
+          "score": 511.2
+        },
+        "2.446": {
+          "gain_db": 10.4,
+          "phase_err": 60.7,
+          "score": 14424.5
+        },
+        "5.583": {
+          "gain_db": 4.3,
+          "phase_err": 140.7,
+          "score": 21660.9
+        },
+        "7.927": {
+          "gain_db": 2.9,
+          "phase_err": 60.3,
+          "score": 4489.4
+        }
+      }
+    },
+    {
+      "generation": 6,
+      "candidate": "W4_P23G6",
+      "score": 28260.48,
+      "duration_min": 54.3,
+      "params": {
+        "r_ton": 0.2102,
+        "K_ton": 0.8549,
+        "p_ton": 40.2145,
+        "K_sc": 4.0669,
+        "r_lead_sc": 0.0183,
+        "z_sc": 1.06,
+        "p_sc": 57.9361,
+        "K_phas": 10.7798,
+        "p_phas": 59.5996,
+        "kp": 1.1438,
+        "r_lead_ccr": 0.0103,
+        "z_ccr": 0.2147,
+        "p_ccr": 20.8533,
+        "k_dyn": 0.5271,
+        "k_stat": 0.2787
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -0.2,
+          "phase_err": 68.6,
+          "score": 4713.2
+        },
+        "0.783": {
+          "gain_db": -3.6,
+          "phase_err": 11.0,
+          "score": 1418.6
+        },
+        "1.099": {
+          "gain_db": -1.9,
+          "phase_err": 13.5,
+          "score": 551.0
+        },
+        "2.446": {
+          "gain_db": 6.0,
+          "phase_err": 34.1,
+          "score": 4815.2
+        },
+        "5.583": {
+          "gain_db": 7.8,
+          "phase_err": 77.9,
+          "score": 12230.1
+        },
+        "7.927": {
+          "gain_db": 3.4,
+          "phase_err": 57.9,
+          "score": 4532.2
+        }
+      }
+    },
+    {
+      "generation": 7,
+      "candidate": "W12_P23G7",
+      "score": 25530.71,
+      "duration_min": 52.0,
+      "params": {
+        "r_ton": 0.2309,
+        "K_ton": 0.3066,
+        "p_ton": 30.4371,
+        "K_sc": 1.3278,
+        "r_lead_sc": 0.01,
+        "z_sc": 0.1781,
+        "p_sc": 17.812,
+        "K_phas": 9.0261,
+        "p_phas": 16.6272,
+        "kp": 1.2994,
+        "r_lead_ccr": 0.0618,
+        "z_ccr": 3.4284,
+        "p_ccr": 55.4949,
+        "k_dyn": 0.8142,
+        "k_stat": 0.1994
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -8.3,
+          "phase_err": 23.6,
+          "score": 7408.6
+        },
+        "0.783": {
+          "gain_db": -2.3,
+          "phase_err": 7.9,
+          "score": 577.2
+        },
+        "1.099": {
+          "gain_db": -0.0,
+          "phase_err": 9.6,
+          "score": 92.1
+        },
+        "2.446": {
+          "gain_db": 4.0,
+          "phase_err": 0.7,
+          "score": 1589.7
+        },
+        "5.583": {
+          "gain_db": 3.6,
+          "phase_err": 59.8,
+          "score": 4874.4
+        },
+        "7.927": {
+          "gain_db": 7.4,
+          "phase_err": 74.1,
+          "score": 10988.7
+        }
+      }
+    },
+    {
+      "generation": 8,
+      "candidate": "W17_P23G8",
+      "score": 36044.42,
+      "duration_min": 51.6,
+      "params": {
+        "r_ton": 0.7166,
+        "K_ton": 3.007,
+        "p_ton": 37.2397,
+        "K_sc": 4.1963,
+        "r_lead_sc": 0.1721,
+        "z_sc": 6.743,
+        "p_sc": 39.1742,
+        "K_phas": 10.4635,
+        "p_phas": 59.4741,
+        "kp": 1.5639,
+        "r_lead_ccr": 0.0102,
+        "z_ccr": 0.5049,
+        "p_ccr": 49.6055,
+        "k_dyn": 1.1096,
+        "k_stat": 0.208
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -5.1,
+          "phase_err": 66.7,
+          "score": 7087.6
+        },
+        "0.783": {
+          "gain_db": -3.6,
+          "phase_err": 11.9,
+          "score": 1401.5
+        },
+        "1.099": {
+          "gain_db": -2.6,
+          "phase_err": 19.3,
+          "score": 1052.2
+        },
+        "2.446": {
+          "gain_db": 4.2,
+          "phase_err": 36.3,
+          "score": 3112.3
+        },
+        "5.583": {
+          "gain_db": 12.4,
+          "phase_err": 73.1,
+          "score": 20653.0
+        },
+        "7.927": {
+          "gain_db": 2.8,
+          "phase_err": 44.3,
+          "score": 2737.8
+        }
+      }
+    },
+    {
+      "generation": 9,
+      "candidate": "W16_P23G9",
+      "score": 25662.13,
+      "duration_min": 45.3,
+      "params": {
+        "r_ton": 0.3314,
+        "K_ton": 2.2041,
+        "p_ton": 44.3245,
+        "K_sc": 6.6501,
+        "r_lead_sc": 0.251,
+        "z_sc": 13.2174,
+        "p_sc": 52.6496,
+        "K_phas": 10.0644,
+        "p_phas": 18.1751,
+        "kp": 1.7554,
+        "r_lead_ccr": 0.046,
+        "z_ccr": 3.0937,
+        "p_ccr": 67.3232,
+        "k_dyn": 0.4445,
+        "k_stat": 0.1793
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -10.4,
+          "phase_err": 39.5,
+          "score": 12371.3
+        },
+        "0.783": {
+          "gain_db": -4.8,
+          "phase_err": 11.5,
+          "score": 2422.4
+        },
+        "1.099": {
+          "gain_db": -3.5,
+          "phase_err": 15.9,
+          "score": 1480.4
+        },
+        "2.446": {
+          "gain_db": 1.4,
+          "phase_err": 23.9,
+          "score": 773.9
+        },
+        "5.583": {
+          "gain_db": 4.5,
+          "phase_err": 34.2,
+          "score": 3210.8
+        },
+        "7.927": {
+          "gain_db": 5.6,
+          "phase_err": 47.5,
+          "score": 5403.3
+        }
+      }
+    },
+    {
+      "generation": 10,
+      "candidate": "W15_P23G10",
+      "score": 24253.49,
+      "duration_min": 56.5,
+      "params": {
+        "r_ton": 0.4015,
+        "K_ton": 0.6559,
+        "p_ton": 39.6791,
+        "K_sc": 1.6336,
+        "r_lead_sc": 0.0311,
+        "z_sc": 1.0553,
+        "p_sc": 33.9658,
+        "K_phas": 7.4304,
+        "p_phas": 15.9913,
+        "kp": 1.0974,
+        "r_lead_ccr": 0.1438,
+        "z_ccr": 9.6042,
+        "p_ccr": 66.7783,
+        "k_dyn": 1.1999,
+        "k_stat": 0.3516
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -8.0,
+          "phase_err": 33.9,
+          "score": 7564.0
+        },
+        "0.783": {
+          "gain_db": -1.7,
+          "phase_err": 6.1,
+          "score": 325.7
+        },
+        "1.099": {
+          "gain_db": -1.1,
+          "phase_err": 3.7,
+          "score": 141.4
+        },
+        "2.446": {
+          "gain_db": 2.3,
+          "phase_err": 15.4,
+          "score": 745.4
+        },
+        "5.583": {
+          "gain_db": 4.0,
+          "phase_err": 79.7,
+          "score": 7985.6
+        },
+        "7.927": {
+          "gain_db": 4.0,
+          "phase_err": 77.0,
+          "score": 7491.3
+        }
+      }
+    },
+    {
+      "generation": 11,
+      "candidate": "W14_P23G11",
+      "score": 29667.8,
+      "duration_min": 46.0,
+      "params": {
+        "r_ton": 0.3495,
+        "K_ton": 0.1628,
+        "p_ton": 31.1665,
+        "K_sc": 0.4658,
+        "r_lead_sc": 0.1227,
+        "z_sc": 3.3666,
+        "p_sc": 27.4416,
+        "K_phas": 14.8448,
+        "p_phas": 50.9209,
+        "kp": 1.3913,
+        "r_lead_ccr": 0.1444,
+        "z_ccr": 8.6404,
+        "p_ccr": 59.8338,
+        "k_dyn": 1.165,
+        "k_stat": 0.2392
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -6.8,
+          "phase_err": 58.1,
+          "score": 7969.5
+        },
+        "0.783": {
+          "gain_db": -2.7,
+          "phase_err": 13.5,
+          "score": 886.1
+        },
+        "1.099": {
+          "gain_db": -1.3,
+          "phase_err": 21.5,
+          "score": 635.2
+        },
+        "2.446": {
+          "gain_db": 5.7,
+          "phase_err": 40.1,
+          "score": 4864.8
+        },
+        "5.583": {
+          "gain_db": 9.0,
+          "phase_err": 77.0,
+          "score": 14048.1
+        },
+        "7.927": {
+          "gain_db": 2.9,
+          "phase_err": 20.4,
+          "score": 1264.0
+        }
+      }
+    }
+  ]
+}
