@@ -165,6 +165,9 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     osim.PropertyHelper.setValueDouble(0.010, controller.updPropertyByName("delay_vcr"))
 
     osim.PropertyHelper.setValueDouble(0.015, controller.updPropertyByName("delay_ccr"))
+    osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("use_smith_predictor"))
+    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
+    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
 
 
 

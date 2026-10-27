@@ -417,7 +417,7 @@ def main():
     es = cma.CMAEvolutionStrategy(x0, 1.0, {
         'CMA_stds': sigma0,
         'bounds': [lower_bounds, upper_bounds],
-        'popsize': 18,
+        'popsize': 14,
         'AdaptSigma': cma.sigma_adaptation.CMAAdaptSigmaTPA,
         'maxiter': max_total_generations,
         'seed': 2026
@@ -437,32 +437,51 @@ def main():
         if os.path.exists(summary_file):
             with open(summary_file, "r", encoding="utf-8") as f:
                 sdata = json.load(f)
-            cands = es.ask()
+            gen_scores = sdata["all_scores"]
+            pop_len = len(gen_scores)
+            if es.popsize != pop_len:
+                es.opts['popsize'] = pop_len
+                es.sp.set(es.opts, pop_len)
+                
+            if pop_len == 14:
+                cands = sample_candidates_tpa_orthogonal(es, g, archive_X, archive_y)
+            else:
+                cands = es.ask()
+                
             b_low, b_upp = es.boundary_handler.bounds
             clamped_replay = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in cands]
-            es.tell(clamped_replay, sdata["all_scores"])
+
+            es.tell(clamped_replay, gen_scores)
             completed_gens = g
             
             # Populate archive
-            for c_arr, s_val in zip(clamped_replay, sdata["all_scores"]):
+            for c_arr, s_val in zip(clamped_replay, gen_scores):
                 archive_X.append(c_arr)
                 archive_y.append(s_val)
                 
+            best_cand_rep = clamped_replay[sdata["best_candidate_idx"] - 1]
             if sdata["best_score"] < global_best_score:
                 global_best_score = sdata["best_score"]
-                global_best_sol = cands[sdata["best_candidate_idx"] - 1]
+                global_best_sol = best_cand_rep.copy()
                 consecutive_non_improving = 0
             else:
                 consecutive_non_improving += 1
+                
+            # Replay dynamic boundary expansion if triggered
+            new_low, new_upp, expansions = check_and_expand_bounds(best_cand_rep, b_low, b_upp)
+            if expansions:
+                set_cma_bounds(es, new_low, new_upp)
+                
             print(f"[REPLAY] Phase 2.4 Generation {g} replayed. Best score: {sdata['best_score']:.2f}")
         else:
             break
             
-    # Switch to 14 candidates for Generation 3 onwards (1:1 core concurrency)
+    # Switch to 14 candidates for Generation 4 onwards (1:1 core concurrency)
     NEW_POPSIZE = 14
-    es.opts['popsize'] = NEW_POPSIZE
-    es.sp.set(es.opts, NEW_POPSIZE)
-    print(f"\n[CMA-ES RECONFIGURATION] Switched population size to {NEW_POPSIZE} (mu={es.sp.mu}) with 2 TPA + 12 Orthogonal samples (100% 14-core synchronization)!")
+    if es.popsize != NEW_POPSIZE:
+        es.opts['popsize'] = NEW_POPSIZE
+        es.sp.set(es.opts, NEW_POPSIZE)
+    print(f"\n[CMA-ES RECONFIGURATION] Confirmed population size at {NEW_POPSIZE} (mu={es.sp.mu}) with 2 TPA + 12 Orthogonal samples (100% 14-core synchronization)!")
     print(f"[ARCHIVE] Initialized with {len(archive_X)} real OpenSim historical evaluations.")
             
     print(f"\n{'='*75}")

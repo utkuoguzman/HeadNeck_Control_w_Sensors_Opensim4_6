@@ -54,7 +54,10 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_trajectory_tau(0.1);
     constructProperty_use_dynamic_jacobian(true);
     constructProperty_K_eso(0.0);
-    constructProperty_enable_eye_afferents(false); // Disabled by default during neck study; set true for eye-movement study
+    constructProperty_enable_eye_afferents(false);
+    constructProperty_use_smith_predictor(true);
+    constructProperty_delay_smith_proprio(0.007);
+    constructProperty_delay_afferent_proprio(0.007);
     constructProperty_delay_voluntary(0.040);
     constructProperty_fc_voluntary(2.0);
     
@@ -844,13 +847,57 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double est_roll  = std::atan2(2.0*(q0*q1 + q2*q3), 1.0 - 2.0*(q1*q1 + q2*q2));
     double est_yaw   = std::asin(std::clamp(2.0*(q0*q2 - q3*q1), -1.0, 1.0));
     
-    // Proprioceptive global belief (trunk angle + relative neck angle from 72 muscles)
-    double prop_gnd_pitch = q_gnd_p + est_neck_rel_angle[0];
-    double prop_gnd_roll  = q_gnd_r + est_neck_rel_angle[1];
-    double prop_gnd_yaw   = q_gnd_y + est_neck_rel_angle[2];
+    // --- ANATOMICALLY SPLIT PROPRIOCEPTIVE AFFERENT CONDUCTION ---
+    // In human anatomy, spindle action potentials take ~5-8 ms (delay_afferent_proprio)
+    // to travel along dorsal roots and cuneate fasciculus to the brainstem/cerebellum.
+    double arriving_rel_pitch = est_neck_rel_angle[0];
+    double arriving_rel_roll  = est_neck_rel_angle[1];
+    double arriving_rel_yaw   = est_neck_rel_angle[2];
+    double arriving_trunk_pitch = q_gnd_p;
+    double arriving_trunk_roll  = q_gnd_r;
+    double arriving_trunk_yaw   = q_gnd_y;
+
+    double tau_aff = get_delay_afferent_proprio();
+    DelayedData aff_data;
+    if (tau_aff > 1e-5 && !history.empty()) {
+        aff_data = getDelayedData(s.getTime(), tau_aff);
+        if (aff_data.record.valid) {
+            arriving_rel_pitch = aff_data.record.est_neck_rel_angle[0];
+            arriving_rel_roll  = aff_data.record.est_neck_rel_angle[1];
+            arriving_rel_yaw   = aff_data.record.est_neck_rel_angle[2];
+            arriving_trunk_pitch = aff_data.record.theta_trunk[2];
+            arriving_trunk_roll  = aff_data.record.theta_trunk[0];
+            arriving_trunk_yaw   = aff_data.record.theta_trunk[1];
+        }
+    }
+
+    double prop_gnd_pitch = arriving_trunk_pitch + arriving_rel_pitch;
+    double prop_gnd_roll  = arriving_trunk_roll  + arriving_rel_roll;
+    double prop_gnd_yaw   = arriving_trunk_yaw   + arriving_rel_yaw;
     
     // Error vector in World frame [Roll=0, Yaw=1, Pitch=2]
-    SimTK::Vec3 e_prop_world(prop_gnd_roll - est_roll, prop_gnd_yaw - est_yaw, prop_gnd_pitch - est_pitch);
+    SimTK::Vec3 e_prop_world;
+    if (get_use_smith_predictor() && !history.empty()) {
+        // Smith Predictor / Cerebellar Forward Model:
+        // Compares the arriving delayed measurement prop_gnd(t - tau_aff)
+        // against the stored estimate from the EXACT SAME DELAYED HORIZON pred(t - tau_aff)!
+        double tau_pred = get_delay_smith_proprio();
+        DelayedData prop_delayed = (std::abs(tau_pred - tau_aff) < 1e-5 && aff_data.record.valid)
+                                   ? aff_data
+                                   : getDelayedData(s.getTime(), tau_pred);
+        if (prop_delayed.record.valid) {
+            double pred_roll  = prop_delayed.record.theta[0];
+            double pred_yaw   = prop_delayed.record.theta[1];
+            double pred_pitch = prop_delayed.record.theta[2];
+            e_prop_world = SimTK::Vec3(prop_gnd_roll - pred_roll, prop_gnd_yaw - pred_yaw, prop_gnd_pitch - pred_pitch);
+        } else {
+            e_prop_world = SimTK::Vec3(prop_gnd_roll - est_roll, prop_gnd_yaw - est_yaw, prop_gnd_pitch - est_pitch);
+        }
+    } else {
+        // Original Mahony without delay compensation:
+        // Compares arriving delayed measurement against current un-delayed estimate est(t)
+        e_prop_world = SimTK::Vec3(prop_gnd_roll - est_roll, prop_gnd_yaw - est_yaw, prop_gnd_pitch - est_pitch);
+    }
     // Rotate into Head frame
     SimTK::Vec3 e_prop_head = (~R_est) * e_prop_world;
     
