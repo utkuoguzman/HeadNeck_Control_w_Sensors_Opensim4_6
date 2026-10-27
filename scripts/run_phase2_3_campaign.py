@@ -2,13 +2,19 @@ import os
 import sys
 import json
 import math
+import cmath
 import time
 import random
 import datetime
 import subprocess
 import numpy as np
 import cma
-from concurrent.futures import ThreadPoolExecutor, as_completed
+from scipy.stats import qmc
+from concurrent.futures import ThreadPoolExecutor, as_completed, ProcessPoolExecutor
+sys.path.append(os.getcwd())
+sys.path.append(os.path.join(os.getcwd(), "scratch"))
+from scratch.test_tier2_accelerated import fast_eval_candidate_with_early_stopping
+from scratch.physics_informed_residual_regressor import predict_opensim_scores
 
 class Tee(object):
     def __init__(self, name, mode):
@@ -87,6 +93,54 @@ upper_bounds = np.array([
     1.50    # 11: k_stat
 ])
 
+
+# Phase 2.3 Section 3 Surrogate Pre-Screening Engine
+SURR_OPT_PLANT = [0.6000, 0.3636, 2.8558, 0.0050, 0.0085, 1.348]
+SURR_DELAY_VCR = 0.010
+SURR_DELAY_CCR = 0.015
+
+def surrogate_score(cand):
+    r_ton, p_ton, K_sc, r_lead_sc, p_sc, K_phas, p_phas, kp, r_lead_ccr, p_ccr, k_dyn, k_stat = cand
+    K_ton = r_ton * K_sc
+    z_sc = r_lead_sc * p_sc
+    z_ccr = r_lead_ccr * p_ccr
+    
+    J_eff, B_pass, K_pass, M_drive, tau_act, k_geom = SURR_OPT_PLANT
+    
+    total_score = 0.0
+    for freq, (t_gain, t_phase) in [(0.324, (86.55, -7.03)), (0.783, (236.93, -96.96)), (1.099, (319.74, -109.23)), (2.446, (423.34, -161.34)), (5.583, (503.30, -201.38)), (7.927, (572.69, -247.62))]:
+        omega = 2.0 * math.pi * freq
+        s = 1j * omega
+        
+        H_act = 1.0 / (tau_act * s + 1.0)
+        H_sc = ((s + z_sc) / (s + p_sc)) * cmath.exp(-s * SURR_DELAY_VCR)
+        H_ton = (p_ton / (s + p_ton)) * cmath.exp(-s * SURR_DELAY_VCR)
+        H_phas = (s / (s + p_phas)) * cmath.exp(-s * SURR_DELAY_VCR)
+        H_ccr = kp * (1.0 + k_dyn * (s / 10.0)) * ((s + z_ccr) / (s + p_ccr)) * cmath.exp(-s * SURR_DELAY_CCR)
+        
+        Z_reflex = (K_sc * H_sc * s + K_ton * H_ton + H_ccr) * H_act
+        Z_plant = - (omega**2) * J_eff + s * B_pass + K_pass
+        T_drive = - (omega**2) * (M_drive - K_phas * H_phas * H_act)
+        
+        Theta_over_X = (T_drive / (Z_plant + Z_reflex)) * k_geom
+        
+        gain_deg_m = abs(Theta_over_X) * (180.0 / math.pi)
+        
+        phase_rad = cmath.phase(Theta_over_X)
+        phase_deg = math.degrees(phase_rad)
+        while phase_deg > 90.0: phase_deg -= 360.0
+        while phase_deg < -270.0: phase_deg += 360.0
+        
+        sim_gain_safe = max(1e-6, gain_deg_m)
+        gain_db_diff = 20.0 * math.log10(sim_gain_safe / t_gain)
+        gain_loss = ((gain_db_diff / 1.0) ** 2) * 100.0
+        
+        phase_diff = (phase_deg - t_phase + 180.0) % 360.0 - 180.0
+        phase_loss = ((phase_diff / 10.0) ** 2) * 100.0
+        
+        total_score += (gain_loss + phase_loss)
+    return total_score
+
 def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
     freq, t_gain, t_phase = TARGETS[target_idx]
     
@@ -126,6 +180,12 @@ def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
     except Exception as e:
         print(f"[ERROR] on {freq:.3f}Hz [{worker_label}]: {e}", file=sys.stderr)
         return 1000000.0 + random.uniform(0, 100.0)
+
+def set_cma_bounds(es, lower, upper):
+    new_bh = cma.boundary_handler.BoundTransform([lower, upper])
+    es.boundary_handler = new_bh
+    es.gp.bounds = new_bh
+    es.opts['bounds'] = [lower, upper]
 
 def main():
     # Calibrated Initial Seed Vector x0 (Bootstrapped directly from Exact-Plant Differentiable Surrogate)
@@ -248,22 +308,36 @@ def main():
     gen12_upper_bounds = gen4_upper_bounds.copy()
     gen12_upper_bounds[10] = 1.50  # 10: k_dyn expanded headroom up to 1.50
 
+    # Phase 2.3 Generation 14+ Expanded Headroom Bounds (p_ccr extended up to 200.0 rad/s)
+    gen14_lower_bounds = gen12_lower_bounds.copy()
+    gen14_upper_bounds = gen12_upper_bounds.copy()
+    gen14_upper_bounds[9] = 200.0  # 9: p_ccr expanded headroom up to 200.0 rad/s
+
+    # Phase 2.3 Generation 16+ Expanded Headroom Bounds (p_ton up to 120.0 rad/s, p_sc up to 150.0 rad/s)
+    gen16_lower_bounds = gen14_lower_bounds.copy()
+    gen16_upper_bounds = gen14_upper_bounds.copy()
+    gen16_upper_bounds[1] = 120.0  # 1: p_ton extended up from 80.0 to 120.0 rad/s
+    gen16_upper_bounds[4] = 150.0  # 4: p_sc extended up from 100.0 to 150.0 rad/s
+
     for g in range(1, max_total_generations + 1):
         summary_file = f"logs/phase2_3_gen_{g}_summary.json"
         if os.path.exists(summary_file):
             with open(summary_file, "r", encoding="utf-8") as f:
                 sdata = json.load(f)
             if g == 3:
-                es.boundary_handler.bounds = [gen3_lower_bounds, gen3_upper_bounds]
-                es.opts['bounds'] = [gen3_lower_bounds, gen3_upper_bounds]
+                set_cma_bounds(es, gen3_lower_bounds, gen3_upper_bounds)
             elif 4 <= g <= 11:
-                es.boundary_handler.bounds = [gen4_lower_bounds, gen4_upper_bounds]
-                es.opts['bounds'] = [gen4_lower_bounds, gen4_upper_bounds]
-            elif g >= 12:
-                es.boundary_handler.bounds = [gen12_lower_bounds, gen12_upper_bounds]
-                es.opts['bounds'] = [gen12_lower_bounds, gen12_upper_bounds]
+                set_cma_bounds(es, gen4_lower_bounds, gen4_upper_bounds)
+            elif 12 <= g <= 13:
+                set_cma_bounds(es, gen12_lower_bounds, gen12_upper_bounds)
+            elif 14 <= g <= 15:
+                set_cma_bounds(es, gen14_lower_bounds, gen14_upper_bounds)
+            elif g >= 16:
+                set_cma_bounds(es, gen16_lower_bounds, gen16_upper_bounds)
             cands = es.ask()
-            es.tell(cands, sdata["all_scores"])
+            b_low, b_upp = es.boundary_handler.bounds
+            clamped_replay = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in cands]
+            es.tell(clamped_replay, sdata["all_scores"])
             completed_gens = g
             if sdata["best_score"] < global_best_score:
                 global_best_score = sdata["best_score"]
@@ -284,21 +358,28 @@ def main():
         
         # Apply expanded bounds for Generation 3 and Generation 4+
         if iteration == 3:
-            es.boundary_handler.bounds = [gen3_lower_bounds, gen3_upper_bounds]
-            es.opts['bounds'] = [gen3_lower_bounds, gen3_upper_bounds]
+            set_cma_bounds(es, gen3_lower_bounds, gen3_upper_bounds)
             print(f"[BOUNDS EXPANSION] Active bounds for Generation 3: r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
         elif 4 <= iteration <= 11:
-            es.boundary_handler.bounds = [gen4_lower_bounds, gen4_upper_bounds]
-            es.opts['bounds'] = [gen4_lower_bounds, gen4_upper_bounds]
+            set_cma_bounds(es, gen4_lower_bounds, gen4_upper_bounds)
             print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif iteration >= 12:
-            es.boundary_handler.bounds = [gen12_lower_bounds, gen12_upper_bounds]
-            es.opts['bounds'] = [gen12_lower_bounds, gen12_upper_bounds]
+        elif 12 <= iteration <= 13:
+            set_cma_bounds(es, gen12_lower_bounds, gen12_upper_bounds)
             print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: k_dyn in [0.10, 1.50] (expanded headroom), k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
+        elif 14 <= iteration <= 15:
+            set_cma_bounds(es, gen14_lower_bounds, gen14_upper_bounds)
+            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: p_ccr in [5.0, 200.0] (expanded headroom), k_dyn in [0.10, 1.50], k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], leads in [0.001, ...]", flush=True)
+        elif iteration >= 16:
+            set_cma_bounds(es, gen16_lower_bounds, gen16_upper_bounds)
+            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: p_ton in [2.0, 120.0] (expanded headroom), p_sc in [15.0, 150.0] (expanded headroom), p_ccr in [5.0, 200.0], k_dyn in [0.10, 1.50], k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], kp in [0.15, 5.00]", flush=True)
             
         print(f"\n{'='*35} STARTING PHASE 2.3 GENERATION {iteration} of {target_stop_generation} at {gen_start_time.strftime('%H:%M:%S')} {'='*35}", flush=True)
         
-        candidates = es.ask()
+        # Pure Covariance Matrix Adaptation (CMA-ES)
+        print(f"[CMA-ES SAMPLING] Sampling population of 18 directly from multivariate normal distribution N(mu, C)...", flush=True)
+        raw_cands = es.ask()
+        b_low, b_upp = es.boundary_handler.bounds
+        candidates = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in raw_cands]
         all_scores = [0.0] * len(candidates)
         
         # Max concurrency: 14 physical cores
@@ -332,7 +413,10 @@ def main():
                     active_count = len(future_to_info)
                     break
                     
-        es.tell(candidates, all_scores)
+        eps = 1e-6
+        b_low, b_upp = es.boundary_handler.bounds
+        clamped_candidates = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in candidates]
+        es.tell(clamped_candidates, all_scores)
         gen_duration = (datetime.datetime.now() - gen_start_time).total_seconds() / 60.0
         
         best_idx = int(np.argmin(all_scores))
@@ -395,6 +479,12 @@ def main():
         summary_path = f"logs/phase2_3_gen_{iteration}_summary.json"
         with open(summary_path, "w", encoding="utf-8") as f:
             json.dump(summary, f, indent=2)
+        try:
+            sys.path.append('scratch')
+            import update_ledger
+            update_ledger.update_ledger(iteration)
+        except Exception as e_led:
+            print(f'Warning: failed auto-ledger update: {e_led}', flush=True)
             
         print(f"Phase 2.3 Generation {iteration} completed in {gen_duration:.1f} mins.", flush=True)
         print(f"Best Candidate: W{best_idx+1}_P23G{iteration} | Score: {best_score:.2f} (Target: < {HAPPEE_BENCHMARK:.2f})", flush=True)

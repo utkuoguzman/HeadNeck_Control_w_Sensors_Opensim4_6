@@ -1,6 +1,0 @@
-Fixed Ki_task: 34.3459
-Optimal I_pitch: 0.10407
-I_roll: -0.00477
-I_yaw: 0.00253
-Final Pitch: -0.893 deg
-Cost: 437.95

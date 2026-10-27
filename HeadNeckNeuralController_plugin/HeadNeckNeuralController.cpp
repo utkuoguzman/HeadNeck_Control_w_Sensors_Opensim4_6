@@ -41,7 +41,16 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     
     constructProperty_Wp_base_yaw(400.0);
     constructProperty_Wv_base_yaw(40.0);
+    constructProperty_Kp_task_pitch(-1.0);
+    constructProperty_Kd_task_pitch(-1.0);
+    constructProperty_Kp_task_roll(-1.0);
+    constructProperty_Kd_task_roll(-1.0);
+    constructProperty_Kp_task_yaw(-1.0);
+    constructProperty_Kd_task_yaw(-1.0);
     constructProperty_Ki_task(6.54);
+    constructProperty_Ki_task_pitch(-1.0);
+    constructProperty_Ki_task_roll(0.0);
+    constructProperty_Ki_task_yaw(0.0);
     constructProperty_trajectory_tau(0.1);
     constructProperty_use_dynamic_jacobian(true);
     constructProperty_K_eso(0.0);
@@ -740,27 +749,31 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double I_head_yaw = 0.05;
 
     double vigor_pitch = 1.0 + get_k_vigor() * std::abs(traj_vel_pitch);
-    double kp_pitch = std::sqrt(get_Wp_base_pitch() * vigor_pitch);
-    double kd_pitch = std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch);
+    double kp_pitch = (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : std::sqrt(get_Wp_base_pitch() * vigor_pitch);
+    double kd_pitch = (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch);
+    double ki_pitch = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
+    double ki_roll  = (get_Ki_task_roll()  >= 0.0) ? get_Ki_task_roll()  : 0.0;
+    double ki_yaw   = (get_Ki_task_yaw()   >= 0.0) ? get_Ki_task_yaw()   : 0.0;
+
     double tau_vol_raw_pitch = kp_pitch * (traj_pos_pitch - vol_rel_pitch) 
                              + kd_pitch * (traj_vel_pitch - vol_rel_pitch_dot) 
-                             + get_Ki_task() * p_int 
+                             + ki_pitch * p_int 
                              + I_head_pitch * traj_acc_pitch;
 
     double vigor_roll = 1.0 + get_k_vigor() * std::abs(traj_vel_roll);
-    double kp_roll = std::sqrt(get_Wp_base_roll() * vigor_roll);
-    double kd_roll = std::sqrt(get_Wv_base_roll() * vigor_roll + 2.0 * kp_roll);
+    double kp_roll = (get_Kp_task_roll() >= 0.0) ? get_Kp_task_roll() : std::sqrt(get_Wp_base_roll() * vigor_roll);
+    double kd_roll = (get_Kd_task_roll() >= 0.0) ? get_Kd_task_roll() : std::sqrt(get_Wv_base_roll() * vigor_roll + 2.0 * kp_roll);
     double tau_vol_raw_roll = kp_roll * (traj_pos_roll - vol_rel_roll) 
                             + kd_roll * (traj_vel_roll - vol_rel_roll_dot) 
-                            + get_Ki_task() * r_int 
+                            + ki_roll * r_int 
                             + I_head_roll * traj_acc_roll;
 
     double vigor_yaw = 1.0 + get_k_vigor() * std::abs(traj_vel_yaw);
-    double kp_yaw = std::sqrt(get_Wp_base_yaw() * vigor_yaw);
-    double kd_yaw = std::sqrt(get_Wv_base_yaw() * vigor_yaw + 2.0 * kp_yaw);
+    double kp_yaw = (get_Kp_task_yaw() >= 0.0) ? get_Kp_task_yaw() : std::sqrt(get_Wp_base_yaw() * vigor_yaw);
+    double kd_yaw = (get_Kd_task_yaw() >= 0.0) ? get_Kd_task_yaw() : std::sqrt(get_Wv_base_yaw() * vigor_yaw + 2.0 * kp_yaw);
     double tau_vol_raw_yaw = kp_yaw * (traj_pos_yaw - vol_rel_yaw) 
                            + kd_yaw * (traj_vel_yaw - vol_rel_yaw_dot) 
-                           + get_Ki_task() * y_int 
+                           + ki_yaw * y_int 
                            + I_head_yaw * traj_acc_yaw;
 
     double fc_vol = get_fc_voluntary();

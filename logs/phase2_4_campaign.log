@@ -1,0 +1,19 @@
+[PRESCREEN] Initializing CMA-ES centroid x0 from data/prescreen_rational_champion.json (Balanced Compliant Champion W3 Centroid with decoupled Ki and physical bounds)
+(9_w,18)-aCMA-ES (mu_w=5.4,w_1=30%) in dimension 12 (seed=2026, Tue Oct 27 11:19:23 2026)
+
+===========================================================================
+Phase 2.4 Initialized. Starting from Generation 1 up to Generation 30
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88 pts
+Baseline to Beat: W3_P23G15 Score = inf pts
+Plateau Stopping Rule: Stop after 7 consecutive non-improving generations
+Initial Centroid x0:
+[5.77000e-01 7.64990e+01 5.30000e-01 2.46000e-01 9.60500e+01 4.29400e+00
+ 1.75280e+01 1.28400e+00 6.90000e-02 1.77066e+02 7.19000e-01 1.17700e+00]
+Search Sigmas sigma0:
+[ 0.08   6.     0.08   0.03   8.     0.4    2.     0.15   0.015 12.
+  0.08   0.1  ]
+===========================================================================
+
+
+=================================== STARTING PHASE 2.4 GENERATION 1 of 30 at 11:19:23 ===================================
+[CMA-ES SAMPLING] Sampling population of 18 directly from N(mu, C) around 21k basin...

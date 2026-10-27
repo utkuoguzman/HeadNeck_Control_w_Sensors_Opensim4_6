@@ -34,3 +34,4 @@ set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "osimHeadNeckNeural
 
 add_executable(test_model test_model.cpp)
 target_link_libraries(test_model PRIVATE ${PROJECT_NAME} ${OpenSim_LIBRARIES})
+

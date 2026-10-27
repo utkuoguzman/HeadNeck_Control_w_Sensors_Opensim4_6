@@ -57,5 +57,8 @@ python surrogacy/validate_in_opensim.py
 * Achieved benchmark: **`519.4 deg/m` (+0.27 dB) at 5.58 Hz (score: 162 pts)** and accurate physiological phase lag at 0.78 Hz and 1.10 Hz.
 
 ### Step 4: Seed the Main CMA-ES Campaign
-The resulting vector in `exact_plant_surrogate_solution.json` is plugged directly into `scripts/run_phase2_3_campaign.py` as $x_0$, saving generations of computational effort.
+The resulting vector in `exact_plant_surrogate_solution.json` (and `data/prescreen_rational_champion.json`) is plugged directly into `scripts/run_phase2_4_campaign.py` as $x_0$, saving generations of computational effort.
+
+> [!NOTE]
+> **Strict Execution Policy:** This frequency-domain linearizer is used solely to generate warm-start initial centroids ($x_0$). All candidate evaluations across all generations in Phase 2.4 are executed strictly on the unapproximated, non-linear 72-muscle OpenSim model (`cmaes_worker_p22.py`) with Paradigm A joint limits and the transition-zone early abort rule. All surrogate simulation binaries (`cervical_fast_sim`) have been permanently purged.
 

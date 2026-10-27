@@ -325,11 +325,28 @@ $$H_{\text{ccr}}(s) = k_p \frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad 
 > [!NOTE]
 > **Gated Reciprocal Inhibition:** Presynaptic reciprocal inhibition ($K_{\text{recip}}$) is gated by active voluntary trajectory vigor ($\|\dot{\vec{\theta}}_{\text{traj}}\| > 10^{-3}\text{ rad/s}$) so that during voluntary head turns, antagonist stretch reflexes are suppressed, whereas during passive external perturbations (where $\dot{\vec{\theta}}_{\text{traj}} = 0$), full bilateral CCR stiffness is preserved.
 
-### 5.3 Cortical Postural Drive & Quadratic Programming (QP) Allocation
-1. **Cortical Postural Controller:** Uses the 6-DOF proprioceptive Luenberger neck estimates $(\hat{\vec{\theta}}_{\text{rel}}, \hat{\vec{\omega}}_{\text{rel}})$ to compute voluntary and postural joint torques:
-   $$\vec{\tau}_{\text{vol}} = \mathbf{K}_p \left(\vec{\theta}_{\text{traj}} - \hat{\vec{\theta}}_{\text{rel}}\right) + \mathbf{K}_d \left(\dot{\vec{\theta}}_{\text{traj}} - \hat{\vec{\omega}}_{\text{rel}}\right) + K_i \int \left(\vec{\theta}_{\text{traj}} - \hat{\vec{\theta}}_{\text{rel}}\right) dt + \mathbf{I}_{\text{head}}\,\ddot{\vec{\theta}}_{\text{traj}}$$
-2. **Constrained QP Muscle Allocation:** Sums cortical and brainstem torques $\vec{\tau}_{\text{total}} = \vec{\tau}_{\text{vol}} + \vec{\tau}_{\text{vcr}} + \vec{\tau}_{\text{eso}}$ and solves for the minimum-effort descending alpha motor command $\vec{u}_\alpha \in [0.03, 1.0]^{72}$, which is then combined with the spinal CCR reflex excitation $u_{\text{ccr},i}$ at the motor neuron pool:
-   $$\min_{\vec{u}_\alpha} \frac{1}{2} \sum_{i=1}^{72} u_{\alpha,i}^2 \quad \text{subject to} \quad \sum_{i=1}^{72} \vec{r}_i \times F_{\max,i}\,u_{\alpha,i} = \vec{\tau}_{\text{total}}, \qquad u_{\text{total},i} = \text{clamp}(u_{\alpha,i} + u_{\text{ccr},i},\, 0.03,\, 1.0)$$
+### 5.3 Cortical Postural Drive & Decoupled Task-Space Control
+
+#### A. Physical Inverted-Pendulum Task Gains
+Rather than empirical ad-hoc weights, the voluntary/postural feedback gains are derived directly from the physical inertia of the human head-neck complex ($m_{\text{head}} = 4.30\text{ kg}$, $I_{xx} = 0.0207\text{ kg}\cdot\text{m}^2$, $I_{yy} = 0.0150\text{ kg}\cdot\text{m}^2$, $I_{zz} = 0.0226\text{ kg}\cdot\text{m}^2$, effective neck pendulum length $L \approx 0.13\text{ m}$):
+- **Sagittal Pitch:** $K_{p,\text{pitch}} = 10.24\text{ Nm/rad}, \quad K_{d,\text{pitch}} = 1.31\text{ Nms/rad}$
+- **Coronal Roll:** $K_{p,\text{roll}} = 10.21\text{ Nm/rad}, \quad K_{d,\text{roll}} = 1.29\text{ Nms/rad}$
+- **Transverse Yaw:** $K_{p,\text{yaw}} = 0.24\text{ Nm/rad}, \quad K_{d,\text{yaw}} = 0.12\text{ Nms/rad}$
+
+#### B. Decoupled Gravity Integrator Architecture (Eliminating Yaw Windup)
+In an upright human posture, gravitational torque acts strictly within the sagittal plane (pitch). Any non-zero integral gain on coronal roll or transverse yaw causes subtle numerical transients or slight intervertebral asymmetries to integrate into spurious lateral bias torques. Because neck muscles have highly 3D oblique moment arms, the 3D QP solver attempts to null lateral integral error by recruiting asymmetric lateral muscles (such as unilateral sternocleidomastoid and splenius capitis), which inadvertently generate massive unwanted axial yaw torques.
+
+To permanently eradicate lateral cross-talk and yaw windup, the integrator is strictly decoupled:
+$$K_{i,\text{pitch}} = 40.2786\text{ Nm/(rad}\cdot\text{s)}, \qquad K_{i,\text{roll}} = 0.0, \qquad K_{i,\text{yaw}} = 0.0$$
+
+The voluntary task-space torque vector $\vec{\tau}_{\text{vol}} \in \mathbb{R}^3$ is thus computed as:
+$$\vec{\tau}_{\text{vol}} = \mathbf{K}_p \left(\vec{\theta}_{\text{traj}} - \hat{\vec{\theta}}_{\text{rel}}\right) + \mathbf{K}_d \left(\dot{\vec{\theta}}_{\text{traj}} - \hat{\vec{\omega}}_{\text{rel}}\right) + \begin{bmatrix} 0 \\ 0 \\ K_{i,\text{pitch}} \int (\theta_{\text{traj,pitch}} - \hat{\theta}_{\text{rel,pitch}})\,dt \end{bmatrix} + \mathbf{I}_{\text{head}}\,\ddot{\vec{\theta}}_{\text{traj}}$$
+
+#### C. Constrained QP Muscle Allocation
+Sums cortical, brainstem, and internal model torques $\vec{\tau}_{\text{total}} = \vec{\tau}_{\text{vol}} + \vec{\tau}_{\text{vcr}} + \vec{\tau}_{\text{eso}}$ and solves for the minimum-effort descending alpha motor command $\vec{u}_\alpha \in [0.03, 1.0]^{72}$ via quadratic programming (QP):
+$$\min_{\vec{u}_\alpha} \frac{1}{2} \sum_{i=1}^{72} u_{\alpha,i}^2 \quad \text{subject to} \quad \sum_{i=1}^{72} \vec{r}_i \times F_{\max,i}\,u_{\alpha,i} = \vec{\tau}_{\text{total}}$$
+The resulting alpha command is combined with the spinal CCR reflex excitation $u_{\text{ccr},i}$ at the motoneuron pool:
+$$u_{\text{total},i} = \text{clamp}(u_{\alpha,i} + u_{\text{ccr},i},\, 0.03,\, 1.0)$$
 
 ---
 
@@ -347,19 +364,19 @@ $$H_{\text{ccr}}(s) = k_p \frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad 
 
 ---
 
-## 7. Biomechanical Plant Linearization & Differentiable Neuromotor Surrogate (CMA-ES Quick Initialization)
+## 7. Biomechanical Plant Linearization & Centroid Warm-Start (Pre-Screening)
 
-### 7.1 Motivation: Mitigating Multi-Hour CMA-ES Burn
-Simulating 18 candidates across 6 frequencies in the full non-linear OpenSim model takes **$\approx 45\text{--}60\text{ minutes per generation}$**. Starting CMA-ES from a poorly guessed initial vector ($x_0$) burns dozens of generations in unpromising regions of the parameter space.
+### 7.1 Purpose & Scope: Microsecond Frequency-Domain Prescreening
+Simulating 18 candidates across 6 frequencies in the full non-linear 72-muscle OpenSim model requires substantial computation. Starting CMA-ES from an arbitrary initial guess can expend multiple generations searching unpromising regions of parameter space.
 
-To solve this, we formulated an analytical **Differentiable Neuromotor Surrogate Model** located in [`surrogacy/`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/surrogacy/) that acts as a **quick-and-dirty initialization finding step**.
+To provide an informed initial centroid ($x_0$), an analytical frequency-domain linearizer is utilized strictly as an **offline pre-screening tool**:
 
 ### 7.2 Mathematical Formulation (Black's Feedback Formula on Measured Multi-Body Plant)
 Around the resting equilibrium state ($q_0$, head upright at $2.8^\circ$ under gravity and baseline muscle co-contraction), the passive mechanical frequency response of the 8-vertebra, 8-bushing cervical column is measured directly from OpenSim as:
 
 $$G_{\text{passive}}(j\omega_k) = \frac{\Theta_{\text{passive}}(j\omega_k)}{X_{\text{sled}}(j\omega_k)}$$
 
-When closed-loop sensory reflexes (VCR, CCR, transport delays) and the gravity compensation integrator ($K_i / s$) are added, the closed-loop head pitch frequency response is evaluated analytically via Black's feedback formula in **$< 1\ \mu\text{s}$**:
+When closed-loop sensory reflexes (VCR, CCR, transport delays) and the gravity compensation integrator ($K_{i,\text{pitch}} / s$) are added, the closed-loop head pitch frequency response is evaluated analytically via Black's feedback formula in **$< 1\ \mu\text{s}$**:
 
 $$\Theta_{\text{closed}}(j\omega) = \frac{G_{\text{passive}}(j\omega) \cdot \left[ 1 - \dfrac{K_{\text{phas}} H_{\text{phas}}(j\omega) H_{\text{act}}(j\omega) \omega^2}{T_{\text{drive,mass}}(j\omega)} \right]}{1 + \dfrac{Z_{\text{reflex}}(j\omega)}{T_{\text{drive,mass}}(j\omega)} \cdot G_{\text{passive}}(j\omega)}$$
 
@@ -367,8 +384,37 @@ Where:
 $$Z_{\text{reflex}}(s) = \Big[ K_{\text{sc}} H_{\text{sc}}(s) \cdot s + K_{\text{ton}} H_{\text{ton}}(s) + k_p H_{\text{ccr}}(s) \Big] \cdot H_{\text{act}}(s)$$
 with continuous transport delays $e^{-s \tau_{\text{VCR}}}$ and $e^{-s \tau_{\text{CCR}}}$ evaluated without Padé approximation error.
 
-### 7.3 Multi-Start Gradient Descent Engine (L-BFGS-B / SLSQP)
-Because the surrogate evaluates in microseconds, we execute multi-start L-BFGS-B gradient descent across 24 starting points in **$< 10\text{ seconds}$** ([`surrogacy/optimize_surrogate.py`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/surrogacy/optimize_surrogate.py)).
+### 7.3 Multi-Start Gradient Descent Engine & Centroid Handoff
+Multi-start gradient descent across 24 starting points identifies the optimal first-principles centroid in **$< 10\text{ seconds}$** ([`surrogacy/optimize_surrogate.py`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/surrogacy/optimize_surrogate.py)).
+The resulting parameters are saved to `data/prescreen_rational_champion.json` and initialize the CMA-ES search distribution $(\mu, C, \sigma_0)$.
 
-* **Outcome:** Drops the initial OpenSim model loss from **$>176,000\text{ pts}$ down to $<75,000\text{ pts}$**, capturing physiological negative phase lag and hitting $+0.27\text{ dB}$ gain accuracy at 5.58 Hz.
-* **CMA-ES Handshake:** The optimal parameter vector is exported to `surrogacy/exact_plant_surrogate_solution.json` and loaded as $x_0$ in [`scripts/run_phase2_3_campaign.py`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/scripts/run_phase2_3_campaign.py), providing a fast, warm-started leap into the optimal basin of attraction.
+> [!IMPORTANT]
+> **Strict Evaluation Rule:** The analytical frequency-domain linearizer is used solely to select initial seeds ($x_0$). All candidate evaluations throughout all generations of Phase 2.4 run **strictly on the full, unapproximated OpenSim 4.6 model** (`osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim`) with non-linear multi-body dynamics, 72 Hill-type muscles, and the QP solver.
+
+---
+
+## 8. Paradigm A Biomechanical Joint Limits & Stability Containment
+
+### 8.1 Biomechanical Rationale & Clinical Foundation
+In human cervical biomechanics (*White & Panjabi 1990; Dvorak 1993; Vasavada 1998; Nightingale 2002, 2007*), passive cervical spine resistance exhibits a distinct four-zone non-linear mechanical response:
+1. **Neutral Zone / Deadband ($0 \to 75\%$ Voluntary ROM):** Highly compliant region where intervertebral motion is governed primarily by active muscle stiffness and passive column elasticity ($F_{\text{limit}} = 0$). Natural physiological stabilization and perturbation responses occur entirely within this zone.
+2. **Transition Zone ($75\% \to 100\%$ Voluntary ROM):** Region where capsular ligaments and facet joints begin to engage. Transition is governed by a $C^1$-continuous cubic Hermite polynomial that ramps stiffness smoothly from 0 to full passive contact stiffness.
+3. **Penetration / Elastic Zone ($100\% \to 120\%$ Voluntary ROM):** Capsular ligaments are under heavy elastic tension ($K = 50.0\text{ N/mm}$ / $\text{Nm/rad}$, damping $2.0$). In living humans, this zone is only entered during extreme voluntary stretching or sub-injurious trauma.
+4. **Hard Kinematic Stop ($120\%$ Voluntary ROM):** Anatomical bony impingement and physiological ligament failure strain ($15\% - 25\%$ strain, Nightingale 2007). Coordinate limits `<range>` in OpenSim enforce hard boundaries at this threshold.
+
+### 8.2 Paradigm A Quantitative Specification
+In [`osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim), all 6 cervical degrees of freedom implement Paradigm A containment with $100\%$ voluntary ROM anchored to the anatomical literature:
+
+| Coordinate | Voluntary ROM ($100\%$) | Deadband ($75\%$ ROM, Zero Force) | Transition Width ($25\%$ ROM) | Hard Bound ($120\%$ ROM) |
+| :--- | :---: | :---: | :---: | :---: |
+| **`pitch1`** (Lower Neck) | $[-16.0^\circ, +24.0^\circ]$ | $[-12.0^\circ, +18.0^\circ]$ (`[-0.2094, +0.3142] rad`) | $5.0^\circ$ (`0.0873 rad`) | $[-19.2^\circ, +28.8^\circ]$ (`[-0.3351, +0.5027] rad`) |
+| **`pitch2`** (Upper Neck) | $[-33.0^\circ, +48.0^\circ]$ | $[-24.75^\circ, +36.0^\circ]$ (`[-0.4320, +0.6283] rad`) | $10.0^\circ$ (`0.1745 rad`) | $[-39.6^\circ, +57.6^\circ]$ (`[-0.6912, +1.0053] rad`) |
+| **`roll1`** (Lower Neck) | $\pm 6.0^\circ$ | $\pm 4.5^\circ$ (`±0.0785 rad`) | $1.5^\circ$ (`0.0262 rad`) | $\pm 7.2^\circ$ (`±0.1257 rad`) |
+| **`roll2`** (Upper Neck) | $\pm 33.0^\circ$ | $\pm 24.75^\circ$ (`±0.4320 rad`) | $8.25^\circ$ (`0.1440 rad`) | $\pm 39.6^\circ$ (`±0.6912 rad`) |
+| **`yaw1`** (Lower Neck) | $\pm 38.0^\circ$ | $\pm 28.5^\circ$ (`±0.4974 rad`) | $9.5^\circ$ (`0.1658 rad`) | $\pm 45.6^\circ$ (`±0.7959 rad`) |
+| **`yaw2`** (Upper Neck) | $\pm 27.0^\circ$ | $\pm 20.25^\circ$ (`±0.3534 rad`) | $6.75^\circ$ (`0.1178 rad`) | $\pm 32.4^\circ$ (`±0.5655 rad`) |
+
+### 8.3 Early Abort Instability Guard in CMA-ES
+To prevent optimization algorithms from exploiting passive ligamentous contact forces to "cheat" stability:
+- **Simulation Stopping Guard:** In [`cmaes_worker_p22.py`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/cmaes_worker_p22.py#L340-L355), if any coordinate leaves its zero-force deadband and enters the transition zone during numerical integration, the simulation is immediately aborted and assigned a high penalty score ($1,000,000\text{ pts}$).
+- **Physiological Compliance:** In experimental seated perturbations ([Happee et al. 2017](https://doi.org/10.1080/10255842.2017.1302433)), peak human head pitch excursions reach at most $12.36^\circ$ at $0.324\text{ Hz}$ ($8^\circ$ lower neck, $4^\circ$ upper neck) and $< 6^\circ$ at frequencies $\ge 0.783\text{ Hz}$. Target motions consume at most $10\% - 32\%$ of the zero-force deadband. The transition abort rule triggers strictly on genuinely weak or unstable controllers, guaranteeing that surviving candidates achieve stabilization through authentic neuromuscular control.

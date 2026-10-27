@@ -4,7 +4,7 @@
 [![OpenSim](https://img.shields.io/badge/OpenSim-4.6-blue.svg)](https://opensim.stanford.edu/)
 [![C++](https://img.shields.io/badge/C%2B%2B-17-00599C.svg?logo=c%2B%2B)](https://isocpp.org/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?logo=python)](https://python.org/)
-[![Optimization](https://img.shields.io/badge/CMA--ES-18--Core%20Parallel-brightgreen.svg)](https://github.com/CMA-ES/pycma)
+[![Optimization](https://img.shields.io/badge/CMA--ES-Phase%202.4%20(14--Core%20Parallel)-brightgreen.svg)](https://github.com/CMA-ES/pycma)
 [![Sensor-Only](https://img.shields.io/badge/CNS%20State%20Estimation-100%25%20Sensor--Driven%20(r%3D0.9997)-brightgreen.svg)](docs/neuromotor_control_architecture_c4.md)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
@@ -20,16 +20,21 @@ This repository hosts a high-fidelity, biophysically grounded **3D musculoskelet
    - **Vestibular Luenberger Observer:** Inverts the semicircular canal phase lead ($T_{\text{lead}} = 24.42\text{ ms}$) to recover clean physical head angular velocity ($r = +0.9897$, $\text{AmpRatio} = 0.999$) while preserving the raw phase-leading canal output for the fast Vestibulo-Collic Reflex (VCR).
    - **72-Muscle Per-Spindle Luenberger Observer $\to$ 6-DOF Cervical Jacobian Decoder:** Filters out descending fusimotor ($\gamma_{\text{dyn}}, \gamma_{\text{stat}}$) efference copies on each muscle, extracts instantaneous velocity from Group $\text{II}$ relative to the continuously integrated baseline $\dot{\hat{\Delta L}}_i = \hat{v}_i$ plus dynamic lead from Group $\text{Ia}$, and projects all 72 muscles through the regularized $6 \times 72$ cervical moment-arm pseudoinverse $\mathbf{K}_{6\text{DOF}} = -(\mathbf{J}_6 \mathbf{J}_6^T + \lambda \mathbf{I})^{-1}\mathbf{J}_6$ ($r = +0.9982$, $\text{RMSE} = 0.916^\circ$).
    - **Multisensory Mahony Quaternion Observer:** Fuses the Vestibular Luenberger angular velocity, Otolith gravity vector, and 6-DOF Proprioceptive Luenberger posture to achieve **$r = +0.9997$ ($\text{RMSE} = 0.719^\circ$)** against ground-truth skull orientation.
-4. **Multi-Loop Corticospinal Reflex Control:** Active **Vestibulo-Collic (VCR)**, **Cervico-Collic (CCR)**, **Vestibulo-Ocular (VOR)**, and **Cervico-Ocular (COR)** loops with true axonal conduction latencies ($35\text{ ms}$) and Constrained Quadratic Programming (QP) 72-muscle allocation.
-5. **High Computational Throughput:** Real-time factor of **$\approx 1:30$** on consumer CPUs, engineered for co-simulation with large-scale Spiking Neural Networks (**NEST-GPU**, 1.1M AdEx neurons).
+4. **Physically Grounded Task-Space & Decoupled Postural Control:**
+   - **Direct Inverted-Pendulum Task Gains:** Replaces legacy $W$-value formulas with direct physical PD control ($K_p = 10.24\text{ Nm/rad}, K_d = 1.31\text{ Nms/rad}$ in pitch; $K_p = 10.21, K_d = 1.29$ in roll; $K_p = 0.24, K_d = 0.12$ in yaw).
+   - **Decoupled Integrator:** Static gravity trim is restricted strictly to pitch ($K_{i,\text{pitch}} = 40.28\text{ Nm/(rad}\cdot\text{s)}$) with zero roll/yaw integration ($K_{i,\text{roll}}=0, K_{i,\text{yaw}}=0$), completely eliminating lateral cross-talk and yaw windup.
+5. **Multi-Loop Corticospinal Reflex Control & Paradigm A Biomechanical Limits:**
+   - Active **Vestibulo-Collic (VCR)**, **Cervico-Collic (CCR)**, **Vestibulo-Ocular (VOR)**, and **Cervico-Ocular (COR)** loops with true axonal conduction latencies ($10 - 15\text{ ms}$) and Constrained Quadratic Programming (QP) 72-muscle allocation.
+   - **Paradigm A Containment Hierarchy:** Calibrated against cervical spine literature (*White & Panjabi 1990; Dvorak 1993; Vasavada 1998; Nightingale 2002, 2007*): zero-force deadbands end at $75\%$ of voluntary ROM, $C^1$ transition zones span $75\% \to 100\%$, progressive capsular stiffness acts beyond $100\%$, and hard kinematic stops sit at $120\%$ ROM. Premature simulation stopping triggers immediately upon entering the transition zone.
+6. **High Computational Throughput:** Real-time factor of **$\approx 1:30$** on consumer CPUs, engineered for co-simulation with large-scale Spiking Neural Networks (**NEST-GPU**, 1.1M AdEx neurons).
 
-> 📖 **Full Mathematical & Architectural Reference:** See [`docs/neuromotor_control_architecture_c4.md`](docs/neuromotor_control_architecture_c4.md) for the complete C4 anatomical diagrams and step-by-step derivations.
+> 📖 **Full Mathematical & Architectural Reference:** See [`docs/neuromotor_control_architecture_c4.md`](docs/neuromotor_control_architecture_c4.md) for complete C4 anatomical diagrams and step-by-step derivations.
 
 ---
 
 ## 🧠 End-to-End Neuromotor & State-Estimation Architecture
 
-The architecture separates **fast phase-leading reflex pathways** (which require raw anticipatory sensor signals to overcome the $35\text{ ms}$ axonal conduction delay) from **central kinematic state estimation** (which requires clean physical states reconstructed via per-sensor Luenberger observers):
+The architecture separates **fast phase-leading reflex pathways** (which require raw anticipatory sensor signals to overcome axonal conduction delays) from **central kinematic state estimation** (which requires clean physical states reconstructed via per-sensor Luenberger observers):
 
 ```mermaid
 flowchart TD
@@ -47,12 +52,12 @@ flowchart TD
 
     subgraph FUSION ["3. Central Multisensory Fusion & Cortical Drive"]
         mahony["Mahony 3D Quaternion Observer\ndq = 0.5 * q ⊗ (ω̂_phys + K_oto e_oto + K_prop e_prop)\nOutputs Fused 3D Attitude θ̂_est (r = 0.9997, RMSE = 0.72°)"]
-        cortical["Cortical Postural & Voluntary Controller\nAdaptive LQR + Integral Gravity Hold (Ki = 40.28)"]
+        cortical["Cortical Postural Controller (Gentle Task PD)\nPitch: Kp=10.24, Kd=1.31, Ki=40.28\nRoll/Yaw: Ki=0.0 (Uncoupled Lateral Axis)"]
     end
 
-    subgraph REFLEX ["4. Delayed Brainstem & Spinal Reflexes (35 ms Latency)"]
-        vcr["Vestibulo-Collic Reflex (VCR — 35 ms)\n• Canal Lead-Lag: H_sc(s) = K_sc (s + z_sc)/(s + p_sc)\n• Otolith Tonic & Phasic: H_ton(s), H_phas(s)"]
-        ccr["Cervico-Collic Reflex (CCR — 35 ms)\n• Driven by Delayed ΔIa = Ia - Ia_base\n• Spinal Lead-Lag: H_ccr(s) = k_p (s + z_ccr)/(s + p_ccr)"]
+    subgraph REFLEX ["4. Delayed Brainstem & Spinal Reflexes (10-15 ms Latency)"]
+        vcr["Vestibulo-Collic Reflex (VCR — 10 ms)\n• Canal Lead-Lag: H_sc(s) = K_sc (s + z_sc)/(s + p_sc)\n• Otolith Tonic & Phasic: H_ton(s), H_phas(s)"]
+        ccr["Cervico-Collic Reflex (CCR — 15 ms)\n• Driven by Delayed ΔIa = Ia - Ia_base\n• Spinal Lead-Lag: H_ccr(s) = k_p (s + z_ccr)/(s + p_ccr)"]
         qp["Alpha Motor Neuron Pool & QP Muscle Allocator\nmin 0.5 u_αᵀ u_α s.t. Jᵀ F_max u_α = τ_vol + τ_vcr\n+ Fusimotor Coactivation (γ_dyn, γ_stat)"]
     end
 
@@ -78,33 +83,25 @@ flowchart TD
 
 ---
 
-## 📐 Mathematical Formulation: How Signals Are Calculated, Processed, and Fused
+## 📐 Mathematical Formulation
 
 ### 1. Semicircular Canals & The Vestibular Luenberger Observer
 Each of the 6 semicircular canals projects 3D head angular velocity $\vec{\omega}_{\text{head}}$ onto its anatomical plane ($\vec{v}_{\text{canal}} = \mathbf{B}\vec{\omega}_{\text{head}}$) and passes it through parallel **Regular** and **Irregular** 2nd-order transfer functions ([Schneider et al., 2015](https://doi.org/10.1152/jn.00819.2014)):
 $$H_{\text{reg}}(s) = k_{\text{reg}} \frac{s(1 + T_{1,\text{reg}} s)}{(1 + T_{c,\text{reg}} s)(1 + T_{2,\text{reg}} s)}, \qquad H_{\text{irr}}(s) = k_{\text{irr}} \frac{s(1 + T_{1,\text{irr}} s)}{(1 + T_{c,\text{irr}} s)(1 + T_{2,\text{irr}} s)}$$
 - **Parameters:** $k_{\text{reg}} = 2.83, T_{1,\text{reg}} = 0.0175\text{ s}, T_{2,\text{reg}} = 0.0027\text{ s}, T_c = 5.7\text{ s}$; and $k_{\text{irr}} = 27.09, T_{1,\text{irr}} = 0.0300\text{ s}, T_{2,\text{irr}} = 0.0006\text{ s}, T_c = 5.7\text{ s}$.
-- **Why a Luenberger Observer is Required:** Because $T_1 \gg T_2$, the reconstructed canal output $\vec{\omega}_{\text{canal}} = \mathbf{B}^{-1}\vec{y}_{\text{canal}}$ exhibits a strong **phase lead** ($\propto \vec{\omega}_{\text{head}} + T_{\text{lead}}\dot{\vec{\omega}}_{\text{head}}$, with $T_{\text{lead}} = 24.42\text{ ms}$ and passband gain $k_{\text{pass}} = 0.489214$). This phase lead is ideal for the fast **VCR reflex**, but distorts quaternion integration if fed directly into the Mahony observer.
-- **Vestibular Luenberger ODE:** Inverts the canal lead to recover clean physical angular velocity $\hat{\vec{\omega}}_{\text{phys}}$:
+- **Vestibular Luenberger ODE:** Inverts the canal lead ($T_{\text{lead}} = 24.42\text{ ms}$, passband gain $k_{\text{pass}} = 0.489214$) to recover clean physical angular velocity $\hat{\vec{\omega}}_{\text{phys}}$:
   $$\frac{d\hat{\vec{\omega}}_{\text{phys}}}{dt} = \frac{\dfrac{\vec{\omega}_{\text{canal}}}{k_{\text{pass}}} - \hat{\vec{\omega}}_{\text{phys}}}{T_{\text{lead}}}$$
 
 ---
 
 ### 2. Muscle Spindles & The 72-Muscle Per-Spindle Luenberger Observer
-
-#### The Dynamic Baseline Calculus of Group $\text{II}$ and Group $\text{Ia}$ Afferents
-In isolated muscle preparations where fusimotor drive ($\gamma$) is clamped, Group $\text{II}$ firing correlates with static length change $\Delta L$. However, in an intact closed-loop organism, **treating Group $\text{II}$ as a static position sensor is a misconception**:
-1. At every instant $t$, descending fusimotor coactivation ($\gamma_{\text{stat},i}$) adjusts the internal tension of the intrafusal $\text{Bag}_2$ and $\text{Chain}$ fibers so that their baseline firing maps to the muscle's current equilibrium length $\hat{\Delta L}_i(t)$ right at that moment.
-2. Consequently, any deviation in Group $\text{II}$ firing over the next infinitesimal interval $dt$ relative to that moving baseline ($y_{\text{II},i}(t) - \hat{\Delta L}_i(t)$) is proportional to the **instantaneous rate of length change—i.e., muscle velocity $\hat{v}_i$**!
-3. Meanwhile, Group $\text{Ia}$ (driven by the velocity-sensitive $\text{Bag}_1$ fiber tension rate) encodes **velocity + acceleration** ($\hat{v}_i + \tau_a \dot{\hat{v}}_i$).
-
-#### Step-by-Step Per-Spindle Luenberger Equations (for each muscle $i \in \{1,\dots,72\}$)
-1. **Fusimotor Efference Copy Filtering:** Tracks the Mileusnic intrafusal activation states ($\hat{f}_{\text{dyn},i}, \hat{f}_{\text{stat},i}$) driven by the descending alpha motor command $\Delta u_{\alpha,i} = \max(0, u_{\alpha,i} - u_{\alpha,i,0})$:
-   $$\gamma_{\text{dyn},i} = K_{\gamma,\text{dyn}}\,\Delta u_{\alpha,i}, \qquad \gamma_{\text{stat},i} = K_{\gamma,\text{stat}}\,\Delta u_{\alpha,i}$$
-   $$\frac{d\hat{f}_{\text{dyn},i}}{dt} = \frac{\dfrac{\gamma_{\text{dyn},i}^2}{\gamma_{\text{dyn},i}^2 + 0.0447} - \hat{f}_{\text{dyn},i}}{0.0702\text{ s}}, \qquad \frac{d\hat{f}_{\text{stat},i}}{dt} = \frac{\dfrac{\gamma_{\text{stat},i}^2}{\gamma_{\text{stat},i}^2 + 0.0680} - \hat{f}_{\text{stat},i}}{0.0485\text{ s}}$$
-2. **Removing the Fusimotor Bias:** Subtracts resting baseline firing ($\text{Ia}_{i,0}, \text{II}_{i,0}$) and analytical fusimotor tension contributions ($74.3035\text{ Hz}$ for static $\text{Bag}_2+\text{Chain}$, $54.4518\text{ Hz}$ for dynamic $\text{Bag}_1$):
-   $$\Delta \text{II}_{\text{mech},i} = (\text{II}_i - \text{II}_{i,0}) - 74.3035\,\hat{f}_{\text{stat},i}, \qquad y_{\text{II},i} = \frac{L_{0,i}}{369.1427\,\cos\alpha_i}\,\Delta \text{II}_{\text{mech},i}$$
-   $$\Delta \text{Ia}_{\text{dyn},i} = (\text{Ia}_i - \text{Ia}_{i,0}) - 0.6716\,\Delta \text{II}_{\text{mech},i} - 54.4518\,\hat{f}_{\text{dyn},i}$$
+1. **Fusimotor Efference Copy Filtering:** Tracks Mileusnic intrafusal activation states ($\hat{f}_{\text{dyn},i}, \hat{f}_{\text{stat},i}$) driven by descending alpha motor commands $\Delta u_{\alpha,i}$:
+   $$\gamma_{\text{dyn},i} = 100\,K_{\gamma,\text{dyn}}\,\Delta u_{\alpha,i}, \qquad \gamma_{\text{stat},i} = 100\,K_{\gamma,\text{stat}}\,\Delta u_{\alpha,i}$$
+   $$\frac{d\hat{f}_{\text{dyn},i}}{dt} = \frac{\dfrac{\gamma_{\text{dyn},i}^2}{\gamma_{\text{dyn},i}^2 + 3600} - \hat{f}_{\text{dyn},i}}{0.149\text{ s}}, \qquad \frac{d\hat{f}_{\text{stat},i}}{dt} = \frac{\dfrac{\gamma_{\text{stat},i}^2}{\gamma_{\text{stat},i}^2 + 3600} - \hat{f}_{\text{stat},i}}{0.205\text{ s}}$$
+2. **Removing the Fusimotor Bias:**
+   $$\Delta \text{II}_{\text{mech},i} = (\text{II}_i - \text{II}_{i,0}) - 29.7214\,\hat{f}_{\text{stat},i} - 44.5821\,\hat{f}_{\text{chain},i}$$
+   $$\Delta \text{Ia}_{\text{dyn},i} = (\text{Ia}_i - \text{Ia}_{i,0}) - 1.3793\,\Delta \text{II}_{\text{mech},i} - 54.4518\,\hat{f}_{\text{dyn},i}$$
+   $$y_{\text{II},i} = \frac{L_{0,i}}{369.1427\,\cos\alpha_i}\,\Delta \text{II}_{\text{mech},i}$$
 3. **Instantaneous Velocity & Dynamic Baseline Integration:**
    $$v_{\text{II},i} = \frac{y_{\text{II},i} - \hat{\Delta L}_i}{\tau_{\text{II}}} \quad (\tau_{\text{II}} = 0.055\text{ s}), \qquad v_{\text{Ia},i} = \frac{L_{0,i}}{35000\,\cos\alpha_i}\,\Delta \text{Ia}_{\text{dyn},i}$$
    $$\frac{d\hat{\Delta L}_i}{dt} = \hat{v}_i, \qquad \frac{d\hat{v}_i}{dt} = \frac{(v_{\text{II},i} + v_{\text{Ia},i}) - \hat{v}_i}{\tau_v} \quad (\tau_v = 0.025\text{ s})$$
@@ -112,39 +109,28 @@ In isolated muscle preparations where fusimotor drive ($\gamma$) is clamped, Gro
 ---
 
 ### 3. 6-DOF Cervical Jacobian Decoder & Mahony Spatial Fusion
-1. **6-DOF Cervical Jacobian Inversion:** Projects all 72 per-spindle Luenberger estimates $(\hat{\Delta L}_i, \hat{v}_i)$ onto the 6 independent cervical coordinates $\vec{q}_6 = [\text{pitch}_1, \text{pitch}_2, \text{roll}_1, \text{roll}_2, \text{yaw}_1, \text{yaw}_2]^T$ to eliminate upper-vs-lower cervical buckling cross-talk:
+1. **6-DOF Cervical Inversion:** Projects all 72 Luenberger states onto independent joint coordinates to eliminate S-shape intervertebral buckling cross-talk:
    $$\mathbf{K}_{6\text{DOF}} = -\left(\mathbf{J}_6 \mathbf{J}_6^T + \lambda \mathbf{I}_6\right)^{-1} \mathbf{J}_6, \qquad \hat{\vec{q}}_6 = \mathbf{K}_{6\text{DOF}}\,\hat{\vec{\Delta L}}, \qquad \hat{\vec{u}}_6 = \mathbf{K}_{6\text{DOF}}\,\hat{\vec{v}}$$
-   Summing the upper and lower cervical joints yields the 3D relative neck posture $\hat{\vec{\theta}}_{\text{rel}}$ and angular velocity $\hat{\vec{\omega}}_{\text{rel}}$.
-2. **Mahony Quaternion Observer:** Fuses the Vestibular Luenberger angular velocity $\vec{\omega}_{\text{head}} = \hat{\mathbf{R}}_{\text{est}}^T\hat{\vec{\omega}}_{\text{phys}}$, the Otolith gravity cross-product error $\vec{e}_{\text{oto}}$ ($K_{\text{oto}} = 0.05\text{ rad/s}$), and the 6-DOF Proprioceptive Luenberger orientation error $\vec{e}_{\text{prop,head}} = \hat{\mathbf{R}}_{\text{est}}^T\big((\vec{\theta}_{\text{trunk}} + \hat{\vec{\theta}}_{\text{rel}}) - \hat{\vec{\theta}}_{\text{est}}\big)$ ($\mathbf{K}_{\text{prop}} = 2.0\,\mathbf{I}_3\text{ s}^{-1}$):
+2. **Mahony Quaternion Observer:**
    $$\dot{\mathbf{q}} = \frac{1}{2}\,\mathbf{q} \otimes \begin{bmatrix} 0 \\ \vec{\omega}_{\text{head}} + K_{\text{oto}}\,\vec{e}_{\text{oto}} + \mathbf{K}_{\text{prop}}\,\vec{e}_{\text{prop,head}} \end{bmatrix}$$
+   with $K_{\text{oto}} = 0.05\text{ rad/s}$ and $\mathbf{K}_{\text{prop}} = \text{diag}(2.0, 2.0, 2.0)\text{ s}^{-1}$.
 
 ---
 
-## ✅ Quantitative Verification: Sensor-Only CNS Estimates vs. Simbody Ground Truth
+## 🏛️ Paradigm A Biomechanical Joint Limits
 
-Evaluated during seated harmonic perturbation ($1.11\text{ Hz}$, steady-state window $2.40\text{ s} - 4.20\text{ s}$) with **zero ground-truth head or muscle queries**:
+Calibrated strictly against classical cervical biomechanics literature (*White & Panjabi 1990; Dvorak et al. 1993; Vasavada et al. 1998; Nightingale et al. 2002, 2007*):
 
-| Estimator / Signal Pathway | Simbody Ground Truth | CNS Estimated Range | RMSE | Correlation ($r$) | Amplitude Ratio |
+| Coordinate | Anatomical Unit | 100% Voluntary ROM ($AROM_{100\%}$) | Zero-Force Deadband ($0 \to 75\%$) | Transition Width ($75\% \to 100\%$) | Hard Bounds ($120\%$ Stop) |
 | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Mahony Fused Pitch Angle (deg)** | `[-3.94°, +11.03°]` | `[-4.31°, +10.13°]` | **`0.719°`** | **`+0.9997`** | **`0.963`** |
-| **Proprioceptive 72-Spindle Luenberger Angle (deg)** | `[-3.94°, +11.03°]` | `[-5.57°, +10.60°]` | **`0.916°`** | **`+0.9982`** | **`1.043`** |
-| **Raw Semicircular Canal Afferent Speed (deg/s)** | `[-29.84, +19.75]` | `[-28.67, +19.17]` | `10.409 deg/s` | `+0.5589` | `1.078` |
-| **Vestibular Luenberger Speed (`mahony_speed`, deg/s)** | `[-29.84, +19.75]` | `[-29.13, +20.16]` | **`1.530 deg/s`** | **`+0.9897`** | **`0.999`** |
-| **Proprioceptive 72-Spindle Luenberger Speed (deg/s)** | `[-29.84, +19.75]` | `[-34.32, +21.14]` | **`8.231 deg/s`** | **`+0.7639`** | `1.345` |
+| **`pitch1`** | Upper Neck (Occiput–C1–C2) | $[-16.0^\circ, +24.0^\circ]$ | **$[-12.0^\circ, +18.0^\circ]$** | $5.0^\circ$ ($0.0873\text{ rad}$) | **$[-19.2^\circ, +28.8^\circ]$** |
+| **`pitch2`** | Lower Neck (C2–C7/T1) | $[-33.0^\circ, +48.0^\circ]$ | **$[-24.75^\circ, +36.0^\circ]$** | $10.0^\circ$ ($0.1745\text{ rad}$) | **$[-39.6^\circ, +57.6^\circ]$** |
+| **`roll1`** | Upper Neck (Occiput–C1) | $[-6.0^\circ, +6.0^\circ]$ | **$[-4.5^\circ, +4.5^\circ]$** | $1.5^\circ$ ($0.0262\text{ rad}$) | **$[-7.2^\circ, +7.2^\circ]$** |
+| **`roll2`** | Lower Neck (C2–C7) | $[-33.0^\circ, +33.0^\circ]$ | **$[-24.75^\circ, +24.75^\circ]$** | $8.25^\circ$ ($0.1440\text{ rad}$) | **$[-39.6^\circ, +39.6^\circ]$** |
+| **`yaw1`** | Upper Neck (C1–C2 Pivot) | $[-38.0^\circ, +38.0^\circ]$ | **$[-28.5^\circ, +28.5^\circ]$** | $9.5^\circ$ ($0.1658\text{ rad}$) | **$[-45.6^\circ, +45.6^\circ]$** |
+| **`yaw2`** | Lower Neck (C2–C7) | $[-27.0^\circ, +27.0^\circ]$ | **$[-20.25^\circ, +20.25^\circ]$** | $6.75^\circ$ ($0.1178\text{ rad}$) | **$[-32.4^\circ, +32.4^\circ]$** |
 
----
-
-## ⚡ Computational Performance & Real-Time Factors
-
-Designed from inception to support high-throughput biomechanics and large-scale neural network co-simulation:
-
-| Configuration | Hardware Profile | Real-Time Factor (RTF) | Description |
-| :--- | :--- | :--- | :--- |
-| **Proprioception + Vestibular Sensors** | Intel Core i5-13600K (Single Core) | **$\approx 1:30$** | Smooth implicit $C^2$ formulation enables large integration timesteps |
-| **Sensors + Luenberger Observers + QP Controller** | Intel Core i5-13600K | **$\approx 1:60$** | Full closed-loop 72-muscle QP allocation, 288 spindle observer states, and delay buffer |
-| **18-Core Parallel CMA-ES Optimization** | Intel Core i5-13600K (18 Threads) | **$45 - 60\text{ min / generation}$** | Evaluates 18 candidates across 6 frequencies ($108$ ODE runs) |
-| **Projected: Coupled NEST-GPU SNN** | NVIDIA RTX 4070 Ti + i5-13600K | **$\approx 1:45$** | 1.1M Conductance-based AdEx neurons with 1,000 synapses each |
-| **Projected: SNN with Ionic Adaptation** | NVIDIA RTX 4070 Ti + i5-13600K | **$\approx 1:65$** | Includes $[\text{Na}^+]_i, [\text{K}^+]_i, [\text{Ca}^{2+}]_i$, Na/K pump, and Ca-dependent adaptation |
+* **Premature Stop Rule:** Any candidate whose joint coordinates leave the zero-force deadband and cross into the transition zone is immediately aborted as weak or unstable.
 
 ---
 
@@ -153,7 +139,7 @@ Designed from inception to support high-throughput biomechanics and large-scale 
 ```
 HeadNeck_Control_w_Sensors_Opensim4_6/
 ├── osim_files/                        # OpenSim musculoskeletal models (.osim)
-│   ├── HYOID_HeadNeckNeural_Model_Detailed.osim
+│   ├── HYOID_HeadNeckNeural_Model_Detailed.osim   # Canonical active model (Paradigm A limits)
 │   └── HYOID_HeadNeckNeural_Model_WithLimits.osim
 ├── proprioception_plugin/              # Mileusnic 2006 muscle spindle C++ plugin
 │   ├── Mileusnic06Spindle.h / .cpp
@@ -162,7 +148,7 @@ HeadNeck_Control_w_Sensors_Opensim4_6/
 ├── vestibular_plugin/                  # Semicircular canal & otolith C++ plugin
 │   ├── VestibularSystem.cpp
 │   └── CMakeLists.txt
-├── HeadNeckNeuralController_plugin/    # Luenberger Observers, Mahony, VCR, CCR & Cortical controller
+├── HeadNeckNeuralController_plugin/    # Neural Controller, Observers, VCR, CCR & Decoupled Task space
 │   ├── HeadNeckNeuralController.h / .cpp
 │   └── CMakeLists.txt
 ├── FixationController_plugin/          # Binocular gaze & VOR/COR controller
@@ -170,19 +156,17 @@ HeadNeck_Control_w_Sensors_Opensim4_6/
 │   └── CMakeLists.txt
 ├── docs/                              # Architecture documentation & C4 diagrams
 │   └── neuromotor_control_architecture_c4.md
-├── surrogacy/                         # Differentiable surrogate pre-optimization toolchain
-│   ├── measure_passive_plant.py       # Measures exact OpenSim multi-body plant response G_passive
-│   ├── optimize_surrogate.py          # Fast sub-10s L-BFGS-B gradient descent on exact plant
-│   ├── validate_in_opensim.py         # 6-frequency validation of surrogate solution in OpenSim
-│   ├── opensim_passive_plant.json     # Precomputed exact plant frequency response table
-│   ├── exact_plant_surrogate_solution.json # Optimal reflex parameters discovered by surrogate
-│   └── README.md
-├── scripts/                           # CMA-ES campaign & progress table scripts
-│   ├── run_phase2_1_campaign.py
+├── data/                              # Benchmark candidate definitions & pre-screen champions
+│   ├── prescreen_rational_champion.json  # Phase 2.4 starting centroid (x0) and healthy sigmas
+│   └── prescreen_64k_best_candidate.json # 64k Sobol pre-screen champion
+├── scripts/                           # Optimization campaigns & analysis tools
+│   ├── run_phase2_4_campaign.py       # Active Phase 2.4 30-Generation CMA-ES Campaign
 │   └── build_phase2_progress_table.py
-├── logs/                              # Optimization logs and candidate JSON records
-├── state_files/                       # Equilibrated initial states & ICs
-├── cmaes_worker_p15.py                # Standalone single-candidate 6-frequency worker
+├── logs/                              # Optimization logs, candidate summaries, progress matrix
+│   ├── phase2_4_campaign.log
+│   ├── cervical_72_muscle_parameters.json
+│   └── candidates/
+├── cmaes_worker_p22.py                # Standalone 6-frequency worker on unapproximated OpenSim
 └── README.md
 ```
 
@@ -192,10 +176,10 @@ HeadNeck_Control_w_Sensors_Opensim4_6/
 
 ### Prerequisites
 * **Windows 10/11 x64**
-* **OpenSim 4.6** installed (`C:\OpenSim 4.6` or added to system `PATH`)
-* **Visual Studio 2022** (with Desktop development with C++)
+* **OpenSim 4.6** installed (`C:\OpenSim 4.6` or on system `PATH`)
+* **Visual Studio 2022** (Desktop development with C++)
 * **CMake 3.22+**
-* **Python 3.10+** (Miniforge / Conda environment `opensim_env` with `opensim`, `numpy`, `cma`, `scipy`)
+* **Python 3.10+** (Conda environment `opensim_env` with `opensim`, `numpy`, `cma`, `scipy`)
 
 ### 1. Build C++ OpenSim Plugins
 
@@ -218,65 +202,23 @@ cmake --build . --config Release
 cd ../..
 ```
 
-### 2. Fast Surrogate Pre-Optimization (Quick & Dirty Initialization)
+### 2. Run Phase 2.4 CMA-ES Optimization Campaign
 
-Because multi-frequency non-linear OpenSim simulation takes **$45 - 60\text{ min / generation}$** across 14-18 cores, starting CMA-ES from a raw random initial guess wastes dozens of generations.
-
-We provide an analytical **differentiable neuromotor surrogate pipeline** (`surrogacy/`) that precomputes the exact multi-body OpenSim plant impedance ($G_{\text{passive}}(j\omega)$) and runs multi-start **L-BFGS-B gradient descent in under 10 seconds** to find an elite starting seed vector ($x_0$):
+The campaign initializes directly from the **First-Principles Rational Centroid** (`data/prescreen_rational_champion.json`), running 18 candidates in parallel across 14 cores using unapproximated OpenSim integration:
 
 ```powershell
-# 1. (Optional) Re-measure the exact OpenSim multi-body plant (~90s in parallel)
-python surrogacy/measure_passive_plant.py
-
-# 2. Run multi-start L-BFGS-B gradient descent (< 10s runtime)
-python surrogacy/optimize_surrogate.py
-
-# 3. Validate the surrogate solution in full OpenSim across all 6 frequencies
-python surrogacy/validate_in_opensim.py
+C:\Users\User\miniforge3\envs\opensim_env\python.exe scripts/run_phase2_4_campaign.py
 ```
-* **Performance Gain:** Reduces initial OpenSim error score from **$>176,000\text{ pts}$ down to $<75,000\text{ pts}$** before CMA-ES even starts!
 
-### 3. Run Phase 2.3 Multi-Frequency CMA-ES Optimization
-
-```powershell
-python scripts/run_phase2_3_campaign.py
-```
+* **Target Benchmark to Beat:** Happee (2017) model score = **`2,803.88 pts`**.
 
 ---
 
-## 🗺️ Project Roadmap
-
-- [x] **Phase 8.1: Biomechanical Infrastructure & Sensor Plugins**
-  - [x] OpenSim 4.6 integration with implicit `SemiExplicitEuler2` integrators.
-  - [x] Mileusnic intrafusal spindle model smoothed for $C^2$ continuous solver stability and exact initial equilibrium.
-  - [x] Bilateral non-orthogonal semicircular canal & otolith digital filter bank (Schneider et al. 2015).
-- [x] **Phase 8.2: 100% Sensor-Driven State Estimation & Human Kinematics Benchmark Validation**
-  - [x] Complete elimination of ground-truth kinematics from the CNS controller.
-  - [x] Vestibular Luenberger Observer ($r = +0.9897$) + 72-Muscle Per-Spindle Luenberger Observer + 6-DOF Cervical Jacobian Decoder ($r = +0.9982$) + Multisensory Mahony Fusion ($r = +0.9997$).
-  - [x] Happee 2017 multi-frequency seat perturbation protocol ($0.31 - 7.95\text{ Hz}$).
-  - [ ] Phase 2.1 CMA-ES optimization with sensor-level Luenberger observers (in progress).
-- [x] **Phase 8.3: Human Voluntary Tracking Benchmark Validation**
-  - [x] Replicate the human voluntary velocity profiles in the literature.
-- [ ] **Phase 8.4: Ocular-Cervical Coordination (VOR / COR)**
-  - [ ] Connect vestibular canal outputs directly to FixationController eye muscles.
-  - [ ] Replicate retinal slip minimization under erratic head perturbation.
-- [ ] **Phase 8.5: Implement the Motion Rig**
-  - [ ] Implement the motion rig and replicate real-time motion rig experiments in simulation.
-- [ ] **Phase 9: Galvanic Vestibular Stimulation (GVS)**
-  - [ ] Implement the effect of GVS on the SCC afferents and personalize musculoskeletal models per subject.
-- [ ] **Phase 10: Spiking Neural Network (NEST-GPU)**
-  - [ ] Turn every control-theoretical process into a spiking neural network coupled with 1.1M AdEx neurons on RTX 4070 Ti.
-- [ ] **Phase 11: Binaural Spatial Audio, Cochlea & 3D Space Discovery**
-  - [ ] Convolve HRTFs and RIRs on GPU, simulate Gammatone excitation patterns, and study naive discovery of 3D space structure.
-
----
-
-## 📄 License & Academic References
-
-This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**. See [LICENSE](LICENSE) for full details.
+## 📄 Academic References
 
 If you use this model, plugins, or parameter sets in your research, please cite:
 * **Happee, R., et al. (2017)**. *Identification of head-neck reflex and voluntary control during seated perturbations*. Experimental Brain Research, 235(1), 221-236.
 * **Mileusnic, M. P., et al. (2006)**. *Mathematical models of proprioceptors. I. Control and dynamic response of muscle spindles*. Journal of Neurophysiology, 96(4), 1772-1792.
 * **Schneider, A. D., et al. (2015)**. *Afferent dynamics of the semicircular canals*. Journal of Neurophysiology, 113(7), 2635-2646.
-* **Millard, M., et al. (2013)**. *Flexing computational muscle: modeling and simulation of musculotendon dynamics*. ASME Journal of Biomechanical Engineering, 135(2), 021005.
+* **Vasavada, A. N., et al. (1998)**. *Influence of muscle morphometry and moment arms on head and neck kinematics*. Journal of Biomechanics, 31(6), 547-558.
+* **Mortensen, J. D., et al. (2018)**. *A musculoskeletal model of the human neck with scaled strength and updated inertia*. PLOS ONE, 13(12), e0209939.
