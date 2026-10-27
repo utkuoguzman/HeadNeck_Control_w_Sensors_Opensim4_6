@@ -4,7 +4,7 @@
 [![OpenSim](https://img.shields.io/badge/OpenSim-4.6-blue.svg)](https://opensim.stanford.edu/)
 [![C++](https://img.shields.io/badge/C%2B%2B-17-00599C.svg?logo=c%2B%2B)](https://isocpp.org/)
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg?logo=python)](https://python.org/)
-[![Optimization](https://img.shields.io/badge/CMA--ES-Phase%202.4%20(14--Core%20Parallel)-brightgreen.svg)](https://github.com/CMA-ES/pycma)
+[![Optimization](https://img.shields.io/badge/CMA--ES-Phase%202.4%20(TPA%20%2B%206%20Orthogonal%20Pairs%2C%2014--Core)-brightgreen.svg)](https://github.com/CMA-ES/pycma)
 [![Sensor-Only](https://img.shields.io/badge/CNS%20State%20Estimation-100%25%20Sensor--Driven%20(r%3D0.9997)-brightgreen.svg)](docs/neuromotor_control_architecture_c4.md)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
