@@ -46,35 +46,51 @@ FIXED_ZETA = 0.707
 FIXED_KI = 40.2786
 HAPPEE_BENCHMARK = 2803.88
 
-# 6 Canonical Aligned Frequencies (LPT / early-pruning order)
+# 6 Canonical Aligned Frequencies (Fastest-First + High-Sensitivity Early-Pruning Order)
 TARGETS = [
-    (0.324,  86.55,   -7.03),
-    (0.783, 236.93,  -96.96),
-    (1.099, 319.74, -109.23),
-    (5.583, 503.30, -201.38),
     (2.446, 423.34, -161.34),
-    (7.927, 572.69, -247.62)
+    (5.583, 503.30, -201.38),
+    (7.927, 572.69, -247.62),
+    (1.099, 319.74, -109.23),
+    (0.783, 236.93,  -96.96),
+    (0.324,  86.55,   -7.03)
 ]
 
 PARAM_NAMES = [
-    "r_ton", "p_ton", "K_sc", "r_lead_sc", "p_sc", "K_phas",
+    "K_ton", "p_ton", "K_sc", "r_lead_sc", "p_sc", "K_phas",
     "p_phas", "kp", "r_lead_ccr", "p_ccr", "k_dyn", "k_stat"
 ]
 
 # Physical floor bounds: parameters that MUST remain strictly non-negative
 PHYSICAL_LOWER_LIMITS = np.array([
-    0.001,  # r_ton
+    0.01,   # K_ton   (absolute, independent of K_sc)
     0.1,    # p_ton
-    0.001,  # K_sc
-    0.0001, # r_lead_sc
+    0.05,   # K_sc    (floor > 0 so canal/tonic paths cannot be deleted)
+    0.001,  # r_lead_sc
     1.0,    # p_sc
     0.01,   # K_phas
     1.0,    # p_phas
     0.01,   # kp
-    0.0001, # r_lead_ccr
+    0.001,  # r_lead_ccr
     1.0,    # p_ccr
-    0.01,   # k_dyn
-    0.001   # k_stat
+    0.05,   # k_dyn
+    0.05    # k_stat
+])
+
+# Physical ceilings: a dynamic expansion may never exceed these
+PHYSICAL_UPPER_LIMITS = np.array([
+    3.0,    # K_ton
+    300.0,  # p_ton
+    3.0,    # K_sc
+    1.0,    # r_lead_sc  (zero must stay below pole -> lead)
+    300.0,  # p_sc
+    15.0,   # K_phas
+    80.0,   # p_phas
+    5.0,    # kp
+    1.0,    # r_lead_ccr
+    400.0,  # p_ccr
+    2.0,    # k_dyn
+    2.0     # k_stat
 ])
 
 def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
@@ -170,10 +186,11 @@ def sample_candidates_tpa_orthogonal(es, iteration, archive_X=None, archive_y=No
     sigma = es.sigma
     B = es.sm.B
     D = es.sm.D
+    stds = np.asarray(es.sigma_vec.scaling, dtype=float) * np.ones(len(mean))  # per-parameter CMA_stds
     
     # 1. TPA direction in z-space (standard normal space)
     d0 = np.array(X[0]) - mean
-    z_tpa = (B.T @ d0) / (D * sigma)
+    z_tpa = (B.T @ (d0 / stds)) / (D * sigma)
     z_tpa_norm = np.linalg.norm(z_tpa)
     if z_tpa_norm > 1e-10:
         u_tpa = z_tpa / z_tpa_norm
@@ -185,15 +202,17 @@ def sample_candidates_tpa_orthogonal(es, iteration, archive_X=None, archive_y=No
     use_gp = (iteration >= 8 and archive_X is not None and len(archive_X) >= 80)
     
     if use_gp:
-        # Fit local GP on nearest 80 historical models
-        dists = np.linalg.norm(np.array(archive_X) - mean, axis=1)
+        # Fit local GP on nearest 80 historical models in stds-normalized space (all 12 parameters weighted equally)
+        X_arch_norm = (np.array(archive_X) - mean) / stds
+        dists = np.linalg.norm(X_arch_norm, axis=1)
         idx = np.argsort(dists)[:80]
-        local_X = [archive_X[i] for i in idx]
-        local_y = [archive_y[i] for i in idx]
+        local_X_norm = X_arch_norm[idx]
+        # Winsorize crash penalties (>200,000) so GP variance is not distorted by early-stop penalties
+        local_y = np.minimum(np.array([archive_y[i] for i in idx], dtype=float), 200000.0)
         
         l_scale = max(0.1, float(np.median(dists[idx])))
         gp = SimpleGP(length_scale=l_scale)
-        gp.fit(local_X, local_y)
+        gp.fit(local_X_norm, local_y)
         
         # Sample candidate orthogonal bases and evaluate direction utility
         best_score = float('inf')
@@ -203,13 +222,13 @@ def sample_candidates_tpa_orthogonal(es, iteration, archive_X=None, archive_y=No
             G = G - np.outer(u_tpa, u_tpa @ G)
             Q, _ = np.linalg.qr(G)
             
-            test_pts = []
+            test_pts_norm = []
             for k in range(6):
                 zk = Q[:, k] * np.sqrt(12.0)
-                dx = sigma * (B @ (D * zk))
-                test_pts.append(mean + dx)
-                test_pts.append(mean - dx)
-            mu, sig = gp.predict(test_pts)
+                dx_norm = sigma * (B @ (D * zk))
+                test_pts_norm.append(dx_norm)
+                test_pts_norm.append(-dx_norm)
+            mu, sig = gp.predict(test_pts_norm)
             # Minimize predicted loss while rewarding epistemic uncertainty
             acq = np.sum(mu - 1.0 * sig)
             if acq < best_score:
@@ -228,7 +247,7 @@ def sample_candidates_tpa_orthogonal(es, iteration, archive_X=None, archive_y=No
         qk = Q_chosen[:, k]
         r_len = np.random.chisquare(12)**0.5
         zk = qk * r_len
-        dx = sigma * (B @ (D * zk))
+        dx = sigma * stds * (B @ (D * zk))
         X[2 + 2*k] = (mean + dx).tolist()
         X[3 + 2*k] = (mean - dx).tolist()
         
@@ -277,9 +296,13 @@ def check_and_expand_bounds(best_cand, lower_b, upper_b):
         # Check upper boundary
         if (dist_upp / R) < 0.05:
             delta = 0.10 * R
-            target_U = U + delta
-            new_upper[i] = target_U
-            expansions.append(f"{PARAM_NAMES[i]} upper expanded: {U:.4f} -> {target_U:.4f} (+10% range)")
+            cap = PHYSICAL_UPPER_LIMITS[i]
+            target_U = min(U + delta, cap)
+            if target_U > U + 1e-12:
+                new_upper[i] = target_U
+                expansions.append(f"{PARAM_NAMES[i]} upper expanded: {U:.4f} -> {target_U:.4f} (+10% range, cap {cap})")
+            else:
+                expansions.append(f"{PARAM_NAMES[i]} reached physical ceiling ({cap})")
             
     return new_lower, new_upper, expansions
 
@@ -375,7 +398,7 @@ def main():
         print(f"[PRESCREEN] Initializing CMA-ES centroid x0 from {prescreen_file} ({ps_data.get('description', 'Pre-screen Champion')})")
     else:
         x0 = np.array([
-            0.5769298,   # 0: r_ton
+            0.58,        # 0: K_ton
             76.4989490,  # 1: p_ton (rad/s)
             0.5301718,   # 2: K_sc (Nm/(rad/s))
             0.2457791,   # 3: r_lead_sc
@@ -389,7 +412,7 @@ def main():
             1.1772806    # 11: k_stat
         ])
         sigma0 = np.array([
-            0.08,    # r_ton
+            0.07,    # K_ton
             6.0,     # p_ton
             0.12,    # K_sc
             0.03,    # r_lead_sc
@@ -411,7 +434,7 @@ def main():
             80.0, 5.00, 0.65, 220.0, 1.50, 1.50
         ])
     
-    max_total_generations = 30
+    max_total_generations = int(os.environ.get('PHASE2_4_MAX_GEN', '50'))
     target_stop_generation = int(os.environ.get("PHASE2_4_STOP_GEN", "30"))
     
     es = cma.CMAEvolutionStrategy(x0, 1.0, {
@@ -449,7 +472,20 @@ def main():
                 cands = es.ask()
                 
             b_low, b_upp = es.boundary_handler.bounds
-            clamped_replay = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in cands]
+            loaded_cands = []
+            for w_i in range(1, pop_len + 1):
+                cf_path = f'logs/candidates/W{w_i}_P24G{g}.json'
+                if os.path.exists(cf_path):
+                    with open(cf_path, 'r', encoding='utf-8') as f_cf:
+                        p_raw = json.load(f_cf)['params']
+                    p_vec = list(p_raw)
+                    p_vec[3] = p_raw[3] / p_raw[4]
+                    p_vec[8] = p_raw[8] / p_raw[9]
+                    loaded_cands.append(np.clip(p_vec, b_low + 1e-4, b_upp - 1e-4).tolist())
+            if len(loaded_cands) == pop_len:
+                clamped_replay = loaded_cands
+            else:
+                clamped_replay = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in cands]
 
             es.tell(clamped_replay, gen_scores)
             completed_gens = g
@@ -495,6 +531,13 @@ def main():
     
     iteration = completed_gens
     while not es.stop() and iteration < target_stop_generation:
+        pause_disabled = os.environ.get("DISABLE_NIGHT_PAUSE", "0") == "1"
+        if not pause_disabled:
+            now_dt = datetime.datetime.now()
+            if (now_dt.hour == 22 and now_dt.minute >= 40) or (now_dt.hour >= 23 or now_dt.hour < 7):
+                print(f"\n[PAUSE_2300] Current time {now_dt.strftime('%H:%M:%S')} reached night pause window (23:00 - 07:00). Cleanly pausing generations.", flush=True)
+                break
+
         iteration += 1
         gen_start_time = datetime.datetime.now()
         
@@ -561,7 +604,7 @@ def main():
             consecutive_non_improving += 1
             print(f"\n[PLATEAU TRACKER] Consecutive non-improving generations: {consecutive_non_improving} / 7", flush=True)
             
-        r_ton = best_cand[0]
+        K_ton = best_cand[0]
         p_ton = best_cand[1]
         K_sc = best_cand[2]
         r_lead_sc = best_cand[3]
@@ -574,7 +617,6 @@ def main():
         k_dyn = best_cand[10]
         k_stat = best_cand[11]
         
-        K_ton = r_ton * K_sc
         z_sc = r_lead_sc * p_sc
         z_ccr = r_lead_ccr * p_ccr
         
@@ -587,9 +629,7 @@ def main():
             "duration_min": gen_duration,
             "best_candidate_idx": best_idx + 1,
             "best_score": best_score,
-            "r_ton": float(r_ton),
             "best_params": {
-                "r_ton": float(r_ton),
                 "K_ton": float(K_ton),
                 "p_ton": float(p_ton),
                 "K_sc": float(K_sc),
@@ -608,6 +648,7 @@ def main():
             "all_scores": [float(s) for s in all_scores]
         }
         
+        print(f"\n[GEN COMPLETE] Generation {iteration}: Best Candidate W{best_idx+1}_P24G{iteration} Score = {best_score:.2f} pts (Duration: {gen_duration:.1f} min)", flush=True)
         summary_path = f"logs/phase2_4_gen_{iteration}_summary.json"
         with open(summary_path, "w", encoding="utf-8") as f:
             json.dump(summary, f, indent=2)
@@ -635,8 +676,9 @@ def main():
         )
         
         # Check plateau stopping criterion
-        if consecutive_non_improving >= 7:
-            print(f"\n[PLATEAU CRITERION MET] No score improvement for 7 consecutive generations. Stopping optimization loop.", flush=True)
+        max_non_improving = int(os.environ.get("MAX_NON_IMPROVING", "50"))
+        if consecutive_non_improving >= max_non_improving:
+            print(f"\n[PLATEAU CRITERION MET] No score improvement for {max_non_improving} consecutive generations. Stopping optimization loop.", flush=True)
             break
             
         if best_score < HAPPEE_BENCHMARK:

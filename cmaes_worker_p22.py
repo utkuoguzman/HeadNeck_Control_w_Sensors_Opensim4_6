@@ -125,8 +125,8 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     #   Pitch: Kp = 10.24 Nm/rad, Kd = 1.31 Nms/rad
     #   Roll : Kp = 10.21 Nm/rad, Kd = 1.29 Nms/rad
     #   Yaw  : Kp =  0.24 Nm/rad, Kd = 0.12 Nms/rad
-    kp_task_pitch = float(os.environ.get("KP_TASK_PITCH", "10.24"))
-    kd_task_pitch = float(os.environ.get("KD_TASK_PITCH", "1.31"))
+    kp_task_pitch = float(os.environ.get("KP_TASK_PITCH", "0.0"))
+    kd_task_pitch = float(os.environ.get("KD_TASK_PITCH", "0.0"))
     kp_task_roll  = float(os.environ.get("KP_TASK_ROLL",  "10.21"))
     kd_task_roll  = float(os.environ.get("KD_TASK_ROLL",  "1.29"))
     kp_task_yaw   = float(os.environ.get("KP_TASK_YAW",   "0.24"))
@@ -279,6 +279,12 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
 
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_yaw", 0.0)
 
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt2_pitch", ki * 0.10528)
+
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt2_roll", 0.0)
+
+    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt2_yaw", 0.0)
+
     model.equilibrateMuscles(state)
 
 
@@ -416,35 +422,17 @@ if __name__ == "__main__":
 
     
 
-    # Biological Ratio Coupling: r_ton = K_ton / K_sc
+    # K_ton is optimized directly (no ratio coupling to K_sc)
 
-    if raw_p0 <= 5.0:
-
-        r_ton = raw_p0
-
-        K_ton = r_ton * K_sc
-
-    else:
-
-        K_ton = raw_p0
-
-        r_ton = K_ton / K_sc
+    # K_ton is an ABSOLUTE, independent parameter (lead ratios below stay unconditional ratios)
+    K_ton = raw_p0
 
         
 
     # Biological Lead Ratio Coupling: z_sc = r_lead_sc * p_sc
 
-    if raw_z_sc <= 1.0:
-
-        r_lead_sc = raw_z_sc
-
-        z_sc = r_lead_sc * p_sc
-
-    else:
-
-        z_sc = raw_z_sc
-
-        r_lead_sc = z_sc / p_sc
+    r_lead_sc = raw_z_sc
+    z_sc = r_lead_sc * p_sc
 
     
 
@@ -464,17 +452,8 @@ if __name__ == "__main__":
 
     # Biological Lead Ratio Coupling: z_ccr = r_lead_ccr * p_ccr
 
-    if raw_z_ccr <= 1.0:
-
-        r_lead_ccr = raw_z_ccr
-
-        z_ccr = r_lead_ccr * p_ccr
-
-    else:
-
-        z_ccr = raw_z_ccr
-
-        r_lead_ccr = z_ccr / p_ccr
+    r_lead_ccr = raw_z_ccr
+    z_ccr = r_lead_ccr * p_ccr
 
     
 

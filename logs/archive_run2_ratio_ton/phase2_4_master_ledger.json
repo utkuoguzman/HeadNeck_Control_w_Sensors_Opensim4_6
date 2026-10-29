@@ -1,0 +1,83 @@
+{
+  "phase": 2.4,
+  "description": "Deep Basin Refinement initialized directly on 64k 8DOF Sobol Pre-screen Champion",
+  "benchmark_score": 2803.88,
+  "generations": [
+    {
+      "generation": 0,
+      "candidate": "SOBOL_64K_CHAMPION (Pre-screen)",
+      "score": 38325.45,
+      "duration_min": 0.7,
+      "params": {
+        "r_ton": 0.0983,
+        "p_ton": 17.2357,
+        "K_sc": 14.0616,
+        "r_lead_sc": 0.1691,
+        "p_sc": 37.8375,
+        "K_phas": 11.5286,
+        "p_phas": 8.2132,
+        "kp": 1.9376,
+        "r_lead_ccr": 0.2185,
+        "p_ccr": 189.9153,
+        "k_dyn": 1.2317,
+        "k_stat": 1.0208
+      },
+      "bode": {}
+    },
+    {
+      "generation": 1,
+      "candidate": "W6_P24G1",
+      "score": 31111.01,
+      "duration_min": 63.5,
+      "params": {
+        "r_ton": 1.5968,
+        "K_ton": 0.5004,
+        "p_ton": 88.3364,
+        "K_sc": 0.3134,
+        "r_lead_sc": 0.2533,
+        "z_sc": 25.4568,
+        "p_sc": 100.4904,
+        "K_phas": 5.3092,
+        "p_phas": 12.4284,
+        "kp": 1.3737,
+        "r_lead_ccr": 0.0472,
+        "z_ccr": 7.7543,
+        "p_ccr": 164.4197,
+        "k_dyn": 0.7173,
+        "k_stat": 1.1417
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -11.9,
+          "phase_err": 4.3,
+          "score": 14085.3
+        },
+        "0.783": {
+          "gain_db": -3.0,
+          "phase_err": 13.7,
+          "score": 1111.0
+        },
+        "1.099": {
+          "gain_db": -3.2,
+          "phase_err": 9.8,
+          "score": 1152.2
+        },
+        "2.446": {
+          "gain_db": 6.1,
+          "phase_err": 4.9,
+          "score": 3708.8
+        },
+        "5.583": {
+          "gain_db": 0.5,
+          "phase_err": 96.8,
+          "score": 9408.2
+        },
+        "7.927": {
+          "gain_db": -1.5,
+          "phase_err": 37.6,
+          "score": 1645.5
+        }
+      }
+    }
+  ]
+}

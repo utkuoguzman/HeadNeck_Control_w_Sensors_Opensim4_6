@@ -259,13 +259,13 @@ For each muscle $i \in \{1,\dots,72\}$, the CNS integrates **4 continuous ODE st
    $$\Delta \text{Ia}_{\text{dyn},i} = (\text{Ia}_i - \text{Ia}_{i,0}) - 0.6716\,\Delta \text{II}_{\text{mech},i} - 54.4518\,\hat{f}_{\text{dyn},i}$$
    Normalizing $\Delta \text{II}_{\text{mech},i}$ by the exact Mileusnic static sensitivity ($369.1427\text{ Hz}/L_{0,i}$) and pennation angle $\cos\alpha_i$ yields the instantaneous length-change signal $y_{\text{II},i}$ (in meters):
    $$y_{\text{II},i} = \frac{L_{0,i}}{369.1427\,\cos\alpha_i}\,\Delta \text{II}_{\text{mech},i}$$
-3. **Dynamic Baseline & Velocity Luenberger Update ($\hat{\Delta L}_i, \hat{v}_i$):**
+3. **Fast 2-State Dynamic Baseline & Velocity Luenberger Update ($\hat{\Delta L}_i, \hat{v}_i$):**
    - Instantaneous velocity extracted from Group $\text{II}$ relative to the moving baseline $\hat{\Delta L}_i$:
      $$v_{\text{II},i} = \frac{y_{\text{II},i} - \hat{\Delta L}_i}{\tau_{\text{II}}}, \qquad \tau_{\text{II}} = 0.055\text{ s}$$
    - Dynamic velocity + acceleration lead extracted from Group $\text{Ia}$:
      $$v_{\text{Ia},i} = c_{\text{Ia},i}\,\Delta \text{Ia}_{\text{dyn},i}, \qquad c_{\text{Ia},i} = \frac{L_{0,i}}{35000\,\cos\alpha_i}$$
-   - Coupled Luenberger state derivatives (where the new baseline $\hat{\Delta L}_i$ is the exact time integral of the inferred velocity $\hat{v}_i$):
-     $$\frac{d\hat{\Delta L}_i}{dt} = \hat{v}_i, \qquad \frac{d\hat{v}_i}{dt} = \frac{(v_{\text{II},i} + v_{\text{Ia},i}) - \hat{v}_i}{\tau_v}, \qquad \tau_v = 0.025\text{ s}$$
+   - Coupled 2-state Luenberger state derivatives with direct position innovation ($\tau_{\Delta L} = 0.010\text{ s}$) and fast velocity tracking ($\tau_v = 0.005\text{ s}$):
+     $$\frac{d\hat{\Delta L}_i}{dt} = \hat{v}_i + \frac{y_{\text{II},i} - \hat{\Delta L}_i}{\tau_{\Delta L}}, \qquad \frac{d\hat{v}_i}{dt} = \frac{(v_{\text{II},i} + v_{\text{Ia},i}) - \hat{v}_i}{\tau_v}$$
 
 ---
 
@@ -281,14 +281,14 @@ $$\hat{\vec{\theta}}_{\text{rel}} = \begin{bmatrix} \hat{q}_{\text{pitch1}} + \h
 
 ---
 
-### 4.4 Multisensory Mahony Spatial Observer (Vestibular + Proprioceptive Fusion)
-The brainstem maintains a unit quaternion $\mathbf{q} = [q_0, q_1, q_2, q_3]^T$ representing the 3D orientation of the skull in the world frame ($\hat{\mathbf{R}}_{\text{est}}(\mathbf{q})$). It fuses three strictly sensor-derived streams:
-1. **Vestibular Luenberger Angular Velocity ($\hat{\vec{\omega}}_{\text{phys}}$):** Transformed into the head frame as $\vec{\omega}_{\text{head}} = \hat{\mathbf{R}}_{\text{est}}^T\,\hat{\vec{\omega}}_{\text{phys}}$.
-2. **Otolith Gravity Innovation ($\vec{e}_{\text{oto}}$):** Cross product between the normalized utricle/saccule specific force $\vec{u}_{\text{meas}} = \vec{f}_{\text{oto}} / \|\vec{f}_{\text{oto}}\|$ and the internal gravity vector $\vec{u}_{\text{exp}} = \hat{\mathbf{R}}_{\text{est}}^T [0, 1, 0]^T$:
-   $$\vec{e}_{\text{oto}} = \vec{u}_{\text{meas}} \times \vec{u}_{\text{exp}}, \qquad K_{\text{oto}} = 0.05\text{ rad/s}$$
-   *(Kept small so horizontal seat accelerations do not induce false tilt illusions).*
-3. **Proprioceptive Luenberger Innovation ($\vec{e}_{\text{prop}}$):** Combines the known trunk reference orientation $\vec{\theta}_{\text{trunk}} = [\theta_{\text{gnd,roll}}, \theta_{\text{gnd,yaw}}, \theta_{\text{gnd,pitch}}]^T$ with the 72-spindle Luenberger neck estimate $\hat{\vec{\theta}}_{\text{rel}}$:
-   $$\vec{\theta}_{\text{prop,world}} = \vec{\theta}_{\text{trunk}} + \hat{\vec{\theta}}_{\text{rel}}, \qquad \vec{e}_{\text{prop,head}} = \hat{\mathbf{R}}_{\text{est}}^T \left(\vec{\theta}_{\text{prop,world}} - \hat{\vec{\theta}}_{\text{est}}\right)$$
+### 4.4 Multi-Delay Smith-Compensated Mahony Spatial Observer (Vestibular + Proprioceptive Fusion)
+The brainstem maintains a unit quaternion $\mathbf{q} = [q_0, q_1, q_2, q_3]^T$ representing the 3D orientation of the skull in the world frame ($\hat{\mathbf{R}}_{\text{est}}(\mathbf{q})$). Because vestibular and cervical proprioceptive afferents arrive at the brainstem/cerebellum with distinct axonal conduction latencies ($\tau_{\text{aff,vest}} = 2\text{ ms}$ via CN VIII vs. $\tau_{\text{aff,prop}} = 7\text{ ms}$ via the dorsal columns), the observer employs **multi-delay Smith predictor innovations** that compare each delayed sensor measurement against the observer's historical state from the exact same timestamp:
+1. **Delayed Vestibular Luenberger Angular Velocity ($\hat{\vec{\omega}}_{\text{phys}}(t - 2\text{ ms})$):** Transformed into the head frame as $\vec{\omega}_{\text{head}} = \hat{\mathbf{R}}_{\text{est}}^T(t)\,\hat{\vec{\omega}}_{\text{phys}}(t - 2\text{ ms})$.
+2. **Time-Aligned Otolith Gravity Smith Innovation ($\vec{e}_{\text{oto}}(t - 2\text{ ms})$):** The otolith specific force is evaluated using the time-aligned skull rotation and $1\text{ ms}$-windowed linear acceleration at $t - 2\text{ ms}$, $\vec{f}_{\text{oto}}(t - 2\text{ ms}) = \mathbf{R}_{\text{world}\to\text{head}}(t - 2\text{ ms})\left(\vec{a}_{\text{lin}}(t - 2\text{ ms}) - \vec{g}_{\text{world}}\right)$, and crossed with the observer's historical internal gravity vector $\vec{u}_{\text{exp}}(t - 2\text{ ms}) = \hat{\mathbf{R}}_{\text{est}}^T(t - 2\text{ ms}) [0, 1, 0]^T$:
+   $$\vec{e}_{\text{oto}} = \vec{u}_{\text{meas}}(t - 2\text{ ms}) \times \vec{u}_{\text{exp}}(t - 2\text{ ms}), \qquad K_{\text{oto}} = 0.05\text{ rad/s}$$
+   *(Kept small so horizontal seat accelerations do not induce false tilt illusions, while eliminating frame-delay mismatch gravity leaks).*
+3. **Proprioceptive Smith Innovation ($\vec{e}_{\text{prop}}(t - 7\text{ ms})$):** Combines the $7\text{ ms}$-delayed trunk reference orientation $\vec{\theta}_{\text{trunk}}(t - 7\text{ ms})$ with the 72-spindle Luenberger neck estimate $\hat{\vec{\theta}}_{\text{rel}}(t - 7\text{ ms})$ and compares it against the stored observer attitude $\hat{\vec{\theta}}_{\text{est}}(t - 7\text{ ms})$:
+   $$\vec{\theta}_{\text{prop,world}}(t - 7\text{ ms}) = \vec{\theta}_{\text{trunk}}(t - 7\text{ ms}) + \hat{\vec{\theta}}_{\text{rel}}(t - 7\text{ ms}), \qquad \vec{e}_{\text{prop,head}} = \hat{\mathbf{R}}_{\text{est}}^T(t) \left(\vec{\theta}_{\text{prop,world}}(t - 7\text{ ms}) - \hat{\vec{\theta}}_{\text{est}}(t - 7\text{ ms})\right)$$
    with gain $\mathbf{K}_{\text{prop}} = \text{diag}(2.0, 2.0, 2.0)\text{ s}^{-1}$.
 
 The fused angular rate drives the quaternion kinematics:
@@ -311,25 +311,27 @@ Tested under seated harmonic perturbation ($1.11\text{ Hz}$, steady-state window
 
 ## 5. Reflex & Cortical Control Loops (How the Estimates Are Used)
 
-### 5.1 Vestibulo-Collic Reflex (VCR — $35\text{ ms}$ Delay)
-1. **Canal Angular Velocity Reflex ($H_{\text{sc}}(s)$):** Uses the delayed **raw phase-leading canal output** $\vec{\omega}_{\text{canal}}(t - \tau_{\text{vcr}})$ together with an active lead-lag filter:
-   $$H_{\text{sc}}(s) = K_{\text{sc}} \frac{s + z_{\text{sc}}}{s + p_{\text{sc}}}, \qquad z_{\text{sc}} = r_{\text{lead,sc}}\,p_{\text{sc}}$$
-2. **Otolith Tonic Attitude Reflex ($H_{\text{ton}}(s)$):** Driven by the delayed Mahony fused orientation $\hat{\vec{\theta}}_{\text{est}}(t - \tau_{\text{vcr}})$:
-   $$H_{\text{ton}}(s) = K_{\text{ton}} \frac{p_{\text{ton}}}{s + p_{\text{ton}}}, \qquad K_{\text{ton}} = r_{\text{ton}}\,K_{\text{sc}}$$
-3. **Otolith Phasic Linear Acceleration Reflex ($H_{\text{phas}}(s)$):** Disambiguates true linear acceleration $\hat{\vec{a}}_{\text{lin}} = \hat{\mathbf{R}}_{\text{est}}\,\vec{f}_{\text{oto}} + \vec{g}_{\text{world}}$ from gravity tilt:
+### 5.1 Vestibulo-Collic Reflex (VCR — $10\text{ ms}$ Total Latency: $2\text{ ms}$ Afferent + $8\text{ ms}$ Efferent)
+1. **Center-Frequency Normalized Canal Angular Velocity Reflex ($H_{\text{sc}}(s)$):** Uses the delayed **gain-normalized phase-leading canal output** $\vec{\omega}_{\text{canal}}(t - \tau_{\text{vcr}}) / k_{\text{pass}}$ together with an active lead-lag filter normalized by $\sqrt{r_{\text{lead,sc}}} = \sqrt{z_{\text{sc}}/p_{\text{sc}}}$ so that the gain at the peak-phase-lead frequency $\omega_m = \sqrt{z_{\text{sc}} p_{\text{sc}}}$ is invariant to $r_{\text{lead,sc}}$:
+   $$H_{\text{sc}}(s) = \frac{K_{\text{sc}}}{\sqrt{r_{\text{lead,sc}}}} \frac{s + z_{\text{sc}}}{s + p_{\text{sc}}}, \qquad z_{\text{sc}} = r_{\text{lead,sc}}\,p_{\text{sc}}$$
+2. **Otolith Tonic Attitude Reflex ($H_{\text{ton}}(s)$):** Driven by the delayed Mahony fused orientation $\hat{\vec{\theta}}_{\text{est}}(t - \tau_{\text{eff,vcr}})$ with an independent absolute tonic gain $K_{\text{ton}}$:
+   $$H_{\text{ton}}(s) = K_{\text{ton}} \frac{p_{\text{ton}}}{s + p_{\text{ton}}}$$
+3. **Otolith Phasic Linear Acceleration Reflex ($H_{\text{phas}}(s)$):** Disambiguates true linear acceleration $\hat{\vec{a}}_{\text{lin,head}}(t - \tau_{\text{vcr}}) = \mathbf{R}_{\text{world}\to\text{head}}(t - \tau_{\text{vcr}})\left(\vec{a}_{\text{lin}}(t - \tau_{\text{vcr}}) - \vec{g}_{\text{world}}\right) + \hat{\mathbf{R}}_{\text{est}}^T(t - \tau_{\text{eff,vcr}})\vec{g}_{\text{world}}$ using a $1\text{ ms}$ finite-difference window and time-aligned rotation matrices (preventing frame-delay mismatch gravity leaks):
    $$H_{\text{phas}}(s) = K_{\text{phas}} \frac{p_{\text{phas}}}{s + p_{\text{phas}}}$$
+   > [!IMPORTANT]
+   > **Why $H_{\text{phas}}(s)$ Must Be Strictly Proper:** Because the otolith organs sit in the skull above the cervical pivot ($r_{\text{neck}} \approx 0.13\text{ m}$), horizontal skull acceleration contains a kinematic angular acceleration term $a_{x,\text{skull}} = \ddot{x}_{\text{trunk}} - r_{\text{neck}}\ddot{\theta}_{\text{pitch}}$. Passing $a_{x,\text{skull}}$ through a strictly proper 1st-order filter $\frac{p_{\text{phas}}}{s + p_{\text{phas}}}$ integrates $-r_{\text{neck}}\ddot{\theta}_{\text{pitch}}$ above $p_{\text{phas}}$ into stabilizing **viscous rotational damping** ($-r_{\text{neck}} p_{\text{phas}} \dot{\theta}_{\text{pitch}}$), whereas direct acceleration feedthrough would create an algebraic positive angular acceleration feedback loop ($+K_{\text{phas}} r_{\text{neck}}\ddot{\theta}_{\text{pitch}}$).
 
-### 5.2 Cervico-Collic Reflex (CCR — $35\text{ ms}$ Delay)
-Driven directly by the delayed primary spindle afferent innovation $\Delta \text{Ia}_i(t - \tau_{\text{ccr}}) = \max\!\big(0, \text{Ia}_i(t - \tau_{\text{ccr}}) - \text{Ia}_{i,0}\big)$ through a per-muscle spinal lead-lag filter:
-$$H_{\text{ccr}}(s) = k_p \frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad z_{\text{ccr}} = r_{\text{lead,ccr}}\,p_{\text{ccr}}$$
+### 5.2 Cervico-Collic Reflex (CCR — $15\text{ ms}$ Latency)
+Driven directly by the delayed primary spindle afferent innovation $\Delta \text{Ia}_i(t - \tau_{\text{ccr}}) = \max\!\big(0, \text{Ia}_i(t - \tau_{\text{ccr}}) - \text{Ia}_{i,0}\big)$ through a center-frequency normalized per-muscle spinal lead-lag filter:
+$$H_{\text{ccr}}(s) = \frac{k_p}{\sqrt{r_{\text{lead,ccr}}}} \frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad z_{\text{ccr}} = r_{\text{lead,ccr}}\,p_{\text{ccr}}$$
 > [!NOTE]
-> **Gated Reciprocal Inhibition:** Presynaptic reciprocal inhibition ($K_{\text{recip}}$) is gated by active voluntary trajectory vigor ($\|\dot{\vec{\theta}}_{\text{traj}}\| > 10^{-3}\text{ rad/s}$) so that during voluntary head turns, antagonist stretch reflexes are suppressed, whereas during passive external perturbations (where $\dot{\vec{\theta}}_{\text{traj}} = 0$), full bilateral CCR stiffness is preserved.
+> **Gated Reciprocal Inhibition & Intervertebral S-Buckling Stability:** Because the 3-DOF descending QP allocator averages upper and lower cervical moment arms ($r_{\text{pitch},i} = \tfrac{1}{2}(r_{\text{p1},i} + r_{\text{p2},i})$), descending brainstem/cortical torques control only total head-on-trunk angle ($\text{pitch}_1 + \text{pitch}_2$) and have zero controllability over the internal S-shape intervertebral buckling mode ($\text{pitch}_1 - \text{pitch}_2$). Per-muscle spinal stretch reflexes (CCR) across all 72 muscles provide the sole active stabilization of individual intervertebral joints (`pitch1` vs `pitch2`). Therefore, presynaptic reciprocal inhibition ($K_{\text{recip}}$) is gated by active voluntary trajectory vigor ($\|\dot{\vec{\theta}}_{\text{traj}}\| > 10^{-3}\text{ rad/s}$) so that antagonist stretch reflexes are suppressed only during voluntary head turns, while $100\%$ bilateral anti-buckling CCR stiffness is preserved during postural stabilization.
 
 ### 5.3 Cortical Postural Drive & Decoupled Task-Space Control
 
-#### A. Physical Inverted-Pendulum Task Gains
-Rather than empirical ad-hoc weights, the voluntary/postural feedback gains are derived directly from the physical inertia of the human head-neck complex ($m_{\text{head}} = 4.30\text{ kg}$, $I_{xx} = 0.0207\text{ kg}\cdot\text{m}^2$, $I_{yy} = 0.0150\text{ kg}\cdot\text{m}^2$, $I_{zz} = 0.0226\text{ kg}\cdot\text{m}^2$, effective neck pendulum length $L \approx 0.13\text{ m}$):
-- **Sagittal Pitch:** $K_{p,\text{pitch}} = 10.24\text{ Nm/rad}, \quad K_{d,\text{pitch}} = 1.31\text{ Nms/rad}$
+#### A. Physical Inverted-Pendulum Task Gains & Consistent $40\text{ ms}$ Transcortical Delay
+Rather than empirical ad-hoc weights, the voluntary/postural feedback gains are derived directly from the physical inertia of the human head-neck complex ($m_{\text{head}} = 4.30\text{ kg}$, $I_{xx} = 0.0207\text{ kg}\cdot\text{m}^2$, $I_{yy} = 0.0150\text{ kg}\cdot\text{m}^2$, $I_{zz} = 0.0226\text{ kg}\cdot\text{m}^2$, effective neck pendulum length $L \approx 0.13\text{ m}$), evaluated consistently at the $40\text{ ms}$ transcortical delay ($\hat{\vec{\theta}}_{\text{rel}}(t - 40\text{ ms}), \hat{\vec{\omega}}_{\text{rel}}(t - 40\text{ ms})$) and passed through a $2.0\text{ Hz}$ low-pass cortical filter:
+- **Sagittal Pitch (Relaxed Perturbation Task):** $K_{p,\text{pitch}} = 0.0\text{ Nm/rad}, \quad K_{d,\text{pitch}} = 0.0\text{ Nms/rad}$ *(zeroed in the relaxed perturbation condition so voluntary outer-loop stiffness does not artificially clamp $0.324\text{ Hz}$ compliance; $10.24\text{ Nm/rad}$ and $1.31\text{ Nms/rad}$ during active voluntary tracking)*
 - **Coronal Roll:** $K_{p,\text{roll}} = 10.21\text{ Nm/rad}, \quad K_{d,\text{roll}} = 1.29\text{ Nms/rad}$
 - **Transverse Yaw:** $K_{p,\text{yaw}} = 0.24\text{ Nm/rad}, \quad K_{d,\text{yaw}} = 0.12\text{ Nms/rad}$
 
@@ -340,7 +342,7 @@ To permanently eradicate lateral cross-talk and yaw windup, the integrator is st
 $$K_{i,\text{pitch}} = 40.2786\text{ Nm/(rad}\cdot\text{s)}, \qquad K_{i,\text{roll}} = 0.0, \qquad K_{i,\text{yaw}} = 0.0$$
 
 The voluntary task-space torque vector $\vec{\tau}_{\text{vol}} \in \mathbb{R}^3$ is thus computed as:
-$$\vec{\tau}_{\text{vol}} = \mathbf{K}_p \left(\vec{\theta}_{\text{traj}} - \hat{\vec{\theta}}_{\text{rel}}\right) + \mathbf{K}_d \left(\dot{\vec{\theta}}_{\text{traj}} - \hat{\vec{\omega}}_{\text{rel}}\right) + \begin{bmatrix} 0 \\ 0 \\ K_{i,\text{pitch}} \int (\theta_{\text{traj,pitch}} - \hat{\theta}_{\text{rel,pitch}})\,dt \end{bmatrix} + \mathbf{I}_{\text{head}}\,\ddot{\vec{\theta}}_{\text{traj}}$$
+$$\vec{\tau}_{\text{vol}} = H_{\text{LP,2Hz}}(s)\!\left[\mathbf{K}_p \left(\vec{\theta}_{\text{traj}} - \hat{\vec{\theta}}_{\text{rel}}(t - \tau_{\text{vol}})\right) + \mathbf{K}_d \left(\dot{\vec{\theta}}_{\text{traj}} - \hat{\vec{\omega}}_{\text{rel}}(t - \tau_{\text{vol}})\right) + \begin{bmatrix} 0 \\ 0 \\ K_{i,\text{pitch}} \int (\theta_{\text{traj,pitch}} - \hat{\theta}_{\text{rel,pitch}}(t - \tau_{\text{vol}}))\,dt \end{bmatrix}\right] + \mathbf{I}_{\text{head}}\,\ddot{\vec{\theta}}_{\text{traj}}$$
 
 #### C. Constrained QP Muscle Allocation
 Sums cortical, brainstem, and internal model torques $\vec{\tau}_{\text{total}} = \vec{\tau}_{\text{vol}} + \vec{\tau}_{\text{vcr}} + \vec{\tau}_{\text{eso}}$ and solves for the minimum-effort descending alpha motor command $\vec{u}_\alpha \in [0.03, 1.0]^{72}$ via quadratic programming (QP):
@@ -356,11 +358,11 @@ $$u_{\text{total},i} = \text{clamp}(u_{\alpha,i} + u_{\text{ccr},i},\, 0.03,\, 1
 | :--- | :--- | :--- | :--- | :--- |
 | **Vestibular Canals** | Skull $\vec{\omega}_{\text{head}}$ | Schneider (2015) 2nd-order Reg + Irr filters | Phase-leading $\vec{\omega}_{\text{canal}}$ | VCR Reflex & Vestibular Luenberger |
 | **Vestibular Luenberger** | $\vec{\omega}_{\text{canal}}$ | $\dot{\hat{\vec{\omega}}}_{\text{phys}} = (\vec{\omega}_{\text{canal}}/k_{\text{pass}} - \hat{\vec{\omega}}_{\text{phys}})/T_{\text{lead}}$ | Clean $\hat{\vec{\omega}}_{\text{phys}}$ ($r=0.9897$) | Mahony Quaternion Observer |
-| **72 Spindle Luenbergers** | $\text{Ia}_i, \text{II}_i, u_{\alpha,i}$ | $\dot{\hat{\Delta L}}_i = \hat{v}_i$, $\dot{\hat{v}}_i = (v_{\text{II},i} + v_{\text{Ia},i} - \hat{v}_i)/\tau_v$ | Per-muscle $(\hat{\Delta L}_i, \hat{v}_i)$ | 6-DOF Cervical Jacobian Decoder |
+| **72 Spindle Luenbergers** | $\text{Ia}_i, \text{II}_i, u_{\alpha,i}$ | $\dot{\hat{\Delta L}}_i = \hat{v}_i + (y_{\text{II},i} - \hat{\Delta L}_i)/\tau_{\Delta L}$, $\dot{\hat{v}}_i = (v_{\text{II},i} + v_{\text{Ia},i} - \hat{v}_i)/\tau_v$ | Per-muscle $(\hat{\Delta L}_i, \hat{v}_i)$ | 6-DOF Cervical Jacobian Decoder |
 | **6-DOF Jacobian Decoder** | $72 \times (\hat{\Delta L}_i, \hat{v}_i)$ | $\mathbf{K}_{6\text{DOF}} = -(\mathbf{J}_6 \mathbf{J}_6^T + \lambda \mathbf{I})^{-1}\mathbf{J}_6$ | Neck $\hat{\vec{\theta}}_{\text{rel}}, \hat{\vec{\omega}}_{\text{rel}}$ ($r=0.9982$) | Mahony Observer & Cortical Drive |
-| **Mahony Spatial Observer** | $\hat{\vec{\omega}}_{\text{phys}}, \vec{f}_{\text{oto}}, \hat{\vec{\theta}}_{\text{rel}}$ | $\dot{\mathbf{q}} = \tfrac{1}{2}\mathbf{q} \otimes (\vec{\omega}_{\text{head}} + K_{\text{oto}}\vec{e}_{\text{oto}} + \mathbf{K}_{\text{prop}}\vec{e}_{\text{prop}})$ | Fused 3D Attitude $\hat{\vec{\theta}}_{\text{est}}$ ($r=0.9997$) | VCR Tonic/Phasic & Higher Centers |
-| **VCR Reflex ($35\text{ ms}$)** | Delayed $\vec{\omega}_{\text{canal}}, \hat{\vec{\theta}}_{\text{est}}$ | $H_{\text{sc}}(s) = K_{\text{sc}}\frac{s+z_{\text{sc}}}{s+p_{\text{sc}}}$, $H_{\text{ton}}(s)$, $H_{\text{phas}}(s)$ | Brainstem Torque $\vec{\tau}_{\text{vcr}}$ | QP Muscle Allocator |
-| **CCR Reflex ($35\text{ ms}$)** | Delayed $\Delta \text{Ia}_i$ | $H_{\text{ccr}}(s) = k_p\frac{s+z_{\text{ccr}}}{s+p_{\text{ccr}}}$ | Spinal Excitation $u_{\text{ccr},i}$ | Alpha Motor Neuron Pool |
+| **Mahony Spatial Observer** | $\hat{\vec{\omega}}_{\text{phys}}(t-2\text{ms}), \vec{f}_{\text{oto}}(t-2\text{ms}), \hat{\vec{\theta}}_{\text{rel}}(t-7\text{ms})$ | $\dot{\mathbf{q}} = \tfrac{1}{2}\mathbf{q} \otimes (\vec{\omega}_{\text{head}} + K_{\text{oto}}\vec{e}_{\text{oto}} + \mathbf{K}_{\text{prop}}\vec{e}_{\text{prop}})$ | Fused 3D Attitude $\hat{\vec{\theta}}_{\text{est}}$ ($r=0.9997$) | VCR Tonic/Phasic & Higher Centers |
+| **VCR Reflex ($10\text{ ms}$)** | Delayed $\vec{\omega}_{\text{canal}}/k_{\text{pass}}, \hat{\vec{\theta}}_{\text{est}}, \hat{\vec{a}}_{\text{lin}}$ | $H_{\text{sc}}(s) = \frac{K_{\text{sc}}}{\sqrt{r_{\text{sc}}}}\frac{s+z_{\text{sc}}}{s+p_{\text{sc}}}$, $H_{\text{ton}}(s)$, $H_{\text{phas}}(s)$ | Brainstem Torque $\vec{\tau}_{\text{vcr}}$ | QP Muscle Allocator |
+| **CCR Reflex ($15\text{ ms}$)** | Delayed $\Delta \text{Ia}_i$ | $H_{\text{ccr}}(s) = \frac{k_p}{\sqrt{r_{\text{ccr}}}}\frac{s+z_{\text{ccr}}}{s+p_{\text{ccr}}}$ | Spinal Excitation $u_{\text{ccr},i}$ | Alpha Motor Neuron Pool |
 
 ---
 

@@ -17,14 +17,13 @@ This repository hosts a high-fidelity, biophysically grounded **3D musculoskelet
 1. **Bilateral Non-Orthogonal Vestibular Labyrinths (`osimVestibular.dll`):** 6 semicircular canals with exact [Schneider et al. (2015)](https://doi.org/10.1152/jn.00819.2014) regular and irregular afferent dynamics + bilateral 3D otolith maculae.
 2. **72 Biophysical Muscle Spindles (`osimMillard12EqWithAff.dll`):** Embedded [Mileusnic et al. (2006)](https://doi.org/10.1152/jn.00868.2005) intrafusal spindle mechanics across all 72 cervical muscles, outputting continuous **Group Ia** (velocity + acceleration) and **Group II** (instantaneous velocity relative to the $\gamma$-adjusted equilibrium baseline) firing rates at `SimTK::Stage::Velocity`.
 3. **Sensor-Level Luenberger Observers & 6-DOF Jacobian Decoder (`osimHeadNeckNeural.dll`):**
-   - **Vestibular Luenberger Observer:** Inverts the semicircular canal phase lead ($T_{\text{lead}} = 24.42\text{ ms}$) to recover clean physical head angular velocity ($r = +0.9897$, $\text{AmpRatio} = 0.999$) while preserving the raw phase-leading canal output for the fast Vestibulo-Collic Reflex (VCR).
-   - **72-Muscle Per-Spindle Luenberger Observer $\to$ 6-DOF Cervical Jacobian Decoder:** Filters out descending fusimotor ($\gamma_{\text{dyn}}, \gamma_{\text{stat}}$) efference copies on each muscle, extracts instantaneous velocity from Group $\text{II}$ relative to the continuously integrated baseline $\dot{\hat{\Delta L}}_i = \hat{v}_i$ plus dynamic lead from Group $\text{Ia}$, and projects all 72 muscles through the regularized $6 \times 72$ cervical moment-arm pseudoinverse $\mathbf{K}_{6\text{DOF}} = -(\mathbf{J}_6 \mathbf{J}_6^T + \lambda \mathbf{I})^{-1}\mathbf{J}_6$ ($r = +0.9982$, $\text{RMSE} = 0.916^\circ$).
-   - **Multisensory Mahony Quaternion Observer:** Fuses the Vestibular Luenberger angular velocity, Otolith gravity vector, and 6-DOF Proprioceptive Luenberger posture to achieve **$r = +0.9997$ ($\text{RMSE} = 0.719^\circ$)** against ground-truth skull orientation.
-4. **Physically Grounded Task-Space & Decoupled Postural Control:**
-   - **Direct Inverted-Pendulum Task Gains:** Replaces legacy $W$-value formulas with direct physical PD control ($K_p = 10.24\text{ Nm/rad}, K_d = 1.31\text{ Nms/rad}$ in pitch; $K_p = 10.21, K_d = 1.29$ in roll; $K_p = 0.24, K_d = 0.12$ in yaw).
-   - **Decoupled Integrator:** Static gravity trim is restricted strictly to pitch ($K_{i,\text{pitch}} = 40.28\text{ Nm/(rad}\cdot\text{s)}$) with zero roll/yaw integration ($K_{i,\text{roll}}=0, K_{i,\text{yaw}}=0$), completely eliminating lateral cross-talk and yaw windup.
+   - **Vestibular Luenberger Observer:** Inverts the semicircular canal phase lead ($T_{\text{lead}} = 24.42\text{ ms}$) to recover clean physical head angular velocity ($r = +0.9897$, $\text{AmpRatio} = 0.999$) for central state estimation, while passing gain-normalized raw phase-leading canal firing ($\vec{\omega}_{\text{canal}} / k_{\text{pass}}$) directly to the fast Vestibulo-Collic Reflex (VCR).
+   - **72-Muscle Fast 2-State Per-Spindle Luenberger Observer $\to$ 6-DOF Cervical Jacobian Decoder:** Filters out descending fusimotor ($\gamma_{\text{dyn}}, \gamma_{\text{stat}}$) efference copies on each muscle, combines direct position innovation ($\tau_{\Delta L} = 10\text{ ms}$) from Group $\text{II}$ with fast velocity tracking ($\tau_v = 5\text{ ms}$, $\tau_{\text{II}} = 55\text{ ms}$) and dynamic lead from Group $\text{Ia}$, and projects all 72 muscles through the regularized $6 \times 72$ cervical moment-arm pseudoinverse $\mathbf{K}_{6\text{DOF}} = -(\mathbf{J}_6 \mathbf{J}_6^T + \lambda \mathbf{I})^{-1}\mathbf{J}_6$ ($r = +0.9982$, $\text{RMSE} = 0.916^\circ$).
+   - **Multi-Delay Smith-Compensated Mahony Quaternion Observer:** Fuses $2\text{ ms}$-delayed Vestibular Luenberger angular velocity, time-aligned $2\text{ ms}$-delayed Otolith specific force ($\vec{e}_{\text{oto}}$ compared against $\hat{\mathbf{R}}_{\text{est}}(t - 2\text{ ms})$), and $7\text{ ms}$-delayed 6-DOF Proprioceptive Luenberger posture ($\vec{e}_{\text{prop}}$ compared against $\hat{\vec{\theta}}_{\text{est}}(t - 7\text{ ms})$) to achieve **$r = +0.9997$ ($\text{RMSE} = 0.719^\circ$)** against ground-truth skull orientation without multi-sensor delay distortion.
+4. **Physically Grounded Task-Space & Frozen Static Gravity Trim:**
+   - **2nd-Order Cortical Low-Pass Filter & Frozen Postural Gravity Trim:** During head-in-space perturbation stabilization ($\theta_{\text{des}} = 0$), the cortical pitch loop holds a frozen static anti-gravity equilibrium trim ($\tau_{\text{grav},0} = K_{i,\text{pitch}} \times 0.10528 = 4.2405\text{ Nm}$, $K_{p,\text{pitch}} = 0, K_{d,\text{pitch}} = 0$) passed through a 2nd-order $2\text{ Hz}$ low-pass filter ($\left(\frac{\omega_{\text{vol}}}{s + \omega_{\text{vol}}}\right)^2$ with consistent $40\text{ ms}$ transcortical delay), preventing artificial low-frequency neck clamping at $0.324\text{ Hz}$ and high-frequency $K_d s$ phase interference while preserving gentle lateral stabilization in roll and yaw ($K_{i,\text{roll}}=0, K_{i,\text{yaw}}=0$).
 5. **Multi-Loop Corticospinal Reflex Control & Paradigm A Biomechanical Limits:**
-   - Active **Vestibulo-Collic (VCR)**, **Cervico-Collic (CCR)**, **Vestibulo-Ocular (VOR)**, and **Cervico-Ocular (COR)** loops with true axonal conduction latencies ($10 - 15\text{ ms}$) and Constrained Quadratic Programming (QP) 72-muscle allocation.
+   - Active **Vestibulo-Collic (VCR)** ($10\text{ ms}$ total latency = $2\text{ ms}$ CN VIII afferent + $8\text{ ms}$ MVST efferent), **Cervico-Collic (CCR)** ($15\text{ ms}$ spinal latency), **Vestibulo-Ocular (VOR)**, and **Cervico-Ocular (COR)** loops with center-frequency ($\omega_m = \sqrt{z p}$) gain-normalized lead filters, true high-pass phasic otolith acceleration reflex ($H_{\text{phas}}(s) = K_{\text{phas}}\frac{s}{s + p_{\text{phas}}}$), Sherrington reciprocal inhibition of antagonist stretch reflexes, and Constrained Quadratic Programming (QP) 72-muscle allocation.
    - **Paradigm A Containment Hierarchy:** Calibrated against cervical spine literature (*White & Panjabi 1990; Dvorak 1993; Vasavada 1998; Nightingale 2002, 2007*): zero-force deadbands end at $75\%$ of voluntary ROM, $C^1$ transition zones span $75\% \to 100\%$, progressive capsular stiffness acts beyond $100\%$, and hard kinematic stops sit at $120\%$ ROM. Premature simulation stopping triggers immediately upon entering the transition zone.
 6. **High Computational Throughput:** Real-time factor of **$\approx 1:30$** on consumer CPUs, engineered for co-simulation with large-scale Spiking Neural Networks (**NEST-GPU**, 1.1M AdEx neurons).
 
@@ -46,18 +45,18 @@ flowchart TD
 
     subgraph LUENBERGER ["2. Sensor-Level Luenberger Observers & 6-DOF Decoder"]
         v_luen["Vestibular Luenberger Observer\nInverts Canal Lead (T_lead = 24.42 ms, k_pass = 0.4892)\nOutputs Clean Physical ω̂_phys (r = 0.9897)"]
-        s_luen["72 Per-Spindle Luenberger Observers (288 ODE states)\n• Subtracts γ_dyn, γ_stat Fusimotor Efference Copy\n• Velocity from II: v_II = (y_II - ΔL̂_i) / τ_II\n• Lead from Ia: v_Ia = c_Ia * ΔIa_dyn\n• Dynamic Baseline: d(ΔL̂_i)/dt = v̂_i"]
+        s_luen["72 Per-Spindle Luenberger Observers (288 ODE states)\n• Subtracts γ_dyn, γ_stat Fusimotor Efference Copy\n• Velocity from II: v_II = (y_II - ΔL̂_i) / τ_II\n• Lead from Ia: v_Ia = c_Ia * ΔIa_dyn\n• Fast 2-State Update: d(ΔL̂_i)/dt = v̂_i + (y_II - ΔL̂_i)/τ_dL (τ_dL=10ms, τ_v=5ms)"]
         jac6["6-DOF Cervical Jacobian Decoder\nK_6DOF = -(J₆ J₆ᵀ + λI)⁻¹ J₆ (6×72)\nEliminates S-Shape Buckling Cross-Talk\nOutputs Neck θ̂_rel, ω̂_rel (r = 0.9982)"]
     end
 
-    subgraph FUSION ["3. Central Multisensory Fusion & Cortical Drive"]
-        mahony["Mahony 3D Quaternion Observer\ndq = 0.5 * q ⊗ (ω̂_phys + K_oto e_oto + K_prop e_prop)\nOutputs Fused 3D Attitude θ̂_est (r = 0.9997, RMSE = 0.72°)"]
-        cortical["Cortical Postural Controller (Gentle Task PD)\nPitch: Kp=10.24, Kd=1.31, Ki=40.28\nRoll/Yaw: Ki=0.0 (Uncoupled Lateral Axis)"]
+    subgraph FUSION ["3. Multi-Delay Smith-Compensated Mahony Fusion & Cortical Drive"]
+        mahony["Mahony 3D Quaternion Observer (Multi-Delay Smith Compensated)\ndq = 0.5 * q ⊗ (ω̂_phys(t-2ms) + K_oto e_oto(t-2ms) + K_prop e_prop(t-7ms))\nOutputs Fused 3D Attitude θ̂_est (r = 0.9997, RMSE = 0.72°)"]
+        cortical["Cortical Postural Controller (40 ms Delay + 2nd-Order 2 Hz Filter)\nPitch: Gentle Task PD / Static Gravity Trim (Ki=40.28)\nRoll/Yaw: Ki=0.0 (Uncoupled Lateral Axis)"]
     end
 
     subgraph REFLEX ["4. Delayed Brainstem & Spinal Reflexes (10-15 ms Latency)"]
-        vcr["Vestibulo-Collic Reflex (VCR — 10 ms)\n• Canal Lead-Lag: H_sc(s) = K_sc (s + z_sc)/(s + p_sc)\n• Otolith Tonic & Phasic: H_ton(s), H_phas(s)"]
-        ccr["Cervico-Collic Reflex (CCR — 15 ms)\n• Driven by Delayed ΔIa = Ia - Ia_base\n• Spinal Lead-Lag: H_ccr(s) = k_p (s + z_ccr)/(s + p_ccr)"]
+        vcr["Vestibulo-Collic Reflex (VCR — 10 ms = 2 ms Aff + 8 ms Eff)\n• Center-Freq Normalized Canal Lead: H_sc(s) = (K_sc / √r_sc)(s + z_sc)/(s + p_sc)\n• Otolith Tonic & Phasic (1 ms diff window): H_ton(s), H_phas(s)"]
+        ccr["Cervico-Collic Reflex (CCR — 15 ms)\n• Driven by Delayed ΔIa = Ia - Ia_base\n• Center-Freq Normalized Spinal Lead: H_ccr(s) = (k_p / √r_ccr)(s + z_ccr)/(s + p_ccr)\n• Sherrington Reciprocal Inhibition (K_recip_inhib)"]
         qp["Alpha Motor Neuron Pool & QP Muscle Allocator\nmin 0.5 u_αᵀ u_α s.t. Jᵀ F_max u_α = τ_vol + τ_vcr\n+ Fusimotor Coactivation (γ_dyn, γ_stat)"]
     end
 
@@ -102,18 +101,21 @@ $$H_{\text{reg}}(s) = k_{\text{reg}} \frac{s(1 + T_{1,\text{reg}} s)}{(1 + T_{c,
    $$\Delta \text{II}_{\text{mech},i} = (\text{II}_i - \text{II}_{i,0}) - 29.7214\,\hat{f}_{\text{stat},i} - 44.5821\,\hat{f}_{\text{chain},i}$$
    $$\Delta \text{Ia}_{\text{dyn},i} = (\text{Ia}_i - \text{Ia}_{i,0}) - 1.3793\,\Delta \text{II}_{\text{mech},i} - 54.4518\,\hat{f}_{\text{dyn},i}$$
    $$y_{\text{II},i} = \frac{L_{0,i}}{369.1427\,\cos\alpha_i}\,\Delta \text{II}_{\text{mech},i}$$
-3. **Instantaneous Velocity & Dynamic Baseline Integration:**
+3. **Fast 2-State Instantaneous Velocity & Direct Position Luenberger Update:**
    $$v_{\text{II},i} = \frac{y_{\text{II},i} - \hat{\Delta L}_i}{\tau_{\text{II}}} \quad (\tau_{\text{II}} = 0.055\text{ s}), \qquad v_{\text{Ia},i} = \frac{L_{0,i}}{35000\,\cos\alpha_i}\,\Delta \text{Ia}_{\text{dyn},i}$$
-   $$\frac{d\hat{\Delta L}_i}{dt} = \hat{v}_i, \qquad \frac{d\hat{v}_i}{dt} = \frac{(v_{\text{II},i} + v_{\text{Ia},i}) - \hat{v}_i}{\tau_v} \quad (\tau_v = 0.025\text{ s})$$
+   $$\frac{d\hat{\Delta L}_i}{dt} = \hat{v}_i + \frac{y_{\text{II},i} - \hat{\Delta L}_i}{\tau_{\Delta L}} \quad (\tau_{\Delta L} = 0.010\text{ s}), \qquad \frac{d\hat{v}_i}{dt} = \frac{(v_{\text{II},i} + v_{\text{Ia},i}) - \hat{v}_i}{\tau_v} \quad (\tau_v = 0.005\text{ s})$$
 
 ---
 
-### 3. 6-DOF Cervical Jacobian Decoder & Mahony Spatial Fusion
+### 3. 6-DOF Cervical Jacobian Decoder & Multi-Delay Smith-Compensated Mahony Fusion
 1. **6-DOF Cervical Inversion:** Projects all 72 Luenberger states onto independent joint coordinates to eliminate S-shape intervertebral buckling cross-talk:
    $$\mathbf{K}_{6\text{DOF}} = -\left(\mathbf{J}_6 \mathbf{J}_6^T + \lambda \mathbf{I}_6\right)^{-1} \mathbf{J}_6, \qquad \hat{\vec{q}}_6 = \mathbf{K}_{6\text{DOF}}\,\hat{\vec{\Delta L}}, \qquad \hat{\vec{u}}_6 = \mathbf{K}_{6\text{DOF}}\,\hat{\vec{v}}$$
-2. **Mahony Quaternion Observer:**
-   $$\dot{\mathbf{q}} = \frac{1}{2}\,\mathbf{q} \otimes \begin{bmatrix} 0 \\ \vec{\omega}_{\text{head}} + K_{\text{oto}}\,\vec{e}_{\text{oto}} + \mathbf{K}_{\text{prop}}\,\vec{e}_{\text{prop,head}} \end{bmatrix}$$
-   with $K_{\text{oto}} = 0.05\text{ rad/s}$ and $\mathbf{K}_{\text{prop}} = \text{diag}(2.0, 2.0, 2.0)\text{ s}^{-1}$.
+2. **Multi-Delay Smith-Compensated Mahony Quaternion Observer:**
+   - **Vestibular Stream ($\tau_{\text{aff,vest}} = 2\text{ ms}$ CN VIII conduction delay):** Both the Luenberger-inverted canal angular velocity $\hat{\vec{\omega}}_{\text{phys}}(t - 2\text{ ms})$ and the otolith specific force $\vec{f}_{\text{oto}}(t - 2\text{ ms}) = \mathbf{R}_{\text{world}\to\text{head}}(t - 2\text{ ms})\left(\vec{a}_{\text{lin}}(t - 2\text{ ms}) - \vec{g}_{\text{world}}\right)$ (with $1\text{ ms}$ finite-difference window) are evaluated at the exact same $t - 2\text{ ms}$ labyrinth timestamp and compared against the observer's historical UP prediction $\hat{\mathbf{R}}_{\text{est}}^T(t - 2\text{ ms})[0, 1, 0]^T$.
+   - **Proprioceptive Stream ($\tau_{\text{aff,prop}} = 7\text{ ms}$ dorsal-column conduction delay):** The arriving proprioceptive neck attitude $\vec{\theta}_{\text{prop,world}}(t - 7\text{ ms})$ is compared against the observer's stored historical prediction $\hat{\vec{\theta}}_{\text{est}}(t - 7\text{ ms})$ via the cerebellar Smith predictor.
+   - **Quaternion Kinematics:**
+     $$\dot{\mathbf{q}} = \frac{1}{2}\,\mathbf{q} \otimes \begin{bmatrix} 0 \\ \vec{\omega}_{\text{head}}(t - 2\text{ ms}) + K_{\text{oto}}\,\vec{e}_{\text{oto}}(t - 2\text{ ms}) + \mathbf{K}_{\text{prop}}\,\vec{e}_{\text{prop,head}}(t - 7\text{ ms}) \end{bmatrix}$$
+     with $K_{\text{oto}} = 0.05\text{ rad/s}$ and $\mathbf{K}_{\text{prop}} = \text{diag}(2.0, 2.0, 2.0)\text{ s}^{-1}$.
 
 ---
 

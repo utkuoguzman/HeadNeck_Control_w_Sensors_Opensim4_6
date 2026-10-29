@@ -1,74 +1,89 @@
-import re
+with open("scripts/run_phase2_4_campaign.py", "r", encoding="utf-8") as f:
+    src = f.read()
 
-with open('scripts/run_phase2_3_campaign.py', 'r', encoding='utf-8') as f:
-    content = f.read()
+old_targets = """# 6 Canonical Aligned Frequencies (LPT / early-pruning order)
+TARGETS = [
+    (0.324,  86.55,   -7.03),
+    (0.783, 236.93,  -96.96),
+    (1.099, 319.74, -109.23),
+    (5.583, 503.30, -201.38),
+    (2.446, 423.34, -161.34),
+    (7.927, 572.69, -247.62)
+]"""
 
-# Replace replay
-old_replay = """            if g == 3:
-                es.boundary_handler.bounds = [gen3_lower_bounds, gen3_upper_bounds]
-                es.opts['bounds'] = [gen3_lower_bounds, gen3_upper_bounds]
-            elif 4 <= g <= 11:
-                es.boundary_handler.bounds = [gen4_lower_bounds, gen4_upper_bounds]
-                es.opts['bounds'] = [gen4_lower_bounds, gen4_upper_bounds]
-            elif 12 <= g <= 13:
-                es.boundary_handler.bounds = [gen12_lower_bounds, gen12_upper_bounds]
-                es.opts['bounds'] = [gen12_lower_bounds, gen12_upper_bounds]
-            elif g >= 14:
-                es.boundary_handler.bounds = [gen14_lower_bounds, gen14_upper_bounds]
-                es.opts['bounds'] = [gen14_lower_bounds, gen14_upper_bounds]"""
+new_targets = """# 6 Canonical Aligned Frequencies (Fastest-First + High-Sensitivity Early-Pruning Order)
+TARGETS = [
+    (2.446, 423.34, -161.34),
+    (5.583, 503.30, -201.38),
+    (7.927, 572.69, -247.62),
+    (1.099, 319.74, -109.23),
+    (0.783, 236.93,  -96.96),
+    (0.324,  86.55,   -7.03)
+]"""
 
-new_replay = """            if g == 3:
-                set_cma_bounds(es, gen3_lower_bounds, gen3_upper_bounds)
-            elif 4 <= g <= 11:
-                set_cma_bounds(es, gen4_lower_bounds, gen4_upper_bounds)
-            elif 12 <= g <= 13:
-                set_cma_bounds(es, gen12_lower_bounds, gen12_upper_bounds)
-            elif g >= 14:
-                set_cma_bounds(es, gen14_lower_bounds, gen14_upper_bounds)"""
+assert old_targets in src, "old_targets not found"
+src = src.replace(old_targets, new_targets, 1)
 
-content = content.replace(old_replay.replace('\r\n', '\n'), new_replay.replace('\r\n', '\n'))
-content = content.replace(old_replay.replace('\n', '\r\n'), new_replay.replace('\n', '\r\n'))
+old_gp_use = """    if use_gp:
+        # Fit local GP on nearest 80 historical models
+        dists = np.linalg.norm(np.array(archive_X) - mean, axis=1)
+        idx = np.argsort(dists)[:80]
+        local_X = [archive_X[i] for i in idx]
+        local_y = [archive_y[i] for i in idx]
+        
+        l_scale = max(0.1, float(np.median(dists[idx])))
+        gp = SimpleGP(length_scale=l_scale)
+        gp.fit(local_X, local_y)
+        
+        # Sample candidate orthogonal bases and evaluate direction utility
+        best_score = float('inf')
+        best_Q = None
+        for _ in range(12):
+            G = np.random.randn(12, 6)
+            G = G - np.outer(u_tpa, u_tpa @ G)
+            Q, _ = np.linalg.qr(G)
+            
+            test_pts = []
+            for k in range(6):
+                zk = Q[:, k] * np.sqrt(12.0)
+                dx = sigma * stds * (B @ (D * zk))
+                test_pts.append(mean + dx)
+                test_pts.append(mean - dx)
+            mu, sig = gp.predict(test_pts)"""
 
-# Replace main loop
-old_main = """        if iteration == 3:
-            es.boundary_handler.bounds = [gen3_lower_bounds, gen3_upper_bounds]
-            es.opts['bounds'] = [gen3_lower_bounds, gen3_upper_bounds]
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation 3: r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif 4 <= iteration <= 11:
-            es.boundary_handler.bounds = [gen4_lower_bounds, gen4_upper_bounds]
-            es.opts['bounds'] = [gen4_lower_bounds, gen4_upper_bounds]
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif 12 <= iteration <= 13:
-            es.boundary_handler.bounds = [gen12_lower_bounds, gen12_upper_bounds]
-            es.opts['bounds'] = [gen12_lower_bounds, gen12_upper_bounds]
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: k_dyn in [0.10, 1.50] (expanded headroom), k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif iteration >= 14:
-            es.boundary_handler.bounds = [gen14_lower_bounds, gen14_upper_bounds]
-            es.opts['bounds'] = [gen14_lower_bounds, gen14_upper_bounds]
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: p_ccr in [5.0, 200.0] (expanded headroom), k_dyn in [0.10, 1.50], k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], leads in [0.001, ...]", flush=True)"""
+new_gp_use = """    if use_gp:
+        # Fit local GP on nearest 80 historical models in stds-normalized space (all 12 parameters weighted equally)
+        X_arch_norm = (np.array(archive_X) - mean) / stds
+        dists = np.linalg.norm(X_arch_norm, axis=1)
+        idx = np.argsort(dists)[:80]
+        local_X_norm = X_arch_norm[idx]
+        # Winsorize crash penalties (>200,000) so GP variance is not distorted by early-stop penalties
+        local_y = np.minimum(np.array([archive_y[i] for i in idx], dtype=float), 200000.0)
+        
+        l_scale = max(0.1, float(np.median(dists[idx])))
+        gp = SimpleGP(length_scale=l_scale)
+        gp.fit(local_X_norm, local_y)
+        
+        # Sample candidate orthogonal bases and evaluate direction utility
+        best_score = float('inf')
+        best_Q = None
+        for _ in range(12):
+            G = np.random.randn(12, 6)
+            G = G - np.outer(u_tpa, u_tpa @ G)
+            Q, _ = np.linalg.qr(G)
+            
+            test_pts_norm = []
+            for k in range(6):
+                zk = Q[:, k] * np.sqrt(12.0)
+                dx_norm = sigma * (B @ (D * zk))
+                test_pts_norm.append(dx_norm)
+                test_pts_norm.append(-dx_norm)
+            mu, sig = gp.predict(test_pts_norm)"""
 
-new_main = """        if iteration == 3:
-            set_cma_bounds(es, gen3_lower_bounds, gen3_upper_bounds)
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation 3: r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif 4 <= iteration <= 11:
-            set_cma_bounds(es, gen4_lower_bounds, gen4_upper_bounds)
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif 12 <= iteration <= 13:
-            set_cma_bounds(es, gen12_lower_bounds, gen12_upper_bounds)
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: k_dyn in [0.10, 1.50] (expanded headroom), k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], p_ccr in [5.0, 90.0], leads in [0.001, ...]", flush=True)
-        elif iteration >= 14:
-            set_cma_bounds(es, gen14_lower_bounds, gen14_upper_bounds)
-            print(f"[BOUNDS EXPANSION] Active bounds for Generation {iteration}: p_ccr in [5.0, 200.0] (expanded headroom), k_dyn in [0.10, 1.50], k_stat in [0.01, 1.50], r_ton in [0.05, 2.50], p_ton in [2.0, 80.0], kp in [0.15, 5.00], leads in [0.001, ...]", flush=True)"""
+assert old_gp_use in src, "old_gp_use not found"
+src = src.replace(old_gp_use, new_gp_use, 1)
 
-content = content.replace(old_main.replace('\r\n', '\n'), new_main.replace('\r\n', '\n'))
-content = content.replace(old_main.replace('\n', '\r\n'), new_main.replace('\n', '\r\n'))
+with open("scripts/run_phase2_4_campaign.py", "w", encoding="utf-8", newline="\r\n") as f:
+    f.write(src)
 
-# Also replace tell clamping
-content = content.replace('clamped_replay = [np.clip(c, b_low + 1e-6, b_upp - 1e-6).tolist() for c in cands]', 'clamped_replay = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in cands]')
-content = content.replace('clamped_candidates = [np.clip(c, active_lower + eps, active_upper - eps).tolist() for c in candidates]', 'b_low, b_upp = es.boundary_handler.bounds\n        clamped_candidates = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in candidates]')
-
-with open('scripts/run_phase2_3_campaign.py', 'w', encoding='utf-8') as f:
-    f.write(content)
-
-print('Updated scripts/run_phase2_3_campaign.py successfully!')
-
+print("Patched scripts/run_phase2_4_campaign.py successfully!")
