@@ -3,7 +3,7 @@
 > [!IMPORTANT]
 > **Interactive Block Diagram & Equation Reference**  
 > All block-by-block Simulink diagrams, annotated transfer functions, state-space realizations, analytical constant derivations (`[? Derive]`), and universal pseudocode now live in the interactive explorer:  
-> 👉 **[`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html)**  
+> 👉 **[`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)**  
 >
 > Rather than duplicating the block equations from the HTML explorer, this document explains **why** each architectural, biophysical, numerical, and optimization design decision was made in [`HeadNeckNeuralController.cpp`](../HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp), [`Mileusnic06Spindle.cpp`](../proprioception_plugin/Mileusnic06Spindle.cpp), and [`run_phase2_4_campaign.py`](../scripts/run_phase2_4_campaign.py).
 
@@ -24,7 +24,7 @@ Biological mechanoreceptors are **not** pure kinematic sensors—evolution tuned
 - **Fast Reflex Pathways (Subsystems 5 & 6):** Require the raw, phase-leading **Irregular** vestibular and **Primary `Ia`** spindle signals unaltered.
 - **Central State Estimation (Subsystems 2, 3 & 4):** Feeding phase-leading, adaptation-distorted, or $\gamma$-biased signals into a kinematic observer corrupts 3D attitude integration. Therefore, **per-sensor Luenberger Observers** invert the peripheral dynamics of the **Regular** vestibular afferents and all **72 muscle spindles** *before* central multisensory fusion in the Mahony `SE_2(3)` Observer.
 
-*(See **Top-Level Architecture**, **Subsystem 2**, and **Subsystem 3** in [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html) for the interactive signal routing).*
+*(See **Top-Level Architecture**, **Subsystem 2**, and **Subsystem 3** in [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html) for the interactive signal routing).*
 
 ---
 
@@ -64,7 +64,7 @@ In the literature, two primary macaque otolith transfer function families appear
 1. **Zheng et al. (2021) / Fernández & Goldberg (1976 Part III):** Fitted only over $0\text{–}2\,\text{Hz}$ centrifugal force rotations using a $10\,\text{s}$ adaptation time constant ($\tau_A = 10\,\text{s}$) and a $16\,\text{ms}$ macular lag pole ($\tau_M = 0.016\,\text{s}$). Above $1.6\,\text{Hz}$, the Regular otolith transfer function acts as a low-pass filter ($\tau_B = 9\,\text{ms} < \tau_M = 16\,\text{ms}$), attenuating high-frequency head perturbations ($2.45\text{–}7.93\,\text{Hz}$).
 2. **Happee et al. (2017, Appendix Eq. 3 & Fig. 9):** Fitted simultaneously to **Schneider, Jamali, Carriot, Chacron & Cullen (2015)** naturalistic macaque recordings across **$0.5\text{–}20\,\text{Hz}$** and **Fernández, Goldberg & Abend (1972)** static tilt at **$0\,\text{Hz}$**—the exact same experimental lab and frequency band ($0.3\text{–}8\,\text{Hz}$) as our semicircular canal model (*Schneider et al., 2015*).
 
-However, Happee et al. (2017, Eq. 3) wrote the high-frequency hair-cell lead as $\dfrac{(1 + a s)^2}{1 + b s}$, which is **improper** (numerator degree 3 over denominator degree 2) and requires differentiating noisy finite-difference linear acceleration to compute linear jerk $\dot{\mathbf{a}}_{\text{lin}}$. To make this model 100% safe for time-domain ODE integration and Luenberger inversion, we formulate the otolith pathway in three stages (detailed interactively in **Subsystem 2** of [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html)):
+However, Happee et al. (2017, Eq. 3) wrote the high-frequency hair-cell lead as $\dfrac{(1 + a s)^2}{1 + b s}$, which is **improper** (numerator degree 3 over denominator degree 2) and requires differentiating noisy finite-difference linear acceleration to compute linear jerk $\dot{\mathbf{a}}_{\text{lin}}$. To make this model 100% safe for time-domain ODE integration and Luenberger inversion, we formulate the otolith pathway in three stages (detailed interactively in **Subsystem 2** of [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)):
 
 - **1st-Order Taylor/Padé Biproper Macular Realization (Zero Jerk Differentiation):**  
   We replace the improper quadratic numerator $(1 + a s)^2 = 1 + 2a s + a^2 s^2$ with its first-order Taylor/Padé phase-matched linear lead $(1 + \tau_1 s)$ where $\tau_1 = 2a$, yielding a strictly **biproper 2-stage cascade** (degree 2 over degree 2):
@@ -79,11 +79,11 @@ However, Happee et al. (2017, Eq. 3) wrote the high-frequency hair-cell lead as 
   This restores the full unattenuated **$1.0g$ ($9.81\,\text{m/s}^2$) static gravity vector at DC ($\omega = 0$)** for the Mahony Observer, with all 18 otolith + observer states initialized at their exact $+1g$ upright equilibrium at $t = 0$ ($\dot{\mathbf{x}}(0) = \mathbf{0}$).
 
 ### 3.2 Semicircular Canals: Derivative-Free Partial Fractions & Passband Calibration
-The 2nd-order *Schneider et al. (2015)* canal transfer function $H(s) = k \frac{s(1 + \tau_1 s)}{(1 + \tau_c s)(1 + \tau_2 s)}$ is biproper (degree 2 over degree 2). To evaluate it in C++ without differentiating angular velocity $\boldsymbol{\omega}_{\text{head}}$, we decompose $H(s)$ via partial fractions into a direct feedthrough $d = \frac{k \tau_1}{\tau_c \tau_2}$ plus two strictly-proper first-order low-pass states (`s2_scc_irr` and `s2_scc_reg` in [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html)). After $B^{-1}$ spatial reconstruction, each stream is divided by its mid-frequency passband gain $G_{\text{pass}} = \frac{k \tau_1}{\tau_c}$ ($0.436629$ for Regular, $0.950526$ for Irregular) before the Regular stream enters the biproper Canal Luenberger inverse $H_{\text{Luen,scc}}(s) = \frac{1 + \tau_{2,\text{reg}} s}{1 + \tau_{1,\text{reg}} s}$.
+The 2nd-order *Schneider et al. (2015)* canal transfer function $H(s) = k \frac{s(1 + \tau_1 s)}{(1 + \tau_c s)(1 + \tau_2 s)}$ is biproper (degree 2 over degree 2). To evaluate it in C++ without differentiating angular velocity $\boldsymbol{\omega}_{\text{head}}$, we decompose $H(s)$ via partial fractions into a direct feedthrough $d = \frac{k \tau_1}{\tau_c \tau_2}$ plus two strictly-proper first-order low-pass states (`s2_scc_irr` and `s2_scc_reg` in [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)). After $B^{-1}$ spatial reconstruction, each stream is divided by its mid-frequency passband gain $G_{\text{pass}} = \frac{k \tau_1}{\tau_c}$ ($0.436629$ for Regular, $0.950526$ for Irregular) before the Regular stream enters the biproper Canal Luenberger inverse $H_{\text{Luen,scc}}(s) = \frac{1 + \tau_{2,\text{reg}} s}{1 + \tau_{1,\text{reg}} s}$.
 
 ### 3.3 Why We Use an Exact Continuous Ring Buffer Instead of a Padé Delay Approximation
 Rational Padé approximations of transport delays $e^{-s\tau}$ introduce non-minimum-phase right-half-plane zeros that cause artificial phase distortion and high-frequency ringing on discontinuous or high-bandwidth signals.
-- **In Time-Domain Simulation (`HeadNeckNeuralController.cpp`):** We avoid Padé delay approximations entirely by maintaining a continuous sliding `std::deque<std::pair<double, HistoryRecord>>` ring buffer (`top_hist` in [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html)) and reconstructing any delayed signal $s(t - \tau)$ via exact bracketed linear interpolation (`std::lower_bound`).
+- **In Time-Domain Simulation (`HeadNeckNeuralController.cpp`):** We avoid Padé delay approximations entirely by maintaining a continuous sliding `std::deque<std::pair<double, HistoryRecord>>` ring buffer (`top_hist` in [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)) and reconstructing any delayed signal $s(t - \tau)$ via exact bracketed linear interpolation (`std::lower_bound`).
 - **In Offline Pre-Screening (`surrogacy/optimize_surrogate.py`):** We evaluate exact frequency-domain complex exponentials $e^{-j\omega\tau}$ directly at the 6 test frequencies, likewise avoiding Padé approximation error.
 
 ---
@@ -104,7 +104,7 @@ Every delay parameter in the controller is anchored to human neuroanatomical pat
 
 ## 5. Why the VCR & CCR Reflex Transfer Functions Are Formulated This Way
 
-*(Click **Subsystem 5 (VCR)** and **Subsystem 6 (CCR)** in [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html) to inspect the state-space realizations and `[? Derive]` cards).*
+*(Click **Subsystem 5 (VCR)** and **Subsystem 6 (CCR)** in [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html) to inspect the state-space realizations and `[? Derive]` cards).*
 
 ### 5.1 Center-Frequency Normalized Lead-Lag (`H_sc(s)` and `H_ccr(s)`)
 Both the Semicircular Canal VCR filter (`H_sc`) and the Spinal CCR stretch reflex filter (`H_ccr`) must provide a phase-lead zero $z < p$ around $1\text{–}8\,\text{Hz}$ to cancel the $\sim 35\,\text{ms}$ phase lag of Hill-type muscle activation dynamics (*Peng, Hain & Peterson, 1996*).
@@ -123,14 +123,14 @@ Unlike `H_sc` (driven by smooth $C^1$ canal angular velocity) and `H_ccr` (drive
 ### 5.3 Vigor-Gated Sherrington Reciprocal Inhibition & Intervertebral S-Buckling
 Because the 3-DOF descending QP torque allocator averages upper and lower cervical moment arms ($r_{\text{pitch},i} = \tfrac{1}{2}(r_{\text{p1},i} + r_{\text{p2},i})$), descending cortical and VCR torques control only total head-on-trunk angle ($\text{pitch}_1 + \text{pitch}_2$) and have **zero controllability** over the internal intervertebral S-buckling mode ($\text{pitch}_1 - \text{pitch}_2$).
 - Per-muscle spinal stretch reflexes (CCR) across all 72 muscles provide the sole active stabilization of individual cervical joints (`pitch1` vs. `pitch2`).
-- Therefore, presynaptic Sherrington reciprocal inhibition (`s6_ccr` in [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html)) is gated by active voluntary trajectory vigor ($g_{\text{vol}} \in [0, 1]$): during quiet posture or external seat perturbations ($g_{\text{vol}} = 0$), all 72 muscles retain $100\%$ bilateral anti-buckling CCR stiffness; during active voluntary head turns ($g_{\text{vol}} \to 1$), antagonist stretch reflexes are smoothly suppressed so they do not resist the movement.
+- Therefore, presynaptic Sherrington reciprocal inhibition (`s6_ccr` in [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)) is gated by active voluntary trajectory vigor ($g_{\text{vol}} \in [0, 1]$): during quiet posture or external seat perturbations ($g_{\text{vol}} = 0$), all 72 muscles retain $100\%$ bilateral anti-buckling CCR stiffness; during active voluntary head turns ($g_{\text{vol}} \to 1$), antagonist stretch reflexes are smoothly suppressed so they do not resist the movement.
 
 ---
 
 ## 6. Anatomical Muscle Co-Contraction Zones & Active-Set QP Synergy Allocation
 
 ### 6.1 The 4 Cervical Muscle Co-Contraction Zones (`cached_minimum_excitations`)
-Human cervical muscles are not recruited with a uniform baseline tone: deep slow-twitch postural extensors maintain continuous anti-gravity tone, whereas superficial fast-twitch flexors and hyoid strap muscles remain nearly silent at rest to avoid choking or anterior buckling. In [`HeadNeckNeuralController.cpp`](../HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp#L486-L516) (`s6_qp` in [`docs/neuromotor_simulink_explorer.html`](neuromotor_simulink_explorer.html)), the 72 muscles are classified into **4 anatomical co-contraction zones** that define each muscle's lower excitation bound $u_{\min,i}$:
+Human cervical muscles are not recruited with a uniform baseline tone: deep slow-twitch postural extensors maintain continuous anti-gravity tone, whereas superficial fast-twitch flexors and hyoid strap muscles remain nearly silent at rest to avoid choking or anterior buckling. In [`HeadNeckNeuralController.cpp`](../HeadNeckNeuralController_plugin/HeadNeckNeuralController.cpp#L486-L516) (`s6_qp` in [`docs/neuromotor_simulink_explorer.html`](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)), the 72 muscles are classified into **4 anatomical co-contraction zones** that define each muscle's lower excitation bound $u_{\min,i}$:
 
 | Zone & Count | Minimum Excitation Floor ($u_{\min,i}$) | Anatomical Muscle Sub-Groups & Exact Model Identifiers (`36` Bilateral Pairs = `72` Cervical Muscles) | How & Why $u_{\min,i}$ Was Chosen (Biomechanical, Histochemical & Spindle-Density Rationale) |
 | :--- | :---: | :--- | :--- |
