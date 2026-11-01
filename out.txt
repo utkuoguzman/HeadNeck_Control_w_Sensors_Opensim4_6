@@ -1,1 +1,0 @@
-ERROR conda.cli.main_run:execute(127): `conda run python cmaes_worker_tf.py 5 0.7 1 1 1 1 1 1 1 1 1 1 1 1 1 1.0 1.0 0.0 test_worker` failed. (See above for error)

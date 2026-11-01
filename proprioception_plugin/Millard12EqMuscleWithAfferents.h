@@ -57,9 +57,14 @@ public:
 	OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Whether to enable LPF/spindle ODE states on extraocular eye muscles (r_*, l_*) (default: false during neck study)");
 
 	bool isAfferentActive() const {
-		const std::string& mname = getName();
-		bool is_eye = (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0);
-		return !is_eye || get_enable_eye_afferents();
+		if (!active_checked) {
+			const std::string& mname = getName();
+			bool is_eye = (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0);
+			is_active_cached = !is_eye || get_enable_eye_afferents();
+			cached_lpf_tau = get_lpf_tau();
+			active_checked = true;
+		}
+		return is_active_cached;
 	}
 
 	// the afferents
@@ -106,6 +111,9 @@ private:
 	void constructProperties();
 	mutable const StateVariable* sv_lpf_vel = nullptr;
 	mutable const StateVariable* sv_lpf_acc = nullptr;
+	mutable bool active_checked = false;
+	mutable bool is_active_cached = false;
+	mutable double cached_lpf_tau = 0.01;
 	void ensureStatePointers() const;
 
 public:

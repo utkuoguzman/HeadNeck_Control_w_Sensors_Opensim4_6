@@ -1,0 +1,170 @@
+[PRESCREEN] Initializing CMA-ES centroid x0 from data/prescreen_rational_champion.json (Converged 12-Parameter Adaptive Baseline Seed (40,854.91 pts), floors raised, sampler-fixed campaign)
+(7_w,14)-aCMA-ES (mu_w=4.3,w_1=36%) in dimension 12 (seed=2026, Wed Oct 28 20:03:04 2026)
+
+[CMA-ES RECONFIGURATION] Confirmed population size at 14 (mu=7) with 2 TPA + 12 Orthogonal samples (100% 14-core synchronization)!
+[ARCHIVE] Initialized with 0 real OpenSim historical evaluations.
+
+===========================================================================
+Phase 2.4 Initialized. Starting from Generation 1 up to Generation 1
+Target Benchmark to Beat: Happee (2017) Model Score = 2803.88 pts
+Baseline to Beat: W3_P23G15 Score = inf pts
+Plateau Stopping Rule: Stop after 7 consecutive non-improving generations
+Initial Centroid x0:
+[1.42700e+00 7.80000e+01 4.06000e-01 2.40000e-01 9.00050e+01 4.53200e+00
+ 1.50050e+01 1.38800e+00 4.90000e-02 1.70654e+02 7.34000e-01 1.14800e+00]
+Search Sigmas sigma0:
+[1.2e-01 6.0e+00 4.0e-02 2.5e-02 8.0e+00 4.5e-01 1.8e+00 1.4e-01 6.0e-03
+ 1.5e+01 7.0e-02 1.0e-01]
+===========================================================================
+
+
+=================================== STARTING PHASE 2.4 GENERATION 1 of 1 at 20:03:04 ===================================
+[CMA-ES SAMPLING] Sampling population of 14 (2 TPA + 12 Orthogonal Pairs across 14 cores)...
+[PASS] [W1_P24G1] passed 0.324Hz (1/6) (Score: 17754.9 | Cum: 17754.9)
+[PASS] [W13_P24G1] passed 0.324Hz (1/6) (Score: 18304.1 | Cum: 18304.1)
+[PASS] [W11_P24G1] passed 0.324Hz (1/6) (Score: 15398.6 | Cum: 15398.6)
+[PASS] [W10_P24G1] passed 0.324Hz (1/6) (Score: 17812.3 | Cum: 17812.3)
+[PASS] [W2_P24G1] passed 0.324Hz (1/6) (Score: 18711.9 | Cum: 18711.9)
+[PASS] [W6_P24G1] passed 0.324Hz (1/6) (Score: 14085.3 | Cum: 14085.3)
+[PASS] [W7_P24G1] passed 0.324Hz (1/6) (Score: 18970.1 | Cum: 18970.1)
+[PASS] [W3_P24G1] passed 0.324Hz (1/6) (Score: 16842.2 | Cum: 16842.2)
+[PASS] [W8_P24G1] passed 0.324Hz (1/6) (Score: 15921.9 | Cum: 15921.9)
+[PASS] [W4_P24G1] passed 0.324Hz (1/6) (Score: 18032.7 | Cum: 18032.7)
+[PASS] [W9_P24G1] passed 0.324Hz (1/6) (Score: 17170.0 | Cum: 17170.0)
+[PASS] [W12_P24G1] passed 0.324Hz (1/6) (Score: 19033.3 | Cum: 19033.3)
+[PASS] [W5_P24G1] passed 0.324Hz (1/6) (Score: 18227.6 | Cum: 18227.6)
+[PASS] [W14_P24G1] passed 0.324Hz (1/6) (Score: 17581.3 | Cum: 17581.3)
+[PASS] [W13_P24G1] passed 0.783Hz (2/6) (Score: 5487.2 | Cum: 23791.3)
+[PASS] [W1_P24G1] passed 0.783Hz (2/6) (Score: 994.8 | Cum: 18749.7)
+[PASS] [W11_P24G1] passed 0.783Hz (2/6) (Score: 1411.0 | Cum: 16809.7)
+[PASS] [W2_P24G1] passed 0.783Hz (2/6) (Score: 3632.3 | Cum: 22344.2)
+[PASS] [W10_P24G1] passed 0.783Hz (2/6) (Score: 1183.4 | Cum: 18995.7)
+[PASS] [W6_P24G1] passed 0.783Hz (2/6) (Score: 1111.0 | Cum: 15196.2)
+[PASS] [W7_P24G1] passed 0.783Hz (2/6) (Score: 1507.2 | Cum: 20477.3)
+[PASS] [W3_P24G1] passed 0.783Hz (2/6) (Score: 989.7 | Cum: 17831.9)
+[PASS] [W4_P24G1] passed 0.783Hz (2/6) (Score: 1610.4 | Cum: 19643.2)
+[PASS] [W5_P24G1] passed 0.783Hz (2/6) (Score: 1962.1 | Cum: 20189.7)
+[PASS] [W8_P24G1] passed 0.783Hz (2/6) (Score: 1828.8 | Cum: 17750.7)
+[PASS] [W12_P24G1] passed 0.783Hz (2/6) (Score: 1705.7 | Cum: 20739.0)
+[PASS] [W9_P24G1] passed 0.783Hz (2/6) (Score: 2456.6 | Cum: 19626.6)
+[PASS] [W14_P24G1] passed 0.783Hz (2/6) (Score: 3140.9 | Cum: 20722.3)
+[PASS] [W13_P24G1] passed 1.099Hz (3/6) (Score: 384.6 | Cum: 24175.9)
+[PASS] [W1_P24G1] passed 1.099Hz (3/6) (Score: 260.6 | Cum: 19010.4)
+[PASS] [W11_P24G1] passed 1.099Hz (3/6) (Score: 1468.3 | Cum: 18277.9)
+[PASS] [W2_P24G1] passed 1.099Hz (3/6) (Score: 2851.6 | Cum: 25195.8)
+[PASS] [W7_P24G1] passed 1.099Hz (3/6) (Score: 1449.2 | Cum: 21926.5)
+[PASS] [W10_P24G1] passed 1.099Hz (3/6) (Score: 1641.3 | Cum: 20637.0)
+[PASS] [W6_P24G1] passed 1.099Hz (3/6) (Score: 1152.2 | Cum: 16348.5)
+[PASS] [W3_P24G1] passed 1.099Hz (3/6) (Score: 1121.6 | Cum: 18953.5)
+[PASS] [W5_P24G1] passed 1.099Hz (3/6) (Score: 2884.9 | Cum: 23074.6)
+[PASS] [W4_P24G1] passed 1.099Hz (3/6) (Score: 2557.5 | Cum: 22200.7)
+[PASS] [W9_P24G1] passed 1.099Hz (3/6) (Score: 3068.9 | Cum: 22695.5)
+[PASS] [W8_P24G1] passed 1.099Hz (3/6) (Score: 1635.3 | Cum: 19386.0)
+[PASS] [W12_P24G1] passed 1.099Hz (3/6) (Score: 2710.8 | Cum: 23449.9)
+[PASS] [W14_P24G1] passed 1.099Hz (3/6) (Score: 1854.2 | Cum: 22576.5)
+[PASS] [W13_P24G1] passed 5.583Hz (4/6) (Score: 17660.7 | Cum: 41836.7)
+[PASS] [W1_P24G1] passed 5.583Hz (4/6) (Score: 29940.2 | Cum: 48950.6)
+[PASS] [W11_P24G1] passed 5.583Hz (4/6) (Score: 21554.7 | Cum: 39832.6)
+[PASS] [W7_P24G1] passed 5.583Hz (4/6) (Score: 24789.3 | Cum: 46715.8)
+[PASS] [W2_P24G1] passed 5.583Hz (4/6) (Score: 15541.5 | Cum: 40737.3)
+[PASS] [W10_P24G1] passed 5.583Hz (4/6) (Score: 12104.7 | Cum: 32741.7)
+[PASS] [W4_P24G1] passed 5.583Hz (4/6) (Score: 12445.8 | Cum: 34646.5)
+[PASS] [W6_P24G1] passed 5.583Hz (4/6) (Score: 9408.2 | Cum: 25756.7)
+[PASS] [W3_P24G1] passed 5.583Hz (4/6) (Score: 6219.2 | Cum: 25172.7)
+[PASS] [W5_P24G1] passed 5.583Hz (4/6) (Score: 6745.6 | Cum: 29820.2)
+[PASS] [W9_P24G1] passed 5.583Hz (4/6) (Score: 10452.6 | Cum: 33148.0)
+[PASS] [W8_P24G1] passed 5.583Hz (4/6) (Score: 10998.7 | Cum: 30384.7)
+[PASS] [W12_P24G1] passed 5.583Hz (4/6) (Score: 15880.0 | Cum: 39329.9)
+[PASS] [W14_P24G1] passed 5.583Hz (4/6) (Score: 18482.9 | Cum: 41059.4)
+[PASS] [W13_P24G1] passed 2.446Hz (5/6) (Score: 1389.6 | Cum: 43226.2)
+[PASS] [W1_P24G1] passed 2.446Hz (5/6) (Score: 3235.9 | Cum: 52186.5)
+[PASS] [W2_P24G1] passed 2.446Hz (5/6) (Score: 1490.4 | Cum: 42227.7)
+[PASS] [W11_P24G1] passed 2.446Hz (5/6) (Score: 2574.4 | Cum: 42407.0)
+[PASS] [W7_P24G1] passed 2.446Hz (5/6) (Score: 1044.2 | Cum: 47760.0)
+[PASS] [W10_P24G1] passed 2.446Hz (5/6) (Score: 3552.4 | Cum: 36294.1)
+[PASS] [W6_P24G1] passed 2.446Hz (5/6) (Score: 3708.8 | Cum: 29465.5)
+[PASS] [W5_P24G1] passed 2.446Hz (5/6) (Score: 2063.3 | Cum: 31883.6)
+[PASS] [W4_P24G1] passed 2.446Hz (5/6) (Score: 1619.8 | Cum: 36266.2)
+[PASS] [W3_P24G1] passed 2.446Hz (5/6) (Score: 2898.1 | Cum: 28070.8)
+[PASS] [W14_P24G1] passed 2.446Hz (5/6) (Score: 1011.3 | Cum: 42070.7)
+[PASS] [W9_P24G1] passed 2.446Hz (5/6) (Score: 1708.9 | Cum: 34856.9)
+[PASS] [W8_P24G1] passed 2.446Hz (5/6) (Score: 3125.8 | Cum: 33510.5)
+[PASS] [W12_P24G1] passed 2.446Hz (5/6) (Score: 1547.8 | Cum: 40877.7)
+[PASS] [W13_P24G1] passed 7.927Hz (6/6) (Score: 5229.0 | Cum: 48455.2)
+[COMPLETE] [W13_P24G1] finished all 6 frequencies! Total Score: 48455.22
+[PASS] [W1_P24G1] passed 7.927Hz (6/6) (Score: 15361.6 | Cum: 67548.1)
+[COMPLETE] [W1_P24G1] finished all 6 frequencies! Total Score: 67548.09
+[PASS] [W2_P24G1] passed 7.927Hz (6/6) (Score: 9090.8 | Cum: 51318.5)
+[COMPLETE] [W2_P24G1] finished all 6 frequencies! Total Score: 51318.47
+[PASS] [W11_P24G1] passed 7.927Hz (6/6) (Score: 9158.2 | Cum: 51565.2)
+[COMPLETE] [W11_P24G1] finished all 6 frequencies! Total Score: 51565.20
+[PASS] [W7_P24G1] passed 7.927Hz (6/6) (Score: 11280.0 | Cum: 59040.0)
+[COMPLETE] [W7_P24G1] finished all 6 frequencies! Total Score: 59040.00
+[PASS] [W10_P24G1] passed 7.927Hz (6/6) (Score: 9076.7 | Cum: 45370.8)
+[COMPLETE] [W10_P24G1] finished all 6 frequencies! Total Score: 45370.81
+[PASS] [W6_P24G1] passed 7.927Hz (6/6) (Score: 1645.5 | Cum: 31111.0)
+[COMPLETE] [W6_P24G1] finished all 6 frequencies! Total Score: 31111.01
+[PASS] [W5_P24G1] passed 7.927Hz (6/6) (Score: 15247.3 | Cum: 47130.9)
+[COMPLETE] [W5_P24G1] finished all 6 frequencies! Total Score: 47130.87
+[PASS] [W4_P24G1] passed 7.927Hz (6/6) (Score: 5331.5 | Cum: 41597.7)
+[COMPLETE] [W4_P24G1] finished all 6 frequencies! Total Score: 41597.70
+[PASS] [W3_P24G1] passed 7.927Hz (6/6) (Score: 9759.0 | Cum: 37829.8)
+[COMPLETE] [W3_P24G1] finished all 6 frequencies! Total Score: 37829.78
+[PASS] [W14_P24G1] passed 7.927Hz (6/6) (Score: 10819.5 | Cum: 52890.2)
+[COMPLETE] [W14_P24G1] finished all 6 frequencies! Total Score: 52890.19
+[PASS] [W9_P24G1] passed 7.927Hz (6/6) (Score: 9923.6 | Cum: 44780.5)
+[COMPLETE] [W9_P24G1] finished all 6 frequencies! Total Score: 44780.48
+[PASS] [W8_P24G1] passed 7.927Hz (6/6) (Score: 10656.0 | Cum: 44166.6)
+[COMPLETE] [W8_P24G1] finished all 6 frequencies! Total Score: 44166.57
+[PASS] [W12_P24G1] passed 7.927Hz (6/6) (Score: 5383.2 | Cum: 46261.0)
+[COMPLETE] [W12_P24G1] finished all 6 frequencies! Total Score: 46260.97
+
+>>> NEW PHASE 2.4 RECORD in Gen 1: 31111.01 (Candidate W6_P24G1) <<<
+
+
+[GEN COMPLETE] Generation 1: Best Candidate W6_P24G1 Score = 31111.01 pts (Duration: 63.5 min)
+Exported logs/phase2_4_bode_progress_matrix.md successfully!
+Gen 1 (W6_P24G1) successfully updated in Phase 2.4 ledger and matrix!
+
+===========================================================================
+## Milestone Report: Phase 2.4 - Generation 1
+===========================================================================
+
+### 1. Good News
+* **Generation Champion:** Candidate [`W6_P24G1`](file:///d:/Akademik/PhD_Thesis/OpenSim/HeadNeck_Control_w_Sensors_Opensim4_6/logs/candidates/W6_P24G1.json) scored **`31111.01 pts`** (duration: 63.5 min).
+* **Basin Exploration:** 18 distinct perturbations evaluated in parallel across all 6 canonical frequencies.
+
+### 2. Bad News / Challenges
+* **Highest Error Frequency:** Frequency 0.324 Hz contributed 14085.3 pts (-11.9 dB / 4.3° error).
+
+### 3. Parameter Boundary Watch
+| Parameter | Symbol | Value | Active Domain | Proximity Status |
+| :--- | :---: | :---: | :---: | :--- |
+| r_ton           | `r_ton` |   1.5968 | [  0.050,     3.0] | Interior (OK) |
+| p_ton           | `p_ton` |  88.3364 | [  5.000,   150.0] | Interior (OK) |
+| K_sc            | `K_sc` |   0.3134 | [  0.050,     3.0] | Interior (OK) |
+| r_lead_sc       | `r_lead_sc` |   0.2533 | [  0.001,     0.6] | Interior (OK) |
+| p_sc            | `p_sc` | 100.4904 | [ 15.000,   160.0] | Interior (OK) |
+| K_phas          | `K_phas` |   5.3092 | [  0.200,    10.0] | Interior (OK) |
+| p_phas          | `p_phas` |  12.4284 | [  1.000,    45.0] | Interior (OK) |
+| kp              | `kp` |   1.3737 | [  0.150,     4.0] | Interior (OK) |
+| r_lead_ccr      | `r_lead_ccr` |   0.0472 | [  0.001,     0.5] | Interior (OK) |
+| p_ccr           | `p_ccr` | 164.4197 | [ 20.000,   240.0] | Interior (OK) |
+| k_dyn           | `k_dyn` |   0.7173 | [  0.050,     1.5] | Interior (OK) |
+| k_stat          | `k_stat` |   1.1417 | [  0.050,     1.5] | Interior (OK) |
+
+### 4. Current Projection & CMA-ES Trajectory
+* **Phase 2.4 All-Time Best:** `31111.01 pts`
+* **Distance to Happee (2017) Benchmark (2803.88 pts):** +28307.13 pts
+* **Population Size:** 14 candidates (2 TPA + 12 Orthogonal Pairs) | **Parallel Workers:** 14 physical CPU cores
+
+### 5. Progress Matrix vs. Happee (2017) Benchmark
+| Campaign Milestone | 0.324 Hz | 0.783 Hz | 1.099 Hz | 2.446 Hz | 5.583 Hz | 7.927 Hz | Total Score |
+| :--- | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
+| **Happee (2017) Benchmark** | -2.5 dB<br>/ 39.1° | +0.0 dB<br>/ 3.0° | +0.7 dB<br>/ 9.1° | -0.9 dB<br>/ 0.1° | -0.7 dB<br>/ 6.7° | +1.0 dB<br>/ 14.8° | **`2803.88`** |
+| **Phase 2.4 Baseline** (`SOBOL_64K_CHAMPION (Pre-screen)`) | — | — | — | — | — | — | **`38325.45`** |
+| **Phase 2.4 Gen 1** (`W6_P24G1`) | -11.9 dB<br>/ 4.3° | -3.0 dB<br>/ 13.7° | -3.2 dB<br>/ 9.8° | +6.1 dB<br>/ 4.9° | +0.5 dB<br>/ 96.8° | -1.5 dB<br>/ 37.6° | **`31111.01`** |
+
+===========================================================================
+
+PHASE 2.4 RUN CONCLUDED at 21:06:33.

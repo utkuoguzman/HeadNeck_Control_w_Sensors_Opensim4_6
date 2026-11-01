@@ -1,0 +1,86 @@
+{
+  "phase": 2.4,
+  "description": "Deep Basin Refinement initialized directly on 64k 8DOF Sobol Pre-screen Champion",
+  "benchmark_score": 2803.88,
+  "generations": [
+    {
+      "generation": 0,
+      "candidate": "SOBOL_64K_CHAMPION (Pre-screen)",
+      "score": 38325.45,
+      "duration_min": 0.7,
+      "params": {
+        "r_ton": 0.0983,
+        "p_ton": 17.2357,
+        "K_sc": 14.0616,
+        "r_lead_sc": 0.1691,
+        "p_sc": 37.8375,
+        "K_phas": 11.5286,
+        "p_phas": 8.2132,
+        "kp": 1.9376,
+        "r_lead_ccr": 0.2185,
+        "p_ccr": 189.9153,
+        "k_dyn": 1.2317,
+        "k_stat": 1.0208
+      },
+      "bode": {}
+    },
+    {
+      "generation": 1,
+      "candidate": "W12_P24G1",
+      "score": 20770.43,
+      "duration_min": 136.9,
+      "params": {
+        "K_ton": 0.517,
+        "p_ton": 76.8748,
+        "K_sc": 0.1593,
+        "r_lead_sc": 0.1656,
+        "z_sc": 13.4673,
+        "p_sc": 81.3461,
+        "K_phas": 5.1837,
+        "p_phas": 16.2953,
+        "p_phas2": 204.941,
+        "kp": 0.2974,
+        "r_lead_ccr": 0.0524,
+        "z_ccr": 10.2824,
+        "p_ccr": 196.2637,
+        "k_dyn": 0.7058,
+        "k_stat": 0.9151,
+        "Kp_task_pitch": 3.7249,
+        "Kd_task_pitch": 0.1098,
+        "Ki_task_pitch": 37.7206
+      },
+      "bode": {
+        "0.324": {
+          "gain_db": -5.0,
+          "phase_err": 36.5,
+          "score": 3856.9
+        },
+        "0.783": {
+          "gain_db": -0.9,
+          "phase_err": 0.7,
+          "score": 80.1
+        },
+        "1.099": {
+          "gain_db": -0.6,
+          "phase_err": 8.9,
+          "score": 110.2
+        },
+        "2.446": {
+          "gain_db": 0.0,
+          "phase_err": 28.2,
+          "score": 797.0
+        },
+        "5.583": {
+          "gain_db": 3.2,
+          "phase_err": 68.2,
+          "score": 5650.0
+        },
+        "7.927": {
+          "gain_db": 1.0,
+          "phase_err": 100.9,
+          "score": 10276.3
+        }
+      }
+    }
+  ]
+}

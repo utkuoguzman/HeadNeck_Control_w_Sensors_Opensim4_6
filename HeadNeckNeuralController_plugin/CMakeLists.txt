@@ -32,5 +32,10 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "osimHeadNeckNeural")
 
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /O2 /Ob3 /arch:AVX2 /GL)
+    target_link_options(${PROJECT_NAME} PRIVATE /LTCG)
+endif()
+
 add_executable(test_model test_model.cpp)
 target_link_libraries(test_model PRIVATE ${PROJECT_NAME} ${OpenSim_LIBRARIES})

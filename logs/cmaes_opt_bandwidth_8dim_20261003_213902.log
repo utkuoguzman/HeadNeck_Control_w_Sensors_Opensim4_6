@@ -1,8 +1,0 @@
-==========================================================================================
-CMA-ES: Bandwidth-Scheduled Bode Optimization (9 Dimensions)
-Searching: ['omega_n', 'zeta', 'Ki', 'G_ton', 'G_sc', 'G_phas', 'kp_prop', 'k_gamma_dyn', 'k_gamma_stat']
-==========================================================================================
-(7_w,15mirr3)-aCMA-ES (mu_w=4.5,w_1=34%) in dimension 9 (seed=129690, Sat Oct  3 21:39:02 2026)
-Eval EARLY ABORT at 2.12Hz: w_n=17.8, Gsc=4.06 => Est Score: 2482932.2
-Eval EARLY ABORT at 2.12Hz: w_n=16.2, Gsc=3.84 => Est Score: 5709538.2
-Eval EARLY ABORT at 2.12Hz: w_n=19.9, Gsc=3.91 => Est Score: 1202813.3
