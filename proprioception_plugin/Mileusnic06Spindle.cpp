@@ -57,6 +57,9 @@ void Mileusnic06Spindle::ensureStatePointers() const
 	if (!inputs_checked) {
 		has_dyn_input  = getInput("dynamic_gamma").isConnected();
 		has_stat_input = getInput("static_gamma").isConnected();
+		if (musclePtr) {
+			cached_L0 = musclePtr->getOptimalFiberLength();
+		}
 		inputs_checked = true;
 	}
 }
@@ -194,11 +197,12 @@ void Mileusnic06Spindle::setTensionChainDeriv(SimTK::State& s, double TensionDer
 double Mileusnic06Spindle::getIaOutput(const SimTK::State& s) const
 {
 	if (!musclePtr || !isSpindleActive()) return 0.0;
-	double L0 = musclePtr->getOptimalFiberLength();
+	ensureStatePointers();
+	double L0 = cached_L0;
 	double L = musclePtr->getFiberLength(s) / L0;
-	double T1 = getTensionBag1(s);
-	double T2 = getTensionBag2(s);
-	double Tc = getTensionChain(s);
+	double T1 = sv_T_bag1->getValue(s);
+	double T2 = sv_T_bag2->getValue(s);
+	double Tc = sv_T_chain->getValue(s);
 	double APbag1 = bag1.G * ((T1 / bag1.K_SR) - (bag1.L_NSR - bag1.L_0SR));
 	double APbag2 = bag2.X * (bag2.L_sec / bag2.L_0SR) * ((T2 / bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0 - bag2.X) * (bag2.L_sec / bag2.L_0PR) * (L - (T2 / bag2.K_SR) - bag2.L_0SR - bag2.L_NPR);
 	double APchain = chain.X * (chain.L_sec / chain.L_0SR) * ((Tc / chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0 - chain.X) * (chain.L_sec / chain.L_0PR) * (L - (Tc / chain.K_SR) - chain.L_0SR - chain.L_NPR);
@@ -217,10 +221,11 @@ void Mileusnic06Spindle::setIaOutput(const SimTK::State& s, double IaOutput) con
 double Mileusnic06Spindle::getIIOutput(const SimTK::State& s) const
 {
 	if (!musclePtr || !isSpindleActive()) return 0.0;
-	double L0 = musclePtr->getOptimalFiberLength();
+	ensureStatePointers();
+	double L0 = cached_L0;
 	double L = musclePtr->getFiberLength(s) / L0;
-	double T2 = getTensionBag2(s);
-	double Tc = getTensionChain(s);
+	double T2 = sv_T_bag2->getValue(s);
+	double Tc = sv_T_chain->getValue(s);
 	double APbag2 = bag2.X * (bag2.L_sec / bag2.L_0SR) * ((T2 / bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0 - bag2.X) * (bag2.L_sec / bag2.L_0PR) * (L - (T2 / bag2.K_SR) - bag2.L_0SR - bag2.L_NPR);
 	double APchain = chain.X * (chain.L_sec / chain.L_0SR) * ((Tc / chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0 - chain.X) * (chain.L_sec / chain.L_0PR) * (L - (Tc / chain.K_SR) - chain.L_0SR - chain.L_NPR);
 	return bag2.G_sec * APbag2 + chain.G_sec * APchain;
@@ -293,6 +298,7 @@ void Mileusnic06Spindle::extendInitStateFromProperties(SimTK::State& s) const
 	sv_Td_bag2 = nullptr;
 	sv_Td_chain = nullptr;
 	inputs_checked = false;
+	active_checked = false;
 	if (!isSpindleActive()) return;
 
 	//initiate activation input	
@@ -335,7 +341,7 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	// ctrlVec[0] --> muscle excitation (alpha)
 	// ctrlVec[1] --> dynamic fusimotor inputs (dynamic gamma)
 	// ctrlVec[2] --> static fusimotor inputs (static gamma)
-	SimTK::Vector ctrlVec = musclePtr->getControls(s);	
+	const SimTK::VectorView_<double> ctrlVec = musclePtr->getControls(s);	
 
 	// Modernize: Read from connected Inputs if available, otherwise fallback to ctrlVec
 	double dyn_gamma_input = has_dyn_input ? getInputValue<double>(s, "dynamic_gamma") : ctrlVec[1];
@@ -382,10 +388,10 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	sv_T_bag2->setDerivative(s, Tp2);
 	sv_T_chain->setDerivative(s, Tpc);
 	
-	// Now let's compute the second derivative of the tension (Eq. 6), and also get the afferent potentials (Eqs. 7, 8)
+	// Now let's compute the second derivative of the tension (Eq. 6)
 	
 	// equation 6 needs some muscle information
-	double L0 = musclePtr->getOptimalFiberLength();
+	double L0 = cached_L0;
 	double L = musclePtr->getFiberLength(s)/L0;
 	double Lp = (musclePtr->getFiberVelocity(s))/L0;
 	double Lpp = ((Millard12EqMuscleWithAfferents*)musclePtr)->getLPFacceleration(s)/L0;
@@ -401,10 +407,6 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	term2 = bag1.K_PR*(L - bag1.L_0SR - (T/bag1.K_SR) - bag1.L_0PR);
 	
 	sv_Td_bag1->setDerivative(s, (bag1.K_SR/bag1.M) * ( term1 + term2 + bag1.M*Lpp + Gamma_bag1 - T ));
-	 
-	// afferent potential for bag1 (equation 7)
-	double APbag1; 
-	APbag1 = bag1.G * ( (T/bag1.K_SR) - (bag1.L_NSR - bag1.L_0SR) );			
 			
 	// Tension 2nd derivative for bag2 
 	C = (Lp>0.0) ? bag2.C_L : bag2.C_S;
@@ -416,10 +418,6 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	term2 = bag2.K_PR*(L - bag2.L_0SR - (T/bag2.K_SR) - bag2.L_0PR);
 	
 	sv_Td_bag2->setDerivative(s, (bag2.K_SR/bag2.M) * ( term1 + term2 + bag2.M*Lpp + Gamma_bag2 - T ));
-			
-	// afferent potential for bag2 (equation 8 except G product)
-	double APbag2;
-	APbag2 = bag2.X * (bag2.L_sec/bag2.L_0SR) * ((T/bag2.K_SR) - (bag2.L_NSR - bag2.L_0SR)) + (1.0-bag2.X) * (bag2.L_sec/bag2.L_0PR) * (L - (T/bag2.K_SR) - bag2.L_0SR - bag2.L_NPR); 
 					
 	// Tension 2nd derivative for the chain fiber
 	C = (Lp>0.0) ? chain.C_L : chain.C_S;
@@ -431,24 +429,6 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	term2 = chain.K_PR*(L - chain.L_0SR - (T/chain.K_SR) - chain.L_0PR);
 	
 	sv_Td_chain->setDerivative(s, (chain.K_SR/chain.M) * ( term1 + term2 + chain.M*Lpp + Gamma_chain - T ));
-	
-	// afferent potential for chain (equation 8 except G product)
-	double APchain;
-	APchain = chain.X * (chain.L_sec/chain.L_0SR) * ((T/chain.K_SR) - (chain.L_NSR - chain.L_0SR)) + (1.0-chain.X) * (chain.L_sec/chain.L_0PR) * (L - (T/chain.K_SR) - chain.L_0SR - chain.L_NPR);
-
-	// calculating the afferent firing
-	double primary, secondary, pri_stat;
-	pri_stat = bag2.G_pri*APbag2 + chain.G_pri*APchain;
-	double diff = APbag1 - pri_stat;
-	// Smooth Max and Min
-	double s_max = 0.5 * (APbag1 + pri_stat + std::sqrt(diff*diff + 1e-4));
-	double s_min = 0.5 * (APbag1 + pri_stat - std::sqrt(diff*diff + 1e-4));
-	primary = s_max + S * s_min;
-	secondary = bag2.G_sec*APbag2 + chain.G_sec*APchain;
-	
-	// cache the output so it can be accessed
-	setIaOutput(s, primary);
-	setIIOutput(s, secondary);
 }
 
 //--------------------------------------------------------------------------

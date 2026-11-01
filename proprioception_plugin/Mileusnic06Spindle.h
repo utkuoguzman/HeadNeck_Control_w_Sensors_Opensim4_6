@@ -32,8 +32,12 @@ public:
 	OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Whether to enable spindle ODE states on extraocular eye muscles (r_*, l_*) (default: false during neck study)");
 
 	bool isSpindleActive() const {
-		bool is_eye = (ownerMuscleName.rfind("r_", 0) == 0 || ownerMuscleName.rfind("l_", 0) == 0);
-		return !is_eye || get_enable_eye_afferents();
+		if (!active_checked) {
+			bool is_eye = (ownerMuscleName.rfind("r_", 0) == 0 || ownerMuscleName.rfind("l_", 0) == 0);
+			is_active_cached = !is_eye || get_enable_eye_afferents();
+			active_checked = true;
+		}
+		return is_active_cached;
 	}
 
 //=============================================================================
@@ -302,6 +306,9 @@ private:
 	mutable bool inputs_checked = false;
 	mutable bool has_dyn_input = false;
 	mutable bool has_stat_input = false;
+	mutable bool active_checked = false;
+	mutable bool is_active_cached = false;
+	mutable double cached_L0 = 1.0;
 	mutable double cached_Ia = 0.0;
 	mutable double cached_II = 0.0;
 	void ensureStatePointers() const;

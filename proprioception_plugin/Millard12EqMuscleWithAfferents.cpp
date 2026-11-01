@@ -102,6 +102,7 @@ void Millard12EqMuscleWithAfferents::extendInitStateFromProperties(SimTK::State&
     Super::extendInitStateFromProperties(s);
 	sv_lpf_vel = nullptr;
 	sv_lpf_acc = nullptr;
+	active_checked = false;
 	if (!isAfferentActive()) return;
 	
 	// here we init the state directly, but not from any properties
@@ -155,7 +156,7 @@ void Millard12EqMuscleWithAfferents::computeStateVariableDerivatives(const SimTK
 	// Cascaded filter to get smooth velocity and acceleration
 	double lpf_v = sv_lpf_vel->getValue(s);
 	double lpf_a = sv_lpf_acc->getValue(s);
-	double tau = getLPFtau();
+	double tau = cached_lpf_tau;
 	double curr_accel = (getFiberVelocity(s) - lpf_v) / tau;
 	sv_lpf_vel->setDerivative(s, curr_accel);
 	sv_lpf_acc->setDerivative(s, (curr_accel - lpf_a) / tau);

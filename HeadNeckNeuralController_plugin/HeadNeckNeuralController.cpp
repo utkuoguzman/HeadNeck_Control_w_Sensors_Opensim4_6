@@ -10,8 +10,8 @@ using namespace SimTK;
 
 HeadNeckNeuralController::HeadNeckNeuralController() {
 
-    constructProperty_delay_vcr(0.035);
-    constructProperty_delay_ccr(0.035);
+    constructProperty_delay_vcr(0.010);
+    constructProperty_delay_ccr(0.015);
     constructProperty_Kp_proprioception(2.5030);
     constructProperty_z_ccr(500.0);
     constructProperty_p_ccr(24.4852);
@@ -28,7 +28,9 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_z_sc(500.0);
     constructProperty_p_sc(37.8562);
     constructProperty_K_phas(4.9396);
+    constructProperty_z_phas(-1.0);
     constructProperty_p_phas(63.8079);
+    constructProperty_p_phas2(-1.0);
     constructProperty_k_p(2.5030);
     constructProperty_K_gamma_dyn(3.7051);
     constructProperty_K_gamma_stat(2.6738);
@@ -128,6 +130,24 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("luen_omega_roll", SimTK::Stage::Velocity);
     addStateVariable("luen_omega_yaw", SimTK::Stage::Velocity);
     addStateVariable("luen_omega_pitch", SimTK::Stage::Velocity);
+    addStateVariable("otolith_reg_adapt_x", SimTK::Stage::Velocity);
+    addStateVariable("otolith_reg_adapt_y", SimTK::Stage::Velocity);
+    addStateVariable("otolith_reg_adapt_z", SimTK::Stage::Velocity);
+    addStateVariable("otolith_reg_state_x", SimTK::Stage::Velocity);
+    addStateVariable("otolith_reg_state_y", SimTK::Stage::Velocity);
+    addStateVariable("otolith_reg_state_z", SimTK::Stage::Velocity);
+    addStateVariable("otolith_irr_adapt_x", SimTK::Stage::Velocity);
+    addStateVariable("otolith_irr_adapt_y", SimTK::Stage::Velocity);
+    addStateVariable("otolith_irr_adapt_z", SimTK::Stage::Velocity);
+    addStateVariable("otolith_irr_state_x", SimTK::Stage::Velocity);
+    addStateVariable("otolith_irr_state_y", SimTK::Stage::Velocity);
+    addStateVariable("otolith_irr_state_z", SimTK::Stage::Velocity);
+    addStateVariable("luen_otolith_x", SimTK::Stage::Velocity);
+    addStateVariable("luen_otolith_y", SimTK::Stage::Velocity);
+    addStateVariable("luen_otolith_z", SimTK::Stage::Velocity);
+    addStateVariable("luen_otolith_adapt_x", SimTK::Stage::Velocity);
+    addStateVariable("luen_otolith_adapt_y", SimTK::Stage::Velocity);
+    addStateVariable("luen_otolith_adapt_z", SimTK::Stage::Velocity);
 
     // SE_2(3) Spatial Observer States
     addStateVariable("obs_q0", SimTK::Stage::Velocity);
@@ -150,6 +170,9 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("phas_state_pitch", SimTK::Stage::Velocity);
     addStateVariable("phas_state_roll", SimTK::Stage::Velocity);
     addStateVariable("phas_state_yaw", SimTK::Stage::Velocity);
+    addStateVariable("phas2_state_pitch", SimTK::Stage::Velocity);
+    addStateVariable("phas2_state_roll", SimTK::Stage::Velocity);
+    addStateVariable("phas2_state_yaw", SimTK::Stage::Velocity);
 
     // Cervico-Collic Reflex Continuous State Variables
     // The number of muscles is fixed during model building.
@@ -263,6 +286,26 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& state
     setStateVariableValue(state, "luen_omega_roll", 0.0);
     setStateVariableValue(state, "luen_omega_yaw", 0.0);
     setStateVariableValue(state, "luen_omega_pitch", 0.0);
+    const double reg_adapt_ratio = 37.4 / 66.0;  // k0 / k_reg (Schneider et al. 2015 / Happee et al. 2017)
+    const double irr_adapt_ratio = 37.4 / 245.0; // k0 / k_irr (Schneider et al. 2015 / Happee et al. 2017)
+    setStateVariableValue(state, "otolith_reg_adapt_x", 0.0);
+    setStateVariableValue(state, "otolith_reg_adapt_y", 9.81);
+    setStateVariableValue(state, "otolith_reg_adapt_z", 0.0);
+    setStateVariableValue(state, "otolith_reg_state_x", 0.0);
+    setStateVariableValue(state, "otolith_reg_state_y", reg_adapt_ratio * 9.81);
+    setStateVariableValue(state, "otolith_reg_state_z", 0.0);
+    setStateVariableValue(state, "otolith_irr_adapt_x", 0.0);
+    setStateVariableValue(state, "otolith_irr_adapt_y", 9.81);
+    setStateVariableValue(state, "otolith_irr_adapt_z", 0.0);
+    setStateVariableValue(state, "otolith_irr_state_x", 0.0);
+    setStateVariableValue(state, "otolith_irr_state_y", irr_adapt_ratio * 9.81);
+    setStateVariableValue(state, "otolith_irr_state_z", 0.0);
+    setStateVariableValue(state, "luen_otolith_x", 0.0);
+    setStateVariableValue(state, "luen_otolith_y", reg_adapt_ratio * 9.81);
+    setStateVariableValue(state, "luen_otolith_z", 0.0);
+    setStateVariableValue(state, "luen_otolith_adapt_x", 0.0);
+    setStateVariableValue(state, "luen_otolith_adapt_y", reg_adapt_ratio * 9.81);
+    setStateVariableValue(state, "luen_otolith_adapt_z", 0.0);
 
     setStateVariableValue(state, "obs_q0", 1.0);
     setStateVariableValue(state, "obs_q1", 0.0);
@@ -274,6 +317,9 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& state
     setStateVariableValue(state, "obs_px", 0.0);
     setStateVariableValue(state, "obs_py", 0.0);
     setStateVariableValue(state, "obs_pz", 0.0);
+    setStateVariableValue(state, "phas2_state_pitch", 0.0);
+    setStateVariableValue(state, "phas2_state_roll", 0.0);
+    setStateVariableValue(state, "phas2_state_yaw", 0.0);
 
     const auto& muscles = getModel().getMuscles();
     for (int muscle_index = 0; muscle_index < muscles.getSize(); ++muscle_index) {
@@ -316,6 +362,24 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     state_variable_luenberger_angular_velocity[0] = traverseToStateVariable("luen_omega_roll");
     state_variable_luenberger_angular_velocity[1] = traverseToStateVariable("luen_omega_yaw");
     state_variable_luenberger_angular_velocity[2] = traverseToStateVariable("luen_omega_pitch");
+    state_variable_regular_otolith_adapt[0]       = traverseToStateVariable("otolith_reg_adapt_x");
+    state_variable_regular_otolith_adapt[1]       = traverseToStateVariable("otolith_reg_adapt_y");
+    state_variable_regular_otolith_adapt[2]       = traverseToStateVariable("otolith_reg_adapt_z");
+    state_variable_regular_otolith[0]             = traverseToStateVariable("otolith_reg_state_x");
+    state_variable_regular_otolith[1]             = traverseToStateVariable("otolith_reg_state_y");
+    state_variable_regular_otolith[2]             = traverseToStateVariable("otolith_reg_state_z");
+    state_variable_irregular_otolith_adapt[0]     = traverseToStateVariable("otolith_irr_adapt_x");
+    state_variable_irregular_otolith_adapt[1]     = traverseToStateVariable("otolith_irr_adapt_y");
+    state_variable_irregular_otolith_adapt[2]     = traverseToStateVariable("otolith_irr_adapt_z");
+    state_variable_irregular_otolith[0]           = traverseToStateVariable("otolith_irr_state_x");
+    state_variable_irregular_otolith[1]           = traverseToStateVariable("otolith_irr_state_y");
+    state_variable_irregular_otolith[2]           = traverseToStateVariable("otolith_irr_state_z");
+    state_variable_luenberger_otolith[0]          = traverseToStateVariable("luen_otolith_x");
+    state_variable_luenberger_otolith[1]          = traverseToStateVariable("luen_otolith_y");
+    state_variable_luenberger_otolith[2]          = traverseToStateVariable("luen_otolith_z");
+    state_variable_luenberger_otolith_adapt[0]    = traverseToStateVariable("luen_otolith_adapt_x");
+    state_variable_luenberger_otolith_adapt[1]    = traverseToStateVariable("luen_otolith_adapt_y");
+    state_variable_luenberger_otolith_adapt[2]    = traverseToStateVariable("luen_otolith_adapt_z");
     state_variable_observer_quaternion[0] = traverseToStateVariable("obs_q0");
     state_variable_observer_quaternion[1] = traverseToStateVariable("obs_q1");
     state_variable_observer_quaternion[2] = traverseToStateVariable("obs_q2");
@@ -335,6 +399,9 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     state_variable_phasic_otolith[0]      = traverseToStateVariable("phas_state_pitch");
     state_variable_phasic_otolith[1]      = traverseToStateVariable("phas_state_roll");
     state_variable_phasic_otolith[2]      = traverseToStateVariable("phas_state_yaw");
+    state_variable_phasic_otolith_stage2[0] = traverseToStateVariable("phas2_state_pitch");
+    state_variable_phasic_otolith_stage2[1] = traverseToStateVariable("phas2_state_roll");
+    state_variable_phasic_otolith_stage2[2] = traverseToStateVariable("phas2_state_yaw");
 
     const auto& coordinate_set = model.getCoordinateSet();
     cached_coordinate_pitch1       = coordinate_set.contains("pitch1")   ? &coordinate_set.get("pitch1")   : nullptr;
@@ -544,19 +611,64 @@ void HeadNeckNeuralController::updateDecoderMatrix() const {
     }
 }
 
-HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(double current_time, double delay_duration) const {
+HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(double current_time, double delay_duration, bool interpolate_spindle_afferents) const {
     DelayedData delayed_result;
     delayed_result.linear_acceleration = SimTK::Vec3(0.0);
 
     double target_time = current_time - delay_duration;
     if (history.empty()) return delayed_result;
-    auto iterator_upper = history.lower_bound(target_time);
+    auto compare_timestamp = [](const std::pair<double, HistoryRecord>& entry, double timestamp) {
+        return entry.first < timestamp;
+    };
+    auto iterator_upper = std::lower_bound(history.begin(), history.end(), target_time, compare_timestamp);
     if (iterator_upper == history.end()) {
-        delayed_result.record = history.rbegin()->second;
+        const HistoryRecord& source_record = history.back().second;
+        delayed_result.record.valid = source_record.valid;
+        delayed_result.record.estimated_head_orientation = source_record.estimated_head_orientation;
+        delayed_result.record.reconstructed_canal_angular_velocity = source_record.reconstructed_canal_angular_velocity;
+        delayed_result.record.luenberger_angular_velocity = source_record.luenberger_angular_velocity;
+        delayed_result.record.reconstructed_otolith_specific_force = source_record.reconstructed_otolith_specific_force;
+        delayed_result.record.luenberger_otolith_specific_force = source_record.luenberger_otolith_specific_force;
+        delayed_result.record.rotation_world_to_head = source_record.rotation_world_to_head;
+        delayed_result.record.estimated_rotation_head_to_world = source_record.estimated_rotation_head_to_world;
+        delayed_result.record.trunk_orientation = source_record.trunk_orientation;
+        delayed_result.record.trunk_angular_velocity = source_record.trunk_angular_velocity;
+        delayed_result.record.head_linear_velocity = source_record.head_linear_velocity;
+        delayed_result.record.estimated_neck_relative_angle = source_record.estimated_neck_relative_angle;
+        delayed_result.record.estimated_neck_relative_speed = source_record.estimated_neck_relative_speed;
+        delayed_result.record.mahony_estimated_angular_velocity = source_record.mahony_estimated_angular_velocity;
+        delayed_result.record.cortical_voluntary_torque = source_record.cortical_voluntary_torque;
+        delayed_result.record.trajectory_position = source_record.trajectory_position;
+        delayed_result.record.trajectory_velocity = source_record.trajectory_velocity;
+        delayed_result.record.trajectory_acceleration = source_record.trajectory_acceleration;
+        if (interpolate_spindle_afferents) {
+            delayed_result.record.primary_afferent_firing_rate = source_record.primary_afferent_firing_rate;
+        }
         return delayed_result;
     }
     if (iterator_upper == history.begin()) {
-        delayed_result.record = iterator_upper->second;
+        const HistoryRecord& source_record = iterator_upper->second;
+        delayed_result.record.valid = source_record.valid;
+        delayed_result.record.estimated_head_orientation = source_record.estimated_head_orientation;
+        delayed_result.record.reconstructed_canal_angular_velocity = source_record.reconstructed_canal_angular_velocity;
+        delayed_result.record.luenberger_angular_velocity = source_record.luenberger_angular_velocity;
+        delayed_result.record.reconstructed_otolith_specific_force = source_record.reconstructed_otolith_specific_force;
+        delayed_result.record.luenberger_otolith_specific_force = source_record.luenberger_otolith_specific_force;
+        delayed_result.record.rotation_world_to_head = source_record.rotation_world_to_head;
+        delayed_result.record.estimated_rotation_head_to_world = source_record.estimated_rotation_head_to_world;
+        delayed_result.record.trunk_orientation = source_record.trunk_orientation;
+        delayed_result.record.trunk_angular_velocity = source_record.trunk_angular_velocity;
+        delayed_result.record.head_linear_velocity = source_record.head_linear_velocity;
+        delayed_result.record.estimated_neck_relative_angle = source_record.estimated_neck_relative_angle;
+        delayed_result.record.estimated_neck_relative_speed = source_record.estimated_neck_relative_speed;
+        delayed_result.record.mahony_estimated_angular_velocity = source_record.mahony_estimated_angular_velocity;
+        delayed_result.record.cortical_voluntary_torque = source_record.cortical_voluntary_torque;
+        delayed_result.record.trajectory_position = source_record.trajectory_position;
+        delayed_result.record.trajectory_velocity = source_record.trajectory_velocity;
+        delayed_result.record.trajectory_acceleration = source_record.trajectory_acceleration;
+        if (interpolate_spindle_afferents) {
+            delayed_result.record.primary_afferent_firing_rate = source_record.primary_afferent_firing_rate;
+        }
         return delayed_result;
     }
     auto iterator_lower = iterator_upper;
@@ -565,7 +677,7 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
     double time_upper = iterator_upper->first;
     double interpolation_weight = (time_upper > time_lower) ? (target_time - time_lower) / (time_upper - time_lower) : 0.0;
 
-    HistoryRecord interpolated_record;
+    HistoryRecord& interpolated_record = delayed_result.record;
     interpolated_record.valid = iterator_lower->second.valid || iterator_upper->second.valid;
     interpolated_record.reconstructed_canal_angular_velocity =
         iterator_lower->second.reconstructed_canal_angular_velocity * (1.0 - interpolation_weight) +
@@ -573,6 +685,12 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
     interpolated_record.luenberger_angular_velocity =
         iterator_lower->second.luenberger_angular_velocity * (1.0 - interpolation_weight) +
         iterator_upper->second.luenberger_angular_velocity * interpolation_weight;
+    interpolated_record.reconstructed_otolith_specific_force =
+        iterator_lower->second.reconstructed_otolith_specific_force * (1.0 - interpolation_weight) +
+        iterator_upper->second.reconstructed_otolith_specific_force * interpolation_weight;
+    interpolated_record.luenberger_otolith_specific_force =
+        iterator_lower->second.luenberger_otolith_specific_force * (1.0 - interpolation_weight) +
+        iterator_upper->second.luenberger_otolith_specific_force * interpolation_weight;
     interpolated_record.rotation_world_to_head =
         iterator_lower->second.rotation_world_to_head * (1.0 - interpolation_weight) +
         iterator_upper->second.rotation_world_to_head * interpolation_weight;
@@ -597,8 +715,24 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
     interpolated_record.estimated_neck_relative_speed =
         iterator_lower->second.estimated_neck_relative_speed * (1.0 - interpolation_weight) +
         iterator_upper->second.estimated_neck_relative_speed * interpolation_weight;
+    interpolated_record.mahony_estimated_angular_velocity =
+        iterator_lower->second.mahony_estimated_angular_velocity * (1.0 - interpolation_weight) +
+        iterator_upper->second.mahony_estimated_angular_velocity * interpolation_weight;
+    interpolated_record.cortical_voluntary_torque =
+        iterator_lower->second.cortical_voluntary_torque * (1.0 - interpolation_weight) +
+        iterator_upper->second.cortical_voluntary_torque * interpolation_weight;
+    interpolated_record.trajectory_position =
+        iterator_lower->second.trajectory_position * (1.0 - interpolation_weight) +
+        iterator_upper->second.trajectory_position * interpolation_weight;
+    interpolated_record.trajectory_velocity =
+        iterator_lower->second.trajectory_velocity * (1.0 - interpolation_weight) +
+        iterator_upper->second.trajectory_velocity * interpolation_weight;
+    interpolated_record.trajectory_acceleration =
+        iterator_lower->second.trajectory_acceleration * (1.0 - interpolation_weight) +
+        iterator_upper->second.trajectory_acceleration * interpolation_weight;
 
-    if (iterator_lower->second.primary_afferent_firing_rate.size() > 0 &&
+    if (interpolate_spindle_afferents &&
+        iterator_lower->second.primary_afferent_firing_rate.size() > 0 &&
         iterator_upper->second.primary_afferent_firing_rate.size() == iterator_lower->second.primary_afferent_firing_rate.size()) {
         interpolated_record.primary_afferent_firing_rate.resize(iterator_lower->second.primary_afferent_firing_rate.size());
         for (int muscle_index = 0; muscle_index < interpolated_record.primary_afferent_firing_rate.size(); ++muscle_index) {
@@ -607,12 +741,11 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
                 iterator_upper->second.primary_afferent_firing_rate[muscle_index] * interpolation_weight;
         }
     }
-    delayed_result.record = interpolated_record;
 
     // --- NUMERICAL DIFFERENTIATION FOR ACCELERATION ---
     double finite_difference_window = 0.001; // 1ms finite-difference window (removes extra 4.5ms lag)
     double previous_target_time = target_time - finite_difference_window;
-    auto previous_iterator_upper = history.lower_bound(previous_target_time);
+    auto previous_iterator_upper = std::lower_bound(history.begin(), history.end(), previous_target_time, compare_timestamp);
     if (previous_iterator_upper != history.end() && previous_iterator_upper != history.begin()) {
         auto previous_iterator_lower = previous_iterator_upper;
         --previous_iterator_lower;
@@ -701,9 +834,8 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         right_canal_projection[0], right_canal_projection[1], right_canal_projection[2],
         left_canal_projection[0],  left_canal_projection[1],  left_canal_projection[2]};
 
-    double canal_afferent_outputs[6] = {0.0};
+    double regular_canal_afferent_outputs[6] = {0.0};
     for (int canal_index = 0; canal_index < 6; ++canal_index) {
-        double combined_afferent_output = 0.0;
         for (int filter_index = 0; filter_index < 2; ++filter_index) {
             double filter_state_1 = state_variable_semicircular_canal[canal_index][filter_index][0]->getValue(state);
             double filter_state_2 = state_variable_semicircular_canal[canal_index][filter_index][1]->getValue(state);
@@ -717,39 +849,118 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             state_variable_semicircular_canal[canal_index][filter_index][0]->setDerivative(state, filter_state_1_derivative);
             state_variable_semicircular_canal[canal_index][filter_index][1]->setDerivative(state, filter_state_2_derivative);
 
-            double single_filter_output =
-                canal_filter_parameters[filter_index].state_space_output_c0 * filter_state_1 +
-                canal_filter_parameters[filter_index].state_space_output_c1 * filter_state_2 +
-                canal_filter_parameters[filter_index].direct_feedthrough_d  * canal_angular_velocity_inputs[canal_index];
-            combined_afferent_output += single_filter_output;
+            if (filter_index == 0) {
+                regular_canal_afferent_outputs[canal_index] =
+                    canal_filter_parameters[0].state_space_output_c0 * filter_state_1 +
+                    canal_filter_parameters[0].state_space_output_c1 * filter_state_2 +
+                    canal_filter_parameters[0].direct_feedthrough_d  * canal_angular_velocity_inputs[canal_index];
+            }
         }
-        canal_afferent_outputs[canal_index] = combined_afferent_output / 2.0;
     }
-    SimTK::Vec3 filtered_right_canal_output(canal_afferent_outputs[0], canal_afferent_outputs[1], canal_afferent_outputs[2]);
-    SimTK::Vec3 filtered_left_canal_output(canal_afferent_outputs[3], canal_afferent_outputs[4], canal_afferent_outputs[5]);
-    SimTK::Vec3 raw_reconstructed_canal_angular_velocity =
-        0.5 * (right_canal_inverse_matrix * filtered_right_canal_output + left_canal_inverse_matrix * filtered_left_canal_output);
+    SimTK::Vec3 filtered_right_regular_canal_output(regular_canal_afferent_outputs[0], regular_canal_afferent_outputs[1], regular_canal_afferent_outputs[2]);
+    SimTK::Vec3 filtered_left_regular_canal_output(regular_canal_afferent_outputs[3], regular_canal_afferent_outputs[4], regular_canal_afferent_outputs[5]);
+    SimTK::Vec3 raw_reconstructed_regular_canal_velocity =
+        0.5 * (right_canal_inverse_matrix * filtered_right_regular_canal_output + left_canal_inverse_matrix * filtered_left_regular_canal_output);
 
-    // Vestibular Luenberger Observer: invert Schneider (2015) canal lead (canal_lead_time_constant = 0.02442s) and passband gain (canal_passband_gain = 0.489214)
-    const double canal_passband_gain      = 0.489214;
-    const double canal_lead_time_constant = 0.02442;
-    double luenberger_angular_velocity_roll  = state_variable_luenberger_angular_velocity[0]->getValue(state);
-    double luenberger_angular_velocity_yaw   = state_variable_luenberger_angular_velocity[1]->getValue(state);
-    double luenberger_angular_velocity_pitch = state_variable_luenberger_angular_velocity[2]->getValue(state);
+    // Vestibular Luenberger Observer: exact pole-zero inverse H_Luen(s) = (1 + T2_reg * s) / (1 + T1_reg * s)
+    // of Regular canal dynamics (T1_reg = 0.0175s, T2_reg = 0.0027s, G_pass,reg = 2.83 * 0.0027 / 0.0175 = 0.436629)
+    const double regular_canal_passband_gain      = 0.436629;
+    const double regular_canal_lead_time_constant = 0.0175;
+    const double regular_canal_pole_time_constant = 0.0027;
+    const double luenberger_direct_feedthrough    = regular_canal_pole_time_constant / regular_canal_lead_time_constant; // 0.154286
+    const double luenberger_state_weight          = 1.0 - luenberger_direct_feedthrough;                                 // 0.845714
+    SimTK::Vec3 reconstructed_regular_canal_velocity = raw_reconstructed_regular_canal_velocity / regular_canal_passband_gain;
+    double luenberger_state_roll  = state_variable_luenberger_angular_velocity[0]->getValue(state);
+    double luenberger_state_yaw   = state_variable_luenberger_angular_velocity[1]->getValue(state);
+    double luenberger_state_pitch = state_variable_luenberger_angular_velocity[2]->getValue(state);
     state_variable_luenberger_angular_velocity[0]->setDerivative(
-        state, ((raw_reconstructed_canal_angular_velocity[0] / canal_passband_gain) - luenberger_angular_velocity_roll) / canal_lead_time_constant);
+        state, (reconstructed_regular_canal_velocity[0] - luenberger_state_roll) / regular_canal_lead_time_constant);
     state_variable_luenberger_angular_velocity[1]->setDerivative(
-        state, ((raw_reconstructed_canal_angular_velocity[1] / canal_passband_gain) - luenberger_angular_velocity_yaw) / canal_lead_time_constant);
+        state, (reconstructed_regular_canal_velocity[1] - luenberger_state_yaw) / regular_canal_lead_time_constant);
     state_variable_luenberger_angular_velocity[2]->setDerivative(
-        state, ((raw_reconstructed_canal_angular_velocity[2] / canal_passband_gain) - luenberger_angular_velocity_pitch) / canal_lead_time_constant);
+        state, (reconstructed_regular_canal_velocity[2] - luenberger_state_pitch) / regular_canal_lead_time_constant);
+    double luenberger_angular_velocity_roll  = luenberger_state_weight * luenberger_state_roll  + luenberger_direct_feedthrough * reconstructed_regular_canal_velocity[0];
+    double luenberger_angular_velocity_yaw   = luenberger_state_weight * luenberger_state_yaw   + luenberger_direct_feedthrough * reconstructed_regular_canal_velocity[1];
+    double luenberger_angular_velocity_pitch = luenberger_state_weight * luenberger_state_pitch + luenberger_direct_feedthrough * reconstructed_regular_canal_velocity[2];
+
+    // --- SUBSYSTEM 2 OTOLITH MACULAE (ADJUSTED SCHNEIDER ET AL. 2015 / HAPPEE ET AL. 2017) ---
+    // Physical stimulus to Utricle & Saccule maculae: total Gravitoinertial Force f_GIF,head = R_W^H * (a_lin,W - g_W)
+    const Body& skull = *cached_skull;
+    SimTK::Rotation rotation_world_to_head = skull.getMobilizedBody().getBodyTransform(state).R().invert();
+    SimTK::Vec3 gravity_vector_world(0.0, -9.81, 0.0);
+    DelayedData current_otolith_kinematics = getDelayedData(state.getTime(), 0.0005);
+    SimTK::Vec3 current_gravitoinertial_force_head =
+        rotation_world_to_head * (current_otolith_kinematics.linear_acceleration - gravity_vector_world);
+
+    // Adjusted Schneider et al. (2015) + Fernandez et al. (1972) / Happee et al. (2017, Appendix Eq. 3):
+    //   1. Biproper 2-Stage Realization: H_oto(s) = G_pass,oto * [(k0/k + c*s)/(1 + c*s)] * [(1 + tau1*s)/(1 + b*s)]
+    //      where tau1 = 2*a (Regular: k0=37.4, k=66.0 imp/s/g, c=1.0s, tau1=27.6ms, b=17.5ms;
+    //                        Irregular: k0=37.4, k=245.0 imp/s/g, c=0.25s, tau1=27.2ms, b=7.0ms).
+    //   2. Mid-Frequency Passband Normalization in Vestibular Nuclei: G_pass,oto,reg = 66.0/9.81 = 6.727829 (imp/s)/(m/s^2),
+    //      G_pass,oto,irr = 245.0/9.81 = 24.974516 (imp/s)/(m/s^2).
+    //   3. Exact 2-Stage Minimum-Phase Luenberger Observer: H_Luen,oto(s) = [(1 + c_reg*s)/(k0/k_reg + c_reg*s)] * [(1 + b_reg*s)/(1 + tau1_reg*s)]
+    const double reg_oto_adapt_ratio        = 37.4 / 66.0;   // 0.566667
+    const double irr_oto_adapt_ratio        = 37.4 / 245.0;  // 0.152653
+    const double reg_oto_adapt_tau          = 1.0000;        // c_reg = 1.0 s
+    const double irr_oto_adapt_tau          = 0.2500;        // c_irr = 0.25 s
+    const double reg_oto_lead_tau1          = 0.0276;        // 2 * a_reg = 27.6 ms
+    const double reg_oto_pole_b             = 0.0175;        // b_reg = 17.5 ms
+    const double irr_oto_lead_tau1          = 0.0272;        // 2 * a_irr = 27.2 ms
+    const double irr_oto_pole_b             = 0.0070;        // b_irr = 7.0 ms
+    const double regular_otolith_passband_gain   = 66.0 / 9.81;  // 6.727829 (imp/s)/(m/s^2)
+    const double irregular_otolith_passband_gain = 245.0 / 9.81; // 24.974516 (imp/s)/(m/s^2)
+    const double reg_macular_feedthrough    = reg_oto_lead_tau1 / reg_oto_pole_b;  // 1.577143
+    const double reg_macular_state_weight   = 1.0 - reg_macular_feedthrough;       // -0.577143
+    const double luen_macular_feedthrough   = reg_oto_pole_b / reg_oto_lead_tau1;  // 0.634058
+    const double luen_macular_state_weight  = 1.0 - luen_macular_feedthrough;      // 0.365942
+    const double luen_adapt_tau             = reg_oto_adapt_tau / reg_oto_adapt_ratio; // 1.764706 s
+    const double luen_adapt_state_weight    = (1.0 / reg_oto_adapt_ratio) - 1.0;       // 0.764706
+
+    SimTK::Vec3 current_luenberger_otolith_force_head(0.0);
+    for (int axis_index = 0; axis_index < 3; ++axis_index) {
+        double u_gif           = current_gravitoinertial_force_head[axis_index];
+        double reg_adapt_state = state_variable_regular_otolith_adapt[axis_index]->getValue(state);
+        double reg_mac_state   = state_variable_regular_otolith[axis_index]->getValue(state);
+        double irr_adapt_state = state_variable_irregular_otolith_adapt[axis_index]->getValue(state);
+        double irr_mac_state   = state_variable_irregular_otolith[axis_index]->getValue(state);
+        double luen_mac_state  = state_variable_luenberger_otolith[axis_index]->getValue(state);
+        double luen_adp_state  = state_variable_luenberger_otolith_adapt[axis_index]->getValue(state);
+
+        // Regular Otolith Stage 1 (Adaptation) & Stage 2 (Macular Lead-Lag)
+        state_variable_regular_otolith_adapt[axis_index]->setDerivative(
+            state, (u_gif - reg_adapt_state) / reg_oto_adapt_tau);
+        double reg_stage1_out = (reg_oto_adapt_ratio - 1.0) * reg_adapt_state + u_gif;
+        state_variable_regular_otolith[axis_index]->setDerivative(
+            state, (reg_stage1_out - reg_mac_state) / reg_oto_pole_b);
+        double regular_otolith_firing_rate =
+            regular_otolith_passband_gain * (reg_macular_state_weight * reg_mac_state + reg_macular_feedthrough * reg_stage1_out);
+
+        // Irregular Otolith Stage 1 (Adaptation) & Stage 2 (Macular Lead-Lag)
+        state_variable_irregular_otolith_adapt[axis_index]->setDerivative(
+            state, (u_gif - irr_adapt_state) / irr_oto_adapt_tau);
+        double irr_stage1_out = (irr_oto_adapt_ratio - 1.0) * irr_adapt_state + u_gif;
+        state_variable_irregular_otolith[axis_index]->setDerivative(
+            state, (irr_stage1_out - irr_mac_state) / irr_oto_pole_b);
+
+        // Vestibular Nuclei Passband Normalization & 2-Stage Otolith Luenberger Observer
+        double reconstructed_regular_otolith_force = regular_otolith_firing_rate / regular_otolith_passband_gain;
+        state_variable_luenberger_otolith[axis_index]->setDerivative(
+            state, (reconstructed_regular_otolith_force - luen_mac_state) / reg_oto_lead_tau1);
+        double luen_stage1_out =
+            luen_macular_state_weight * luen_mac_state + luen_macular_feedthrough * reconstructed_regular_otolith_force;
+        state_variable_luenberger_otolith_adapt[axis_index]->setDerivative(
+            state, (luen_stage1_out - luen_adp_state) / luen_adapt_tau);
+        current_luenberger_otolith_force_head[axis_index] =
+            luen_adapt_state_weight * luen_adp_state + luen_stage1_out;
+    }
 
     if (!is_initialized) {
         initializeGeometryAndBaseline(state);
     }
     {
         int number_of_active_muscles = active_muscle_indices.size();
-        SimTK::Vector estimated_fiber_length_changes(number_of_active_muscles, 0.0);
-        SimTK::Vector estimated_fiber_velocities(number_of_active_muscles, 0.0);
+        std::vector<double> estimated_fiber_length_changes(number_of_active_muscles, 0.0);
+        std::vector<double> estimated_fiber_velocities(number_of_active_muscles, 0.0);
         const double dynamic_gamma_gain_scaled        = 100.0 * get_K_gamma_dyn();
         const double static_gamma_gain_scaled         = 100.0 * get_K_gamma_stat();
         const double length_observer_time_constant    = 0.010;
@@ -819,134 +1030,20 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         }
     }
 
-    // --- CORTICAL / VOLUNTARY LOW-PASS FILTER DYNAMICS (TRANSCORTICAL DELAY + 2nd-ORDER 2 Hz ROLL-OFF) ---
-    DelayedData delayed_voluntary_data = getDelayedData(state.getTime(), get_delay_voluntary());
-
-    double delayed_relative_neck_pitch =
-        (!history.empty() && delayed_voluntary_data.record.valid)
-            ? delayed_voluntary_data.record.estimated_neck_relative_angle[0]
-            : estimated_neck_relative_angle[0];
-    double delayed_relative_neck_roll =
-        (!history.empty() && delayed_voluntary_data.record.valid)
-            ? delayed_voluntary_data.record.estimated_neck_relative_angle[1]
-            : estimated_neck_relative_angle[1];
-    double delayed_relative_neck_yaw =
-        (!history.empty() && delayed_voluntary_data.record.valid)
-            ? delayed_voluntary_data.record.estimated_neck_relative_angle[2]
-            : estimated_neck_relative_angle[2];
-
-    double delayed_relative_neck_pitch_speed =
-        (!history.empty() && delayed_voluntary_data.record.valid)
-            ? delayed_voluntary_data.record.estimated_neck_relative_speed[0]
-            : estimated_neck_relative_speed[0];
-    double delayed_relative_neck_roll_speed =
-        (!history.empty() && delayed_voluntary_data.record.valid)
-            ? delayed_voluntary_data.record.estimated_neck_relative_speed[1]
-            : estimated_neck_relative_speed[1];
-    double delayed_relative_neck_yaw_speed =
-        (!history.empty() && delayed_voluntary_data.record.valid)
-            ? delayed_voluntary_data.record.estimated_neck_relative_speed[2]
-            : estimated_neck_relative_speed[2];
-
-    // PID Integrator derivatives (using 40ms-delayed relative neck angles consistently)
-    double pitch_position_error = trajectory_position_pitch - delayed_relative_neck_pitch;
-    double pitch_error_integral = state_variable_error_integral[0]->getValue(state);
-    if (pitch_error_integral >  0.6 && pitch_position_error > 0.0) pitch_position_error = 0.0;
-    if (pitch_error_integral < -0.6 && pitch_position_error < 0.0) pitch_position_error = 0.0;
-    state_variable_error_integral[0]->setDerivative(state, pitch_position_error);
-
-    double roll_position_error = trajectory_position_roll - delayed_relative_neck_roll;
-    double roll_error_integral = state_variable_error_integral[1]->getValue(state);
-    if (roll_error_integral >  0.4 && roll_position_error > 0.0) roll_position_error = 0.0;
-    if (roll_error_integral < -0.4 && roll_position_error < 0.0) roll_position_error = 0.0;
-    state_variable_error_integral[1]->setDerivative(state, roll_position_error);
-
-    double yaw_position_error = trajectory_position_yaw - delayed_relative_neck_yaw;
-    double yaw_error_integral = state_variable_error_integral[2]->getValue(state);
-    if (yaw_error_integral >  0.4 && yaw_position_error > 0.0) yaw_position_error = 0.0;
-    if (yaw_error_integral < -0.4 && yaw_position_error < 0.0) yaw_position_error = 0.0;
-    state_variable_error_integral[2]->setDerivative(state, yaw_position_error);
-
-    double head_inertia_pitch = 0.05;
-    double head_inertia_roll  = 0.05;
-    double head_inertia_yaw   = 0.05;
-
-    double vigor_pitch = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_pitch);
-    double kp_pitch = (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : std::sqrt(get_Wp_base_pitch() * vigor_pitch);
-    double kd_pitch = (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch);
-    double ki_pitch = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
-    double ki_roll  = (get_Ki_task_roll()  >= 0.0) ? get_Ki_task_roll()  : 0.0;
-    double ki_yaw   = (get_Ki_task_yaw()   >= 0.0) ? get_Ki_task_yaw()   : 0.0;
-
-    double unfiltered_voluntary_torque_pitch =
-        kp_pitch * (trajectory_position_pitch - delayed_relative_neck_pitch) +
-        kd_pitch * (trajectory_velocity_pitch - delayed_relative_neck_pitch_speed) +
-        ki_pitch * pitch_error_integral +
-        head_inertia_pitch * trajectory_acceleration_pitch;
-
-    double vigor_roll = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_roll);
-    double kp_roll = (get_Kp_task_roll() >= 0.0) ? get_Kp_task_roll() : std::sqrt(get_Wp_base_roll() * vigor_roll);
-    double kd_roll = (get_Kd_task_roll() >= 0.0) ? get_Kd_task_roll() : std::sqrt(get_Wv_base_roll() * vigor_roll + 2.0 * kp_roll);
-    double unfiltered_voluntary_torque_roll =
-        kp_roll * (trajectory_position_roll - delayed_relative_neck_roll) +
-        kd_roll * (trajectory_velocity_roll - delayed_relative_neck_roll_speed) +
-        ki_roll * roll_error_integral +
-        head_inertia_roll * trajectory_acceleration_roll;
-
-    double vigor_yaw = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_yaw);
-    double kp_yaw = (get_Kp_task_yaw() >= 0.0) ? get_Kp_task_yaw() : std::sqrt(get_Wp_base_yaw() * vigor_yaw);
-    double kd_yaw = (get_Kd_task_yaw() >= 0.0) ? get_Kd_task_yaw() : std::sqrt(get_Wv_base_yaw() * vigor_yaw + 2.0 * kp_yaw);
-    double unfiltered_voluntary_torque_yaw =
-        kp_yaw * (trajectory_position_yaw - delayed_relative_neck_yaw) +
-        kd_yaw * (trajectory_velocity_yaw - delayed_relative_neck_yaw_speed) +
-        ki_yaw * yaw_error_integral +
-        head_inertia_yaw * trajectory_acceleration_yaw;
-
-    double voluntary_cutoff_frequency = get_fc_voluntary();
-    if (voluntary_cutoff_frequency < 0.1) voluntary_cutoff_frequency = 0.1;
-    double voluntary_cutoff_angular_frequency = 2.0 * SimTK::Pi * voluntary_cutoff_frequency;
-
-    double voluntary_filtered_stage1_pitch = state_variable_voluntary_filter_stage1[0]->getValue(state);
-    double voluntary_filtered_stage1_roll  = state_variable_voluntary_filter_stage1[1]->getValue(state);
-    double voluntary_filtered_stage1_yaw   = state_variable_voluntary_filter_stage1[2]->getValue(state);
-
-    double voluntary_filtered_stage2_pitch = state_variable_voluntary_filter_stage2[0]->getValue(state);
-    double voluntary_filtered_stage2_roll  = state_variable_voluntary_filter_stage2[1]->getValue(state);
-    double voluntary_filtered_stage2_yaw   = state_variable_voluntary_filter_stage2[2]->getValue(state);
-
-    state_variable_voluntary_filter_stage1[0]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_pitch - voluntary_filtered_stage1_pitch));
-    state_variable_voluntary_filter_stage1[1]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_roll  - voluntary_filtered_stage1_roll));
-    state_variable_voluntary_filter_stage1[2]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_yaw   - voluntary_filtered_stage1_yaw));
-
-    state_variable_voluntary_filter_stage2[0]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_pitch - voluntary_filtered_stage2_pitch));
-    state_variable_voluntary_filter_stage2[1]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_roll  - voluntary_filtered_stage2_roll));
-    state_variable_voluntary_filter_stage2[2]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_yaw   - voluntary_filtered_stage2_yaw));
-
     const double vestibular_afferent_delay = 0.002; // 2 ms CN VIII vestibular afferent delay to brainstem/cerebellum
     DelayedData delayed_vestibular_afferent_data = getDelayedData(state.getTime(), vestibular_afferent_delay);
     DelayedData delayed_vestibulo_collic_data    = getDelayedData(state.getTime(), get_delay_vcr());
 
     // --- SE_2(3) SPATIAL OBSERVER (Tilt-Translation Disambiguation) ---
-    // 1. Vestibular Sensor Readings (2ms-delayed Canal Gyro and Time-Aligned Otolith Specific Force)
-    const Body& skull = *cached_skull;
-    SimTK::Rotation rotation_world_to_head = skull.getMobilizedBody().getBodyTransform(state).R().invert();
+    // 1. Vestibular Sensor Readings (2ms-delayed Canal Luenberger Gyro and 2ms-delayed Otolith Luenberger GIF from Subsystem 2)
     SimTK::Vec3 world_angular_velocity =
         (!history.empty() && delayed_vestibular_afferent_data.record.valid)
             ? delayed_vestibular_afferent_data.record.luenberger_angular_velocity
             : SimTK::Vec3(luenberger_angular_velocity_roll, luenberger_angular_velocity_yaw, luenberger_angular_velocity_pitch);
-    SimTK::Mat33 delayed_rotation_world_to_head =
-        (!history.empty() && delayed_vestibular_afferent_data.record.valid)
-            ? delayed_vestibular_afferent_data.record.rotation_world_to_head
-            : rotation_world_to_head.asMat33();
-    SimTK::Vec3 gravity_vector_world(0.0, -9.81, 0.0);
     SimTK::Vec3 otolith_specific_force_head =
-        delayed_rotation_world_to_head * (delayed_vestibular_afferent_data.linear_acceleration - gravity_vector_world); // Time-aligned at t - 2ms in Head frame
+        (!history.empty() && delayed_vestibular_afferent_data.record.valid)
+            ? delayed_vestibular_afferent_data.record.luenberger_otolith_specific_force
+            : current_luenberger_otolith_force_head; // Time-aligned at t - 2ms from Subsystem 2 Regular Otolith + Luenberger Inverse
 
     // 2. Current Observer Beliefs
     double quaternion_0 = state_variable_observer_quaternion[0]->getValue(state);
@@ -985,6 +1082,128 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         head_frame_angular_velocity[0],
         head_frame_angular_velocity[1]);
 
+    double estimated_head_pitch = std::atan2(
+        2.0 * (quaternion_0 * quaternion_3 + quaternion_1 * quaternion_2),
+        1.0 - 2.0 * (quaternion_2 * quaternion_2 + quaternion_3 * quaternion_3));
+    double estimated_head_roll = std::atan2(
+        2.0 * (quaternion_0 * quaternion_1 + quaternion_2 * quaternion_3),
+        1.0 - 2.0 * (quaternion_1 * quaternion_1 + quaternion_2 * quaternion_2));
+    double estimated_head_yaw = std::asin(
+        std::clamp(2.0 * (quaternion_0 * quaternion_2 - quaternion_3 * quaternion_1), -1.0, 1.0));
+
+    // --- CORTICAL / VOLUNTARY LOW-PASS FILTER DYNAMICS (ANATOMICALLY SPLIT ASCENDING DELAY + MAHONY FUSED FEEDBACK + 2 Hz ROLL-OFF) ---
+    double ascending_voluntary_delay  = 0.5 * get_delay_voluntary(); // 20 ms ascending thalamocortical sensory delay
+    double descending_voluntary_delay = 0.5 * get_delay_voluntary(); // 20 ms descending corticospinal motor delay
+    DelayedData delayed_ascending_voluntary_data  = getDelayedData(state.getTime(), ascending_voluntary_delay);
+    DelayedData delayed_descending_voluntary_data = getDelayedData(state.getTime(), descending_voluntary_delay);
+
+    double delayed_mahony_pitch =
+        (!history.empty() && delayed_ascending_voluntary_data.record.valid)
+            ? (delayed_ascending_voluntary_data.record.estimated_head_orientation[2] - baseline_spatial_orientation[2])
+            : (estimated_head_pitch - baseline_spatial_orientation[2]);
+    double delayed_mahony_roll =
+        (!history.empty() && delayed_ascending_voluntary_data.record.valid)
+            ? (delayed_ascending_voluntary_data.record.estimated_head_orientation[0] - baseline_spatial_orientation[0])
+            : (estimated_head_roll - baseline_spatial_orientation[0]);
+    double delayed_mahony_yaw =
+        (!history.empty() && delayed_ascending_voluntary_data.record.valid)
+            ? (delayed_ascending_voluntary_data.record.estimated_head_orientation[1] - baseline_spatial_orientation[1])
+            : (estimated_head_yaw - baseline_spatial_orientation[1]);
+
+    double delayed_mahony_pitch_speed =
+        (!history.empty() && delayed_ascending_voluntary_data.record.valid)
+            ? delayed_ascending_voluntary_data.record.mahony_estimated_angular_velocity[0]
+            : mahony_estimated_angular_velocity[0];
+    double delayed_mahony_roll_speed =
+        (!history.empty() && delayed_ascending_voluntary_data.record.valid)
+            ? delayed_ascending_voluntary_data.record.mahony_estimated_angular_velocity[1]
+            : mahony_estimated_angular_velocity[1];
+    double delayed_mahony_yaw_speed =
+        (!history.empty() && delayed_ascending_voluntary_data.record.valid)
+            ? delayed_ascending_voluntary_data.record.mahony_estimated_angular_velocity[2]
+            : mahony_estimated_angular_velocity[2];
+
+    // PID Integrator derivatives (using 20ms-delayed Mahony-fused spatial orientation consistently)
+    double ki_pitch = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
+    double pitch_integral_limit = std::max(0.6, 25.0 / std::max(1.0, ki_pitch));
+    double pitch_position_error = trajectory_position_pitch - delayed_mahony_pitch;
+    double pitch_error_integral = state_variable_error_integral[0]->getValue(state);
+    if (pitch_error_integral >  pitch_integral_limit && pitch_position_error > 0.0) pitch_position_error = 0.0;
+    if (pitch_error_integral < -pitch_integral_limit && pitch_position_error < 0.0) pitch_position_error = 0.0;
+    state_variable_error_integral[0]->setDerivative(state, pitch_position_error);
+
+    double roll_position_error = trajectory_position_roll - delayed_mahony_roll;
+    double roll_error_integral = state_variable_error_integral[1]->getValue(state);
+    if (roll_error_integral >  0.4 && roll_position_error > 0.0) roll_position_error = 0.0;
+    if (roll_error_integral < -0.4 && roll_position_error < 0.0) roll_position_error = 0.0;
+    state_variable_error_integral[1]->setDerivative(state, roll_position_error);
+
+    double yaw_position_error = trajectory_position_yaw - delayed_mahony_yaw;
+    double yaw_error_integral = state_variable_error_integral[2]->getValue(state);
+    if (yaw_error_integral >  0.4 && yaw_position_error > 0.0) yaw_position_error = 0.0;
+    if (yaw_error_integral < -0.4 && yaw_position_error < 0.0) yaw_position_error = 0.0;
+    state_variable_error_integral[2]->setDerivative(state, yaw_position_error);
+
+    double head_inertia_pitch = 0.05;
+    double head_inertia_roll  = 0.05;
+    double head_inertia_yaw   = 0.05;
+
+    double vigor_pitch = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_pitch);
+    double kp_pitch = (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : std::sqrt(get_Wp_base_pitch() * vigor_pitch);
+    double kd_pitch = (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch);
+    double ki_roll  = (get_Ki_task_roll()  >= 0.0) ? get_Ki_task_roll()  : 0.0;
+    double ki_yaw   = (get_Ki_task_yaw()   >= 0.0) ? get_Ki_task_yaw()   : 0.0;
+
+    double unfiltered_voluntary_torque_pitch =
+        kp_pitch * (trajectory_position_pitch - delayed_mahony_pitch) +
+        kd_pitch * (trajectory_velocity_pitch - delayed_mahony_pitch_speed) +
+        ki_pitch * pitch_error_integral +
+        head_inertia_pitch * trajectory_acceleration_pitch;
+
+    double vigor_roll = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_roll);
+    double kp_roll = (get_Kp_task_roll() >= 0.0) ? get_Kp_task_roll() : std::sqrt(get_Wp_base_roll() * vigor_roll);
+    double kd_roll = (get_Kd_task_roll() >= 0.0) ? get_Kd_task_roll() : std::sqrt(get_Wv_base_roll() * vigor_roll + 2.0 * kp_roll);
+    double unfiltered_voluntary_torque_roll =
+        kp_roll * (trajectory_position_roll - delayed_mahony_roll) +
+        kd_roll * (trajectory_velocity_roll - delayed_mahony_roll_speed) +
+        ki_roll * roll_error_integral +
+        head_inertia_roll * trajectory_acceleration_roll;
+
+    double vigor_yaw = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_yaw);
+    double kp_yaw = (get_Kp_task_yaw() >= 0.0) ? get_Kp_task_yaw() : std::sqrt(get_Wp_base_yaw() * vigor_yaw);
+    double kd_yaw = (get_Kd_task_yaw() >= 0.0) ? get_Kd_task_yaw() : std::sqrt(get_Wv_base_yaw() * vigor_yaw + 2.0 * kp_yaw);
+    double unfiltered_voluntary_torque_yaw =
+        kp_yaw * (trajectory_position_yaw - delayed_mahony_yaw) +
+        kd_yaw * (trajectory_velocity_yaw - delayed_mahony_yaw_speed) +
+        ki_yaw * yaw_error_integral +
+        head_inertia_yaw * trajectory_acceleration_yaw;
+
+    double voluntary_cutoff_frequency = get_fc_voluntary();
+    if (voluntary_cutoff_frequency < 0.1) voluntary_cutoff_frequency = 0.1;
+    double voluntary_cutoff_angular_frequency = 2.0 * SimTK::Pi * voluntary_cutoff_frequency;
+
+    double voluntary_filtered_stage1_pitch = state_variable_voluntary_filter_stage1[0]->getValue(state);
+    double voluntary_filtered_stage1_roll  = state_variable_voluntary_filter_stage1[1]->getValue(state);
+    double voluntary_filtered_stage1_yaw   = state_variable_voluntary_filter_stage1[2]->getValue(state);
+
+    double voluntary_filtered_stage2_pitch = state_variable_voluntary_filter_stage2[0]->getValue(state);
+    double voluntary_filtered_stage2_roll  = state_variable_voluntary_filter_stage2[1]->getValue(state);
+    double voluntary_filtered_stage2_yaw   = state_variable_voluntary_filter_stage2[2]->getValue(state);
+
+    state_variable_voluntary_filter_stage1[0]->setDerivative(
+        state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_pitch - voluntary_filtered_stage1_pitch));
+    state_variable_voluntary_filter_stage1[1]->setDerivative(
+        state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_roll  - voluntary_filtered_stage1_roll));
+    state_variable_voluntary_filter_stage1[2]->setDerivative(
+        state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_yaw   - voluntary_filtered_stage1_yaw));
+
+    state_variable_voluntary_filter_stage2[0]->setDerivative(
+        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_pitch - voluntary_filtered_stage2_pitch));
+    state_variable_voluntary_filter_stage2[1]->setDerivative(
+        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_roll  - voluntary_filtered_stage2_roll));
+    state_variable_voluntary_filter_stage2[2]->setDerivative(
+        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_yaw   - voluntary_filtered_stage2_yaw));
+
     // Measured UP direction in Head frame from otolith
     SimTK::Vec3 measured_up_direction_head;
     if (otolith_specific_force_head.norm() > 1e-4) {
@@ -1004,14 +1223,6 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     SimTK::Vec3 otolith_attitude_error_head = measured_up_direction_head % expected_up_direction_head;
 
     // 4. PROPRIOCEPTIVE INNOVATION (Head-on-Trunk Spindle Feedback)
-    double estimated_head_pitch = std::atan2(
-        2.0 * (quaternion_0 * quaternion_3 + quaternion_1 * quaternion_2),
-        1.0 - 2.0 * (quaternion_2 * quaternion_2 + quaternion_3 * quaternion_3));
-    double estimated_head_roll = std::atan2(
-        2.0 * (quaternion_0 * quaternion_1 + quaternion_2 * quaternion_3),
-        1.0 - 2.0 * (quaternion_1 * quaternion_1 + quaternion_2 * quaternion_2));
-    double estimated_head_yaw = std::asin(
-        std::clamp(2.0 * (quaternion_0 * quaternion_2 - quaternion_3 * quaternion_1), -1.0, 1.0));
 
     // --- ANATOMICALLY SPLIT PROPRIOCEPTIVE AFFERENT CONDUCTION ---
     // In human anatomy, spindle action potentials take ~5-8 ms (delay_afferent_proprio)
@@ -1141,22 +1352,31 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         double delayed_estimated_yaw   = tonic_otolith_record.estimated_head_orientation[1];
         double delayed_estimated_pitch = tonic_otolith_record.estimated_head_orientation[2];
 
-        double tonic_otolith_input_pitch = (delayed_estimated_pitch - baseline_spatial_orientation[2]) - trajectory_position_pitch;
-        double tonic_otolith_input_roll  = (delayed_estimated_roll  - baseline_spatial_orientation[0]) - trajectory_position_roll;
-        double tonic_otolith_input_yaw   = (delayed_estimated_yaw   - baseline_spatial_orientation[1]) - trajectory_position_yaw;
+        double descending_traj_pos_pitch = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_position[0] : trajectory_position_pitch;
+        double descending_traj_pos_roll  = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_position[1] : trajectory_position_roll;
+        double descending_traj_pos_yaw   = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_position[2] : trajectory_position_yaw;
+        double descending_traj_vel_pitch = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_velocity[0] : trajectory_velocity_pitch;
+        double descending_traj_vel_roll  = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_velocity[1] : trajectory_velocity_roll;
+        double descending_traj_vel_yaw   = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_velocity[2] : trajectory_velocity_yaw;
+        double descending_traj_acc_pitch = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_acceleration[0] : trajectory_acceleration_pitch;
+        double descending_traj_acc_roll  = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_acceleration[1] : trajectory_acceleration_roll;
 
-        double semicircular_canal_input_pitch = delayed_vestibulo_collic_data.record.reconstructed_canal_angular_velocity[2] - trajectory_velocity_pitch;
-        double semicircular_canal_input_roll  = delayed_vestibulo_collic_data.record.reconstructed_canal_angular_velocity[0] - trajectory_velocity_roll;
-        double semicircular_canal_input_yaw   = delayed_vestibulo_collic_data.record.reconstructed_canal_angular_velocity[1] - trajectory_velocity_yaw;
+        double tonic_otolith_input_pitch = (delayed_estimated_pitch - baseline_spatial_orientation[2]) - descending_traj_pos_pitch;
+        double tonic_otolith_input_roll  = (delayed_estimated_roll  - baseline_spatial_orientation[0]) - descending_traj_pos_roll;
+        double tonic_otolith_input_yaw   = (delayed_estimated_yaw   - baseline_spatial_orientation[1]) - descending_traj_pos_yaw;
+
+        double semicircular_canal_input_pitch = delayed_vestibulo_collic_data.record.reconstructed_canal_angular_velocity[2] - descending_traj_vel_pitch;
+        double semicircular_canal_input_roll  = delayed_vestibulo_collic_data.record.reconstructed_canal_angular_velocity[0] - descending_traj_vel_roll;
+        double semicircular_canal_input_yaw   = delayed_vestibulo_collic_data.record.reconstructed_canal_angular_velocity[1] - descending_traj_vel_yaw;
 
         SimTK::Vec3 delayed_otolith_specific_force_head =
-            delayed_vestibulo_collic_data.record.rotation_world_to_head * (delayed_vestibulo_collic_data.linear_acceleration - gravity_vector_world);
+            delayed_vestibulo_collic_data.record.reconstructed_otolith_specific_force;
         SimTK::Vec3 estimated_linear_acceleration_head =
             delayed_otolith_specific_force_head + ((~tonic_otolith_record.estimated_rotation_head_to_world) * gravity_vector_world);
 
         double head_pivot_radius = 0.15;
-        double expected_tangential_acceleration_x = trajectory_acceleration_pitch * head_pivot_radius;
-        double expected_tangential_acceleration_z = trajectory_acceleration_roll  * head_pivot_radius;
+        double expected_tangential_acceleration_x = descending_traj_acc_pitch * head_pivot_radius;
+        double expected_tangential_acceleration_z = descending_traj_acc_roll  * head_pivot_radius;
 
         double phasic_otolith_input_pitch = estimated_linear_acceleration_head[0] - expected_tangential_acceleration_x;
         double phasic_otolith_input_roll  = estimated_linear_acceleration_head[2] - expected_tangential_acceleration_z;
@@ -1174,6 +1394,10 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         double phasic_otolith_state_roll  = state_variable_phasic_otolith[1]->getValue(state);
         double phasic_otolith_state_yaw   = state_variable_phasic_otolith[2]->getValue(state);
 
+        double phasic_otolith_stage2_state_pitch = state_variable_phasic_otolith_stage2[0]->getValue(state);
+        double phasic_otolith_stage2_state_roll  = state_variable_phasic_otolith_stage2[1]->getValue(state);
+        double phasic_otolith_stage2_state_yaw   = state_variable_phasic_otolith_stage2[2]->getValue(state);
+
         state_variable_tonic_otolith[0]->setDerivative(state, -get_p_ton() * tonic_otolith_state_pitch + tonic_otolith_input_pitch);
         state_variable_tonic_otolith[1]->setDerivative(state, -get_p_ton() * tonic_otolith_state_roll  + tonic_otolith_input_roll);
         state_variable_tonic_otolith[2]->setDerivative(state, -get_p_ton() * tonic_otolith_state_yaw   + tonic_otolith_input_yaw);
@@ -1185,6 +1409,26 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         state_variable_phasic_otolith[0]->setDerivative(state, -get_p_phas() * phasic_otolith_state_pitch + phasic_otolith_input_pitch);
         state_variable_phasic_otolith[1]->setDerivative(state, -get_p_phas() * phasic_otolith_state_roll  + phasic_otolith_input_roll);
         state_variable_phasic_otolith[2]->setDerivative(state, -get_p_phas() * phasic_otolith_state_yaw   + phasic_otolith_input_yaw);
+
+        double phasic_otolith_zero = get_z_phas();
+        double phasic_otolith_pole = get_p_phas();
+        double second_phasic_otolith_pole = get_p_phas2();
+        if (phasic_otolith_zero > 0.0) {
+            state_variable_phasic_otolith_stage2[0]->setDerivative(state, -phasic_otolith_pole * phasic_otolith_stage2_state_pitch + phasic_otolith_state_pitch);
+            state_variable_phasic_otolith_stage2[1]->setDerivative(state, -phasic_otolith_pole * phasic_otolith_stage2_state_roll  + phasic_otolith_state_roll);
+            state_variable_phasic_otolith_stage2[2]->setDerivative(state, -phasic_otolith_pole * phasic_otolith_stage2_state_yaw   + phasic_otolith_state_yaw);
+        } else if (second_phasic_otolith_pole > 0.0) {
+            double phasic_otolith_stage1_output_pitch = phasic_otolith_pole * phasic_otolith_state_pitch;
+            double phasic_otolith_stage1_output_roll  = phasic_otolith_pole * phasic_otolith_state_roll;
+            double phasic_otolith_stage1_output_yaw   = phasic_otolith_pole * phasic_otolith_state_yaw;
+            state_variable_phasic_otolith_stage2[0]->setDerivative(state, -second_phasic_otolith_pole * phasic_otolith_stage2_state_pitch + phasic_otolith_stage1_output_pitch);
+            state_variable_phasic_otolith_stage2[1]->setDerivative(state, -second_phasic_otolith_pole * phasic_otolith_stage2_state_roll  + phasic_otolith_stage1_output_roll);
+            state_variable_phasic_otolith_stage2[2]->setDerivative(state, -second_phasic_otolith_pole * phasic_otolith_stage2_state_yaw   + phasic_otolith_stage1_output_yaw);
+        } else {
+            state_variable_phasic_otolith_stage2[0]->setDerivative(state, 0.0);
+            state_variable_phasic_otolith_stage2[1]->setDerivative(state, 0.0);
+            state_variable_phasic_otolith_stage2[2]->setDerivative(state, 0.0);
+        }
     } else {
         state_variable_tonic_otolith[0]->setDerivative(state, 0.0);
         state_variable_tonic_otolith[1]->setDerivative(state, 0.0);
@@ -1195,11 +1439,14 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         state_variable_phasic_otolith[0]->setDerivative(state, 0.0);
         state_variable_phasic_otolith[1]->setDerivative(state, 0.0);
         state_variable_phasic_otolith[2]->setDerivative(state, 0.0);
+        state_variable_phasic_otolith_stage2[0]->setDerivative(state, 0.0);
+        state_variable_phasic_otolith_stage2[1]->setDerivative(state, 0.0);
+        state_variable_phasic_otolith_stage2[2]->setDerivative(state, 0.0);
     }
 
     double p_ccr = get_p_ccr();
-    DelayedData delayed_cervico_collic_data = getDelayedData(state.getTime(), get_delay_ccr());
-    HistoryRecord cervico_collic_record = delayed_cervico_collic_data.record;
+    DelayedData delayed_cervico_collic_data = getDelayedData(state.getTime(), get_delay_ccr(), true);
+    const HistoryRecord& cervico_collic_record = delayed_cervico_collic_data.record;
     if (cervico_collic_record.primary_afferent_firing_rate.size() == active_muscle_indices.size() && active_muscle_indices.size() > 0) {
         for (size_t muscle_index = 0; muscle_index < active_muscle_indices.size(); ++muscle_index) {
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
@@ -1300,26 +1547,41 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         right_canal_projection[0], right_canal_projection[1], right_canal_projection[2],
         left_canal_projection[0],  left_canal_projection[1],  left_canal_projection[2]};
 
-    double canal_afferent_outputs[6] = {0.0};
+    double regular_canal_afferent_outputs[6]   = {0.0};
+    double irregular_canal_afferent_outputs[6] = {0.0};
     for (int canal_index = 0; canal_index < 6; ++canal_index) {
-        double combined_afferent_output = 0.0;
-        for (int filter_index = 0; filter_index < 2; ++filter_index) {
-            double filter_state_1 = state_variable_semicircular_canal[canal_index][filter_index][0]->getValue(state);
-            double filter_state_2 = state_variable_semicircular_canal[canal_index][filter_index][1]->getValue(state);
-            double single_filter_output =
-                canal_filter_parameters[filter_index].state_space_output_c0 * filter_state_1 +
-                canal_filter_parameters[filter_index].state_space_output_c1 * filter_state_2 +
-                canal_filter_parameters[filter_index].direct_feedthrough_d  * canal_angular_velocity_inputs[canal_index];
-            combined_afferent_output += single_filter_output;
-        }
-        canal_afferent_outputs[canal_index] = combined_afferent_output / 2.0;
+        const int regular_filter_index = 0;
+        double reg_state_1 = state_variable_semicircular_canal[canal_index][regular_filter_index][0]->getValue(state);
+        double reg_state_2 = state_variable_semicircular_canal[canal_index][regular_filter_index][1]->getValue(state);
+        regular_canal_afferent_outputs[canal_index] =
+            canal_filter_parameters[regular_filter_index].state_space_output_c0 * reg_state_1 +
+            canal_filter_parameters[regular_filter_index].state_space_output_c1 * reg_state_2 +
+            canal_filter_parameters[regular_filter_index].direct_feedthrough_d  * canal_angular_velocity_inputs[canal_index];
+
+        const int irregular_filter_index = 1;
+        double irr_state_1 = state_variable_semicircular_canal[canal_index][irregular_filter_index][0]->getValue(state);
+        double irr_state_2 = state_variable_semicircular_canal[canal_index][irregular_filter_index][1]->getValue(state);
+        irregular_canal_afferent_outputs[canal_index] =
+            canal_filter_parameters[irregular_filter_index].state_space_output_c0 * irr_state_1 +
+            canal_filter_parameters[irregular_filter_index].state_space_output_c1 * irr_state_2 +
+            canal_filter_parameters[irregular_filter_index].direct_feedthrough_d  * canal_angular_velocity_inputs[canal_index];
     }
 
-    SimTK::Vec3 filtered_right_canal_output(canal_afferent_outputs[0], canal_afferent_outputs[1], canal_afferent_outputs[2]);
-    SimTK::Vec3 filtered_left_canal_output(canal_afferent_outputs[3], canal_afferent_outputs[4], canal_afferent_outputs[5]);
-    const double canal_passband_gain = 0.489214;
+    SimTK::Vec3 filtered_right_regular_canal_output(regular_canal_afferent_outputs[0], regular_canal_afferent_outputs[1], regular_canal_afferent_outputs[2]);
+    SimTK::Vec3 filtered_left_regular_canal_output(regular_canal_afferent_outputs[3], regular_canal_afferent_outputs[4], regular_canal_afferent_outputs[5]);
+    const double regular_canal_passband_gain      = 0.436629; // G_pass,reg = 2.83 * (0.0027 / 0.0175)
+    const double regular_canal_lead_time_constant = 0.0175;
+    const double regular_canal_pole_time_constant = 0.0027;
+    const double luenberger_direct_feedthrough    = regular_canal_pole_time_constant / regular_canal_lead_time_constant; // 0.154286
+    const double luenberger_state_weight          = 1.0 - luenberger_direct_feedthrough;                                 // 0.845714
+    SimTK::Vec3 reconstructed_regular_canal_velocity =
+        (0.5 / regular_canal_passband_gain) * (right_canal_inverse_matrix * filtered_right_regular_canal_output + left_canal_inverse_matrix * filtered_left_regular_canal_output);
+
+    SimTK::Vec3 filtered_right_irregular_canal_output(irregular_canal_afferent_outputs[0], irregular_canal_afferent_outputs[1], irregular_canal_afferent_outputs[2]);
+    SimTK::Vec3 filtered_left_irregular_canal_output(irregular_canal_afferent_outputs[3], irregular_canal_afferent_outputs[4], irregular_canal_afferent_outputs[5]);
+    const double irregular_canal_passband_gain = 0.541800; // G_pass,irr = 27.09 * (0.0006 / 0.0300)
     SimTK::Vec3 reconstructed_canal_angular_velocity =
-        (0.5 / canal_passband_gain) * (right_canal_inverse_matrix * filtered_right_canal_output + left_canal_inverse_matrix * filtered_left_canal_output);
+        (0.5 / irregular_canal_passband_gain) * (right_canal_inverse_matrix * filtered_right_irregular_canal_output + left_canal_inverse_matrix * filtered_left_irregular_canal_output);
 
     // Observer estimated attitude for vestibular history buffer
     double quaternion_0 = state_variable_observer_quaternion[0]->getValue(state);
@@ -1345,15 +1607,84 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         1.0 - 2.0 * (quaternion_2 * quaternion_2 + quaternion_3 * quaternion_3));
     mahony_estimated_angle = SimTK::Vec3(estimated_head_pitch, estimated_head_roll, estimated_head_yaw);
     SimTK::Rotation current_estimated_rotation_head_to_world(SimTK::Quaternion(quaternion_0, quaternion_1, quaternion_2, quaternion_3));
+    SimTK::Vec3 luenberger_state_vector(
+        state_variable_luenberger_angular_velocity[0]->getValue(state),
+        state_variable_luenberger_angular_velocity[1]->getValue(state),
+        state_variable_luenberger_angular_velocity[2]->getValue(state));
+    SimTK::Vec3 current_world_angular_velocity =
+        luenberger_state_weight * luenberger_state_vector + luenberger_direct_feedthrough * reconstructed_regular_canal_velocity;
+    SimTK::Vec3 current_head_frame_angular_velocity = (~current_estimated_rotation_head_to_world) * current_world_angular_velocity;
+    mahony_estimated_angular_velocity = SimTK::Vec3(
+        current_head_frame_angular_velocity[2],
+        current_head_frame_angular_velocity[0],
+        current_head_frame_angular_velocity[1]); // pitch, roll, yaw
+    SimTK::Vec3 current_cortical_voluntary_torque(
+        state_variable_voluntary_filter_stage1[0]->getValue(state),
+        state_variable_voluntary_filter_stage1[1]->getValue(state),
+        state_variable_voluntary_filter_stage1[2]->getValue(state));
+
+    // --- SUBSYSTEM 2 OTOLITH RECONSTRUCTION FOR HISTORY BUFFER (ADJUSTED SCHNEIDER 2015 / HAPPEE 2017) ---
+    SimTK::Rotation current_rotation_world_to_head = cached_skull->getMobilizedBody().getBodyTransform(state).R().invert();
+    SimTK::Vec3 gravity_vector_world_hist(0.0, -9.81, 0.0);
+    DelayedData current_otolith_kinematics = getDelayedData(state.getTime(), 0.0005);
+    SimTK::Vec3 current_gravitoinertial_force_head =
+        current_rotation_world_to_head * (current_otolith_kinematics.linear_acceleration - gravity_vector_world_hist);
+
+    const double reg_oto_adapt_ratio        = 37.4 / 66.0;   // 0.566667
+    const double irr_oto_adapt_ratio        = 37.4 / 245.0;  // 0.152653
+    const double reg_oto_adapt_tau          = 1.0000;
+    const double reg_oto_lead_tau1          = 0.0276;
+    const double reg_oto_pole_b             = 0.0175;
+    const double irr_oto_lead_tau1          = 0.0272;
+    const double irr_oto_pole_b             = 0.0070;
+    const double regular_otolith_passband_gain   = 66.0 / 9.81;  // 6.727829 (imp/s)/(m/s^2)
+    const double irregular_otolith_passband_gain = 245.0 / 9.81; // 24.974516 (imp/s)/(m/s^2)
+    const double reg_macular_feedthrough    = reg_oto_lead_tau1 / reg_oto_pole_b;
+    const double reg_macular_state_weight   = 1.0 - reg_macular_feedthrough;
+    const double irr_macular_feedthrough    = irr_oto_lead_tau1 / irr_oto_pole_b;
+    const double irr_macular_state_weight   = 1.0 - irr_macular_feedthrough;
+    const double luen_macular_feedthrough   = reg_oto_pole_b / reg_oto_lead_tau1;
+    const double luen_macular_state_weight  = 1.0 - luen_macular_feedthrough;
+    const double luen_adapt_state_weight    = (1.0 / reg_oto_adapt_ratio) - 1.0;
+
+    SimTK::Vec3 reconstructed_otolith_specific_force(0.0);
+    SimTK::Vec3 luenberger_otolith_specific_force(0.0);
+    for (int axis_index = 0; axis_index < 3; ++axis_index) {
+        double u_gif           = current_gravitoinertial_force_head[axis_index];
+        double reg_adapt_state = state_variable_regular_otolith_adapt[axis_index]->getValue(state);
+        double reg_mac_state   = state_variable_regular_otolith[axis_index]->getValue(state);
+        double irr_adapt_state = state_variable_irregular_otolith_adapt[axis_index]->getValue(state);
+        double irr_mac_state   = state_variable_irregular_otolith[axis_index]->getValue(state);
+        double luen_mac_state  = state_variable_luenberger_otolith[axis_index]->getValue(state);
+        double luen_adp_state  = state_variable_luenberger_otolith_adapt[axis_index]->getValue(state);
+
+        double irr_stage1_out = (irr_oto_adapt_ratio - 1.0) * irr_adapt_state + u_gif;
+        double irregular_otolith_firing_rate =
+            irregular_otolith_passband_gain * (irr_macular_state_weight * irr_mac_state + irr_macular_feedthrough * irr_stage1_out);
+        reconstructed_otolith_specific_force[axis_index] = irregular_otolith_firing_rate / irregular_otolith_passband_gain;
+
+        double reg_stage1_out = (reg_oto_adapt_ratio - 1.0) * reg_adapt_state + u_gif;
+        double regular_otolith_firing_rate =
+            regular_otolith_passband_gain * (reg_macular_state_weight * reg_mac_state + reg_macular_feedthrough * reg_stage1_out);
+        double reconstructed_regular_otolith_force = regular_otolith_firing_rate / regular_otolith_passband_gain;
+        double luen_stage1_out =
+            luen_macular_state_weight * luen_mac_state + luen_macular_feedthrough * reconstructed_regular_otolith_force;
+        luenberger_otolith_specific_force[axis_index] =
+            luen_adapt_state_weight * luen_adp_state + luen_stage1_out;
+    }
 
     HistoryRecord current_history_record;
     current_history_record.valid = true;
     current_history_record.estimated_head_orientation = SimTK::Vec3(estimated_head_roll, estimated_head_yaw, estimated_head_pitch);
     current_history_record.reconstructed_canal_angular_velocity = reconstructed_canal_angular_velocity;
-    current_history_record.luenberger_angular_velocity = SimTK::Vec3(
-        state_variable_luenberger_angular_velocity[0]->getValue(state),
-        state_variable_luenberger_angular_velocity[1]->getValue(state),
-        state_variable_luenberger_angular_velocity[2]->getValue(state));
+    current_history_record.luenberger_angular_velocity = current_world_angular_velocity;
+    current_history_record.reconstructed_otolith_specific_force = reconstructed_otolith_specific_force;
+    current_history_record.luenberger_otolith_specific_force = luenberger_otolith_specific_force;
+    current_history_record.mahony_estimated_angular_velocity = mahony_estimated_angular_velocity;
+    current_history_record.cortical_voluntary_torque = current_cortical_voluntary_torque;
+    current_history_record.trajectory_position = SimTK::Vec3(trajectory_position_pitch, trajectory_position_roll, trajectory_position_yaw);
+    current_history_record.trajectory_velocity = SimTK::Vec3(trajectory_velocity_pitch, trajectory_velocity_roll, trajectory_velocity_yaw);
+    current_history_record.trajectory_acceleration = SimTK::Vec3(trajectory_acceleration_pitch, trajectory_acceleration_roll, trajectory_acceleration_yaw);
     current_history_record.rotation_world_to_head = cached_skull->getMobilizedBody().getBodyTransform(state).R().invert().asMat33();
     current_history_record.estimated_rotation_head_to_world = current_estimated_rotation_head_to_world.asMat33();
     current_history_record.trunk_orientation = SimTK::Vec3(angle_ground_roll, angle_ground_yaw, angle_ground_pitch);
@@ -1369,8 +1700,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         }
     }
     current_history_record.primary_afferent_firing_rate.resize(number_of_active_muscles);
-    SimTK::Vector estimated_fiber_length_changes(number_of_active_muscles, 0.0);
-    SimTK::Vector estimated_fiber_velocities(number_of_active_muscles, 0.0);
+    std::vector<double> estimated_fiber_length_changes(number_of_active_muscles, 0.0);
+    std::vector<double> estimated_fiber_velocities(number_of_active_muscles, 0.0);
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         estimated_fiber_length_changes[muscle_index] = state_variable_spindle_length_change[muscle_index]->getValue(state);
         estimated_fiber_velocities[muscle_index]     = state_variable_spindle_velocity[muscle_index]->getValue(state);
@@ -1398,41 +1729,31 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     current_history_record.estimated_neck_relative_angle = estimated_neck_relative_angle;
     current_history_record.estimated_neck_relative_speed = estimated_neck_relative_speed;
 
-    auto iterator_future = history.upper_bound(state.getTime());
-    if (iterator_future != history.end()) {
-        history.erase(iterator_future, history.end());
+    double current_simulation_time = state.getTime();
+    while (!history.empty() && history.back().first >= current_simulation_time) {
+        history.pop_back();
     }
-    history[state.getTime()] = current_history_record;
+    history.emplace_back(current_simulation_time, std::move(current_history_record));
 
-    double oldest_retained_time = state.getTime() - 0.100; // keep 100ms
-    while (!history.empty() && history.begin()->first < oldest_retained_time) {
-        history.erase(history.begin());
+    double oldest_retained_time = current_simulation_time - 0.100; // keep 100ms
+    while (!history.empty() && history.front().first < oldest_retained_time) {
+        history.pop_front();
     }
 
     const double vestibular_afferent_delay = 0.002;
     double vestibulo_collic_efferent_delay = std::max(0.0, get_delay_vcr() - vestibular_afferent_delay);
-    DelayedData delayed_vestibulo_collic_efferent_data = getDelayedData(state.getTime(), vestibulo_collic_efferent_delay);
-    DelayedData delayed_vestibulo_collic_data          = getDelayedData(state.getTime(), get_delay_vcr());
-    DelayedData delayed_cervico_collic_data            = getDelayedData(state.getTime(), get_delay_ccr());
+    double descending_voluntary_delay      = 0.5 * get_delay_voluntary(); // 20 ms descending corticospinal motor delay
+    DelayedData delayed_vestibulo_collic_efferent_data = getDelayedData(current_simulation_time, vestibulo_collic_efferent_delay);
+    DelayedData delayed_vestibulo_collic_data          = getDelayedData(current_simulation_time, get_delay_vcr());
+    DelayedData delayed_cervico_collic_data            = getDelayedData(current_simulation_time, get_delay_ccr(), true);
+    DelayedData delayed_descending_voluntary_data      = getDelayedData(current_simulation_time, descending_voluntary_delay);
 
-    HistoryRecord vestibulo_collic_record = delayed_vestibulo_collic_data.record;
-    HistoryRecord cervico_collic_record   = delayed_cervico_collic_data.record;
+    const HistoryRecord& vestibulo_collic_record = delayed_vestibulo_collic_data.record;
+    const HistoryRecord& cervico_collic_record   = delayed_cervico_collic_data.record;
 
     // --- DESCENDING TRACKS (Voluntary) vs ASCENDING TRACKS (Reflex) ---
     Vector vestibulo_collic_torque(3, 0.0); // Restorative Vestibular Reflexes
     Vector voluntary_torque(3, 0.0);        // Descending Voluntary Task Tracking
-
-    // Extract Estimated Angles from SE_2(3) Observer
-    SimTK::Rotation current_rotation_head_to_world(SimTK::Quaternion(quaternion_0, quaternion_1, quaternion_2, quaternion_3));
-    SimTK::Vec3 world_angular_velocity(
-        state_variable_luenberger_angular_velocity[0]->getValue(state),
-        state_variable_luenberger_angular_velocity[1]->getValue(state),
-        state_variable_luenberger_angular_velocity[2]->getValue(state)); // Clean physical angular velocity from Vestibular Luenberger Observer
-    SimTK::Vec3 head_frame_angular_velocity = (~current_rotation_head_to_world) * world_angular_velocity;
-    mahony_estimated_angular_velocity = SimTK::Vec3(
-        head_frame_angular_velocity[2],
-        head_frame_angular_velocity[0],
-        head_frame_angular_velocity[1]); // pitch, roll, yaw
 
     // 1. Vestibular Reflex with Efference Copy Cancellation (expected vestibular firing from voluntary action)
     if (vestibulo_collic_record.valid) {
@@ -1444,23 +1765,32 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         double delayed_estimated_yaw   = tonic_otolith_record.estimated_head_orientation[1];
         double delayed_estimated_pitch = tonic_otolith_record.estimated_head_orientation[2];
 
-        double tonic_otolith_input_pitch = (delayed_estimated_pitch - baseline_spatial_orientation[2]) - trajectory_position_pitch;
-        double tonic_otolith_input_roll  = (delayed_estimated_roll  - baseline_spatial_orientation[0]) - trajectory_position_roll;
-        double tonic_otolith_input_yaw   = (delayed_estimated_yaw   - baseline_spatial_orientation[1]) - trajectory_position_yaw;
+        double descending_traj_pos_pitch = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_position[0] : trajectory_position_pitch;
+        double descending_traj_pos_roll  = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_position[1] : trajectory_position_roll;
+        double descending_traj_pos_yaw   = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_position[2] : trajectory_position_yaw;
+        double descending_traj_vel_pitch = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_velocity[0] : trajectory_velocity_pitch;
+        double descending_traj_vel_roll  = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_velocity[1] : trajectory_velocity_roll;
+        double descending_traj_vel_yaw   = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_velocity[2] : trajectory_velocity_yaw;
+        double descending_traj_acc_pitch = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_acceleration[0] : trajectory_acceleration_pitch;
+        double descending_traj_acc_roll  = (!history.empty() && delayed_descending_voluntary_data.record.valid) ? delayed_descending_voluntary_data.record.trajectory_acceleration[1] : trajectory_acceleration_roll;
 
-        double semicircular_canal_input_pitch = vestibulo_collic_record.reconstructed_canal_angular_velocity[2] - trajectory_velocity_pitch;
-        double semicircular_canal_input_roll  = vestibulo_collic_record.reconstructed_canal_angular_velocity[0] - trajectory_velocity_roll;
-        double semicircular_canal_input_yaw   = vestibulo_collic_record.reconstructed_canal_angular_velocity[1] - trajectory_velocity_yaw;
+        double tonic_otolith_input_pitch = (delayed_estimated_pitch - baseline_spatial_orientation[2]) - descending_traj_pos_pitch;
+        double tonic_otolith_input_roll  = (delayed_estimated_roll  - baseline_spatial_orientation[0]) - descending_traj_pos_roll;
+        double tonic_otolith_input_yaw   = (delayed_estimated_yaw   - baseline_spatial_orientation[1]) - descending_traj_pos_yaw;
+
+        double semicircular_canal_input_pitch = vestibulo_collic_record.reconstructed_canal_angular_velocity[2] - descending_traj_vel_pitch;
+        double semicircular_canal_input_roll  = vestibulo_collic_record.reconstructed_canal_angular_velocity[0] - descending_traj_vel_roll;
+        double semicircular_canal_input_yaw   = vestibulo_collic_record.reconstructed_canal_angular_velocity[1] - descending_traj_vel_yaw;
 
         SimTK::Vec3 gravity_vector_world(0.0, -9.81, 0.0);
         SimTK::Vec3 delayed_otolith_specific_force_head =
-            vestibulo_collic_record.rotation_world_to_head * (delayed_vestibulo_collic_data.linear_acceleration - gravity_vector_world);
+            vestibulo_collic_record.reconstructed_otolith_specific_force;
         SimTK::Vec3 estimated_linear_acceleration_head =
             delayed_otolith_specific_force_head + ((~tonic_otolith_record.estimated_rotation_head_to_world) * gravity_vector_world);
 
         double head_pivot_radius = 0.15;
-        double expected_tangential_acceleration_x = trajectory_acceleration_pitch * head_pivot_radius;
-        double expected_tangential_acceleration_z = trajectory_acceleration_roll  * head_pivot_radius;
+        double expected_tangential_acceleration_x = descending_traj_acc_pitch * head_pivot_radius;
+        double expected_tangential_acceleration_z = descending_traj_acc_roll  * head_pivot_radius;
 
         double phasic_otolith_input_pitch = estimated_linear_acceleration_head[0] - expected_tangential_acceleration_x;
         double phasic_otolith_input_roll  = estimated_linear_acceleration_head[2] - expected_tangential_acceleration_z;
@@ -1497,21 +1827,56 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         double semicircular_canal_output_yaw =
             get_K_sc() * (semicircular_canal_direct_feedthrough * semicircular_canal_input_yaw   + semicircular_canal_state_gain * semicircular_canal_state_yaw);
 
-        // Strictly-Proper Phasic Otolith Filter: H_phas(s) = K_phas * p_phas / (s + p_phas)
-        // (Integrates skull tangential acceleration -r_neck*ddtheta into viscous damping above p_phas)
-        double phasic_otolith_output_pitch = get_K_phas() * get_p_phas() * phasic_otolith_state_pitch;
-        double phasic_otolith_output_roll  = get_K_phas() * get_p_phas() * phasic_otolith_state_roll;
-        double phasic_otolith_output_yaw   = get_K_phas() * get_p_phas() * phasic_otolith_state_yaw;
+        // Strictly-Proper Phasic Otolith Filter (Fernandez & Goldberg 1976 irregular unit adaptation + lead zero, D = 0):
+        // When z_phas > 0: H_phas(s) = K_phas * p_phas * (s + z_phas) / (s + p_phas)^2
+        //   = K_phas * p_phas * [ 1/(s + p_phas) + (z_phas - p_phas)/(s + p_phas)^2 ]
+        // When z_phas <= 0 and p_phas2 > 0: 2nd-order low-pass H_phas(s) = K_phas * (p_phas / (s + p_phas)) * (p_phas2 / (s + p_phas2))
+        // Otherwise: 1st-order low-pass H_phas(s) = K_phas * p_phas / (s + p_phas)
+        double phasic_otolith_zero = get_z_phas();
+        double phasic_otolith_pole = get_p_phas();
+        double second_phasic_otolith_pole = get_p_phas2();
+        double phasic_otolith_output_pitch = 0.0;
+        double phasic_otolith_output_roll  = 0.0;
+        double phasic_otolith_output_yaw   = 0.0;
+        if (phasic_otolith_zero > 0.0) {
+            double phasic_otolith_stage2_state_pitch = state_variable_phasic_otolith_stage2[0]->getValue(state);
+            double phasic_otolith_stage2_state_roll  = state_variable_phasic_otolith_stage2[1]->getValue(state);
+            double phasic_otolith_stage2_state_yaw   = state_variable_phasic_otolith_stage2[2]->getValue(state);
+            double phasic_otolith_stage2_weight = phasic_otolith_zero - phasic_otolith_pole;
+            phasic_otolith_output_pitch =
+                get_K_phas() * phasic_otolith_pole * (phasic_otolith_state_pitch + phasic_otolith_stage2_weight * phasic_otolith_stage2_state_pitch);
+            phasic_otolith_output_roll =
+                get_K_phas() * phasic_otolith_pole * (phasic_otolith_state_roll  + phasic_otolith_stage2_weight * phasic_otolith_stage2_state_roll);
+            phasic_otolith_output_yaw =
+                get_K_phas() * phasic_otolith_pole * (phasic_otolith_state_yaw   + phasic_otolith_stage2_weight * phasic_otolith_stage2_state_yaw);
+        } else if (second_phasic_otolith_pole > 0.0) {
+            double phasic_otolith_stage2_state_pitch = state_variable_phasic_otolith_stage2[0]->getValue(state);
+            double phasic_otolith_stage2_state_roll  = state_variable_phasic_otolith_stage2[1]->getValue(state);
+            double phasic_otolith_stage2_state_yaw   = state_variable_phasic_otolith_stage2[2]->getValue(state);
+            phasic_otolith_output_pitch = get_K_phas() * second_phasic_otolith_pole * phasic_otolith_stage2_state_pitch;
+            phasic_otolith_output_roll  = get_K_phas() * second_phasic_otolith_pole * phasic_otolith_stage2_state_roll;
+            phasic_otolith_output_yaw   = get_K_phas() * second_phasic_otolith_pole * phasic_otolith_stage2_state_yaw;
+        } else {
+            phasic_otolith_output_pitch = get_K_phas() * phasic_otolith_pole * phasic_otolith_state_pitch;
+            phasic_otolith_output_roll  = get_K_phas() * phasic_otolith_pole * phasic_otolith_state_roll;
+            phasic_otolith_output_yaw   = get_K_phas() * phasic_otolith_pole * phasic_otolith_state_yaw;
+        }
 
         vestibulo_collic_torque[0] -= tonic_otolith_output_pitch + semicircular_canal_output_pitch + phasic_otolith_output_pitch;
         vestibulo_collic_torque[1] -= tonic_otolith_output_roll  + semicircular_canal_output_roll  + phasic_otolith_output_roll;
         vestibulo_collic_torque[2] -= tonic_otolith_output_yaw   + semicircular_canal_output_yaw   + phasic_otolith_output_yaw;
     }
 
-    // 2. Filtered Voluntary Drive from Cortical Low-Pass Filter (Transcortical Delay + 2 Hz Cutoff)
-    voluntary_torque[0] = state_variable_voluntary_filter_stage1[0]->getValue(state);
-    voluntary_torque[1] = state_variable_voluntary_filter_stage1[1]->getValue(state);
-    voluntary_torque[2] = state_variable_voluntary_filter_stage1[2]->getValue(state);
+    // 2. Filtered Voluntary Drive from Cortical Low-Pass Filter (20 ms Ascending + 2 Hz Cortical LPF + 20 ms Descending Delay)
+    if (!history.empty() && delayed_descending_voluntary_data.record.valid) {
+        voluntary_torque[0] = delayed_descending_voluntary_data.record.cortical_voluntary_torque[0];
+        voluntary_torque[1] = delayed_descending_voluntary_data.record.cortical_voluntary_torque[1];
+        voluntary_torque[2] = delayed_descending_voluntary_data.record.cortical_voluntary_torque[2];
+    } else {
+        voluntary_torque[0] = current_cortical_voluntary_torque[0];
+        voluntary_torque[1] = current_cortical_voluntary_torque[1];
+        voluntary_torque[2] = current_cortical_voluntary_torque[2];
+    }
 
     // --- TOTAL MOTOR CORTEX DRIVE TO SPINAL CORD ---
     Vector desired_total_torque(3, 0.0);
@@ -1537,8 +1902,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     }
     std::vector<bool> is_muscle_free(number_of_active_muscles, true);
 
+    Matrix gram_matrix_3dof(3, 3);
+    Vector remaining_torque_vector(3);
+    Vector lagrange_multiplier_vector(3);
     for (int iteration = 0; iteration < 15; ++iteration) {
-        Vector fixed_muscle_torque(3, 0.0);
+        SimTK::Vec3 fixed_muscle_torque(0.0);
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (!is_muscle_free[muscle_index]) {
                 for (int axis_index = 0; axis_index < 3; ++axis_index) {
@@ -1549,9 +1917,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             }
         }
 
-        Vector remaining_desired_torque = desired_total_torque - fixed_muscle_torque;
+        SimTK::Vec3 remaining_desired_torque(
+            desired_total_torque[0] - fixed_muscle_torque[0],
+            desired_total_torque[1] - fixed_muscle_torque[1],
+            desired_total_torque[2] - fixed_muscle_torque[2]);
 
-        Matrix gram_matrix_3dof(3, 3);
         gram_matrix_3dof.setToZero();
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (is_muscle_free[muscle_index]) {
@@ -1565,17 +1935,16 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             }
         }
 
-        gram_matrix_3dof(0, 0) += 1.0;
-        gram_matrix_3dof(1, 1) += 1.0;
-        gram_matrix_3dof(2, 2) += 1.0; // Strong regularization
+        const double qp_tikhonov_regularization = 1e-3;
+        gram_matrix_3dof(0, 0) += qp_tikhonov_regularization;
+        gram_matrix_3dof(1, 1) += qp_tikhonov_regularization;
+        gram_matrix_3dof(2, 2) += qp_tikhonov_regularization;
 
         FactorLU lu_factorization(gram_matrix_3dof);
-        Vector remaining_torque_vector(3);
         for (int axis_index = 0; axis_index < 3; ++axis_index) {
             remaining_torque_vector[axis_index] = remaining_desired_torque[axis_index];
         }
 
-        Vector lagrange_multiplier_vector(3);
         lu_factorization.solve(remaining_torque_vector, lagrange_multiplier_vector);
 
         bool bounds_violated = false;
@@ -1606,22 +1975,30 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     last_alpha_motor_excitations = alpha_motor_excitations;
 
     // --- CCR AND FINAL ASSEMBLY ---
+    double p_ccr = get_p_ccr();
+    double z_ccr = get_z_ccr();
+    if (std::abs(z_ccr) < 1e-4) z_ccr = (z_ccr >= 0.0 ? 1e-4 : -1e-4);
+    double cervico_collic_lead_ratio_sqrt = std::sqrt(std::clamp(std::abs(z_ccr) / std::max(1e-4, std::abs(p_ccr)), 1e-4, 100.0));
+    double cervico_collic_direct_feedthrough = 1.0 / cervico_collic_lead_ratio_sqrt;
+    double cervico_collic_state_gain = (z_ccr - p_ccr) / cervico_collic_lead_ratio_sqrt;
+    double voluntary_activity_gate = std::clamp(
+        (std::abs(trajectory_position_pitch) + std::abs(trajectory_position_roll) + std::abs(trajectory_position_yaw) +
+         0.2 * (std::abs(trajectory_velocity_pitch) + std::abs(trajectory_velocity_roll) + std::abs(trajectory_velocity_yaw))) / 0.02,
+        0.0, 1.0);
+    double reciprocal_inhibition_gain = 1.0 - voluntary_activity_gate * (1.0 - get_K_recip_inhib());
+    double proprioceptive_gain = get_Kp_proprioception();
+    bool has_cervico_collic_afferents = (cervico_collic_record.primary_afferent_firing_rate.size() == number_of_active_muscles);
+    Vector muscle_control_vector;
+
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         const Muscle& muscle = muscles.get(active_muscle_indices[muscle_index]);
 
         double excitation = alpha_motor_excitations[muscle_index];
 
-        if (cervico_collic_record.primary_afferent_firing_rate.size() == number_of_active_muscles) {
+        if (has_cervico_collic_afferents) {
             // Cervico-Collic Reflex (CCR) - using biological firing rate
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
-
-            double p_ccr = get_p_ccr();
-            double z_ccr = get_z_ccr();
-            if (std::abs(z_ccr) < 1e-4) z_ccr = (z_ccr >= 0.0 ? 1e-4 : -1e-4);
-            double cervico_collic_lead_ratio_sqrt = std::sqrt(std::clamp(std::abs(z_ccr) / std::max(1e-4, std::abs(p_ccr)), 1e-4, 100.0));
-            double cervico_collic_direct_feedthrough = 1.0 / cervico_collic_lead_ratio_sqrt;
-            double cervico_collic_state_gain = (z_ccr - p_ccr) / cervico_collic_lead_ratio_sqrt;
 
             double filtered_primary_afferent_rate =
                 cervico_collic_direct_feedthrough * delayed_primary_afferent_rate +
@@ -1632,11 +2009,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
             // Synergy-Based Reciprocal Inhibition (Descending Presynaptic Inhibition)
             // Gated by active voluntary trajectory vigor so all 72 muscles retain full anti-buckling CCR stiffness (pitch1 vs pitch2) during postural stabilization:
-            double voluntary_activity_gate = std::clamp(
-                (std::abs(trajectory_position_pitch) + std::abs(trajectory_position_roll) + std::abs(trajectory_position_yaw) +
-                 0.2 * (std::abs(trajectory_velocity_pitch) + std::abs(trajectory_velocity_roll) + std::abs(trajectory_velocity_yaw))) / 0.02,
-                0.0, 1.0);
-            double reciprocal_inhibition_gain = 1.0 - voluntary_activity_gate * (1.0 - get_K_recip_inhib());
             double inhibition_factor = 1.0;
             double minimum_muscle_excitation = cached_minimum_excitations[muscle_index];
             double maximum_transition_excitation = minimum_muscle_excitation + 0.05;
@@ -1654,13 +2026,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             }
 
             // Scale the firing rate (0-500 Hz) into excitation (0-1) using Kp_proprioception
-            excitation += get_Kp_proprioception() * (rectified_primary_afferent_rate / 100.0) * inhibition_factor;
+            excitation += proprioceptive_gain * (rectified_primary_afferent_rate / 100.0) * inhibition_factor;
         }
 
         excitation = std::clamp(excitation, cached_minimum_excitations[muscle_index], 1.0);
 
         int number_of_controls = muscle.numControls();
-        Vector muscle_control_vector(number_of_controls, 0.0);
+        if (muscle_control_vector.size() != number_of_controls) {
+            muscle_control_vector.resize(number_of_controls);
+        }
         muscle_control_vector[0] = excitation; // Alpha motor command
 
         // Supraspinal alpha-gamma coactivation driven by descending command alpha_motor_excitations[muscle_index] (no Ia->gamma loop)

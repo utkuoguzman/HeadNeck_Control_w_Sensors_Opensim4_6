@@ -37,8 +37,8 @@ class Tee(object):
 
 Tee("logs/phase2_4_campaign.log", "a")
 
-# Phase 2.4 Optimization Campaign: Pure CMA-ES Deep Basin Refinement
-# Starting directly from All-Time Champion W3_P23G15 (21,059.90 pts)
+# Phase 2.4 Optimization Campaign: 16-Parameter CMA-ES Deep Basin Refinement
+# Starting from W4_P24G3 Champion (12,415.56 pts) + Second Phasic Otolith Pole (p_phas2) + Pitch Task PID (Kp, Kd, Ki)
 # Benchmark to Beat: Happee (2017) Model Score on Canonical Aligned Data = 2,803.88 pts
 
 FIXED_W_N = 22.0
@@ -58,7 +58,8 @@ TARGETS = [
 
 PARAM_NAMES = [
     "K_ton", "p_ton", "K_sc", "r_lead_sc", "p_sc", "K_phas",
-    "p_phas", "kp", "r_lead_ccr", "p_ccr", "k_dyn", "k_stat"
+    "p_phas", "kp", "r_lead_ccr", "p_ccr", "k_dyn", "k_stat",
+    "r_lead_phas", "Kp_task_pitch", "Kd_task_pitch", "Ki_task_pitch"
 ]
 
 # Physical floor bounds: parameters that MUST remain strictly non-negative
@@ -74,7 +75,11 @@ PHYSICAL_LOWER_LIMITS = np.array([
     0.001,  # r_lead_ccr
     1.0,    # p_ccr
     0.05,   # k_dyn
-    0.05    # k_stat
+    0.05,   # k_stat
+    0.001,  # r_lead_phas
+    0.0,    # Kp_task_pitch
+    0.0,    # Kd_task_pitch
+    1.0     # Ki_task_pitch
 ])
 
 # Physical ceilings: a dynamic expansion may never exceed these
@@ -85,25 +90,45 @@ PHYSICAL_UPPER_LIMITS = np.array([
     1.0,    # r_lead_sc  (zero must stay below pole -> lead)
     300.0,  # p_sc
     15.0,   # K_phas
-    80.0,   # p_phas
+    120.0,  # p_phas
     5.0,    # kp
     1.0,    # r_lead_ccr
     400.0,  # p_ccr
     2.0,    # k_dyn
-    2.0     # k_stat
+    2.0,    # k_stat
+    1.0,    # r_lead_phas (zero must stay below pole -> lead)
+    100.0,  # Kp_task_pitch
+    50.0,   # Kd_task_pitch
+    150.0   # Ki_task_pitch
 ])
 
 def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
     freq, t_gain, t_phase = TARGETS[target_idx]
+    worker_label = f"W{w_idx+1}_P24G{gen_idx}"
     
+    # Check if this frequency evaluation is already cached on disk for this exact candidate
+    res_file = os.path.join("logs", "candidates", f"{worker_label}_{freq:.2f}Hz.json")
+    if os.path.exists(res_file):
+        try:
+            with open(res_file, "r", encoding="utf-8") as f_res:
+                d_res = json.load(f_res)
+            if "score" in d_res and "params" in d_res and len(d_res["params"]) == len(candidate):
+                # Compare K_ton, p_ton, p_sc, r_lead_phas (indices 0, 1, 4, 12) to verify same candidate
+                if (abs(d_res["params"][0] - candidate[0]) < 1e-6 and
+                    abs(d_res["params"][1] - candidate[1]) < 1e-5 and
+                    abs(d_res["params"][4] - candidate[4]) < 1e-5 and
+                    abs(d_res["params"][12] - candidate[12]) < 1e-5):
+                    return float(d_res["score"])
+        except Exception:
+            pass
+
     delay = 1.5
     period = 1.0 / freq
     ramp_duration = period
     min_phase3_time = 2.0 / 1.8
     n_eval = max(1, math.ceil(min_phase3_time / period))
     target_sim_time = delay + ramp_duration + (n_eval * period)
-    dynamic_timeout = int(target_sim_time * 240 * 2.5)
-    worker_label = f"W{w_idx+1}_P24G{gen_idx}"
+    dynamic_timeout = max(1200, int(target_sim_time * 240 * 3.5))
     
     try:
         cmd = [
@@ -132,6 +157,30 @@ def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
     except Exception as e:
         print(f"[ERROR] on {freq:.3f}Hz [{worker_label}]: {e}", file=sys.stderr)
         return 1000000.0 + random.uniform(0, 100.0)
+
+
+def evaluate_candidate(candidate, w_idx, gen_idx):
+    """
+    Evaluates all 6 canonical frequencies for one candidate sequentially, spawning a fresh
+    subprocess per frequency so OS reclaims 100% of OpenSim C++ memory after each frequency
+    (preventing the 1.8 GB/worker RAM accumulation of single-process ALL mode) while keeping
+    all 14 physical cores 100% utilized without inter-frequency barrier stalls.
+    """
+    worker_label = f"W{w_idx+1}_P24G{gen_idx}"
+    total_score = 0.0
+    for t_idx, (f_val, _, _) in enumerate(TARGETS):
+        f_score = evaluate_freq(candidate, t_idx, w_idx, gen_idx)
+        if f_score < 250000.0:
+            total_score += f_score
+            print(f"[PASS] [{worker_label}] passed {f_val:.3f}Hz ({t_idx+1}/{len(TARGETS)}) (Score: {f_score:.1f} | Cum: {total_score:.1f})", flush=True)
+        else:
+            early_stop_penalty = (len(TARGETS) - t_idx) * 200000.0
+            total_score += (f_score + early_stop_penalty)
+            print(f"[EARLY STOPPING] [{worker_label}] aborted on {f_val:.3f}Hz (Score: {f_score:.1f}). Penalty added.", flush=True)
+            break
+    else:
+        print(f"[COMPLETE] [{worker_label}] finished all 6 frequencies! Total Score: {total_score:.2f}", flush=True)
+    return total_score
 
 
 class SimpleGP:
@@ -174,35 +223,43 @@ class SimpleGP:
         sigma = np.sqrt(var_norm) * self.y_std
         return mu, sigma
 
+_ORTH_CYCLE_Q = None
+_ORTH_CYCLE_PTR = 0
+
 def sample_candidates_tpa_orthogonal(es, iteration, archive_X=None, archive_y=None):
     """
-    14 Candidates for 14 Physical Cores (1:1 Concurrency):
-      - Candidates 0 & 1: 1 TPA Mirror Pair (along the mean evolution path p_c)
-      - Candidates 2 to 13: 6 Mutually Orthogonal Antipodal Pairs in the subspace perpendicular to p_c.
-      - Starting at Generation 8 (archive >= 80): Uses Direction-Pair GP Sieve to screen 12 candidate orthogonal bases.
+    28 Candidates for 14 Physical Cores (2 Full Waves of 14 Cores):
+      - Candidates 0 & 1: 1 TPA Mirror Pair (along the mean evolution path p_c, preserved as pycma Solution objects)
+      - Candidates 2 to 27: 13 Mutually Orthogonal Antipodal Pairs in the subspace perpendicular to p_c,
+        covering 14/16 (88%) of the search space every generation and cycling through the full (N-1)-dimensional
+        orthogonal basis, registered in es.sent_solutions so BoundTransform genotype-phenotype mapping is exact.
+      - Starting when archive >= 80: Uses Direction-Pair GP Sieve to screen 12 candidate orthogonal bases.
     """
+    global _ORTH_CYCLE_Q, _ORTH_CYCLE_PTR
     X = es.ask()
+    n_pairs = (len(X) - 2) // 2
     mean = np.array(es.mean)
+    n_dim = len(mean)
     sigma = es.sigma
     B = es.sm.B
     D = es.sm.D
-    stds = np.asarray(es.sigma_vec.scaling, dtype=float) * np.ones(len(mean))  # per-parameter CMA_stds
+    stds = np.asarray(es.sigma_vec.scaling, dtype=float) * np.ones(n_dim)  # per-parameter CMA_stds
     
-    # 1. TPA direction in z-space (standard normal space)
-    d0 = np.array(X[0]) - mean
+    # 1. Exact un-repaired TPA genotype direction in z-space (standard normal space)
+    d0 = (np.array(es.ary[0]) - mean) if (hasattr(es, 'ary') and es.ary is not None and len(es.ary) > 0) else (np.array(X[0]) - mean)
     z_tpa = (B.T @ (d0 / stds)) / (D * sigma)
     z_tpa_norm = np.linalg.norm(z_tpa)
     if z_tpa_norm > 1e-10:
         u_tpa = z_tpa / z_tpa_norm
     else:
-        u_tpa = np.zeros(12)
+        u_tpa = np.zeros(n_dim)
         u_tpa[0] = 1.0
 
-    # 2. Check if Direction-Pair GP pre-screening should be active (iteration >= 8 and archive >= 80)
-    use_gp = (iteration >= 8 and archive_X is not None and len(archive_X) >= 80)
+    # 2. Check if Direction-Pair GP pre-screening should be active (archive >= 80)
+    use_gp = (archive_X is not None and len(archive_X) >= 80)
     
     if use_gp:
-        # Fit local GP on nearest 80 historical models in stds-normalized space (all 12 parameters weighted equally)
+        # Fit local GP on nearest 80 historical models in stds-normalized space
         X_arch_norm = (np.array(archive_X) - mean) / stds
         dists = np.linalg.norm(X_arch_norm, axis=1)
         idx = np.argsort(dists)[:80]
@@ -214,42 +271,52 @@ def sample_candidates_tpa_orthogonal(es, iteration, archive_X=None, archive_y=No
         gp = SimpleGP(length_scale=l_scale)
         gp.fit(local_X_norm, local_y)
         
-        # Sample candidate orthogonal bases and evaluate direction utility
+        # Sample candidate orthogonal bases and evaluate direction utility via Pairwise-Minimum LCB
         best_score = float('inf')
         best_Q = None
         for _ in range(12):
-            G = np.random.randn(12, 6)
+            G = np.random.randn(n_dim, n_pairs)
             G = G - np.outer(u_tpa, u_tpa @ G)
             Q, _ = np.linalg.qr(G)
             
             test_pts_norm = []
-            for k in range(6):
-                zk = Q[:, k] * np.sqrt(12.0)
+            for k in range(n_pairs):
+                zk = Q[:, k] * np.sqrt(float(n_dim))
                 dx_norm = sigma * (B @ (D * zk))
                 test_pts_norm.append(dx_norm)
                 test_pts_norm.append(-dx_norm)
             mu, sig = gp.predict(test_pts_norm)
-            # Minimize predicted loss while rewarding epistemic uncertainty
-            acq = np.sum(mu - 1.0 * sig)
+            lcb = mu - 0.5 * sig
+            pair_mins = [min(lcb[2 * k], lcb[2 * k + 1]) for k in range(n_pairs)]
+            acq = float(np.sum(pair_mins))
             if acq < best_score:
                 best_score = acq
                 best_Q = Q
         Q_chosen = best_Q
-        print(f"[GP PRE-SCREEN] Screened 12 candidate orthogonal bases via local GP (archive size: {len(archive_X)}). Best acquisition score: {best_score:.1f}", flush=True)
+        print(f"[GP PRE-SCREEN] Screened 12 candidate orthogonal bases via Pairwise-Min GP (archive size: {len(archive_X)}). Best {n_pairs}-pair min LCB sum: {best_score:.1f}", flush=True)
     else:
-        # Standard Orthogonal sampling in subspace perpendicular to u_tpa
-        G = np.random.randn(12, 6)
+        # Full (N-1)-dimensional block-orthogonal cycling in subspace perpendicular to u_tpa
+        if _ORTH_CYCLE_Q is None or _ORTH_CYCLE_Q.shape[0] != n_dim or _ORTH_CYCLE_PTR >= n_dim - 1:
+            G_full = np.random.randn(n_dim, n_dim - 1)
+            G_full = G_full - np.outer(u_tpa, u_tpa @ G_full)
+            _ORTH_CYCLE_Q, _ = np.linalg.qr(G_full)
+            _ORTH_CYCLE_PTR = 0
+        cols = [(_ORTH_CYCLE_PTR + i) % (n_dim - 1) for i in range(n_pairs)]
+        _ORTH_CYCLE_PTR += n_pairs
+        G = _ORTH_CYCLE_Q[:, cols]
         G = G - np.outer(u_tpa, u_tpa @ G)
         Q_chosen, _ = np.linalg.qr(G)
 
-    # 3. Construct the 6 orthogonal pairs (12 candidates)
-    for k in range(6):
+    # 3. Construct the n_pairs orthogonal pairs and register their exact genotypes in es.sent_solutions
+    for k in range(n_pairs):
         qk = Q_chosen[:, k]
-        r_len = np.random.chisquare(12)**0.5
+        r_len = np.random.chisquare(n_dim)**0.5
         zk = qk * r_len
         dx = sigma * stds * (B @ (D * zk))
-        X[2 + 2*k] = (mean + dx).tolist()
-        X[3 + 2*k] = (mean - dx).tolist()
+        for idx, geno_vec in [(2 + 2*k, mean + dx), (3 + 2*k, mean - dx)]:
+            pheno_vec = es.gp.pheno(geno_vec, copy=True, into_bounds=es.boundary_handler.repair)
+            es.sent_solutions.insert(pheno_vec, geno=geno_vec, iteration=es.countiter)
+            X[idx] = pheno_vec
         
     return X
 
@@ -320,7 +387,7 @@ def print_5_title_milestone_report(gen, cand_idx, score, dur, best_cand, lower_b
         if score < HAPPEE_BENCHMARK:
             print(f"* **BREAKTHROUGH:** Surpassed Happee (2017) model score benchmark ({HAPPEE_BENCHMARK:.2f} pts)!")
     else:
-        print(f"* **Basin Exploration:** 18 distinct perturbations evaluated in parallel across all 6 canonical frequencies.")
+        print(f"* **Basin Exploration:** 14 distinct perturbations evaluated in parallel across all 6 canonical frequencies.")
     print()
     
     # Title 2: Bad News / Challenges
@@ -347,7 +414,7 @@ def print_5_title_milestone_report(gen, cand_idx, score, dur, best_cand, lower_b
     print("### 3. Parameter Boundary Watch")
     print("| Parameter | Symbol | Value | Active Domain | Proximity Status |")
     print("| :--- | :---: | :---: | :---: | :--- |")
-    for i, name in enumerate(PARAM_NAMES):
+    for i, name in enumerate(PARAM_NAMES[:len(best_cand)]):
         val = best_cand[i]
         L = lower_b[i]
         U = upper_b[i]
@@ -385,7 +452,7 @@ def main():
     os.makedirs("logs/candidates", exist_ok=True)
     
     # -------------------------------------------------------------------------
-    # Initial Centroid x0: Loaded from First-Principles Rational Champion
+    # Initial Centroid x0: Loaded from 16-Parameter Rational Champion
     # -------------------------------------------------------------------------
     prescreen_file = "data/prescreen_rational_champion.json" if os.path.exists("data/prescreen_rational_champion.json") else "data/prescreen_64k_best_candidate.json"
     if os.path.exists(prescreen_file):
@@ -398,40 +465,24 @@ def main():
         print(f"[PRESCREEN] Initializing CMA-ES centroid x0 from {prescreen_file} ({ps_data.get('description', 'Pre-screen Champion')})")
     else:
         x0 = np.array([
-            0.58,        # 0: K_ton
-            76.4989490,  # 1: p_ton (rad/s)
-            0.5301718,   # 2: K_sc (Nm/(rad/s))
-            0.2457791,   # 3: r_lead_sc
-            96.0500752,  # 4: p_sc (rad/s)
-            4.2943242,   # 5: K_phas (Nm/(m/s^2))
-            17.5282154,  # 6: p_phas (rad/s)
-            1.2838733,   # 7: kp (spindle gain)
-            0.0687314,   # 8: r_lead_ccr
-            177.0659882, # 9: p_ccr (rad/s)
-            0.7189289,   # 10: k_dyn
-            1.1772806    # 11: k_stat
+            0.53289, 77.2866, 0.15013, 0.17617, 80.3424, 5.20,
+            20.0, 0.30488, 0.05399, 191.6739, 0.68373, 0.94057,
+            0.70, 2.5, 0.25, 37.0
         ])
         sigma0 = np.array([
-            0.07,    # K_ton
-            6.0,     # p_ton
-            0.12,    # K_sc
-            0.03,    # r_lead_sc
-            8.0,     # p_sc
-            0.60,    # K_phas
-            2.50,    # p_phas
-            0.20,    # kp
-            0.015,   # r_lead_ccr
-            12.0,    # p_ccr
-            0.08,    # k_dyn
-            0.10     # k_stat
+            0.05, 3.0, 0.008, 0.0125, 4.0, 0.25,
+            1.5, 0.0175, 0.003, 7.5, 0.035, 0.05,
+            0.08, 1.2, 0.2, 4.0
         ])
         lower_bounds = np.array([
-            0.05, 2.0, 0.05, 0.001, 15.0, 0.20,
-            8.0, 0.15, 0.001, 5.0, 0.10, 0.01
+            0.01, 5.0, 0.01, 0.001, 15.0, 0.20,
+            1.0, 0.03, 0.001, 20.0, 0.05, 0.05,
+            0.10, 0.0, 0.0, 12.0
         ])
         upper_bounds = np.array([
-            2.50, 120.0, 15.0, 0.60, 150.0, 15.0,
-            80.0, 5.00, 0.65, 220.0, 1.50, 1.50
+            3.0, 150.0, 1.5, 0.60, 160.0, 10.0,
+            65.0, 2.0, 0.50, 240.0, 1.50, 1.50,
+            1.0, 30.0, 12.0, 65.0
         ])
     
     max_total_generations = int(os.environ.get('PHASE2_4_MAX_GEN', '50'))
@@ -440,15 +491,15 @@ def main():
     es = cma.CMAEvolutionStrategy(x0, 1.0, {
         'CMA_stds': sigma0,
         'bounds': [lower_bounds, upper_bounds],
-        'popsize': 14,
+        'popsize': 28,
         'AdaptSigma': cma.sigma_adaptation.CMAAdaptSigmaTPA,
         'maxiter': max_total_generations,
         'seed': 2026
     })
     
-    # Replay completed Phase 2.4 generations if resuming
+    # Replay completed Phase 2.4 generations if resuming with matching dimension
     completed_gens = 0
-    global_best_score = float('inf')
+    global_best_score = 12415.56
     global_best_sol = x0.copy()
     consecutive_non_improving = 0
     
@@ -462,32 +513,42 @@ def main():
                 sdata = json.load(f)
             gen_scores = sdata["all_scores"]
             pop_len = len(gen_scores)
+            
+            b_low, b_upp = es.boundary_handler.bounds
+            if "all_candidates" in sdata and len(sdata["all_candidates"]) == pop_len and len(sdata["all_candidates"][0]) == len(x0):
+                loaded_cands = [list(c) for c in sdata["all_candidates"]]
+            else:
+                loaded_cands = []
+                for w_i in range(1, pop_len + 1):
+                    cf_path = f'logs/candidates/W{w_i}_P24G{g}.json'
+                    if os.path.exists(cf_path):
+                        with open(cf_path, 'r', encoding='utf-8') as f_cf:
+                            p_raw = json.load(f_cf)['params']
+                        if len(p_raw) != len(x0):
+                            continue
+                        p_vec = list(p_raw)
+                        p_vec[3] = p_raw[3] / p_raw[4]
+                        p_vec[8] = p_raw[8] / p_raw[9]
+                        loaded_cands.append(np.clip(p_vec, b_low + 1e-4, b_upp - 1e-4).tolist())
+            if len(loaded_cands) != pop_len:
+                break
+
             if es.popsize != pop_len:
                 es.opts['popsize'] = pop_len
                 es.sp.set(es.opts, pop_len)
                 
-            if pop_len == 14:
-                cands = sample_candidates_tpa_orthogonal(es, g, archive_X, archive_y)
+            if pop_len in (14, 28):
+                raw_replay = sample_candidates_tpa_orthogonal(es, g, archive_X, archive_y)
+                for idx in range(2, pop_len):
+                    pheno_vec = np.asarray(loaded_cands[idx], dtype=float)
+                    geno_vec = es.gp.geno(pheno_vec, from_bounds=es.boundary_handler.inverse, copy=True)
+                    es.sent_solutions.insert(pheno_vec, geno=geno_vec, iteration=es.countiter)
+                    raw_replay[idx] = pheno_vec
             else:
-                cands = es.ask()
+                raw_replay = es.ask()
                 
-            b_low, b_upp = es.boundary_handler.bounds
-            loaded_cands = []
-            for w_i in range(1, pop_len + 1):
-                cf_path = f'logs/candidates/W{w_i}_P24G{g}.json'
-                if os.path.exists(cf_path):
-                    with open(cf_path, 'r', encoding='utf-8') as f_cf:
-                        p_raw = json.load(f_cf)['params']
-                    p_vec = list(p_raw)
-                    p_vec[3] = p_raw[3] / p_raw[4]
-                    p_vec[8] = p_raw[8] / p_raw[9]
-                    loaded_cands.append(np.clip(p_vec, b_low + 1e-4, b_upp - 1e-4).tolist())
-            if len(loaded_cands) == pop_len:
-                clamped_replay = loaded_cands
-            else:
-                clamped_replay = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in cands]
-
-            es.tell(clamped_replay, gen_scores)
+            clamped_replay = loaded_cands
+            es.tell(raw_replay, gen_scores)
             completed_gens = g
             
             # Populate archive
@@ -512,21 +573,19 @@ def main():
         else:
             break
             
-    # Switch to 14 candidates for Generation 4 onwards (1:1 core concurrency)
-    NEW_POPSIZE = 14
+    NEW_POPSIZE = 28
     if es.popsize != NEW_POPSIZE:
         es.opts['popsize'] = NEW_POPSIZE
         es.sp.set(es.opts, NEW_POPSIZE)
-    print(f"\n[CMA-ES RECONFIGURATION] Confirmed population size at {NEW_POPSIZE} (mu={es.sp.mu}) with 2 TPA + 12 Orthogonal samples (100% 14-core synchronization)!")
+    print(f"\n[CMA-ES RECONFIGURATION] Confirmed population size at {NEW_POPSIZE} (mu={es.sp.mu}) with 2 TPA + 26 Orthogonal samples across {len(x0)} parameters (2 x 14-core waves)!")
     print(f"[ARCHIVE] Initialized with {len(archive_X)} real OpenSim historical evaluations.")
             
     print(f"\n{'='*75}")
     print(f"Phase 2.4 Initialized. Starting from Generation {completed_gens + 1} up to Generation {target_stop_generation}")
     print(f"Target Benchmark to Beat: Happee (2017) Model Score = {HAPPEE_BENCHMARK:.2f} pts")
-    print(f"Baseline to Beat: W3_P23G15 Score = {global_best_score:.2f} pts")
-    print(f"Plateau Stopping Rule: Stop after 7 consecutive non-improving generations")
-    print(f"Initial Centroid x0:\n{np.round(x0, 3)}")
-    print(f"Search Sigmas sigma0:\n{np.round(sigma0, 3)}")
+    print(f"Baseline to Beat: W4_P24G3 Score = {global_best_score:.2f} pts")
+    print(f"Initial Centroid x0 ({len(x0)}D):\n{np.round(x0, 3)}")
+    print(f"Search Sigmas sigma0 ({len(sigma0)}D):\n{np.round(sigma0, 3)}")
     print(f"{'='*75}\n", flush=True)
     
     iteration = completed_gens
@@ -542,48 +601,52 @@ def main():
         gen_start_time = datetime.datetime.now()
         
         print(f"\n{'='*35} STARTING PHASE 2.4 GENERATION {iteration} of {target_stop_generation} at {gen_start_time.strftime('%H:%M:%S')} {'='*35}", flush=True)
-        print(f"[CMA-ES SAMPLING] Sampling population of 14 (2 TPA + 12 Orthogonal Pairs across 14 cores)...", flush=True)
+        print(f"[CMA-ES SAMPLING] Sampling population of {es.popsize} (2 TPA + {es.popsize-2} Orthogonal Samples across 14 cores)...", flush=True)
         
         raw_cands = sample_candidates_tpa_orthogonal(es, iteration, archive_X, archive_y)
         b_low, b_upp = es.boundary_handler.bounds
-        candidates = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in raw_cands]
+        
+        # If resuming an interrupted generation whose 16D candidate files already exist on disk, reuse them
+        existing_cands = []
+        for w_i in range(1, es.popsize + 1):
+            cf_path = f"logs/candidates/W{w_i}_P24G{iteration}.json"
+            if not os.path.exists(cf_path):
+                cf_path = f"logs/candidates/W{w_i}_P24G{iteration}_2.45Hz.json"
+            if os.path.exists(cf_path):
+                try:
+                    with open(cf_path, "r", encoding="utf-8") as f_cf:
+                        p_raw = json.load(f_cf)["params"]
+                    if len(p_raw) == len(x0):
+                        p_vec = list(p_raw)
+                        p_vec[3] = p_raw[3] / p_raw[4]
+                        p_vec[8] = p_raw[8] / p_raw[9]
+                        existing_cands.append(p_vec)
+                except Exception:
+                    pass
+        if len(existing_cands) == es.popsize:
+            print(f"[RESUME] Found all {es.popsize} existing 16D candidate files for Generation {iteration}. Resuming from cached frequency evaluations...", flush=True)
+            for idx in range(2, es.popsize):
+                pheno_vec = np.asarray(existing_cands[idx], dtype=float)
+                geno_vec = es.gp.geno(pheno_vec, from_bounds=es.boundary_handler.inverse, copy=True)
+                es.sent_solutions.insert(pheno_vec, geno=geno_vec, iteration=es.countiter)
+                raw_cands[idx] = pheno_vec
+
+        candidates = [np.asarray(c, dtype=float).tolist() for c in raw_cands]
         all_scores = [0.0] * len(candidates)
         
-        # Max concurrency: 14 physical cores
+        # Max concurrency: 14 physical cores (each frequency runs in a clean subprocess so OS reclaims C++ memory)
         with ThreadPoolExecutor(max_workers=14) as executor:
-            future_to_info = {}
-            for c_idx in range(len(candidates)):
-                fut = executor.submit(evaluate_freq, candidates[c_idx], 0, c_idx, iteration)
-                future_to_info[fut] = (c_idx, 0)
-                
-            active_count = len(future_to_info)
-            while active_count > 0:
-                for fut in as_completed(list(future_to_info.keys())):
-                    c_idx, t_idx = future_to_info.pop(fut)
-                    score = fut.result()
-                    freq, _, _ = TARGETS[t_idx]
+            future_to_cidx = {
+                executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration): c_idx
+                for c_idx in range(len(candidates))
+            }
+            for fut in as_completed(future_to_cidx):
+                c_idx = future_to_cidx[fut]
+                all_scores[c_idx] = fut.result()
                     
-                    # Robust early-stopping threshold (250,000 pts)
-                    if score < 250000.0:
-                        all_scores[c_idx] += score
-                        print(f"[PASS] [W{c_idx+1}_P24G{iteration}] passed {freq:.3f}Hz ({t_idx+1}/{len(TARGETS)}) (Score: {score:.1f} | Cum: {all_scores[c_idx]:.1f})", flush=True)
-                        if t_idx + 1 < len(TARGETS):
-                            next_fut = executor.submit(evaluate_freq, candidates[c_idx], t_idx + 1, c_idx, iteration)
-                            future_to_info[next_fut] = (c_idx, t_idx + 1)
-                        else:
-                            print(f"[COMPLETE] [W{c_idx+1}_P24G{iteration}] finished all 6 frequencies! Total Score: {all_scores[c_idx]:.2f}", flush=True)
-                    else:
-                        penalty = (len(TARGETS) - t_idx) * 200000.0
-                        all_scores[c_idx] += (score + penalty)
-                        print(f"[EARLY STOPPING] [W{c_idx+1}_P24G{iteration}] aborted on {freq:.3f}Hz (Score: {score:.1f}). Penalty added.", flush=True)
-                        
-                    active_count = len(future_to_info)
-                    break
-                    
-        # Update CMA-ES distribution
-        b_low, b_upp = es.boundary_handler.bounds
-        clamped_candidates = [np.clip(c, b_low + 1e-4, b_upp - 1e-4).tolist() for c in candidates]
-        es.tell(clamped_candidates, all_scores)
+        # Update CMA-ES distribution using raw_cands (preserving pycma Solution objects & exact genotypes)
+        es.tell(raw_cands, all_scores)
+        clamped_candidates = candidates
         for c_arr, s_val in zip(clamped_candidates, all_scores):
             archive_X.append(c_arr)
             archive_y.append(s_val)
@@ -616,9 +679,14 @@ def main():
         p_ccr = best_cand[9]
         k_dyn = best_cand[10]
         k_stat = best_cand[11]
+        r_lead_phas = best_cand[12] if len(best_cand) > 12 else -1.0
+        kp_task_pitch = best_cand[13] if len(best_cand) > 13 else 0.0
+        kd_task_pitch = best_cand[14] if len(best_cand) > 14 else 0.0
+        ki_task_pitch = best_cand[15] if len(best_cand) > 15 else FIXED_KI
         
         z_sc = r_lead_sc * p_sc
         z_ccr = r_lead_ccr * p_ccr
+        z_phas = r_lead_phas * p_phas if 0.0 < r_lead_phas <= 1.0 else -1.0
         
         # Save generation summary
         summary = {
@@ -637,15 +705,21 @@ def main():
                 "z_sc": float(z_sc),
                 "p_sc": float(p_sc),
                 "K_phas": float(K_phas),
+                "r_lead_phas": float(r_lead_phas),
+                "z_phas": float(z_phas),
                 "p_phas": float(p_phas),
                 "kp": float(kp_prop),
                 "r_lead_ccr": float(r_lead_ccr),
                 "z_ccr": float(z_ccr),
                 "p_ccr": float(p_ccr),
                 "k_dyn": float(k_dyn),
-                "k_stat": float(k_stat)
+                "k_stat": float(k_stat),
+                "Kp_task_pitch": float(kp_task_pitch),
+                "Kd_task_pitch": float(kd_task_pitch),
+                "Ki_task_pitch": float(ki_task_pitch)
             },
-            "all_scores": [float(s) for s in all_scores]
+            "all_scores": [float(s) for s in all_scores],
+            "all_candidates": clamped_candidates
         }
         
         print(f"\n[GEN COMPLETE] Generation {iteration}: Best Candidate W{best_idx+1}_P24G{iteration} Score = {best_score:.2f} pts (Duration: {gen_duration:.1f} min)", flush=True)
@@ -689,4 +763,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

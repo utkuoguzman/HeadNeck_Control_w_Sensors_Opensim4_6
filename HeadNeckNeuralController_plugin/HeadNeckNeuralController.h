@@ -2,7 +2,9 @@
 #define OPENSIM_HEAD_NECK_NEURAL_CONTROLLER_H_
 
 #include <OpenSim/OpenSim.h>
+#include <algorithm>
 #include <deque>
+#include <utility>
 #include <vector>
 #include <map>
 
@@ -13,8 +15,8 @@ OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 
 public:
 
-    OpenSim_DECLARE_PROPERTY(delay_vcr, double, "Vestibulo-Collic Reflex delay in seconds (default: 0.015)");
-    OpenSim_DECLARE_PROPERTY(delay_ccr, double, "Cervico-Collic Reflex delay in seconds (default: 0.020)");
+    OpenSim_DECLARE_PROPERTY(delay_vcr, double, "Vestibulo-Collic Reflex delay in seconds (default: 0.010)");
+    OpenSim_DECLARE_PROPERTY(delay_ccr, double, "Cervico-Collic Reflex delay in seconds (default: 0.015)");
     OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for spindle Ia");
     OpenSim_DECLARE_PROPERTY(z_ccr, double, "Cervico-Collic Reflex TF Zero");
     OpenSim_DECLARE_PROPERTY(p_ccr, double, "Cervico-Collic Reflex TF Pole");
@@ -38,7 +40,9 @@ public:
     OpenSim_DECLARE_PROPERTY(z_sc, double, "Semicircular canal TF Zero");
     OpenSim_DECLARE_PROPERTY(p_sc, double, "Semicircular canal TF Pole");
     OpenSim_DECLARE_PROPERTY(K_phas, double, "Phasic otolith TF Gain");
+    OpenSim_DECLARE_PROPERTY(z_phas, double, "Phasic otolith TF Zero in rad/s (if > 0.0, enables Fernandez & Goldberg 1976 irregular otolith phase-lead filter; default: -1.0)");
     OpenSim_DECLARE_PROPERTY(p_phas, double, "Phasic otolith TF Pole");
+    OpenSim_DECLARE_PROPERTY(p_phas2, double, "Second-order phasic otolith TF Pole in rad/s (if <= 0.0, bypasses second pole; default: -1.0)");
     OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
 
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
@@ -70,16 +74,18 @@ public:
     OpenSim_DECLARE_PROPERTY(use_dynamic_jacobian, bool, "If true, recalculates the TNT Metric Tensor at every step");
     OpenSim_DECLARE_PROPERTY(K_eso, double, "Gain for Extended State Observer disturbance rejection (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "If true, includes extraocular eye muscles (r_*, l_*) in controller state allocation (default: false)");
-    OpenSim_DECLARE_PROPERTY(use_smith_predictor, bool, "If true, utilizes Smith Predictor delay compensation for Mahony proprioceptive fusion (default: false)");
-    OpenSim_DECLARE_PROPERTY(delay_smith_proprio, double, "Proprioceptive transport delay in seconds for Smith compensation (default: 0.015)");
-    OpenSim_DECLARE_PROPERTY(delay_afferent_proprio, double, "Proprioceptive afferent transport delay in seconds arriving at the central observer (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(use_smith_predictor, bool, "If true, utilizes Smith Predictor delay compensation for Mahony proprioceptive fusion (default: true)");
+    OpenSim_DECLARE_PROPERTY(delay_smith_proprio, double, "Proprioceptive transport delay in seconds for Smith compensation (default: 0.007)");
+    OpenSim_DECLARE_PROPERTY(delay_afferent_proprio, double, "Proprioceptive afferent transport delay in seconds arriving at the central observer (default: 0.007)");
 
     HeadNeckNeuralController();
     
     OpenSim_DECLARE_OUTPUT(omega_recon_pitch, double, getReconstructedCanalAngularVelocityPitch, SimTK::Stage::Dynamics);
     double getReconstructedCanalAngularVelocityPitch(const SimTK::State& state) const {
         if (history.empty()) return 0.0;
-        auto iterator = history.lower_bound(state.getTime());
+        auto iterator = std::lower_bound(
+            history.begin(), history.end(), state.getTime(),
+            [](const std::pair<double, HistoryRecord>& entry, double timestamp) { return entry.first < timestamp; });
         if (iterator == history.end()) {
             if (history.empty()) return 0.0;
             --iterator;
@@ -163,8 +169,10 @@ private:
     struct HistoryRecord {
         bool valid = false;
         SimTK::Vec3 estimated_head_orientation{0.0};               // (roll, yaw, pitch) - Head global orientation
-        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Head global angular velocity (gain-normalized canal firing with biological phase lead)
+        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Head global angular velocity (gain-normalized irregular canal firing with biological phase lead)
         SimTK::Vec3 luenberger_angular_velocity{0.0};              // Clean Luenberger-inverted physical angular velocity (roll, yaw, pitch)
+        SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // Irregular otolith specific force GIF in head frame (with biological phase lead)
+        SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // Clean Luenberger-inverted regular otolith specific force GIF in head frame
         SimTK::Mat33 rotation_world_to_head{1.0};                  // True skull rotation from world to head at record timestamp
         SimTK::Mat33 estimated_rotation_head_to_world{1.0};        // Observer estimated rotation from head to world at record timestamp
         SimTK::Vec3 trunk_orientation{0.0};                        // (roll, yaw, pitch) - Trunk global orientation
@@ -173,6 +181,11 @@ private:
         SimTK::Vector primary_afferent_firing_rate;                // Size N (Spindle primary Ia firing rate above baseline)
         SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Size 3 (pitch, roll, yaw)
         SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Size 3 (pitch, roll, yaw)
+        SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Size 3 (pitch, roll, yaw) - Mahony head-frame angular velocity
+        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Size 3 (pitch, roll, yaw) - Cortical voluntary torque before descending delay
+        SimTK::Vec3 trajectory_position{0.0};                      // Size 3 (pitch, roll, yaw) - Cortical reference trajectory position
+        SimTK::Vec3 trajectory_velocity{0.0};                      // Size 3 (pitch, roll, yaw) - Cortical reference trajectory velocity
+        SimTK::Vec3 trajectory_acceleration{0.0};                  // Size 3 (pitch, roll, yaw) - Cortical reference trajectory acceleration
     };
     
     struct DelayedData {
@@ -181,9 +194,9 @@ private:
         SimTK::Vec3 reconstructed_angular_acceleration{0.0};       // Extracted angular acceleration
     };
     
-    mutable std::map<double, HistoryRecord> history;
+    mutable std::deque<std::pair<double, HistoryRecord>> history;
     
-    DelayedData getDelayedData(double current_time, double delay_duration) const;
+    DelayedData getDelayedData(double current_time, double delay_duration, bool interpolate_spindle_afferents = false) const;
     
     mutable SimTK::Matrix moment_arm_jacobian_3dof;                // 3 x N (pitch, roll, yaw)
     mutable SimTK::Matrix moment_arm_jacobian_6dof;                // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
@@ -216,12 +229,19 @@ private:
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
+    mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
+    mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};
+    mutable const StateVariable* state_variable_irregular_otolith_adapt[3] = {nullptr};
+    mutable const StateVariable* state_variable_irregular_otolith[3] = {nullptr};
+    mutable const StateVariable* state_variable_luenberger_otolith[3] = {nullptr};
+    mutable const StateVariable* state_variable_luenberger_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_observer_quaternion[4] = {nullptr};
     mutable const StateVariable* state_variable_observer_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_observer_position[3] = {nullptr};
     mutable const StateVariable* state_variable_tonic_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_semicircular_canal_reflex[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith[3] = {nullptr};
+    mutable const StateVariable* state_variable_phasic_otolith_stage2[3] = {nullptr};
     mutable const Coordinate* cached_coordinate_pitch1 = nullptr;
     mutable const Coordinate* cached_coordinate_pitch2 = nullptr;
     mutable const Coordinate* cached_coordinate_roll1 = nullptr;
