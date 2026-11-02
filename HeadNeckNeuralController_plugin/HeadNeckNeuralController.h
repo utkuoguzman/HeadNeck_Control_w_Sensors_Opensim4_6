@@ -230,7 +230,6 @@ private:
     mutable const StateVariable* state_variable_trajectory_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_error_integral[3] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
-    mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};

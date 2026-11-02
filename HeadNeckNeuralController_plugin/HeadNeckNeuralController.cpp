@@ -122,9 +122,6 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("vol_filt_pitch", SimTK::Stage::Velocity);
     addStateVariable("vol_filt_roll", SimTK::Stage::Velocity);
     addStateVariable("vol_filt_yaw", SimTK::Stage::Velocity);
-    addStateVariable("vol_filt2_pitch", SimTK::Stage::Velocity);
-    addStateVariable("vol_filt2_roll", SimTK::Stage::Velocity);
-    addStateVariable("vol_filt2_yaw", SimTK::Stage::Velocity);
 
     // Luenberger Inverse-Sensor Observer States (Vestibular & Proprioceptive)
     addStateVariable("luen_omega_roll", SimTK::Stage::Velocity);
@@ -280,9 +277,6 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& state
     setStateVariableValue(state, "vol_filt_pitch", 0.0);
     setStateVariableValue(state, "vol_filt_roll", 0.0);
     setStateVariableValue(state, "vol_filt_yaw", 0.0);
-    setStateVariableValue(state, "vol_filt2_pitch", 0.0);
-    setStateVariableValue(state, "vol_filt2_roll", 0.0);
-    setStateVariableValue(state, "vol_filt2_yaw", 0.0);
     setStateVariableValue(state, "luen_omega_roll", 0.0);
     setStateVariableValue(state, "luen_omega_yaw", 0.0);
     setStateVariableValue(state, "luen_omega_pitch", 0.0);
@@ -357,9 +351,6 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     state_variable_voluntary_filter_stage1[0] = traverseToStateVariable("vol_filt_pitch");
     state_variable_voluntary_filter_stage1[1] = traverseToStateVariable("vol_filt_roll");
     state_variable_voluntary_filter_stage1[2] = traverseToStateVariable("vol_filt_yaw");
-    state_variable_voluntary_filter_stage2[0] = traverseToStateVariable("vol_filt2_pitch");
-    state_variable_voluntary_filter_stage2[1] = traverseToStateVariable("vol_filt2_roll");
-    state_variable_voluntary_filter_stage2[2] = traverseToStateVariable("vol_filt2_yaw");
     state_variable_luenberger_angular_velocity[0] = traverseToStateVariable("luen_omega_roll");
     state_variable_luenberger_angular_velocity[1] = traverseToStateVariable("luen_omega_yaw");
     state_variable_luenberger_angular_velocity[2] = traverseToStateVariable("luen_omega_pitch");
@@ -1227,23 +1218,12 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     double voluntary_filtered_stage1_roll  = state_variable_voluntary_filter_stage1[1]->getValue(state);
     double voluntary_filtered_stage1_yaw   = state_variable_voluntary_filter_stage1[2]->getValue(state);
 
-    double voluntary_filtered_stage2_pitch = state_variable_voluntary_filter_stage2[0]->getValue(state);
-    double voluntary_filtered_stage2_roll  = state_variable_voluntary_filter_stage2[1]->getValue(state);
-    double voluntary_filtered_stage2_yaw   = state_variable_voluntary_filter_stage2[2]->getValue(state);
-
     state_variable_voluntary_filter_stage1[0]->setDerivative(
         state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_pitch - voluntary_filtered_stage1_pitch));
     state_variable_voluntary_filter_stage1[1]->setDerivative(
         state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_roll  - voluntary_filtered_stage1_roll));
     state_variable_voluntary_filter_stage1[2]->setDerivative(
         state, voluntary_cutoff_angular_frequency * (unfiltered_voluntary_torque_yaw   - voluntary_filtered_stage1_yaw));
-
-    state_variable_voluntary_filter_stage2[0]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_pitch - voluntary_filtered_stage2_pitch));
-    state_variable_voluntary_filter_stage2[1]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_roll  - voluntary_filtered_stage2_roll));
-    state_variable_voluntary_filter_stage2[2]->setDerivative(
-        state, voluntary_cutoff_angular_frequency * (voluntary_filtered_stage1_yaw   - voluntary_filtered_stage2_yaw));
 
     // --- STAGE 1: MULTISENSORY SMITH PREDICTOR (Forward-Predicting Inputs 1, 2, 3 to NOW t Using Rate/Speed Estimates) ---
     // Input 1 (Canal ω̂_Luen) is already forward-predicted above by τ_vest = 2ms using α̂_Luen(t - 2ms) -> head_frame_angular_velocity.
@@ -1970,58 +1950,71 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     }
     std::vector<bool> is_muscle_free(number_of_active_muscles, true);
 
-    Matrix gram_matrix_3dof(3, 3);
-    Vector remaining_torque_vector(3);
-    Vector lagrange_multiplier_vector(3);
+    const char* env_6dof_qp = std::getenv("USE_6DOF_QP");
+    const bool use_6dof_qp = (env_6dof_qp != nullptr && std::string(env_6dof_qp) == "1");
+    const int qp_dof = use_6dof_qp ? 6 : 3;
+    const Matrix& active_jacobian = use_6dof_qp ? moment_arm_jacobian_6dof : moment_arm_jacobian_3dof;
+    Vector target_torque_qp(qp_dof, 0.0);
+    if (use_6dof_qp) {
+        target_torque_qp[0] = desired_total_torque[0]; // pitch1
+        target_torque_qp[1] = desired_total_torque[0]; // pitch2
+        target_torque_qp[2] = desired_total_torque[1]; // roll1
+        target_torque_qp[3] = desired_total_torque[1]; // roll2
+        target_torque_qp[4] = desired_total_torque[2]; // yaw1
+        target_torque_qp[5] = desired_total_torque[2]; // yaw2
+    } else {
+        target_torque_qp[0] = desired_total_torque[0];
+        target_torque_qp[1] = desired_total_torque[1];
+        target_torque_qp[2] = desired_total_torque[2];
+    }
+
+    Matrix gram_matrix_qp(qp_dof, qp_dof);
+    Vector remaining_torque_vector(qp_dof);
+    Vector lagrange_multiplier_vector(qp_dof);
     for (int iteration = 0; iteration < 15; ++iteration) {
-        SimTK::Vec3 fixed_muscle_torque(0.0);
+        Vector fixed_muscle_torque(qp_dof, 0.0);
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (!is_muscle_free[muscle_index]) {
-                for (int axis_index = 0; axis_index < 3; ++axis_index) {
+                for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
                     fixed_muscle_torque[axis_index] +=
-                        (moment_arm_jacobian_3dof(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
+                        (active_jacobian(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
                         alpha_motor_excitations[muscle_index];
                 }
             }
         }
 
-        SimTK::Vec3 remaining_desired_torque(
-            desired_total_torque[0] - fixed_muscle_torque[0],
-            desired_total_torque[1] - fixed_muscle_torque[1],
-            desired_total_torque[2] - fixed_muscle_torque[2]);
+        for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
+            remaining_torque_vector[axis_index] = target_torque_qp[axis_index] - fixed_muscle_torque[axis_index];
+        }
 
-        gram_matrix_3dof.setToZero();
+        gram_matrix_qp.setToZero();
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (is_muscle_free[muscle_index]) {
-                for (int row = 0; row < 3; ++row) {
-                    for (int column = 0; column < 3; ++column) {
-                        gram_matrix_3dof(row, column) +=
-                            (moment_arm_jacobian_3dof(row, muscle_index)    * maximum_isometric_forces[muscle_index]) *
-                            (moment_arm_jacobian_3dof(column, muscle_index) * maximum_isometric_forces[muscle_index]);
+                for (int row = 0; row < qp_dof; ++row) {
+                    for (int column = 0; column < qp_dof; ++column) {
+                        gram_matrix_qp(row, column) +=
+                            (active_jacobian(row, muscle_index)    * maximum_isometric_forces[muscle_index]) *
+                            (active_jacobian(column, muscle_index) * maximum_isometric_forces[muscle_index]);
                     }
                 }
             }
         }
 
         const double qp_tikhonov_regularization = 1e-3;
-        gram_matrix_3dof(0, 0) += qp_tikhonov_regularization;
-        gram_matrix_3dof(1, 1) += qp_tikhonov_regularization;
-        gram_matrix_3dof(2, 2) += qp_tikhonov_regularization;
-
-        FactorLU lu_factorization(gram_matrix_3dof);
-        for (int axis_index = 0; axis_index < 3; ++axis_index) {
-            remaining_torque_vector[axis_index] = remaining_desired_torque[axis_index];
+        for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
+            gram_matrix_qp(axis_index, axis_index) += qp_tikhonov_regularization;
         }
 
+        FactorLU lu_factorization(gram_matrix_qp);
         lu_factorization.solve(remaining_torque_vector, lagrange_multiplier_vector);
 
         bool bounds_violated = false;
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (is_muscle_free[muscle_index]) {
                 double unconstrained_excitation = 0.0;
-                for (int axis_index = 0; axis_index < 3; ++axis_index) {
+                for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
                     unconstrained_excitation +=
-                        (moment_arm_jacobian_3dof(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
+                        (active_jacobian(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
                         lagrange_multiplier_vector[axis_index];
                 }
 

@@ -100,6 +100,7 @@
             <button onclick="selectTab('sub5')" id="tab-sub5" class="px-2 py-0.5 text-[11px] font-medium rounded border border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-200">5. Brainstem VCR Filters</button>
             <button onclick="selectTab('sub6')" id="tab-sub6" class="px-2 py-0.5 text-[11px] font-medium rounded border border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-200">6. Spinal CCR Reflex Filters</button>
             <button onclick="selectTab('sub7')" id="tab-sub7" class="px-2 py-0.5 text-[11px] font-medium rounded border border-neutral-300 bg-white text-neutral-800 hover:bg-neutral-200">7. Active-Set QP &amp; Motoneuron Pool</button>
+            <button onclick="openDelaySyncAnimator()" class="px-2 py-0.5 text-[11px] font-bold rounded border border-sky-600 bg-sky-50 text-sky-800 hover:bg-sky-100 shadow-sm">⚡ Animate Delays &amp; Forward Predictions</button>
           </div>
         </div>
 
@@ -272,180 +273,221 @@
         <div id="insp-side-col" class="w-full md:w-80 bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all">
           <!-- Special Anatomical Conduction Delay Minimap (Shown for HistoryRecord Bus & Delay Blocks) -->
           <div id="insp-delay-minimap-box" class="hidden mb-3 bg-slate-50 border border-slate-300 rounded-md p-2 shadow-inner">
-            <div class="flex items-center justify-between border-b border-slate-300 pb-1 mb-1.5">
+            <div class="flex flex-wrap items-center justify-between border-b border-slate-300 pb-1.5 mb-1.5 gap-1">
               <div class="flex items-center gap-1.5">
-                <span class="px-1.5 py-0.5 rounded bg-sky-700 text-white font-mono text-[9px] font-bold uppercase tracking-wider">Delay Minimap</span>
-                <span class="font-mono font-bold text-[10px] text-slate-800">Axonal Conduction Latencies: Sensing → CNS → Action</span>
+                <span class="px-1.5 py-0.5 rounded bg-sky-700 text-white font-mono text-[9px] font-bold uppercase tracking-wider">1 ms / Segment Grid</span>
+                <span class="font-mono font-bold text-[10px] text-slate-800">Proportional Delay &amp; Predictive Clock Sync (Ref: Sub 7 @ t = 0 ms)</span>
               </div>
-              <span class="font-mono text-[9px] text-slate-500">Hover any arrow or parameter below</span>
+              <span class="font-mono text-[8.5px] text-slate-500">1 segment = 1 ms = 18 px (All paths active)</span>
             </div>
 
-            <svg id="delay-minimap-svg" viewBox="0 0 560 350" class="w-full h-auto select-none bg-white border border-slate-200 rounded">
+            <!-- Quick Milestone Jump Bar (Allows instant inspection of any key synchronization tick) -->
+            <div class="flex flex-wrap items-center gap-1 mb-1.5 font-mono text-[8.5px]">
+              <span class="text-slate-500 font-bold mr-0.5">Jump to Tick:</span>
+              <button onclick="jumpDelayTick(-39)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-39ms (Start)</button>
+              <button onclick="jumpDelayTick(-34)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-34ms (Vest→Sub4)</button>
+              <button onclick="jumpDelayTick(-32)" class="px-1.5 py-0.5 rounded border border-emerald-400 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold">⚡-32ms (Sub4 Sync)</button>
+              <button onclick="jumpDelayTick(-12)" class="px-1.5 py-0.5 rounded border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold">⚡-12ms (M1 Plan)</button>
+              <button onclick="jumpDelayTick(-9)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-9ms (Prop2)</button>
+              <button onclick="jumpDelayTick(-7)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-7ms (CCR)</button>
+              <button onclick="jumpDelayTick(-2)" class="px-1.5 py-0.5 rounded border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold">⚡-2ms (CB+Sub4 Sync)</button>
+              <button onclick="jumpDelayTick(0)" class="px-1.5 py-0.5 rounded border border-sky-500 bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold">★ 0ms (Sub 7 Sync!)</button>
+              <button onclick="jumpDelayTick(8)" class="px-1.5 py-0.5 rounded border border-red-400 bg-red-50 hover:bg-red-100 text-red-900 font-bold">+8ms (Muscles)</button>
+            </div>
+
+            <svg id="delay-minimap-svg" viewBox="0 0 580 412" class="w-full h-auto select-none bg-white border border-slate-200 rounded">
               <defs>
-                <!-- Colored Directional Arrowheads ONLY for the 5 Delay Pathways (+ Neutral Gray for 0ms Internal Links) -->
-                <marker id="darr-vest" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#0284c7"/>
+                <marker id="darr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="4.5" markerHeight="4.5" orient="auto">
+                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#64748b"/>
                 </marker>
-                <marker id="darr-prop" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#059669"/>
-                </marker>
-                <marker id="darr-asc" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#7c3aed"/>
-                </marker>
-                <marker id="darr-cb" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706"/>
-                </marker>
-                <marker id="darr-desc" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#dc2626"/>
-                </marker>
-                <marker id="darr-gray" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto">
-                  <path d="M 0 1 L 10 5 L 0 9 z" fill="#94a3b8"/>
-                </marker>
+                <filter id="seg-glow" x="-30%" y="-30%" width="160%" height="160%">
+                  <feDropShadow dx="0" dy="0" stdDeviation="2.2" flood-color="#0f172a" flood-opacity="0.45"/>
+                </filter>
               </defs>
 
-              <!-- Orientation Headers -->
-              <text x="12" y="14" font-family="monospace" font-size="8" fill="#94a3b8" font-weight="bold">← ANTERIOR (Motor Exit)</text>
-              <text x="548" y="14" text-anchor="end" font-family="monospace" font-size="8" fill="#94a3b8" font-weight="bold">POSTERIOR (Sensory Entry) →</text>
+              <!-- Orientation & Scale Headers -->
+              <text x="10" y="13" font-family="monospace" font-size="7.8" fill="#64748b" font-weight="bold">← ANTERIOR (Motor Exit)</text>
+              <text x="290" y="13" text-anchor="middle" font-family="monospace" font-size="7.8" fill="#0369a1" font-weight="bold">PROPORTIONAL SCALE: 1 segment = 1 ms = 18 px</text>
+              <text x="570" y="13" text-anchor="end" font-family="monospace" font-size="7.8" fill="#64748b" font-weight="bold">POSTERIOR (Sensory Entry) →</text>
 
               <!-- ==================== CALM MONOCHROME ANATOMICAL SILHOUETTE ==================== -->
               <!-- Cerebral Cortex Silhouette -->
-              <path d="M 60,134 C 34,123 28,90 45,60 C 62,32 110,16 180,12 C 254,8 330,20 375,50 C 410,74 422,108 400,132 C 378,148 330,146 294,134 C 260,124 232,118 188,124 C 142,130 92,144 60,134 Z"
-                    fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+              <path d="M 96,92 C 74,80 76,46 104,26 C 140,10 230,10 315,16 C 385,20 458,24 475,46 C 486,62 454,82 400,82 C 330,82 276,78 210,84 C 155,88 118,98 96,92 Z"
+                    fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1"/>
               <!-- Brainstem Column -->
-              <path d="M 196,112 C 185,132 180,160 194,186 C 202,202 208,220 210,244 L 268,244 C 268,215 272,185 272,155 C 272,130 262,115 248,112 Z"
-                    fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+              <path d="M 240,102 C 232,128 232,175 236,248 L 326,248 C 330,185 334,132 324,102 Z"
+                    fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1"/>
               <!-- Cerebellum Contour -->
-              <path d="M 290,134 C 322,117 415,120 450,150 C 475,174 462,220 418,234 C 375,246 312,232 288,206 C 278,192 276,154 290,134 Z"
-                    fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+              <path d="M 346,154 C 378,142 475,144 512,170 C 534,188 524,224 480,234 C 430,242 368,234 346,216 Z"
+                    fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.1"/>
               <!-- Cervical Spinal Cord C1–C8 Outline -->
-              <rect x="192" y="246" width="90" height="86" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.3"/>
+              <rect x="228" y="252" width="102" height="100" rx="5" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
 
-              <!-- ==================== NEUTRAL GRAY SUBSYSTEM BLOCKS ==================== -->
-              <!-- Sub 1: M1 Motor Cortex -->
-              <rect x="150" y="18" width="126" height="34" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
-              <text x="213" y="32" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#334155" font-weight="bold">Sub 1: M1 Cortex</text>
-              <text x="213" y="44" text-anchor="middle" font-family="monospace" font-size="7.2" fill="#64748b">Planner &amp; Task PID</text>
-
-              <!-- Thalamus Relay -->
-              <ellipse cx="215" cy="95" rx="34" ry="13" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2"/>
-              <text x="215" y="98" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#475569" font-weight="bold">Thalamus</text>
-
-              <!-- Sub 5: Brainstem MVN / LVN -->
-              <rect x="204" y="148" width="66" height="36" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
-              <text x="237" y="163" text-anchor="middle" font-family="sans-serif" font-size="8.2" fill="#334155" font-weight="bold">Sub 5: VCR</text>
-              <text x="237" y="175" text-anchor="middle" font-family="monospace" font-size="7" fill="#64748b">MVN / LVN</text>
-
-              <!-- Sub 4: Cerebellar Nodulus & Fastigial -->
-              <rect x="296" y="164" width="142" height="44" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
-              <text x="367" y="181" text-anchor="middle" font-family="sans-serif" font-size="8.5" fill="#334155" font-weight="bold">Sub 4: Cerebellum</text>
-              <text x="367" y="194" text-anchor="middle" font-family="monospace" font-size="7.2" fill="#64748b">Mahony + Forward Pred.</text>
-
-              <!-- Sub 2: Vestibular Labyrinth (Sensing) -->
-              <rect x="22" y="152" width="108" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
-              <text x="76" y="170" text-anchor="middle" font-family="sans-serif" font-size="8.2" fill="#334155" font-weight="bold">Sub 2: Vestibular</text>
-              <text x="76" y="183" text-anchor="middle" font-family="monospace" font-size="7.1" fill="#64748b">Canals &amp; Otoliths</text>
-
-              <!-- Sub 7: Active-Set QP & Motoneuron Pool -->
-              <rect x="197" y="251" width="80" height="36" rx="3" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
-              <text x="237" y="266" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#334155" font-weight="bold">Sub 7: Spinal QP</text>
-              <text x="237" y="278" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#64748b">&amp; Motor Pool</text>
-
-              <!-- Sub 6: Spinal CCR Filters -->
-              <rect x="197" y="294" width="80" height="32" rx="3" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.3"/>
-              <text x="237" y="308" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#334155" font-weight="bold">Sub 6: CCR</text>
-              <text x="237" y="319" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#64748b">H_ccr(s) (0ms)</text>
-
-              <!-- Sub 3: 72 Muscle Spindles & Decoder (Sensing) -->
-              <rect x="404" y="274" width="138" height="44" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
-              <text x="473" y="292" text-anchor="middle" font-family="sans-serif" font-size="8.2" fill="#334155" font-weight="bold">Sub 3: 72 Spindles</text>
-              <text x="473" y="305" text-anchor="middle" font-family="monospace" font-size="7.1" fill="#64748b">Luenberger &amp; Decoder</text>
-
-              <!-- Action: 72 Cervical Muscles -->
-              <rect x="18" y="250" width="106" height="40" rx="6" fill="#f1f5f9" stroke="#64748b" stroke-width="1.5"/>
-              <text x="71" y="267" text-anchor="middle" font-family="sans-serif" font-size="8.2" fill="#1e293b" font-weight="bold">72 Neck Muscles</text>
-              <text x="71" y="279" text-anchor="middle" font-family="monospace" font-size="7" fill="#475569">controls[3×72]</text>
-
-              <!-- Zero-Delay Internal CNS Links (Sub 5 -> Sub 7 and Sub 6 -> Sub 7, Neutral Gray) -->
-              <line x1="237" y1="184" x2="237" y2="249" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="2.5,2" marker-end="url(#darr-gray)"/>
-              <line x1="237" y1="294" x2="237" y2="289" stroke="#94a3b8" stroke-width="1.6" marker-end="url(#darr-gray)"/>
-
-              <!-- ==================== 5 COLORED DELAY BLOCKS & PATHWAYS ==================== -->
-
-              <!-- [1] τ_vest = 2 ms (Sub 2 Vestibular -> Sub 5 VN & Sub 4 Cerebellum) -->
-              <g id="dpath-vest" class="delay-path-group"
-                 onmouseenter="highlightDelayPath('vest', 'labyrinth,otolith,scarpa,vn,nodulus')"
-                 onmouseleave="clearDelayPathHighlight()">
-                <path d="M 130,170 L 202,166" fill="none" stroke="#0284c7" stroke-width="2.4" marker-end="url(#darr-vest)"/>
-                <path d="M 168,168 C 184,188 250,192 294,190" fill="none" stroke="#0284c7" stroke-width="1.9" stroke-dasharray="3,2" marker-end="url(#darr-vest)"/>
-                <rect x="128" y="122" width="76" height="24" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.5"/>
-                <text x="166" y="133" text-anchor="middle" font-family="monospace" font-size="8" fill="#0369a1" font-weight="bold">τ_vest = 2 ms</text>
-                <text x="166" y="142" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#075985">Sub 2 → Sub 4, 5</text>
+              <!-- ==================== SUBSYSTEM BLOCKS & PREDICTIVE NODES ==================== -->
+              <!-- Sub 1: M1 Motor Cortex (Predictive Planner) -->
+              <g id="dnode-sub1">
+                <rect x="166" y="18" width="126" height="34" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
+                <text x="229" y="31" text-anchor="middle" font-family="sans-serif" font-size="8.2" fill="#1e293b" font-weight="bold">Sub 1: M1 Cortex</text>
+                <text x="229" y="42" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#b45309" font-weight="bold">⚡ Trajectory Planner (+Lead)</text>
               </g>
 
-              <!-- [2] τ_prop = 7 ms (Sub 3 Spindles -> Sub 4 Cerebellum & Sub 6 CCR) -->
-              <g id="dpath-prop" class="delay-path-group"
-                 onmouseenter="highlightDelayPath('prop', 'spindles,drg,dorsalcol,cuneate,spinocerebellum,nodulus,spinal')"
-                 onmouseleave="clearDelayPathHighlight()">
-                <path d="M 404,286 C 368,266 356,236 362,210" fill="none" stroke="#059669" stroke-width="2.3" marker-end="url(#darr-prop)"/>
-                <path d="M 404,310 L 280,310" fill="none" stroke="#059669" stroke-width="2.4" marker-end="url(#darr-prop)"/>
-                <rect x="412" y="232" width="124" height="24" rx="4" fill="#d1fae5" stroke="#059669" stroke-width="1.5"/>
-                <text x="474" y="243" text-anchor="middle" font-family="monospace" font-size="8" fill="#065f46" font-weight="bold">τ_prop = 7 ms</text>
-                <text x="474" y="252" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#047857">Sub 3 → Sub 4 &amp; Sub 6</text>
+              <!-- Thalamus Relay (at 14ms of 20ms Ascending Tract) -->
+              <g id="dnode-thal">
+                <ellipse cx="422" cy="36" rx="24" ry="13" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.2"/>
+                <text x="422" y="39" text-anchor="middle" font-family="sans-serif" font-size="7.5" fill="#475569" font-weight="bold">Thalamus</text>
               </g>
 
-              <!-- [3] τ_asc = 20 ms (Sub 4 Cerebellum -> Thalamus -> Sub 1 M1 Cortex) -->
-              <g id="dpath-asc" class="delay-path-group"
-                 onmouseenter="highlightDelayPath('asc', 'nodulus,fastigial,thalamus,m1')"
-                 onmouseleave="clearDelayPathHighlight()">
-                <path d="M 342,164 C 312,128 276,108 251,98" fill="none" stroke="#7c3aed" stroke-width="2.3" marker-end="url(#darr-asc)"/>
-                <path d="M 215,82 L 215,54" fill="none" stroke="#7c3aed" stroke-width="2.3" marker-end="url(#darr-asc)"/>
-                <rect x="292" y="74" width="116" height="24" rx="4" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.5"/>
-                <text x="350" y="85" text-anchor="middle" font-family="monospace" font-size="8" fill="#5b21b6" font-weight="bold">τ_asc = 20 ms</text>
-                <text x="350" y="94" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#6d28d9">Sub 4 → Sub 1 M1</text>
+              <!-- Sub 2: Vestibular Labyrinth (Sensing, 2ms = 36px from Sub 5 & Sub 4) -->
+              <g id="dnode-sub2">
+                <rect x="296" y="110" width="84" height="36" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
+                <text x="338" y="125" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#1e293b" font-weight="bold">Sub 2: Vestibular</text>
+                <text x="338" y="137" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#0369a1">Canals &amp; Otoliths</text>
               </g>
 
-              <!-- [4] τ_desc = 12 ms (Sub 1 M1 -> Sub 7 QP & Sub 5 +10ms Pred -> t-2ms) -->
-              <g id="dpath-desc" class="delay-path-group"
-                 onmouseenter="highlightDelayPath('desc', 'm1,cst,nodulus,vn,spinal')"
-                 onmouseleave="clearDelayPathHighlight()">
-                <path d="M 168,52 C 148,102 150,204 195,260" fill="none" stroke="#d97706" stroke-width="2.5" marker-end="url(#darr-cb)"/>
-                <path d="M 254,52 C 286,86 308,128 320,162" fill="none" stroke="#d97706" stroke-width="2.1" stroke-dasharray="4,2.5" marker-end="url(#darr-cb)"/>
-                <path d="M 296,174 L 272,168" fill="none" stroke="#d97706" stroke-width="2.1" marker-end="url(#darr-cb)"/>
-                <rect x="24" y="86" width="124" height="26" rx="4" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
-                <text x="86" y="97" text-anchor="middle" font-family="monospace" font-size="8" fill="#92400e" font-weight="bold">τ_desc = 12 ms</text>
-                <text x="86" y="107" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#78350f">Sub 1 → Sub 7 &amp; Sub 5</text>
+              <!-- Sub 5: Brainstem VCR (MVN / LVN) -->
+              <g id="dnode-sub5">
+                <rect x="244" y="176" width="76" height="38" rx="4" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
+                <text x="282" y="191" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#1e293b" font-weight="bold">Sub 5: VCR</text>
+                <text x="282" y="202" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#0369a1" font-weight="bold">⚡ Efference &amp; H_sc Lead</text>
               </g>
 
-              <!-- [5] τ_spinal = 8 ms (Sub 7 Spinal QP & Pool -> 72 Muscles) -->
-              <g id="dpath-spinal" class="delay-path-group"
-                 onmouseenter="highlightDelayPath('spinal', 'spinal,ventralroots')"
-                 onmouseleave="clearDelayPathHighlight()">
-                <line x1="192" y1="270" x2="126" y2="270" fill="none" stroke="#dc2626" stroke-width="2.8" marker-end="url(#darr-desc)"/>
-                <rect x="34" y="304" width="136" height="26" rx="4" fill="#fee2e2" stroke="#dc2626" stroke-width="1.5"/>
-                <text x="102" y="315" text-anchor="middle" font-family="monospace" font-size="8" fill="#991b1b" font-weight="bold">τ_spinal = 8 ms</text>
-                <text x="102" y="325" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#7f1d1d">Sub 7 QP → 72 Muscles</text>
+              <!-- Cerebellar Forward Predictor (+10 ms) Node at (356, 186) -->
+              <g id="dnode-cbpred">
+                <rect x="338" y="160" width="54" height="15" rx="3" fill="#fef3c7" stroke="#d97706" stroke-width="1.2"/>
+                <text x="365" y="170" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#92400e" font-weight="bold">⚡CB +10ms</text>
+              </g>
+
+              <!-- Sub 4: Cerebellar Nodulus & Smith Predictor (+2ms / +7ms) -->
+              <g id="dnode-sub4">
+                <rect x="356" y="176" width="126" height="42" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
+                <text x="419" y="191" text-anchor="middle" font-family="sans-serif" font-size="8.2" fill="#1e293b" font-weight="bold">Sub 4: Cerebellum</text>
+                <text x="419" y="202" text-anchor="middle" font-family="monospace" font-size="6.7" fill="#047857" font-weight="bold">⚡ Smith Pred (+2ms/+7ms)</text>
+                <text x="419" y="212" text-anchor="middle" font-family="monospace" font-size="6.4" fill="#64748b">&amp; Mahony SE₂(3) Observer</text>
+              </g>
+
+              <!-- Sub 7: Active-Set QP & Motoneuron Pool (REFERENCE TIME t = 0 ms) -->
+              <g id="dnode-sub7">
+                <rect x="236" y="262" width="84" height="36" rx="4" fill="#e0f2fe" stroke="#0284c7" stroke-width="1.8"/>
+                <text x="278" y="276" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#0c4a6e" font-weight="bold">Sub 7: Spinal QP</text>
+                <text x="278" y="287" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#0369a1" font-weight="bold">★ REF SYNC (t = 0 ms)</text>
+              </g>
+
+              <!-- Sub 6: Spinal CCR Filters (H_ccr Lead) -->
+              <g id="dnode-sub6">
+                <rect x="236" y="314" width="80" height="30" rx="3" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
+                <text x="276" y="327" text-anchor="middle" font-family="sans-serif" font-size="7.8" fill="#1e293b" font-weight="bold">Sub 6: CCR</text>
+                <text x="276" y="338" text-anchor="middle" font-family="monospace" font-size="6.5" fill="#047857" font-weight="bold">⚡ H_ccr Lead (0ms)</text>
+              </g>
+
+              <!-- Sub 3: 72 Muscle Spindles & Decoder (Sensing, 7ms = 126px from Sub 6 & Sub 4) -->
+              <g id="dnode-sub3">
+                <rect x="442" y="304" width="128" height="40" rx="5" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.4"/>
+                <text x="506" y="321" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#1e293b" font-weight="bold">Sub 3: 72 Spindles</text>
+                <text x="506" y="334" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#047857">Luenberger &amp; Decoder</text>
+              </g>
+
+              <!-- Action: 72 Cervical Muscles (8ms = 144px from Sub 7) -->
+              <g id="dnode-muscles">
+                <rect x="10" y="262" width="82" height="36" rx="5" fill="#f1f5f9" stroke="#64748b" stroke-width="1.6"/>
+                <text x="51" y="277" text-anchor="middle" font-family="sans-serif" font-size="8" fill="#0f172a" font-weight="bold">72 Neck Muscles</text>
+                <text x="51" y="289" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#991b1b" font-weight="bold">Arrives @ +8 ms</text>
+              </g>
+
+              <!-- Zero-Delay Internal CNS Links (Sub 5 -> Sub 7 and Sub 6 -> Sub 7, 0 ms) -->
+              <line id="dlink-s5-s7" x1="282" y1="214" x2="282" y2="260" stroke="#94a3b8" stroke-width="2" stroke-dasharray="3,2" marker-end="url(#darr-gray)"/>
+              <text x="304" y="240" font-family="monospace" font-size="6.5" fill="#64748b">0 ms</text>
+              <line id="dlink-s6-s7" x1="276" y1="314" x2="276" y2="300" stroke="#94a3b8" stroke-width="2" stroke-dasharray="3,2" marker-end="url(#darr-gray)"/>
+
+              <!-- ==================== PROPORTIONAL SEGMENTED DELAY PATHS (Populated dynamically: 1 seg = 1 ms = 18 px) ==================== -->
+              <g id="dpath-vest" class="delay-path-group" onmouseenter="highlightDelayPath('vest', 'labyrinth,otolith,scarpa,vn,nodulus')" onmouseleave="clearDelayPathHighlight()"></g>
+              <g id="dpath-prop" class="delay-path-group" onmouseenter="highlightDelayPath('prop', 'spindles,drg,dorsalcol,cuneate,spinocerebellum,nodulus,spinal')" onmouseleave="clearDelayPathHighlight()"></g>
+              <g id="dpath-asc"  class="delay-path-group" onmouseenter="highlightDelayPath('asc', 'nodulus,fastigial,thalamus,m1')" onmouseleave="clearDelayPathHighlight()"></g>
+              <g id="dpath-desc" class="delay-path-group" onmouseenter="highlightDelayPath('desc', 'm1,cst,nodulus,vn,spinal')" onmouseleave="clearDelayPathHighlight()"></g>
+              <g id="dpath-spinal" class="delay-path-group" onmouseenter="highlightDelayPath('spinal', 'spinal,ventralroots')" onmouseleave="clearDelayPathHighlight()"></g>
+
+              <!-- Static Path Segment Count Labels -->
+              <text x="300" y="160" text-anchor="end" font-family="monospace" font-size="6.8" fill="#0369a1" font-weight="bold">2ms (2 seg)</text>
+              <text x="376" y="156" font-family="monospace" font-size="6.8" fill="#0369a1" font-weight="bold">2ms (2 seg)</text>
+              <text x="338" y="216" text-anchor="middle" font-family="monospace" font-size="6.5" fill="#0369a1" font-weight="bold">2ms (2 seg)</text>
+              <text x="474" y="256" font-family="monospace" font-size="7" fill="#047857" font-weight="bold">τ_prop = 7 ms (7 seg)</text>
+              <text x="380" y="341" text-anchor="middle" font-family="monospace" font-size="7" fill="#047857" font-weight="bold">τ_prop = 7 ms (7 seg)</text>
+              <text x="512" y="76" text-anchor="middle" font-family="monospace" font-size="7.2" fill="#6d28d9" font-weight="bold">τ_asc = 20 ms (20 seg)</text>
+              <text x="198" y="156" text-anchor="end" font-family="monospace" font-size="7" fill="#b45309" font-weight="bold">τ_desc = 12 ms (12 seg)</text>
+              <text x="312" y="96" font-family="monospace" font-size="6.8" fill="#b45309" font-weight="bold">10+2 = 12 seg</text>
+              <text x="164" y="269" text-anchor="middle" font-family="monospace" font-size="7.2" fill="#b91c1c" font-weight="bold">τ_spinal = 8 ms (8 seg)</text>
+
+              <!-- ==================== DYNAMIC NODE HIGHLIGHT & FLOATING CLOCK LABELS LAYER ==================== -->
+              <g id="delay-anim-layer" pointer-events="none">
+                <g id="danim-node-flashes"></g>
+                <g id="danim-clock-badges"></g>
+
+                <!-- Bottom Live Synchronization HUD Banner inside SVG (y = 362..406) -->
+                <rect x="6" y="362" width="568" height="44" rx="5" fill="#0f172a" stroke="#334155" stroke-width="1.2"/>
+                <rect id="danim-hud-clock-bg" x="12" y="368" width="124" height="32" rx="4" fill="#1e293b" stroke="#475569" stroke-width="1"/>
+                <text x="74" y="379" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#94a3b8" font-weight="bold">WALL-CLOCK (Sub 7 = 0ms)</text>
+                <text id="danim-hud-clock" x="74" y="393" text-anchor="middle" font-family="monospace" font-size="10.5" fill="#38bdf8" font-weight="bold">T = -39 ms</text>
+
+                <text id="danim-hud-title" x="144" y="379" font-family="monospace" font-size="8.2" fill="#f8fafc" font-weight="bold">Tick -39 ms: Earliest Sensory Departure (Sub 3 Spindles → Sub 4)</text>
+                <text id="danim-hud-eq" x="144" y="394" font-family="monospace" font-size="7.5" fill="#cbd5e1">Signal carries clock [-39ms] and advances 1 segment (1 ms) per tick.</text>
               </g>
             </svg>
+
+            <!-- Interactive Playback Controls & Tick Scrubber Bar -->
+            <div class="mt-1.5 bg-white border border-slate-300 rounded px-2 py-1.5 flex flex-col gap-1">
+              <div class="flex items-center gap-1.5">
+                <button id="danim-play-btn" onclick="toggleDelayAnimPlay()"
+                        class="px-2 py-0.5 rounded bg-sky-700 hover:bg-sky-800 text-white font-mono text-[9.5px] font-bold shrink-0">
+                  ⏸ Pause
+                </button>
+                <button onclick="stepDelayTick(-1)"
+                        class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-mono text-[9px] font-bold shrink-0"
+                        title="Step backward 1 ms (-1 segment)">
+                  ◀ -1ms
+                </button>
+                <button onclick="stepDelayTick(1)"
+                        class="px-1.5 py-0.5 rounded bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-800 font-mono text-[9px] font-bold shrink-0"
+                        title="Step forward 1 ms (+1 segment)">
+                  +1ms ▶
+                </button>
+                <button id="danim-speed-btn" onclick="toggleDelayAnimSpeed()"
+                        class="px-1.5 py-0.5 rounded bg-amber-50 hover:bg-amber-100 border border-amber-300 text-amber-900 font-mono text-[8.5px] font-bold shrink-0"
+                        title="Toggle tick interval (1.0s/ms real-time vs 0.4s/ms vs 0.15s/ms)">
+                  1.0s / ms
+                </button>
+                <input id="danim-slider" type="range" min="-39" max="8" step="1" value="-39"
+                       oninput="scrubDelayAnim(this.value)"
+                       class="flex-1 h-1.5 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-sky-700"/>
+                <span id="danim-phase-badge" class="px-1.5 py-0.5 rounded bg-sky-50 border border-sky-300 text-sky-800 font-mono text-[8.5px] font-bold shrink-0">
+                  Ref: Sub 7 @ 0 ms
+                </span>
+              </div>
+              <div id="danim-narration" class="text-[9.5px] font-mono text-slate-700 leading-snug bg-slate-50 border border-slate-200 rounded px-2 py-1">
+                Every path is divided into 1 ms segments (18 px/ms). Each tick advances all active signals by 1 segment; crossing a predictive node propels the signal's clock label forward so all paths arrive at <strong>Sub 7</strong> with <strong>[🕒 0 ms]</strong>!
+              </div>
+            </div>
 
             <!-- Closed-Loop Sensor-to-Action Latency Summary Bar (Calm Gray Cards with Colored Accent Border) -->
             <div class="mt-1.5 grid grid-cols-3 gap-1.5 text-[9.5px] font-mono">
               <div class="bg-slate-50 border border-slate-300 border-l-4 border-l-sky-600 rounded px-2 py-1 text-slate-800 cursor-pointer hover:bg-slate-100"
+                   onclick="jumpDelayTick(-2)"
                    onmouseenter="highlightDelayPath('vest,spinal', 'labyrinth,otolith,scarpa,vn,mvst,spinal,ventralroots')"
                    onmouseleave="clearDelayPathHighlight()">
                 <div class="font-bold">1. VCR Loop: 10 ms</div>
-                <div class="text-[8.5px] text-slate-600">2ms Vest + 8ms Spinal</div>
+                <div class="text-[8.5px] text-slate-600">2 seg Vest + 8 seg Spinal</div>
               </div>
               <div class="bg-slate-50 border border-slate-300 border-l-4 border-l-emerald-600 rounded px-2 py-1 text-slate-800 cursor-pointer hover:bg-slate-100"
+                   onclick="jumpDelayTick(-7)"
                    onmouseenter="highlightDelayPath('prop,spinal', 'spindles,drg,spinal,ventralroots')"
                    onmouseleave="clearDelayPathHighlight()">
                 <div class="font-bold">2. CCR Loop: 15 ms</div>
-                <div class="text-[8.5px] text-slate-600">7ms Prop + 8ms Spinal</div>
+                <div class="text-[8.5px] text-slate-600">7 seg Prop + 8 seg Spinal</div>
               </div>
               <div class="bg-slate-50 border border-slate-300 border-l-4 border-l-violet-600 rounded px-2 py-1 text-slate-800 cursor-pointer hover:bg-slate-100"
+                   onclick="jumpDelayTick(-32)"
                    onmouseenter="highlightDelayPath('asc,desc,spinal', 'nodulus,thalamus,m1,cst,spinal,ventralroots')"
                    onmouseleave="clearDelayPathHighlight()">
                 <div class="font-bold">3. Cortical: 40 ms</div>
-                <div class="text-[8.5px] text-slate-600">20ms + 12ms + 8ms</div>
+                <div class="text-[8.5px] text-slate-600">20 + 12 + 8 = 40 seg</div>
               </div>
             </div>
           </div>
@@ -1942,6 +1984,33 @@ Output:  inhibited_ccr_drive[1..72] ← γ_inhib odot u_ccr`,
           "Output: inhibited_ccr_drive[72] (to Lamina IX Motoneuron Pool Sum)"
         ]
       },
+      s7_gamma: {
+        type: "Lamina IX Gamma-Motoneuron Coactivation Branch",
+        title: "Supraspinal Gamma-Motoneuron Coactivation Gain (Before CCR Sum)",
+        desc: "Branches directly off the supraspinal QP synergy output u_α[72] BEFORE the segmental CCR reflex is summed at the α-motoneuron pool. Computes the dynamic (Bag1) and static (Bag2/Chain) fusimotor firing rates γ_dyn,i and γ_stat,i (in imp/s). As established by Hulliger (1984) and Burke et al. (1979), monosynaptic Ia spindle afferents project strictly to α-motoneurons and never to γ-motoneurons, preventing a positive-feedback Ia → u_ccr → γ → Ia loop and keeping Subsystem 3's fusimotor efference copy 100% matched.",
+        latex: String.raw`\gamma_{\text{dyn},i}(t) = \underbrace{100\,K_{\gamma,\text{dyn}}\,u_{\alpha,i}(t)}_{\text{Bag}_1\text{ drive (imp/s)}}, \qquad \gamma_{\text{stat},i}(t) = \underbrace{100\,K_{\gamma,\text{stat}}\,u_{\alpha,i}(t)}_{\text{Bag}_2/\text{Chain drive (imp/s)}}, \qquad i \in \{1,\dots,72\}`,
+        math:
+`Input:   alpha_motor_excitations u_α[1..72] [directly from Active-Set QP before CCR sum]
+Params:  fusimotor gains K_γ,dyn (CMA-ES #11), K_γ,stat (CMA-ES #12),
+         unit-conversion constant γ_max = 100.0 imp/s
+
+For each muscle i ∈ {1..72} do:
+   γ_dyn[i]  ← 100.0 · K_γ,dyn  · u_α[i]
+   γ_stat[i] ← 100.0 · K_γ,stat · u_α[i]
+
+Outputs: γ_dyn[1..72], γ_stat[1..72] (to 8 ms Spinal Delay Block)`,
+        params: [
+          {
+            label: "Why γ Branches Before the CCR Sum (Hulliger, 1984; Burke et al., 1979)",
+            derivTitle: "Absence of Monosynaptic Ia Autogenetic Excitation on Gamma-Motoneurons",
+            derivDesc: "In mammalian spinal cords, monosynaptic Ia spindle afferents synapse exclusively on homonymous α-motoneurons and never on γ-motoneurons (Hulliger, 1984; Burke et al., 1979). Branching u_α to the γ-motoneurons before adding u_ccr breaks the positive-feedback loop (Ia ↑ → u_ccr ↑ → γ ↑ → intrafusal tension ↑ → Ia ↑) and ensures the CNS fusimotor efference copy in Subsystem 3 cancels intrafusal bias exactly:",
+            derivLatex: String.raw`\frac{\partial \gamma_{\text{dyn/stat},i}}{\partial u_{\text{ccr},i}} = 0 \implies \text{No positive }\text{Ia}\to u_{\text{ccr}}\to\gamma\to\text{Ia}\text{ loop (Hulliger, 1984)}`
+          },
+          "100.0 imp/s : Converts dimensionless u_α ∈ [0, 1] into spike rate (imp/s)",
+          "K_gamma_dyn (CMA-ES #11): Dynamic fusimotor Bag1 coactivation gain",
+          "K_gamma_stat (CMA-ES #12): Static fusimotor Bag2/Chain coactivation gain"
+        ]
+      },
       s7_mn_sum: {
         type: "Lamina IX Alpha-Motoneuron Pool Summing Junction & Clamp",
         title: "Spinal Alpha-Motoneuron Pool Excitation Sum & Clamp (Forming spinal_motor_excitations)",
@@ -1956,30 +2025,32 @@ For each muscle i ∈ {1..72} do:
    unclamped_excitation[i]     ← u_α[i] + inhibited_ccr_drive[i]
    spinal_motor_excitations[i] ← clamp(unclamped_excitation[i], u_min[i], 1.0)
 
-Output:  spinal_motor_excitations[1..72] (stored in HistoryRecord for τ_spinal = 8 ms delay)`,
+Output:  spinal_motor_excitations u_pool[1..72] (to 8 ms Spinal Delay Block)`,
         params: [
           "u_α[72] : Supraspinal synergy drive (allocating τ_vol + τ_VCR)",
           "γ_inhib · u_ccr[72] : Segmental Ia stretch reflex drive",
-          "Output: spinal_motor_excitations[72] ∈ [u_min,i, 1.0] (to 8 ms Spinal Delay Block)"
+          "Output: spinal_motor_excitations u_pool[72] ∈ [u_min,i, 1.0] (to 8 ms Spinal Delay Block)"
         ]
       },
       s7_delay_out: {
         type: "Shared Spinal Circuit & Ventral Root Efferent Delay Block",
         title: "Spinal QP/Pool & Ventral Root Execution Delay (τ_spinal = 8 ms)",
-        desc: "Models the shared 8 ms C1–C8 spinal interneuron (Active-Set QP synergy recruitment), Lamina IX α/γ-motoneuron integration, and ventral-root axonal conduction delay from the cervical spinal cord to the 72 muscle endplates. Placing τ_spinal = 8 ms after the QP and Motoneuron Pool simultaneously completes all three sensor-to-muscle loop latencies (VCR = 2 + 8 = 10 ms; CCR = 7 + 8 = 15 ms; Cortical = 20 + 12 + 8 = 40 ms).",
-        latex: String.raw`u_{\text{final},i}(t) = u_{\text{pool},i}(t - \tau_{\text{spinal}}), \qquad u_{\alpha,\text{del},i}(t) = u_{\alpha,i}(t - \tau_{\text{spinal}}), \qquad \tau_{\text{spinal}} = \tau_{\text{vcr}} - \tau_{\text{vest}} = 8\text{ ms}`,
+        desc: "Models the shared 8 ms C1–C8 spinal interneuron (Active-Set QP synergy recruitment), Lamina IX α/γ-motoneuron integration, and ventral-root axonal conduction delay from the cervical spinal cord to the 72 muscle endplates along both the parallel γ-fusimotor branch and the α-motoneuron pool branch. Placing τ_spinal = 8 ms here simultaneously completes all three sensor-to-muscle loop latencies (VCR = 2 + 8 = 10 ms; CCR = 7 + 8 = 15 ms; Cortical = 20 + 12 + 8 = 40 ms).",
+        latex: String.raw`\gamma_{\text{dyn/stat},i}(t - \tau_{\text{spinal}}), \qquad u_{\text{final},i}(t) = u_{\text{pool},i}(t - \tau_{\text{spinal}}), \qquad \tau_{\text{spinal}} = \tau_{\text{vcr}} - \tau_{\text{vest}} = 8\text{ ms}`,
         math:
-`Inputs:  spinal_motor_excitations u_pool(t)[1..72], spinal_alpha_excitations u_α(t)[1..72]
+`Inputs:  γ_dyn(t)[1..72], γ_stat(t)[1..72]   [from Gamma Coactivation Branch]
+         spinal_motor_excitations u_pool(t)[1..72] [from Alpha-Motoneuron Pool Sum]
 Params:  τ_spinal = delay_vcr - delay_vestibular = 0.010 - 0.002 = 0.008 s (8 ms)
 
-1. Record current spinal motoneuron pool & α-synergy excitations into HistoryRecord at time t:
+1. Record current spinal α-pool & γ-coactivation excitations into HistoryRecord at time t:
    history_buffer ← store (u_pool(t), u_α(t))
 
-2. Interpolate delayed excitations arriving at the 72 cervical muscle endplates at t - τ_spinal:
+2. Interpolate delayed α and γ excitations arriving at the 72 cervical muscle endplates at t - τ_spinal:
    u_final[1..72]   ← interpolate(u_pool, t - τ_spinal)
-   u_α_del[1..72]   ← interpolate(u_α,    t - τ_spinal)
+   γ_dyn_del[1..72] ← 100.0 · K_γ,dyn  · interpolate(u_α, t - τ_spinal)
+   γ_stat_del[1..72]← 100.0 · K_γ,stat · interpolate(u_α, t - τ_spinal)
 
-Outputs: u_final[1..72], u_α_del[1..72] (to Alpha-Gamma Coactivation Mux)`,
+Outputs: γ_dyn_del[1..72], γ_stat_del[1..72], u_final[1..72] (to 3×72 Actuator Bus Mux)`,
         params: [
           {
             label: "τ_spinal = 0.008 s : Unifies VCR (10 ms), CCR (15 ms) & Cortical (40 ms)",
@@ -1989,40 +2060,29 @@ Outputs: u_final[1..72], u_α_del[1..72] (to Alpha-Gamma Coactivation Mux)`,
             derivDesc: "Because the Voluntary, VCR, and CCR pathways all converge on the C1–C8 spinal synergy / motoneuron pool in Subsystem 7 before exiting via the C1–C8 ventral roots to the 72 muscles, crediting τ_spinal = 8 ms to Subsystem 7's output eliminates the need for a separate delay block in Subsystem 6 (7 + 0 + 8 = 15 ms), eliminates the separate output delay in Subsystem 5 (2 + 0 + 8 = 10 ms), and unifies Subsystem 1's descending delay to 12 ms (20 + 12 + 8 = 40 ms):",
             derivLatex: String.raw`\tau_{\text{spinal}} = \mathbf{8.0\text{ ms}} \implies \begin{cases} \tau_{\text{VCR,loop}} = \tau_{\text{vest}}(2\text{ ms}) + \tau_{\text{spinal}}(8\text{ ms}) = \mathbf{10.0\text{ ms}} \\ \tau_{\text{CCR,loop}} = \tau_{\text{prop}}(7\text{ ms}) + \tau_{\text{spinal}}(8\text{ ms}) = \mathbf{15.0\text{ ms}} \\ \tau_{\text{Vol,loop}} = \tau_{\text{asc}}(20\text{ ms}) + \tau_{\text{desc}}(12\text{ ms}) + \tau_{\text{spinal}}(8\text{ ms}) = \mathbf{40.0\text{ ms}} \end{cases}`
           },
-          "Outputs: u_final[72], u_α_del[72] (arriving at 72 Millard muscles & Mileusnic spindles)"
+          "Outputs: Delayed parallel γ_dyn/stat[72] and u_final[72] wires (to Bus Mux)"
         ]
       },
       s7_mux: {
-        type: "Alpha-Gamma Coactivation Mux",
-        title: "Alpha-Gamma Coactivation Bus Builder (3×72 Actuator Dispatch)",
-        desc: "Combines the 8 ms-delayed alpha-motoneuron excitation u_final,i(t) (supraspinal QP + segmental Ia CCR) with the coactivated dynamic and static fusimotor drives (γ_dyn, γ_stat) computed strictly from the 8 ms-delayed supraspinal synergy command u_α,del,i(t) (excluding u_ccr). As established by Hulliger (1984) and Burke et al. (1979), monosynaptic Ia spindle afferents synapse exclusively on α-motoneurons and never on γ-motoneurons, preventing a positive-feedback Ia → u_ccr → γ → Ia instability loop while dispatching the 3×72 control bus to OpenSim's Millard muscles and Mileusnic spindles.",
-        latex: String.raw`\text{ctrl}_{0,i}(t) = u_{\text{final},i}(t), \qquad \gamma_{\text{dyn},i}(t) = \underbrace{100\,K_{\gamma,\text{dyn}}\,u_{\alpha,\text{del},i}(t)}_{\text{Bag}_1\text{ drive (imp/s)}}, \qquad \gamma_{\text{stat},i}(t) = \underbrace{100\,K_{\gamma,\text{stat}}\,u_{\alpha,\text{del},i}(t)}_{\text{Bag}_2/\text{Chain drive (imp/s)}}`,
+        type: "3×72 Actuator Bus Creator",
+        title: "3×72 Muscle-Spindle Control Bus Mux",
+        desc: "Pure Simulink Bus Creator that bundles the 8 ms-delayed α-motoneuron excitation u_final,i(t - 8ms) (from the lower α-pool sum branch) with the 8 ms-delayed dynamic and static γ-fusimotor drives γ_dyn,i(t - 8ms), γ_stat,i(t - 8ms) (from the upper γ-coactivation branch) into the 3×72 OpenSim control vector controls[3×72].",
+        latex: String.raw`\text{controls}_i(t) = \begin{bmatrix} \text{ctrl}_{0,i}(t) \\ \text{ctrl}_{1,i}(t) \\ \text{ctrl}_{2,i}(t) \end{bmatrix} = \begin{bmatrix} u_{\text{final},i}(t - \tau_{\text{spinal}}) \\ \gamma_{\text{dyn},i}(t - \tau_{\text{spinal}}) \\ \gamma_{\text{stat},i}(t - \tau_{\text{spinal}}) \end{bmatrix}, \qquad i \in \{1,\dots,72\}`,
         math:
-`Inputs:  u_final[1..72], u_α_del[1..72] [from 8 ms Spinal Delay Block]
-Params:  u_min[1..72], fusimotor gains K_γ,dyn (CMA-ES #11), K_γ,stat (CMA-ES #12)
+`Inputs:  1: γ_dyn_del[1..72], γ_stat_del[1..72] [from upper Gamma Coactivation wire after 8 ms delay]
+         2: u_final[1..72]                      [from lower Alpha Pool Sum wire after 8 ms delay]
 
 For each muscle i ∈ {1..72} do:
-   1. Clamped delayed α-motoneuron excitation ∈ [u_min[i], 1.0]:
-      ctrl_0[i] ← clamp(u_final[i], u_min[i], 1.0)
-
-   2. Compute coactivated dynamic & static fusimotor drives (from delayed descending u_α_del[i] only; Hulliger, 1984):
-      γ_dyn[i]  ← 100.0 · K_γ,dyn  · u_α_del[i]
-      γ_stat[i] ← 100.0 · K_γ,stat · u_α_del[i]
-
-   3. Pack 3-channel muscle-spindle actuator command:
-      controls[i] ← [ctrl_0[i], γ_dyn[i], γ_stat[i]]
+   ctrl_0[i]   ← clamp(u_final[i], u_min[i], 1.0)   (Alpha extrafusal command)
+   ctrl_1[i]   ← γ_dyn_del[i]                       (Gamma dynamic Bag1 command, imp/s)
+   ctrl_2[i]   ← γ_stat_del[i]                      (Gamma static Bag2/Chain command, imp/s)
+   controls[i] ← [ctrl_0[i], ctrl_1[i], ctrl_2[i]]
 
 Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
         params: [
-          {
-            label: "Why γ_dyn & γ_stat Use Supraspinal u_α,del Instead of u_final (Hulliger, 1984)",
-            derivTitle: "Absence of Monosynaptic Ia Autogenetic Excitation on Gamma-Motoneurons (Hulliger, 1984; Burke et al., 1979)",
-            derivDesc: "In mammalian spinal cords, monosynaptic Ia spindle afferents project strictly to homonymous α-motoneurons and do not make excitatory autogenetic connections onto γ-motoneurons (Hulliger, 1984; Burke et al., 1979). Driving γ_dyn and γ_stat from the supraspinal QP synergy u_α,del rather than the post-CCR sum u_final = u_α + γ_inhib·u_ccr breaks the positive-feedback loop (Ia ↑ → u_ccr ↑ → γ ↑ → intrafusal tension ↑ → Ia ↑):",
-            derivLatex: String.raw`\frac{\partial \gamma_{\text{dyn/stat},i}}{\partial u_{\text{ccr},i}} = 0 \implies \text{No positive }\text{Ia}\to u_{\text{ccr}}\to\gamma\to\text{Ia}\text{ loop (Hulliger, 1984)}`
-          },
-          "u_final[i] : Delayed α-motoneuron excitation ∈ [u_min,i, 1.0]",
-          "K_gamma_dyn (CMA-ES #11): Dynamic fusimotor Bag1 coactivation gain",
-          "K_gamma_stat (CMA-ES #12): Static fusimotor Bag2/Chain coactivation gain"
+          "ctrl[0] = u_final(t - 8ms) : Alpha extrafusal excitation ∈ [u_min,i, 1.0]",
+          "ctrl[1] = γ_dyn(t - 8ms) : Dynamic fusimotor Bag1 drive (imp/s)",
+          "ctrl[2] = γ_stat(t - 8ms) : Static fusimotor Bag2/Chain drive (imp/s)"
         ]
       }
     };
@@ -3232,43 +3292,55 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
               <text x="479" y="267" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#d97706">(C1–C8 Ia Inhibitory INs)</text>
             </g>
 
-            <!-- Block 4: Lamina IX Motoneuron Pool Summing Junction & Clamp -->
+            <!-- Block 4a (Upper Branch): Supraspinal Gamma Coactivation Gain (Before CCR Sum) -->
+            <g class="sim-block" onclick="inspectBlock('s7_gamma', this)">
+              <rect x="630" y="14" width="176" height="58" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
+              <text x="718" y="29" text-anchor="middle" font-family="sans-serif" font-size="8.0" font-weight="bold">Gamma Coactivation Gain</text>
+              <text x="718" y="42" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#b91c1c">γ_dyn = 100·K_γ,dyn(#11)·u_α</text>
+              <text x="718" y="54" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#b91c1c">γ_stat = 100·K_γ,stat(#12)·u_α</text>
+              <text x="718" y="66" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#0284c7">Before CCR Sum (Hulliger, 1984)</text>
+              <text x="718" y="83" text-anchor="middle" font-family="sans-serif" font-size="6.6" fill="#15803d">(Supraspinal Fusimotor Branch)</text>
+              <text x="718" y="92" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(Lamina IX γ-Motoneurons)</text>
+            </g>
+
+            <!-- Block 4b (Lower Branch): Lamina IX Alpha-Motoneuron Pool Summing Junction & Clamp -->
             <g class="sim-block" onclick="inspectBlock('s7_mn_sum', this)">
-              <circle cx="634" cy="134" r="15" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="634" y="128" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold">+</text>
-              <text x="634" y="144" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold">+</text>
-              <text x="634" y="162" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#15803d">(Pool Sum &amp; Clamp)</text>
-              <text x="634" y="171" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#d97706">(Lamina IX Soma)</text>
+              <circle cx="660" cy="152" r="15" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
+              <text x="652" y="155" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold">+</text>
+              <text x="660" y="164" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold">+</text>
+              <text x="724" y="149" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#15803d">(α-Pool Sum &amp; Clamp [u_min, 1])</text>
+              <text x="724" y="159" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#d97706">(Lamina IX α-Soma)</text>
             </g>
 
-            <!-- Block 5: Shared Spinal Circuit & Ventral Root Execution Delay (τ_spinal = 8 ms) -->
+            <!-- Block 5: Shared Spinal Circuit & Ventral Root Execution Delay (τ_spinal = 8 ms, spanning both γ and α wires) -->
             <g class="sim-block" onclick="inspectBlock('s7_delay_out', this)">
-              <rect x="688" y="102" width="136" height="64" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8"/>
-              <text x="756" y="118" text-anchor="middle" font-family="sans-serif" font-size="8.1" font-weight="bold" fill="#7f1d1d">Spinal &amp; Root Delay</text>
-              <text x="756" y="131" text-anchor="middle" font-family="monospace" font-size="7.2" fill="#991b1b">e^(-τ_spinal · s)</text>
-              <text x="756" y="144" text-anchor="middle" font-family="monospace" font-size="7.2" fill="#dc2626" font-weight="bold">τ_spinal = 8 ms</text>
-              <text x="756" y="157" text-anchor="middle" font-family="monospace" font-size="6.4" fill="#7f1d1d">VCR=10, CCR=15, Vol=40ms</text>
-              <text x="756" y="178" text-anchor="middle" font-family="sans-serif" font-size="6.7" fill="#15803d">(Shared Spinal Execution Delay)</text>
-              <text x="756" y="187" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#d97706">(C1–C8 QP/Pool &amp; Ventral Roots)</text>
+              <rect x="832" y="20" width="116" height="150" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8"/>
+              <text x="890" y="72" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#7f1d1d">Spinal &amp; Root Delay</text>
+              <text x="890" y="86" text-anchor="middle" font-family="monospace" font-size="7.1" fill="#991b1b">e^(-τ_spinal · s)</text>
+              <text x="890" y="100" text-anchor="middle" font-family="monospace" font-size="7.1" fill="#dc2626" font-weight="bold">τ_spinal = 8 ms</text>
+              <text x="890" y="114" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#7f1d1d">VCR=10, CCR=15, Vol=40ms</text>
+              <text x="890" y="182" text-anchor="middle" font-family="sans-serif" font-size="6.6" fill="#15803d">(Shared α &amp; γ Axonal Delay)</text>
+              <text x="890" y="191" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(C1–C8 Ventral Roots)</text>
             </g>
 
-            <!-- Block 6: Alpha-Gamma Coactivation Mux -->
+            <!-- Block 6: 3×72 Actuator Bus Creator Mux (bundles parallel delayed γ and α wires) -->
             <g class="sim-block" onclick="inspectBlock('s7_mux', this)">
-              <rect x="862" y="100" width="156" height="68" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="940" y="116" text-anchor="middle" font-family="sans-serif" font-size="8.3" font-weight="bold">Alpha-Gamma Bus Mux</text>
-              <text x="940" y="130" text-anchor="middle" font-family="monospace" font-size="7">ctrl[0] = u_final(t - 8ms)</text>
-              <text x="940" y="143" text-anchor="middle" font-family="monospace" font-size="6.9" fill="#b91c1c">ctrl[1] = 100·K_γ,dyn(#11)·u_α</text>
-              <text x="940" y="156" text-anchor="middle" font-family="monospace" font-size="6.9" fill="#b91c1c">ctrl[2] = 100·K_γ,stat(#12)·u_α</text>
-              <text x="940" y="180" text-anchor="middle" font-family="sans-serif" font-size="6.7" fill="#15803d">(3×72 Coactivation Bus)</text>
-              <text x="940" y="189" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#d97706">(α &amp; γ Motor Axons)</text>
+              <rect x="972" y="20" width="76" height="150" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
+              <text x="1010" y="36" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold">Bus Mux</text>
+              <text x="1010" y="50" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#b91c1c">ctrl[1] ← γ_dyn</text>
+              <text x="1010" y="61" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#b91c1c">ctrl[2] ← γ_stat</text>
+              <text x="1010" y="102" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#6b7280">[ctrl_0, γ_1, γ_2]</text>
+              <text x="1010" y="154" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#111827">ctrl[0] ← u_final</text>
+              <text x="1010" y="182" text-anchor="middle" font-family="sans-serif" font-size="6.6" fill="#15803d">(3×72 Bus Creator)</text>
+              <text x="1010" y="191" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(α &amp; γ Motor Axons)</text>
             </g>
 
             <!-- Output 1: controls[3×72] -->
             <g class="sim-block" data-brain="ventralroots">
-              <rect x="1044" y="122" width="108" height="24" rx="12" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>
-              <text x="1098" y="137" text-anchor="middle" font-family="monospace" font-size="7.8" font-weight="bold">1: controls[3×72]</text>
-              <text x="1098" y="156" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#15803d">(To 72 Millard Muscles)</text>
-              <text x="1098" y="165" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#d97706">(C1–C8 Ventral Roots)</text>
+              <rect x="1064" y="83" width="92" height="24" rx="12" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>
+              <text x="1110" y="98" text-anchor="middle" font-family="monospace" font-size="7.3" font-weight="bold">1: controls[3×72]</text>
+              <text x="1110" y="117" text-anchor="middle" font-family="sans-serif" font-size="6.6" fill="#15803d">(To 72 Muscles)</text>
+              <text x="1110" y="126" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(NMJ &amp; Spindles)</text>
             </g>
 
             <!-- Arrows: Inputs 1 & 2 -> Descending Torque Sum (s7_torque_sum) -->
@@ -3295,33 +3367,44 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
             <line x1="356" y1="232" x2="380" y2="232" stroke="#0284c7" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#arrow7)"/>
             <text x="270" y="279" text-anchor="middle" font-family="monospace" font-size="6.5" fill="#0284c7">g_vol ∈ [0, 1]</text>
 
-            <!-- u_α[72] branch from Active-Set QP down to Reciprocal Inhibition & right to Motoneuron Sum -->
-            <line x1="576" y1="72" x2="634" y2="72" stroke="#111827" stroke-width="1.4"/>
-            <line x1="634" y1="72" x2="634" y2="117" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
-            <text x="605" y="63" text-anchor="middle" font-family="monospace" font-size="6.4" fill="#6b7280">u_α[72]</text>
+            <!-- u_α[72] output from Active-Set QP splitting BEFORE s7_mn_sum into Upper (Gamma) & Lower (Alpha Pool Sum) -->
+            <line x1="576" y1="72" x2="612" y2="72" stroke="#111827" stroke-width="1.4"/>
+            <text x="594" y="64" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#6b7280">u_α[72]</text>
 
-            <!-- Dotted u_α[72] collateral into Reciprocal Inhibition (s7_recip) -->
+            <!-- Branch 1 (Up): u_α[72] -> Gamma Coactivation Gain (s7_gamma) -->
+            <line x1="612" y1="72" x2="612" y2="43" stroke="#111827" stroke-width="1.4"/>
+            <line x1="612" y1="43" x2="628" y2="43" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+
+            <!-- Branch 2 (Down): u_α[72] -> Alpha-Motoneuron Pool Sum (s7_mn_sum) -->
+            <line x1="612" y1="72" x2="612" y2="152" stroke="#111827" stroke-width="1.4"/>
+            <line x1="612" y1="152" x2="643" y2="152" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <text x="627" y="145" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#6b7280">u_α</text>
+
+            <!-- Branch 3 (Dotted Collateral): u_α[72] synergy gate into Reciprocal Inhibition (s7_recip) -->
             <line x1="594" y1="72" x2="594" y2="155" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="3,2"/>
             <line x1="594" y1="155" x2="479" y2="155" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="3,2"/>
             <line x1="479" y1="155" x2="479" y2="180" stroke="#0284c7" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arrow7)"/>
             <text x="536" y="149" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#0284c7">u_α[72] synergy gate</text>
 
-            <!-- Arrow: Reciprocal Inhibition -> Motoneuron Sum -->
-            <line x1="576" y1="214" x2="634" y2="214" stroke="#111827" stroke-width="1.4"/>
-            <line x1="634" y1="214" x2="634" y2="176" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
-            <text x="605" y="226" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#6b7280">γ_inhib·u_ccr</text>
+            <!-- Arrow: Reciprocal Inhibition -> Alpha-Motoneuron Pool Sum (s7_mn_sum) -->
+            <line x1="576" y1="214" x2="660" y2="214" stroke="#111827" stroke-width="1.4"/>
+            <line x1="660" y1="214" x2="660" y2="169" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <text x="618" y="225" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#6b7280">γ_inhib·u_ccr</text>
 
-            <!-- Arrow: Motoneuron Sum -> 8 ms Spinal Delay Block (s7_delay_out) -->
-            <line x1="649" y1="134" x2="686" y2="134" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
-            <text x="668" y="124" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#6b7280">u_pool</text>
+            <!-- Parallel Upper Wire: Gamma Coactivation (s7_gamma) -> 8 ms Spinal Delay -> Bus Mux -->
+            <line x1="806" y1="43" x2="830" y2="43" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <text x="818" y="36" text-anchor="middle" font-family="monospace" font-size="5.8" fill="#b91c1c">γ</text>
+            <line x1="948" y1="43" x2="970" y2="43" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow7)"/>
+            <text x="959" y="35" text-anchor="middle" font-family="monospace" font-size="5.7" fill="#dc2626">t-8ms</text>
 
-            <!-- Arrow: 8 ms Spinal Delay Block -> Alpha-Gamma Mux -->
-            <line x1="824" y1="134" x2="860" y2="134" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow7)"/>
-            <text x="842" y="124" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#dc2626">t-8ms</text>
+            <!-- Parallel Lower Wire: Alpha Pool Sum (s7_mn_sum) -> 8 ms Spinal Delay -> Bus Mux -->
+            <line x1="675" y1="152" x2="830" y2="152" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <text x="795" y="145" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#6b7280">u_pool</text>
+            <line x1="948" y1="152" x2="970" y2="152" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow7)"/>
+            <text x="959" y="144" text-anchor="middle" font-family="monospace" font-size="5.7" fill="#dc2626">t-8ms</text>
 
-            <!-- Arrow: Alpha-Gamma Mux -> Output -->
-            <line x1="1018" y1="134" x2="1042" y2="134" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
-            <text x="1030" y="124" text-anchor="middle" font-family="monospace" font-size="6.2" fill="#6b7280">3×72</text>
+            <!-- Arrow: Bus Mux -> Output -->
+            <line x1="1048" y1="95" x2="1062" y2="95" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
           </svg>
         `
       }
@@ -3369,6 +3452,7 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       s7_torque_sum:{ regions: "cst,mvst,spinal" },
       s7_qp:        { regions: "spinal" },
       s7_recip:     { regions: "spinal" },
+      s7_gamma:     { regions: "spinal,ventralroots" },
       s7_mn_sum:    { regions: "spinal,ventralroots" },
       s7_delay_out: { regions: "spinal,ventralroots" },
       s7_mux:       { regions: "spinal,ventralroots" }
@@ -3447,10 +3531,542 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       s1_delay: 'asc',
       s1_desc_delay: 'desc',
       s4_delays: 'vest,prop',
+      s4_smith: 'vest,prop',
+      s4_oto: 'vest',
+      s4_prop: 'prop',
+      s4_sum: 'vest,prop',
       s5_fwd_cb: 'desc,vest',
+      s5_eff_ton: 'desc,vest',
+      s5_eff_sc: 'desc,vest',
+      s5_eff_phas: 'desc,vest',
+      s6_ccr: 'prop,spinal',
       s7_delay_out: 'spinal'
     };
+    const DELAY_BLOCK_START_TICK = {
+      top_hist: -39,
+      s1_delay: -32,
+      s1_desc_delay: -12,
+      s4_delays: -9,
+      s4_smith: -9,
+      s4_oto: -4,
+      s4_prop: -9,
+      s4_sum: -3,
+      s5_fwd_cb: -4,
+      s5_eff_ton: -3,
+      s5_eff_sc: -3,
+      s5_eff_phas: -3,
+      s6_ccr: -7,
+      s7_delay_out: 0
+    };
     let _defaultDelayHighlight = null;
+
+    // ==================== PROPORTIONAL 1-MS SEGMENTED ALL-PATH SYNCHRONIZATION ANIMATOR ====================
+    // Every path is subdivided into N segments where 1 segment = 1 ms = 18.0 px.
+    const SEGMENTED_PATHS = [
+      {
+        id: 'vest_s5', group: 'dpath-vest', n: 2, color: '#0284c7',
+        subsegments: [ { pts: [[316, 146], [296, 176]], n: 2 } ]
+      },
+      {
+        id: 'vest_s4', group: 'dpath-vest', n: 2, color: '#0284c7',
+        subsegments: [ { pts: [[360, 146], [380, 176]], n: 2 } ]
+      },
+      {
+        id: 'cb_s5', group: 'dpath-vest', n: 2, color: '#0284c7',
+        subsegments: [ { pts: [[356, 204], [320, 204]], n: 2 } ]
+      },
+      {
+        id: 'prop_s4', group: 'dpath-prop', n: 7, color: '#059669',
+        subsegments: [ { pts: [[502, 304], [410, 218]], n: 7 } ]
+      },
+      {
+        id: 'prop_s6', group: 'dpath-prop', n: 7, color: '#059669',
+        subsegments: [ { pts: [[442, 328], [316, 328]], n: 7 } ]
+      },
+      {
+        id: 'asc', group: 'dpath-asc', n: 20, color: '#7c3aed',
+        subsegments: [
+          { pts: [[482, 190], [550, 124], [498, 36], [446, 36]], n: 14 },
+          { pts: [[398, 36], [292, 36]], n: 6 }
+        ]
+      },
+      {
+        id: 'desc_s7', group: 'dpath-desc', n: 12, color: '#d97706',
+        subsegments: [ { pts: [[196, 52], [248, 262]], n: 12 } ]
+      },
+      {
+        id: 'desc_cb', group: 'dpath-desc', n: 12, color: '#d97706',
+        subsegments: [
+          { pts: [[264, 52], [272, 124], [356, 175]], n: 10 },
+          { pts: [[356, 188], [320, 188]], n: 2 }
+        ]
+      },
+      {
+        id: 'spinal', group: 'dpath-spinal', n: 8, color: '#dc2626',
+        subsegments: [ { pts: [[236, 280], [92, 280]], n: 8 } ]
+      }
+    ];
+
+    const _segGeom = {}; // pathId -> Array of { x1, y1, x2, y2, mx, my }
+    let _segMapInitialized = false;
+
+    function samplePolyline(pts, u) {
+      let totalLen = 0;
+      const lens = [];
+      for (let i = 0; i < pts.length - 1; i++) {
+        const dx = pts[i+1][0] - pts[i][0];
+        const dy = pts[i+1][1] - pts[i][1];
+        const L = Math.hypot(dx, dy);
+        lens.push(L);
+        totalLen += L;
+      }
+      const target = Math.max(0, Math.min(1, u)) * totalLen;
+      let acc = 0;
+      for (let i = 0; i < lens.length; i++) {
+        if (acc + lens[i] >= target || i === lens.length - 1) {
+          const localU = lens[i] > 0 ? (target - acc) / lens[i] : 0;
+          return [
+            pts[i][0] + (pts[i+1][0] - pts[i][0]) * localU,
+            pts[i][1] + (pts[i+1][1] - pts[i][1]) * localU
+          ];
+        }
+        acc += lens[i];
+      }
+      return pts[pts.length - 1];
+    }
+
+    function initSegmentedDelayMap() {
+      if (_segMapInitialized) return;
+      const svgNS = 'http://www.w3.org/2000/svg';
+      SEGMENTED_PATHS.forEach(p => {
+        const gEl = document.getElementById(p.group);
+        if (!gEl) return;
+        const arr = [];
+        let segIdx = 0;
+        p.subsegments.forEach(sub => {
+          for (let k = 0; k < sub.n; k++) {
+            const u0 = (k + 0.11) / sub.n;
+            const u1 = (k + 0.89) / sub.n;
+            const um = (k + 0.50) / sub.n;
+            const p0 = samplePolyline(sub.pts, u0);
+            const p1 = samplePolyline(sub.pts, u1);
+            const pm = samplePolyline(sub.pts, um);
+
+            // Background track capsule
+            const bgLine = document.createElementNS(svgNS, 'line');
+            bgLine.setAttribute('x1', p0[0].toFixed(1));
+            bgLine.setAttribute('y1', p0[1].toFixed(1));
+            bgLine.setAttribute('x2', p1[0].toFixed(1));
+            bgLine.setAttribute('y2', p1[1].toFixed(1));
+            bgLine.setAttribute('stroke', p.color);
+            bgLine.setAttribute('stroke-width', '4.2');
+            bgLine.setAttribute('stroke-linecap', 'round');
+            bgLine.setAttribute('opacity', '0.24');
+            gEl.appendChild(bgLine);
+
+            // Foreground active capsule
+            const fgLine = document.createElementNS(svgNS, 'line');
+            fgLine.setAttribute('id', `seg-${p.id}-${segIdx}`);
+            fgLine.setAttribute('x1', p0[0].toFixed(1));
+            fgLine.setAttribute('y1', p0[1].toFixed(1));
+            fgLine.setAttribute('x2', p1[0].toFixed(1));
+            fgLine.setAttribute('y2', p1[1].toFixed(1));
+            fgLine.setAttribute('stroke', p.color);
+            fgLine.setAttribute('stroke-width', '6.5');
+            fgLine.setAttribute('stroke-linecap', 'round');
+            fgLine.setAttribute('opacity', '0');
+            gEl.appendChild(fgLine);
+
+            arr.push({ x1: p0[0], y1: p0[1], x2: p1[0], y2: p1[1], mx: pm[0], my: pm[1], el: fgLine, color: p.color });
+            segIdx++;
+          }
+        });
+        // Add small arrowhead at the terminal end of the path
+        const lastSub = p.subsegments[p.subsegments.length - 1];
+        const pTip = samplePolyline(lastSub.pts, 1.0);
+        const pPrev = samplePolyline(lastSub.pts, 0.92);
+        const ang = Math.atan2(pTip[1] - pPrev[1], pTip[0] - pPrev[0]) * 180 / Math.PI;
+        const tri = document.createElementNS(svgNS, 'polygon');
+        tri.setAttribute('points', '0,0 -6,-3.2 -6,3.2');
+        tri.setAttribute('fill', p.color);
+        tri.setAttribute('transform', `translate(${pTip[0].toFixed(1)},${pTip[1].toFixed(1)}) rotate(${ang.toFixed(1)})`);
+        gEl.appendChild(tri);
+
+        _segGeom[p.id] = arr;
+      });
+      _segMapInitialized = true;
+    }
+
+    let _danimTick = -39; // Integer ms from -39 to +8 (where 0 = Sub 7 Input Reference Time)
+    let _danimPlaying = true;
+    let _danimTickIntervalMs = 1000; // Default: 1.0 second per 1 ms tick
+    let _danimRafId = null;
+    let _danimLastStepTs = null;
+
+    function lightSegment(pathId, segIdx, mode) {
+      const arr = _segGeom[pathId];
+      if (!arr || segIdx < 0 || segIdx >= arr.length) return null;
+      const item = arr[segIdx];
+      if (mode === 'active') {
+        item.el.setAttribute('opacity', '1');
+        item.el.setAttribute('stroke-width', '7.2');
+        item.el.setAttribute('filter', 'url(#seg-glow)');
+      } else if (mode === 'trail') {
+        item.el.setAttribute('opacity', '0.52');
+        item.el.setAttribute('stroke-width', '4.8');
+        item.el.removeAttribute('filter');
+      }
+      return item;
+    }
+
+    function addClockBadge(badgesEl, x, y, text, borderColor, bgFill, offsetY) {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const dy = offsetY || -14;
+      const g = document.createElementNS(svgNS, 'g');
+      g.setAttribute('transform', `translate(${x.toFixed(1)}, ${(y + dy).toFixed(1)})`);
+
+      const w = Math.max(54, text.length * 4.8 + 10);
+      const rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', (-w / 2).toFixed(1));
+      rect.setAttribute('y', '-8');
+      rect.setAttribute('width', w.toFixed(1));
+      rect.setAttribute('height', '15');
+      rect.setAttribute('rx', '3.5');
+      rect.setAttribute('fill', bgFill || '#0f172a');
+      rect.setAttribute('fill-opacity', '0.94');
+      rect.setAttribute('stroke', borderColor || '#38bdf8');
+      rect.setAttribute('stroke-width', '1.3');
+      g.appendChild(rect);
+
+      const txt = document.createElementNS(svgNS, 'text');
+      txt.setAttribute('x', '0');
+      txt.setAttribute('y', '2');
+      txt.setAttribute('text-anchor', 'middle');
+      txt.setAttribute('font-family', 'monospace');
+      txt.setAttribute('font-size', '7.3');
+      txt.setAttribute('font-weight', 'bold');
+      txt.setAttribute('fill', '#ffffff');
+      txt.textContent = text;
+      g.appendChild(txt);
+
+      badgesEl.appendChild(g);
+    }
+
+    function flashNodeBox(flashesEl, x, y, w, h, strokeColor, bannerText) {
+      const svgNS = 'http://www.w3.org/2000/svg';
+      const rect = document.createElementNS(svgNS, 'rect');
+      rect.setAttribute('x', x);
+      rect.setAttribute('y', y);
+      rect.setAttribute('width', w);
+      rect.setAttribute('height', h);
+      rect.setAttribute('rx', '5');
+      rect.setAttribute('fill', strokeColor);
+      rect.setAttribute('fill-opacity', '0.16');
+      rect.setAttribute('stroke', strokeColor);
+      rect.setAttribute('stroke-width', '2.6');
+      flashesEl.appendChild(rect);
+
+      if (bannerText) {
+        const bw = Math.max(96, bannerText.length * 4.7 + 12);
+        const cx = x + w / 2;
+        const by = y - 16;
+        const pill = document.createElementNS(svgNS, 'rect');
+        pill.setAttribute('x', (cx - bw / 2).toFixed(1));
+        pill.setAttribute('y', by.toFixed(1));
+        pill.setAttribute('width', bw.toFixed(1));
+        pill.setAttribute('height', '14');
+        pill.setAttribute('rx', '3.5');
+        pill.setAttribute('fill', strokeColor);
+        flashesEl.appendChild(pill);
+
+        const t = document.createElementNS(svgNS, 'text');
+        t.setAttribute('x', cx.toFixed(1));
+        t.setAttribute('y', (by + 9.8).toFixed(1));
+        t.setAttribute('text-anchor', 'middle');
+        t.setAttribute('font-family', 'monospace');
+        t.setAttribute('font-size', '7.1');
+        t.setAttribute('font-weight', 'bold');
+        t.setAttribute('fill', '#ffffff');
+        t.textContent = bannerText;
+        flashesEl.appendChild(t);
+      }
+    }
+
+    function renderDelayTick(T) {
+      initSegmentedDelayMap();
+      // Reset all segments
+      Object.keys(_segGeom).forEach(pid => {
+        _segGeom[pid].forEach(s => {
+          s.el.setAttribute('opacity', '0');
+          s.el.removeAttribute('filter');
+        });
+      });
+      const flashesEl = document.getElementById('danim-node-flashes');
+      const badgesEl  = document.getElementById('danim-clock-badges');
+      const hudClock  = document.getElementById('danim-hud-clock');
+      const hudTitle  = document.getElementById('danim-hud-title');
+      const hudEq     = document.getElementById('danim-hud-eq');
+      const narration = document.getElementById('danim-narration');
+      const link57    = document.getElementById('dlink-s5-s7');
+      const link67    = document.getElementById('dlink-s6-s7');
+      if (!flashesEl || !badgesEl || !hudClock) return;
+
+      flashesEl.innerHTML = '';
+      badgesEl.innerHTML = '';
+      if (link57) { link57.setAttribute('stroke', '#94a3b8'); link57.setAttribute('stroke-width', '2'); }
+      if (link67) { link67.setAttribute('stroke', '#94a3b8'); link67.setAttribute('stroke-width', '2'); }
+
+      const signStr = T > 0 ? `+${T}` : `${T}`;
+      hudClock.textContent = `T = ${signStr} ms`;
+
+      // ==================== 1. CORTICAL SENSORY WAVE (-39 ms -> -32 ms -> -12 ms -> 0 ms) ====================
+      // A. Sub 3 -> Sub 4 (7 segments: T = -39 .. -33)
+      if (T >= -39 && T <= -33) {
+        const idx = T - (-39);
+        for (let k = 0; k < idx; k++) lightSegment('prop_s4', k, 'trail');
+        const seg = lightSegment('prop_s4', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx + 18, seg.my, '🕒 -39 ms', '#34d399', '#064e3b', 4);
+      }
+      // B. Sub 2 -> Sub 4 (2 segments: T = -34 .. -33)
+      if (T >= -34 && T <= -33) {
+        const idx = T - (-34);
+        for (let k = 0; k < idx; k++) lightSegment('vest_s4', k, 'trail');
+        const seg = lightSegment('vest_s4', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx + 22, seg.my, '🕒 -34 ms', '#38bdf8', '#0c4a6e', -10);
+      }
+      // C. Predictive Node @ T = -32 ms: Sub 4 Smith Predictor (+7ms on Prop, +2ms on Vest -> -32 ms!) + Asc (T = -32 .. -13)
+      if (T >= -32 && T <= -13) {
+        const idx = T - (-32); // 0..19 on 'asc'
+        for (let k = 0; k < idx; k++) lightSegment('asc', k, 'trail');
+        const seg = lightSegment('asc', idx, 'active');
+        if (T === -32) {
+          flashNodeBox(flashesEl, 354, 174, 130, 46, '#059669', '⚡ Smith (+2/+7ms): → 🕒 -32 ms!');
+          if (seg) addClockBadge(badgesEl, seg.mx - 10, seg.my, '⚡ 🕒 -32 ms', '#fde047', '#065f46', -14);
+        } else if (seg) {
+          addClockBadge(badgesEl, seg.mx, seg.my, '🕒 -32 ms', '#c084fc', '#3b0764', -13);
+        }
+      }
+      // D. Predictive Node @ T = -12 ms: Sub 1 M1 Planner (+20ms state -> -12ms plan; +12ms lead to Sub 7)
+      if (T >= -12 && T <= -1) {
+        const idx = T - (-12); // 0..11 on 'desc_s7' and 'desc_cb'
+        if (T === -12) {
+          flashNodeBox(flashesEl, 164, 16, 130, 38, '#d97706', '⚡ M1 Planner: → 🕒 -12 ms (Lead→0ms)');
+        }
+        // Branch D1: Sub 1 -> Sub 7 (12 segments: T = -12 .. -1)
+        for (let k = 0; k < idx; k++) lightSegment('desc_s7', k, 'trail');
+        const segS7 = lightSegment('desc_s7', idx, 'active');
+        if (segS7) {
+          const lblS7 = idx >= 9 ? '⚡ 🕒 0 ms (M1 Lead)' : '🕒 -12 ms';
+          addClockBadge(badgesEl, segS7.mx - 34, segS7.my, lblS7, idx >= 9 ? '#fde047' : '#fcd34d', '#78350f', 2);
+        }
+        // Branch D2: Sub 1 -> CB Forward Predictor (+10ms at seg 10, T = -2) -> Sub 5 (12 segments: T = -12 .. -1)
+        for (let k = 0; k < idx; k++) lightSegment('desc_cb', k, 'trail');
+        const segCb = lightSegment('desc_cb', idx, 'active');
+        if (segCb) {
+          if (T < -2) {
+            addClockBadge(badgesEl, segCb.mx + 30, segCb.my, '🕒 -12 ms', '#fcd34d', '#78350f', -8);
+          } else {
+            // Crossed CB +10ms Predictor at T = -2 ms! Clock label propels -12 ms + 10 ms -> -2 ms!
+            flashNodeBox(flashesEl, 336, 158, 58, 19, '#d97706', '⚡ CB +10ms → -2ms');
+            addClockBadge(badgesEl, segCb.mx, segCb.my, '⚡ 🕒 -2 ms', '#fde047', '#92400e', -15);
+          }
+        }
+      }
+
+      // ==================== 2. CEREBELLOVESTIBULAR WAVE (-9 ms -> -2 ms -> 0 ms) ====================
+      // A. Sub 3 -> Sub 4 (7 segments: T = -9 .. -3)
+      if (T >= -9 && T <= -3) {
+        const idx = T - (-9);
+        for (let k = 0; k < idx; k++) lightSegment('prop_s4', k, 'trail');
+        const seg = lightSegment('prop_s4', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx + 22, seg.my, '🕒 -9 ms', '#34d399', '#064e3b', 4);
+      }
+      // B. Sub 2 -> Sub 4 (2 segments: T = -4 .. -3)
+      if (T >= -4 && T <= -3) {
+        const idx = T - (-4);
+        for (let k = 0; k < idx; k++) lightSegment('vest_s4', k, 'trail');
+        const seg = lightSegment('vest_s4', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx + 24, seg.my, '🕒 -4 ms', '#38bdf8', '#0c4a6e', -10);
+      }
+      // C. Predictive Node @ T = -2 ms: Sub 4 Smith Predictor (+7ms on -9ms, +2ms on -4ms -> -2ms!) + Sub 4 -> Sub 5 (T = -2 .. -1)
+      if (T >= -2 && T <= -1) {
+        const idx = T - (-2); // 0..1 on 'cb_s5'
+        flashNodeBox(flashesEl, 354, 174, 130, 46, '#059669', '⚡ Smith (+2/+7ms): → 🕒 -2 ms!');
+        for (let k = 0; k < idx; k++) lightSegment('cb_s5', k, 'trail');
+        const seg = lightSegment('cb_s5', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx, seg.my, '⚡ 🕒 -2 ms', '#fde047', '#065f46', 18);
+      }
+
+      // ==================== 3. SPINAL PROPRIOCEPTIVE CCR WAVE (-7 ms -> 0 ms) ====================
+      if (T >= -7 && T <= -1) {
+        const idx = T - (-7); // 0..6 on 'prop_s6'
+        for (let k = 0; k < idx; k++) lightSegment('prop_s6', k, 'trail');
+        const seg = lightSegment('prop_s6', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx, seg.my, '🕒 -7 ms', '#34d399', '#064e3b', -12);
+      }
+
+      // ==================== 4. DIRECT VESTIBULAR CN VIII WAVE (-2 ms -> 0 ms) ====================
+      if (T >= -2 && T <= -1) {
+        const idx = T - (-2); // 0..1 on 'vest_s5'
+        for (let k = 0; k < idx; k++) lightSegment('vest_s5', k, 'trail');
+        const seg = lightSegment('vest_s5', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx - 28, seg.my, '🕒 -2 ms', '#38bdf8', '#0c4a6e', -8);
+      }
+
+      // ==================== 5. REFERENCE TIME T = 0 ms @ SUB 7 & SPINAL EXECUTION (0 .. +8 ms) ====================
+      if (T === 0) {
+        // Highlight Sub 5 (+2ms Lead), Sub 6 (+7ms Lead), and Sub 7 Reference Convergence!
+        flashNodeBox(flashesEl, 242, 174, 80, 42, '#0284c7', '⚡ Sub 5 (+2ms Lead) → 0ms');
+        flashNodeBox(flashesEl, 234, 312, 84, 34, '#059669', '⚡ Sub 6 (+7ms Lead) → 0ms');
+        flashNodeBox(flashesEl, 232, 258, 92, 44, '#059669', '★ ALL SYNCED @ SUB 7: [🕒 0 ms]!');
+        if (link57) { link57.setAttribute('stroke', '#0284c7'); link57.setAttribute('stroke-width', '3.5'); }
+        if (link67) { link67.setAttribute('stroke', '#059669'); link67.setAttribute('stroke-width', '3.5'); }
+      }
+      if (T >= 0 && T <= 7) {
+        const idx = T; // 0..7 on 'spinal' (8 segments)
+        for (let k = 0; k < idx; k++) lightSegment('spinal', k, 'trail');
+        const seg = lightSegment('spinal', idx, 'active');
+        if (seg) addClockBadge(badgesEl, seg.mx, seg.my, '★ 🕒 0 ms', '#fde047', '#991b1b', -14);
+      }
+      if (T === 8) {
+        for (let k = 0; k < 8; k++) lightSegment('spinal', k, 'trail');
+        flashNodeBox(flashesEl, 8, 260, 86, 40, '#059669', '✓ MUSCLES ACTUATED [🕒 0 ms]');
+        addClockBadge(badgesEl, 51, 312, '★ Executed [🕒 0 ms]', '#6ee7b7', '#065f46', 0);
+      }
+
+      // ==================== LIVE HUD & NARRATION BY TICK ====================
+      if (T <= -35) {
+        hudTitle.textContent = `Tick ${T} ms: Cortical-Loop Proprioception En Route (Seg ${T + 40}/7 on Sub 3 → Sub 4)`;
+        hudEq.textContent = 'Leaves Sub 3 at -39 ms with clock [-39 ms] so it can reach Sub 4 -> M1 -> Sub 7 at 0 ms.';
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms (Segment ${T + 40}/7 of Sub 3 → Sub 4):</strong> The earliest signal in the 40 ms cortical loop departs <span class="text-emerald-700 font-bold">Sub 3: 72 Spindles</span> at <strong>-39 ms</strong> carrying clock label <strong>[🕒 -39 ms]</strong>.`;
+      } else if (T >= -34 && T <= -33) {
+        hudTitle.textContent = `Tick ${T} ms: Fast Vestibular Packet (-34 ms) Joins Slow Spindle Packet (-39 ms)`;
+        hudEq.textContent = 'Sub 2 -> Sub 4 (2 segs, [-34 ms]) + Sub 3 -> Sub 4 (7 segs, [-39 ms]) converging on Sub 4.';
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms:</strong> <span class="text-sky-700 font-bold">Sub 2: Vestibular</span> fires at <strong>-34 ms</strong> (2 segments to Sub 4) carrying <strong>[🕒 -34 ms]</strong> so it arrives at Sub 4 at the exact same tick (-32 ms) as the 7-segment spindle packet <strong>[🕒 -39 ms]</strong>.`;
+      } else if (T === -32) {
+        hudTitle.textContent = '⚡ Tick -32 ms: Sub 4 Smith Predictor Propels [-39ms] & [-34ms] → [-32 ms]!';
+        hudEq.textContent = 'Smith Predictor adds +7 ms to Prop (-39+7 = -32) and +2 ms to Vest (-34+2 = -32)!';
+        if (narration) narration.innerHTML = '<strong>⚡ Predictive Node 1 (Sub 4 Smith Predictor @ -32 ms):</strong> Both sensory streams enter Sub 4 together; the Smith Predictor propels <strong>[-39 ms] (+7 ms)</strong> and <strong>[-34 ms] (+2 ms)</strong> forward so both leave Sub 4 carrying <strong>[🕒 -32 ms]</strong>!';
+      } else if (T > -32 && T <= -13) {
+        hudTitle.textContent = `Tick ${T} ms: Fused State Ascending to M1 Cortex (Seg ${T + 33}/20 on Sub 4 → Sub 1)`;
+        hudEq.textContent = `Travels 20 segments (14 to Thalamus, 6 to M1) carrying synchronized stamp [🕒 -32 ms].`;
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms (Segment ${T + 33}/20 of Ascending Tract):</strong> The Smith-synchronized state <strong>[🕒 -32 ms]</strong> ascends 1 segment per ms through the Thalamus toward <span class="text-amber-700 font-bold">Sub 1: M1 Cortex</span>.`;
+      } else if (T === -12) {
+        hudTitle.textContent = '⚡ Tick -12 ms: Signal Reaches Sub 1 M1 Cortex → Emits 12-Seg Descending Commands';
+        hudEq.textContent = 'M1 Planner updates at -12 ms and launches 12-segment tracts to Sub 7 and CB Predictor.';
+        if (narration) narration.innerHTML = '<strong>⚡ Predictive Node 2 (Sub 1 M1 Planner @ -12 ms):</strong> Arriving at M1, the cortical planner generates the trajectory command <strong>[🕒 -12 ms]</strong> (with predictive lead toward 0 ms) along both 12-segment descending tracts.';
+      } else if (T >= -11 && T <= -10) {
+        hudTitle.textContent = `Tick ${T} ms: M1 Descending Signals Step Down 12-Segment Tracts (Seg ${T + 13}/12)`;
+        hudEq.textContent = 'Both Sub 1 -> Sub 7 and Sub 1 -> CB Pred advance 1 segment/ms carrying [🕒 -12 ms].';
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms:</strong> Descending M1 signals advance along the 12-segment corticospinal &amp; corticopontocerebellar tracts carrying <strong>[🕒 -12 ms]</strong>.`;
+      } else if (T >= -9 && T <= -8) {
+        hudTitle.textContent = `Tick ${T} ms: 2nd Spindle Wave (-9 ms) Departs Sub 3 → Sub 4 (Seg ${T + 10}/7)`;
+        hudEq.textContent = 'Meanwhile M1 descending tracts are on Seg ' + (T + 13) + '/12 carrying [🕒 -12 ms].';
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms:</strong> A second proprioceptive wave leaves <span class="text-emerald-700 font-bold">Sub 3</span> at <strong>-9 ms</strong> carrying <strong>[🕒 -9 ms]</strong> toward Sub 4, while M1 descending signals continue down their 12-segment paths.`;
+      } else if (T >= -7 && T <= -5) {
+        hudTitle.textContent = `Tick ${T} ms: Spinal CCR Wave (-7 ms) Departs Sub 3 → Sub 6 (Seg ${T + 8}/7)`;
+        hudEq.textContent = 'Active clocks: M1 [-12 ms], Sub3->Sub4 [-9 ms], Sub3->Sub6 CCR [-7 ms].';
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms:</strong> The 7-segment Spinal CCR path (<span class="text-emerald-700 font-bold">Sub 3 → Sub 6</span>) starts at <strong>-7 ms</strong> carrying <strong>[🕒 -7 ms]</strong> so it will reach Sub 6/Sub 7 at exactly <strong>T = 0 ms</strong>.`;
+      } else if (T >= -4 && T <= -3) {
+        hudTitle.textContent = `Tick ${T} ms: Vestibular Wave (-4 ms) Departs Sub 2 → Sub 4 (Seg ${T + 5}/2)`;
+        hudEq.textContent = 'Active clocks: M1 [-12 ms], Prop->Sub4 [-9 ms], CCR [-7 ms], Vest->Sub4 [-4 ms].';
+        if (narration) narration.innerHTML = `<strong>Tick ${T} ms:</strong> <span class="text-sky-700 font-bold">Sub 2 → Sub 4</span> fires at <strong>-4 ms</strong> (2 segments) carrying <strong>[🕒 -4 ms]</strong> to meet the <strong>[🕒 -9 ms]</strong> spindle packet at Sub 4 at T = -2 ms.`;
+      } else if (T >= -2 && T <= -1) {
+        hudTitle.textContent = `⚡ Tick ${T} ms: CB (+10ms) & Sub 4 Smith (+2/+7ms) Sync All Brainstem Inputs to [-2 ms]!`;
+        hudEq.textContent = 'CB Pred: -12ms+10ms = -2ms | Smith: -9ms+7ms = -2ms, -4ms+2ms = -2ms | CN VIII = -2ms!';
+        if (narration) narration.innerHTML = `<strong>⚡ Tick ${T} ms — Triple Brainstem Synchronization at [-2 ms]:</strong> (1) <strong>CB Forward Predictor (+10 ms)</strong> propels M1's <code>[-12 ms] → [🕒 -2 ms]</code>; (2) <strong>Sub 4 Smith Predictor</strong> propels <code>[-9 ms] &amp; [-4 ms] → [🕒 -2 ms]</code>; (3) Direct CN VIII leaves Sub 2 with <code>[🕒 -2 ms]</code>!`;
+      } else if (T === 0) {
+        hudTitle.textContent = '★ Tick 0 ms (REF SYNC): All Signals Reach Sub 7 Input with Identical [🕒 0 ms] Label!';
+        hudEq.textContent = 'Sub 1 [🕒 0 ms] + Sub 5 VCR (+2ms Lead → [🕒 0 ms]) + Sub 6 CCR (+7ms Lead → [🕒 0 ms])!';
+        if (narration) narration.innerHTML = '<strong>★ Tick 0 ms — Reference Synchronization at Subsystem 7 Input:</strong> Every pathway arrives at <span class="text-sky-700 font-bold">Sub 7: Spinal QP &amp; Motor Pool</span> at <strong>T = 0 ms</strong> with its clock label propelled to <strong>[🕒 0 ms]</strong>, launching the unified 8-segment motor command!';
+      } else if (T >= 1 && T <= 7) {
+        hudTitle.textContent = `Tick +${T} ms: Unified Motor Command Steps Along Ventral Roots (Seg ${T + 1}/8 to Muscles)`;
+        hudEq.textContent = `Sub 7 -> 72 Neck Muscles (8 segments = 8 ms): carrying synchronized stamp [★ 🕒 0 ms].`;
+        if (narration) narration.innerHTML = `<strong>Tick +${T} ms (Segment ${T + 1}/8 of Sub 7 → 72 Neck Muscles):</strong> The synchronized motor command <strong>[★ 🕒 0 ms]</strong> steps 1 segment per ms across the 8-segment spinal/ventral-root pathway.`;
+      } else {
+        hudTitle.textContent = '✓ Tick +8 ms: Synchronized Command [🕒 0 ms] Actuates All 72 Neck Muscles!';
+        hudEq.textContent = 'Complete cycle: -39 ms (Cortical) / -9 ms (Sub4) / -7 ms (CCR) / -2 ms (VCR) -> 0 ms @ Sub 7 -> +8 ms!';
+        if (narration) narration.innerHTML = '<strong>✓ Tick +8 ms — Muscle Actuation Complete:</strong> After traversing the 8-segment ventral-root delay (`τ_spinal = 8 ms`), the synchronized command <strong>[🕒 0 ms]</strong> actuates all <strong>72 Neck Muscles</strong>!';
+      }
+    }
+
+    function stepDelayAnim(ts) {
+      const delayBox = document.getElementById('insp-delay-minimap-box');
+      if (!delayBox || delayBox.classList.contains('hidden')) {
+        _danimRafId = null;
+        return;
+      }
+      if (_danimLastStepTs === null) _danimLastStepTs = ts;
+      if (_danimPlaying && (ts - _danimLastStepTs) >= _danimTickIntervalMs) {
+        _danimLastStepTs = ts;
+        _danimTick = _danimTick >= 8 ? -39 : (_danimTick + 1);
+        const slider = document.getElementById('danim-slider');
+        if (slider) slider.value = _danimTick;
+        renderDelayTick(_danimTick);
+      }
+      _danimRafId = requestAnimationFrame(stepDelayAnim);
+    }
+
+    function startDelayAnimLoop() {
+      _danimLastStepTs = null;
+      if (!_danimRafId) {
+        _danimRafId = requestAnimationFrame(stepDelayAnim);
+      }
+    }
+
+    function jumpDelayTick(tickVal) {
+      _danimTick = Math.max(-39, Math.min(8, Math.round(tickVal)));
+      const slider = document.getElementById('danim-slider');
+      if (slider) slider.value = _danimTick;
+      _danimLastStepTs = performance.now();
+      renderDelayTick(_danimTick);
+      startDelayAnimLoop();
+    }
+
+    function stepDelayTick(delta) {
+      _danimPlaying = false;
+      const btn = document.getElementById('danim-play-btn');
+      if (btn) btn.textContent = '▶ Play';
+      let next = _danimTick + delta;
+      if (next > 8) next = -39;
+      if (next < -39) next = 8;
+      jumpDelayTick(next);
+    }
+
+    function toggleDelayAnimPlay() {
+      _danimPlaying = !_danimPlaying;
+      const btn = document.getElementById('danim-play-btn');
+      if (btn) btn.textContent = _danimPlaying ? '⏸ Pause' : '▶ Play';
+      if (_danimPlaying) startDelayAnimLoop();
+    }
+
+    function toggleDelayAnimSpeed() {
+      if (_danimTickIntervalMs === 1000) {
+        _danimTickIntervalMs = 400;
+      } else if (_danimTickIntervalMs === 400) {
+        _danimTickIntervalMs = 150;
+      } else {
+        _danimTickIntervalMs = 1000;
+      }
+      const btn = document.getElementById('danim-speed-btn');
+      if (btn) btn.textContent = (_danimTickIntervalMs / 1000).toFixed(2).replace(/0$/, '') + 's / ms';
+    }
+
+    function scrubDelayAnim(val) {
+      _danimPlaying = false;
+      const btn = document.getElementById('danim-play-btn');
+      if (btn) btn.textContent = '▶ Play';
+      jumpDelayTick(parseInt(val, 10));
+    }
+
+    function openDelaySyncAnimator() {
+      selectTab('top');
+      const histEl = document.querySelector('[onclick*="top_hist"]');
+      inspectBlock('top_hist', histEl);
+      jumpDelayTick(-39);
+      const delayBox = document.getElementById('insp-delay-minimap-box');
+      if (delayBox) delayBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
 
     function highlightDelayPath(pathIdsCsv, brainRegionsCsv) {
       const svgEl = document.getElementById('delay-minimap-svg');
@@ -3502,8 +4118,13 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
         if (isDelayBlock) {
           delayBox.classList.remove('hidden');
           sideCol.className = "w-full md:w-[540px] lg:w-[580px] bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all";
+          const startTick = Object.prototype.hasOwnProperty.call(DELAY_BLOCK_START_TICK, blockKey) ? DELAY_BLOCK_START_TICK[blockKey] : -39;
+          _danimPlaying = true;
+          const playBtn = document.getElementById('danim-play-btn');
+          if (playBtn) playBtn.textContent = '⏸ Pause';
           _defaultDelayHighlight = DELAY_BLOCK_DEFAULTS[blockKey];
           clearDelayPathHighlight();
+          jumpDelayTick(startTick);
         } else {
           delayBox.classList.add('hidden');
           sideCol.className = "w-full md:w-80 bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all";
