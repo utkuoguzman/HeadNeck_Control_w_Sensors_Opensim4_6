@@ -174,9 +174,6 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_pitch", grav_trim_torque)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_roll", 0.0)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_yaw", 0.0)
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt2_pitch", grav_trim_torque)
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt2_roll", 0.0)
-    model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt2_yaw", 0.0)
     model.equilibrateMuscles(state)
 
     manager = osim.Manager(model)
@@ -272,7 +269,19 @@ if __name__ == "__main__":
     k_gamma_dyn = float(sys.argv[14])
     k_gamma_stat = float(sys.argv[15])
 
-    if len(sys.argv) >= 21 and sys.argv[20].upper() == "ALL":
+    if len(sys.argv) >= 20 and sys.argv[19].upper() == "ALL":
+        r_lead_phas = -1.0
+        z_phas = -1.0
+        p_phas2 = -1.0
+        kp = float(sys.argv[16])
+        kd = float(sys.argv[17])
+        ki = float(sys.argv[18])
+        freq = None
+        target_gain = None
+        target_phase = None
+        worker_name = sys.argv[20] if len(sys.argv) >= 21 else f"W-{os.getpid()}"
+        saved_params = [K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, kp, kd, ki]
+    elif len(sys.argv) >= 21 and sys.argv[20].upper() == "ALL":
         raw_p12 = float(sys.argv[16])
         if 0.0 < raw_p12 <= 1.0:
             r_lead_phas = raw_p12
@@ -290,6 +299,18 @@ if __name__ == "__main__":
         target_phase = None
         worker_name = sys.argv[21] if len(sys.argv) >= 22 else f"W-{os.getpid()}"
         saved_params = [K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, raw_p12, kp, kd, ki]
+    elif len(sys.argv) == 22 or (len(sys.argv) == 23 and not sys.argv[22].replace('.', '', 1).replace('-', '', 1).isdigit()):
+        r_lead_phas = -1.0
+        z_phas = -1.0
+        p_phas2 = -1.0
+        kp = float(sys.argv[16])
+        kd = float(sys.argv[17])
+        ki = float(sys.argv[18])
+        freq = float(sys.argv[19])
+        target_gain = float(sys.argv[20])
+        target_phase = float(sys.argv[21])
+        worker_name = sys.argv[22] if len(sys.argv) >= 23 else f"W-{os.getpid()}"
+        saved_params = [K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, kp, kd, ki]
     elif len(sys.argv) >= 23:
         raw_p12 = float(sys.argv[16])
         if 0.0 < raw_p12 <= 1.0:

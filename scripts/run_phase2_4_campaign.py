@@ -59,7 +59,7 @@ TARGETS = [
 PARAM_NAMES = [
     "K_ton", "p_ton", "K_sc", "r_lead_sc", "p_sc", "K_phas",
     "p_phas", "kp", "r_lead_ccr", "p_ccr", "k_dyn", "k_stat",
-    "r_lead_phas", "Kp_task_pitch", "Kd_task_pitch", "Ki_task_pitch"
+    "Kp_task_pitch", "Kd_task_pitch", "Ki_task_pitch"
 ]
 
 # Physical floor bounds: parameters that MUST remain strictly non-negative
@@ -76,7 +76,6 @@ PHYSICAL_LOWER_LIMITS = np.array([
     1.0,    # p_ccr
     0.05,   # k_dyn
     0.05,   # k_stat
-    0.001,  # r_lead_phas
     0.0,    # Kp_task_pitch
     0.0,    # Kd_task_pitch
     1.0     # Ki_task_pitch
@@ -96,7 +95,6 @@ PHYSICAL_UPPER_LIMITS = np.array([
     400.0,  # p_ccr
     2.0,    # k_dyn
     2.0,    # k_stat
-    1.0,    # r_lead_phas (zero must stay below pole -> lead)
     100.0,  # Kp_task_pitch
     50.0,   # Kd_task_pitch
     150.0   # Ki_task_pitch
@@ -113,7 +111,7 @@ def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
             with open(res_file, "r", encoding="utf-8") as f_res:
                 d_res = json.load(f_res)
             if "score" in d_res and "params" in d_res and len(d_res["params"]) == len(candidate):
-                # Compare K_ton, p_ton, p_sc, r_lead_phas (indices 0, 1, 4, 12) to verify same candidate
+                # Compare K_ton, p_ton, p_sc, Kp_task_pitch (indices 0, 1, 4, 12) to verify same candidate
                 if (abs(d_res["params"][0] - candidate[0]) < 1e-6 and
                     abs(d_res["params"][1] - candidate[1]) < 1e-5 and
                     abs(d_res["params"][4] - candidate[4]) < 1e-5 and
@@ -465,24 +463,24 @@ def main():
         print(f"[PRESCREEN] Initializing CMA-ES centroid x0 from {prescreen_file} ({ps_data.get('description', 'Pre-screen Champion')})")
     else:
         x0 = np.array([
-            0.53289, 77.2866, 0.15013, 0.17617, 80.3424, 5.20,
-            20.0, 0.30488, 0.05399, 191.6739, 0.68373, 0.94057,
-            0.70, 2.5, 0.25, 37.0
+            0.55, 78.0, 0.15, 0.18, 80.0, 5.0,
+            20.0, 0.30, 0.055, 185.0, 0.70, 0.95,
+            2.50, 0.25, 37.0
         ])
         sigma0 = np.array([
-            0.05, 3.0, 0.008, 0.0125, 4.0, 0.25,
-            1.5, 0.0175, 0.003, 7.5, 0.035, 0.05,
-            0.08, 1.2, 0.2, 4.0
+            0.12, 10.0, 0.04, 0.04, 12.0, 0.75,
+            4.0, 0.06, 0.015, 18.0, 0.12, 0.12,
+            1.20, 0.20, 5.0
         ])
         lower_bounds = np.array([
             0.01, 5.0, 0.01, 0.001, 15.0, 0.20,
             1.0, 0.03, 0.001, 20.0, 0.05, 0.05,
-            0.10, 0.0, 0.0, 12.0
+            0.0, 0.0, 12.0
         ])
         upper_bounds = np.array([
             3.0, 150.0, 1.5, 0.60, 160.0, 10.0,
             65.0, 2.0, 0.50, 240.0, 1.50, 1.50,
-            1.0, 30.0, 12.0, 65.0
+            30.0, 12.0, 65.0
         ])
     
     max_total_generations = int(os.environ.get('PHASE2_4_MAX_GEN', '50'))
@@ -499,7 +497,7 @@ def main():
     
     # Replay completed Phase 2.4 generations if resuming with matching dimension
     completed_gens = 0
-    global_best_score = 12415.56
+    global_best_score = float('inf')
     global_best_sol = x0.copy()
     consecutive_non_improving = 0
     
@@ -679,10 +677,16 @@ def main():
         p_ccr = best_cand[9]
         k_dyn = best_cand[10]
         k_stat = best_cand[11]
-        r_lead_phas = best_cand[12] if len(best_cand) > 12 else -1.0
-        kp_task_pitch = best_cand[13] if len(best_cand) > 13 else 0.0
-        kd_task_pitch = best_cand[14] if len(best_cand) > 14 else 0.0
-        ki_task_pitch = best_cand[15] if len(best_cand) > 15 else FIXED_KI
+        if len(best_cand) == 15:
+            r_lead_phas = -1.0
+            kp_task_pitch = best_cand[12]
+            kd_task_pitch = best_cand[13]
+            ki_task_pitch = best_cand[14]
+        else:
+            r_lead_phas = best_cand[12] if len(best_cand) > 12 else -1.0
+            kp_task_pitch = best_cand[13] if len(best_cand) > 13 else 0.0
+            kd_task_pitch = best_cand[14] if len(best_cand) > 14 else 0.0
+            ki_task_pitch = best_cand[15] if len(best_cand) > 15 else FIXED_KI
         
         z_sc = r_lead_sc * p_sc
         z_ccr = r_lead_ccr * p_ccr
@@ -705,8 +709,6 @@ def main():
                 "z_sc": float(z_sc),
                 "p_sc": float(p_sc),
                 "K_phas": float(K_phas),
-                "r_lead_phas": float(r_lead_phas),
-                "z_phas": float(z_phas),
                 "p_phas": float(p_phas),
                 "kp": float(kp_prop),
                 "r_lead_ccr": float(r_lead_ccr),

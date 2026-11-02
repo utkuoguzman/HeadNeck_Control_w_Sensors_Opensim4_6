@@ -34,33 +34,22 @@ def update_phase2_4_ledger(gen_num=None):
 
     ledger_path = "logs/phase2_4_master_ledger.json"
     if not os.path.exists(ledger_path):
-        # Initialize ledger with 64k Sobol 8DOF Pre-screen Champion as Gen 0 baseline
-        prescreen_path = "data/prescreen_64k_best_candidate.json"
-        ps_score = 38325.45
+        prescreen_path = "data/prescreen_rational_champion.json"
         ps_params = {}
         if os.path.exists(prescreen_path):
             with open(prescreen_path, "r", encoding="utf-8") as pfp:
                 ps_data = json.load(pfp)
-                ps_score = ps_data.get("predicted_score", 38325.45)
                 param_names = [
-                    "r_ton", "p_ton", "K_sc", "r_lead_sc", "p_sc", "K_phas",
-                    "p_phas", "kp", "r_lead_ccr", "p_ccr", "k_dyn", "k_stat"
+                    "K_ton", "p_ton", "K_sc", "r_lead_sc", "p_sc", "K_phas",
+                    "p_phas", "kp", "r_lead_ccr", "p_ccr", "k_dyn", "k_stat",
+                    "Kp_task_pitch", "Kd_task_pitch", "Ki_task_pitch"
                 ]
                 ps_params = {name: round(val, 4) for name, val in zip(param_names, ps_data.get("x0", []))}
         ledger = {
             "phase": 2.4,
-            "description": "Deep Basin Refinement initialized directly on 64k 8DOF Sobol Pre-screen Champion",
+            "description": "15D CMA-ES + Local GP Campaign from First-Principles Rational Initialization",
             "benchmark_score": 2803.88,
-            "generations": [
-                {
-                    "generation": 0,
-                    "candidate": "SOBOL_64K_CHAMPION (Pre-screen)",
-                    "score": round(ps_score, 2),
-                    "duration_min": 0.7,
-                    "params": ps_params,
-                    "bode": {}
-                }
-            ]
+            "generations": []
         }
     else:
         with open(ledger_path, "r", encoding="utf-8") as fp:

@@ -75,7 +75,7 @@ public:
     OpenSim_DECLARE_PROPERTY(K_eso, double, "Gain for Extended State Observer disturbance rejection (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "If true, includes extraocular eye muscles (r_*, l_*) in controller state allocation (default: false)");
     OpenSim_DECLARE_PROPERTY(use_smith_predictor, bool, "If true, utilizes Smith Predictor delay compensation for Mahony proprioceptive fusion (default: true)");
-    OpenSim_DECLARE_PROPERTY(delay_smith_proprio, double, "Proprioceptive transport delay in seconds for Smith compensation (default: 0.007)");
+    OpenSim_DECLARE_PROPERTY(delay_smith_proprio, double, "Proprioceptive-to-vestibular differential delay in seconds for Mahony history alignment (default: 0.005)");
     OpenSim_DECLARE_PROPERTY(delay_afferent_proprio, double, "Proprioceptive afferent transport delay in seconds arriving at the central observer (default: 0.007)");
 
     HeadNeckNeuralController();
@@ -171,6 +171,7 @@ private:
         SimTK::Vec3 estimated_head_orientation{0.0};               // (roll, yaw, pitch) - Head global orientation
         SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Head global angular velocity (gain-normalized irregular canal firing with biological phase lead)
         SimTK::Vec3 luenberger_angular_velocity{0.0};              // Clean Luenberger-inverted physical angular velocity (roll, yaw, pitch)
+        SimTK::Vec3 luenberger_angular_acceleration{0.0};          // Clean Luenberger-estimated angular acceleration d(x_Luen,scc)/dt (roll, yaw, pitch)
         SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // Irregular otolith specific force GIF in head frame (with biological phase lead)
         SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // Clean Luenberger-inverted regular otolith specific force GIF in head frame
         SimTK::Mat33 rotation_world_to_head{1.0};                  // True skull rotation from world to head at record timestamp
@@ -182,10 +183,12 @@ private:
         SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Size 3 (pitch, roll, yaw)
         SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Size 3 (pitch, roll, yaw)
         SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Size 3 (pitch, roll, yaw) - Mahony head-frame angular velocity
-        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Size 3 (pitch, roll, yaw) - Cortical voluntary torque before descending delay
+        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Size 3 (pitch, roll, yaw) - Cortical voluntary torque before 12ms descending delay
         SimTK::Vec3 trajectory_position{0.0};                      // Size 3 (pitch, roll, yaw) - Cortical reference trajectory position
         SimTK::Vec3 trajectory_velocity{0.0};                      // Size 3 (pitch, roll, yaw) - Cortical reference trajectory velocity
         SimTK::Vec3 trajectory_acceleration{0.0};                  // Size 3 (pitch, roll, yaw) - Cortical reference trajectory acceleration
+        SimTK::Vector spinal_motor_excitations;                    // Size N - Total C1-C8 spinal pool alpha excitations before 8ms spinal/ventral-root efferent delay
+        SimTK::Vector spinal_alpha_excitations;                    // Size N - Active-Set QP descending alpha excitations before 8ms spinal/ventral-root efferent delay
     };
     
     struct DelayedData {
@@ -227,7 +230,6 @@ private:
     mutable const StateVariable* state_variable_trajectory_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_error_integral[3] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
-    mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};
