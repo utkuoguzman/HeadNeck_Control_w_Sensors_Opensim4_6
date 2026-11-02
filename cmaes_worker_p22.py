@@ -283,8 +283,10 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     manager = osim.Manager(model)
     manager.setIntegratorMethod(5) # SemiExplicitEuler2
     manager.setIntegratorAccuracy(1e-4)
+    # Fastest sensor pole is Irregular Semicircular Canal tau_2,irr = 0.0006 s (0.6 ms, lambda = -1666.7 s^-1, h_crit = 1.2 ms).
+    # min_step = 1e-4 s (0.1 ms, |h*lambda_max| = 0.167 << 1) avoids |Lp_dot|^0.3 micro-step throttling while max_step = 1e-3 s (1.0 ms < 1.2 ms) guarantees stability.
     manager.setIntegratorMinimumStepSize(1e-4)
-    manager.setIntegratorMaximumStepSize(0.01)
+    manager.setIntegratorMaximumStepSize(0.001)
 
     state.setTime(0.0)
     manager.initialize(state)
@@ -301,6 +303,24 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
 
     t_history = []
     pitch_history = []
+    p1_history = []
+    p2_history = []
+    r1_history = []
+    r2_history = []
+    roll_history = []
+    y1_history = []
+    y2_history = []
+    yaw_history = []
+    mahony_pitch_history = []
+    true_omega_pitch_history = []
+    luen_omega_pitch_history = []
+    sp_dL_history = []
+    pitch_int_history = []
+    vol_pitch_history = []
+
+    aborted = False
+    abort_time_s = target_time
+    abort_reason = ""
 
     while current_time < target_time:
         current_time = min(current_time + step, target_time)
@@ -317,21 +337,124 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
         head_roll_deg  = r1_deg + r2_deg
         head_yaw_deg   = y1_deg + y2_deg
 
+        # Read CNS internal observer, proprioceptive & PID states
+        try:
+            q0 = model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q0")
+            q1 = model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q1")
+            q2 = model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2")
+            q3 = model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3")
+            qn = math.sqrt(q0*q0 + q1*q1 + q2*q2 + q3*q3)
+            if qn > 1e-6:
+                q0, q1, q2, q3 = q0/qn, q1/qn, q2/qn, q3/qn
+            mah_p_deg = math.degrees(math.atan2(2.0 * (q0 * q3 + q1 * q2), 1.0 - 2.0 * (q2 * q2 + q3 * q3)))
+            luen_w_deg = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/luen_omega_pitch"))
+            true_w_deg = math.degrees(coord_p1.getSpeedValue(state) + coord_p2.getSpeedValue(state))
+            sp_dL_mm = 1000.0 * model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/sp_dL_semi_cap_sklthx")
+            p_int = model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral")
+            v_pit = model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_pitch")
+        except Exception:
+            mah_p_deg = head_pitch_deg
+            luen_w_deg = 0.0
+            true_w_deg = 0.0
+            sp_dL_mm = 0.0
+            p_int = 0.0
+            v_pit = 0.0
+
+        t_history.append(current_time)
+        pitch_history.append(head_pitch_deg)
+        p1_history.append(p1_deg)
+        p2_history.append(p2_deg)
+        r1_history.append(r1_deg)
+        r2_history.append(r2_deg)
+        roll_history.append(head_roll_deg)
+        y1_history.append(y1_deg)
+        y2_history.append(y2_deg)
+        yaw_history.append(head_yaw_deg)
+        mahony_pitch_history.append(mah_p_deg)
+        true_omega_pitch_history.append(true_w_deg)
+        luen_omega_pitch_history.append(luen_w_deg)
+        sp_dL_history.append(sp_dL_mm)
+        pitch_int_history.append(p_int)
+        vol_pitch_history.append(v_pit)
+
         if (p1_deg < -12.0 or p1_deg > 18.0 or
             p2_deg < -24.75 or p2_deg > 36.0 or
             head_pitch_deg < -36.75 or head_pitch_deg > 54.0 or
             abs(r1_deg) > 4.5 or abs(r2_deg) > 24.75 or abs(head_roll_deg) > 29.25 or
             abs(y1_deg) > 28.5 or abs(y2_deg) > 20.25 or abs(head_yaw_deg) > 48.75):
-            print(f"[ABORT TRANSITION] {worker_name} entered transition zone at t={current_time:.2f}s "
-                  f"(p1={p1_deg:.1f}°, p2={p2_deg:.1f}°, pitch={head_pitch_deg:.1f}°, "
-                  f"r1={r1_deg:.1f}°, r2={r2_deg:.1f}°, roll={head_roll_deg:.1f}°, "
-                  f"y1={y1_deg:.1f}°, y2={y2_deg:.1f}°, yaw={head_yaw_deg:.1f}°)", file=sys.stderr)
-            return 50000.0, 0.0
+            aborted = True
+            abort_time_s = float(current_time)
+            abort_reason = (f"t={current_time:.2f}s: p1={p1_deg:+.2f}°, p2={p2_deg:+.2f}°, pitch={head_pitch_deg:+.2f}°, "
+                            f"roll={head_roll_deg:+.2f}° (r1={r1_deg:+.2f}°,r2={r2_deg:+.2f}°), "
+                            f"yaw={head_yaw_deg:+.2f}° (y1={y1_deg:+.2f}°,y2={y2_deg:+.2f}°)")
+            print(f"[ABORT TRANSITION] {worker_name} entered transition zone ({abort_reason})", file=sys.stderr)
+            break
 
-        t_history.append(current_time)
-        pitch_history.append(head_pitch_deg)
+    t_arr = np.array(t_history) if t_history else np.array([0.0])
+    p_arr = np.array(pitch_history) if pitch_history else np.array([2.801])
+    p1_arr = np.array(p1_history) if p1_history else np.array([2.063])
+    p2_arr = np.array(p2_history) if p2_history else np.array([0.738])
+    r1_arr = np.array(r1_history) if r1_history else np.array([0.0])
+    r2_arr = np.array(r2_history) if r2_history else np.array([0.0])
+    r_arr = np.array(roll_history) if roll_history else np.array([0.0])
+    y1_arr = np.array(y1_history) if y1_history else np.array([0.0])
+    y2_arr = np.array(y2_history) if y2_history else np.array([0.0])
+    y_arr = np.array(yaw_history) if yaw_history else np.array([0.0])
+    mah_arr = np.array(mahony_pitch_history) if mahony_pitch_history else p_arr
+    tw_arr = np.array(true_omega_pitch_history) if true_omega_pitch_history else np.array([0.0])
+    lw_arr = np.array(luen_omega_pitch_history) if luen_omega_pitch_history else np.array([0.0])
+    sp_arr = np.array(sp_dL_history) if sp_dL_history else np.array([0.0])
+    pi_arr = np.array(pitch_int_history) if pitch_int_history else np.array([0.0])
+    vp_arr = np.array(vol_pitch_history) if vol_pitch_history else np.array([0.0])
 
+    m_pre = t_arr <= 1.5
     discard_time = delay + ramp_duration
+    m_post = t_arr >= discard_time if np.any(t_arr >= discard_time) else np.ones_like(t_arr, dtype=bool)
+
+    p0_ref = float(p_arr[0])
+    mah0_ref = float(mah_arr[0])
+    pre_min = float(np.min(p_arr[m_pre]) - p0_ref) if np.any(m_pre) else 0.0
+    pre_max = float(np.max(p_arr[m_pre]) - p0_ref) if np.any(m_pre) else 0.0
+    pre_drift = float(max(abs(pre_min), abs(pre_max)))
+
+    mah_rel = mah_arr - mah0_ref
+    p_rel = p_arr - p0_ref
+    mah_rmse = float(np.sqrt(np.mean((mah_rel[m_post] - p_rel[m_post])**2))) if len(p_rel[m_post]) > 2 else 0.0
+    mah_corr = float(np.corrcoef(mah_rel[m_post], p_rel[m_post])[0, 1]) if (len(p_rel[m_post]) > 2 and np.std(p_rel[m_post]) > 1e-5 and np.std(mah_rel[m_post]) > 1e-5) else 1.0
+    scc_rmse = float(np.sqrt(np.mean((lw_arr[m_post] - tw_arr[m_post])**2))) if len(tw_arr[m_post]) > 2 else 0.0
+    scc_corr = float(np.corrcoef(lw_arr[m_post], tw_arr[m_post])[0, 1]) if (len(tw_arr[m_post]) > 2 and np.std(tw_arr[m_post]) > 1e-5 and np.std(lw_arr[m_post]) > 1e-5) else 1.0
+
+    telemetry = {
+        "aborted": aborted,
+        "abort_time_s": round(abort_time_s, 3),
+        "abort_reason": abort_reason,
+        "pre_pitch_drift_deg": round(pre_drift, 4),
+        "post_pitch_min_deg": round(float(np.min(p_rel[m_post])), 3),
+        "post_pitch_max_deg": round(float(np.max(p_rel[m_post])), 3),
+        "post_pitch_mean_deg": round(float(np.mean(p_rel[m_post])), 3),
+        "p1_min_deg": round(float(np.min(p1_arr[m_post])), 2),
+        "p1_max_deg": round(float(np.max(p1_arr[m_post])), 2),
+        "p2_min_deg": round(float(np.min(p2_arr[m_post])), 2),
+        "p2_max_deg": round(float(np.max(p2_arr[m_post])), 2),
+        "max_s_buckling_deg": round(float(np.max(np.abs((p1_arr - 2.063) - (p2_arr - 0.738)))), 2),
+        "max_abs_roll_deg": round(float(np.max(np.abs(r_arr))), 3),
+        "max_abs_roll1_deg": round(float(np.max(np.abs(r1_arr))), 3),
+        "max_abs_roll2_deg": round(float(np.max(np.abs(r2_arr))), 3),
+        "max_abs_yaw_deg": round(float(np.max(np.abs(y_arr))), 3),
+        "max_abs_yaw1_deg": round(float(np.max(np.abs(y1_arr))), 3),
+        "max_abs_yaw2_deg": round(float(np.max(np.abs(y2_arr))), 3),
+        "mahony_pitch_rmse_deg": round(mah_rmse, 3),
+        "mahony_pitch_corr": round(mah_corr, 4),
+        "canal_luen_rmse_deg_s": round(scc_rmse, 2),
+        "canal_luen_corr": round(scc_corr, 4),
+        "spindle_dL_max_mm": round(float(np.max(np.abs(sp_arr))), 3),
+        "pitch_integral_max": round(float(np.max(np.abs(pi_arr))), 4),
+        "vol_pitch_torque_max_nm": round(float(np.max(np.abs(vp_arr))), 3)
+    }
+
+    if aborted:
+        return 50000.0, 0.0, telemetry
+
     amp_deg, phase_rad = extract_bode(t_history, pitch_history, freq, discard_time, delay)
 
     gain_deg_m = amp_deg / amplitude
@@ -339,7 +462,7 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     while phase_deg > 90.0: phase_deg -= 360.0
     while phase_deg < -270.0: phase_deg += 360.0
 
-    return gain_deg_m, phase_deg
+    return gain_deg_m, phase_deg, telemetry
 
 
 if __name__ == "__main__":
@@ -462,7 +585,7 @@ if __name__ == "__main__":
             total_score = 0.0
             for t_idx, (f_val, t_gain, t_phase) in enumerate(CANONICAL_TARGETS):
                 try:
-                    sim_gain, sim_phase = run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, f_val, worker_name, p_phas2, z_phas)
+                    sim_gain, sim_phase, telemetry = run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, f_val, worker_name, p_phas2, z_phas)
                     sim_gain_safe = max(1e-6, sim_gain)
                     gain_db_diff = 20.0 * math.log10(sim_gain_safe / t_gain)
                     gain_loss = ((gain_db_diff / 1.0) ** 2) * 100.0
@@ -472,7 +595,10 @@ if __name__ == "__main__":
                     penalty = 0.0
                     if kp > 500: penalty += (kp - 500) * 10
                     if ki > 500: penalty += (ki - 500) * 10
-                    f_score = error + penalty
+                    if telemetry.get("aborted", False):
+                        f_score = 200000.0 + max(0.0, 5.0 - telemetry.get("abort_time_s", 0.0)) * 10000.0
+                    else:
+                        f_score = error + penalty
                     try:
                         cand_dir = os.path.join("logs", "candidates")
                         os.makedirs(cand_dir, exist_ok=True)
@@ -491,7 +617,8 @@ if __name__ == "__main__":
                                 "phase_err_deg": abs(phase_diff),
                                 "phase_loss": phase_loss,
                                 "score": f_score,
-                                "params": saved_params
+                                "params": saved_params,
+                                "telemetry": telemetry
                             }, f_res)
                     except Exception:
                         pass
@@ -513,7 +640,7 @@ if __name__ == "__main__":
             print(f"{total_score}")
             sys.exit(0)
 
-        sim_gain, sim_phase = run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, freq, worker_name, p_phas2, z_phas)
+        sim_gain, sim_phase, telemetry = run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat, freq, worker_name, p_phas2, z_phas)
 
         sim_gain_safe = max(1e-6, sim_gain)
         gain_db_diff = 20.0 * math.log10(sim_gain_safe / target_gain)
@@ -528,7 +655,10 @@ if __name__ == "__main__":
         if kp > 500: penalty += (kp - 500) * 10
         if ki > 500: penalty += (ki - 500) * 10
 
-        final_score = error + penalty
+        if telemetry.get("aborted", False):
+            final_score = 200000.0 + max(0.0, 5.0 - telemetry.get("abort_time_s", 0.0)) * 10000.0
+        else:
+            final_score = error + penalty
         try:
             cand_dir = os.path.join("logs", "candidates")
             os.makedirs(cand_dir, exist_ok=True)
@@ -547,7 +677,8 @@ if __name__ == "__main__":
                     "phase_err_deg": abs(phase_diff),
                     "phase_loss": phase_loss,
                     "score": final_score,
-                    "params": saved_params
+                    "params": saved_params,
+                    "telemetry": telemetry
                 }, f_res)
         except Exception:
             pass

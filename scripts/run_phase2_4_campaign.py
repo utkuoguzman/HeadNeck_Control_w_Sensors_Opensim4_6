@@ -693,6 +693,21 @@ def main():
         z_phas = r_lead_phas * p_phas if 0.0 < r_lead_phas <= 1.0 else -1.0
         
         # Save generation summary
+        pass_scores = [float(s) for s in all_scores if s < 150000.0]
+        try:
+            cond_num = float(np.max(es.D) / max(1e-12, np.min(es.D))) if hasattr(es, "D") and es.D is not None else 1.0
+        except Exception:
+            cond_num = 1.0
+        cmaes_state = {
+            "sigma_global": round(float(es.sigma), 5),
+            "condition_number": round(cond_num, 3),
+            "n_passed_all_6": len(pass_scores),
+            "popsize": len(all_scores),
+            "pop_median_score": round(float(np.median(all_scores)), 2),
+            "pop_mean_pass_score": round(float(np.mean(pass_scores)), 2) if pass_scores else None,
+            "mean_vector": {name: round(float(val), 4) for name, val in zip(PARAM_NAMES, es.mean)},
+            "effective_stds": {name: round(float(es.sigma * std_val), 4) for name, std_val in zip(PARAM_NAMES, es.stds)}
+        }
         summary = {
             "phase": 2.4,
             "generation": iteration,
@@ -720,6 +735,7 @@ def main():
                 "Kd_task_pitch": float(kd_task_pitch),
                 "Ki_task_pitch": float(ki_task_pitch)
             },
+            "cmaes_state": cmaes_state,
             "all_scores": [float(s) for s in all_scores],
             "all_candidates": clamped_candidates
         }

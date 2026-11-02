@@ -1,64 +1,58 @@
-# Differentiable Neuromotor Surrogate Pipeline
+# 15-Parameter, 6-DOF, 72-Muscle MIMO Differentiable Neuromotor Surrogate Pipeline
 
-A fast, analytical surrogate modeling toolchain for pre-optimizing closed-loop neuromotor reflex parameters (Vestibulocollic VCR, Cervicocollic CCR, and transport delays) before launching multi-hour non-linear CMA-ES campaigns in OpenSim.
+An analytical, physics-grounded 6-DOF, 72-muscle MIMO frequency-domain surrogate modeling toolchain for pre-optimizing all 15 closed-loop neuromotor parameters (Vestibulocollic VCR, Cervicocollic CCR, $\alpha\text{–}\gamma$ fusimotor coactivation, and Cortical Task PID) before launching multi-generation non-linear CMA-ES campaigns in OpenSim 4.6.
 
 ---
 
-## 📌 Why Use the Surrogate?
+## 📌 Why Upgrade to the 6-DOF, 72-Muscle MIMO Surrogate?
 
-Simulating 18 candidates across 6 perturbation frequencies in OpenSim takes **$\approx 45\text{--}60\text{ minutes per generation}$**. Starting CMA-ES from an uncalibrated or randomly guessed initial vector ($x_0$) requires dozens of generations just to locate the basin of attraction.
-
-This surrogate pipeline acts as a **"quick-and-dirty initialization finding step"**:
-1. **Measures the exact OpenSim multi-body plant impedance** ($G_{\text{passive}}(j\omega)$) across the 6 canonical frequencies directly from the full 8-vertebra HYOID model (taking only 90 seconds once).
-2. **Evaluates closed-loop feedback analytically** using Black's feedback formula with exact continuous transport delays ($e^{-s\tau}$) in $< 1\ \mu\text{s}$.
-3. **Runs multi-start L-BFGS-B gradient descent in under 10 seconds** to find an elite starting vector ($x_0$), reducing the initial OpenSim error score from $>176\text{k}$ down to $<75\text{k}$ before CMA-ES starts.
+A 1-DOF scalar inverted-pendulum surrogate cannot capture the inter-segmental dynamics of the 8-vertebra cervical spine (`pitch1` C7–C2 vs. `pitch2` C2–skull, plus `roll1`, `roll2`, `yaw1`, `yaw2`) or the unilateral recruitment of the 72 HYOID neck muscles:
+1. **Asymmetric Inertial vs. Active Muscle Coupling:** Passive horizontal sled acceleration ($\mathbf{G}_{\text{sled},6}$) drives upper cervical `pitch2` (`+3.585 rad/m`) almost $9\times$ more strongly than lower cervical `pitch1` (`+0.405 rad/m`), whereas the 3-DOF Active-Set QP muscle synergy solver ($\mathbf{B}_{\text{QP},6\times 3}$) applies $+35.50\,\text{rad/s}^2/\text{N}\cdot\text{m}$ to `pitch1` and $-9.24\,\text{rad/s}^2/\text{N}\cdot\text{m}$ to `pitch2`, coupled dynamically through the series-elastic inter-vertebral muscle-tendon stiffness matrix $\mathbf{A}_{\text{stiff,inst},6\times 6}$.
+2. **Maxwell-Hill Series-Elastic 6-DOF Plant Impedance:** Combines the exact 6-DOF multibody mass matrix $\mathbf{M}_6$, static equilibrated stiffness $\mathbf{A}_{\text{stiff,eq},6\times 6}$, instantaneous series-elastic tendon stiffness $\mathbf{A}_{\text{stiff,inst},6\times 6}$, and 72-muscle Hill force-velocity damping $\mathbf{A}_{\text{damp,inst},6\times 6}$ anchored to the empirical OpenSim 6-DOF passive response (`surrogacy/opensim_passive_plant.json`).
+3. **Full 15-Parameter Closed-Loop Architecture:** Evaluates all 15 CMA-ES parameters (`[K_ton, p_ton, K_sc, r_lead_sc, p_sc, K_phas, p_phas, kp, r_lead_ccr, p_ccr, k_dyn, k_stat, Kp_task_pitch, Kd_task_pitch, Ki_task_pitch]`) across the Schneider (2015) semicircular canals, Schneider (2015) / Happee (2017) 2-stage otoliths with matched-adaptation gravity cancellation, 72 Mileusnic (2006) spindles, Mahony $\text{SE}_2(3)$ observer with somatogravic tilt coupling, and Paradigm A 6-DOF joint-limit safety constraints.
 
 ---
 
 ## 🛠️ Pipeline Architecture
 
 ```
-OpenSim Model (HYOID) 
+OpenSim 4.6 Model (HYOID 6-DOF, 72-Muscle)
     │
-    ▼ (measure_passive_plant.py — ~90s)
-opensim_passive_plant.json (Exact Multi-Body Plant Frequency Response)
+    ├──► extract_6dof_72muscle_plant.py (~4s)
+    │        └──► opensim_6dof_72muscle_plant.json (M_6, J_6x72, A_3x72, B_musc_6x72, A_stiff_inst_6x6, A_damp_inst_6x6)
     │
-    ▼ (optimize_surrogate.py — ~7s)
-exact_plant_surrogate_solution.json (L-BFGS-B Optimal Reflex Parameters)
+    ├──► measure_passive_plant.py (~40s in parallel)
+    │        └──► opensim_passive_plant.json (Exact 6-DOF Co-Contracted Passive Frequency Response)
     │
-    ▼ (validate_in_opensim.py — ~90s)
-OpenSim 6-Frequency Validation Score (Elite Seed x0 for CMA-ES)
+    ▼
+optimize_surrogate.py (~5s)
+    └──► exact_plant_surrogate_solution.json (Optimal 15D Seed x0* + 6-DOF Predictions)
+    │
+    ▼
+validate_in_opensim.py (~45s in parallel)
+    └──► Full 6-DOF Non-Linear OpenSim 4.6 Validation Table
 ```
 
 ---
 
 ## 🚀 Quick Start Guide
 
-### Step 1: Measure the Exact OpenSim Passive Plant
+### Step 1a: Extract the 6-DOF, 72-Muscle State-Space & Jacobian Matrices
 ```powershell
-python surrogacy/measure_passive_plant.py
+& "C:\Users\User\miniforge3\envs\opensim_env\python.exe" "surrogacy/extract_6dof_72muscle_plant.py"
 ```
-* Runs 6 simulations in parallel with sensory reflexes set to zero and calibrated gravity trim ($K_i = 40.28$) loaded.
-* Saves the exact complex frequency response table to `surrogacy/opensim_passive_plant.json`.
 
-### Step 2: Solve for Optimal Reflex Parameters via Gradient Descent
+### Step 1b: Measure the Exact 6-DOF Co-Contracted Passive Plant
 ```powershell
-python surrogacy/optimize_surrogate.py
+& "C:\Users\User\miniforge3\envs\opensim_env\python.exe" "surrogacy/measure_passive_plant.py"
 ```
-* Runs 24 multi-start L-BFGS-B gradient descents on the analytical transfer function.
-* Completes in **$\approx 7\text{ seconds}$**.
-* Saves the optimal parameter vector and ratios to `surrogacy/exact_plant_surrogate_solution.json`.
 
-### Step 3: Validate in Full Non-Linear OpenSim Model
+### Step 2: Solve for the Optimal 15D Seed ($x_0^*$) via the 6-DOF MIMO Surrogate
 ```powershell
-python surrogacy/validate_in_opensim.py
+& "C:\Users\User\miniforge3\envs\opensim_env\python.exe" "surrogacy/optimize_surrogate.py"
 ```
-* Evaluates the candidate across all 6 frequencies in OpenSim.
-* Achieved benchmark: **`519.4 deg/m` (+0.27 dB) at 5.58 Hz (score: 162 pts)** and accurate physiological phase lag at 0.78 Hz and 1.10 Hz.
 
-### Step 4: Seed the Main CMA-ES Campaign
-The resulting vector in `exact_plant_surrogate_solution.json` (and `data/prescreen_rational_champion.json`) is plugged directly into `scripts/run_phase2_4_campaign.py` as $x_0$, saving generations of computational effort.
-
-> [!NOTE]
-> **Strict Execution Policy:** This frequency-domain linearizer is used solely to generate warm-start initial centroids ($x_0$). All candidate evaluations across all generations in Phase 2.4 are executed strictly on the unapproximated, non-linear 72-muscle OpenSim model (`cmaes_worker_p22.py`) with Paradigm A joint limits and the transition-zone early abort rule. All surrogate simulation binaries (`cervical_fast_sim`) have been permanently purged.
-
+### Step 3: Validate in the Full Non-Linear 6-DOF OpenSim 4.6 Model
+```powershell
+& "C:\Users\User\miniforge3\envs\opensim_env\python.exe" "surrogacy/validate_in_opensim.py"
+```
