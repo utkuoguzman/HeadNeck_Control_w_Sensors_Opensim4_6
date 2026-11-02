@@ -134,7 +134,8 @@ void Millard12EqMuscleWithAfferents::computeInitialFiberEquilibrium(SimTK::State
 	Super::computeInitialFiberEquilibrium(s);
 	if (!isAfferentActive()) return;
 	
-	setLPFvelocity(s, getFiberVelocity(s));
+	double v0 = getFiberVelocity(s);
+	setLPFvelocity(s, (std::abs(v0) < 1e-4) ? 0.0 : v0);
 	// a simplifying assumption is a steady state
 	setLPFacceleration(s, 0.0); 
 	

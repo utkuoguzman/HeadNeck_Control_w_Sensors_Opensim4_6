@@ -78,7 +78,7 @@ PHYSICAL_LOWER_LIMITS = np.array([
     0.05,   # k_stat
     0.0,    # Kp_task_pitch
     0.0,    # Kd_task_pitch
-    1.0     # Ki_task_pitch
+    0.1     # Ki_task_pitch
 ])
 
 # Physical ceilings: a dynamic expansion may never exceed these
@@ -88,7 +88,7 @@ PHYSICAL_UPPER_LIMITS = np.array([
     3.0,    # K_sc
     1.0,    # r_lead_sc  (zero must stay below pole -> lead)
     300.0,  # p_sc
-    15.0,   # K_phas
+    35.0,   # K_phas
     120.0,  # p_phas
     5.0,    # kp
     1.0,    # r_lead_ccr
@@ -168,7 +168,7 @@ def evaluate_candidate(candidate, w_idx, gen_idx):
     total_score = 0.0
     for t_idx, (f_val, _, _) in enumerate(TARGETS):
         f_score = evaluate_freq(candidate, t_idx, w_idx, gen_idx)
-        if f_score < 250000.0:
+        if f_score < 150000.0:
             total_score += f_score
             print(f"[PASS] [{worker_label}] passed {f_val:.3f}Hz ({t_idx+1}/{len(TARGETS)}) (Score: {f_score:.1f} | Cum: {total_score:.1f})", flush=True)
         else:
@@ -475,7 +475,7 @@ def main():
         lower_bounds = np.array([
             0.01, 5.0, 0.01, 0.001, 15.0, 0.20,
             1.0, 0.03, 0.001, 20.0, 0.05, 0.05,
-            0.0, 0.0, 12.0
+            0.0, 0.0, 0.5
         ])
         upper_bounds = np.array([
             3.0, 150.0, 1.5, 0.60, 160.0, 10.0,

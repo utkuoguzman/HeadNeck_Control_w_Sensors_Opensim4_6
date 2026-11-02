@@ -40,6 +40,81 @@ CANONICAL_TARGETS = [
     (0.324,  86.55,   -7.03)
 ]
 
+PER_MUSCLE_72_U0 = {
+    "digastric_post": 0.0257708683,
+    "digastric_ant": 0.0351123801,
+    "Geniohyoid": 0.0358435442,
+    "Mylohyoid_Post": 0.0353440759,
+    "Mylohyoid_Ant": 0.0357049120,
+    "Stylohyoid_Lat": 0.0326655729,
+    "Stylohyoid_Med": 0.0327072420,
+    "Sterno_hyoid": 0.0139074664,
+    "SternoThyroid": 0.0139580126,
+    "Omo_hyoid": 0.0140401442,
+    "digastric_post_L": 0.0260257723,
+    "digastric_ant_L": 0.0352215535,
+    "Geniohyoid_L": 0.0357879142,
+    "Mylohyoid_Post_L": 0.0354227939,
+    "Mylohyoid_Ant_L": 0.0359162302,
+    "Stylohyoid_Lat_L": 0.0327162539,
+    "Stylohyoid_Med_L": 0.0327579685,
+    "Sterno_hyoid_L": 0.0138869448,
+    "SternoThyroid_L": 0.0139146060,
+    "Omo_hyoid_L": 0.0140511883,
+    "stern_mast": 0.0137600533,
+    "stern_mast_L": 0.0138882584,
+    "cleid_mast": 0.0140218931,
+    "cleid_mast_L": 0.0140604434,
+    "cleid_occ": 0.0141125391,
+    "cleid_occ_L": 0.0141761987,
+    "scalenus_ant": 0.0145401926,
+    "scalenus_ant_L": 0.0144270113,
+    "scalenus_med": 0.0326803693,
+    "scalenus_med_L": 0.0325170091,
+    "scalenus_post": 0.0317368734,
+    "scalenus_post_L": 0.0316464182,
+    "long_cap_sklc4": 0.0353953794,
+    "long_cap_sklc4_L": 0.0353956169,
+    "long_col_c1thx": 0.0295473898,
+    "long_col_c1thx_L": 0.0295025776,
+    "long_col_c1c5": 0.0334943909,
+    "long_col_c1c5_L": 0.0334361024,
+    "long_col_c5thx": 0.0298660580,
+    "long_col_c5thx_L": 0.0298181117,
+    "trap_cl": 0.0222030957,
+    "trap_cl_L": 0.0221611600,
+    "trap_acr": 0.0391430837,
+    "trap_acr_L": 0.0389694904,
+    "splen_cap_sklc6": 0.0232840744,
+    "splen_cap_sklc6_L": 0.0233107645,
+    "splen_cap_sklthx": 0.0256466659,
+    "splen_cap_sklthx_L": 0.0256818910,
+    "splen_cerv_c3thx": 0.0487024411,
+    "splen_cerv_c3thx_L": 0.0486376139,
+    "semi_cap_sklc5": 0.0221057900,
+    "semi_cap_sklc5_L": 0.0222267488,
+    "semi_cap_sklthx": 0.0230974719,
+    "semi_cap_sklthx_L": 0.0231614554,
+    "semi_cerv_c3thx": 0.0694999818,
+    "semi_cerv_c3thx_L": 0.0694159181,
+    "levator_scap": 0.0494874183,
+    "levator_scap_L": 0.0494206141,
+    "longissi_cap_sklc6": 0.0305173104,
+    "longissi_cap_sklc6_L": 0.0305802837,
+    "longissi_cerv_c4thx": 0.0687748785,
+    "longissi_cerv_c4thx_L": 0.0686880523,
+    "iliocost_cerv_c5rib": 0.0665554157,
+    "iliocost_cerv_c5rib_L": 0.0664675579,
+    "rectcap_post_maj": 0.0305236751,
+    "rectcap_post_maj_L": 0.0305448742,
+    "rectcap_post_min": 0.0307383191,
+    "rectcap_post_min_L": 0.0308234885,
+    "obl_cap_sup": 0.0320057410,
+    "obl_cap_sup_L": 0.0321181604,
+    "obl_cap_inf": 0.0358454823,
+    "obl_cap_inf_L": 0.0358149574,
+}
+
 
 def ensure_libraries_loaded():
     global _LIBRARIES_LOADED
@@ -127,6 +202,13 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     c_yaw1.set_locked(False)
     c_yaw1.setDefaultIsPrescribed(False)
 
+    # Lock extraocular coordinates during neck perturbation evaluation
+    for eye_c in ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]:
+        if model.getCoordinateSet().contains(eye_c):
+            c = model.updCoordinateSet().get(eye_c)
+            c.setDefaultValue(0.0)
+            c.setDefaultLocked(True)
+
     amplitude = 0.0215 * (0.835 / freq)**2
     delay = 1.5
     period = 1.0 / freq
@@ -157,6 +239,8 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     state = model.initSystem()
     c_yaw1.setIsPrescribed(state, False)
     coord_tx.setSpeedValue(state, 0.0)
+
+    model.realizePosition(state)
     skull = model.getBodySet().get("skull")
     R_head_to_world = skull.getTransformInGround(state).R()
     q = osim.Rotation(R_head_to_world).convertRotationToQuaternion()
@@ -165,15 +249,35 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q2", q.get(2))
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/obs_q3", q.get(3))
 
-    # Preserve exact t=0 static gravity equilibrium torque (40.2786 * 0.10528 = 4.24053 Nm) across all Ki_task_pitch values
-    grav_trim_torque = 40.2786 * 0.10528
-    init_pitch_integral = (grav_trim_torque / max(1.0, ki)) if ki > 0.0 else 0.10528
+    # Zero trim at t=0 (72-muscle co-contraction balanced for exact 6-DOF upright static equilibrium)
+    grav_trim_torque = 0.0
+    init_pitch_integral = 0.0
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/pitch_error_integral", init_pitch_integral)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/roll_error_integral", 0.0)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/yaw_error_integral", 0.0)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_pitch", grav_trim_torque)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_roll", 0.0)
     model.setStateVariableValue(state, "/controllerset/VCR_CCR_Controller/vol_filt_yaw", 0.0)
+
+    # Isolate 72 neck muscles and initialize exact 6-DOF static equilibrium co-contraction & spindle states
+    muscles = model.updMuscles()
+    for i in range(muscles.getSize()):
+        m = muscles.get(i)
+        name = m.getName()
+        if name.startswith("r_") or name.startswith("l_"):
+            m.setAppliesForce(state, False)
+            continue
+        a0 = PER_MUSCLE_72_U0.get(name, 0.030)
+        m.setActivation(state, a0)
+        gd0 = 100.0 * k_gamma_dyn * a0
+        gs0 = 100.0 * k_gamma_stat * a0
+        fdyn0 = (gd0 * gd0) / (gd0 * gd0 + 3600.0)
+        fstat0 = (gs0 * gs0) / (gs0 * gs0 + 3600.0)
+        m.setStateVariableValue(state, "spindle/dynamic_activation", fdyn0)
+        m.setStateVariableValue(state, "spindle/static_activation", fstat0)
+        model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/sp_fdyn_{name}", fdyn0)
+        model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/sp_fstat_{name}", fstat0)
+
     model.equilibrateMuscles(state)
 
     manager = osim.Manager(model)
@@ -396,7 +500,7 @@ if __name__ == "__main__":
                     traceback.print_exc(file=sys.stderr)
                     f_score = 1050000.0
 
-                if f_score < 250000.0:
+                if f_score < 150000.0:
                     total_score += f_score
                     print(f"[PASS] [{worker_name}] passed {f_val:.3f}Hz ({t_idx+1}/{len(CANONICAL_TARGETS)}) (Score: {f_score:.1f} | Cum: {total_score:.1f})", flush=True)
                 else:

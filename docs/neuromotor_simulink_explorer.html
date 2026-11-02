@@ -651,12 +651,12 @@ Outputs: delayed_mahony_angle, delayed_mahony_speed`,
       },
       s1_pid: {
         type: "Task-Space PID + Anti-Windup",
-        title: "Cortical Task-Space 3-DOF PID Controller & Gravity Trim",
-        desc: "Computes unfiltered cortical voluntary torque by comparing the planned trajectory against the ascending-delayed Mahony spatial state, with anti-windup clamping on the posture integral.",
-        latex: String.raw`\tau_{\text{raw}} = \underbrace{K_p\bigl(x_1 - \theta_{\text{ctx}}\bigr)}_{\text{postural stiffness}} + \underbrace{K_d\bigl(x_2 - \omega_{\text{ctx}}\bigr)}_{\text{velocity damping}} + \underbrace{K_i \, I_\theta}_{\text{gravity trim integral}} + \underbrace{J_{\text{head}}\,\ddot{x}_1}_{\text{inertial feedforward}}`,
+        title: "Cortical Task-Space 3-DOF PID Controller",
+        desc: "Computes unfiltered cortical voluntary torque by comparing the planned trajectory against the ascending-delayed Mahony spatial state, with anti-windup clamping on the posture integral and zero initial integral preload (since static upright gravity equilibrium is provided by the 72-muscle postural co-contraction baseline u_min[1..72]).",
+        latex: String.raw`\tau_{\text{raw}} = \underbrace{K_p\bigl(x_1 - \theta_{\text{ctx}}\bigr)}_{\text{postural stiffness}} + \underbrace{K_d\bigl(x_2 - \omega_{\text{ctx}}\bigr)}_{\text{velocity damping}} + \underbrace{K_i \, I_\theta}_{\text{postural integral }(I_\theta(0)=0)} + \underbrace{J_{\text{head}}\,\ddot{x}_1}_{\text{inertial feedforward}}`,
         math:
 `Inputs:  trajectory (x_1, x_2, a_traj), delayed_mahony (θ_ctx, ω_ctx)
-States:  I_θ (error_integral per axis, initialized so K_i · I_θ(0) = τ_gravity)
+States:  I_θ (error_integral per axis, initialized at I_θ(0) = 0)
 Params:  K_p, K_d, K_i, J_head, integral_bound I_max
 
 For each axis ∈ {pitch, roll, yaw} do:
@@ -676,13 +676,13 @@ For each axis ∈ {pitch, roll, yaw} do:
 
 Output:  unfiltered_voluntary_torque ← τ_raw`,
         params: [
-          "Pitch Gains (CMA-ES): Kp_task_pitch (#14), Kd_task_pitch (#15), Ki_task_pitch (#16)",
-          "Roll/Yaw Gains: Kp_task_roll/yaw, Kd_task_roll/yaw, Ki_task_roll/yaw",
+          "Pitch Gains (CMA-ES): Kp_task_pitch (#13), Kd_task_pitch (#14), Ki_task_pitch (#15)",
+          "Roll/Yaw Gains: Kp_task_roll/yaw, Kd_task_roll/yaw, Ki_task_roll/yaw = 0",
           {
-            label: "I_θ(0) = τ_grav / K_i : Gravity trim warm-start",
-            derivTitle: "Static Gravity Equilibrium Warm-Start (I_θ(0))",
-            derivDesc: "At t = 0 in upright posture (e_pos = 0, e_vel = 0), the neck muscles produce baseline gravitational torque τ_grav. Initializing I_θ(0) = τ_grav / K_i ensures τ_raw(0) = τ_grav with zero initial head-drop transient:",
-            derivLatex: String.raw`\tau_{\text{raw}}(0) = K_p(0) + K_d(0) + K_i\,I_\theta(0) = \tau_{\text{grav}} \implies I_\theta(0) = \frac{\tau_{\text{grav}}}{K_i}`
+            label: "I_θ(0) = 0 : Zero Integral Preload (Gravity Balanced by u_min[72])",
+            derivTitle: "Zero Initial Cortical Integrator State via 6-DOF Muscle Co-Contraction Equilibrium",
+            derivDesc: "Because the 72 individual muscle co-contraction baselines u_min[1..72] are solved to balance all 6 cervical joint accelerations at t = 0 (∑ A_{:,i} u_min,i = τ_grav), the required corrective task torque at upright rest (e_pos = 0, e_vel = 0) is zero:",
+            derivLatex: String.raw`\sum_{i=1}^{72} A_{:,i}\,u_{\min,i} = \boldsymbol{\tau}_{\text{grav}} \implies \boldsymbol{\tau}_{\text{raw}}(0) = \mathbf{0}, \qquad I_\theta(0) = 0`
           },
           "J_head : head_inertia_pitch/roll/yaw"
         ]
@@ -1202,36 +1202,47 @@ Outputs: raw spindle firing rates Ia[1..N], II[1..N] (to Bias Subtraction)`,
       s3_gamma: {
         type: "Fusimotor Internal Model",
         title: "Supraspinal Alpha-Gamma Coactivation Efference Copy",
-        desc: "Predicts intrafusal bag1, bag2, and chain fiber activations driven by alpha-gamma coactivation and outputs the expected fusimotor firing biases (b_Ia, b_II) to the Bias Subtraction node.",
-        latex: String.raw`f_{j,\infty} = \underbrace{\frac{\gamma_j^2}{\gamma_j^2 + \gamma_{50,\text{bag}}^2}}_{\text{Hill saturation}}, \quad \dot{f}_j = \underbrace{\frac{f_{j,\infty} - f_j}{\tau_j}}_{\substack{\text{intrafusal ODE} \\ j\,\in\,\{\text{bag}_1,\,\text{bag}_2\}}}, \quad b_{\text{II}} = \underbrace{w_{\text{bag}_2}f_{\text{bag}_2} + w_{\text{chain}}f_{\text{chain}}}_{\text{predicted II bias}}, \quad b_{\text{Ia}} = \underbrace{w_{\text{bag}_1}f_{\text{bag}_1} + w_{\text{cross}}b_{\text{II}}}_{\text{predicted Ia bias}}`,
+        desc: "Predicts intrafusal bag1, bag2, and chain fiber activations driven by alpha-gamma coactivation, subtracts the resting coactivation baseline (f_bag1,0, f_bag2,0, f_chain,0 at u_min,i), and outputs the incremental fusimotor firing biases (b_Ia, b_II) above resting baseline (Ia_0, II_0) to the Bias Subtraction node.",
+        latex: String.raw`f_{j,\infty} = \frac{\gamma_j^2}{\gamma_j^2 + \gamma_{50,j}^2}, \quad \dot{f}_j = \frac{f_{j,\infty} - f_j}{\tau_j}, \quad \Delta f_j = \max\bigl(0,\, f_j - f_{j,0}\bigr), \quad b_{\text{II}} = \underbrace{w_{\text{bag}_2}\Delta f_{\text{bag}_2} + w_{\text{chain}}\Delta f_{\text{chain}}}_{\text{incremental II bias}}, \quad b_{\text{Ia}} = \underbrace{w_{\text{bag}_1}\Delta f_{\text{bag}_1} + w_{\text{cross}}b_{\text{II}}}_{\text{incremental Ia bias}}`,
         math:
 `Input:   alpha_motor_excitations u_α[1..N]
-States:  f[i, j] for muscle i ∈ {1..N}, intrafusal fiber j ∈ {bag1, bag2}
+States:  f[i, j] for muscle i ∈ {1..N}, intrafusal fiber j ∈ {bag1, bag2} (initialized at f_0[i, j] at u_min[i])
 Params:  K_γ,bag1, K_γ,bag2, τ_bag1 = 0.149 s, τ_bag2 = 0.205 s,
          Hill constants (γ_50,bag = 60 Hz, γ_50,chain = 90 Hz),
          bias weights (w_bag1 = 54.45176, w_bag2 = 29.72138, w_chain = 44.58207, w_cross = 0.21517)
 
 For each muscle i ∈ {1..N} do:
-   1. Coactivated gamma firing rates:
-      γ[bag1] ← 100 · K_γ,bag1 · u_α[i]
-      γ[bag2] ← 100 · K_γ,bag2 · u_α[i]
+   1. Coactivated gamma firing rates & resting coactivation baseline (at u_min[i]):
+      γ[bag1]   ← 100 · K_γ,bag1 · u_α[i],     γ_0[bag1] ← 100 · K_γ,bag1 · u_min[i]
+      γ[bag2]   ← 100 · K_γ,bag2 · u_α[i],     γ_0[bag2] ← 100 · K_γ,bag2 · u_min[i]
+      f_0[bag1] ← γ_0[bag1]² / (γ_0[bag1]² + γ_50,bag²)
+      f_0[bag2] ← γ_0[bag2]² / (γ_0[bag2]² + γ_50,bag²)
+      f_0[chain]← γ_0[bag2]² / (γ_0[bag2]² + γ_50,chain²)
 
    2. Intrafusal Hill saturation & first-order differential dynamics for j ∈ {bag1, bag2}:
       For each j ∈ {bag1, bag2} do:
          f_∞[j]    ← γ[j]² / (γ[j]² + γ_50,bag²)
          ḟ[i, j]   ← (f_∞[j] - f[i, j]) / τ[j]
          f[i, j]   ← f[i, j] + ḟ[i, j] · Δt
+         Δf[j]     ← max(0, f[i, j] - f_0[j])
 
-      f_chain ← γ[bag2]² / (γ[bag2]² + γ_50,chain²)
+      f_chain   ← γ[bag2]² / (γ[bag2]² + γ_50,chain²)
+      Δf[chain] ← max(0, f_chain - f_0[chain])
 
-   3. Compute predicted isometric fusimotor firing biases:
-      b_II[i] ← w_bag2 · f[i, bag2] + w_chain · f_chain
-      b_Ia[i] ← w_bag1 · f[i, bag1] + w_cross · b_II[i]
+   3. Compute predicted incremental isometric fusimotor firing biases above resting coactivation:
+      b_II[i] ← w_bag2 · Δf[bag2] + w_chain · Δf[chain]
+      b_Ia[i] ← w_bag1 · Δf[bag1] + w_cross · b_II[i]
 
 Outputs: fusimotor_primary_bias b_Ia[1..N], fusimotor_secondary_bias b_II[1..N] (to Bias Subtraction)`,
         params: [
           "K_γ,bag1 (CMA-ES #11), K_γ,bag2 (CMA-ES #12)",
           "τ_bag1 = 0.149 s, τ_bag2 = 0.205 s (intrafusal time constants)",
+          {
+            label: "f_0[bag1], f_0[bag2], f_0[chain] : Resting Coactivation Initialization",
+            derivTitle: "Initializing Intrafusal Spindle & Efference States at Resting Coactivation u_min,i",
+            derivDesc: "Because each muscle i maintains resting baseline excitation u_min,i at t = 0, its spindle receives continuous baseline fusimotor drive γ_0 = 100·K_γ·u_min,i. Both the peripheral spindle states and CNS efference states initialize at f_0, and because the baseline firing rates Ia_0,i and II_0,i already include the static tension from f_0, the efference copy subtracts only the incremental activation Δf_j = max(0, f_j - f_{j,0}):",
+            derivLatex: String.raw`f_{\text{dyn},0} = \frac{\gamma_{\text{dyn},0}^2}{\gamma_{\text{dyn},0}^2 + 60^2}, \quad f_{\text{stat},0} = \frac{\gamma_{\text{stat},0}^2}{\gamma_{\text{stat},0}^2 + 60^2}, \quad f_{\text{chain},0} = \frac{\gamma_{\text{stat},0}^2}{\gamma_{\text{stat},0}^2 + 90^2} = \frac{4f_{\text{stat},0}}{9 - 5f_{\text{stat},0}}`
+          },
           {
             label: "w_bag2 = 29.72138 imp/s (Secondary bag2 weight)",
             derivTitle: "Secondary (II) bag2 Fusimotor Weight (w_bag2 = 29.72138)",
@@ -1259,27 +1270,29 @@ Outputs: fusimotor_primary_bias b_Ia[1..N], fusimotor_secondary_bias b_II[1..N] 
         ]
       },
       s3_sub: {
-        type: "Summing Junction (Bias Cancellation)",
-        title: "Spindle Fusimotor Bias Subtraction Node",
-        desc: "Subtracts the resting baseline firing rates (Ia_0, II_0) and the predicted self-generated fusimotor biases (b_Ia, b_II) from the raw spindle afferents to isolate pure kinematic stretch (ΔL, L̇).",
-        latex: String.raw`\Delta\text{II}_{\text{net},i} = \underbrace{\bigl(\text{II}_i - \text{II}_{0,i}\bigr)}_{\text{raw secondary change}} - \underbrace{b_{\text{II},i}}_{\text{predicted II bias}}, \qquad \Delta\text{Ia}_{\text{net},i} = \underbrace{\bigl(\text{Ia}_i - \text{Ia}_{0,i}\bigr)}_{\text{raw primary change}} - \underbrace{b_{\text{Ia},i}}_{\text{predicted Ia bias}}`,
+        type: "Summing Junction (Bias Cancellation & Threshold)",
+        title: "Spindle Fusimotor Bias Subtraction & 0.5 imp/s Threshold Node",
+        desc: "Subtracts the resting baseline firing rates (Ia_0, II_0) and the predicted incremental fusimotor biases (b_Ia, b_II) from the raw spindle afferents to isolate pure kinematic stretch (ΔL, L̇), and applies the physiological 0.5 imp/s soft synaptic threshold on ΔIa_net.",
+        latex: String.raw`\Delta\text{II}_{\text{net},i} = \bigl(\text{II}_i - \text{II}_{0,i}\bigr) - b_{\text{II},i}, \qquad \Delta\text{Ia}_{\text{raw},i} = \bigl(\text{Ia}_i - \text{Ia}_{0,i}\bigr) - b_{\text{Ia},i}, \qquad \Delta\text{Ia}_{\text{net},i} = \mathcal{D}_{0.5}\bigl(\Delta\text{Ia}_{\text{raw},i}\bigr) = \operatorname{sign}\bigl(\Delta\text{Ia}_{\text{raw},i}\bigr)\max\bigl(0,\,|\Delta\text{Ia}_{\text{raw},i}| - 0.5\bigr)`,
         math:
 `Inputs:  raw spindle rates Ia[1..N], II[1..N],
-         predicted biases b_Ia[1..N], b_II[1..N]
-Params:  resting baseline rates Ia_0[1..N], II_0[1..N]
+         predicted incremental biases b_Ia[1..N], b_II[1..N]
+Params:  resting baseline rates Ia_0[1..N], II_0[1..N], spindle threshold ΔIa_min = 0.5 imp/s
 
 For each muscle i ∈ {1..N} do:
-   1. Subtract resting baseline and predicted fusimotor bias from Secondary (II) afferent:
+   1. Subtract resting baseline and incremental fusimotor bias from Secondary (II) afferent:
       ΔII_net[i] ← (II[i] - II_0[i]) - b_II[i]
 
-   2. Subtract resting baseline and predicted fusimotor bias from Primary (Ia) afferent:
-      ΔIa_net[i] ← (Ia[i] - Ia_0[i]) - b_Ia[i]
+   2. Subtract resting baseline and incremental fusimotor bias from Primary (Ia) afferent & apply 0.5 imp/s soft threshold:
+      ΔIa_raw    ← (Ia[i] - Ia_0[i]) - b_Ia[i]
+      ΔIa_net[i] ← sign(ΔIa_raw) · max(0.0, |ΔIa_raw| - 0.5)
 
-Outputs: net_primary_change ΔIa_net[1..N], net_secondary_change ΔII_net[1..N] (to 72 Luenbergers)`,
+Outputs: net_primary_change ΔIa_net[1..N], net_secondary_change ΔII_net[1..N] (to 72 Luenbergers & HistoryRecord Bus)`,
         params: [
-          "Ia_0, II_0 : Resting posture baseline firing rates",
-          "b_Ia, b_II : Predicted fusimotor biases from Efference Copy",
-          "ΔIa_net, ΔII_net : Pure kinematic stretch signals (to Luenbergers)"
+          "Ia_0, II_0 : Resting coactivated baseline firing rates at u_min[i]",
+          "b_Ia, b_II : Predicted incremental fusimotor biases above f_0",
+          "ΔIa_min = 0.5 imp/s : Physiological Ia recruitment threshold (Matthews, 1972; Burke et al., 1983)",
+          "ΔIa_net, ΔII_net : Pure kinematic stretch signals (to Luenbergers & Sub 6 CCR)"
         ]
       },
       s3_luen: {
@@ -1604,21 +1617,22 @@ Outputs: x̃_1,desc(t - 2 ms), x̃_2,desc(t - 2 ms), a_desc (all aligned to the 
         ]
       },
       s5_eff_ton: {
-        type: "Efference-Copy Attitude Comparator (at t - 2 ms)",
-        title: "Tonic Tilt Efference Cancellation (Forming tonic_otolith_input)",
-        desc: "Receives the Mahony-estimated head orientation θ̂_head(t - 2 ms) arriving from Subsystem 4 Output 1 across the cerebellovestibular juxtarestiform projection (τ_vest = 2 ms), subtracts the resting baseline posture θ_base, and subtracts the forward-predicted voluntary reference posture x̃_1,desc(t - 2 ms) from the Cerebellar Efference Forward Predictor (Cullen 2012; Brooks & Cullen 2013) so both terms are 100% synchronized at t - 2 ms.",
-        latex: String.raw`\text{tonic\_otolith\_input} = u_{\text{ton}}(t) = \Bigl(\underbrace{\hat{\theta}_{\text{head}}(t - \tau_{\text{vest}})}_{\text{Sub 4 Out 1 }(t - 2\text{ ms})} - \theta_{\text{base}}\Bigr) - \underbrace{\tilde{x}_{1,\text{desc}}(t - \tau_{\text{vest}})}_{\text{Forward-Predicted Pos }(t - 2\text{ ms})}`,
+        type: "Efference-Copy Attitude Comparator & Deadzone (at t - 2 ms)",
+        title: "Tonic Tilt Efference Cancellation & Threshold (Forming tonic_otolith_input)",
+        desc: "Receives the Mahony-estimated head orientation θ̂_head(t - 2 ms) arriving from Subsystem 4 Output 1 across the cerebellovestibular juxtarestiform projection (τ_vest = 2 ms), subtracts the resting baseline posture θ_base, subtracts the forward-predicted voluntary reference posture x̃_1,desc(t - 2 ms) from the Cerebellar Efference Forward Predictor (Cullen 2012; Brooks & Cullen 2013), and applies the physiological static tilt threshold θ_min,tilt = 0.002 rad (0.11°).",
+        latex: String.raw`u_{\text{ton,raw}}(t) = \Bigl(\underbrace{\hat{\theta}_{\text{head}}(t - \tau_{\text{vest}})}_{\text{Sub 4 Out 1 }(t - 2\text{ ms})} - \theta_{\text{base}}\Bigr) - \underbrace{\tilde{x}_{1,\text{desc}}(t - \tau_{\text{vest}})}_{\text{Forward-Predicted Pos }(t - 2\text{ ms})}, \qquad u_{\text{ton}}(t) = \mathcal{D}_{0.002}\bigl(u_{\text{ton,raw}}(t)\bigr) = \operatorname{sign}(u_{\text{ton,raw}})\max\bigl(0,\,|u_{\text{ton,raw}}| - 0.002\bigr)`,
         math:
 `Inputs:  1: estimated_head_orient θ̂_head(t - 2 ms)        [from Subsystem 4 Output 1, τ_vest = 2 ms]
          4: predicted_traj_pos x̃_1,desc(t - 2 ms)         [from Cerebellar Forward Predictor, synced to -2 ms]
-Params:  τ_vest = 0.002 s, baseline_spatial_orientation θ_base[3]
+Params:  τ_vest = 0.002 s, baseline_spatial_orientation θ_base[3], tilt threshold θ_min,tilt = 0.002 rad
 
 For each axis ∈ {pitch, roll, yaw} do:
    1. Deviation of arriving head attitude (at t - 2 ms) from neutral upright posture:
       Δθ̂_head(t - 2 ms) ← θ̂_head(t - 2 ms) - θ_base
 
-   2. Subtract time-matched forward-predicted voluntary posture at t - 2 ms:
-      tonic_otolith_input(t) ← Δθ̂_head(t - 2 ms) - x̃_1,desc(t - 2 ms)
+   2. Subtract time-matched forward-predicted voluntary posture at t - 2 ms & apply 0.002 rad threshold:
+      u_ton_raw            ← Δθ̂_head(t - 2 ms) - x̃_1,desc(t - 2 ms)
+      tonic_otolith_input(t) ← sign(u_ton_raw) · max(0.0, |u_ton_raw| - 0.002)
 
 Output:  tonic_otolith_input[3] ← u_ton(t)`,
         params: [
@@ -1626,24 +1640,26 @@ Output:  tonic_otolith_input[3] ← u_ton(t)`,
             label: "Exact -2 ms Synchronization : θ̂_head(t-2ms) vs. x̃_1,desc(t-2ms)",
             derivTitle: "Why Both Attitude Feedback and Forward-Predicted Efference Copy Align at t - 2 ms",
             derivDesc: "Both the cerebellovestibular projection from Subsystem 4 (θ̂_head(t - 2 ms), R̂_H^W(t - 2 ms)) and the CN VIII vestibular afferents from Subsystem 2 arrive at the Brainstem Vestibular Nuclei at t - 2 ms, while the Cerebellar Forward Predictor advances x_1,desc(t - 12 ms) by +10 ms to x̃_1,desc(t - 2 ms). After H_ton(s), the 8 ms MVST output delay delivers the reflex to the spinal cord at 2 ms + 8 ms = 10 ms total latency:",
-            derivLatex: String.raw`u_{\text{ton}}(t) = \bigl(\hat{\theta}_{\text{head}}(t - 2\text{ ms}) - \theta_{\text{base}}\bigr) - \underbrace{\bigl(x_{1,\text{desc}}(t - 12\text{ ms}) + 0.010\,x_{2,\text{desc}}(t - 12\text{ ms})\bigr)}_{\tilde{x}_{1,\text{desc}}(t - 2\text{ ms})}`
+            derivLatex: String.raw`u_{\text{ton,raw}}(t) = \bigl(\hat{\theta}_{\text{head}}(t - 2\text{ ms}) - \theta_{\text{base}}\bigr) - \underbrace{\bigl(x_{1,\text{desc}}(t - 12\text{ ms}) + 0.010\,x_{2,\text{desc}}(t - 12\text{ ms})\bigr)}_{\tilde{x}_{1,\text{desc}}(t - 2\text{ ms})}`
           },
+          "θ_min,tilt = 0.002 rad (~0.11°) : Static tilt recruitment threshold (Fernández et al., 1972)",
           "Output: tonic_otolith_input[3] [rad]"
         ]
       },
       s5_eff_sc: {
-        type: "Efference-Copy Velocity Comparator (at t - 2 ms)",
-        title: "Canal Velocity Efference Cancellation (Forming semicircular_canal_input)",
-        desc: "Receives the gain-normalized Irregular Semicircular Canal angular velocity ω̂_canal,irr(t - 2 ms) arriving at the Brainstem Vestibular Nuclei from Subsystem 2 Output 1 (τ_vest = 2 ms CN VIII delay), and subtracts the time-matched forward-predicted voluntary angular velocity x̃_2,desc(t - 2 ms) from the Cerebellar Efference Forward Predictor (Roy & Cullen 2004; Cullen 2012; Brooks & Cullen 2013, 2014) to form semicircular_canal_input.",
-        latex: String.raw`\text{semicircular\_canal\_input} = u_{\text{sc}}(t) = \underbrace{\hat{\omega}_{\text{canal,irr}}(t - \tau_{\text{vest}})}_{\text{Sub 2 Output 1 }(t - 2\text{ ms})} - \underbrace{\tilde{x}_{2,\text{desc}}(t - \tau_{\text{vest}})}_{\text{Forward-Predicted Vel }(t - 2\text{ ms})}`,
+        type: "Efference-Copy Velocity Comparator & Deadzone (at t - 2 ms)",
+        title: "Canal Velocity Efference Cancellation & Threshold (Forming semicircular_canal_input)",
+        desc: "Receives the gain-normalized Irregular Semicircular Canal angular velocity ω̂_canal,irr(t - 2 ms) arriving at the Brainstem Vestibular Nuclei from Subsystem 2 Output 1 (τ_vest = 2 ms CN VIII delay), subtracts the time-matched forward-predicted voluntary angular velocity x̃_2,desc(t - 2 ms) from the Cerebellar Efference Forward Predictor (Roy & Cullen 2004; Cullen 2012; Brooks & Cullen 2013, 2014), and applies the physiological canal velocity threshold ω_min,scc = 0.005 rad/s (0.29°/s).",
+        latex: String.raw`u_{\text{sc,raw}}(t) = \underbrace{\hat{\omega}_{\text{canal,irr}}(t - \tau_{\text{vest}})}_{\text{Sub 2 Output 1 }(t - 2\text{ ms})} - \underbrace{\tilde{x}_{2,\text{desc}}(t - \tau_{\text{vest}})}_{\text{Forward-Predicted Vel }(t - 2\text{ ms})}, \qquad u_{\text{sc}}(t) = \mathcal{D}_{0.005}\bigl(u_{\text{sc,raw}}(t)\bigr) = \operatorname{sign}(u_{\text{sc,raw}})\max\bigl(0,\,|u_{\text{sc,raw}}| - 0.005\bigr)`,
         math:
 `Inputs:  2: recon_canal_omega ω̂_canal,irr(t - 2 ms)       [from Subsystem 2 Output 1, τ_vest = 2 ms CN VIII]
          4: predicted_traj_vel x̃_2,desc(t - 2 ms)         [from Cerebellar Forward Predictor, synced to -2 ms]
-Params:  τ_vest = 0.002 s (CN VIII afferent delay to Brainstem VN)
+Params:  τ_vest = 0.002 s (CN VIII afferent delay to Brainstem VN), canal threshold ω_min,scc = 0.005 rad/s
 
 For each axis ∈ {pitch, roll, yaw} do:
-   1. Subtract time-matched forward-predicted voluntary angular velocity at t - 2 ms:
-      semicircular_canal_input(t) ← ω̂_canal,irr(t - 2 ms) - x̃_2,desc(t - 2 ms)
+   1. Subtract time-matched forward-predicted voluntary angular velocity at t - 2 ms & apply 0.005 rad/s threshold:
+      u_sc_raw                   ← ω̂_canal,irr(t - 2 ms) - x̃_2,desc(t - 2 ms)
+      semicircular_canal_input(t) ← sign(u_sc_raw) · max(0.0, |u_sc_raw| - 0.005)
 
 Output:  semicircular_canal_input[3] ← u_sc(t)`,
         params: [
@@ -1651,8 +1667,9 @@ Output:  semicircular_canal_input[3] ← u_sc(t)`,
             label: "Exact -2 ms Synchronization : ω̂_canal,irr(t-2ms) vs. x̃_2,desc(t-2ms)",
             derivTitle: "Eliminating the 10 ms Corticobulbar-to-CN VIII Lag via Forward Prediction (Roy & Cullen 2004; Brooks & Cullen 2013)",
             derivDesc: "Without forward prediction, x_2,desc(t - 12 ms) lags behind ω̂_canal,irr(t - 2 ms) by 10 ms, causing incomplete reafference cancellation on Vestibular-Only (VO) neurons during rapid head turns. Advancing x_2,desc(t - 12 ms) by Δt_fwd = 10 ms using a_desc(t - 12 ms) aligns both velocity signals at t - 2 ms:",
-            derivLatex: String.raw`u_{\text{sc}}(t) = \hat{\omega}_{\text{canal,irr}}(t - 2\text{ ms}) - \underbrace{\bigl(x_{2,\text{desc}}(t - 12\text{ ms}) + 0.010\,a_{\text{desc}}(t - 12\text{ ms})\bigr)}_{\tilde{x}_{2,\text{desc}}(t - 2\text{ ms})}`
+            derivLatex: String.raw`u_{\text{sc,raw}}(t) = \hat{\omega}_{\text{canal,irr}}(t - 2\text{ ms}) - \underbrace{\bigl(x_{2,\text{desc}}(t - 12\text{ ms}) + 0.010\,a_{\text{desc}}(t - 12\text{ ms})\bigr)}_{\tilde{x}_{2,\text{desc}}(t - 2\text{ ms})}`
           },
+          "ω_min,scc = 0.005 rad/s (~0.29°/s) : Canal velocity threshold (Benson et al., 1989; Grabherr et al., 2008)",
           "τ_vest = 0.002 s : CN VIII afferent delay to Brainstem VN",
           "Output: semicircular_canal_input[3] [rad/s]"
         ]
@@ -1660,14 +1677,14 @@ Output:  semicircular_canal_input[3] ← u_sc(t)`,
       s5_eff_phas: {
         type: "Matched-Adaptation Gravity & Efference-Copy Accel. Comparator",
         title: "Phasic Gravity & Efference Cancellation (Forming phasic_otolith_input)",
-        desc: "Receives the Irregular Otolith gravitoinertial force f̂_oto,irr(t - τ_vest) arriving at the Brainstem Vestibular Nuclei from Subsystem 2 Output 3 (after τ_vest = 2 ms CN VIII delay), cancels its adapted gravity component across all frequencies by passing the time-matched delayed gravity vector ĝ_H(t - τ_vest) = (R̂_H^W(t - τ_vest))ᵀ·g_W through the matched Irregular Adaptation Operator H_adapt,irr(s) = (α_irr + c_irr·s)/(1 + c_irr·s) (α_irr = 0.152653, c_irr = 0.25 s), and subtracts the expected tangential acceleration r_piv·a_desc(t - τ_cb) from Subsystem 1.",
-        latex: String.raw`\dot{\mathbf{x}}_{g,\text{adapt}} = \frac{\hat{\mathbf{g}}_H(t-\tau_{\text{vest}}) - \mathbf{x}_{g,\text{adapt}}}{c_{\text{irr}}}, \quad \tilde{\mathbf{g}}_H = (\alpha_{\text{irr}}-1)\mathbf{x}_{g,\text{adapt}} + \hat{\mathbf{g}}_H(t-\tau_{\text{vest}}), \quad \hat{\mathbf{a}}_{\text{lin},H}(t) = \hat{\mathbf{f}}_{\text{oto,irr}}(t-\tau_{\text{vest}}) + \tilde{\mathbf{g}}_H, \quad u_{\text{phas}}(t) = \begin{bmatrix}\hat{a}_{\text{lin},x}(t) - r_{\text{piv}}\,a_{\text{desc,pitch}}(t-\tau_{\text{cb}}) \\ \hat{a}_{\text{lin},z}(t) - r_{\text{piv}}\,a_{\text{desc,roll}}(t-\tau_{\text{cb}}) \\ 0\end{bmatrix}`,
+        desc: "Receives the Irregular Otolith gravitoinertial force f̂_oto,irr(t - τ_vest) arriving at the Brainstem Vestibular Nuclei from Subsystem 2 Output 3 (after τ_vest = 2 ms CN VIII delay), cancels its adapted gravity component across all frequencies by passing the time-matched delayed gravity vector ĝ_H(t - τ_vest) = (R̂_H^W(t - τ_vest))ᵀ·g_W through the matched Irregular Adaptation Operator H_adapt,irr(s) = (α_irr + c_irr·s)/(1 + c_irr·s) (α_irr = 0.152653, c_irr = 0.25 s), subtracts the expected tangential acceleration r_piv·a_desc(t - τ_cb) from Subsystem 1, and applies the physiological otolith acceleration threshold a_min,oto = 0.020 m/s².",
+        latex: String.raw`\dot{\mathbf{x}}_{g,\text{adapt}} = \frac{\hat{\mathbf{g}}_H(t-\tau_{\text{vest}}) - \mathbf{x}_{g,\text{adapt}}}{c_{\text{irr}}}, \quad \tilde{\mathbf{g}}_H = (\alpha_{\text{irr}}-1)\mathbf{x}_{g,\text{adapt}} + \hat{\mathbf{g}}_H(t-\tau_{\text{vest}}), \quad \hat{\mathbf{a}}_{\text{lin},H}(t) = \hat{\mathbf{f}}_{\text{oto,irr}}(t-\tau_{\text{vest}}) + \tilde{\mathbf{g}}_H, \quad u_{\text{phas}}(t) = \mathcal{D}_{0.020}\!\begin{bmatrix}\hat{a}_{\text{lin},x}(t) - r_{\text{piv}}\,a_{\text{desc,pitch}}(t-\tau_{\text{cb}}) \\ \hat{a}_{\text{lin},z}(t) - r_{\text{piv}}\,a_{\text{desc,roll}}(t-\tau_{\text{cb}}) \\ 0\end{bmatrix}`,
         math:
 `Inputs:  3a: recon_otolith_gif f̂_oto,irr(t - τ_vest)     [from Subsystem 2 Output 3, τ_vest = 2 ms CN VIII]
          3b: delayed R̂_H^W(t - τ_vest)                     [from Subsystem 4 Output 2 via HistoryRecord Bus, τ_vest = 2 ms]
          4:  descending_traj_acc a_desc(t - τ_cb)          [from Subsystem 1, τ_cb = 12 ms corticobulbar]
 State:   x_g,adapt[3] (phas2_state_pitch/roll/yaw, initialized at t=0 to [0, -9.81, 0]ᵀ)
-Params:  τ_vest = 0.002 s, g_W = [0, -9.81, 0]ᵀ m/s², α_irr = 37.4/245.0 = 0.152653, c_irr = 0.25 s, r_piv = 0.15 m
+Params:  τ_vest = 0.002 s, g_W = [0, -9.81, 0]ᵀ m/s², α_irr = 37.4/245.0 = 0.152653, c_irr = 0.25 s, r_piv = 0.15 m, a_min,oto = 0.020 m/s²
 
 1. Delayed gravity vector in Head frame at t - 2 ms:
    ĝ_H(t - 2 ms) ← (R̂_H^W(t - 2 ms))ᵀ · g_W
@@ -1679,9 +1696,11 @@ Params:  τ_vest = 0.002 s, g_W = [0, -9.81, 0]ᵀ m/s², α_irr = 37.4/245.0 = 
 3. Exact gravity cancellation across all frequencies (static & dynamic head tilt yield 0.0 m/s²):
    â_lin,H(t) ← f̂_oto,irr(t - 2 ms) + g̃_H(t - 2 ms)
 
-4. Subtract expected voluntary tangential linear acceleration at skull COM (r_piv = 0.15 m):
-   phasic_otolith_input_pitch(t) ← â_lin,H[x](t) - r_piv · a_desc_pitch(t - τ_cb)
-   phasic_otolith_input_roll(t)  ← â_lin,H[z](t) - r_piv · a_desc_roll(t - τ_cb)
+4. Subtract expected voluntary tangential linear acceleration at skull COM (r_piv = 0.15 m) & apply 0.020 m/s² threshold:
+   u_phas_pitch_raw              ← â_lin,H[x](t) - r_piv · a_desc_pitch(t - τ_cb)
+   u_phas_roll_raw               ← â_lin,H[z](t) - r_piv · a_desc_roll(t - τ_cb)
+   phasic_otolith_input_pitch(t) ← sign(u_phas_pitch_raw) · max(0.0, |u_phas_pitch_raw| - 0.020)
+   phasic_otolith_input_roll(t)  ← sign(u_phas_roll_raw)  · max(0.0, |u_phas_roll_raw|  - 0.020)
    phasic_otolith_input_yaw(t)   ← 0
 
 Output:  phasic_otolith_input[3] ← u_phas(t)`,
@@ -1702,8 +1721,9 @@ Output:  phasic_otolith_input[3] ← u_phas(t)`,
             label: "u_phas = â_lin,H - r_piv·a_desc : Pivot Tangential Acceleration",
             derivTitle: "Expected Tangential Linear Acceleration During Voluntary Pitch/Roll (r_piv = 0.15 m)",
             derivDesc: "When the head rotates voluntarily about the lower cervical pivot (C7–T1) at distance r_piv ≈ 0.15 m below the skull center of mass, angular acceleration a_desc (rad/s²) induces tangential linear acceleration r_piv·a_desc (m/s²) along +X (for pitch) and +Z (for roll). Subtracting r_piv·a_desc isolates external perturbation acceleration:",
-            derivLatex: String.raw`\begin{bmatrix}u_{\text{phas,pitch}} \\ u_{\text{phas,roll}} \\ u_{\text{phas,yaw}}\end{bmatrix} = \begin{bmatrix}\hat{a}_{\text{lin},x} - r_{\text{piv}}\,\ddot{\theta}_{\text{desc,pitch}} \\ \hat{a}_{\text{lin},z} - r_{\text{piv}}\,\ddot{\theta}_{\text{desc,roll}} \\ 0\end{bmatrix} \qquad (r_{\text{piv}} = 0.15\text{ m})`
+            derivLatex: String.raw`\begin{bmatrix}u_{\text{phas,pitch}} \\ u_{\text{phas,roll}} \\ u_{\text{phas,yaw}}\end{bmatrix} = \mathcal{D}_{0.020}\!\begin{bmatrix}\hat{a}_{\text{lin},x} - r_{\text{piv}}\,\ddot{\theta}_{\text{desc,pitch}} \\ \hat{a}_{\text{lin},z} - r_{\text{piv}}\,\ddot{\theta}_{\text{desc,roll}} \\ 0\end{bmatrix} \qquad (r_{\text{piv}} = 0.15\text{ m})`
           },
+          "a_min,oto = 0.020 m/s² (~0.002g) : Otolith linear acceleration threshold (Benson et al., 1986; Gianna et al., 1996)",
           "Output: phasic_otolith_input[3] [m/s²]"
         ]
       },
@@ -1822,12 +1842,12 @@ Output:  1: vestibulo_collic_torque[3] ← τ_VCR(t) (to Subsystem 7 Input 2)`,
       s6_ccr: {
         type: "72 Per-Muscle Normalized Lead-Lag Filters (D ≠ 0)",
         title: "Spinal Cervico-Collic Reflex (CCR) Normalized Lead-Lag Filter — H_ccr(s)",
-        desc: "Processes each muscle's 7 ms-delayed primary spindle stretch rate ΔIa_i(t - τ_prop) (from Subsystem 3's shared proprioceptive afferent delay, with zero extra delay inside Subsystem 6) through a center-frequency normalized lead-lag filter (Peng et al., 1996) so the phase-lead zero z_ccr compensates downstream Hill-type muscle activation lag while stabilizing individual intervertebral joints (pitch1 vs. pitch2 S-buckling).",
-        latex: String.raw`H_{\text{ccr}}(s) = \frac{1}{\sqrt{r_{\text{ccr}}}}\,\frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad \dot{x}_{\text{ccr},i} = -p_{\text{ccr}}\,x_{\text{ccr},i} + \Delta\text{Ia}_i(t-\tau_{\text{prop}}), \qquad y_{\text{ccr},i}(t) = \underbrace{\frac{1}{\sqrt{r_{\text{ccr}}}}\,\Delta\text{Ia}_i(t-\tau_{\text{prop}})}_{\text{direct Ia feedthrough }d_{\text{ccr}}} + \underbrace{\frac{z_{\text{ccr}}-p_{\text{ccr}}}{\sqrt{r_{\text{ccr}}}}\,x_{\text{ccr},i}(t)}_{\text{lag state contribution }c_{\text{ccr}}}`,
+        desc: "Processes each muscle's 7 ms-delayed primary spindle stretch rate ΔIa_i(t - τ_prop) (from Subsystem 3's shared proprioceptive afferent delay, with zero extra delay inside Subsystem 6) through a 0.5 imp/s synaptic recruitment threshold and a center-frequency normalized lead-lag filter (Peng et al., 1996) so the phase-lead zero z_ccr compensates downstream Hill-type muscle activation lag while stabilizing individual intervertebral joints (pitch1 vs. pitch2 S-buckling).",
+        latex: String.raw`H_{\text{ccr}}(s) = \frac{1}{\sqrt{r_{\text{ccr}}}}\,\frac{s + z_{\text{ccr}}}{s + p_{\text{ccr}}}, \qquad u_{\text{ccr,in},i} = \mathcal{D}_{0.5}\bigl(\Delta\text{Ia}_i(t-\tau_{\text{prop}})\bigr), \qquad \dot{x}_{\text{ccr},i} = -p_{\text{ccr}}\,x_{\text{ccr},i} + u_{\text{ccr,in},i}, \qquad y_{\text{ccr},i}(t) = \underbrace{\frac{1}{\sqrt{r_{\text{ccr}}}}\,u_{\text{ccr,in},i}}_{\text{direct Ia feedthrough }d_{\text{ccr}}} + \underbrace{\frac{z_{\text{ccr}}-p_{\text{ccr}}}{\sqrt{r_{\text{ccr}}}}\,x_{\text{ccr},i}(t)}_{\text{lag state contribution }c_{\text{ccr}}}`,
         math:
 `Input:   1: delayed_primary_afferent_rate ΔIa(t - τ_prop)[1..72] [from HistoryRecord Bus, τ_prop = 7 ms]
 States:  x_ccr[1..72] (ccr_state_<muscle_name>, 72 ODE states)
-Params:  p_ccr (pole), r_ccr = z_ccr / p_ccr (lead ratio, r_ccr ≠ 0)
+Params:  p_ccr (pole), r_ccr = z_ccr / p_ccr (lead ratio, r_ccr ≠ 0), spindle synaptic threshold ΔIa_min = 0.5 imp/s
 
 1. Center-frequency normalized lead-lag coefficients:
    z_ccr ← r_ccr · p_ccr
@@ -1835,16 +1855,18 @@ Params:  p_ccr (pole), r_ccr = z_ccr / p_ccr (lead ratio, r_ccr ≠ 0)
    c_ccr ← (z_ccr - p_ccr) / √r_ccr
 
 For each muscle i ∈ {1..72} do:
-   2. Update per-muscle spinal CCR filter state (driven by 7 ms afferent arrival):
-      ẋ_ccr[i] ← -p_ccr · x_ccr[i] + ΔIa[i](t - τ_prop)
+   2. Apply 0.5 imp/s synaptic recruitment threshold & update per-muscle spinal CCR filter state (driven by 7 ms afferent arrival):
+      u_Ia_in  ← sign(ΔIa[i](t - τ_prop)) · max(0.0, |ΔIa[i](t - τ_prop)| - 0.5)
+      ẋ_ccr[i] ← -p_ccr · x_ccr[i] + u_Ia_in
       x_ccr[i] ← x_ccr[i] + ẋ_ccr[i] · Δt
 
    3. Lead-filtered spindle stretch rate:
-      filtered_primary_afferent_rate[i] ← d_ccr · ΔIa[i](t - τ_prop) + c_ccr · x_ccr[i]
+      filtered_primary_afferent_rate[i] ← d_ccr · u_Ia_in + c_ccr · x_ccr[i]
 
 Output:  filtered_primary_afferent_rate[1..72] ← y_ccr[1..72]`,
         params: [
           "Input: ΔIa(t - 7 ms)[72] from Sub 3 τ_prop = 7 ms (0 ms extra delay in Sub 6; +8 ms in Sub 7 = 15 ms total)",
+          "ΔIa_min = 0.5 imp/s : Spinal Ia synaptic recruitment threshold (Matthews, 1972; Burke et al., 1983)",
           "r_lead_ccr (CMA-ES #9): CCR Lead Ratio z_ccr / p_ccr",
           "p_ccr (CMA-ES #10): Spinal CCR Pole [rad/s]",
           {
@@ -1902,31 +1924,32 @@ Output:  desired_total_torque[3] ← τ_total(t) (to Active-Set QP Synergy Solve
         ]
       },
       s7_qp: {
-        type: "Active-Set QP Synergy Solver",
-        title: "15-Iteration Active-Set Quadratic Programming Synergy Allocator",
-        desc: "Distributes desired_total_torque[3] (τ_total = τ_vol + τ_VCR) across all 72 cervical muscles to minimize squared metabolic effort while enforcing the 4 anatomical co-contraction minimum bounds u_min,i ∈ [0.025, 0.070] and upper saturation bounds u_max = 1.0.",
-        latex: String.raw`\min_{u_\alpha}\;\frac{1}{2}\|u_\alpha\|_2^2 \quad \text{s.t.}\quad \underbrace{A\,u_\alpha = \tau_{\text{total}}}_{\text{3-DOF moment balance}}, \quad u_{\min,i} \le u_{\alpha,i} \le 1 \implies u_{\text{free}} = \underbrace{A_{\text{free}}^\top\bigl(A_{\text{free}}A_{\text{free}}^\top + \lambda_{\text{QP}}I_3\bigr)^{-1}\tau_{\text{rem}}}_{\text{minimum-norm active-set step}}`,
+        type: "Incremental Active-Set QP Synergy Solver",
+        title: "15-Iteration Incremental Active-Set Quadratic Programming Synergy Allocator",
+        desc: "Distributes desired_total_torque[3] (τ_total = τ_vol + τ_VCR, the corrective torque above upright static equilibrium) across all 72 cervical muscles by solving for the minimum-norm incremental excitation Δu_i = u_α,i - u_min,i ∈ [0, 1 - u_min,i] on top of the 72-muscle literature-centered 6-DOF static equilibrium baseline u_min,i ∈ [0.0138, 0.0695].",
+        latex: String.raw`\Delta u_i = u_{\alpha,i} - u_{\min,i}, \quad \min_{\Delta\mathbf{u}}\;\frac{1}{2}\|\Delta\mathbf{u}\|_2^2 \quad \text{s.t.}\quad \underbrace{A\,\Delta\mathbf{u} = \boldsymbol{\tau}_{\text{total}}}_{\text{3-DOF corrective torque}}, \quad 0 \le \Delta u_i \le 1 - u_{\min,i} \implies \Delta\mathbf{u}_{\text{free}} = A_{\text{free}}^\top\bigl(A_{\text{free}}A_{\text{free}}^\top + \lambda_{\text{QP}}I_3\bigr)^{-1}\boldsymbol{\tau}_{\text{rem}}, \quad u_{\alpha,i} = u_{\min,i} + \Delta u_i`,
         math:
 `Input:   desired_total_torque τ_total[3] [from Descending Task-Torque Sum]
 Params:  force-weighted moment-arm matrix A (3×72, where A_{:,i} = J_{3,i} · F_max,i),
-         4-zone anatomical minimum bounds u_min[1..72], regularization λ_QP = 1e-3
+         72-muscle 6-DOF equilibrium co-contraction baseline u_min[1..72], regularization λ_QP = 1e-3
 
-1. Initialize active set:
-   free_set ← {1..72},   u_α[i] ← u_min[i] for all i
+1. Initialize active set in incremental excitation Δu[i] = u_α[i] - u_min[i]:
+   free_set ← {1..72},   u_α[i] ← u_min[i] (Δu[i] = 0) for all i
 
 2. Repeat for k = 1 .. 15:
-   a. Subtract torque already produced by clamped (non-free) muscles:
-      τ_fixed ← ∑_{i ∉ free_set} A_{:,i} · u_α[i]
+   a. Subtract incremental torque produced by upper-clamped (non-free) muscles:
+      τ_fixed ← ∑_{i ∉ free_set} A_{:,i} · (u_α[i] - u_min[i])
       τ_rem   ← τ_total - τ_fixed
 
    b. Solve regularized 3×3 Gram system over free muscles:
       G_free ← ∑_{i ∈ free_set} (A_{:,i} · A_{:,i}ᵀ) + λ_QP · I_3
       μ      ← G_free⁻¹ · τ_rem
 
-   c. Update free muscle excitations & check bound violations:
+   c. Update free muscle incremental excitations Δu & check bound violations:
       violation_found ← false
       for each i ∈ free_set do:
-         u_unclamped ← A_{:,i}ᵀ · μ
+         Δu_unclamped ← A_{:,i}ᵀ · μ
+         u_unclamped  ← u_min[i] + Δu_unclamped
          if u_unclamped < u_min[i] or u_unclamped > 1 then
             u_α[i] ← clamp(u_unclamped, u_min[i], 1)
             remove i from free_set
@@ -1939,13 +1962,13 @@ Output:  alpha_motor_excitations u_α[1..72]`,
         params: [
           "A : 3×72 force-scaled moment-arm matrix (J_3 · F_max)",
           {
-            label: "μ = (A_free A_freeᵀ + λI_3)⁻¹ τ_rem (3×3 Dual KKT)",
-            derivTitle: "KKT Dual Reduction from 72 Muscles to a 3×3 Gram System",
-            derivDesc: "Forming the Lagrangian L(u, μ) = ½‖u‖² + μᵀ(τ_rem - A_free·u) and setting ∂L/∂u = 0 gives u_free = A_freeᵀ·μ, reducing the 72-variable optimization at each active-set step to a 3×3 linear solve:",
-            derivLatex: String.raw`\frac{\partial\mathcal{L}}{\partial u_{\text{free}}} = u_{\text{free}} - A_{\text{free}}^\top\mu = 0 \implies A_{\text{free}}A_{\text{free}}^\top\mu = \tau_{\text{rem}} \implies \mu = \bigl(A_{\text{free}}A_{\text{free}}^\top + \lambda_{\text{QP}}I_3\bigr)^{-1}\tau_{\text{rem}}`
+            label: "Δu_free = A_freeᵀ (A_free A_freeᵀ + λI_3)⁻¹ τ_rem (Incremental KKT Dual)",
+            derivTitle: "Incremental KKT Dual Reduction Around 6-DOF Static Equilibrium Baseline u_min[72]",
+            derivDesc: "Because ∑ A_{:,i} u_min,i = τ_grav already balances gravity across all 6 cervical DOFs at rest, substituting u_α = u_min + Δu into the Lagrangian L(Δu, μ) = ½‖Δu‖² + μᵀ(τ_rem - A_free·Δu) gives Δu_free = A_freeᵀ·μ, so τ_total = 0 yields Δu = 0 (u_α = u_min) and any corrective torque τ_total ≠ 0 recruits agonists symmetrically above u_min:",
+            derivLatex: String.raw`\frac{\partial\mathcal{L}}{\partial \Delta\mathbf{u}_{\text{free}}} = \Delta\mathbf{u}_{\text{free}} - A_{\text{free}}^\top\boldsymbol{\mu} = \mathbf{0} \implies \boldsymbol{\mu} = \bigl(A_{\text{free}}A_{\text{free}}^\top + \lambda_{\text{QP}}I_3\bigr)^{-1}\boldsymbol{\tau}_{\text{rem}}, \qquad u_{\alpha,i} = u_{\min,i} + \Delta u_i`
           },
-          "u_min[72] : 4-Zone anatomical co-contraction floors (0.025, 0.040, 0.050, 0.070)",
-          "u_α[72] : Optimal descending motor excitations"
+          "u_min[72] : Per-muscle literature-centered 6-DOF equilibrium baselines (1.38% – 6.95% MVC)",
+          "u_α[72] = u_min[72] + Δu[72] : Optimal descending motor excitations"
         ]
       },
       s7_recip: {
@@ -2356,10 +2379,10 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
               <rect x="535" y="78" width="175" height="84" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
               <text x="622" y="94" text-anchor="middle" font-family="sans-serif" font-size="8.5" font-weight="bold">Cortical 3-DOF PID + Inertia</text>
               <text x="622" y="108" text-anchor="middle" font-family="monospace" font-size="7.5">Kp_task_* + Kd_task_*·s + Ki_task_*/s</text>
-              <text x="622" y="121" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#b91c1c">Pitch: Kp(#14), Kd(#15), Ki(#16)</text>
+              <text x="622" y="121" text-anchor="middle" font-family="monospace" font-size="7.5" fill="#b91c1c">Pitch: Kp(#13), Kd(#14), Ki(#15)</text>
               <text x="622" y="134" text-anchor="middle" font-family="monospace" font-size="7" fill="#0284c7">Roll: Kp=10.21, Kd=1.29 | Yaw: Kp=0.24</text>
-              <text x="622" y="147" text-anchor="middle" font-family="monospace" font-size="7" fill="#0284c7">Ki_task_pitch * err_int(0) = 4.24053 Nm</text>
-              <text x="622" y="174" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#15803d">(3-Axis Task PID &amp; Static Gravity Trim)</text>
+              <text x="622" y="147" text-anchor="middle" font-family="monospace" font-size="7" fill="#0284c7">err_int(0) = 0 (Grav. in u_min[72])</text>
+              <text x="622" y="174" text-anchor="middle" font-family="sans-serif" font-size="7" fill="#15803d">(3-Axis Task PID Around Postural Rest)</text>
               <text x="622" y="183" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#d97706">(Primary Motor Cortex M1 Layer V)</text>
             </g>
 
@@ -3273,11 +3296,11 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
             <!-- Block 2: 15-Iteration Active-Set QP Synergy Solver -->
             <g class="sim-block" onclick="inspectBlock('s7_qp', this)">
               <rect x="382" y="40" width="194" height="64" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="479" y="56" text-anchor="middle" font-family="sans-serif" font-size="8.3" font-weight="bold">Active-Set QP Synergy Solver</text>
+              <text x="479" y="56" text-anchor="middle" font-family="sans-serif" font-size="8.3" font-weight="bold">Incremental Active-Set QP Solver</text>
               <text x="479" y="70" text-anchor="middle" font-family="monospace" font-size="7.2">(A·A^T + λI)·μ = τ_rem (15 Iter)</text>
-              <text x="479" y="83" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#0284c7">λ = 1e-3 | u_min = 0.025..0.070</text>
-              <text x="479" y="96" text-anchor="middle" font-family="monospace" font-size="6.7" fill="#6b7280">3-DOF Torque → u_α[72]</text>
-              <text x="479" y="116" text-anchor="middle" font-family="sans-serif" font-size="6.7" fill="#15803d">(Minimum-Effort Synergy Solver)</text>
+              <text x="479" y="83" text-anchor="middle" font-family="monospace" font-size="6.8" fill="#0284c7">Δu = u_α - u_min ∈ [0, 1 - u_min]</text>
+              <text x="479" y="96" text-anchor="middle" font-family="monospace" font-size="6.7" fill="#6b7280">72-Muscle 6-DOF Equil. u_min</text>
+              <text x="479" y="116" text-anchor="middle" font-family="sans-serif" font-size="6.7" fill="#15803d">(Incremental Synergy Allocator)</text>
               <text x="479" y="125" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#d97706">(C1–C8 Premotor Synergy INs)</text>
             </g>
 

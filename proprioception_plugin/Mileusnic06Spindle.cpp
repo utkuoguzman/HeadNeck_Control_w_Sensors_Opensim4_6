@@ -302,8 +302,8 @@ void Mileusnic06Spindle::extendInitStateFromProperties(SimTK::State& s) const
 	if (!isSpindleActive()) return;
 
 	//initiate activation input	
-	setDynamicActivation(s,getDefaultActivation());
-	setStaticActivation(s,getDefaultActivation());
+	if (getDynamicActivation(s) == 0.0) setDynamicActivation(s,getDefaultActivation());
+	if (getStaticActivation(s) == 0.0) setStaticActivation(s,getDefaultActivation());
 	
 	// also initiate the state variables that don't come from properties
 	setTensionBag1(s,0.05);
@@ -444,7 +444,9 @@ void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 	// static bag damping term. Equation 4 with beta_1 = 0.
 	beta_bag2 = bag2.beta_0 + bag2.beta_2*getStaticActivation(s);
 	// chain damping term. Equation 4 with beta_1 = 0.
-	beta_chain = chain.beta_0 + chain.beta_2*getStaticActivation(s);
+	double stat_act = getStaticActivation(s);
+	double ch_act = (4.0 * stat_act) / std::max(1e-6, 9.0 - 5.0 * stat_act);
+	beta_chain = chain.beta_0 + chain.beta_2*ch_act;
 	
 	// calculating the force generator terms (Gamma)
 	double Gamma_bag1, Gamma_bag2, Gamma_chain;
@@ -453,12 +455,13 @@ void Mileusnic06Spindle::computeInitialSpindleEquilibrium(SimTK::State& s) const
 	// bag2 force generator term. Equation 5 with Gamma_1 = 0
 	Gamma_bag2 = bag2.Gamma_2*getStaticActivation(s);
 	// chain force generator term. Equation 5 with Gamma_1 = 0
-	Gamma_chain = chain.Gamma_2*getStaticActivation(s);
+	Gamma_chain = chain.Gamma_2*ch_act;
 	
 	// normalized fiber length and velocity
 	double L0 = musclePtr->getOptimalFiberLength();
 	double L = musclePtr->getNormalizedFiberLength(s);
 	double Lp = (musclePtr->getFiberVelocity(s))/L0;
+	if (std::abs(Lp) < 1e-4) Lp = 0.0;
 	// clipping away large velocities 
 	Lp = (Lp>15.0)? 15.0 : (Lp<-15.0)? -15.0 : Lp;
 	
