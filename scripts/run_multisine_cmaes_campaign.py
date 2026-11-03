@@ -139,7 +139,7 @@ def update_multisine_ledger(gen_records):
 
 
 def main():
-    max_gens = int(os.environ.get("MULTISINE_STOP_GEN", "4"))
+    max_gens = int(os.environ.get("MULTISINE_STOP_GEN", "24"))
     n_workers = int(os.environ.get("PHASE2_4_WORKERS", "14"))
 
     with open("data/prescreen_rational_champion.json", "r", encoding="utf-8") as f:
@@ -160,15 +160,8 @@ def main():
     ]
 
     print("=" * 92, flush=True)
-    print(f"STARTING 4-GENERATION MULTISINE CMA-ES CAMPAIGN (Pop=28, Workers={n_workers})", flush=True)
-    print("Identical Seed x0 & Sigma0 to Single-Sine Phase 2.4 Campaign for Direct A/B Comparison", flush=True)
+    print(f"CONTINUING MULTISINE CMA-ES CAMPAIGN THROUGH GEN {max_gens} (Pop=28, Workers={n_workers})", flush=True)
     print("=" * 92, flush=True)
-
-    # First evaluate the exact seed x0 on Multisine for reference
-    print("\n[SEED CHECK] Evaluating Initial Seed x0 on 6-Frequency Multisine...", flush=True)
-    t_seed0 = time.time()
-    seed_ms_score = evaluate_multisine_candidate(x0, -1, 0)
-    print(f"[SEED CHECK] Seed x0 Multisine Score = {seed_ms_score:,.2f} pts (in {time.time() - t_seed0:.1f}s vs 52,399.62 pts Single-Sine)", flush=True)
 
     opts = {
         "bounds": [lower_bounds, upper_bounds],
@@ -185,19 +178,35 @@ def main():
     all_time_best_params = None
 
     for gen in range(1, max_gens + 1):
+        all_cached = all(
+            os.path.exists(os.path.join("logs", "candidates_multisine", f"W{i+1}_MS_G{gen}.json"))
+            for i in range(28)
+        )
         t_gen_start = time.time()
-        print(f"\n==================== STARTING MULTISINE GENERATION {gen} of {max_gens} ====================", flush=True)
         solutions = es.ask()
         scores = [0.0] * len(solutions)
 
-        with ThreadPoolExecutor(max_workers=n_workers) as executor:
-            fut_to_idx = {
-                executor.submit(evaluate_multisine_candidate, solutions[i], i, gen): i
-                for i in range(len(solutions))
-            }
-            for fut in as_completed(fut_to_idx):
-                idx = fut_to_idx[fut]
-                scores[idx] = fut.result()
+        if all_cached:
+            for i in range(len(solutions)):
+                fn = os.path.join("logs", "candidates_multisine", f"W{i+1}_MS_G{gen}.json")
+                with open(fn, "r", encoding="utf-8") as f_res:
+                    d_res = json.load(f_res)
+                scores[i] = float(d_res["total_score"])
+                if gen == 5 and i == 0:
+                    p_act = list(d_res["params"])
+                    p_act[3] = p_act[3] / p_act[4]
+                    p_act[8] = p_act[8] / p_act[9]
+                    solutions[0] = np.array(p_act, dtype=float)
+        else:
+            print(f"\n==================== STARTING MULTISINE GENERATION {gen} of {max_gens} ====================", flush=True)
+            with ThreadPoolExecutor(max_workers=n_workers) as executor:
+                fut_to_idx = {
+                    executor.submit(evaluate_multisine_candidate, solutions[i], i, gen): i
+                    for i in range(len(solutions))
+                }
+                for fut in as_completed(fut_to_idx):
+                    idx = fut_to_idx[fut]
+                    scores[idx] = fut.result()
 
         es.tell(solutions, scores)
 
@@ -232,35 +241,35 @@ def main():
         })
         update_multisine_ledger(gen_records)
 
-        print(
-            f"[MULTISINE GEN {gen} COMPLETE] Best: {best_worker} = {best_score:,.2f} pts | "
-            f"Pass: {n_pass}/28 | Mean Pass: {mean_pass:,.2f} | Median: {med_pass:,.2f} | Duration: {dur_min:.2f} min",
-            flush=True
-        )
+        if not all_cached or gen >= 21:
+            print(
+                f"[MULTISINE GEN {gen} COMPLETE] Best: {best_worker} = {best_score:,.2f} pts (All-Time CMA-ES Best: {all_time_best_worker} = {all_time_best_score:,.2f} pts) | "
+                f"Pass: {n_pass}/28 | Mean Pass: {mean_pass:,.2f} | Median: {med_pass:,.2f} | Duration: {dur_min:.2f} min",
+                flush=True
+            )
 
     print("\n" + "=" * 92, flush=True)
-    print(f"MULTISINE 4-GEN CAMPAIGN COMPLETE! All-Time Multisine Champion: {all_time_best_worker} ({all_time_best_score:,.2f} pts)", flush=True)
+    print(f"MULTISINE {max_gens}-GEN CAMPAIGN COMPLETE! All-Time Multisine CMA-ES Champion: {all_time_best_worker} ({all_time_best_score:,.2f} pts)", flush=True)
     print("=" * 92, flush=True)
 
-    # Cross-evaluate the Multisine All-Time Champion on the 6 Single-Sine Frequencies for exact apples-to-apples comparison!
-    if all_time_best_params is not None:
-        print(f"\n[CROSS-VALIDATION] Evaluating Multisine Champion ({all_time_best_worker}) on 6 Separate Single-Sine Frequencies...", flush=True)
-        single_sine_total = 0.0
-        for f_val, t_gain, t_phase in TARGETS_ORDERED:
-            label = f"{all_time_best_worker}_SingleSineCheck"
-            cmd = [
-                sys.executable, "cmaes_worker_p22.py",
-                str(FIXED_W_N), str(FIXED_ZETA), str(FIXED_KI),
-                *[str(v) for v in all_time_best_params],
-                str(f_val), str(t_gain), str(t_phase),
-                label
-            ]
-            res = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
-            lines = [l.strip() for l in res.stdout.strip().split("\n") if l.strip()]
-            f_score = float(lines[-1])
-            single_sine_total += f_score
-            print(f"  Single-Sine {f_val:5.3f} Hz Score: {f_score:8.1f} pts", flush=True)
-        print(f"[CROSS-VALIDATION] {all_time_best_worker} Total Single-Sine Score = {single_sine_total:,.2f} pts (vs Multisine Score {all_time_best_score:,.2f} pts)", flush=True)
+    # Sync global best standalone champion across all candidates (CMA-ES + Option 1 + Option 2)
+    import glob
+    global_best_score = float("inf")
+    global_best_data = None
+    for cand_path in glob.glob(os.path.join("logs", "candidates_multisine", "*.json")):
+        try:
+            with open(cand_path, "r", encoding="utf-8") as f_cand:
+                d_cand = json.load(f_cand)
+            sc = float(d_cand.get("total_score", float("inf")))
+            if "params" in d_cand and "frequencies" in d_cand and len(d_cand["params"]) == 15 and sc < global_best_score:
+                global_best_score = sc
+                global_best_data = d_cand
+        except Exception:
+            continue
+    if global_best_data is not None:
+        with open("logs/multisine_best_champion.json", "w", encoding="utf-8") as f_best:
+            json.dump(global_best_data, f_best, indent=2)
+        print(f"[GLOBAL CHAMPION SYNC] Global Best Standalone Champion: {global_best_data.get('worker')} = {global_best_score:,.2f} pts", flush=True)
 
 
 if __name__ == "__main__":

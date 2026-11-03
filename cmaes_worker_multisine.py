@@ -110,17 +110,44 @@ def run_multisine_simulation(
     for t in np.arange(0.0, delay, 0.02):
         ms_spline.addPoint(float(t), 0.0)
     spline_dt = 0.0025  # 400 Hz cubic spline knot spacing (>50 knots/cycle at 7.927 Hz)
-    for t in np.arange(delay, target_time + 0.02, spline_dt):
+
+    # Solution A: Window in Acceleration Space (a_T1(t) = w(tau)*y''(t) + dv_match*phi_v(tau))
+    # Eliminates the Leibniz product-rule acceleration parasite on 0.324 Hz while guaranteeing
+    # exact C^2 continuity and zero velocity drift for t >= delay + ramp_duration.
+    omegas = 2.0 * np.pi * freqs
+    sub = 10
+    dt_fine = spline_dt / sub
+    N_fine = int(round(ramp_duration / dt_fine))
+    t_fine = np.linspace(0.0, ramp_duration, N_fine + 1)
+    tau_fine = t_fine / ramp_duration
+    w_fine = 10.0 * (tau_fine ** 3) - 15.0 * (tau_fine ** 4) + 6.0 * (tau_fine ** 5)
+    phi_v = (tau_fine ** 2) * ((1.0 - tau_fine) ** 2)
+    phi_v /= np.sum(0.5 * (phi_v[:-1] + phi_v[1:]) * dt_fine)
+
+    psi_fine = np.outer(t_fine, omegas) + phases
+    y_fine = np.sin(psi_fine) @ amps
+    dy_fine = np.cos(psi_fine) @ (amps * omegas)
+    ddy_fine = -np.sin(psi_fine) @ (amps * (omegas ** 2))
+
+    ddx_raw = w_fine * ddy_fine
+    v_raw_end = float(np.sum(0.5 * (ddx_raw[:-1] + ddx_raw[1:]) * dt_fine))
+    dv_match = float(dy_fine[-1]) - v_raw_end
+    ddx_fine = ddx_raw + dv_match * phi_v
+
+    dx_fine = np.zeros_like(t_fine)
+    dx_fine[1:] = np.cumsum(0.5 * (ddx_fine[:-1] + ddx_fine[1:]) * dt_fine)
+    x_fine = np.zeros_like(t_fine)
+    x_fine[1:] = np.cumsum(0.5 * (dx_fine[:-1] + dx_fine[1:]) * dt_fine)
+    x_offset = float(x_fine[-1] - y_fine[-1])
+
+    N_ramp_knots = int(round(ramp_duration / spline_dt))
+    for i_k in range(N_ramp_knots):
+        t = delay + i_k * spline_dt
+        ms_spline.addPoint(float(t), float(x_fine[i_k * sub]))
+    for t in np.arange(delay + ramp_duration, target_time + 0.02, spline_dt):
         dt_rel = t - delay
-        if dt_rel < ramp_duration:
-            tau = dt_rel / ramp_duration
-            w = 10.0 * (tau ** 3) - 15.0 * (tau ** 4) + 6.0 * (tau ** 5)
-        else:
-            w = 1.0
-        y = 0.0
-        for k in range(K):
-            y += amps[k] * math.sin(2.0 * math.pi * freqs[k] * dt_rel + phases[k])
-        ms_spline.addPoint(float(t), float(w * y))
+        y = float(np.sum(amps * np.sin(omegas * dt_rel + phases)))
+        ms_spline.addPoint(float(t), float(y + x_offset))
 
     coord_tx = model.updCoordinateSet().get("spine_tx")
     coord_tx.set_locked(False)

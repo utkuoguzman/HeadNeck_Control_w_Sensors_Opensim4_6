@@ -1174,13 +1174,19 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
                     ? cached_secondary_afferent_outputs[muscle_index]->getValue(state)
                     : baseline_secondary_afferent_rates[muscle_index];
 
+            // Spinocerebellar / External Cuneate Fusimotor Efference Copy Cancellation before Per-Spindle Kinematic Luenberger Observers
+            // (Goodwin, McCloskey & Matthews 1972; Proske & Gandevia 2012: strips active gamma-coactivation bias so active contraction is not misperceived as muscle lengthening)
+            // FUSIMOTOR_CANCEL_MODE: 0 = Cuneate/Spinocerebellar (human neuroanatomy default), 1 = Pre-CCR only, 2 = Both
+            const int fusimotor_cancel_mode = std::getenv("FUSIMOTOR_CANCEL_MODE") ? std::stoi(std::getenv("FUSIMOTOR_CANCEL_MODE")) : 0;
             double delta_fdyn   = std::max(0.0, dynamic_fusimotor_activation - base_fdyn);
             double delta_fstat  = std::max(0.0, static_fusimotor_activation  - base_fstat);
             double delta_fchain = std::max(0.0, instantaneous_nuclear_chain_activation - base_fchain);
             double fusimotor_secondary_afferent_bias = 29.72138 * delta_fstat + 44.58207 * delta_fchain;
             double fusimotor_primary_afferent_bias   = 54.45176 * delta_fdyn  + 0.21517 * fusimotor_secondary_afferent_bias;
-            double net_secondary_afferent_change     = (secondary_afferent_value - baseline_secondary_afferent_rates[muscle_index]) - fusimotor_secondary_afferent_bias;
-            double net_primary_afferent_change       = (primary_afferent_value   - baseline_primary_afferent_rates[muscle_index])   - fusimotor_primary_afferent_bias;
+            double luen_sec_bias = (fusimotor_cancel_mode == 0 || fusimotor_cancel_mode == 2) ? fusimotor_secondary_afferent_bias : 0.0;
+            double luen_pri_bias = (fusimotor_cancel_mode == 0 || fusimotor_cancel_mode == 2) ? fusimotor_primary_afferent_bias   : 0.0;
+            double net_secondary_afferent_change     = (secondary_afferent_value - baseline_secondary_afferent_rates[muscle_index]) - luen_sec_bias;
+            double net_primary_afferent_change       = (primary_afferent_value   - baseline_primary_afferent_rates[muscle_index])   - luen_pri_bias;
 
             // Physiological spindle sensory threshold (prevents sub-threshold |Lp|^0.3 small-signal clonus around rest)
             static const double spindle_obs_threshold = std::getenv("SPINDLE_OBS_THRESH") ? std::stod(std::getenv("SPINDLE_OBS_THRESH")) : 0.5;
@@ -1936,8 +1942,31 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             cached_primary_afferent_outputs[muscle_index]
                 ? cached_primary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_primary_afferent_rates[muscle_index];
+        const int fusimotor_cancel_mode = std::getenv("FUSIMOTOR_CANCEL_MODE") ? std::stoi(std::getenv("FUSIMOTOR_CANCEL_MODE")) : 0;
         static const double spindle_ccr_threshold = std::getenv("SPINDLE_CCR_THRESH") ? std::stod(std::getenv("SPINDLE_CCR_THRESH")) : 0.5;
-        double delta_ia = primary_afferent_value - baseline_primary_afferent_rates[muscle_index];
+        double ccr_pri_bias = 0.0;
+        if (fusimotor_cancel_mode == 1 || fusimotor_cancel_mode == 2) {
+            double dynamic_fusimotor_activation = state_variable_spindle_dynamic_fusimotor[muscle_index]->getValue(state);
+            double static_fusimotor_activation  = state_variable_spindle_static_fusimotor[muscle_index]->getValue(state);
+            double u0_alpha = (muscle_index < (int)cached_minimum_excitations.size()) ? cached_minimum_excitations[muscle_index] : 0.03;
+            double alpha_motor_excitation = (muscle_index < (int)last_alpha_motor_excitations.size()) ? last_alpha_motor_excitations[muscle_index] : u0_alpha;
+            double dynamic_gamma_gain_scaled = 100.0 * get_K_gamma_dyn();
+            double static_gamma_gain_scaled  = 100.0 * get_K_gamma_stat();
+            double static_gamma_firing_rate  = static_gamma_gain_scaled * alpha_motor_excitation;
+            double instantaneous_nuclear_chain_activation =
+                (static_gamma_firing_rate * static_gamma_firing_rate) / (static_gamma_firing_rate * static_gamma_firing_rate + 8100.0);
+            double base_dyn_gamma = dynamic_gamma_gain_scaled * u0_alpha;
+            double base_stat_gamma = static_gamma_gain_scaled * u0_alpha;
+            double base_fdyn = (base_dyn_gamma * base_dyn_gamma) / (base_dyn_gamma * base_dyn_gamma + 3600.0);
+            double base_fstat = (base_stat_gamma * base_stat_gamma) / (base_stat_gamma * base_stat_gamma + 3600.0);
+            double base_fchain = (base_stat_gamma * base_stat_gamma) / (base_stat_gamma * base_stat_gamma + 8100.0);
+            double delta_fdyn   = std::max(0.0, dynamic_fusimotor_activation - base_fdyn);
+            double delta_fstat  = std::max(0.0, static_fusimotor_activation  - base_fstat);
+            double delta_fchain = std::max(0.0, instantaneous_nuclear_chain_activation - base_fchain);
+            double fusimotor_secondary_afferent_bias = 29.72138 * delta_fstat + 44.58207 * delta_fchain;
+            ccr_pri_bias = 54.45176 * delta_fdyn + 0.21517 * fusimotor_secondary_afferent_bias;
+        }
+        double delta_ia = (primary_afferent_value - baseline_primary_afferent_rates[muscle_index]) - ccr_pri_bias;
         double primary_afferent_above_baseline = 0.0;
         if (spindle_ccr_threshold <= 0.0) {
             primary_afferent_above_baseline = std::max(0.0, delta_ia);
@@ -2127,6 +2156,25 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     bool has_cervico_collic_afferents = (cervico_collic_record.primary_afferent_firing_rate.size() == number_of_active_muscles);
     std::vector<double> spinal_ccr_drive(number_of_active_muscles, 0.0);
     if (has_cervico_collic_afferents) {
+        // Extensor vs. Flexor Moment-Capacity-Balanced CCR Scaling (prevents 3.09:1 extensor dominance from injecting net DC pitch torque):
+        // Weighted by pitch moment-arm dominance eta_pitch_m = r_pitch^2 / (r_pitch^2 + r_roll^2 + r_yaw^2 + 1e-8)
+        // so lateral/rotary muscles (SCM, Scalenes, OCI) preserve 1.0x Roll/Yaw Nyquist stability margin.
+        const int ccr_balance_mode = std::getenv("CCR_BALANCE_MODE") ? std::stoi(std::getenv("CCR_BALANCE_MODE")) : 1;
+        double tau_max_ext = 0.0;
+        double tau_max_flex = 0.0;
+        if (moment_arm_jacobian_3dof.ncol() == number_of_active_muscles) {
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                double r_pitch = moment_arm_jacobian_3dof(0, m) * cached_maximum_isometric_forces[m];
+                if (r_pitch > 0.0) tau_max_ext += r_pitch;
+                else if (r_pitch < 0.0) tau_max_flex += -r_pitch;
+            }
+        }
+        const double tau_max_sum = tau_max_ext + tau_max_flex;
+        const double w_ccr_ext_raw  = (tau_max_sum > 1e-6) ? (2.0 * tau_max_flex / tau_max_sum) : 1.0;
+        const double w_ccr_flex_raw = (tau_max_sum > 1e-6) ? (2.0 * tau_max_ext  / tau_max_sum) : 1.0;
+        const double w_ccr_ext  = std::getenv("CCR_W_EXT")  ? std::stod(std::getenv("CCR_W_EXT"))  : 0.70;
+        const double w_ccr_flex = std::getenv("CCR_W_FLEX") ? std::stod(std::getenv("CCR_W_FLEX")) : 1.15;
+
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
@@ -2142,7 +2190,19 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
                     rectified_primary_afferent_rate = filtered_primary_afferent_rate - ccr_rect_knee;
                 }
             }
-            spinal_ccr_drive[muscle_index] = proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
+            double w_ccr_m = 1.0;
+            if (ccr_balance_mode == 1 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                double r_r = moment_arm_jacobian_3dof(1, muscle_index);
+                double r_y = moment_arm_jacobian_3dof(2, muscle_index);
+                double eta_pitch = (r_p * r_p) / (r_p * r_p + r_r * r_r + r_y * r_y + 1e-8);
+                double w_target = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
+                w_ccr_m = 1.0 + eta_pitch * (w_target - 1.0);
+            } else if (ccr_balance_mode == 2 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                w_ccr_m = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
+            }
+            spinal_ccr_drive[muscle_index] = w_ccr_m * proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
         }
     }
 

@@ -434,7 +434,7 @@ def main():
     all_time_best_worker = None
     all_time_best_params = None
 
-    for gen in range(1, 23):
+    for gen in range(1, 27):
         # Check if all 28 candidates for this generation are already cached on disk
         all_cached = all(
             os.path.exists(os.path.join("logs", "candidates_multisine", f"W{i+1}_MS_G{gen}.json"))
@@ -467,43 +467,6 @@ def main():
             ]
             solutions[0] = np.array(cand_adapt, dtype=float)
 
-        # In Generation 23, inject convex & frequency-selective hybrids of W16_MS_G22 and Final_Adapt_S1_from_W16_MS_G22
-        if gen == 23 and not all_cached and os.path.exists("logs/adaptive_final_polish_s1.json"):
-            with open("logs/adaptive_final_polish_s1.json", "r", encoding="utf-8") as f_s1:
-                s1_data = json.load(f_s1)
-            afp = s1_data["final_parameters_15d"]
-            p_adapt = np.array([
-                float(afp["adapt_K_ton"]),
-                float(afp["adapt_p_ton"]),
-                float(afp["adapt_K_sc"]),
-                float(np.clip(afp["adapt_z_sc"] / max(1.0, afp["adapt_p_sc"]), 0.002, 0.59)),
-                float(afp["adapt_p_sc"]),
-                float(afp["adapt_K_phas"]),
-                float(afp["adapt_p_phas"]),
-                float(afp["adapt_kp_prop"]),
-                float(np.clip(afp["adapt_z_ccr"] / max(1.0, afp["adapt_p_ccr"]), 0.002, 0.49)),
-                float(afp["adapt_p_ccr"]),
-                float(afp["adapt_K_gamma_dyn"]),
-                float(afp["adapt_K_gamma_stat"]),
-                float(afp["adapt_Kp_task_pitch"]),
-                float(afp["adapt_Kd_task_pitch"]),
-                float(afp["adapt_Ki_task_pitch"]),
-            ], dtype=float)
-            p_champ = np.array(all_time_best_params, dtype=float)
-            alphas = [0.08, 0.14, 0.20, 0.26, 0.32, 0.40, 0.50]
-            for s_idx, a_val in enumerate(alphas):
-                solutions[s_idx] = (1.0 - a_val) * p_champ + a_val * p_adapt
-            # Selective hybrid 1: Keep W16_MS_G22's K_phas & Ki (to preserve 2.446 Hz = 63.3 pts), take 30% of Adapt S1's reflex/postural shaping
-            hyb1 = 0.70 * p_champ + 0.30 * p_adapt
-            hyb1[5] = p_champ[5]   # K_phas from W16_MS_G22
-            hyb1[14] = p_champ[14] # Ki from W16_MS_G22
-            solutions[7] = hyb1
-            # Selective hybrid 2: 15% K_phas/Ki shift + 35% reflex shaping
-            hyb2 = 0.65 * p_champ + 0.35 * p_adapt
-            hyb2[5] = 0.85 * p_champ[5] + 0.15 * p_adapt[5]
-            hyb2[14] = 0.85 * p_champ[14] + 0.15 * p_adapt[14]
-            solutions[8] = hyb2
-
         scores = [0.0] * len(solutions)
         if all_cached:
             for i in range(len(solutions)):
@@ -511,6 +474,11 @@ def main():
                 with open(fn, "r", encoding="utf-8") as f_res:
                     d_res = json.load(f_res)
                 scores[i] = float(d_res["total_score"])
+                if gen == 5 and i == 0:
+                    p_act = list(d_res["params"])
+                    p_act[3] = p_act[3] / p_act[4]
+                    p_act[8] = p_act[8] / p_act[9]
+                    solutions[0] = np.array(p_act, dtype=float)
         else:
             with ThreadPoolExecutor(max_workers=n_workers) as executor:
                 fut_to_idx = {
@@ -565,10 +533,25 @@ def main():
         )
 
     # -------------------------------------------------------------------------
-    # PHASE 3: Final Adaptive Polish on All-Time Multisine Champion & Final Summary (until 18:06)
+    # PHASE 3: Final Adaptive Polish on Global Best Standalone Champion (CMA-ES, Option 1, or Option 2)
     # -------------------------------------------------------------------------
+    import glob
+    for cand_path in glob.glob(os.path.join("logs", "candidates_multisine", "*.json")):
+        try:
+            with open(cand_path, "r", encoding="utf-8") as f_cand:
+                d_cand = json.load(f_cand)
+            sc_cand = float(d_cand.get("total_score", float("inf")))
+            if "params" in d_cand and "frequencies" in d_cand and len(d_cand["params"]) == 15 and sc_cand < all_time_best_score:
+                all_time_best_score = sc_cand
+                all_time_best_worker = d_cand.get("worker", os.path.splitext(os.path.basename(cand_path))[0])
+                all_time_best_params = [float(x) for x in d_cand["params"]]
+                with open("logs/multisine_best_champion.json", "w", encoding="utf-8") as f_best:
+                    json.dump(d_cand, f_best, indent=2)
+        except Exception:
+            continue
+
     print("\n" + "=" * 96, flush=True)
-    print(f"[PHASE 3] Final Multi-Stage Adaptive Polish on All-Time CMA-ES Champion {all_time_best_worker} ({all_time_best_score:,.2f} pts)", flush=True)
+    print(f"[PHASE 3] Final Multi-Stage Adaptive Polish on Global Best Standalone Champion {all_time_best_worker} ({all_time_best_score:,.2f} pts)", flush=True)
     print("=" * 96, flush=True)
 
     best_champ_path = os.path.join("logs", "candidates_multisine", f"{all_time_best_worker}.json")

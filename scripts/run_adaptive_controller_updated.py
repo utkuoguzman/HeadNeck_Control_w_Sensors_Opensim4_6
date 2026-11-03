@@ -38,20 +38,46 @@ def build_multisine_spline(targets, duration=20.1728, delay=1.5, ramp=1.5, dt_sp
     scale_factor = 1.0 / math.sqrt(K)
     amps = base_amps * scale_factor
 
+    # Solution A: Window in Acceleration Space (a_T1(t) = w(tau)*y''(t) + dv_match*phi_v(tau))
+    # Eliminates the Leibniz product-rule acceleration parasite on 0.324 Hz while guaranteeing
+    # exact C^2 continuity and zero velocity drift for t >= delay + ramp.
+    omegas = 2.0 * np.pi * freqs
+    sub = 10
+    dt_fine = dt_spline / sub
+    N_fine = int(round(ramp / dt_fine))
+    t_fine = np.linspace(0.0, ramp, N_fine + 1)
+    tau_fine = t_fine / ramp
+    w_fine = 10.0 * (tau_fine**3) - 15.0 * (tau_fine**4) + 6.0 * (tau_fine**5)
+    phi_v = (tau_fine**2) * ((1.0 - tau_fine) ** 2)
+    phi_v /= np.sum(0.5 * (phi_v[:-1] + phi_v[1:]) * dt_fine)
+
+    psi_fine = np.outer(t_fine, omegas) + phases
+    y_fine = np.sin(psi_fine) @ amps
+    dy_fine = np.cos(psi_fine) @ (amps * omegas)
+    ddy_fine = -np.sin(psi_fine) @ (amps * (omegas**2))
+
+    ddx_raw = w_fine * ddy_fine
+    v_raw_end = float(np.sum(0.5 * (ddx_raw[:-1] + ddx_raw[1:]) * dt_fine))
+    dv_match = float(dy_fine[-1]) - v_raw_end
+    ddx_fine = ddx_raw + dv_match * phi_v
+
+    dx_fine = np.zeros_like(t_fine)
+    dx_fine[1:] = np.cumsum(0.5 * (ddx_fine[:-1] + ddx_fine[1:]) * dt_fine)
+    x_fine = np.zeros_like(t_fine)
+    x_fine[1:] = np.cumsum(0.5 * (dx_fine[:-1] + dx_fine[1:]) * dt_fine)
+    x_offset = float(x_fine[-1] - y_fine[-1])
+
     spline = osim.SimmSpline()
     for t in np.arange(0.0, delay, 0.02):
         spline.addPoint(float(t), 0.0)
-    for t in np.arange(delay, duration + 0.02, dt_spline):
+    N_ramp_knots = int(round(ramp / dt_spline))
+    for i_k in range(N_ramp_knots):
+        t = delay + i_k * dt_spline
+        spline.addPoint(float(t), float(x_fine[i_k * sub]))
+    for t in np.arange(delay + ramp, duration + 0.02, dt_spline):
         t_rel = t - delay
-        if t_rel < ramp:
-            tau = t_rel / ramp
-            w = 10.0 * (tau**3) - 15.0 * (tau**4) + 6.0 * (tau**5)
-        else:
-            w = 1.0
-        y = 0.0
-        for k in range(K):
-            y += amps[k] * math.sin(2.0 * math.pi * freqs[k] * t_rel + phases[k])
-        spline.addPoint(float(t), float(w * y))
+        y = float(np.sum(amps * np.sin(omegas * t_rel + phases)))
+        spline.addPoint(float(t), float(y + x_offset))
     return spline, freqs, amps, phases, scale_factor
 
 

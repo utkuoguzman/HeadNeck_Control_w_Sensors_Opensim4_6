@@ -1485,6 +1485,7 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
                     ? cached_secondary_afferent_outputs[muscle_index]->getValue(state)
                     : baseline_secondary_afferent_rates[muscle_index];
 
+            // Spinocerebellar / External Cuneate Fusimotor Efference Copy Cancellation before Per-Spindle Kinematic Luenberger Observers
             double delta_fdyn   = std::max(0.0, dynamic_fusimotor_activation - base_fdyn);
             double delta_fstat  = std::max(0.0, static_fusimotor_activation  - base_fstat);
             double delta_fchain = std::max(0.0, instantaneous_nuclear_chain_activation - base_fchain);
@@ -2002,12 +2003,27 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
     const HistoryRecord& cervico_collic_record = delayed_proprioceptive_ccr_data.record;
     double ccr_u_pitch = 0.0, ccr_x_pitch = 0.0;
     if (cervico_collic_record.primary_afferent_firing_rate.size() == active_muscle_indices.size() && active_muscle_indices.size() > 0) {
+        double tau_max_ext = 0.0;
+        double tau_max_flex = 0.0;
+        if (moment_arm_jacobian_3dof.ncol() == static_cast<int>(active_muscle_indices.size())) {
+            for (size_t m = 0; m < active_muscle_indices.size(); ++m) {
+                double r_pitch = moment_arm_jacobian_3dof(0, static_cast<int>(m)) * cached_maximum_isometric_forces[m];
+                if (r_pitch > 0.0) tau_max_ext += r_pitch;
+                else if (r_pitch < 0.0) tau_max_flex += -r_pitch;
+            }
+        }
+        const double tau_max_sum = tau_max_ext + tau_max_flex;
+        const double w_ccr_ext  = (tau_max_sum > 1e-6) ? (2.0 * tau_max_flex / tau_max_sum) : 1.0;
+        const double w_ccr_flex = (tau_max_sum > 1e-6) ? (2.0 * tau_max_ext  / tau_max_sum) : 1.0;
+
         for (size_t muscle_index = 0; muscle_index < active_muscle_indices.size(); ++muscle_index) {
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
             state_variable_cervico_collic[muscle_index]->setDerivative(state, -p_ccr * cervico_collic_state + delayed_primary_afferent_rate);
             if (moment_arm_jacobian_3dof.ncol() > static_cast<int>(muscle_index)) {
-                double r_pitch_m = moment_arm_jacobian_3dof(0, static_cast<int>(muscle_index)) * cached_maximum_isometric_forces[muscle_index];
+                double j_pitch_m = moment_arm_jacobian_3dof(0, static_cast<int>(muscle_index));
+                double w_ccr_m = (j_pitch_m > 1e-6) ? w_ccr_ext : ((j_pitch_m < -1e-6) ? w_ccr_flex : 1.0);
+                double r_pitch_m = w_ccr_m * j_pitch_m * cached_maximum_isometric_forces[muscle_index];
                 ccr_u_pitch += r_pitch_m * delayed_primary_afferent_rate;
                 ccr_x_pitch += r_pitch_m * cervico_collic_state;
             }
@@ -2775,6 +2791,13 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
     bool has_cervico_collic_afferents = (cervico_collic_record.primary_afferent_firing_rate.size() == number_of_active_muscles);
     std::vector<double> spinal_ccr_drive(number_of_active_muscles, 0.0);
     if (has_cervico_collic_afferents) {
+        // Extensor vs. Flexor Moment-Capacity-Balanced CCR Scaling (prevents 3.09:1 extensor dominance from injecting net DC pitch torque):
+        // Weighted by pitch moment-arm dominance eta_pitch_m = r_pitch^2 / (r_pitch^2 + r_roll^2 + r_yaw^2 + 1e-8)
+        // so lateral/rotary muscles (SCM, Scalenes, OCI) preserve 1.0x Roll/Yaw Nyquist stability margin.
+        const int ccr_balance_mode = std::getenv("CCR_BALANCE_MODE") ? std::stoi(std::getenv("CCR_BALANCE_MODE")) : 1;
+        const double w_ccr_ext  = std::getenv("CCR_W_EXT")  ? std::stod(std::getenv("CCR_W_EXT"))  : 0.70;
+        const double w_ccr_flex = std::getenv("CCR_W_FLEX") ? std::stod(std::getenv("CCR_W_FLEX")) : 1.15;
+
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
@@ -2790,7 +2813,19 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
                     rectified_primary_afferent_rate = filtered_primary_afferent_rate - ccr_rect_knee;
                 }
             }
-            spinal_ccr_drive[muscle_index] = proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
+            double w_ccr_m = 1.0;
+            if (ccr_balance_mode == 1 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                double r_r = moment_arm_jacobian_3dof(1, muscle_index);
+                double r_y = moment_arm_jacobian_3dof(2, muscle_index);
+                double eta_pitch = (r_p * r_p) / (r_p * r_p + r_r * r_r + r_y * r_y + 1e-8);
+                double w_target = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
+                w_ccr_m = 1.0 + eta_pitch * (w_target - 1.0);
+            } else if (ccr_balance_mode == 2 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                w_ccr_m = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
+            }
+            spinal_ccr_drive[muscle_index] = w_ccr_m * proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
         }
     }
 
