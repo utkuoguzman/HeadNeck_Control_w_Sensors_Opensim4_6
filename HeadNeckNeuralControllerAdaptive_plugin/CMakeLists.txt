@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(osimHeadNeckNeuralAdaptive)
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 find_package(OpenSim REQUIRED)
 
 set(SOURCE_FILES 
@@ -15,6 +18,13 @@ set(HEADER_FILES
 
 add_library(${PROJECT_NAME} SHARED ${SOURCE_FILES} ${HEADER_FILES})
 
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /O2 /Ob3 /arch:AVX2 /GL)
+    target_link_options(${PROJECT_NAME} PRIVATE /LTCG)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -O3 -march=native -fPIC)
+endif()
+
 target_include_directories(${PROJECT_NAME} PRIVATE 
     ${OpenSim_INCLUDE_DIRS}
     ${CMAKE_CURRENT_SOURCE_DIR}/../vestibular_plugin
@@ -23,12 +33,18 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE OSIMHEADNECKNEURALADAPTIVE_EXPORTS)
 
-# Link against OpenSim and the two other plugins
+if(WIN32)
+    set(VEST_LIB "${CMAKE_CURRENT_SOURCE_DIR}/../vestibular_plugin/build/Release/osimVestibular.lib")
+    set(PROP_LIB "${CMAKE_CURRENT_SOURCE_DIR}/../proprioception_plugin/build/Release/osimMillard12EqWithAff.lib")
+else()
+    set(VEST_LIB "${CMAKE_CURRENT_SOURCE_DIR}/../vestibular_plugin/build/libosimVestibular.so")
+    set(PROP_LIB "${CMAKE_CURRENT_SOURCE_DIR}/../proprioception_plugin/build/libosimMillard12EqWithAff.so")
+endif()
+
 target_link_libraries(${PROJECT_NAME} PRIVATE 
     ${OpenSim_LIBRARIES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/../vestibular_plugin/build/Release/osimVestibular.lib
-    ${CMAKE_CURRENT_SOURCE_DIR}/../proprioception_plugin/build/Release/osimMillard12EqWithAff.lib
+    ${VEST_LIB}
+    ${PROP_LIB}
 )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "osimHeadNeckNeuralAdaptive")
-

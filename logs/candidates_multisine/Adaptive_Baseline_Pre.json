@@ -1,0 +1,66 @@
+{
+  "worker": "Adaptive_Baseline_Pre",
+  "total_score": 28947.02,
+  "frequencies": {
+    "0.324": {
+      "freq": 0.324,
+      "sim_gain": 36.32,
+      "target_gain": 86.55,
+      "gain_db_diff": -7.54,
+      "sim_phase": 46.53,
+      "target_phase": -7.03,
+      "phase_err_deg": 53.56,
+      "score": 8558.3
+    },
+    "0.783": {
+      "freq": 0.783,
+      "sim_gain": 144.09,
+      "target_gain": 236.93,
+      "gain_db_diff": -4.32,
+      "sim_phase": -77.11,
+      "target_phase": -96.96,
+      "phase_err_deg": 19.85,
+      "score": 2260.2
+    },
+    "1.099": {
+      "freq": 1.099,
+      "sim_gain": 226.52,
+      "target_gain": 319.74,
+      "gain_db_diff": -2.99,
+      "sim_phase": -109.85,
+      "target_phase": -109.23,
+      "phase_err_deg": 0.62,
+      "score": 896.6
+    },
+    "2.446": {
+      "freq": 2.446,
+      "sim_gain": 425.36,
+      "target_gain": 423.34,
+      "gain_db_diff": 0.04,
+      "sim_phase": 173.6,
+      "target_phase": -161.34,
+      "phase_err_deg": 25.06,
+      "score": 628.2
+    },
+    "5.583": {
+      "freq": 5.583,
+      "sim_gain": 754.36,
+      "target_gain": 503.3,
+      "gain_db_diff": 3.51,
+      "sim_phase": 76.81,
+      "target_phase": -201.38,
+      "phase_err_deg": 81.81,
+      "score": 7928.2
+    },
+    "7.927": {
+      "freq": 7.927,
+      "sim_gain": 366.71,
+      "target_gain": 572.69,
+      "gain_db_diff": -3.87,
+      "sim_phase": 27.67,
+      "target_phase": -247.62,
+      "phase_err_deg": 84.71,
+      "score": 8675.5
+    }
+  }
+}

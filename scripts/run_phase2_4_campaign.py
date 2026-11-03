@@ -78,7 +78,7 @@ PHYSICAL_LOWER_LIMITS = np.array([
     0.05,   # k_stat
     0.0,    # Kp_task_pitch
     0.0,    # Kd_task_pitch
-    1.0     # Ki_task_pitch
+    0.1     # Ki_task_pitch
 ])
 
 # Physical ceilings: a dynamic expansion may never exceed these
@@ -88,7 +88,7 @@ PHYSICAL_UPPER_LIMITS = np.array([
     3.0,    # K_sc
     1.0,    # r_lead_sc  (zero must stay below pole -> lead)
     300.0,  # p_sc
-    15.0,   # K_phas
+    35.0,   # K_phas
     120.0,  # p_phas
     5.0,    # kp
     1.0,    # r_lead_ccr
@@ -157,18 +157,49 @@ def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
         return 1000000.0 + random.uniform(0, 100.0)
 
 
-def evaluate_candidate(candidate, w_idx, gen_idx):
+def evaluate_candidate(candidate, w_idx, gen_idx, freq_executor=None):
     """
-    Evaluates all 6 canonical frequencies for one candidate sequentially, spawning a fresh
-    subprocess per frequency so OS reclaims 100% of OpenSim C++ memory after each frequency
-    (preventing the 1.8 GB/worker RAM accumulation of single-process ALL mode) while keeping
-    all 14 physical cores 100% utilized without inter-frequency barrier stalls.
+    Evaluates all 6 canonical frequencies for one candidate.
+    - When freq_executor is None (<= 28 cores): evaluates frequencies sequentially per candidate
+      with early-stop pruning.
+    - When freq_executor is provided (> 28 cores, e.g., 56 or 112 cores on TRUBA hamsi/orfoz):
+      evaluates the fast 2.446 Hz instability gate first, then dispatches the remaining 5
+      frequencies concurrently across the shared pool so all 56-112 CPU cores stay 100% saturated.
     """
     worker_label = f"W{w_idx+1}_P24G{gen_idx}"
+    if freq_executor is not None:
+        f0_val = TARGETS[0][0]
+        f0_score = freq_executor.submit(evaluate_freq, candidate, 0, w_idx, gen_idx).result()
+        if f0_score >= 150000.0:
+            early_stop_penalty = len(TARGETS) * 200000.0
+            total_score = f0_score + early_stop_penalty
+            print(f"[EARLY STOPPING] [{worker_label}] aborted on {f0_val:.3f}Hz (Score: {f0_score:.1f}). Penalty added.", flush=True)
+            return total_score
+        total_score = f0_score
+        print(f"[PASS] [{worker_label}] passed {f0_val:.3f}Hz (1/{len(TARGETS)}) (Score: {f0_score:.1f} | Cum: {total_score:.1f})", flush=True)
+        rem_futs = {
+            t_idx: freq_executor.submit(evaluate_freq, candidate, t_idx, w_idx, gen_idx)
+            for t_idx in range(1, len(TARGETS))
+        }
+        for t_idx in range(1, len(TARGETS)):
+            f_val = TARGETS[t_idx][0]
+            f_score = rem_futs[t_idx].result()
+            if f_score < 150000.0:
+                total_score += f_score
+                print(f"[PASS] [{worker_label}] passed {f_val:.3f}Hz ({t_idx+1}/{len(TARGETS)}) (Score: {f_score:.1f} | Cum: {total_score:.1f})", flush=True)
+            else:
+                early_stop_penalty = (len(TARGETS) - t_idx) * 200000.0
+                total_score += (f_score + early_stop_penalty)
+                print(f"[EARLY STOPPING] [{worker_label}] aborted on {f_val:.3f}Hz (Score: {f_score:.1f}). Penalty added.", flush=True)
+                break
+        else:
+            print(f"[COMPLETE] [{worker_label}] finished all 6 frequencies! Total Score: {total_score:.2f}", flush=True)
+        return total_score
+
     total_score = 0.0
     for t_idx, (f_val, _, _) in enumerate(TARGETS):
         f_score = evaluate_freq(candidate, t_idx, w_idx, gen_idx)
-        if f_score < 250000.0:
+        if f_score < 150000.0:
             total_score += f_score
             print(f"[PASS] [{worker_label}] passed {f_val:.3f}Hz ({t_idx+1}/{len(TARGETS)}) (Score: {f_score:.1f} | Cum: {total_score:.1f})", flush=True)
         else:
@@ -475,7 +506,7 @@ def main():
         lower_bounds = np.array([
             0.01, 5.0, 0.01, 0.001, 15.0, 0.20,
             1.0, 0.03, 0.001, 20.0, 0.05, 0.05,
-            0.0, 0.0, 12.0
+            0.0, 0.0, 0.5
         ])
         upper_bounds = np.array([
             3.0, 150.0, 1.5, 0.60, 160.0, 10.0,
@@ -632,15 +663,25 @@ def main():
         candidates = [np.asarray(c, dtype=float).tolist() for c in raw_cands]
         all_scores = [0.0] * len(candidates)
         
-        # Max concurrency: 14 physical cores (each frequency runs in a clean subprocess so OS reclaims C++ memory)
-        with ThreadPoolExecutor(max_workers=14) as executor:
-            future_to_cidx = {
-                executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration): c_idx
-                for c_idx in range(len(candidates))
-            }
-            for fut in as_completed(future_to_cidx):
-                c_idx = future_to_cidx[fut]
-                all_scores[c_idx] = fut.result()
+        max_workers = int(os.environ.get("PHASE2_4_WORKERS", os.environ.get("SLURM_CPUS_PER_TASK", "14")))
+        if max_workers > len(candidates):
+            with ThreadPoolExecutor(max_workers=max_workers) as freq_executor, ThreadPoolExecutor(max_workers=len(candidates)) as cand_executor:
+                future_to_cidx = {
+                    cand_executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration, freq_executor): c_idx
+                    for c_idx in range(len(candidates))
+                }
+                for fut in as_completed(future_to_cidx):
+                    c_idx = future_to_cidx[fut]
+                    all_scores[c_idx] = fut.result()
+        else:
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_cidx = {
+                    executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration): c_idx
+                    for c_idx in range(len(candidates))
+                }
+                for fut in as_completed(future_to_cidx):
+                    c_idx = future_to_cidx[fut]
+                    all_scores[c_idx] = fut.result()
                     
         # Update CMA-ES distribution using raw_cands (preserving pycma Solution objects & exact genotypes)
         es.tell(raw_cands, all_scores)
@@ -693,6 +734,21 @@ def main():
         z_phas = r_lead_phas * p_phas if 0.0 < r_lead_phas <= 1.0 else -1.0
         
         # Save generation summary
+        pass_scores = [float(s) for s in all_scores if s < 150000.0]
+        try:
+            cond_num = float(np.max(es.D) / max(1e-12, np.min(es.D))) if hasattr(es, "D") and es.D is not None else 1.0
+        except Exception:
+            cond_num = 1.0
+        cmaes_state = {
+            "sigma_global": round(float(es.sigma), 5),
+            "condition_number": round(cond_num, 3),
+            "n_passed_all_6": len(pass_scores),
+            "popsize": len(all_scores),
+            "pop_median_score": round(float(np.median(all_scores)), 2),
+            "pop_mean_pass_score": round(float(np.mean(pass_scores)), 2) if pass_scores else None,
+            "mean_vector": {name: round(float(val), 4) for name, val in zip(PARAM_NAMES, es.mean)},
+            "effective_stds": {name: round(float(es.sigma * std_val), 4) for name, std_val in zip(PARAM_NAMES, es.stds)}
+        }
         summary = {
             "phase": 2.4,
             "generation": iteration,
@@ -720,6 +776,7 @@ def main():
                 "Kd_task_pitch": float(kd_task_pitch),
                 "Ki_task_pitch": float(ki_task_pitch)
             },
+            "cmaes_state": cmaes_state,
             "all_scores": [float(s) for s in all_scores],
             "all_candidates": clamped_candidates
         }

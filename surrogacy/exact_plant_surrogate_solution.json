@@ -1,20 +1,110 @@
 {
-  "score": 24211.5130769932,
-  "params": [
-    3.2700734949368284,
-    40.0,
-    10.0,
-    5.1288586095487645,
-    55.72334338892636,
-    3.8056057165787203,
-    60.0,
-    3.0,
-    0.5,
-    15.0
+  "surrogate_model": "Maxwell-Hill 15-Parameter 6-DOF 72-Muscle MIMO Surrogate",
+  "bode_score_surrogate": 26983.57,
+  "regularized_score": 29590.19,
+  "params_15d": [
+    0.409062,
+    79.60224,
+    0.186347,
+    0.161034,
+    94.197593,
+    6.2,
+    9.700685,
+    0.218936,
+    0.03,
+    150.0,
+    0.836735,
+    0.93818,
+    1.5,
+    0.142669,
+    28.231354
   ],
-  "r_ton": 0.3270073494936828,
-  "r_lead_sc": 0.09204147306365681,
-  "r_lead_ccr": 0.03333333333333333,
-  "k_dyn": 0.25,
-  "k_stat": 0.4
+  "params": [
+    0.409062,
+    79.60224,
+    0.186347,
+    15.168998,
+    94.197593,
+    6.2,
+    9.700685,
+    0.218936,
+    4.5,
+    150.0
+  ],
+  "r_ton": 2.195156,
+  "r_lead_sc": 0.161034,
+  "r_lead_ccr": 0.03,
+  "k_dyn": 0.836735,
+  "k_stat": 0.93818,
+  "Kp_task_pitch": 1.5,
+  "Kd_task_pitch": 0.142669,
+  "Ki_task_pitch": 28.231354,
+  "per_frequency_predictions": {
+    "0.324": {
+      "pred_gain_deg_m": 43.42,
+      "target_gain_deg_m": 86.55358608610432,
+      "pred_phase_deg": 49.67,
+      "target_phase_deg": -7.02965051722595,
+      "p1_gain_deg_m": 10.38,
+      "p2_gain_deg_m": 34.15,
+      "p1_amp_deg": 1.48,
+      "p2_amp_deg": 4.88,
+      "score": 6803.8
+    },
+    "0.783": {
+      "pred_gain_deg_m": 146.47,
+      "target_gain_deg_m": 236.9259711178837,
+      "pred_phase_deg": -89.61,
+      "target_phase_deg": -96.96131245283456,
+      "p1_gain_deg_m": 56.02,
+      "p2_gain_deg_m": 90.68,
+      "p1_amp_deg": 1.37,
+      "p2_amp_deg": 2.22,
+      "score": 1799.2
+    },
+    "1.099": {
+      "pred_gain_deg_m": 190.89,
+      "target_gain_deg_m": 319.7412130329575,
+      "pred_phase_deg": -111.07,
+      "target_phase_deg": -109.22812520468132,
+      "p1_gain_deg_m": 77.8,
+      "p2_gain_deg_m": 114.22,
+      "p1_amp_deg": 0.97,
+      "p2_amp_deg": 1.42,
+      "score": 2010.8
+    },
+    "2.446": {
+      "pred_gain_deg_m": 592.74,
+      "target_gain_deg_m": 423.3418874383084,
+      "pred_phase_deg": -196.4,
+      "target_phase_deg": -161.3408911212513,
+      "p1_gain_deg_m": 194.28,
+      "p2_gain_deg_m": 430.08,
+      "p1_amp_deg": 0.49,
+      "p2_amp_deg": 1.08,
+      "score": 2083.9
+    },
+    "5.583": {
+      "pred_gain_deg_m": 618.61,
+      "target_gain_deg_m": 503.2956325134904,
+      "pred_phase_deg": 65.04,
+      "target_phase_deg": -201.38126625832896,
+      "p1_gain_deg_m": 172.5,
+      "p2_gain_deg_m": 523.7,
+      "p1_amp_deg": 0.08,
+      "p2_amp_deg": 0.25,
+      "score": 9078.2
+    },
+    "7.927": {
+      "pred_gain_deg_m": 571.9,
+      "target_gain_deg_m": 572.6855584199358,
+      "pred_phase_deg": 40.21,
+      "target_phase_deg": -247.62435228933157,
+      "p1_gain_deg_m": 168.2,
+      "p2_gain_deg_m": 491.94,
+      "p1_amp_deg": 0.04,
+      "p2_amp_deg": 0.12,
+      "score": 5207.6
+    }
+  }
 }

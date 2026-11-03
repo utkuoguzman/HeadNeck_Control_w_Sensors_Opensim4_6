@@ -475,37 +475,126 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
         const Muscle& muscle = muscles.get(active_muscle_indices[active_index]);
         std::string muscle_name = muscle.getName();
 
-        // Anatomical Co-Contraction Tiers
-        double minimum_excitation_value = 0.030; // Default for eye muscles / unclassified
-        if (muscle_name.find("stern_mast") != std::string::npos ||
-            muscle_name.find("cleid_mast") != std::string::npos ||
-            muscle_name.find("cleid_occ")  != std::string::npos ||
-            muscle_name.find("digastric")  != std::string::npos ||
-            muscle_name.find("Geniohyoid") != std::string::npos ||
-            muscle_name.find("Mylohyoid")  != std::string::npos ||
-            muscle_name.find("Stylohyoid") != std::string::npos ||
-            muscle_name.find("Sterno_hyoid") != std::string::npos ||
-            muscle_name.find("SternoThyroid") != std::string::npos ||
-            muscle_name.find("Omo_hyoid")  != std::string::npos) {
-            minimum_excitation_value = 0.025; // Superficial Flexors (2.5%)
-        } else if (muscle_name.find("long_cap") != std::string::npos ||
-                   muscle_name.find("long_col") != std::string::npos ||
-                   muscle_name.find("scalenus") != std::string::npos) {
-            minimum_excitation_value = 0.040; // Deep Cervical Flexors (4.0%)
-        } else if (muscle_name.find("trap_") != std::string::npos ||
-                   muscle_name.find("splen_cap") != std::string::npos ||
-                   muscle_name.find("splen_cerv") != std::string::npos ||
-                   muscle_name.find("levator_scap") != std::string::npos) {
-            minimum_excitation_value = 0.050; // Superficial Extensors (5.0%)
-        } else if (muscle_name.find("semi_cap") != std::string::npos ||
-                   muscle_name.find("semi_cerv") != std::string::npos ||
-                   muscle_name.find("longissi_") != std::string::npos ||
-                   muscle_name.find("iliocost_") != std::string::npos ||
-                   muscle_name.find("rectcap_") != std::string::npos ||
-                   muscle_name.find("obl_cap")  != std::string::npos) {
-            minimum_excitation_value = 0.070; // Deep Cervical Extensors (7.0%)
+        // Per-Muscle Literature-Centered Static Equilibrium Co-Contraction
+        // Superficial Flexors (1.0-2.5% MVC), Deep/Upper Flexors (2.0-4.0% MVC),
+        // Superficial Extensors (2.0-5.0% MVC), Deep Extensors (3.0-7.0% MVC)
+        double minimum_excitation_value = 0.030;
+        const char* env_mode = std::getenv("GROUP_MODE");
+        bool use_orig_groups = (env_mode && std::string(env_mode) == "ORIG");
+        if (use_orig_groups) {
+            if (muscle_name.find("stern_mast") != std::string::npos ||
+                muscle_name.find("cleid_mast") != std::string::npos ||
+                muscle_name.find("cleid_occ")  != std::string::npos ||
+                muscle_name.find("digastric")  != std::string::npos ||
+                muscle_name.find("Geniohyoid") != std::string::npos ||
+                muscle_name.find("Mylohyoid")  != std::string::npos ||
+                muscle_name.find("Stylohyoid") != std::string::npos ||
+                muscle_name.find("Sterno_hyoid") != std::string::npos ||
+                muscle_name.find("SternoThyroid") != std::string::npos ||
+                muscle_name.find("Omo_hyoid")  != std::string::npos) {
+                const char* env_lf = std::getenv("LF_CO");
+                minimum_excitation_value = env_lf ? std::stod(env_lf) : 0.025;
+            } else if (muscle_name.find("long_cap") != std::string::npos ||
+                       muscle_name.find("long_col") != std::string::npos ||
+                       muscle_name.find("scalenus") != std::string::npos) {
+                const char* env_uf = std::getenv("UF_CO");
+                minimum_excitation_value = env_uf ? std::stod(env_uf) : 0.040;
+            } else if (muscle_name.find("trap_") != std::string::npos ||
+                       muscle_name.find("splen_cap") != std::string::npos ||
+                       muscle_name.find("splen_cerv") != std::string::npos ||
+                       muscle_name.find("levator_scap") != std::string::npos) {
+                const char* env_se = std::getenv("SUP_EXT_CO");
+                minimum_excitation_value = env_se ? std::stod(env_se) : 0.050;
+            } else if (muscle_name.find("semi_cap") != std::string::npos ||
+                       muscle_name.find("semi_cerv") != std::string::npos ||
+                       muscle_name.find("longissi_") != std::string::npos ||
+                       muscle_name.find("iliocost_") != std::string::npos ||
+                       muscle_name.find("rectcap_") != std::string::npos ||
+                       muscle_name.find("obl_cap")  != std::string::npos) {
+                const char* env_de = std::getenv("DEEP_EXT_CO");
+                minimum_excitation_value = env_de ? std::stod(env_de) : 0.070;
+            }
+        } else {
+            // 72-Muscle Literature-Centered 6-DOF Static Equilibrium Co-Contraction Table
+            // Group 1: Superficial Flexors (1.0% - 2.5% MVC)
+            if      (muscle_name == "Sterno_hyoid")          minimum_excitation_value = 0.0139074664;
+            else if (muscle_name == "Sterno_hyoid_L")        minimum_excitation_value = 0.0138869448;
+            else if (muscle_name == "SternoThyroid")         minimum_excitation_value = 0.0139580126;
+            else if (muscle_name == "SternoThyroid_L")       minimum_excitation_value = 0.0139146060;
+            else if (muscle_name == "Omo_hyoid")             minimum_excitation_value = 0.0140401442;
+            else if (muscle_name == "Omo_hyoid_L")           minimum_excitation_value = 0.0140511883;
+            else if (muscle_name == "stern_mast")            minimum_excitation_value = 0.0137600533;
+            else if (muscle_name == "stern_mast_L")          minimum_excitation_value = 0.0138882584;
+            else if (muscle_name == "cleid_mast")            minimum_excitation_value = 0.0140218931;
+            else if (muscle_name == "cleid_mast_L")          minimum_excitation_value = 0.0140604434;
+            else if (muscle_name == "cleid_occ")             minimum_excitation_value = 0.0141125391;
+            else if (muscle_name == "cleid_occ_L")           minimum_excitation_value = 0.0141761987;
+            else if (muscle_name == "scalenus_ant")          minimum_excitation_value = 0.0145401926;
+            else if (muscle_name == "scalenus_ant_L")        minimum_excitation_value = 0.0144270113;
+            // Group 2: Deep / Upper Cervical Flexors (2.0% - 4.0% MVC)
+            else if (muscle_name == "digastric_post")        minimum_excitation_value = 0.0257708683;
+            else if (muscle_name == "digastric_post_L")      minimum_excitation_value = 0.0260257723;
+            else if (muscle_name == "digastric_ant")         minimum_excitation_value = 0.0351123801;
+            else if (muscle_name == "digastric_ant_L")       minimum_excitation_value = 0.0352215535;
+            else if (muscle_name == "Geniohyoid")            minimum_excitation_value = 0.0358435442;
+            else if (muscle_name == "Geniohyoid_L")          minimum_excitation_value = 0.0357879142;
+            else if (muscle_name == "Mylohyoid_Post")        minimum_excitation_value = 0.0353440759;
+            else if (muscle_name == "Mylohyoid_Post_L")      minimum_excitation_value = 0.0354227939;
+            else if (muscle_name == "Mylohyoid_Ant")         minimum_excitation_value = 0.0357049120;
+            else if (muscle_name == "Mylohyoid_Ant_L")       minimum_excitation_value = 0.0359162302;
+            else if (muscle_name == "Stylohyoid_Lat")        minimum_excitation_value = 0.0326655729;
+            else if (muscle_name == "Stylohyoid_Lat_L")      minimum_excitation_value = 0.0327162539;
+            else if (muscle_name == "Stylohyoid_Med")        minimum_excitation_value = 0.0327072420;
+            else if (muscle_name == "Stylohyoid_Med_L")      minimum_excitation_value = 0.0327579685;
+            else if (muscle_name == "scalenus_med")          minimum_excitation_value = 0.0326803693;
+            else if (muscle_name == "scalenus_med_L")        minimum_excitation_value = 0.0325170091;
+            else if (muscle_name == "scalenus_post")         minimum_excitation_value = 0.0317368734;
+            else if (muscle_name == "scalenus_post_L")       minimum_excitation_value = 0.0316464182;
+            else if (muscle_name == "long_cap_sklc4")        minimum_excitation_value = 0.0353953794;
+            else if (muscle_name == "long_cap_sklc4_L")      minimum_excitation_value = 0.0353956169;
+            else if (muscle_name == "long_col_c1thx")        minimum_excitation_value = 0.0295473898;
+            else if (muscle_name == "long_col_c1thx_L")      minimum_excitation_value = 0.0295025776;
+            else if (muscle_name == "long_col_c1c5")         minimum_excitation_value = 0.0334943909;
+            else if (muscle_name == "long_col_c1c5_L")       minimum_excitation_value = 0.0334361024;
+            else if (muscle_name == "long_col_c5thx")        minimum_excitation_value = 0.0298660580;
+            else if (muscle_name == "long_col_c5thx_L")      minimum_excitation_value = 0.0298181117;
+            // Group 3: Superficial Extensors (2.0% - 5.0% MVC)
+            else if (muscle_name == "trap_cl")               minimum_excitation_value = 0.0222030957;
+            else if (muscle_name == "trap_cl_L")             minimum_excitation_value = 0.0221611600;
+            else if (muscle_name == "trap_acr")              minimum_excitation_value = 0.0391430837;
+            else if (muscle_name == "trap_acr_L")            minimum_excitation_value = 0.0389694904;
+            else if (muscle_name == "splen_cap_sklc6")       minimum_excitation_value = 0.0232840744;
+            else if (muscle_name == "splen_cap_sklc6_L")     minimum_excitation_value = 0.0233107645;
+            else if (muscle_name == "splen_cap_sklthx")      minimum_excitation_value = 0.0256466659;
+            else if (muscle_name == "splen_cap_sklthx_L")    minimum_excitation_value = 0.0256818910;
+            else if (muscle_name == "splen_cerv_c3thx")      minimum_excitation_value = 0.0487024411;
+            else if (muscle_name == "splen_cerv_c3thx_L")    minimum_excitation_value = 0.0486376139;
+            else if (muscle_name == "semi_cap_sklc5")        minimum_excitation_value = 0.0221057900;
+            else if (muscle_name == "semi_cap_sklc5_L")      minimum_excitation_value = 0.0222267488;
+            else if (muscle_name == "semi_cap_sklthx")       minimum_excitation_value = 0.0230974719;
+            else if (muscle_name == "semi_cap_sklthx_L")     minimum_excitation_value = 0.0231614554;
+            else if (muscle_name == "levator_scap")          minimum_excitation_value = 0.0494874183;
+            else if (muscle_name == "levator_scap_L")        minimum_excitation_value = 0.0494206141;
+            // Group 4: Deep Cervical Extensors (3.0% - 7.0% MVC)
+            else if (muscle_name == "semi_cerv_c3thx")       minimum_excitation_value = 0.0694999818;
+            else if (muscle_name == "semi_cerv_c3thx_L")     minimum_excitation_value = 0.0694159181;
+            else if (muscle_name == "longissi_cap_sklc6")    minimum_excitation_value = 0.0305173104;
+            else if (muscle_name == "longissi_cap_sklc6_L")  minimum_excitation_value = 0.0305802837;
+            else if (muscle_name == "longissi_cerv_c4thx")   minimum_excitation_value = 0.0687748785;
+            else if (muscle_name == "longissi_cerv_c4thx_L") minimum_excitation_value = 0.0686880523;
+            else if (muscle_name == "iliocost_cerv_c5rib")   minimum_excitation_value = 0.0665554157;
+            else if (muscle_name == "iliocost_cerv_c5rib_L") minimum_excitation_value = 0.0664675579;
+            else if (muscle_name == "rectcap_post_maj")      minimum_excitation_value = 0.0305236751;
+            else if (muscle_name == "rectcap_post_maj_L")    minimum_excitation_value = 0.0305448742;
+            else if (muscle_name == "rectcap_post_min")      minimum_excitation_value = 0.0307383191;
+            else if (muscle_name == "rectcap_post_min_L")    minimum_excitation_value = 0.0308234885;
+            else if (muscle_name == "obl_cap_sup")           minimum_excitation_value = 0.0320057410;
+            else if (muscle_name == "obl_cap_sup_L")         minimum_excitation_value = 0.0321181604;
+            else if (muscle_name == "obl_cap_inf")           minimum_excitation_value = 0.0358454823;
+            else if (muscle_name == "obl_cap_inf_L")         minimum_excitation_value = 0.0358149574;
         }
         cached_minimum_excitations[active_index] = minimum_excitation_value;
+        last_alpha_motor_excitations[active_index] = minimum_excitation_value;
         cervico_collic_state_names[active_index] = "ccr_state_" + muscle_name;
         spindle_length_change_state_names[active_index] = "sp_dL_" + muscle_name;
         spindle_velocity_state_names[active_index] = "sp_v_" + muscle_name;
@@ -561,6 +650,60 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
         moment_arm_jacobian_6dof(5, active_index) = moment_arm_yaw2;
     }
 
+    // Precompute C^infty Smooth 6-DOF Quadratic Taylor Moment-Arm Polynomial J(q) around q0 (eliminates 50 ms staircase)
+    jacobian_6dof_q0 = moment_arm_jacobian_6dof;
+    const Coordinate* coords_6dof[6] = {
+        cached_coordinate_pitch1, cached_coordinate_pitch2,
+        cached_coordinate_roll1,  cached_coordinate_roll2,
+        cached_coordinate_yaw1,   cached_coordinate_yaw2
+    };
+    for (int d = 0; d < 6; ++d) {
+        q0_6dof[d] = coords_6dof[d] ? coords_6dof[d]->getValue(state) : 0.0;
+        jacobian_6dof_d1[d].resize(6, number_of_active_muscles);
+        jacobian_6dof_d1[d].setToZero();
+        jacobian_6dof_d2[d].resize(6, number_of_active_muscles);
+        jacobian_6dof_d2[d].setToZero();
+    }
+    try {
+        SimTK::State work_state = state;
+        const double dq_step = 0.05; // ~2.86 deg central finite difference step
+        for (int d = 0; d < 6; ++d) {
+            if (!coords_6dof[d]) continue;
+            Coordinate* mut_coord_d = const_cast<Coordinate*>(coords_6dof[d]);
+
+            mut_coord_d->setValue(work_state, q0_6dof[d] + dq_step, true);
+            model.realizePosition(work_state);
+            SimTK::Matrix J_plus(6, number_of_active_muscles);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                const Muscle& mus = muscles.get(active_muscle_indices[m]);
+                for (int c = 0; c < 6; ++c) {
+                    J_plus(c, m) = coords_6dof[c] ? mus.computeMomentArm(work_state, *const_cast<Coordinate*>(coords_6dof[c])) : 0.0;
+                }
+            }
+
+            mut_coord_d->setValue(work_state, q0_6dof[d] - dq_step, true);
+            model.realizePosition(work_state);
+            SimTK::Matrix J_minus(6, number_of_active_muscles);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                const Muscle& mus = muscles.get(active_muscle_indices[m]);
+                for (int c = 0; c < 6; ++c) {
+                    J_minus(c, m) = coords_6dof[c] ? mus.computeMomentArm(work_state, *const_cast<Coordinate*>(coords_6dof[c])) : 0.0;
+                }
+            }
+
+            mut_coord_d->setValue(work_state, q0_6dof[d], true);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                for (int c = 0; c < 6; ++c) {
+                    jacobian_6dof_d1[d](c, m) = (J_plus(c, m) - J_minus(c, m)) / (2.0 * dq_step);
+                    jacobian_6dof_d2[d](c, m) = (J_plus(c, m) - 2.0 * jacobian_6dof_q0(c, m) + J_minus(c, m)) / (dq_step * dq_step);
+                }
+            }
+        }
+        model.realizePosition(state);
+    } catch (...) {
+        // Fallback to constant J0 if work_state perturbation fails
+    }
+
     updateDecoderMatrix();
     history.clear();
     is_initialized = true;
@@ -571,23 +714,24 @@ void HeadNeckNeuralController::updateDecoderMatrix() const {
     int number_of_active_muscles = active_muscle_indices.size();
     if (number_of_active_muscles == 0) return;
 
-    // Full 6-DOF cervical spine Jacobian inversion: gram_matrix_6dof = J6 * J6^T (6 x 6)
-    // Eliminates cross-talk from inter-vertebral buckling (pitch1 vs pitch2, roll1 vs roll2, yaw1 vs yaw2)
-    SimTK::Matrix gram_matrix_6dof(6, 6);
-    gram_matrix_6dof.setToZero();
+    // Full 6-DOF cervical spine Jacobian inversion on stack (zero heap allocations): gram_matrix_6dof = J6 * J6^T (6 x 6)
+    SimTK::Mat<6, 6> gram_matrix_6dof(0.0);
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         for (int row = 0; row < 6; ++row) {
+            const double j_row = moment_arm_jacobian_6dof(row, muscle_index);
             for (int column = 0; column < 6; ++column) {
-                gram_matrix_6dof(row, column) += moment_arm_jacobian_6dof(row, muscle_index) * moment_arm_jacobian_6dof(column, muscle_index);
+                gram_matrix_6dof(row, column) += j_row * moment_arm_jacobian_6dof(column, muscle_index);
             }
         }
     }
     for (int row = 0; row < 6; ++row) gram_matrix_6dof(row, row) += 1e-8;
 
-    SimTK::Matrix gram_matrix_6dof_inverse = gram_matrix_6dof.invert();
+    SimTK::Mat<6, 6> gram_matrix_6dof_inverse = gram_matrix_6dof.invert();
 
     // K6 = -(J6 * J6^T)^{-1} * J6 (6 x number_of_active_muscles), then sum (pitch1+pitch2, roll1+roll2, yaw1+yaw2) into 3 x number_of_active_muscles
-    proprioceptive_decoder_matrix.resize(3, number_of_active_muscles);
+    if (proprioceptive_decoder_matrix.nrow() != 3 || proprioceptive_decoder_matrix.ncol() != number_of_active_muscles) {
+        proprioceptive_decoder_matrix.resize(3, number_of_active_muscles);
+    }
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         double decoder_column_6dof[6] = {0.0};
         for (int row = 0; row < 6; ++row) {
@@ -997,8 +1141,10 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             double dynamic_fusimotor_activation = state_variable_spindle_dynamic_fusimotor[muscle_index]->getValue(state);
             double static_fusimotor_activation  = state_variable_spindle_static_fusimotor[muscle_index]->getValue(state);
 
+            double u0_alpha =
+                (muscle_index < (int)cached_minimum_excitations.size()) ? cached_minimum_excitations[muscle_index] : 0.03;
             double alpha_motor_excitation =
-                (muscle_index < (int)last_alpha_motor_excitations.size()) ? last_alpha_motor_excitations[muscle_index] : 0.03;
+                (muscle_index < (int)last_alpha_motor_excitations.size()) ? last_alpha_motor_excitations[muscle_index] : u0_alpha;
             double dynamic_gamma_firing_rate = dynamic_gamma_gain_scaled * alpha_motor_excitation;
             double static_gamma_firing_rate  = static_gamma_gain_scaled  * alpha_motor_excitation;
             double steady_state_dynamic_fusimotor =
@@ -1007,6 +1153,12 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
                 (static_gamma_firing_rate * static_gamma_firing_rate) / (static_gamma_firing_rate * static_gamma_firing_rate + 3600.0);
             double instantaneous_nuclear_chain_activation =
                 (static_gamma_firing_rate * static_gamma_firing_rate) / (static_gamma_firing_rate * static_gamma_firing_rate + 8100.0);
+
+            double base_dyn_gamma = dynamic_gamma_gain_scaled * u0_alpha;
+            double base_stat_gamma = static_gamma_gain_scaled * u0_alpha;
+            double base_fdyn = (base_dyn_gamma * base_dyn_gamma) / (base_dyn_gamma * base_dyn_gamma + 3600.0);
+            double base_fstat = (base_stat_gamma * base_stat_gamma) / (base_stat_gamma * base_stat_gamma + 3600.0);
+            double base_fchain = (base_stat_gamma * base_stat_gamma) / (base_stat_gamma * base_stat_gamma + 8100.0);
 
             state_variable_spindle_dynamic_fusimotor[muscle_index]->setDerivative(
                 state, (steady_state_dynamic_fusimotor - dynamic_fusimotor_activation) / 0.149);
@@ -1022,10 +1174,39 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
                     ? cached_secondary_afferent_outputs[muscle_index]->getValue(state)
                     : baseline_secondary_afferent_rates[muscle_index];
 
-            double fusimotor_secondary_afferent_bias = 29.72138 * static_fusimotor_activation + 44.58207 * instantaneous_nuclear_chain_activation;
-            double fusimotor_primary_afferent_bias   = 54.45176 * dynamic_fusimotor_activation + 0.21517 * fusimotor_secondary_afferent_bias;
-            double net_secondary_afferent_change     = (secondary_afferent_value - baseline_secondary_afferent_rates[muscle_index]) - fusimotor_secondary_afferent_bias;
-            double net_primary_afferent_change       = (primary_afferent_value   - baseline_primary_afferent_rates[muscle_index])   - fusimotor_primary_afferent_bias;
+            // Spinocerebellar / External Cuneate Fusimotor Efference Copy Cancellation before Per-Spindle Kinematic Luenberger Observers
+            // (Goodwin, McCloskey & Matthews 1972; Proske & Gandevia 2012: strips active gamma-coactivation bias so active contraction is not misperceived as muscle lengthening)
+            // FUSIMOTOR_CANCEL_MODE: 0 = Cuneate/Spinocerebellar (human neuroanatomy default), 1 = Pre-CCR only, 2 = Both
+            const int fusimotor_cancel_mode = std::getenv("FUSIMOTOR_CANCEL_MODE") ? std::stoi(std::getenv("FUSIMOTOR_CANCEL_MODE")) : 0;
+            double delta_fdyn   = std::max(0.0, dynamic_fusimotor_activation - base_fdyn);
+            double delta_fstat  = std::max(0.0, static_fusimotor_activation  - base_fstat);
+            double delta_fchain = std::max(0.0, instantaneous_nuclear_chain_activation - base_fchain);
+            double fusimotor_secondary_afferent_bias = 29.72138 * delta_fstat + 44.58207 * delta_fchain;
+            double fusimotor_primary_afferent_bias   = 54.45176 * delta_fdyn  + 0.21517 * fusimotor_secondary_afferent_bias;
+            double luen_sec_bias = (fusimotor_cancel_mode == 0 || fusimotor_cancel_mode == 2) ? fusimotor_secondary_afferent_bias : 0.0;
+            double luen_pri_bias = (fusimotor_cancel_mode == 0 || fusimotor_cancel_mode == 2) ? fusimotor_primary_afferent_bias   : 0.0;
+            double net_secondary_afferent_change     = (secondary_afferent_value - baseline_secondary_afferent_rates[muscle_index]) - luen_sec_bias;
+            double net_primary_afferent_change       = (primary_afferent_value   - baseline_primary_afferent_rates[muscle_index])   - luen_pri_bias;
+
+            // Physiological spindle sensory threshold (prevents sub-threshold |Lp|^0.3 small-signal clonus around rest)
+            static const double spindle_obs_threshold = std::getenv("SPINDLE_OBS_THRESH") ? std::stod(std::getenv("SPINDLE_OBS_THRESH")) : 0.5;
+            if (spindle_obs_threshold > 0.0) {
+                if (std::abs(net_primary_afferent_change) <= spindle_obs_threshold) {
+                    net_primary_afferent_change = 0.0;
+                } else {
+                    net_primary_afferent_change = (net_primary_afferent_change > 0.0)
+                        ? (net_primary_afferent_change - spindle_obs_threshold)
+                        : (net_primary_afferent_change + spindle_obs_threshold);
+                }
+                const double sec_thresh = 0.5 * spindle_obs_threshold;
+                if (std::abs(net_secondary_afferent_change) <= sec_thresh) {
+                    net_secondary_afferent_change = 0.0;
+                } else {
+                    net_secondary_afferent_change = (net_secondary_afferent_change > 0.0)
+                        ? (net_secondary_afferent_change - sec_thresh)
+                        : (net_secondary_afferent_change + sec_thresh);
+                }
+            }
 
             double reconstructed_length_from_secondary = cached_fiber_length_scales[muscle_index] * net_secondary_afferent_change;
             double dynamic_primary_afferent_component  = net_primary_afferent_change - 1.37931034 * net_secondary_afferent_change;
@@ -1157,7 +1338,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
 
     // PID Integrator derivatives (using 20ms-delayed Mahony-fused spatial orientation consistently)
     double ki_pitch = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
-    double pitch_integral_limit = std::max(0.6, 25.0 / std::max(1.0, ki_pitch));
+    double pitch_integral_limit = std::max(0.6, 25.0 / std::max(0.05, ki_pitch));
     double pitch_position_error = trajectory_position_pitch - delayed_mahony_pitch;
     double pitch_error_integral = state_variable_error_integral[0]->getValue(state);
     if (pitch_error_integral >  pitch_integral_limit && pitch_position_error > 0.0) pitch_position_error = 0.0;
@@ -1442,6 +1623,28 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         double phasic_otolith_input_roll  = estimated_linear_acceleration_head[2] - expected_tangential_acceleration_z;
         double phasic_otolith_input_yaw   = 0.0;
 
+        static const double vest_tilt_thresh = std::getenv("VEST_TILT_THRESH") ? std::stod(std::getenv("VEST_TILT_THRESH")) : 0.002;
+        static const double vest_scc_thresh  = std::getenv("VEST_SCC_THRESH")  ? std::stod(std::getenv("VEST_SCC_THRESH"))  : 0.005;
+        static const double vest_oto_thresh  = std::getenv("VEST_OTO_THRESH")  ? std::stod(std::getenv("VEST_OTO_THRESH"))  : 0.020;
+        auto deadzone = [](double v, double th) {
+            if (th <= 0.0) return v;
+            double av = std::abs(v);
+            if (av <= 0.75 * th) return 0.0;
+            if (av < 1.25 * th) {
+                double u = av - 0.75 * th;
+                return (v >= 0.0 ? 1.0 : -1.0) * (u * u) / th;
+            }
+            return (v > 0.0) ? (v - th) : (v + th);
+        };
+        tonic_otolith_input_pitch = deadzone(tonic_otolith_input_pitch, vest_tilt_thresh);
+        tonic_otolith_input_roll  = deadzone(tonic_otolith_input_roll,  vest_tilt_thresh);
+        tonic_otolith_input_yaw   = deadzone(tonic_otolith_input_yaw,   vest_tilt_thresh);
+        semicircular_canal_input_pitch = deadzone(semicircular_canal_input_pitch, vest_scc_thresh);
+        semicircular_canal_input_roll  = deadzone(semicircular_canal_input_roll,  vest_scc_thresh);
+        semicircular_canal_input_yaw   = deadzone(semicircular_canal_input_yaw,   vest_scc_thresh);
+        phasic_otolith_input_pitch = deadzone(phasic_otolith_input_pitch, vest_oto_thresh);
+        phasic_otolith_input_roll  = deadzone(phasic_otolith_input_roll,  vest_oto_thresh);
+
         double tonic_otolith_state_pitch = state_variable_tonic_otolith[0]->getValue(state);
         double tonic_otolith_state_roll  = state_variable_tonic_otolith[1]->getValue(state);
         double tonic_otolith_state_yaw   = state_variable_tonic_otolith[2]->getValue(state);
@@ -1515,26 +1718,27 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     const auto& muscles = model.getMuscles();
     int number_of_active_muscles = active_muscle_indices.size();
 
-    // 1. Update Jacobian slowly
-    if (state.getTime() - last_jacobian_update_time > 0.05) {
+    // 1. Evaluate C^infty Smooth 6-DOF Quadratic Taylor Moment-Arm Jacobian continuously at every substep (zero staircases)
+    if (jacobian_6dof_q0.nrow() == 6 && jacobian_6dof_q0.ncol() == number_of_active_muscles) {
+        const double dq[6] = {
+            (cached_coordinate_pitch1 ? cached_coordinate_pitch1->getValue(state) : 0.0) - q0_6dof[0],
+            (cached_coordinate_pitch2 ? cached_coordinate_pitch2->getValue(state) : 0.0) - q0_6dof[1],
+            (cached_coordinate_roll1  ? cached_coordinate_roll1->getValue(state)  : 0.0) - q0_6dof[2],
+            (cached_coordinate_roll2  ? cached_coordinate_roll2->getValue(state)  : 0.0) - q0_6dof[3],
+            (cached_coordinate_yaw1   ? cached_coordinate_yaw1->getValue(state)   : 0.0) - q0_6dof[4],
+            (cached_coordinate_yaw2   ? cached_coordinate_yaw2->getValue(state)   : 0.0) - q0_6dof[5]
+        };
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
-            const Muscle& muscle = muscles.get(active_muscle_indices[muscle_index]);
-            double moment_arm_pitch1 = cached_coordinate_pitch1 ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_pitch1)) : 0.0;
-            double moment_arm_pitch2 = cached_coordinate_pitch2 ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_pitch2)) : 0.0;
-            double moment_arm_roll1  = cached_coordinate_roll1  ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_roll1))  : 0.0;
-            double moment_arm_roll2  = cached_coordinate_roll2  ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_roll2))  : 0.0;
-            double moment_arm_yaw1   = cached_coordinate_yaw1   ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_yaw1))   : 0.0;
-            double moment_arm_yaw2   = cached_coordinate_yaw2   ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_yaw2))   : 0.0;
-
-            moment_arm_jacobian_3dof(0, muscle_index) = (moment_arm_pitch1 + moment_arm_pitch2) / 2.0;
-            moment_arm_jacobian_3dof(1, muscle_index) = (moment_arm_roll1  + moment_arm_roll2)  / 2.0;
-            moment_arm_jacobian_3dof(2, muscle_index) = (moment_arm_yaw1   + moment_arm_yaw2)   / 2.0;
-            moment_arm_jacobian_6dof(0, muscle_index) = moment_arm_pitch1;
-            moment_arm_jacobian_6dof(1, muscle_index) = moment_arm_pitch2;
-            moment_arm_jacobian_6dof(2, muscle_index) = moment_arm_roll1;
-            moment_arm_jacobian_6dof(3, muscle_index) = moment_arm_roll2;
-            moment_arm_jacobian_6dof(4, muscle_index) = moment_arm_yaw1;
-            moment_arm_jacobian_6dof(5, muscle_index) = moment_arm_yaw2;
+            for (int c = 0; c < 6; ++c) {
+                double val = jacobian_6dof_q0(c, muscle_index);
+                for (int d = 0; d < 6; ++d) {
+                    val += (jacobian_6dof_d1[d](c, muscle_index) + 0.5 * jacobian_6dof_d2[d](c, muscle_index) * dq[d]) * dq[d];
+                }
+                moment_arm_jacobian_6dof(c, muscle_index) = val;
+            }
+            moment_arm_jacobian_3dof(0, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(0, muscle_index) + moment_arm_jacobian_6dof(1, muscle_index));
+            moment_arm_jacobian_3dof(1, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(2, muscle_index) + moment_arm_jacobian_6dof(3, muscle_index));
+            moment_arm_jacobian_3dof(2, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(4, muscle_index) + moment_arm_jacobian_6dof(5, muscle_index));
         }
         updateDecoderMatrix();
         last_jacobian_update_time = state.getTime();
@@ -1738,7 +1942,42 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             cached_primary_afferent_outputs[muscle_index]
                 ? cached_primary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_primary_afferent_rates[muscle_index];
-        double primary_afferent_above_baseline = std::max(0.0, primary_afferent_value - baseline_primary_afferent_rates[muscle_index]);
+        const int fusimotor_cancel_mode = std::getenv("FUSIMOTOR_CANCEL_MODE") ? std::stoi(std::getenv("FUSIMOTOR_CANCEL_MODE")) : 0;
+        static const double spindle_ccr_threshold = std::getenv("SPINDLE_CCR_THRESH") ? std::stod(std::getenv("SPINDLE_CCR_THRESH")) : 0.5;
+        double ccr_pri_bias = 0.0;
+        if (fusimotor_cancel_mode == 1 || fusimotor_cancel_mode == 2) {
+            double dynamic_fusimotor_activation = state_variable_spindle_dynamic_fusimotor[muscle_index]->getValue(state);
+            double static_fusimotor_activation  = state_variable_spindle_static_fusimotor[muscle_index]->getValue(state);
+            double u0_alpha = (muscle_index < (int)cached_minimum_excitations.size()) ? cached_minimum_excitations[muscle_index] : 0.03;
+            double alpha_motor_excitation = (muscle_index < (int)last_alpha_motor_excitations.size()) ? last_alpha_motor_excitations[muscle_index] : u0_alpha;
+            double dynamic_gamma_gain_scaled = 100.0 * get_K_gamma_dyn();
+            double static_gamma_gain_scaled  = 100.0 * get_K_gamma_stat();
+            double static_gamma_firing_rate  = static_gamma_gain_scaled * alpha_motor_excitation;
+            double instantaneous_nuclear_chain_activation =
+                (static_gamma_firing_rate * static_gamma_firing_rate) / (static_gamma_firing_rate * static_gamma_firing_rate + 8100.0);
+            double base_dyn_gamma = dynamic_gamma_gain_scaled * u0_alpha;
+            double base_stat_gamma = static_gamma_gain_scaled * u0_alpha;
+            double base_fdyn = (base_dyn_gamma * base_dyn_gamma) / (base_dyn_gamma * base_dyn_gamma + 3600.0);
+            double base_fstat = (base_stat_gamma * base_stat_gamma) / (base_stat_gamma * base_stat_gamma + 3600.0);
+            double base_fchain = (base_stat_gamma * base_stat_gamma) / (base_stat_gamma * base_stat_gamma + 8100.0);
+            double delta_fdyn   = std::max(0.0, dynamic_fusimotor_activation - base_fdyn);
+            double delta_fstat  = std::max(0.0, static_fusimotor_activation  - base_fstat);
+            double delta_fchain = std::max(0.0, instantaneous_nuclear_chain_activation - base_fchain);
+            double fusimotor_secondary_afferent_bias = 29.72138 * delta_fstat + 44.58207 * delta_fchain;
+            ccr_pri_bias = 54.45176 * delta_fdyn + 0.21517 * fusimotor_secondary_afferent_bias;
+        }
+        double delta_ia = (primary_afferent_value - baseline_primary_afferent_rates[muscle_index]) - ccr_pri_bias;
+        double primary_afferent_above_baseline = 0.0;
+        if (spindle_ccr_threshold <= 0.0) {
+            primary_afferent_above_baseline = std::max(0.0, delta_ia);
+        } else if (delta_ia > 0.75 * spindle_ccr_threshold) {
+            if (delta_ia < 1.25 * spindle_ccr_threshold) {
+                double u = delta_ia - 0.75 * spindle_ccr_threshold;
+                primary_afferent_above_baseline = (u * u) / spindle_ccr_threshold;
+            } else {
+                primary_afferent_above_baseline = delta_ia - spindle_ccr_threshold;
+            }
+        }
         current_history_record.primary_afferent_firing_rate[muscle_index] = std::clamp(primary_afferent_above_baseline, 0.0, 500.0);
     }
 
@@ -1839,6 +2078,28 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         double phasic_otolith_input_roll  = estimated_linear_acceleration_head[2] - expected_tangential_acceleration_z;
         double phasic_otolith_input_yaw   = 0.0;
 
+        static const double vest_tilt_thresh = std::getenv("VEST_TILT_THRESH") ? std::stod(std::getenv("VEST_TILT_THRESH")) : 0.002;
+        static const double vest_scc_thresh  = std::getenv("VEST_SCC_THRESH")  ? std::stod(std::getenv("VEST_SCC_THRESH"))  : 0.005;
+        static const double vest_oto_thresh  = std::getenv("VEST_OTO_THRESH")  ? std::stod(std::getenv("VEST_OTO_THRESH"))  : 0.020;
+        auto deadzone = [](double v, double th) {
+            if (th <= 0.0) return v;
+            double av = std::abs(v);
+            if (av <= 0.75 * th) return 0.0;
+            if (av < 1.25 * th) {
+                double u = av - 0.75 * th;
+                return (v >= 0.0 ? 1.0 : -1.0) * (u * u) / th;
+            }
+            return (v > 0.0) ? (v - th) : (v + th);
+        };
+        tonic_otolith_input_pitch = deadzone(tonic_otolith_input_pitch, vest_tilt_thresh);
+        tonic_otolith_input_roll  = deadzone(tonic_otolith_input_roll,  vest_tilt_thresh);
+        tonic_otolith_input_yaw   = deadzone(tonic_otolith_input_yaw,   vest_tilt_thresh);
+        semicircular_canal_input_pitch = deadzone(semicircular_canal_input_pitch, vest_scc_thresh);
+        semicircular_canal_input_roll  = deadzone(semicircular_canal_input_roll,  vest_scc_thresh);
+        semicircular_canal_input_yaw   = deadzone(semicircular_canal_input_yaw,   vest_scc_thresh);
+        phasic_otolith_input_pitch = deadzone(phasic_otolith_input_pitch, vest_oto_thresh);
+        phasic_otolith_input_roll  = deadzone(phasic_otolith_input_roll,  vest_oto_thresh);
+
         double tonic_otolith_state_pitch = state_variable_tonic_otolith[0]->getValue(state);
         double tonic_otolith_state_roll  = state_variable_tonic_otolith[1]->getValue(state);
         double tonic_otolith_state_yaw   = state_variable_tonic_otolith[2]->getValue(state);
@@ -1895,14 +2156,53 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     bool has_cervico_collic_afferents = (cervico_collic_record.primary_afferent_firing_rate.size() == number_of_active_muscles);
     std::vector<double> spinal_ccr_drive(number_of_active_muscles, 0.0);
     if (has_cervico_collic_afferents) {
+        // Extensor vs. Flexor Moment-Capacity-Balanced CCR Scaling (prevents 3.09:1 extensor dominance from injecting net DC pitch torque):
+        // Weighted by pitch moment-arm dominance eta_pitch_m = r_pitch^2 / (r_pitch^2 + r_roll^2 + r_yaw^2 + 1e-8)
+        // so lateral/rotary muscles (SCM, Scalenes, OCI) preserve 1.0x Roll/Yaw Nyquist stability margin.
+        const int ccr_balance_mode = std::getenv("CCR_BALANCE_MODE") ? std::stoi(std::getenv("CCR_BALANCE_MODE")) : 1;
+        double tau_max_ext = 0.0;
+        double tau_max_flex = 0.0;
+        if (moment_arm_jacobian_3dof.ncol() == number_of_active_muscles) {
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                double r_pitch = moment_arm_jacobian_3dof(0, m) * cached_maximum_isometric_forces[m];
+                if (r_pitch > 0.0) tau_max_ext += r_pitch;
+                else if (r_pitch < 0.0) tau_max_flex += -r_pitch;
+            }
+        }
+        const double tau_max_sum = tau_max_ext + tau_max_flex;
+        const double w_ccr_ext_raw  = (tau_max_sum > 1e-6) ? (2.0 * tau_max_flex / tau_max_sum) : 1.0;
+        const double w_ccr_flex_raw = (tau_max_sum > 1e-6) ? (2.0 * tau_max_ext  / tau_max_sum) : 1.0;
+        const double w_ccr_ext  = std::getenv("CCR_W_EXT")  ? std::stod(std::getenv("CCR_W_EXT"))  : 0.70;
+        const double w_ccr_flex = std::getenv("CCR_W_FLEX") ? std::stod(std::getenv("CCR_W_FLEX")) : 1.15;
+
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
             double filtered_primary_afferent_rate =
                 cervico_collic_direct_feedthrough * delayed_primary_afferent_rate +
                 cervico_collic_state_gain * cervico_collic_state;
-            double rectified_primary_afferent_rate = std::max(0.0, filtered_primary_afferent_rate);
-            spinal_ccr_drive[muscle_index] = proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
+            const double ccr_rect_knee = 0.02;
+            double rectified_primary_afferent_rate = 0.0;
+            if (filtered_primary_afferent_rate > 0.0) {
+                if (filtered_primary_afferent_rate < 2.0 * ccr_rect_knee) {
+                    rectified_primary_afferent_rate = (filtered_primary_afferent_rate * filtered_primary_afferent_rate) / (4.0 * ccr_rect_knee);
+                } else {
+                    rectified_primary_afferent_rate = filtered_primary_afferent_rate - ccr_rect_knee;
+                }
+            }
+            double w_ccr_m = 1.0;
+            if (ccr_balance_mode == 1 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                double r_r = moment_arm_jacobian_3dof(1, muscle_index);
+                double r_y = moment_arm_jacobian_3dof(2, muscle_index);
+                double eta_pitch = (r_p * r_p) / (r_p * r_p + r_r * r_r + r_y * r_y + 1e-8);
+                double w_target = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
+                w_ccr_m = 1.0 + eta_pitch * (w_target - 1.0);
+            } else if (ccr_balance_mode == 2 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                w_ccr_m = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
+            }
+            spinal_ccr_drive[muscle_index] = w_ccr_m * proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
         }
     }
 
@@ -1975,10 +2275,13 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         Vector fixed_muscle_torque(qp_dof, 0.0);
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (!is_muscle_free[muscle_index]) {
-                for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
-                    fixed_muscle_torque[axis_index] +=
-                        (active_jacobian(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
-                        alpha_motor_excitations[muscle_index];
+                double delta_u_fixed = alpha_motor_excitations[muscle_index] - cached_minimum_excitations[muscle_index];
+                if (delta_u_fixed > 0.0) {
+                    for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
+                        fixed_muscle_torque[axis_index] +=
+                            (active_jacobian(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
+                            delta_u_fixed;
+                    }
                 }
             }
         }
@@ -2011,12 +2314,13 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         bool bounds_violated = false;
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
             if (is_muscle_free[muscle_index]) {
-                double unconstrained_excitation = 0.0;
+                double unconstrained_delta_u = 0.0;
                 for (int axis_index = 0; axis_index < qp_dof; ++axis_index) {
-                    unconstrained_excitation +=
+                    unconstrained_delta_u +=
                         (active_jacobian(axis_index, muscle_index) * maximum_isometric_forces[muscle_index]) *
                         lagrange_multiplier_vector[axis_index];
                 }
+                double unconstrained_excitation = cached_minimum_excitations[muscle_index] + unconstrained_delta_u;
 
                 if (unconstrained_excitation < cached_minimum_excitations[muscle_index]) {
                     alpha_motor_excitations[muscle_index] = cached_minimum_excitations[muscle_index];
