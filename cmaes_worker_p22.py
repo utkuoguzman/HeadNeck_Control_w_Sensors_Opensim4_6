@@ -116,15 +116,35 @@ PER_MUSCLE_72_U0 = {
 }
 
 
+def _load_plugin_cross_platform(plugin_dir, base_name):
+    if sys.platform.startswith("win"):
+        candidates = [
+            os.path.join(os.getcwd(), plugin_dir, "build", "Release", f"{base_name}.dll"),
+            os.path.join(os.getcwd(), plugin_dir, "build", f"{base_name}.dll"),
+        ]
+    else:
+        candidates = [
+            os.path.join(os.getcwd(), plugin_dir, "build", f"lib{base_name}.so"),
+            os.path.join(os.getcwd(), plugin_dir, "build", "Release", f"lib{base_name}.so"),
+        ]
+    for p in candidates:
+        if os.path.exists(p):
+            osim.LoadOpenSimLibrary(p)
+            return
+    osim.LoadOpenSimLibrary(candidates[0])
+
+
 def ensure_libraries_loaded():
     global _LIBRARIES_LOADED
     if not _LIBRARIES_LOADED:
         os.environ["SIMB_NUM_THREADS"] = "1"
         os.environ["OMP_NUM_THREADS"] = "1"
         osim.Logger.setLevelString("Warn")
-        osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'proprioception_plugin/build/Release/osimMillard12EqWithAff.dll'))
-        osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'HeadNeckNeuralController_plugin/build/Release/osimHeadNeckNeural.dll'))
-        osim.LoadOpenSimLibrary(os.path.join(os.getcwd(), 'FixationController_plugin/build/Release/osimFixation.dll'))
+        if not sys.platform.startswith("win"):
+            _load_plugin_cross_platform("vestibular_plugin", "osimVestibular")
+        _load_plugin_cross_platform("proprioception_plugin", "osimMillard12EqWithAff")
+        _load_plugin_cross_platform("HeadNeckNeuralController_plugin", "osimHeadNeckNeural")
+        _load_plugin_cross_platform("FixationController_plugin", "osimFixation")
         _LIBRARIES_LOADED = True
 
 

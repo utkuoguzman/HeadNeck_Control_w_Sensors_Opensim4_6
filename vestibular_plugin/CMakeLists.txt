@@ -8,6 +8,14 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ${OpenSim_LIBRARIES})
 target_compile_definitions(${PROJECT_NAME} PRIVATE OSIMVESTIBULAR_EXPORTS)
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "osimVestibular")
 
+if(MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /O2 /Ob3 /arch:AVX2 /GL)
+    target_link_options(${PROJECT_NAME} PRIVATE /LTCG)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -O3 -march=native -flto)
+    target_link_options(${PROJECT_NAME} PRIVATE -flto)
+endif()
+
 add_executable(attach_sensor attach_sensor.cpp)
 target_link_libraries(attach_sensor ${PROJECT_NAME} ${OpenSim_LIBRARIES})
 

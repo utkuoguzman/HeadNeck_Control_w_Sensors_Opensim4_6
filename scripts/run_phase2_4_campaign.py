@@ -157,14 +157,45 @@ def evaluate_freq(candidate, target_idx, w_idx, gen_idx):
         return 1000000.0 + random.uniform(0, 100.0)
 
 
-def evaluate_candidate(candidate, w_idx, gen_idx):
+def evaluate_candidate(candidate, w_idx, gen_idx, freq_executor=None):
     """
-    Evaluates all 6 canonical frequencies for one candidate sequentially, spawning a fresh
-    subprocess per frequency so OS reclaims 100% of OpenSim C++ memory after each frequency
-    (preventing the 1.8 GB/worker RAM accumulation of single-process ALL mode) while keeping
-    all 14 physical cores 100% utilized without inter-frequency barrier stalls.
+    Evaluates all 6 canonical frequencies for one candidate.
+    - When freq_executor is None (<= 28 cores): evaluates frequencies sequentially per candidate
+      with early-stop pruning.
+    - When freq_executor is provided (> 28 cores, e.g., 56 or 112 cores on TRUBA hamsi/orfoz):
+      evaluates the fast 2.446 Hz instability gate first, then dispatches the remaining 5
+      frequencies concurrently across the shared pool so all 56-112 CPU cores stay 100% saturated.
     """
     worker_label = f"W{w_idx+1}_P24G{gen_idx}"
+    if freq_executor is not None:
+        f0_val = TARGETS[0][0]
+        f0_score = freq_executor.submit(evaluate_freq, candidate, 0, w_idx, gen_idx).result()
+        if f0_score >= 150000.0:
+            early_stop_penalty = len(TARGETS) * 200000.0
+            total_score = f0_score + early_stop_penalty
+            print(f"[EARLY STOPPING] [{worker_label}] aborted on {f0_val:.3f}Hz (Score: {f0_score:.1f}). Penalty added.", flush=True)
+            return total_score
+        total_score = f0_score
+        print(f"[PASS] [{worker_label}] passed {f0_val:.3f}Hz (1/{len(TARGETS)}) (Score: {f0_score:.1f} | Cum: {total_score:.1f})", flush=True)
+        rem_futs = {
+            t_idx: freq_executor.submit(evaluate_freq, candidate, t_idx, w_idx, gen_idx)
+            for t_idx in range(1, len(TARGETS))
+        }
+        for t_idx in range(1, len(TARGETS)):
+            f_val = TARGETS[t_idx][0]
+            f_score = rem_futs[t_idx].result()
+            if f_score < 150000.0:
+                total_score += f_score
+                print(f"[PASS] [{worker_label}] passed {f_val:.3f}Hz ({t_idx+1}/{len(TARGETS)}) (Score: {f_score:.1f} | Cum: {total_score:.1f})", flush=True)
+            else:
+                early_stop_penalty = (len(TARGETS) - t_idx) * 200000.0
+                total_score += (f_score + early_stop_penalty)
+                print(f"[EARLY STOPPING] [{worker_label}] aborted on {f_val:.3f}Hz (Score: {f_score:.1f}). Penalty added.", flush=True)
+                break
+        else:
+            print(f"[COMPLETE] [{worker_label}] finished all 6 frequencies! Total Score: {total_score:.2f}", flush=True)
+        return total_score
+
     total_score = 0.0
     for t_idx, (f_val, _, _) in enumerate(TARGETS):
         f_score = evaluate_freq(candidate, t_idx, w_idx, gen_idx)
@@ -632,15 +663,25 @@ def main():
         candidates = [np.asarray(c, dtype=float).tolist() for c in raw_cands]
         all_scores = [0.0] * len(candidates)
         
-        # Max concurrency: 14 physical cores (each frequency runs in a clean subprocess so OS reclaims C++ memory)
-        with ThreadPoolExecutor(max_workers=14) as executor:
-            future_to_cidx = {
-                executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration): c_idx
-                for c_idx in range(len(candidates))
-            }
-            for fut in as_completed(future_to_cidx):
-                c_idx = future_to_cidx[fut]
-                all_scores[c_idx] = fut.result()
+        max_workers = int(os.environ.get("PHASE2_4_WORKERS", os.environ.get("SLURM_CPUS_PER_TASK", "14")))
+        if max_workers > len(candidates):
+            with ThreadPoolExecutor(max_workers=max_workers) as freq_executor, ThreadPoolExecutor(max_workers=len(candidates)) as cand_executor:
+                future_to_cidx = {
+                    cand_executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration, freq_executor): c_idx
+                    for c_idx in range(len(candidates))
+                }
+                for fut in as_completed(future_to_cidx):
+                    c_idx = future_to_cidx[fut]
+                    all_scores[c_idx] = fut.result()
+        else:
+            with ThreadPoolExecutor(max_workers=max_workers) as executor:
+                future_to_cidx = {
+                    executor.submit(evaluate_candidate, candidates[c_idx], c_idx, iteration): c_idx
+                    for c_idx in range(len(candidates))
+                }
+                for fut in as_completed(future_to_cidx):
+                    c_idx = future_to_cidx[fut]
+                    all_scores[c_idx] = fut.result()
                     
         # Update CMA-ES distribution using raw_cands (preserving pycma Solution objects & exact genotypes)
         es.tell(raw_cands, all_scores)

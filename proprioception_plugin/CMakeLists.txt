@@ -53,6 +53,9 @@ set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "osimMillard12EqWit
 if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /O2 /Ob3 /arch:AVX2 /GL)
     target_link_options(${PROJECT_NAME} PRIVATE /LTCG)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -O3 -march=native -flto)
+    target_link_options(${PROJECT_NAME} PRIVATE -flto)
 endif()
 
 # --- 2. Build mainAfferents as an executable (compiling the sources directly to avoid DLL export issues on Windows) ---
