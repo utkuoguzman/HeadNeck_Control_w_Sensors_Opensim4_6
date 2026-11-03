@@ -276,23 +276,25 @@
             <div class="flex flex-wrap items-center justify-between border-b border-slate-300 pb-1.5 mb-1.5 gap-1">
               <div class="flex items-center gap-1.5">
                 <span class="px-1.5 py-0.5 rounded bg-sky-700 text-white font-mono text-[9px] font-bold uppercase tracking-wider">1 ms / Segment Grid</span>
-                <span class="font-mono font-bold text-[10px] text-slate-800">Proportional Delay &amp; Predictive Clock Sync (Ref: Sub 7 @ t = 0 ms)</span>
+                <span id="danim-header-title" class="font-mono font-bold text-[10px] text-slate-800">Proportional Delay &amp; Predictive Clock Sync (Ref: Sub 7 @ t = 0 ms)</span>
               </div>
-              <span class="font-mono text-[8.5px] text-slate-500">1 segment = 1 ms = 18 px (All paths active)</span>
+              <span id="danim-scope-badge" class="px-1.5 py-0.5 rounded bg-slate-200 text-slate-800 font-mono text-[8.5px] font-bold">All 5 Delays (-39 to +8 ms)</span>
             </div>
 
-            <!-- Quick Milestone Jump Bar (Allows instant inspection of any key synchronization tick) -->
-            <div class="flex flex-wrap items-center gap-1 mb-1.5 font-mono text-[8.5px]">
+            <!-- Quick Milestone Jump Bar (Filtered automatically to the active block's delay window) -->
+            <div id="danim-jump-bar" class="flex flex-wrap items-center gap-1 mb-1.5 font-mono text-[8.5px]">
               <span class="text-slate-500 font-bold mr-0.5">Jump to Tick:</span>
-              <button onclick="jumpDelayTick(-39)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-39ms (Start)</button>
-              <button onclick="jumpDelayTick(-34)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-34ms (Vest→Sub4)</button>
-              <button onclick="jumpDelayTick(-32)" class="px-1.5 py-0.5 rounded border border-emerald-400 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold">⚡-32ms (Sub4 Sync)</button>
-              <button onclick="jumpDelayTick(-12)" class="px-1.5 py-0.5 rounded border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold">⚡-12ms (M1 Plan)</button>
-              <button onclick="jumpDelayTick(-9)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-9ms (Prop2)</button>
-              <button onclick="jumpDelayTick(-7)" class="px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-7ms (CCR)</button>
-              <button onclick="jumpDelayTick(-2)" class="px-1.5 py-0.5 rounded border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold">⚡-2ms (CB+Sub4 Sync)</button>
-              <button onclick="jumpDelayTick(0)" class="px-1.5 py-0.5 rounded border border-sky-500 bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold">★ 0ms (Sub 7 Sync!)</button>
-              <button onclick="jumpDelayTick(8)" class="px-1.5 py-0.5 rounded border border-red-400 bg-red-50 hover:bg-red-100 text-red-900 font-bold">+8ms (Muscles)</button>
+              <button data-tick="-39" onclick="jumpDelayTick(-39)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-39ms (Start)</button>
+              <button data-tick="-34" onclick="jumpDelayTick(-34)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-34ms (Vest→Sub4)</button>
+              <button data-tick="-32" onclick="jumpDelayTick(-32)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-emerald-400 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold">⚡-32ms (Sub4→Asc)</button>
+              <button data-tick="-18" onclick="jumpDelayTick(-18)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-violet-300 bg-violet-50 hover:bg-violet-100 text-violet-900">-18ms (Thalamus)</button>
+              <button data-tick="-12" onclick="jumpDelayTick(-12)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold">⚡-12ms (M1 Cortex)</button>
+              <button data-tick="-9" onclick="jumpDelayTick(-9)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-9ms (Prop→Sub4)</button>
+              <button data-tick="-7" onclick="jumpDelayTick(-7)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-7ms (CCR Start)</button>
+              <button data-tick="-4" onclick="jumpDelayTick(-4)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-slate-300 bg-white hover:bg-slate-100 text-slate-700">-4ms (Vest→Sub4)</button>
+              <button data-tick="-2" onclick="jumpDelayTick(-2)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold">⚡-2ms (CB+Sub4 Sync)</button>
+              <button data-tick="0" onclick="jumpDelayTick(0)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-sky-500 bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold">★ 0ms (Sub 7 Sync)</button>
+              <button data-tick="8" onclick="jumpDelayTick(8)" class="danim-jump-btn px-1.5 py-0.5 rounded border border-red-400 bg-red-50 hover:bg-red-100 text-red-900 font-bold">+8ms (Muscles)</button>
             </div>
 
             <svg id="delay-minimap-svg" viewBox="0 0 580 412" class="w-full h-auto select-none bg-white border border-slate-200 rounded">
@@ -466,8 +468,8 @@
               </div>
             </div>
 
-            <!-- Closed-Loop Sensor-to-Action Latency Summary Bar (Calm Gray Cards with Colored Accent Border) -->
-            <div class="mt-1.5 grid grid-cols-3 gap-1.5 text-[9.5px] font-mono">
+            <!-- Closed-Loop Sensor-to-Action Latency Summary Bar (Shown only in full All-Path mode) -->
+            <div id="danim-loop-cards" class="mt-1.5 grid grid-cols-3 gap-1.5 text-[9.5px] font-mono">
               <div class="bg-slate-50 border border-slate-300 border-l-4 border-l-sky-600 rounded px-2 py-1 text-slate-800 cursor-pointer hover:bg-slate-100"
                    onclick="jumpDelayTick(-2)"
                    onmouseenter="highlightDelayPath('vest,spinal', 'labyrinth,otolith,scarpa,vn,mvst,spinal,ventralroots')"
@@ -3562,7 +3564,7 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       s5_eff_ton: 'desc,vest',
       s5_eff_sc: 'desc,vest',
       s5_eff_phas: 'desc,vest',
-      s6_ccr: 'prop,spinal',
+      s6_ccr: 'prop',
       s7_delay_out: 'spinal'
     };
     const DELAY_BLOCK_START_TICK = {
@@ -3573,15 +3575,93 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       s4_smith: -9,
       s4_oto: -4,
       s4_prop: -9,
-      s4_sum: -3,
-      s5_fwd_cb: -4,
-      s5_eff_ton: -3,
-      s5_eff_sc: -3,
-      s5_eff_phas: -3,
+      s4_sum: -9,
+      s5_fwd_cb: -12,
+      s5_eff_ton: -4,
+      s5_eff_sc: -4,
+      s5_eff_phas: -4,
       s6_ccr: -7,
       s7_delay_out: 0
     };
+    // Scoped animation configuration per delay-related block so each block ONLY animates its own pathway & window
+    const DELAY_BLOCK_SCOPE = {
+      top_hist: {
+        mode: 'all', minTick: -39, maxTick: 8,
+        segIds: ['vest_s5', 'vest_s4', 'cb_s5', 'prop_s4', 'prop_s6', 'asc', 'desc_s7', 'desc_cb', 'spinal'],
+        badge: 'All 5 Delays (-39 to +8 ms)'
+      },
+      s1_delay: {
+        mode: 's1_asc', minTick: -32, maxTick: -12,
+        segIds: ['asc'],
+        badge: 'Sub 1 Ascending Delay Only: τ_asc = 20 ms (-32 → -12 ms)'
+      },
+      s1_desc_delay: {
+        mode: 's1_desc', minTick: -12, maxTick: 0,
+        segIds: ['desc_s7', 'desc_cb'],
+        badge: 'Sub 1 Descending Delay Only: τ_desc = 12 ms (-12 → 0 ms)'
+      },
+      s4_delays: {
+        mode: 's4_both', minTick: -9, maxTick: -1,
+        segIds: ['prop_s4', 'vest_s4', 'cb_s5'],
+        badge: 'Sub 4 Sensory Delays & Smith Sync: τ_prop=7ms, τ_vest=2ms (-9 → -1 ms)'
+      },
+      s4_smith: {
+        mode: 's4_both', minTick: -9, maxTick: -1,
+        segIds: ['prop_s4', 'vest_s4', 'cb_s5'],
+        badge: 'Sub 4 Smith Predictor Only: +7ms Prop / +2ms Vest (-9 → -1 ms)'
+      },
+      s4_sum: {
+        mode: 's4_both', minTick: -9, maxTick: -1,
+        segIds: ['prop_s4', 'vest_s4', 'cb_s5'],
+        badge: 'Sub 4 Multisensory Innovation Sync (-9 → -1 ms)'
+      },
+      s4_oto: {
+        mode: 's4_vest', minTick: -4, maxTick: -1,
+        segIds: ['vest_s4', 'cb_s5'],
+        badge: 'Sub 4 Otolith/Vestibular Delay Only: τ_vest = 2 ms (-4 → -1 ms)'
+      },
+      s4_prop: {
+        mode: 's4_prop', minTick: -9, maxTick: -1,
+        segIds: ['prop_s4', 'cb_s5'],
+        badge: 'Sub 4 Proprioceptive Delay Only: τ_prop = 7 ms (-9 → -1 ms)'
+      },
+      s5_fwd_cb: {
+        mode: 's5_cb', minTick: -12, maxTick: 0,
+        segIds: ['desc_cb', 'vest_s5', 'cb_s5'],
+        badge: 'Sub 5 CB Forward Predictor Only: -12ms + 10ms → -2ms (-12 → 0 ms)'
+      },
+      s5_eff_ton: {
+        mode: 's5_eff', minTick: -4, maxTick: 0,
+        segIds: ['desc_cb', 'vest_s5', 'cb_s5'],
+        badge: 'Sub 5 Tonic VCR Efference-Copy Sync @ -2 ms (-4 → 0 ms)'
+      },
+      s5_eff_sc: {
+        mode: 's5_eff', minTick: -4, maxTick: 0,
+        segIds: ['desc_cb', 'vest_s5', 'cb_s5'],
+        badge: 'Sub 5 Canal VCR Efference-Copy Sync @ -2 ms (-4 → 0 ms)'
+      },
+      s5_eff_phas: {
+        mode: 's5_eff', minTick: -4, maxTick: 0,
+        segIds: ['desc_cb', 'vest_s5', 'cb_s5'],
+        badge: 'Sub 5 Phasic VCR Efference-Copy Sync @ -2 ms (-4 → 0 ms)'
+      },
+      s6_ccr: {
+        mode: 's6_ccr', minTick: -7, maxTick: 0,
+        segIds: ['prop_s6'],
+        badge: 'Sub 6 Spinal CCR Delay Only: τ_prop = 7 ms (-7 → 0 ms)'
+      },
+      s7_delay_out: {
+        mode: 's7_spinal', minTick: 0, maxTick: 8,
+        segIds: ['spinal'],
+        badge: 'Sub 7 Spinal Output Delay Only: τ_spinal = 8 ms (0 → +8 ms)'
+      }
+    };
+    let _activeDelayBlockKey = 'top_hist';
     let _defaultDelayHighlight = null;
+
+    function getActiveDelayScope() {
+      return DELAY_BLOCK_SCOPE[_activeDelayBlockKey] || DELAY_BLOCK_SCOPE.top_hist;
+    }
 
     // ==================== PROPORTIONAL 1-MS SEGMENTED ALL-PATH SYNCHRONIZATION ANIMATOR ====================
     // Every path is subdivided into N segments where 1 segment = 1 ms = 18.0 px.
@@ -3630,7 +3710,8 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       }
     ];
 
-    const _segGeom = {}; // pathId -> Array of { x1, y1, x2, y2, mx, my }
+    const _segGeom = {}; // pathId -> Array of { x1, y1, x2, y2, mx, my, el, bgEl, color }
+    const _segArrowEl = {}; // pathId -> polygon element
     let _segMapInitialized = false;
 
     function samplePolyline(pts, u) {
@@ -3677,6 +3758,7 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
 
             // Background track capsule
             const bgLine = document.createElementNS(svgNS, 'line');
+            bgLine.setAttribute('data-seg-path', p.id);
             bgLine.setAttribute('x1', p0[0].toFixed(1));
             bgLine.setAttribute('y1', p0[1].toFixed(1));
             bgLine.setAttribute('x2', p1[0].toFixed(1));
@@ -3700,7 +3782,7 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
             fgLine.setAttribute('opacity', '0');
             gEl.appendChild(fgLine);
 
-            arr.push({ x1: p0[0], y1: p0[1], x2: p1[0], y2: p1[1], mx: pm[0], my: pm[1], el: fgLine, color: p.color });
+            arr.push({ x1: p0[0], y1: p0[1], x2: p1[0], y2: p1[1], mx: pm[0], my: pm[1], el: fgLine, bgEl: bgLine, color: p.color });
             segIdx++;
           }
         });
@@ -3716,17 +3798,63 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
         gEl.appendChild(tri);
 
         _segGeom[p.id] = arr;
+        _segArrowEl[p.id] = tri;
       });
       _segMapInitialized = true;
     }
 
-    let _danimTick = -39; // Integer ms from -39 to +8 (where 0 = Sub 7 Input Reference Time)
+    function applyDelayScopeUI() {
+      initSegmentedDelayMap();
+      const scope = getActiveDelayScope();
+      const badgeEl = document.getElementById('danim-scope-badge');
+      if (badgeEl) badgeEl.textContent = scope.badge;
+
+      const slider = document.getElementById('danim-slider');
+      if (slider) {
+        slider.min = scope.minTick;
+        slider.max = scope.maxTick;
+      }
+
+      // Show only quick-jump buttons that fall within [scope.minTick, scope.maxTick]
+      document.querySelectorAll('.danim-jump-btn').forEach(btn => {
+        const t = parseInt(btn.getAttribute('data-tick'), 10);
+        if (scope.mode === 'all' || (t >= scope.minTick && t <= scope.maxTick)) {
+          btn.classList.remove('hidden');
+        } else {
+          btn.classList.add('hidden');
+        }
+      });
+
+      const loopCardsEl = document.getElementById('danim-loop-cards');
+      if (loopCardsEl) {
+        if (scope.mode === 'all') {
+          loopCardsEl.classList.remove('hidden');
+        } else {
+          loopCardsEl.classList.add('hidden');
+        }
+      }
+
+      // Dim background track capsules for sub-paths outside scope.segIds
+      Object.keys(_segGeom).forEach(pid => {
+        const inScope = scope.segIds.includes(pid);
+        _segGeom[pid].forEach(s => {
+          if (s.bgEl) s.bgEl.setAttribute('opacity', inScope ? '0.28' : '0.06');
+        });
+        if (_segArrowEl[pid]) {
+          _segArrowEl[pid].setAttribute('opacity', inScope ? '1' : '0.15');
+        }
+      });
+    }
+
+    let _danimTick = -39; // Integer ms within active scope [minTick, maxTick]
     let _danimPlaying = true;
     let _danimTickIntervalMs = 1000; // Default: 1.0 second per 1 ms tick
     let _danimRafId = null;
     let _danimLastStepTs = null;
 
     function lightSegment(pathId, segIdx, mode) {
+      const scope = getActiveDelayScope();
+      if (!scope.segIds.includes(pathId)) return null;
       const arr = _segGeom[pathId];
       if (!arr || segIdx < 0 || segIdx >= arr.length) return null;
       const item = arr[segIdx];
@@ -3817,6 +3945,9 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
 
     function renderDelayTick(T) {
       initSegmentedDelayMap();
+      const scope = getActiveDelayScope();
+      const mode = scope.mode;
+
       // Reset all segments
       Object.keys(_segGeom).forEach(pid => {
         _segGeom[pid].forEach(s => {
@@ -3842,6 +3973,219 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       const signStr = T > 0 ? `+${T}` : `${T}`;
       hudClock.textContent = `T = ${signStr} ms`;
 
+      // ==================== SCOPED BLOCK MODES ====================
+      if (mode === 's1_asc') {
+        // ONLY Sub 1 Ascending Sensory Delay: Sub 4 (-32 ms) -> Thalamus (-18 ms) -> Sub 1 M1 Cortex (-12 ms)
+        if (T >= -32 && T <= -13) {
+          const idx = T - (-32); // 0..19 on 'asc'
+          for (let k = 0; k < idx; k++) lightSegment('asc', k, 'trail');
+          const seg = lightSegment('asc', idx, 'active');
+          if (T === -32) {
+            flashNodeBox(flashesEl, 354, 174, 130, 46, '#7c3aed', '⚡ Departing Sub 4 [🕒 -32 ms] (τ_asc = 20 ms)');
+            if (seg) addClockBadge(badgesEl, seg.mx - 10, seg.my, '⚡ 🕒 -32 ms', '#fde047', '#3b0764', -14);
+          } else if (seg) {
+            if (idx === 14) flashNodeBox(flashesEl, 396, 21, 52, 30, '#7c3aed', 'Thalamus Relay (14/20 ms)');
+            addClockBadge(badgesEl, seg.mx, seg.my, '🕒 -32 ms', '#c084fc', '#3b0764', -13);
+          }
+          hudTitle.textContent = `Tick ${T} ms: Ascending Sensory Delay τ_asc = 20 ms (Segment ${idx + 1}/20: Sub 4 → Sub 1)`;
+          hudEq.textContent = idx < 14
+            ? `Cerebellothalamic segment ${idx + 1}/14 (Sub 4 → VL/VA Thalamus) carrying θ̂_Mahony [🕒 -32 ms].`
+            : `Thalamocortical segment ${idx - 13}/6 (Thalamus → M1 Cortex) carrying θ̂_Mahony [🕒 -32 ms].`;
+          if (narration) narration.innerHTML = `<strong>Sub 1 Ascending Sensory Delay (<code>τ_asc = 20 ms</code>, Tick ${T} ms, Seg ${idx + 1}/20):</strong> Transports the Mahony-fused spatial orientation <code>θ̂_Mahony(t - τ_asc)</code> from <span class="text-emerald-700 font-bold">Sub 4: Cerebellum</span> (-32 ms) through the Thalamus to <span class="text-amber-700 font-bold">Sub 1: M1 Cortex</span> (-12 ms).`;
+        } else if (T === -12) {
+          for (let k = 0; k < 20; k++) lightSegment('asc', k, 'trail');
+          flashNodeBox(flashesEl, 164, 16, 130, 38, '#7c3aed', '✓ Arrived @ Sub 1 M1 (-12 ms after τ_asc=20ms)');
+          addClockBadge(badgesEl, 229, 64, '✓ Arrived @ M1 [🕒 -32 ms]', '#c084fc', '#3b0764', 0);
+          hudTitle.textContent = '✓ Tick -12 ms: Ascending Sensory State Arrives at Sub 1 M1 Cortex (after τ_asc = 20 ms)';
+          hudEq.textContent = 'θ_ctx(t) = θ̂_Mahony(t - 20 ms) - θ_base enters the Cortical Task-Space PID Controller.';
+          if (narration) narration.innerHTML = '<strong>✓ Tick -12 ms — Ascending Conduction Complete:</strong> After traversing all <strong>20 segments (20 ms)</strong> of the cerebellothalamocortical tract, the delayed spatial state arrives at <strong>Sub 1: M1 Cortex</strong> to drive the cortical PID controller.';
+        }
+        return;
+      }
+
+      if (mode === 's1_desc') {
+        // ONLY Sub 1 Descending Pyramidal Delay: Sub 1 M1 (-12 ms) -> Sub 7 QP & CB Forward Predictor -> Sub 5 (0 ms)
+        if (T >= -12 && T <= -1) {
+          const idx = T - (-12); // 0..11 on 'desc_s7' and 'desc_cb'
+          if (T === -12) {
+            flashNodeBox(flashesEl, 164, 16, 130, 38, '#d97706', '⚡ M1 Emits τ_desc = 12 ms [🕒 -12 ms]');
+          }
+          for (let k = 0; k < idx; k++) lightSegment('desc_s7', k, 'trail');
+          const segS7 = lightSegment('desc_s7', idx, 'active');
+          if (segS7) {
+            const lblS7 = idx >= 9 ? '⚡ 🕒 0 ms (M1 Lead)' : '🕒 -12 ms';
+            addClockBadge(badgesEl, segS7.mx - 34, segS7.my, lblS7, idx >= 9 ? '#fde047' : '#fcd34d', '#78350f', 2);
+          }
+          for (let k = 0; k < idx; k++) lightSegment('desc_cb', k, 'trail');
+          const segCb = lightSegment('desc_cb', idx, 'active');
+          if (segCb) {
+            if (T < -2) {
+              addClockBadge(badgesEl, segCb.mx + 30, segCb.my, '🕒 -12 ms', '#fcd34d', '#78350f', -8);
+            } else {
+              flashNodeBox(flashesEl, 336, 158, 58, 19, '#d97706', '⚡ CB +10ms → -2ms');
+              addClockBadge(badgesEl, segCb.mx, segCb.my, '⚡ 🕒 -2 ms', '#fde047', '#92400e', -15);
+            }
+          }
+          hudTitle.textContent = `Tick ${T} ms: Unified Descending Delay τ_desc = 12 ms (Segment ${idx + 1}/12 from M1)`;
+          hudEq.textContent = T < -2
+            ? `Corticospinal (to Sub 7) & Corticopontocerebellar (to CB/Sub 5) tracts on Seg ${idx + 1}/12.`
+            : `Seg ${idx + 1}/12: CB +10ms Predictor advances efference copy [-12 ms] → [🕒 -2 ms] for Sub 5!`;
+          if (narration) narration.innerHTML = `<strong>Sub 1 Unified Descending Delay (<code>τ_desc = 12 ms</code>, Tick ${T} ms, Seg ${idx + 1}/12):</strong> M1 transmits both <code>voluntary_torque(t - 12 ms)</code> to <strong>Sub 7 QP</strong> and <code>cb_traj(t - 12 ms)</code> to <strong>Sub 5</strong> along 12-segment descending tracts.`;
+        } else if (T === 0) {
+          for (let k = 0; k < 12; k++) {
+            lightSegment('desc_s7', k, 'trail');
+            lightSegment('desc_cb', k, 'trail');
+          }
+          flashNodeBox(flashesEl, 242, 174, 80, 42, '#d97706', '✓ Efference @ Sub 5 (0 ms)');
+          flashNodeBox(flashesEl, 232, 258, 92, 44, '#d97706', '✓ τ_vol Arrives @ Sub 7 [🕒 0 ms]!');
+          hudTitle.textContent = '✓ Tick 0 ms: Descending Cortical Commands Reach Sub 7 QP & Sub 5 VCR (τ_desc = 12 ms)';
+          hudEq.textContent = 'τ_vol(t) = τ_ctx(t - 12 ms) enters Sub 7 QP; remaining 8 ms is Sub 7 τ_spinal (12 + 8 = 20 ms).';
+          if (narration) narration.innerHTML = '<strong>✓ Tick 0 ms — Descending Pyramidal Conduction Complete:</strong> After <strong>12 segments (12 ms)</strong>, M1 voluntary torque arrives at <strong>Sub 7 Spinal QP</strong> (where the final <code>τ_spinal = 8 ms</code> completes the 20 ms total motor half-loop).';
+        }
+        return;
+      }
+
+      if (mode === 's4_both' || mode === 's4_vest' || mode === 's4_prop') {
+        // ONLY Sub 4 Inbound Sensory Delays (τ_prop = 7 ms, τ_vest = 2 ms) & Smith Predictor Synchronization
+        if (mode !== 's4_vest' && T >= -9 && T <= -3) {
+          const idx = T - (-9); // 0..6 on 'prop_s4'
+          for (let k = 0; k < idx; k++) lightSegment('prop_s4', k, 'trail');
+          const seg = lightSegment('prop_s4', idx, 'active');
+          if (seg) addClockBadge(badgesEl, seg.mx + 22, seg.my, '🕒 -9 ms', '#34d399', '#064e3b', 4);
+        }
+        if (mode !== 's4_prop' && T >= -4 && T <= -3) {
+          const idx = T - (-4); // 0..1 on 'vest_s4'
+          for (let k = 0; k < idx; k++) lightSegment('vest_s4', k, 'trail');
+          const seg = lightSegment('vest_s4', idx, 'active');
+          if (seg) addClockBadge(badgesEl, seg.mx + 24, seg.my, '🕒 -4 ms', '#38bdf8', '#0c4a6e', -10);
+        }
+        if (T >= -2 && T <= -1) {
+          const idx = T - (-2); // 0..1 on 'cb_s5'
+          const banner = mode === 's4_vest'
+            ? '⚡ Otolith Smith (+2ms): -4ms → 🕒 -2 ms!'
+            : (mode === 's4_prop' ? '⚡ Prop Smith (+7ms): -9ms → 🕒 -2 ms!' : '⚡ Smith (+2/+7ms): → 🕒 -2 ms!');
+          flashNodeBox(flashesEl, 354, 174, 130, 46, '#059669', banner);
+          for (let k = 0; k < idx; k++) lightSegment('cb_s5', k, 'trail');
+          const seg = lightSegment('cb_s5', idx, 'active');
+          if (seg) addClockBadge(badgesEl, seg.mx, seg.my, '⚡ 🕒 -2 ms', '#fde047', '#065f46', 18);
+        }
+        if (T <= -5) {
+          hudTitle.textContent = `Tick ${T} ms: Proprioceptive Afferent En Route to Sub 4 (Seg ${T + 10}/7, τ_prop = 7 ms)`;
+          hudEq.textContent = 'Sub 3 Spindles -> Sub 4 Cerebellum (7 segments = 7 ms) carrying [🕒 -9 ms].';
+          if (narration) narration.innerHTML = `<strong>Sub 4 Proprioceptive Conduction Delay (<code>τ_prop = 7 ms</code>, Tick ${T} ms, Seg ${T + 10}/7):</strong> Neck spindle angle <code>θ_neck(t - 7 ms)</code> ascends the cuneocerebellar tract toward <strong>Sub 4: Cerebellum</strong>.`;
+        } else if (T >= -4 && T <= -3) {
+          hudTitle.textContent = mode === 's4_prop'
+            ? `Tick ${T} ms: Proprioceptive Afferent Approaching Sub 4 (Seg ${T + 10}/7, τ_prop = 7 ms)`
+            : `Tick ${T} ms: Vestibular/Otolith Afferent (Seg ${T + 5}/2, τ_vest = 2 ms) Approaches Sub 4`;
+          hudEq.textContent = mode === 's4_vest'
+            ? 'Sub 2 -> Sub 4 (2 segments = 2 ms) carrying [🕒 -4 ms] toward Sub 4 Smith Predictor.'
+            : 'Sub 2 -> Sub 4 (2 segs, [-4 ms]) & Sub 3 -> Sub 4 (7 segs, [-9 ms]) converging on Sub 4.';
+          if (narration) narration.innerHTML = mode === 's4_vest'
+            ? `<strong>Sub 4 Vestibular/Otolith Delay (<code>τ_vest = 2 ms</code>, Tick ${T} ms, Seg ${T + 5}/2):</strong> Luenberger-inverted canal/otolith signals travel 2 segments from <strong>Sub 2</strong> to <strong>Sub 4</strong>.`
+            : `<strong>Tick ${T} ms — Multisensory Convergence on Sub 4:</strong> The 2-segment vestibular stream (<code>τ_vest = 2 ms</code>, <code>[🕒 -4 ms]</code>) and 7-segment proprioceptive stream (<code>τ_prop = 7 ms</code>, <code>[🕒 -9 ms]</code>) converge simultaneously on <strong>Sub 4</strong>.`;
+        } else {
+          hudTitle.textContent = `⚡ Tick ${T} ms: Sub 4 Smith Predictor Aligns Delayed Sensory Streams to [🕒 -2 ms]!`;
+          hudEq.textContent = 'Smith Predictor advances Prop by +7 ms (-9+7 = -2 ms) and Vest/Otolith by +2 ms (-4+2 = -2 ms).';
+          if (narration) narration.innerHTML = `<strong>⚡ Tick ${T} ms — Sub 4 Smith Predictor Synchronization:</strong> By integrating recent angular velocity over <code>Δτ_prop = 7 ms</code> and <code>Δτ_vest = 2 ms</code>, Sub 4 aligns all sensory innovations to <strong>[🕒 -2 ms]</strong> before outputting to Sub 5 and Sub 1.`;
+        }
+        return;
+      }
+
+      if (mode === 's5_cb' || mode === 's5_eff') {
+        // ONLY Sub 5 Cerebellar Forward Predictor (+10 ms) & Efference-Copy Subtraction @ -2 ms
+        if (T >= -12 && T <= -1) {
+          const idx = T - (-12); // 0..11 on 'desc_cb'
+          if (T === -12 && mode === 's5_cb') {
+            flashNodeBox(flashesEl, 164, 16, 130, 38, '#d97706', '⚡ M1 Emits Efference Copy [🕒 -12 ms]');
+          }
+          for (let k = 0; k < idx; k++) lightSegment('desc_cb', k, 'trail');
+          const segCb = lightSegment('desc_cb', idx, 'active');
+          if (segCb) {
+            if (T < -2) {
+              addClockBadge(badgesEl, segCb.mx + 30, segCb.my, '🕒 -12 ms', '#fcd34d', '#78350f', -8);
+            } else {
+              flashNodeBox(flashesEl, 336, 158, 58, 19, '#d97706', '⚡ CB +10ms: -12ms → -2ms!');
+              addClockBadge(badgesEl, segCb.mx, segCb.my, '⚡ 🕒 -2 ms', '#fde047', '#92400e', -15);
+            }
+          }
+        }
+        if (T >= -2 && T <= -1) {
+          const idx = T - (-2); // 0..1 on 'vest_s5' and 'cb_s5'
+          for (let k = 0; k < idx; k++) lightSegment('vest_s5', k, 'trail');
+          const segV = lightSegment('vest_s5', idx, 'active');
+          if (segV) addClockBadge(badgesEl, segV.mx - 28, segV.my, '🕒 -2 ms', '#38bdf8', '#0c4a6e', -8);
+
+          for (let k = 0; k < idx; k++) lightSegment('cb_s5', k, 'trail');
+          const segC = lightSegment('cb_s5', idx, 'active');
+          if (segC) addClockBadge(badgesEl, segC.mx, segC.my, '⚡ 🕒 -2 ms', '#fde047', '#065f46', 18);
+        }
+        if (T === 0) {
+          flashNodeBox(flashesEl, 242, 174, 80, 42, '#0284c7', '⚡ Sub 5 VCR Synced → Sub 7 [0 ms]');
+          if (link57) { link57.setAttribute('stroke', '#0284c7'); link57.setAttribute('stroke-width', '3.5'); }
+        }
+        if (T < -2) {
+          hudTitle.textContent = `Tick ${T} ms: Cortical Efference Copy En Route to CB Predictor (Seg ${T + 13}/10, [🕒 -12 ms])`;
+          hudEq.textContent = 'Leaves M1 with τ_desc = 12 ms; after 10 segments it reaches the +10 ms Cerebellar Predictor.';
+          if (narration) narration.innerHTML = `<strong>Sub 5 Efference-Copy Tract (Tick ${T} ms, Seg ${T + 13}/10 to CB Predictor):</strong> The descending reference trajectory <code>x_traj(t - 12 ms)</code> travels down the corticopontocerebellar tract carrying <strong>[🕒 -12 ms]</strong>.`;
+        } else if (T >= -2 && T <= -1) {
+          hudTitle.textContent = `⚡ Tick ${T} ms: CB (+10ms) Propels [-12ms] → [-2ms] to Match Vestibular Afferents!`;
+          hudEq.textContent = 'θ̂_des(t-2ms) = x_1(t-12ms) + x_2·(10ms) + ½a·(10ms)² matches CN VIII & Sub 4 [🕒 -2 ms]!';
+          if (narration) narration.innerHTML = `<strong>⚡ Tick ${T} ms — Exact Efference-Copy Alignment at [-2 ms]:</strong> The <strong>Cerebellar Forward Predictor (+10 ms)</strong> advances M1's <code>[-12 ms]</code> command to <strong>[🕒 -2 ms]</strong>, matching the 2 ms CN VIII vestibular afferent and Sub 4 state so Sub 5 cancels only unintended head motion!`;
+        } else {
+          hudTitle.textContent = '✓ Tick 0 ms: Sub 5 VCR Efference-Cancelled Reflex Reaches Sub 7 with [🕒 0 ms]!';
+          hudEq.textContent = 'Sub 5 VCR lead filters (H_sc,irr) advance [-2 ms] → [🕒 0 ms] into Sub 7 Spinal QP.';
+          if (narration) narration.innerHTML = '<strong>✓ Tick 0 ms — Sub 5 VCR Output Synchronized:</strong> After subtracting the <code>[-2 ms]</code> forward-predicted efference copy, Sub 5 VCR outputs its reflex torque to <strong>Sub 7</strong> at <strong>[🕒 0 ms]</strong>.';
+        }
+        return;
+      }
+
+      if (mode === 's6_ccr') {
+        // ONLY Sub 6 Spinal CCR Proprioceptive Delay: Sub 3 (-7 ms) -> Sub 6 CCR (0 ms) -> Sub 7
+        if (T >= -7 && T <= -1) {
+          const idx = T - (-7); // 0..6 on 'prop_s6'
+          for (let k = 0; k < idx; k++) lightSegment('prop_s6', k, 'trail');
+          const seg = lightSegment('prop_s6', idx, 'active');
+          if (seg) addClockBadge(badgesEl, seg.mx, seg.my, '🕒 -7 ms', '#34d399', '#064e3b', -12);
+          hudTitle.textContent = `Tick ${T} ms: Spinal CCR Proprioceptive Delay τ_prop = 7 ms (Seg ${idx + 1}/7: Sub 3 → Sub 6)`;
+          hudEq.textContent = `Group Ia/II spindle afferents step ${idx + 1}/7 segments into C1–C8 Dorsal Horn carrying [🕒 -7 ms].`;
+          if (narration) narration.innerHTML = `<strong>Sub 6 Spinal CCR Conduction Delay (<code>τ_prop = 7 ms</code>, Tick ${T} ms, Seg ${idx + 1}/7):</strong> Delayed primary spindle afferents <code>r_Ia(t - 7 ms)</code> and decoded neck states travel 7 segments from <strong>Sub 3: 72 Spindles</strong> to <strong>Sub 6: CCR</strong>.`;
+        } else if (T === 0) {
+          for (let k = 0; k < 7; k++) lightSegment('prop_s6', k, 'trail');
+          flashNodeBox(flashesEl, 234, 312, 84, 34, '#059669', '⚡ Sub 6 H_ccr (+7ms Lead) → 0ms');
+          flashNodeBox(flashesEl, 232, 258, 92, 44, '#059669', '✓ CCR Arrives @ Sub 7 [🕒 0 ms]');
+          if (link67) { link67.setAttribute('stroke', '#059669'); link67.setAttribute('stroke-width', '3.5'); }
+          hudTitle.textContent = '✓ Tick 0 ms: Sub 6 H_ccr Lead Compensates 7 ms Delay → Delivers [🕒 0 ms] to Sub 7!';
+          hudEq.textContent = 'Adjacent C1–C8 spinal interneuron link (Sub 6 → Sub 7) adds 0 ms extra delay.';
+          if (narration) narration.innerHTML = '<strong>✓ Tick 0 ms — Spinal CCR Phase-Lead Synchronization:</strong> Arriving at <strong>Sub 6: CCR</strong> after 7 segments (<code>τ_prop = 7 ms</code>), the <code>H_ccr(s)</code> phase-lead filter advances the reflex command to <strong>[🕒 0 ms]</strong> into <strong>Sub 7 Spinal QP</strong>.';
+        }
+        return;
+      }
+
+      if (mode === 's7_spinal') {
+        // ONLY Sub 7 Spinal Output & Ventral-Root Delay: Sub 7 (0 ms) -> 72 Neck Muscles (+8 ms)
+        if (T >= 0 && T <= 7) {
+          const idx = T; // 0..7 on 'spinal'
+          if (T === 0) {
+            flashNodeBox(flashesEl, 232, 258, 92, 44, '#dc2626', '⚡ Sub 7 Emits u_final [★ 🕒 0 ms]');
+          }
+          for (let k = 0; k < idx; k++) lightSegment('spinal', k, 'trail');
+          const seg = lightSegment('spinal', idx, 'active');
+          if (seg) addClockBadge(badgesEl, seg.mx, seg.my, '★ 🕒 0 ms', '#fde047', '#991b1b', -14);
+          hudTitle.textContent = `Tick +${T} ms: Spinal & Ventral-Root Delay τ_spinal = 8 ms (Seg ${idx + 1}/8: Sub 7 → Muscles)`;
+          hudEq.textContent = `u_delayed[i](t) = u_final[i](t - 8 ms) steps along C1–C8 α/γ ventral roots (Seg ${idx + 1}/8).`;
+          if (narration) narration.innerHTML = `<strong>Sub 7 Spinal Execution Delay (<code>τ_spinal = 8 ms</code>, Tick +${T} ms, Seg ${idx + 1}/8):</strong> The combined α-motoneuron &amp; fusimotor excitation <code>u_final[1..72]</code> steps 1 segment/ms from <strong>Sub 7</strong> toward the <strong>72 Neck Muscles</strong>.`;
+        } else if (T === 8) {
+          for (let k = 0; k < 8; k++) lightSegment('spinal', k, 'trail');
+          flashNodeBox(flashesEl, 8, 260, 86, 40, '#059669', '✓ 72 MUSCLES ACTUATED (+8 ms)');
+          addClockBadge(badgesEl, 51, 312, '★ Executed [🕒 0 ms]', '#6ee7b7', '#065f46', 0);
+          hudTitle.textContent = '✓ Tick +8 ms: Ventral-Root Conduction Complete (τ_spinal = 8 ms) → 72 Muscles Actuated!';
+          hudEq.textContent = 'Completes VCR (2+8 = 10 ms), CCR (7+8 = 15 ms), and Cortical (20+12+8 = 40 ms) loops!';
+          if (narration) narration.innerHTML = '<strong>✓ Tick +8 ms — 72 Cervical Muscles Actuated:</strong> After traversing all <strong>8 segments (8 ms)</strong> of the C1–C8 ventral-root delay (<code>τ_spinal = 8 ms</code>), the synchronized motor command actuates all <strong>72 Neck Muscles</strong>.';
+        }
+        return;
+      }
+
+      // ==================== FULL ALL-PATH MODE ('top_hist' / mode === 'all') ====================
       // ==================== 1. CORTICAL SENSORY WAVE (-39 ms -> -32 ms -> -12 ms -> 0 ms) ====================
       // A. Sub 3 -> Sub 4 (7 segments: T = -39 .. -33)
       if (T >= -39 && T <= -33) {
@@ -4022,7 +4366,8 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       if (_danimLastStepTs === null) _danimLastStepTs = ts;
       if (_danimPlaying && (ts - _danimLastStepTs) >= _danimTickIntervalMs) {
         _danimLastStepTs = ts;
-        _danimTick = _danimTick >= 8 ? -39 : (_danimTick + 1);
+        const scope = getActiveDelayScope();
+        _danimTick = _danimTick >= scope.maxTick ? scope.minTick : (_danimTick + 1);
         const slider = document.getElementById('danim-slider');
         if (slider) slider.value = _danimTick;
         renderDelayTick(_danimTick);
@@ -4038,7 +4383,8 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
     }
 
     function jumpDelayTick(tickVal) {
-      _danimTick = Math.max(-39, Math.min(8, Math.round(tickVal)));
+      const scope = getActiveDelayScope();
+      _danimTick = Math.max(scope.minTick, Math.min(scope.maxTick, Math.round(tickVal)));
       const slider = document.getElementById('danim-slider');
       if (slider) slider.value = _danimTick;
       _danimLastStepTs = performance.now();
@@ -4050,9 +4396,10 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       _danimPlaying = false;
       const btn = document.getElementById('danim-play-btn');
       if (btn) btn.textContent = '▶ Play';
+      const scope = getActiveDelayScope();
       let next = _danimTick + delta;
-      if (next > 8) next = -39;
-      if (next < -39) next = 8;
+      if (next > scope.maxTick) next = scope.minTick;
+      if (next < scope.minTick) next = scope.maxTick;
       jumpDelayTick(next);
     }
 
@@ -4139,8 +4486,10 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       const isDelayBlock = Object.prototype.hasOwnProperty.call(DELAY_BLOCK_DEFAULTS, blockKey);
       if (delayBox && sideCol) {
         if (isDelayBlock) {
+          _activeDelayBlockKey = blockKey;
           delayBox.classList.remove('hidden');
           sideCol.className = "w-full md:w-[540px] lg:w-[580px] bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all";
+          applyDelayScopeUI();
           const startTick = Object.prototype.hasOwnProperty.call(DELAY_BLOCK_START_TICK, blockKey) ? DELAY_BLOCK_START_TICK[blockKey] : -39;
           _danimPlaying = true;
           const playBtn = document.getElementById('danim-play-btn');

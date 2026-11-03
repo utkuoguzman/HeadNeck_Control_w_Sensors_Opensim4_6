@@ -650,6 +650,60 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
         moment_arm_jacobian_6dof(5, active_index) = moment_arm_yaw2;
     }
 
+    // Precompute C^infty Smooth 6-DOF Quadratic Taylor Moment-Arm Polynomial J(q) around q0 (eliminates 50 ms staircase)
+    jacobian_6dof_q0 = moment_arm_jacobian_6dof;
+    const Coordinate* coords_6dof[6] = {
+        cached_coordinate_pitch1, cached_coordinate_pitch2,
+        cached_coordinate_roll1,  cached_coordinate_roll2,
+        cached_coordinate_yaw1,   cached_coordinate_yaw2
+    };
+    for (int d = 0; d < 6; ++d) {
+        q0_6dof[d] = coords_6dof[d] ? coords_6dof[d]->getValue(state) : 0.0;
+        jacobian_6dof_d1[d].resize(6, number_of_active_muscles);
+        jacobian_6dof_d1[d].setToZero();
+        jacobian_6dof_d2[d].resize(6, number_of_active_muscles);
+        jacobian_6dof_d2[d].setToZero();
+    }
+    try {
+        SimTK::State work_state = state;
+        const double dq_step = 0.05; // ~2.86 deg central finite difference step
+        for (int d = 0; d < 6; ++d) {
+            if (!coords_6dof[d]) continue;
+            Coordinate* mut_coord_d = const_cast<Coordinate*>(coords_6dof[d]);
+
+            mut_coord_d->setValue(work_state, q0_6dof[d] + dq_step, true);
+            model.realizePosition(work_state);
+            SimTK::Matrix J_plus(6, number_of_active_muscles);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                const Muscle& mus = muscles.get(active_muscle_indices[m]);
+                for (int c = 0; c < 6; ++c) {
+                    J_plus(c, m) = coords_6dof[c] ? mus.computeMomentArm(work_state, *const_cast<Coordinate*>(coords_6dof[c])) : 0.0;
+                }
+            }
+
+            mut_coord_d->setValue(work_state, q0_6dof[d] - dq_step, true);
+            model.realizePosition(work_state);
+            SimTK::Matrix J_minus(6, number_of_active_muscles);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                const Muscle& mus = muscles.get(active_muscle_indices[m]);
+                for (int c = 0; c < 6; ++c) {
+                    J_minus(c, m) = coords_6dof[c] ? mus.computeMomentArm(work_state, *const_cast<Coordinate*>(coords_6dof[c])) : 0.0;
+                }
+            }
+
+            mut_coord_d->setValue(work_state, q0_6dof[d], true);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                for (int c = 0; c < 6; ++c) {
+                    jacobian_6dof_d1[d](c, m) = (J_plus(c, m) - J_minus(c, m)) / (2.0 * dq_step);
+                    jacobian_6dof_d2[d](c, m) = (J_plus(c, m) - 2.0 * jacobian_6dof_q0(c, m) + J_minus(c, m)) / (dq_step * dq_step);
+                }
+            }
+        }
+        model.realizePosition(state);
+    } catch (...) {
+        // Fallback to constant J0 if work_state perturbation fails
+    }
+
     updateDecoderMatrix();
     history.clear();
     is_initialized = true;
@@ -660,23 +714,24 @@ void HeadNeckNeuralController::updateDecoderMatrix() const {
     int number_of_active_muscles = active_muscle_indices.size();
     if (number_of_active_muscles == 0) return;
 
-    // Full 6-DOF cervical spine Jacobian inversion: gram_matrix_6dof = J6 * J6^T (6 x 6)
-    // Eliminates cross-talk from inter-vertebral buckling (pitch1 vs pitch2, roll1 vs roll2, yaw1 vs yaw2)
-    SimTK::Matrix gram_matrix_6dof(6, 6);
-    gram_matrix_6dof.setToZero();
+    // Full 6-DOF cervical spine Jacobian inversion on stack (zero heap allocations): gram_matrix_6dof = J6 * J6^T (6 x 6)
+    SimTK::Mat<6, 6> gram_matrix_6dof(0.0);
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         for (int row = 0; row < 6; ++row) {
+            const double j_row = moment_arm_jacobian_6dof(row, muscle_index);
             for (int column = 0; column < 6; ++column) {
-                gram_matrix_6dof(row, column) += moment_arm_jacobian_6dof(row, muscle_index) * moment_arm_jacobian_6dof(column, muscle_index);
+                gram_matrix_6dof(row, column) += j_row * moment_arm_jacobian_6dof(column, muscle_index);
             }
         }
     }
     for (int row = 0; row < 6; ++row) gram_matrix_6dof(row, row) += 1e-8;
 
-    SimTK::Matrix gram_matrix_6dof_inverse = gram_matrix_6dof.invert();
+    SimTK::Mat<6, 6> gram_matrix_6dof_inverse = gram_matrix_6dof.invert();
 
     // K6 = -(J6 * J6^T)^{-1} * J6 (6 x number_of_active_muscles), then sum (pitch1+pitch2, roll1+roll2, yaw1+yaw2) into 3 x number_of_active_muscles
-    proprioceptive_decoder_matrix.resize(3, number_of_active_muscles);
+    if (proprioceptive_decoder_matrix.nrow() != 3 || proprioceptive_decoder_matrix.ncol() != number_of_active_muscles) {
+        proprioceptive_decoder_matrix.resize(3, number_of_active_muscles);
+    }
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         double decoder_column_6dof[6] = {0.0};
         for (int row = 0; row < 6; ++row) {
@@ -1566,7 +1621,14 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         static const double vest_scc_thresh  = std::getenv("VEST_SCC_THRESH")  ? std::stod(std::getenv("VEST_SCC_THRESH"))  : 0.005;
         static const double vest_oto_thresh  = std::getenv("VEST_OTO_THRESH")  ? std::stod(std::getenv("VEST_OTO_THRESH"))  : 0.020;
         auto deadzone = [](double v, double th) {
-            return (th <= 0.0) ? v : ((std::abs(v) <= th) ? 0.0 : ((v > 0.0) ? (v - th) : (v + th)));
+            if (th <= 0.0) return v;
+            double av = std::abs(v);
+            if (av <= 0.75 * th) return 0.0;
+            if (av < 1.25 * th) {
+                double u = av - 0.75 * th;
+                return (v >= 0.0 ? 1.0 : -1.0) * (u * u) / th;
+            }
+            return (v > 0.0) ? (v - th) : (v + th);
         };
         tonic_otolith_input_pitch = deadzone(tonic_otolith_input_pitch, vest_tilt_thresh);
         tonic_otolith_input_roll  = deadzone(tonic_otolith_input_roll,  vest_tilt_thresh);
@@ -1650,26 +1712,27 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     const auto& muscles = model.getMuscles();
     int number_of_active_muscles = active_muscle_indices.size();
 
-    // 1. Update Jacobian slowly
-    if (state.getTime() - last_jacobian_update_time > 0.05) {
+    // 1. Evaluate C^infty Smooth 6-DOF Quadratic Taylor Moment-Arm Jacobian continuously at every substep (zero staircases)
+    if (jacobian_6dof_q0.nrow() == 6 && jacobian_6dof_q0.ncol() == number_of_active_muscles) {
+        const double dq[6] = {
+            (cached_coordinate_pitch1 ? cached_coordinate_pitch1->getValue(state) : 0.0) - q0_6dof[0],
+            (cached_coordinate_pitch2 ? cached_coordinate_pitch2->getValue(state) : 0.0) - q0_6dof[1],
+            (cached_coordinate_roll1  ? cached_coordinate_roll1->getValue(state)  : 0.0) - q0_6dof[2],
+            (cached_coordinate_roll2  ? cached_coordinate_roll2->getValue(state)  : 0.0) - q0_6dof[3],
+            (cached_coordinate_yaw1   ? cached_coordinate_yaw1->getValue(state)   : 0.0) - q0_6dof[4],
+            (cached_coordinate_yaw2   ? cached_coordinate_yaw2->getValue(state)   : 0.0) - q0_6dof[5]
+        };
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
-            const Muscle& muscle = muscles.get(active_muscle_indices[muscle_index]);
-            double moment_arm_pitch1 = cached_coordinate_pitch1 ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_pitch1)) : 0.0;
-            double moment_arm_pitch2 = cached_coordinate_pitch2 ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_pitch2)) : 0.0;
-            double moment_arm_roll1  = cached_coordinate_roll1  ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_roll1))  : 0.0;
-            double moment_arm_roll2  = cached_coordinate_roll2  ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_roll2))  : 0.0;
-            double moment_arm_yaw1   = cached_coordinate_yaw1   ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_yaw1))   : 0.0;
-            double moment_arm_yaw2   = cached_coordinate_yaw2   ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_yaw2))   : 0.0;
-
-            moment_arm_jacobian_3dof(0, muscle_index) = (moment_arm_pitch1 + moment_arm_pitch2) / 2.0;
-            moment_arm_jacobian_3dof(1, muscle_index) = (moment_arm_roll1  + moment_arm_roll2)  / 2.0;
-            moment_arm_jacobian_3dof(2, muscle_index) = (moment_arm_yaw1   + moment_arm_yaw2)   / 2.0;
-            moment_arm_jacobian_6dof(0, muscle_index) = moment_arm_pitch1;
-            moment_arm_jacobian_6dof(1, muscle_index) = moment_arm_pitch2;
-            moment_arm_jacobian_6dof(2, muscle_index) = moment_arm_roll1;
-            moment_arm_jacobian_6dof(3, muscle_index) = moment_arm_roll2;
-            moment_arm_jacobian_6dof(4, muscle_index) = moment_arm_yaw1;
-            moment_arm_jacobian_6dof(5, muscle_index) = moment_arm_yaw2;
+            for (int c = 0; c < 6; ++c) {
+                double val = jacobian_6dof_q0(c, muscle_index);
+                for (int d = 0; d < 6; ++d) {
+                    val += (jacobian_6dof_d1[d](c, muscle_index) + 0.5 * jacobian_6dof_d2[d](c, muscle_index) * dq[d]) * dq[d];
+                }
+                moment_arm_jacobian_6dof(c, muscle_index) = val;
+            }
+            moment_arm_jacobian_3dof(0, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(0, muscle_index) + moment_arm_jacobian_6dof(1, muscle_index));
+            moment_arm_jacobian_3dof(1, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(2, muscle_index) + moment_arm_jacobian_6dof(3, muscle_index));
+            moment_arm_jacobian_3dof(2, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(4, muscle_index) + moment_arm_jacobian_6dof(5, muscle_index));
         }
         updateDecoderMatrix();
         last_jacobian_update_time = state.getTime();
@@ -1874,7 +1937,18 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
                 ? cached_primary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_primary_afferent_rates[muscle_index];
         static const double spindle_ccr_threshold = std::getenv("SPINDLE_CCR_THRESH") ? std::stod(std::getenv("SPINDLE_CCR_THRESH")) : 0.5;
-        double primary_afferent_above_baseline = std::max(0.0, (primary_afferent_value - baseline_primary_afferent_rates[muscle_index]) - spindle_ccr_threshold);
+        double delta_ia = primary_afferent_value - baseline_primary_afferent_rates[muscle_index];
+        double primary_afferent_above_baseline = 0.0;
+        if (spindle_ccr_threshold <= 0.0) {
+            primary_afferent_above_baseline = std::max(0.0, delta_ia);
+        } else if (delta_ia > 0.75 * spindle_ccr_threshold) {
+            if (delta_ia < 1.25 * spindle_ccr_threshold) {
+                double u = delta_ia - 0.75 * spindle_ccr_threshold;
+                primary_afferent_above_baseline = (u * u) / spindle_ccr_threshold;
+            } else {
+                primary_afferent_above_baseline = delta_ia - spindle_ccr_threshold;
+            }
+        }
         current_history_record.primary_afferent_firing_rate[muscle_index] = std::clamp(primary_afferent_above_baseline, 0.0, 500.0);
     }
 
@@ -1979,7 +2053,14 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         static const double vest_scc_thresh  = std::getenv("VEST_SCC_THRESH")  ? std::stod(std::getenv("VEST_SCC_THRESH"))  : 0.005;
         static const double vest_oto_thresh  = std::getenv("VEST_OTO_THRESH")  ? std::stod(std::getenv("VEST_OTO_THRESH"))  : 0.020;
         auto deadzone = [](double v, double th) {
-            return (th <= 0.0) ? v : ((std::abs(v) <= th) ? 0.0 : ((v > 0.0) ? (v - th) : (v + th)));
+            if (th <= 0.0) return v;
+            double av = std::abs(v);
+            if (av <= 0.75 * th) return 0.0;
+            if (av < 1.25 * th) {
+                double u = av - 0.75 * th;
+                return (v >= 0.0 ? 1.0 : -1.0) * (u * u) / th;
+            }
+            return (v > 0.0) ? (v - th) : (v + th);
         };
         tonic_otolith_input_pitch = deadzone(tonic_otolith_input_pitch, vest_tilt_thresh);
         tonic_otolith_input_roll  = deadzone(tonic_otolith_input_roll,  vest_tilt_thresh);
@@ -2052,7 +2133,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             double filtered_primary_afferent_rate =
                 cervico_collic_direct_feedthrough * delayed_primary_afferent_rate +
                 cervico_collic_state_gain * cervico_collic_state;
-            double rectified_primary_afferent_rate = std::max(0.0, filtered_primary_afferent_rate);
+            const double ccr_rect_knee = 0.02;
+            double rectified_primary_afferent_rate = 0.0;
+            if (filtered_primary_afferent_rate > 0.0) {
+                if (filtered_primary_afferent_rate < 2.0 * ccr_rect_knee) {
+                    rectified_primary_afferent_rate = (filtered_primary_afferent_rate * filtered_primary_afferent_rate) / (4.0 * ccr_rect_knee);
+                } else {
+                    rectified_primary_afferent_rate = filtered_primary_afferent_rate - ccr_rect_knee;
+                }
+            }
             spinal_ccr_drive[muscle_index] = proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
         }
     }

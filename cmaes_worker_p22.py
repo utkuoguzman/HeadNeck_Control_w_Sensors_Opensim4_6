@@ -301,6 +301,8 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     model.equilibrateMuscles(state)
 
     manager = osim.Manager(model)
+    manager.setWriteToStorage(False)
+    manager.setPerformAnalyses(False)
     manager.setIntegratorMethod(5) # SemiExplicitEuler2
     manager.setIntegratorAccuracy(1e-4)
     # Fastest sensor pole is Irregular Semicircular Canal tau_2,irr = 0.0006 s (0.6 ms, lambda = -1666.7 s^-1, h_crit = 1.2 ms).

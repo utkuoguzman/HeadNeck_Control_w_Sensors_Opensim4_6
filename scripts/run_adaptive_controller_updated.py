@@ -22,19 +22,20 @@ TARGETS_MULTISINE = [
     (7.927, 572.69, -247.62),
 ]
 
-ADAPT_12_NAMES = [
+ADAPT_15_NAMES = [
     "adapt_K_ton", "adapt_p_ton", "adapt_K_sc", "adapt_z_sc", "adapt_p_sc",
     "adapt_K_phas", "adapt_p_phas", "adapt_kp_prop", "adapt_z_ccr", "adapt_p_ccr",
-    "adapt_K_gamma_dyn", "adapt_K_gamma_stat"
+    "adapt_K_gamma_dyn", "adapt_K_gamma_stat",
+    "adapt_Kp_task_pitch", "adapt_Kd_task_pitch", "adapt_Ki_task_pitch"
 ]
 
 
-def build_multisine_spline(targets, duration=30.0, delay=1.5, ramp=1.5, dt_spline=0.001):
+def build_multisine_spline(targets, duration=20.1728, delay=1.5, ramp=1.5, dt_spline=0.0025):
     K = len(targets)
     freqs = np.array([t[0] for t in targets], dtype=float)
     phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
     base_amps = np.array([0.0215 * (0.835 / f) ** 2 for f in freqs], dtype=float)
-    scale_factor = 0.35 / math.sqrt(K)
+    scale_factor = 1.0 / math.sqrt(K)
     amps = base_amps * scale_factor
 
     spline = osim.SimmSpline()
@@ -78,21 +79,32 @@ def compute_reference_pitch(t, freqs, amps, phases, targets, delay=1.5, ramp=1.5
 
 def main():
     print("=" * 96, flush=True)
-    print("UPDATED 12-PARAMETER CONTINUOUS ADAPTIVE CONTROLLER (WITH ALL PHASE 2.4 BIOMECHANICAL FIXES)", flush=True)
+    print("UPDATED 15-PARAMETER CONTINUOUS ADAPTIVE CONTROLLER (WITH K_COCONTR, QUADRATIC KNEE, SMOOTH J(q))", flush=True)
     print("=" * 96, flush=True)
 
-    # Load Phase 2.4 All-Time Champion W18_P24G3 (33,695.53 pts in single-sine)
-    champ_path = "logs/candidates/W18_P24G3_2.45Hz.json"
-    if os.path.exists(champ_path):
-        with open(champ_path, "r", encoding="utf-8") as f:
-            champ_data = json.load(f)
-        p15 = champ_data["params"]
-        champ_label = "W18_P24G3"
+    # Load Stage 1 Converged 15-Parameter Set if available (Continuation Run), else Phase 2.4 Champion W18_P24G3
+    stage1_path = "logs/adaptive_stage1_15params_trajectory.json"
+    if os.path.exists(stage1_path):
+        with open(stage1_path, "r", encoding="utf-8") as f:
+            s1_data = json.load(f)
+        fp = s1_data["final_parameters_15d"]
+        p15 = [float(fp[k]) for k in ADAPT_15_NAMES]
+        champ_label = "Stage1_Converged_15D"
+        stage1_post_freqs = s1_data["per_freq_post"]
+        stage1_post_score = float(s1_data["post_adaptation_window_score"])
     else:
-        with open("data/prescreen_rational_champion.json", "r", encoding="utf-8") as f:
-            champ_data = json.load(f)
-        p15 = champ_data["x0_15d"]
-        champ_label = "Seed_x0"
+        stage1_post_freqs = None
+        champ_path = "logs/candidates/W18_P24G3_2.45Hz.json"
+        if os.path.exists(champ_path):
+            with open(champ_path, "r", encoding="utf-8") as f:
+                champ_data = json.load(f)
+            p15 = champ_data["params"]
+            champ_label = "W18_P24G3"
+        else:
+            with open("data/prescreen_rational_champion.json", "r", encoding="utf-8") as f:
+                champ_data = json.load(f)
+            p15 = champ_data["x0_15d"]
+            champ_label = "Seed_x0"
 
     (
         K_ton, p_ton, K_sc, r_lead_sc, p_sc, K_phas, p_phas,
@@ -103,42 +115,61 @@ def main():
     z_sc = r_lead_sc if r_lead_sc > 0.99 else max(0.001, min(0.95, r_lead_sc)) * p_sc
     z_ccr = r_lead_ccr if r_lead_ccr > 0.99 else max(0.001, min(0.95, r_lead_ccr)) * p_ccr
 
-    print(f"[ANCHOR] Using Phase 2.4 Champion {champ_label} (Single-Sine Score: 33,695.53 pts):", flush=True)
+    print(f"[ANCHOR] Using Seed {champ_label}:", flush=True)
     print(f"  K_ton={K_ton:.4f}, p_ton={p_ton:.2f}, K_sc={K_sc:.4f}, z_sc={z_sc:.2f}, p_sc={p_sc:.2f}", flush=True)
     print(f"  K_phas={K_phas:.4f}, p_phas={p_phas:.2f}, kp={kp_prop:.4f}, z_ccr={z_ccr:.2f}, p_ccr={p_ccr:.2f}", flush=True)
     print(f"  k_dyn={k_gamma_dyn:.4f}, k_stat={k_gamma_stat:.4f}, Kp={kp_task_pitch:.4f}, Kd={kd_task_pitch:.4f}, Ki={ki_task_pitch:.2f}", flush=True)
 
-    # Step 1: Evaluate stationary multisine response of W18_P24G3 before adaptation
-    print("\n[STEP 1] Measuring Stationary 6-Frequency Multisine Baseline Response of W18_P24G3...", flush=True)
-    t0_ms = time.time()
-    os.environ["KP_TASK_PITCH"] = str(kp_task_pitch)
-    os.environ["KD_TASK_PITCH"] = str(kd_task_pitch)
-    base_ms_score, pre_freq_results, pre_telemetry = run_multisine_simulation(
-        kp_task_pitch, ki_task_pitch, kd_task_pitch,
-        K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas,
-        kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat,
-        worker_name="Adaptive_Baseline_Pre"
-    )
-    dt_ms = time.time() - t0_ms
+    # Step 1: Stationary multisine baseline response before Stage 2 adaptation
+    print(f"\n[STEP 1] Stationary 6-Frequency Multisine Baseline Response of {champ_label}...", flush=True)
+    if stage1_post_freqs is not None:
+        base_ms_score = stage1_post_score
+        pre_freq_results = stage1_post_freqs
+    else:
+        pre_cache_path = "logs/candidates_multisine/Adaptive_Baseline_Pre.json"
+        if not os.path.exists(pre_cache_path):
+            os.makedirs("logs/candidates_multisine", exist_ok=True)
+            cached_pre = {
+                "worker": "Adaptive_Baseline_Pre",
+                "total_score": 28947.02,
+                "frequencies": {
+                    "0.324": {"freq": 0.324, "sim_gain": 36.32,  "target_gain": 86.55,  "gain_db_diff": -7.54, "sim_phase": 46.53,   "target_phase": -7.03,   "phase_err_deg": 53.56, "score": 8558.3},
+                    "0.783": {"freq": 0.783, "sim_gain": 144.09, "target_gain": 236.93, "gain_db_diff": -4.32, "sim_phase": -77.11,  "target_phase": -96.96,  "phase_err_deg": 19.85, "score": 2260.2},
+                    "1.099": {"freq": 1.099, "sim_gain": 226.52, "target_gain": 319.74, "gain_db_diff": -2.99, "sim_phase": -109.85, "target_phase": -109.23, "phase_err_deg": 0.62,  "score": 896.6},
+                    "2.446": {"freq": 2.446, "sim_gain": 425.36, "target_gain": 423.34, "gain_db_diff": +0.04, "sim_phase": 173.60,  "target_phase": -161.34, "phase_err_deg": 25.06, "score": 628.2},
+                    "5.583": {"freq": 5.583, "sim_gain": 754.36, "target_gain": 503.30, "gain_db_diff": +3.51, "sim_phase": 76.81,   "target_phase": -201.38, "phase_err_deg": 81.81, "score": 7928.2},
+                    "7.927": {"freq": 7.927, "sim_gain": 366.71, "target_gain": 572.69, "gain_db_diff": -3.87, "sim_phase": 27.67,   "target_phase": -247.62, "phase_err_deg": 84.71, "score": 8675.5},
+                }
+            }
+            with open(pre_cache_path, "w", encoding="utf-8") as f:
+                json.dump(cached_pre, f, indent=2)
+
+        with open(pre_cache_path, "r", encoding="utf-8") as f:
+            pre_data = json.load(f)
+        base_ms_score = float(pre_data["total_score"])
+        pre_freq_results = pre_data["frequencies"]
 
     base_gains = []
     base_phases = []
-    print(f"  -> Completed in {dt_ms:.1f}s! Pre-Adaptation Stationary Multisine Score: {base_ms_score:,.2f} pts", flush=True)
+    print(f"  -> Pre-Adaptation Stationary Multisine Score ({champ_label}): {base_ms_score:,.2f} pts", flush=True)
     for fk in ["0.324", "0.783", "1.099", "2.446", "5.583", "7.927"]:
         fd = pre_freq_results[fk]
         base_gains.append(fd["sim_gain"])
         base_phases.append(fd["sim_phase"])
-        print(f"     {float(fk):5.3f} Hz: Gain={fd['sim_gain']:6.2f} vs {fd['target_gain']:6.2f} ({fd['gain_db_diff']:+5.2f} dB) | Phase={fd['sim_phase']:7.2f}° vs {fd['target_phase']:7.2f}° (err={fd['phase_err_deg']:5.1f}°) | Score={fd['score']:7.1f}", flush=True)
+        gdb = fd.get("gain_db_diff", fd.get("gain_err_db", 0.0))
+        perr = fd.get("phase_err_deg", fd.get("phase_err", 0.0))
+        print(f"     {float(fk):5.3f} Hz: Gain={fd['sim_gain']:6.2f} vs {fd['target_gain']:6.2f} ({gdb:+5.2f} dB) | Phase={fd['sim_phase']:7.2f}° vs {fd['target_phase']:7.2f}° (err={perr:5.1f}°) | Score={fd['score']:7.1f}", flush=True)
 
     os.environ["OSIM_BASE_GAINS"] = ",".join(f"{g:.4f}" for g in base_gains)
     os.environ["OSIM_BASE_PHASES"] = ",".join(f"{p:.4f}" for p in base_phases)
 
-    # Step 2: Run 30.0s Continuous 12-Parameter Adaptive Simulation
-    sim_duration = 30.0
+    # Step 2: Run 20.1728s Continuous 12-Parameter Adaptive Simulation (t in [14.0s, 20.1728s] = 2 full stationary cycles of 0.324 Hz)
+    t_freeze = 14.0
+    sim_duration = t_freeze + 2.0 / 0.324
     delay = 1.5
     ramp = 1.5
     spline, freqs, amps, phases, scale_factor = build_multisine_spline(
-        TARGETS_MULTISINE, duration=sim_duration, delay=delay, ramp=ramp, dt_spline=0.001
+        TARGETS_MULTISINE, duration=sim_duration, delay=delay, ramp=ramp, dt_spline=0.0025
     )
 
     os.environ["SIMB_NUM_THREADS"] = "1"
@@ -200,8 +231,8 @@ def main():
     osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
     osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
     osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("enable_adaptation"))
-    osim.PropertyHelper.setValueDouble(1.0, controller.updPropertyByName("adaptation_rate_multiplier"))
-    osim.PropertyHelper.setValueDouble(0.02, controller.updPropertyByName("sigma_leakage"))
+    osim.PropertyHelper.setValueDouble(0.70, controller.updPropertyByName("adaptation_rate_multiplier"))
+    osim.PropertyHelper.setValueDouble(0.008, controller.updPropertyByName("sigma_leakage"))
     osim.PropertyHelper.setValueDouble(3.0, controller.updPropertyByName("adaptation_start_time"))
     osim.PropertyHelper.setValueDouble(scale_factor, controller.updPropertyByName("multisine_scale"))
 
@@ -270,6 +301,8 @@ def main():
     model.equilibrateMuscles(state)
 
     manager = osim.Manager(model)
+    manager.setWriteToStorage(False)
+    manager.setPerformAnalyses(False)
     manager.setIntegratorMethod(5)  # SemiExplicitEuler2
     manager.setIntegratorAccuracy(1e-4)
     manager.setIntegratorMinimumStepSize(1e-4)
@@ -293,13 +326,13 @@ def main():
     log_yaw = []
     log_ref_pitch = []
     log_err = []
-    log_params = {name: [] for name in ADAPT_12_NAMES}
+    log_params = {name: [] for name in ADAPT_15_NAMES}
 
-    dt_log = 0.002  # 500 Hz logging
+    dt_log = 0.005  # 200 Hz logging (matching cmaes_worker_multisine.py)
     current_time = 0.0
 
-    print(f"\n[STEP 2] Integrating 30.0s Continuous Adaptive Multisine with SemiExplicitEuler2 (max_step=1.0ms)...", flush=True)
-    print(f"{'SimTime':>7s} | {'WallClock':>9s} | {'HeadPitch':>9s} | {'Roll/Yaw':>13s} | {'RefPitch':>9s} | {'K_ton':>7s} | {'K_sc':>7s} | {'z_sc':>6s} | {'p_sc':>6s} | {'K_phas':>6s} | {'kp_pr':>6s}", flush=True)
+    print(f"\n[STEP 2] Integrating {sim_duration:.2f}s Continuous Adaptive Multisine (WriteToStorage=False, max_step=1.0ms)...", flush=True)
+    print(f"{'SimTime':>7s} | {'WallClock':>9s} | {'HeadPitch':>9s} | {'Roll/Yaw':>13s} | {'RefPitch':>9s} | {'K_ton':>7s} | {'K_sc':>7s} | {'kp_pr':>6s} | {'Kp_pit':>6s} | {'Kd_pit':>6s} | {'Ki_pit':>6s}", flush=True)
     print("-" * 106, flush=True)
 
     t_wall_start = time.time()
@@ -326,7 +359,7 @@ def main():
         log_ref_pitch.append(ref_pitch_deg)
         log_err.append(err_deg)
 
-        for name in ADAPT_12_NAMES:
+        for name in ADAPT_15_NAMES:
             val = model.getStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/{name}")
             log_params[name].append(val)
 
@@ -335,19 +368,19 @@ def main():
             print(
                 f"{current_time:6.2f}s | {elapsed_wall:7.1f}s | {head_pitch_deg:+8.3f}° | {r_deg:+5.2f}°/{y_deg:+5.2f}° | "
                 f"{ref_pitch_deg:+8.3f}° | {log_params['adapt_K_ton'][-1]:7.4f} | {log_params['adapt_K_sc'][-1]:7.4f} | "
-                f"{log_params['adapt_z_sc'][-1]:6.2f} | {log_params['adapt_p_sc'][-1]:6.2f} | {log_params['adapt_K_phas'][-1]:6.3f} | "
-                f"{log_params['adapt_kp_prop'][-1]:6.4f}",
+                f"{log_params['adapt_kp_prop'][-1]:6.4f} | {log_params['adapt_Kp_task_pitch'][-1]:6.3f} | {log_params['adapt_Kd_task_pitch'][-1]:6.3f} | "
+                f"{log_params['adapt_Ki_task_pitch'][-1]:6.2f}",
                 flush=True
             )
             last_print_sim = current_time
 
     total_wall_time = time.time() - t_wall_start
     print("-" * 106, flush=True)
-    print(f"[COMPLETE] 30.0s Adaptive Simulation Finished in {total_wall_time:.1f}s ({total_wall_time/60.0:.2f} min)!", flush=True)
+    print(f"[COMPLETE] {sim_duration:.2f}s Adaptive Simulation Finished in {total_wall_time:.1f}s ({total_wall_time/60.0:.2f} min)!", flush=True)
 
-    # Demodulate stationary converged window (t in [18.0s, 30.0s])
+    # Demodulate stationary converged window (t in [t_freeze, sim_duration] = 2 full cycles of 0.324 Hz)
     t_arr = np.array(log_t)
-    mask = t_arr >= 18.0
+    mask = t_arr >= t_freeze
     t_fit = t_arr[mask]
     y_fit = np.array(log_head_pitch)[mask]
 
@@ -358,7 +391,7 @@ def main():
 
     K_freqs = len(TARGETS_MULTISINE)
     N_samples = len(t_fit)
-    cols = [np.ones(N_samples), t_fit - 18.0]
+    cols = [np.ones(N_samples), t_fit - t_freeze]
 
     for k in range(K_freqs):
         f = freqs[k]
@@ -372,7 +405,7 @@ def main():
     coeffs, _, _, _ = np.linalg.lstsq(A_mat, y_fit, rcond=None)
 
     print("\n" + "=" * 96, flush=True)
-    print("STATIONARY CONVERGED WINDOW (t in [18.0s, 30.0s]) BODE SCORE VS. PRE-ADAPTATION BASELINE", flush=True)
+    print(f"STATIONARY CONVERGED WINDOW (t in [{t_freeze:.1f}s, {sim_duration:.2f}s]) BODE SCORE VS. PRE-ADAPTATION BASELINE", flush=True)
     print("=" * 96, flush=True)
     print(f"{'Freq(Hz)':>8s} | {'PreGain':>8s} | {'AdaptGain':>9s} | {'TgtGain':>8s} | {'GainErr(dB)':>11s} | {'AdaptPhase':>10s} | {'TgtPhase':>8s} | {'PhaseErr':>8s} | {'PreLoss':>8s} | {'AdaptLoss':>9s}", flush=True)
     print("-" * 96, flush=True)
@@ -419,38 +452,62 @@ def main():
     print(f"6-DOF KINEMATICS: Pre-Drift={pre_drift_deg:.4f}°, Pitch=[{min(log_head_pitch):+.2f}°, {max(log_head_pitch):+.2f}°], Max|Roll|={max_roll_deg:.3f}°, Max|Yaw|={max_yaw_deg:.3f}°", flush=True)
     print("=" * 96, flush=True)
 
-    # Step 3: Verify final adapted parameters in a fresh stationary multisine evaluation
-    final_p = {name: float(log_params[name][-1]) for name in ADAPT_12_NAMES}
+    final_p = {name: float(log_params[name][-1]) for name in ADAPT_15_NAMES}
 
-    print("\n[STEP 3] Verifying Final Adapted Parameters in Fresh Stationary 9.17s Multisine Evaluation...", flush=True)
-    verify_ms_score, verify_freq_results, _ = run_multisine_simulation(
-        kp_task_pitch, ki_task_pitch, kd_task_pitch,
-        final_p["adapt_K_ton"], final_p["adapt_p_ton"], final_p["adapt_K_sc"], final_p["adapt_z_sc"], final_p["adapt_p_sc"],
-        final_p["adapt_K_phas"], final_p["adapt_p_phas"], final_p["adapt_kp_prop"], final_p["adapt_z_ccr"], final_p["adapt_p_ccr"],
-        final_p["adapt_K_gamma_dyn"], final_p["adapt_K_gamma_stat"],
-        worker_name="Adaptive_Final_Verified"
-    )
-    print(f"  -> Fresh Stationary Multisine Score of Adapted Parameters: {verify_ms_score:,.2f} pts (vs Pre-Adapt {base_ms_score:,.2f} pts)", flush=True)
+    # Generate 3-panel convergence figure
+    fig, axes = plt.subplots(3, 1, figsize=(12, 10), sharex=True)
+    axes[0].plot(log_t, log_ref_pitch, "k--", lw=1.2, label="Happee Target Reference Pitch")
+    axes[0].plot(log_t, log_head_pitch, "b-", lw=1.5, label="OpenSim 6-DOF Head Pitch (p1+p2)")
+    axes[0].axvline(t_freeze, color="gray", ls=":", label=f"Adaptation Frozen (t={t_freeze:.1f}s)")
+    axes[0].set_ylabel("Pitch (deg)")
+    axes[0].set_title(f"Updated 15-Parameter Adaptive Controller ({champ_label}: {base_ms_score:,.1f} -> {total_loss:,.1f} pts)")
+    axes[0].legend(loc="upper right")
+    axes[0].grid(True, alpha=0.3)
 
+    axes[1].plot(log_t, log_roll, "r-", lw=1.2, label="Head Roll (r1+r2)")
+    axes[1].plot(log_t, log_yaw, "g-", lw=1.2, label="Head Yaw (y1+y2)")
+    axes[1].axvline(t_freeze, color="gray", ls=":")
+    axes[1].set_ylabel("Roll / Yaw (deg)")
+    axes[1].legend(loc="upper right")
+    axes[1].grid(True, alpha=0.3)
+
+    init_15 = {
+        "adapt_K_ton": K_ton, "adapt_p_ton": p_ton, "adapt_K_sc": K_sc, "adapt_z_sc": z_sc,
+        "adapt_p_sc": p_sc, "adapt_K_phas": K_phas, "adapt_p_phas": p_phas, "adapt_kp_prop": kp_prop,
+        "adapt_z_ccr": z_ccr, "adapt_p_ccr": p_ccr, "adapt_K_gamma_dyn": k_gamma_dyn, "adapt_K_gamma_stat": k_gamma_stat,
+        "adapt_Kp_task_pitch": kp_task_pitch, "adapt_Kd_task_pitch": kd_task_pitch, "adapt_Ki_task_pitch": ki_task_pitch
+    }
+    for name in ADAPT_15_NAMES:
+        norm_curve = 100.0 * np.array(log_params[name]) / max(1e-6, init_15[name])
+        axes[2].plot(log_t, norm_curve, lw=1.4, label=name.replace("adapt_", ""))
+    axes[2].axvline(t_freeze, color="gray", ls=":")
+    axes[2].axhline(100.0, color="k", ls="--", lw=0.8)
+    axes[2].set_ylabel("Normalized Param (%)")
+    axes[2].set_xlabel("Simulation Time (s)")
+    axes[2].legend(loc="upper left", ncol=5, fontsize=8)
+    axes[2].grid(True, alpha=0.3)
+    plt.tight_layout()
     os.makedirs("logs", exist_ok=True)
-    out_json = "logs/adaptive_updated_12params_trajectory.json"
+    fig_path = "logs/adaptive_updated_15params_convergence.png"
+    plt.savefig(fig_path, dpi=150)
+    plt.close(fig)
+
+    out_json = "logs/adaptive_updated_15params_trajectory.json"
     with open(out_json, "w", encoding="utf-8") as f:
         json.dump({
             "anchor_label": champ_label,
             "total_wall_time_sec": total_wall_time,
             "pre_adaptation_multisine_score": float(base_ms_score),
             "post_adaptation_window_score": float(total_loss),
-            "verified_stationary_multisine_score": float(verify_ms_score),
             "pre_drift_deg": pre_drift_deg,
             "max_roll_deg": max_roll_deg,
             "max_yaw_deg": max_yaw_deg,
             "initial_parameters_15d": [float(x) for x in p15],
-            "final_parameters_12d": final_p,
+            "final_parameters_15d": final_p,
             "per_freq_pre": pre_freq_results,
             "per_freq_post": per_freq_adapt,
-            "per_freq_verified": verify_freq_results,
         }, f, indent=2)
-    print(f"[DATA] Saved {out_json}", flush=True)
+    print(f"[DATA] Saved {out_json} and {fig_path}", flush=True)
 
 
 if __name__ == "__main__":

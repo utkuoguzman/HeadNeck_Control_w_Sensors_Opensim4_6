@@ -109,7 +109,7 @@ def run_multisine_simulation(
     ms_spline = osim.SimmSpline()
     for t in np.arange(0.0, delay, 0.02):
         ms_spline.addPoint(float(t), 0.0)
-    spline_dt = 0.001  # 1.0 kHz knot spacing (>125 knots/cycle at 7.927 Hz)
+    spline_dt = 0.0025  # 400 Hz cubic spline knot spacing (>50 knots/cycle at 7.927 Hz)
     for t in np.arange(delay, target_time + 0.02, spline_dt):
         dt_rel = t - delay
         if dt_rel < ramp_duration:
@@ -168,6 +168,8 @@ def run_multisine_simulation(
     model.equilibrateMuscles(state)
 
     manager = osim.Manager(model)
+    manager.setWriteToStorage(False)
+    manager.setPerformAnalyses(False)
     manager.setIntegratorMethod(5)  # SemiExplicitEuler2
     manager.setIntegratorAccuracy(1e-4)
     manager.setIntegratorMinimumStepSize(1e-4)
@@ -176,7 +178,7 @@ def run_multisine_simulation(
     state.setTime(0.0)
     manager.initialize(state)
 
-    step = 0.0025  # 400 Hz sampling (>50 samples/cycle at 7.927 Hz)
+    step = 0.005  # 200 Hz sampling (>25 samples/cycle at 7.927 Hz, 1,235 samples in steady-state window)
     current_time = 0.0
 
     coord_p1 = model.getCoordinateSet().get("pitch1")

@@ -182,6 +182,15 @@ public:
     OpenSim_DECLARE_OUTPUT(adapt_K_gamma_stat, double, getAdaptKgammaStat, SimTK::Stage::Velocity);
     double getAdaptKgammaStat(const SimTK::State& s) const;
 
+    OpenSim_DECLARE_OUTPUT(adapt_Kp_task_pitch, double, getAdaptKpTaskPitch, SimTK::Stage::Velocity);
+    double getAdaptKpTaskPitch(const SimTK::State& s) const;
+
+    OpenSim_DECLARE_OUTPUT(adapt_Kd_task_pitch, double, getAdaptKdTaskPitch, SimTK::Stage::Velocity);
+    double getAdaptKdTaskPitch(const SimTK::State& s) const;
+
+    OpenSim_DECLARE_OUTPUT(adapt_Ki_task_pitch, double, getAdaptKiTaskPitch, SimTK::Stage::Velocity);
+    double getAdaptKiTaskPitch(const SimTK::State& s) const;
+
     OpenSim_DECLARE_OUTPUT(adaptation_error_deg, double, getAdaptErrorDeg, SimTK::Stage::Velocity);
     double getAdaptErrorDeg(const SimTK::State& s) const;
 
@@ -251,6 +260,10 @@ private:
 
     mutable SimTK::Matrix moment_arm_jacobian_3dof;                // 3 x N (pitch, roll, yaw)
     mutable SimTK::Matrix moment_arm_jacobian_6dof;                // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
+    mutable SimTK::Matrix jacobian_6dof_q0;                        // 6 x N baseline moment arms at q0
+    mutable SimTK::Matrix jacobian_6dof_d1[6];                     // 6 x N 1st-order Taylor slopes dJ/dq_d
+    mutable SimTK::Matrix jacobian_6dof_d2[6];                     // 6 x N 2nd-order Taylor curvatures d2J/dq_d^2
+    mutable double q0_6dof[6] = {0.0};                             // Baseline 6-DOF coordinates [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
     mutable SimTK::Matrix proprioceptive_decoder_matrix;           // 3 x N reconstruction matrix: -(J * J^T)^{-1} * J
     mutable SimTK::Vec3 estimated_neck_relative_angle;             // Decoded relative neck angle [pitch, roll, yaw] (rad)
     mutable SimTK::Vec3 estimated_neck_relative_speed;             // Decoded relative neck speed [pitch, roll, yaw] (rad/s)
@@ -293,10 +306,11 @@ private:
     mutable const StateVariable* state_variable_phasic_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith_stage2[3] = {nullptr};
 
-    // --- CONTINUOUS ADAPTATION STATE VARIABLES (PATH 1 - 12 PARAMETERS) ---
+    // --- CONTINUOUS ADAPTATION STATE VARIABLES (PATH 1 - 15 PARAMETERS) ---
     // 0: K_ton, 1: p_ton, 2: K_sc, 3: z_sc, 4: p_sc, 5: K_phas, 6: p_phas,
-    // 7: kp_prop, 8: z_ccr, 9: p_ccr, 10: K_gamma_dyn, 11: K_gamma_stat
-    mutable const StateVariable* sv_adapt_theta[12] = {nullptr};
+    // 7: kp_prop, 8: z_ccr, 9: p_ccr, 10: K_gamma_dyn, 11: K_gamma_stat,
+    // 12: Kp_task_pitch, 13: Kd_task_pitch, 14: Ki_task_pitch
+    mutable const StateVariable* sv_adapt_theta[15] = {nullptr};
     mutable const StateVariable* sv_psif_x1[12] = {nullptr};
     mutable const StateVariable* sv_psif_x2[12] = {nullptr};
 

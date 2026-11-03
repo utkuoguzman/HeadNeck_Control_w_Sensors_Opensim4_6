@@ -88,7 +88,7 @@ def update_multisine_ledger(gen_records):
         "# Multisine CMA-ES Optimization Ledger (4-Generation Comparison vs. Single-Sine Phase 2.4)",
         "",
         "## 1. Multisine Excitation & Demodulation Configuration",
-        r"- **Excitation:** 6-Frequency Schroeder-Phase Multisine (`0.324, 0.783, 1.099, 2.446, 5.583, 7.927 Hz`, scale factor $0.35 / \sqrt{6} = 0.142887$, $1.0\,\text{kHz}$ `SimmSpline`).",
+        r"- **Excitation:** 6-Frequency Schroeder-Phase Multisine (`0.324, 0.783, 1.099, 2.446, 5.583, 7.927 Hz`, equal-RMS scale factor $1.0 / \sqrt{6} = 0.408248$, $400\,\text{Hz}$ `SimmSpline`).",
         r"- **Window:** $1.5\,\text{s}$ zero-excitation equilibrium check + $1.5\,\text{s}$ $C^2$ quintic ramp + $6.173\,\text{s}$ steady-state evaluation window ($2\times$ full cycles of $0.324\,\text{Hz}$, total $9.173\,\text{s}$ vs. $25.4\,\text{s}$ single-sine sum).",
         r"- **Demodulation:** Exact 14-column multi-harmonic linear least-squares (`1, t, sin(w_k t + phi_k), cos(w_k t + phi_k)`).",
         "",
@@ -118,8 +118,8 @@ def update_multisine_ledger(gen_records):
             "---",
             f"## Multisine Generation {g} — Champion `{w_best}` (Total Score: `{score:.2f} pts`, Duration: `{dur:.1f} min`)",
             f"- **Pass Rate:** `{n_pass} / 28` | **Mean Pass Score:** `{mean_pass:.2f}` | **Median Pass Score:** `{med_pass:.2f}`",
-            f"- **6-DOF Kinematics:** Pre-Perturbation Drift = `{tel['pre_perturbation_max_abs_pitch_deg']:.4f}°` | Post `pitch` = `[{tel['post_pitch_min_deg']:+.2f}°, {tel['post_pitch_max_deg']:+.2f}°]` | `pitch1` = `[{tel['p1_min_deg']:+.2f}°, {tel['p1_max_deg']:+.2f}°]` | `pitch2` = `[{tel['p2_min_deg']:+.2f}°, {tel['p2_max_deg']:+.2f}°]` | Max `|roll|` = `{tel['max_abs_roll_deg']:.3f}°` | Max `|yaw|` = `{tel['max_abs_yaw_deg']:.3f}°`",
-            f"- **CNS Observers:** Mahony Pitch RMSE = `{tel['mahony_Or_rmse_deg']:.3f}°` (`r = {tel['mahony_Or_corr']:+.4f}`) | Canal Luenberger RMSE = `{tel['canal_Luen_rmse_deg_s']:.2f} deg/s` (`r = {tel['canal_Luen_corr']:+.4f}`) | Max Spindle `dL` = `{tel['max_spindle_dL_mm']:.3f} mm`",
+            f"- **6-DOF Kinematics:** Pre-Perturbation Drift = `{tel['pre_pitch_drift_deg']:.4f}°` | Post `pitch` = `[{tel['post_pitch_min_deg']:+.2f}°, {tel['post_pitch_max_deg']:+.2f}°]` | `pitch1` = `[{tel['p1_min_deg']:+.2f}°, {tel['p1_max_deg']:+.2f}°]` | `pitch2` = `[{tel['p2_min_deg']:+.2f}°, {tel['p2_max_deg']:+.2f}°]` | Max `|roll|` = `{tel['max_abs_roll_deg']:.3f}°` | Max `|yaw|` = `{tel['max_abs_yaw_deg']:.3f}°`",
+            f"- **CNS Observers:** Mahony Pitch RMSE = `{tel['mahony_pitch_rmse_deg']:.3f}°` (`r = {tel['mahony_pitch_corr']:+.4f}`) | Canal Luenberger RMSE = `{tel['canal_luen_rmse_deg_s']:.2f} deg/s` (`r = {tel['canal_luen_corr']:+.4f}`) | Max Spindle `dL` = `{tel['spindle_dL_max_mm']:.3f} mm`",
             "",
             "| Freq (`Hz`) | Sim / Target Gain (`dB`) | Sim / Target Phase (`err`) | Gain Loss | Phase Loss | Freq Score |",
             "| :---: | :---: | :---: | :---: | :---: | :---: |",
@@ -145,8 +145,8 @@ def main():
     with open("data/prescreen_rational_champion.json", "r", encoding="utf-8") as f:
         seed_data = json.load(f)
 
-    x0 = np.array(seed_data["x0_15d"], dtype=float)
-    sigma0 = np.array(seed_data["sigma0_15d"], dtype=float)
+    x0 = np.array(seed_data["x0"], dtype=float)
+    sigma0 = np.array(seed_data["sigma0"], dtype=float)
 
     lower_bounds = [
         0.010,  5.000,  0.010,  0.001, 15.000,  0.200,

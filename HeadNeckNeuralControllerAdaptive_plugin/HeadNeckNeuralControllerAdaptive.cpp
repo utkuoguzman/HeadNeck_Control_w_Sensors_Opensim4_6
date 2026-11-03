@@ -2,6 +2,7 @@
 #include "RegisterTypes_osimHeadNeckNeuralAdaptive.h"
 #include <complex>
 #include <sstream>
+#include <fstream>
 #include <OpenSim/Simulation/Model/Muscle.h>
 #include <OpenSim/Simulation/Model/CoordinateSet.h>
 #include <OpenSim/Simulation/Model/ForceSet.h>
@@ -12,7 +13,7 @@ using namespace OpenSim;
 using namespace SimTK;
 
 
-static const char* const ADAPT_12_NAMES[12] = {
+static const char* const ADAPT_15_NAMES[15] = {
     "adapt_K_ton",
     "adapt_p_ton",
     "adapt_K_sc",
@@ -24,40 +25,61 @@ static const char* const ADAPT_12_NAMES[12] = {
     "adapt_z_ccr",
     "adapt_p_ccr",
     "adapt_K_gamma_dyn",
-    "adapt_K_gamma_stat"
+    "adapt_K_gamma_stat",
+    "adapt_Kp_task_pitch",
+    "adapt_Kd_task_pitch",
+    "adapt_Ki_task_pitch"
 };
 
-static void getBaselineBodeAnchor(double out_gain[6], double out_phase_deg[6]) {
-    // Default to measured OpenSim multisine response at Phase 2.4 Gen 3 Champion (W18_P24G3)
-    const double default_gain[6]      = {112.50, 168.40, 210.80, 515.20, 710.50, 412.00};
-    const double default_phase_deg[6] = {-105.0, -93.50, -108.0, -166.0, -276.0, -351.0};
-    for (int k = 0; k < 6; ++k) {
-        out_gain[k] = default_gain[k];
-        out_phase_deg[k] = default_phase_deg[k];
+static double g_cached_base_gain[6]      = {36.32, 144.09, 226.52, 425.36, 754.36, 366.71};
+static double g_cached_base_phase_deg[6] = {46.53, -77.11, -109.85, 173.60, 76.81, 27.67};
+
+static void reloadBaselineBodeAnchor() {
+    std::string line_g, line_p;
+    std::ifstream fin("logs/current_adaptive_bode_anchor.txt");
+    if (fin.is_open()) {
+        std::getline(fin, line_g);
+        std::getline(fin, line_p);
+        fin.close();
     }
-    const char* env_g = std::getenv("OSIM_BASE_GAINS");
-    if (env_g) {
-        std::stringstream ss(env_g);
+    if (line_g.empty()) {
+        const char* env_g = std::getenv("OSIM_BASE_GAINS");
+        if (!env_g) env_g = std::getenv("ADAPT_BASE_GAINS");
+        if (env_g) line_g = std::string(env_g);
+    }
+    if (line_p.empty()) {
+        const char* env_p = std::getenv("OSIM_BASE_PHASES");
+        if (!env_p) env_p = std::getenv("ADAPT_BASE_PHASES");
+        if (env_p) line_p = std::string(env_p);
+    }
+    if (!line_g.empty()) {
+        std::stringstream ss(line_g);
         std::string item;
         int idx = 0;
         while (std::getline(ss, item, ',') && idx < 6) {
-            try { out_gain[idx] = std::stod(item); } catch (...) {}
+            try { g_cached_base_gain[idx] = std::stod(item); } catch (...) {}
             idx++;
         }
     }
-    const char* env_p = std::getenv("OSIM_BASE_PHASES");
-    if (env_p) {
-        std::stringstream ss(env_p);
+    if (!line_p.empty()) {
+        std::stringstream ss(line_p);
         std::string item;
         int idx = 0;
         while (std::getline(ss, item, ',') && idx < 6) {
-            try { out_phase_deg[idx] = std::stod(item); } catch (...) {}
+            try { g_cached_base_phase_deg[idx] = std::stod(item); } catch (...) {}
             idx++;
         }
     }
 }
 
-static std::complex<double> evalRawClosedLoopBode(double freq_hz, const double th[12], double kp_task, double kd_task, double ki_task) {
+static void getBaselineBodeAnchor(double out_gain[6], double out_phase_deg[6]) {
+    for (int k = 0; k < 6; ++k) {
+        out_gain[k]      = g_cached_base_gain[k];
+        out_phase_deg[k] = g_cached_base_phase_deg[k];
+    }
+}
+
+static std::complex<double> evalRawClosedLoopBode(double freq_hz, const double th[15], const double th0[15]) {
     const double omega = 2.0 * SimTK::Pi * freq_hz;
     const std::complex<double> s(0.0, omega);
     const std::complex<double> s2(-omega * omega, 0.0);
@@ -65,57 +87,68 @@ static std::complex<double> evalRawClosedLoopBode(double freq_hz, const double t
     const std::complex<double> D_vcr = std::exp(-s * 0.010);
     const std::complex<double> D_ccr = std::exp(-s * 0.015);
     const std::complex<double> D_vol = std::exp(-s * 0.040);
-    const std::complex<double> H_act = 1.0 / ((1.0 + 0.012 * s) * (1.0 + 0.035 * s));
+    const std::complex<double> H_act = 1.0 / ((1.0 + 0.015 * s) * (1.0 + 0.040 * s) * (1.0 + 0.025 * s));
 
-    const double I_pivot = 0.0953;
-    const double B_pass  = 0.35;
-    const double K_pass  = 3.80;
-    const double omega_vol = 2.0 * SimTK::Pi * 2.0;
-    const std::complex<double> Z_vol = (kp_task + kd_task * s + (ki_task / s)) * (omega_vol / (s + omega_vol)) * D_vol * H_act;
-    const std::complex<double> D_mech = I_pivot * s2 + B_pass * s + K_pass + Z_vol;
-
-    const double K_ton = std::max(1e-4, th[0]);
-    const double p_ton = std::max(1.0,  th[1]);
-    const std::complex<double> Z_ton = K_ton * (p_ton / (s + p_ton)) * D_vcr * H_act;
-
-    const double K_sc = std::max(1e-4, th[2]);
-    const double z_sc = std::max(1e-3, th[3]);
-    const double p_sc = std::max(1.0,  th[4]);
-    const double norm_sc = 1.0 / std::sqrt(std::clamp(z_sc / p_sc, 1e-4, 100.0));
-    const std::complex<double> H_canal = 1.0 + 0.02442 * s;
-    const std::complex<double> Z_sc = 18.0 * K_sc * norm_sc * ((s + z_sc) / (s + p_sc)) * H_canal * s * D_vcr * H_act;
-
-    const double K_phas = std::max(1e-4, th[5]);
-    const double p_phas = std::max(0.5,  th[6]);
-    const double r_neck = 0.13;
-    const std::complex<double> H_phas = K_phas * (p_phas / (s + p_phas)) * D_vcr * H_act;
-    const std::complex<double> Z_phas_rot = -r_neck * s2 * H_phas;
-
+    const double K_ton   = std::max(1e-4, th[0]);
+    const double p_ton   = std::max(1.0,  th[1]);
+    const double K_sc    = std::max(1e-4, th[2]);
+    const double z_sc    = std::max(1e-3, th[3]);
+    const double p_sc    = std::max(1.0,  th[4]);
+    const double K_phas  = std::max(1e-4, th[5]);
+    const double p_phas  = std::max(0.5,  th[6]);
     const double kp_prop = std::max(1e-4, th[7]);
     const double z_ccr   = std::max(1e-3, th[8]);
     const double p_ccr   = std::max(1.0,  th[9]);
     const double k_gdyn  = std::max(0.01, th[10]);
     const double k_gstat = std::max(0.01, th[11]);
-    const double norm_ccr = 1.0 / std::sqrt(std::clamp(z_ccr / p_ccr, 1e-4, 100.0));
-    const std::complex<double> H_spindle = 9.5 * ((1.0 + 0.35 * k_gstat) + (0.055 + 0.045 * k_gdyn) * s);
-    const std::complex<double> Z_ccr = kp_prop * norm_ccr * ((s + z_ccr) / (s + p_ccr)) * H_spindle * D_ccr * H_act;
+    const double kp_task = std::max(0.0,  th[12]);
+    const double kd_task = std::max(0.0,  th[13]);
+    const double ki_task = std::max(0.1,  th[14]);
 
-    const std::complex<double> D_CL = D_mech + Z_ton + Z_sc + Z_phas_rot + Z_ccr;
+    const double I_pivot     = 0.0953;
+    const double B_pass_base = 0.95;
+    const double K_pass_base = 18.00;
+    const std::complex<double> s_post_norm = s / (2.0 * SimTK::Pi * 1.8);
+    const std::complex<double> H_post_lp = 1.0 / (1.0 + s_post_norm * s_post_norm + 1.4 * s_post_norm);
+    // Activation-dependent tonic co-contraction stiffness (rolls off above 1.8 Hz so D_CL enters 2nd-quadrant inertia regime at 5.583 Hz)
+    const double K_cocontr = 36.0 * kp_prop * k_gstat + 22.0 * K_ton + 1.65 * ki_task + 18.0 * kp_task;
+    const double B_cocontr = 3.2 * K_sc + 14.0 * kd_task;
+
+    const double omega_vol = 2.0 * SimTK::Pi * 2.0;
+    const std::complex<double> Z_vol = 12.0 * (kp_task + kd_task * s + (0.35 * ki_task / s)) * (omega_vol / (s + omega_vol)) * D_vol * H_act;
+    const std::complex<double> D_mech = I_pivot * s2 + (B_pass_base + B_cocontr) * s + K_pass_base + K_cocontr * H_post_lp + Z_vol;
+
+    const std::complex<double> Z_ton = 18.0 * K_ton * (p_ton / (s + p_ton)) * D_vcr * H_act;
+
+    // Exact live OpenSim center-frequency normalization sqrt(p_sc / z_sc)
+    const double norm_sc = std::sqrt(std::clamp(p_sc / z_sc, 0.01, 10000.0));
+    const std::complex<double> H_canal = 1.0 + 0.02442 * s;
+    const std::complex<double> Z_sc = 12.0 * K_sc * norm_sc * ((s + z_sc) / (s + p_sc)) * H_canal * s * D_vcr * H_act;
+
+    // Exact live OpenSim center-frequency normalization sqrt(p_ccr / z_ccr)
+    const double norm_ccr = std::sqrt(std::clamp(p_ccr / z_ccr, 0.01, 10000.0));
+    const std::complex<double> H_spindle = 9.5 * ((1.0 + 0.45 * k_gstat) + (0.045 + 0.065 * k_gdyn) * s);
+    const std::complex<double> Z_ccr = 4.2 * kp_prop * norm_ccr * ((s + z_ccr) / (s + p_ccr)) * H_spindle * D_ccr * H_act;
+
+    const std::complex<double> D_CL = D_mech + Z_ton + Z_sc + Z_ccr;
     const double m_head_r = 4.30 * 0.13;
-    const std::complex<double> N_CL = (-s2) * (m_head_r + 0.025 * H_phas) * (180.0 / SimTK::Pi);
+    // Magnitude-consistent phasic otolith numerator drive (ensures positive d|G|/dK_phas across all 6 freqs and selective high-freq sensitivity for p_phas)
+    const double H_phas_amp = K_phas * (p_phas / std::sqrt(omega * omega + p_phas * p_phas));
+    const std::complex<double> H_phas_mag = std::polar(H_phas_amp, -0.08 * omega / (omega + p_phas));
+    const std::complex<double> N_CL = (-s2) * (m_head_r + 0.16 * H_phas_mag) * (180.0 / SimTK::Pi);
 
     return N_CL / D_CL;
 }
 
-static std::complex<double> evalSpaceMappedBode(int k_idx, const double th[12], const double th0[12], double kp_task, double kd_task, double ki_task) {
+static std::complex<double> evalSpaceMappedBode(int k_idx, const double th[15], const double th0[15]) {
     const double freqs[6] = {0.324, 0.783, 1.099, 2.446, 5.583, 7.927};
     double osim_base_gain[6], osim_base_phase_deg[6];
     getBaselineBodeAnchor(osim_base_gain, osim_base_phase_deg);
 
     double ph_rad = osim_base_phase_deg[k_idx] * SimTK::Pi / 180.0;
     std::complex<double> G_osim_0 = std::polar(osim_base_gain[k_idx], ph_rad);
-    std::complex<double> G_raw_0  = evalRawClosedLoopBode(freqs[k_idx], th0, kp_task, kd_task, ki_task);
-    std::complex<double> G_raw_th = evalRawClosedLoopBode(freqs[k_idx], th,  kp_task, kd_task, ki_task);
+    std::complex<double> G_raw_0  = evalRawClosedLoopBode(freqs[k_idx], th0, th0);
+    std::complex<double> G_raw_th = evalRawClosedLoopBode(freqs[k_idx], th,  th0);
 
     return G_osim_0 * (G_raw_th / G_raw_0);
 }
@@ -144,6 +177,35 @@ static double computeReferencePitchDeg(double t, double multisine_scale) {
         y_ref_deg += A_k * targets_gain[k] * std::sin(2.0 * SimTK::Pi * f * t_rel + phase_rad);
     }
     return w * y_ref_deg;
+}
+
+static double computeReferencePitchVelDeg(double t, double multisine_scale) {
+    const double t_delay = 1.5;
+    const double t_ramp = 1.5;
+    if (t < t_delay) return 0.0;
+    double t_rel = t - t_delay;
+    double w = 1.0, dw_dt = 0.0;
+    if (t_rel < t_ramp) {
+        double tau = t_rel / t_ramp;
+        w = 10.0 * std::pow(tau, 3) - 15.0 * std::pow(tau, 4) + 6.0 * std::pow(tau, 5);
+        dw_dt = (30.0 * std::pow(tau, 2) - 60.0 * std::pow(tau, 3) + 30.0 * std::pow(tau, 4)) / t_ramp;
+    }
+    const double freqs[6] = {0.324, 0.783, 1.099, 2.446, 5.583, 7.927};
+    const double targets_gain[6] = {86.55, 236.93, 319.74, 423.34, 503.30, 572.69};
+    const double targets_phase_deg[6] = {-7.03, -96.96, -109.23, -161.34, -201.38, -247.62};
+
+    double y_ref_deg = 0.0, dy_ref_deg = 0.0;
+    for (int k = 0; k < 6; ++k) {
+        double f = freqs[k];
+        double omega = 2.0 * SimTK::Pi * f;
+        double phi_k = SimTK::Pi * k * (k - 1) / 6.0;
+        double base_amp = 0.0215 * std::pow(0.835 / f, 2);
+        double A_k = base_amp * multisine_scale;
+        double phase_rad = phi_k + targets_phase_deg[k] * SimTK::Pi / 180.0;
+        y_ref_deg  += A_k * targets_gain[k] * std::sin(omega * t_rel + phase_rad);
+        dy_ref_deg += A_k * targets_gain[k] * omega * std::cos(omega * t_rel + phase_rad);
+    }
+    return dw_dt * y_ref_deg + w * dy_ref_deg;
 }
 
 HeadNeckNeuralControllerAdaptive::HeadNeckNeuralControllerAdaptive() {
@@ -327,8 +389,10 @@ void HeadNeckNeuralControllerAdaptive::extendAddToSystem(SimTK::MultibodySystem&
         addStateVariable("sp_fdyn_" + muscle_name, SimTK::Stage::Velocity);
         addStateVariable("sp_fstat_" + muscle_name, SimTK::Stage::Velocity);
     }
+    for (int i = 0; i < 15; ++i) {
+        addStateVariable(ADAPT_15_NAMES[i], SimTK::Stage::Velocity);
+    }
     for (int i = 0; i < 12; ++i) {
-        addStateVariable(ADAPT_12_NAMES[i], SimTK::Stage::Velocity);
         addStateVariable("psif_x1_" + std::to_string(i), SimTK::Stage::Velocity);
         addStateVariable("psif_x2_" + std::to_string(i), SimTK::Stage::Velocity);
     }
@@ -437,6 +501,15 @@ double HeadNeckNeuralControllerAdaptive::getAdaptKgammaDyn(const SimTK::State& s
 double HeadNeckNeuralControllerAdaptive::getAdaptKgammaStat(const SimTK::State& s) const {
     return sv_adapt_theta[11] ? sv_adapt_theta[11]->getValue(s) : getStateVariableValue(s, "adapt_K_gamma_stat");
 }
+double HeadNeckNeuralControllerAdaptive::getAdaptKpTaskPitch(const SimTK::State& s) const {
+    return sv_adapt_theta[12] ? sv_adapt_theta[12]->getValue(s) : getStateVariableValue(s, "adapt_Kp_task_pitch");
+}
+double HeadNeckNeuralControllerAdaptive::getAdaptKdTaskPitch(const SimTK::State& s) const {
+    return sv_adapt_theta[13] ? sv_adapt_theta[13]->getValue(s) : getStateVariableValue(s, "adapt_Kd_task_pitch");
+}
+double HeadNeckNeuralControllerAdaptive::getAdaptKiTaskPitch(const SimTK::State& s) const {
+    return sv_adapt_theta[14] ? sv_adapt_theta[14]->getValue(s) : getStateVariableValue(s, "adapt_Ki_task_pitch");
+}
 double HeadNeckNeuralControllerAdaptive::getActualPitchDeg(const SimTK::State& s) const {
     double p1 = cached_coordinate_pitch1 ? cached_coordinate_pitch1->getValue(s) : 0.0;
     double p2 = cached_coordinate_pitch2 ? cached_coordinate_pitch2->getValue(s) : 0.0;
@@ -537,7 +610,11 @@ void HeadNeckNeuralControllerAdaptive::extendInitStateFromProperties(SimTK::Stat
     setStateVariableValue(state, "adapt_p_ccr", get_p_ccr());
     setStateVariableValue(state, "adapt_K_gamma_dyn", get_K_gamma_dyn());
     setStateVariableValue(state, "adapt_K_gamma_stat", get_K_gamma_stat());
+    setStateVariableValue(state, "adapt_Kp_task_pitch", (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : 1.5);
+    setStateVariableValue(state, "adapt_Kd_task_pitch", (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : 0.15);
+    setStateVariableValue(state, "adapt_Ki_task_pitch", (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task());
 
+    reloadBaselineBodeAnchor();
     double osim_base_gain[6], osim_base_phase_deg[6];
     getBaselineBodeAnchor(osim_base_gain, osim_base_phase_deg);
     for (int k = 0; k < 6; ++k) {
@@ -617,8 +694,10 @@ void HeadNeckNeuralControllerAdaptive::initializeGeometryAndBaseline(const SimTK
     state_variable_phasic_otolith_stage2[0] = traverseToStateVariable("phas2_state_pitch");
     state_variable_phasic_otolith_stage2[1] = traverseToStateVariable("phas2_state_roll");
     state_variable_phasic_otolith_stage2[2] = traverseToStateVariable("phas2_state_yaw");
+    for (int i = 0; i < 15; ++i) {
+        sv_adapt_theta[i] = traverseToStateVariable(ADAPT_15_NAMES[i]);
+    }
     for (int i = 0; i < 12; ++i) {
-        sv_adapt_theta[i] = traverseToStateVariable(ADAPT_12_NAMES[i]);
         sv_psif_x1[i] = traverseToStateVariable("psif_x1_" + std::to_string(i));
         sv_psif_x2[i] = traverseToStateVariable("psif_x2_" + std::to_string(i));
     }
@@ -878,6 +957,60 @@ void HeadNeckNeuralControllerAdaptive::initializeGeometryAndBaseline(const SimTK
         moment_arm_jacobian_6dof(5, active_index) = moment_arm_yaw2;
     }
 
+    // Precompute C^infty Smooth 6-DOF Quadratic Taylor Moment-Arm Polynomial J(q) around q0 (eliminates 50 ms staircase)
+    jacobian_6dof_q0 = moment_arm_jacobian_6dof;
+    const Coordinate* coords_6dof[6] = {
+        cached_coordinate_pitch1, cached_coordinate_pitch2,
+        cached_coordinate_roll1,  cached_coordinate_roll2,
+        cached_coordinate_yaw1,   cached_coordinate_yaw2
+    };
+    for (int d = 0; d < 6; ++d) {
+        q0_6dof[d] = coords_6dof[d] ? coords_6dof[d]->getValue(state) : 0.0;
+        jacobian_6dof_d1[d].resize(6, number_of_active_muscles);
+        jacobian_6dof_d1[d].setToZero();
+        jacobian_6dof_d2[d].resize(6, number_of_active_muscles);
+        jacobian_6dof_d2[d].setToZero();
+    }
+    try {
+        SimTK::State work_state = state;
+        const double dq_step = 0.05; // ~2.86 deg central finite difference step
+        for (int d = 0; d < 6; ++d) {
+            if (!coords_6dof[d]) continue;
+            Coordinate* mut_coord_d = const_cast<Coordinate*>(coords_6dof[d]);
+
+            mut_coord_d->setValue(work_state, q0_6dof[d] + dq_step, true);
+            model.realizePosition(work_state);
+            SimTK::Matrix J_plus(6, number_of_active_muscles);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                const Muscle& mus = muscles.get(active_muscle_indices[m]);
+                for (int c = 0; c < 6; ++c) {
+                    J_plus(c, m) = coords_6dof[c] ? mus.computeMomentArm(work_state, *const_cast<Coordinate*>(coords_6dof[c])) : 0.0;
+                }
+            }
+
+            mut_coord_d->setValue(work_state, q0_6dof[d] - dq_step, true);
+            model.realizePosition(work_state);
+            SimTK::Matrix J_minus(6, number_of_active_muscles);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                const Muscle& mus = muscles.get(active_muscle_indices[m]);
+                for (int c = 0; c < 6; ++c) {
+                    J_minus(c, m) = coords_6dof[c] ? mus.computeMomentArm(work_state, *const_cast<Coordinate*>(coords_6dof[c])) : 0.0;
+                }
+            }
+
+            mut_coord_d->setValue(work_state, q0_6dof[d], true);
+            for (int m = 0; m < number_of_active_muscles; ++m) {
+                for (int c = 0; c < 6; ++c) {
+                    jacobian_6dof_d1[d](c, m) = (J_plus(c, m) - J_minus(c, m)) / (2.0 * dq_step);
+                    jacobian_6dof_d2[d](c, m) = (J_plus(c, m) - 2.0 * jacobian_6dof_q0(c, m) + J_minus(c, m)) / (dq_step * dq_step);
+                }
+            }
+        }
+        model.realizePosition(state);
+    } catch (...) {
+        // Fallback to constant J0 if work_state perturbation fails
+    }
+
     updateDecoderMatrix();
     history.clear();
     is_initialized = true;
@@ -888,23 +1021,24 @@ void HeadNeckNeuralControllerAdaptive::updateDecoderMatrix() const {
     int number_of_active_muscles = active_muscle_indices.size();
     if (number_of_active_muscles == 0) return;
 
-    // Full 6-DOF cervical spine Jacobian inversion: gram_matrix_6dof = J6 * J6^T (6 x 6)
-    // Eliminates cross-talk from inter-vertebral buckling (pitch1 vs pitch2, roll1 vs roll2, yaw1 vs yaw2)
-    SimTK::Matrix gram_matrix_6dof(6, 6);
-    gram_matrix_6dof.setToZero();
+    // Full 6-DOF cervical spine Jacobian inversion on stack (zero heap allocations): gram_matrix_6dof = J6 * J6^T (6 x 6)
+    SimTK::Mat<6, 6> gram_matrix_6dof(0.0);
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         for (int row = 0; row < 6; ++row) {
+            const double j_row = moment_arm_jacobian_6dof(row, muscle_index);
             for (int column = 0; column < 6; ++column) {
-                gram_matrix_6dof(row, column) += moment_arm_jacobian_6dof(row, muscle_index) * moment_arm_jacobian_6dof(column, muscle_index);
+                gram_matrix_6dof(row, column) += j_row * moment_arm_jacobian_6dof(column, muscle_index);
             }
         }
     }
     for (int row = 0; row < 6; ++row) gram_matrix_6dof(row, row) += 1e-8;
 
-    SimTK::Matrix gram_matrix_6dof_inverse = gram_matrix_6dof.invert();
+    SimTK::Mat<6, 6> gram_matrix_6dof_inverse = gram_matrix_6dof.invert();
 
     // K6 = -(J6 * J6^T)^{-1} * J6 (6 x number_of_active_muscles), then sum (pitch1+pitch2, roll1+roll2, yaw1+yaw2) into 3 x number_of_active_muscles
-    proprioceptive_decoder_matrix.resize(3, number_of_active_muscles);
+    if (proprioceptive_decoder_matrix.nrow() != 3 || proprioceptive_decoder_matrix.ncol() != number_of_active_muscles) {
+        proprioceptive_decoder_matrix.resize(3, number_of_active_muscles);
+    }
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         double decoder_column_6dof[6] = {0.0};
         for (int row = 0; row < 6; ++row) {
@@ -1508,7 +1642,9 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
             : mahony_estimated_angular_velocity[2];
 
     // PID Integrator derivatives (using 20ms-delayed Mahony-fused spatial orientation consistently)
-    double ki_pitch = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
+    double ki_pitch = (sv_adapt_theta[14] && get_enable_adaptation())
+        ? sv_adapt_theta[14]->getValue(state)
+        : ((get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task());
     double pitch_integral_limit = std::max(0.6, 25.0 / std::max(0.05, ki_pitch));
     double pitch_position_error = trajectory_position_pitch - delayed_mahony_pitch;
     double pitch_error_integral = state_variable_error_integral[0]->getValue(state);
@@ -1533,8 +1669,12 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
     double head_inertia_yaw   = 0.05;
 
     double vigor_pitch = 1.0 + get_k_vigor() * std::abs(trajectory_velocity_pitch);
-    double kp_pitch = (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : std::sqrt(get_Wp_base_pitch() * vigor_pitch);
-    double kd_pitch = (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch);
+    double kp_pitch = (sv_adapt_theta[12] && get_enable_adaptation())
+        ? sv_adapt_theta[12]->getValue(state)
+        : ((get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : std::sqrt(get_Wp_base_pitch() * vigor_pitch));
+    double kd_pitch = (sv_adapt_theta[13] && get_enable_adaptation())
+        ? sv_adapt_theta[13]->getValue(state)
+        : ((get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : std::sqrt(get_Wv_base_pitch() * vigor_pitch + 2.0 * kp_pitch));
     double ki_roll  = (get_Ki_task_roll()  >= 0.0) ? get_Ki_task_roll()  : 0.0;
     double ki_yaw   = (get_Ki_task_yaw()   >= 0.0) ? get_Ki_task_yaw()   : 0.0;
 
@@ -1725,6 +1865,9 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
     double spinal_execution_delay          = std::max(0.0, get_delay_vcr() - vestibular_afferent_delay); // 8 ms shared spinal/ventral-root delay at Subsystem 7 output
     double unified_descending_delay        = std::max(0.0, descending_voluntary_delay - spinal_execution_delay); // 12 ms single descending delay from M1 to Brainstem & Spinal QP
     double efference_forward_prediction_dt = get_use_smith_predictor() ? std::max(0.0, unified_descending_delay - vestibular_afferent_delay) : 0.0; // 10 ms forward prediction to t - 2ms
+    double vcr_ton_in_pitch = 0.0, vcr_ton_st_pitch = 0.0;
+    double vcr_sc_in_pitch  = 0.0, vcr_sc_st_pitch  = 0.0;
+    double vcr_phas_in_pitch = 0.0, vcr_phas_st_pitch = 0.0;
     DelayedData delayed_corticobulbar_voluntary_data = getDelayedData(state.getTime(), unified_descending_delay);
     {
         double descending_traj_pos_pitch = (!history.empty() && delayed_corticobulbar_voluntary_data.record.valid) ? delayed_corticobulbar_voluntary_data.record.trajectory_position[0] : trajectory_position_pitch;
@@ -1798,7 +1941,14 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
         static const double vest_scc_thresh  = std::getenv("VEST_SCC_THRESH")  ? std::stod(std::getenv("VEST_SCC_THRESH"))  : 0.005;
         static const double vest_oto_thresh  = std::getenv("VEST_OTO_THRESH")  ? std::stod(std::getenv("VEST_OTO_THRESH"))  : 0.020;
         auto deadzone = [](double v, double th) {
-            return (th <= 0.0) ? v : ((std::abs(v) <= th) ? 0.0 : ((v > 0.0) ? (v - th) : (v + th)));
+            if (th <= 0.0) return v;
+            double av = std::abs(v);
+            if (av <= 0.75 * th) return 0.0;
+            if (av < 1.25 * th) {
+                double u = av - 0.75 * th;
+                return (v >= 0.0 ? 1.0 : -1.0) * (u * u) / th;
+            }
+            return (v > 0.0) ? (v - th) : (v + th);
         };
         tonic_otolith_input_pitch = deadzone(tonic_otolith_input_pitch, vest_tilt_thresh);
         tonic_otolith_input_roll  = deadzone(tonic_otolith_input_roll,  vest_tilt_thresh);
@@ -1820,6 +1970,13 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
         double phasic_otolith_state_pitch = state_variable_phasic_otolith[0]->getValue(state);
         double phasic_otolith_state_roll  = state_variable_phasic_otolith[1]->getValue(state);
         double phasic_otolith_state_yaw   = state_variable_phasic_otolith[2]->getValue(state);
+
+        vcr_ton_in_pitch  = tonic_otolith_input_pitch;
+        vcr_ton_st_pitch  = tonic_otolith_state_pitch;
+        vcr_sc_in_pitch   = semicircular_canal_input_pitch;
+        vcr_sc_st_pitch   = semicircular_canal_state_pitch;
+        vcr_phas_in_pitch = phasic_otolith_input_pitch;
+        vcr_phas_st_pitch = phasic_otolith_state_pitch;
 
         double eff_p_ton  = (sv_adapt_theta[1] && get_enable_adaptation()) ? sv_adapt_theta[1]->getValue(state) : get_p_ton();
         double eff_p_sc   = (sv_adapt_theta[4] && get_enable_adaptation()) ? sv_adapt_theta[4]->getValue(state) : get_p_sc();
@@ -1843,11 +2000,17 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
     double p_ccr = (sv_adapt_theta[9] && get_enable_adaptation()) ? sv_adapt_theta[9]->getValue(state) : get_p_ccr();
     DelayedData delayed_proprioceptive_ccr_data = getDelayedData(state.getTime(), get_delay_afferent_proprio(), true);
     const HistoryRecord& cervico_collic_record = delayed_proprioceptive_ccr_data.record;
+    double ccr_u_pitch = 0.0, ccr_x_pitch = 0.0;
     if (cervico_collic_record.primary_afferent_firing_rate.size() == active_muscle_indices.size() && active_muscle_indices.size() > 0) {
         for (size_t muscle_index = 0; muscle_index < active_muscle_indices.size(); ++muscle_index) {
             double cervico_collic_state = state_variable_cervico_collic[muscle_index]->getValue(state);
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
             state_variable_cervico_collic[muscle_index]->setDerivative(state, -p_ccr * cervico_collic_state + delayed_primary_afferent_rate);
+            if (moment_arm_jacobian_3dof.ncol() > static_cast<int>(muscle_index)) {
+                double r_pitch_m = moment_arm_jacobian_3dof(0, static_cast<int>(muscle_index)) * cached_maximum_isometric_forces[muscle_index];
+                ccr_u_pitch += r_pitch_m * delayed_primary_afferent_rate;
+                ccr_x_pitch += r_pitch_m * cervico_collic_state;
+            }
         }
     } else {
         for (size_t muscle_index = 0; muscle_index < active_muscle_indices.size(); ++muscle_index) {
@@ -1855,16 +2018,20 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
         }
     }
 
-    // --- CONTINUOUS 12-PARAMETER LYAPUNOV HARMONIC OBSERVER & SPACE-MAPPED BODE ADAPTIVE CONTROL ---
+    // --- CONTINUOUS 15-PARAMETER REAL-PLANT ADAPTIVE CONTROL (OPTION 1: 6-FREQ REAL-PLANT BODE vs OPTION 2: TIME-DOMAIN MRAC) ---
     double t_now = state.getTime();
     double p1_val = cached_coordinate_pitch1 ? cached_coordinate_pitch1->getValue(state) : 0.0;
     double p2_val = cached_coordinate_pitch2 ? cached_coordinate_pitch2->getValue(state) : 0.0;
     double head_pitch_rad = p1_val + p2_val;
     double head_pitch_deg = head_pitch_rad * 180.0 / SimTK::Pi;
+    double head_pitch_vel_rad = speed_pitch1 + speed_pitch2;
     double ref_pitch_deg = computeReferencePitchDeg(t_now, get_multisine_scale());
     double ref_pitch_rad = ref_pitch_deg * SimTK::Pi / 180.0;
+    double ref_pitch_vel_deg = computeReferencePitchVelDeg(t_now, get_multisine_scale());
+    double ref_pitch_vel_rad = ref_pitch_vel_deg * SimTK::Pi / 180.0;
 
     double err_pos_rad = head_pitch_rad - ref_pitch_rad;
+    double err_vel_rad = head_pitch_vel_rad - ref_pitch_vel_rad;
     last_error_deg = err_pos_rad * 180.0 / SimTK::Pi;
     last_ref_pitch_deg = ref_pitch_deg;
     last_actual_pitch_deg = head_pitch_deg;
@@ -1909,7 +2076,7 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
             double c1 = sv_psif_x2[k]->getValue(state);
             double c2 = sv_psif_x2[k + 6]->getValue(state);
 
-            double A_eff = std::max(A_arr[k], 0.0005);
+            double A_eff = std::max(A_arr[k], 5e-5);
             double dS_innov = 2.0 * e_resid_deg * std::sin(psi_arr[k]) / A_eff;
             double dC_innov = 2.0 * e_resid_deg * std::cos(psi_arr[k]) / A_eff;
 
@@ -1926,14 +2093,18 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
         if (mult < 0.01) mult = 0.01;
 
         double taper = 1.0;
-        if (t_now >= 18.0) {
+        if (t_now >= 14.0) {
             taper = 0.0;
-        } else if (t_now > 13.0) {
-            double u_tap = (t_now - 13.0) / 5.0;
+        } else if (t_now > 10.5) {
+            double u_tap = (t_now - 10.5) / 3.5;
             taper = 0.5 * (1.0 + std::cos(SimTK::Pi * u_tap));
         }
 
-        const double theta_0[12] = {
+        const double kp_task_0 = (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : 1.5;
+        const double kd_task_0 = (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : 0.15;
+        const double ki_task_0 = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
+
+        const double theta_0[15] = {
             get_K_ton(),
             get_p_ton(),
             get_K_sc(),
@@ -1945,11 +2116,14 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
             get_z_ccr(),
             get_p_ccr(),
             get_K_gamma_dyn(),
-            get_K_gamma_stat()
+            get_K_gamma_stat(),
+            kp_task_0,
+            kd_task_0,
+            ki_task_0
         };
 
         // Scale-invariant physical bounds relative to initial seed (with absolute floors/ceilings)
-        const double theta_min[12] = {
+        const double theta_min[15] = {
             std::max(0.01, 0.15 * theta_0[0]),
             5.0,
             std::max(0.01, 0.15 * theta_0[2]),
@@ -1961,10 +2135,13 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
             0.5,
             20.0,
             std::max(0.05, 0.20 * theta_0[10]),
-            std::max(0.05, 0.20 * theta_0[11])
+            std::max(0.05, 0.20 * theta_0[11]),
+            std::max(0.05, 0.20 * theta_0[12]),
+            std::max(0.02, 0.20 * theta_0[13]),
+            std::max(1.00, 0.20 * theta_0[14])
         };
 
-        const double theta_max[12] = {
+        const double theta_max[15] = {
             std::max(3.00,  4.0 * theta_0[0]),
             180.0,
             std::max(1.50,  4.0 * theta_0[2]),
@@ -1976,93 +2153,178 @@ void HeadNeckNeuralControllerAdaptive::computeStateVariableDerivatives(const Sim
             100.0,
             300.0,
             std::max(1.80,  2.5 * theta_0[10]),
-            std::max(1.80,  2.5 * theta_0[11])
+            std::max(1.80,  2.5 * theta_0[11]),
+            std::max(15.0,  3.0 * theta_0[12]),
+            std::max(5.0,   3.0 * theta_0[13]),
+            std::max(65.0,  2.5 * theta_0[14])
         };
 
-        double th_curr[12];
-        for (int i = 0; i < 12; ++i) {
+        double th_curr[15];
+        for (int i = 0; i < 15; ++i) {
             th_curr[i] = sv_adapt_theta[i] ? sv_adapt_theta[i]->getValue(state) : theta_0[i];
         }
 
-        double kp_task_eff = (get_Kp_task_pitch() >= 0.0) ? get_Kp_task_pitch() : 1.5;
-        double kd_task_eff = (get_Kd_task_pitch() >= 0.0) ? get_Kd_task_pitch() : 0.15;
-        double ki_task_eff = (get_Ki_task_pitch() >= 0.0) ? get_Ki_task_pitch() : get_Ki_task();
+        const char* env_mrac_mode = std::getenv("ADAPT_MRAC_MODE");
+        const bool use_timedomain_mrac = (env_mrac_mode && (std::string(env_mrac_mode) == "2" || std::string(env_mrac_mode) == "TIMEDOMAIN"));
 
-        double err_gain_norm[6]  = {0.0};
-        double err_phase_norm[6] = {0.0};
+        const double gamma_hbac = 0.032 * mult * taper;
+        const double w_param_rate[15] = {
+            1.6, // 0: adapt_K_ton
+            0.8, // 1: adapt_p_ton
+            1.5, // 2: adapt_K_sc
+            1.2, // 3: adapt_z_sc
+            0.8, // 4: adapt_p_sc
+            1.4, // 5: adapt_K_phas
+            1.2, // 6: adapt_p_phas
+            1.3, // 7: adapt_kp_prop
+            0.8, // 8: adapt_z_ccr
+            1.0, // 9: adapt_p_ccr
+            0.8, // 10: adapt_K_gamma_dyn
+            1.5, // 11: adapt_K_gamma_stat
+            1.8, // 12: adapt_Kp_task_pitch
+            1.5, // 13: adapt_Kd_task_pitch
+            1.8  // 14: adapt_Ki_task_pitch
+        };
 
-        for (int k = 0; k < 6; ++k) {
-            double S_hat = sv_psif_x1[k + 6]->getValue(state);
-            double C_hat = sv_psif_x2[k + 6]->getValue(state);
-            double sim_gain_demod  = std::sqrt(S_hat * S_hat + C_hat * C_hat);
-            double sim_phase_demod = std::atan2(C_hat, S_hat) * 180.0 / SimTK::Pi;
-
-            std::complex<double> G_sm = evalSpaceMappedBode(k, th_curr, theta_0, kp_task_eff, kd_task_eff, ki_task_eff);
-            double sm_gain  = std::abs(G_sm);
-            double sm_phase = std::arg(G_sm) * 180.0 / SimTK::Pi;
-
-            const double w_demod[6] = {0.55, 0.50, 0.50, 0.35, 0.15, 0.10};
-            double alpha_k = w_demod[k];
-
-            double eff_gain = (sim_gain_demod > 5.0)
-                              ? std::pow(sim_gain_demod, alpha_k) * std::pow(std::max(5.0, sm_gain), 1.0 - alpha_k)
-                              : std::max(5.0, sm_gain);
-
-            double d_demod_tgt = std::remainder(sim_phase_demod - targets_phase_deg[k], 360.0);
-            double d_sm_tgt    = std::remainder(sm_phase        - targets_phase_deg[k], 360.0);
-            double phase_diff_deg = alpha_k * d_demod_tgt + (1.0 - alpha_k) * d_sm_tgt;
-
-            double gain_db_diff = 20.0 * std::log10(std::max(1e-3, eff_gain) / targets_gain[k]);
-            err_gain_norm[k]  = gain_db_diff / 1.0;
-            err_phase_norm[k] = phase_diff_deg / 10.0;
-        }
-
-        const double gamma_hbac = 0.035 * mult * taper;
-
-        for (int i = 0; i < 12; ++i) {
-            if (!sv_adapt_theta[i]) continue;
-            double th_i = th_curr[i];
-            double d_th = std::max(1e-5, 1e-4 * std::abs(theta_0[i]));
-
-            double th_plus[12], th_minus[12];
-            for (int j = 0; j < 12; ++j) {
-                th_plus[j]  = th_curr[j];
-                th_minus[j] = th_curr[j];
-            }
-            th_plus[i]  += d_th;
-            th_minus[i] -= d_th;
-
-            double grad_i  = 0.0;
-            double hess_ii = 0.0;
+        if (!use_timedomain_mrac) {
+            // =========================================================================
+            // OPTION 1: 100% REAL-PLANT DEMODULATED 6-FREQUENCY BODE ADAPTATION
+            // Error is 100% measured from the live OpenSim plant (sim_gain_demod, sim_phase_demod).
+            // Equal frequency weights (1.0) and exact Happee Bode objective scaling (1 dB : 10 deg).
+            // =========================================================================
+            double err_gain_norm[6]  = {0.0};
+            double err_phase_norm[6] = {0.0};
+            const double w_freq_prio[6] = {1.00, 1.00, 1.00, 1.00, 1.00, 1.00};
 
             for (int k = 0; k < 6; ++k) {
-                std::complex<double> G_p = evalSpaceMappedBode(k, th_plus,  theta_0, kp_task_eff, kd_task_eff, ki_task_eff);
-                std::complex<double> G_m = evalSpaceMappedBode(k, th_minus, theta_0, kp_task_eff, kd_task_eff, ki_task_eff);
+                double S_hat = sv_psif_x1[k + 6]->getValue(state);
+                double C_hat = sv_psif_x2[k + 6]->getValue(state);
+                double sim_gain_demod  = std::sqrt(S_hat * S_hat + C_hat * C_hat);
+                double sim_phase_demod = std::atan2(C_hat, S_hat) * 180.0 / SimTK::Pi;
 
-                std::complex<double> d_lnG = std::log(G_p / G_m) / (2.0 * d_th);
-                double s_gain_k  = theta_0[i] * (20.0 / std::log(10.0)) * d_lnG.real() / 1.0;
-                double s_phase_k = theta_0[i] * (180.0 / SimTK::Pi)     * d_lnG.imag() / 10.0;
+                double eff_gain = std::max(5.0, sim_gain_demod);
+                double phase_diff_deg = std::remainder(sim_phase_demod - targets_phase_deg[k], 360.0);
 
-                grad_i  += s_gain_k * err_gain_norm[k] + s_phase_k * err_phase_norm[k];
-                hess_ii += s_gain_k * s_gain_k + s_phase_k * s_phase_k;
+                double gain_db_diff = 20.0 * std::log10(std::max(1e-3, eff_gain) / targets_gain[k]);
+                err_gain_norm[k]  = w_freq_prio[k] * (gain_db_diff / 1.00);
+                err_phase_norm[k] = w_freq_prio[k] * (phase_diff_deg / 10.0);
             }
 
-            double norm_step = grad_i / (std::sqrt(hess_ii) + 0.35);
-            norm_step = std::clamp(norm_step, -1.5, 1.5);
+            for (int i = 0; i < 15; ++i) {
+                if (!sv_adapt_theta[i]) continue;
+                double th_i = th_curr[i];
+                double d_th = std::max(1e-5, 1e-4 * std::abs(theta_0[i]));
 
-            double dth = -gamma_hbac * theta_0[i] * norm_step - taper * get_sigma_leakage() * (th_i - theta_0[i]);
+                double th_plus[15], th_minus[15];
+                for (int j = 0; j < 15; ++j) {
+                    th_plus[j]  = th_curr[j];
+                    th_minus[j] = th_curr[j];
+                }
+                th_plus[i]  += d_th;
+                th_minus[i] -= d_th;
 
-            if (th_i < theta_min[i]) {
-                double viol = (theta_min[i] - th_i) / std::max(1e-3, theta_0[i]);
-                dth += 1000.0 * theta_0[i] * viol * viol * viol;
-            } else if (th_i > theta_max[i]) {
-                double viol = (th_i - theta_max[i]) / std::max(1e-3, theta_0[i]);
-                dth -= 1000.0 * theta_0[i] * viol * viol * viol;
+                double grad_i  = 0.0;
+                double hess_ii = 0.0;
+
+                for (int k = 0; k < 6; ++k) {
+                    std::complex<double> G_p = evalRawClosedLoopBode(freqs[k], th_plus,  theta_0);
+                    std::complex<double> G_m = evalRawClosedLoopBode(freqs[k], th_minus, theta_0);
+
+                    std::complex<double> d_lnG = std::log(G_p / G_m) / (2.0 * d_th);
+                    double s_gain_k  = theta_0[i] * (20.0 / std::log(10.0)) * d_lnG.real() / 1.00;
+                    double s_phase_k = theta_0[i] * (180.0 / SimTK::Pi)     * d_lnG.imag() / 10.0;
+
+                    grad_i  += s_gain_k * err_gain_norm[k] + s_phase_k * err_phase_norm[k];
+                    hess_ii += s_gain_k * s_gain_k + s_phase_k * s_phase_k;
+                }
+
+                double norm_step = grad_i / (std::sqrt(hess_ii) + 0.35);
+                norm_step = std::clamp(norm_step, -1.5, 1.5);
+
+                double dth = -gamma_hbac * w_param_rate[i] * theta_0[i] * norm_step - taper * get_sigma_leakage() * (th_i - theta_0[i]);
+
+                if (th_i < theta_min[i]) {
+                    double viol = (theta_min[i] - th_i) / std::max(1e-3, theta_0[i]);
+                    dth += 1000.0 * theta_0[i] * viol * viol * viol;
+                } else if (th_i > theta_max[i]) {
+                    double viol = (th_i - theta_max[i]) / std::max(1e-3, theta_0[i]);
+                    dth -= 1000.0 * theta_0[i] * viol * viol * viol;
+                }
+                sv_adapt_theta[i]->setDerivative(state, dth);
             }
-            sv_adapt_theta[i]->setDerivative(state, dth);
+        } else {
+            // =========================================================================
+            // OPTION 2: 100% PURE TIME-DOMAIN REAL-PLANT TRACKING REGRESSOR MRAC LAW
+            // Zero Bode model, zero Fourier demodulator, zero surrogate.
+            // Driven strictly by live real-plant composite tracking error e_s(t) and
+            // live time-domain sensitivity regressors phi_i(t) = d(tau_pitch)/d(theta_i).
+            // =========================================================================
+            const double lambda_vel = 0.08; // Slotine & Li SPR composite error time constant (s)
+            const double e_s = (err_pos_rad + lambda_vel * err_vel_rad) / 0.05; // normalized by ~2.86 deg
+
+            const double K_ton_c   = std::max(1e-4, th_curr[0]);
+            const double p_ton_c   = std::max(1.0,  th_curr[1]);
+            const double K_sc_c    = std::max(1e-4, th_curr[2]);
+            const double z_sc_c    = std::max(1e-3, th_curr[3]);
+            const double p_sc_c    = std::max(1.0,  th_curr[4]);
+            const double K_phas_c  = std::max(1e-4, th_curr[5]);
+            const double p_phas_c  = std::max(0.5,  th_curr[6]);
+            const double kp_prop_c = std::max(1e-4, th_curr[7]);
+            const double z_ccr_c   = std::max(1e-3, th_curr[8]);
+            const double p_ccr_c   = std::max(1.0,  th_curr[9]);
+
+            const double sc_norm  = std::sqrt(std::clamp(p_sc_c / z_sc_c, 0.01, 10000.0));
+            const double ccr_norm = std::sqrt(std::clamp(p_ccr_c / z_ccr_c, 0.01, 10000.0));
+
+            double phi_raw[15] = {0.0};
+            // 0..1: Tonic Otolith Reflex tau_ton = -K_ton * p_ton * x_ton
+            phi_raw[0] = -p_ton_c * vcr_ton_st_pitch;
+            phi_raw[1] = -K_ton_c * (vcr_ton_in_pitch - p_ton_c * vcr_ton_st_pitch) / p_ton_c;
+
+            // 2..4: Semicircular Canal Reflex tau_sc = -K_sc * sqrt(p_sc/z_sc) * (u_sc + (z_sc - p_sc)*x_sc)
+            phi_raw[2] = -sc_norm * (vcr_sc_in_pitch + (z_sc_c - p_sc_c) * vcr_sc_st_pitch);
+            phi_raw[3] = -K_sc_c * sc_norm * (-vcr_sc_in_pitch / (2.0 * z_sc_c) + ((z_sc_c + p_sc_c) / (2.0 * z_sc_c)) * vcr_sc_st_pitch);
+            phi_raw[4] = -K_sc_c * sc_norm * ( vcr_sc_in_pitch / (2.0 * p_sc_c) + ((z_sc_c - 3.0 * p_sc_c) / (2.0 * p_sc_c)) * vcr_sc_st_pitch);
+
+            // 5..6: Phasic Otolith Reflex tau_phas = -K_phas * p_phas * x_phas
+            phi_raw[5] = -p_phas_c * vcr_phas_st_pitch;
+            phi_raw[6] = -K_phas_c * (vcr_phas_in_pitch - p_phas_c * vcr_phas_st_pitch) / p_phas_c;
+
+            // 7..9: Spinal CCR Reflex tau_ccr = kp_prop * sqrt(p_ccr/z_ccr) * (U_ccr + (z_ccr - p_ccr)*X_ccr)
+            phi_raw[7] = ccr_norm * (ccr_u_pitch + (z_ccr_c - p_ccr_c) * ccr_x_pitch);
+            phi_raw[8] = kp_prop_c * ccr_norm * (-ccr_u_pitch / (2.0 * z_ccr_c) + ((z_ccr_c + p_ccr_c) / (2.0 * z_ccr_c)) * ccr_x_pitch);
+            phi_raw[9] = kp_prop_c * ccr_norm * ( ccr_u_pitch / (2.0 * p_ccr_c) + ((z_ccr_c - 3.0 * p_ccr_c) / (2.0 * p_ccr_c)) * ccr_x_pitch);
+
+            // 10..11: Fusimotor Spindle Sensitivity (dynamic velocity & static position)
+            phi_raw[10] = -kp_prop_c * estimated_neck_relative_speed[0];
+            phi_raw[11] = -kp_prop_c * estimated_neck_relative_angle[0];
+
+            // 12..14: Voluntary Task-Space PID
+            phi_raw[12] = (trajectory_position_pitch - delayed_mahony_pitch);
+            phi_raw[13] = (trajectory_velocity_pitch - delayed_mahony_pitch_speed);
+            phi_raw[14] = pitch_error_integral;
+
+            for (int i = 0; i < 15; ++i) {
+                if (!sv_adapt_theta[i]) continue;
+                double th_i = th_curr[i];
+                double phi_scaled = theta_0[i] * phi_raw[i];
+                double norm_reg = phi_scaled / (0.25 + std::abs(phi_scaled));
+                double norm_step = std::clamp(e_s * norm_reg, -1.5, 1.5);
+
+                double dth = -gamma_hbac * w_param_rate[i] * theta_0[i] * norm_step - taper * get_sigma_leakage() * (th_i - theta_0[i]);
+
+                if (th_i < theta_min[i]) {
+                    double viol = (theta_min[i] - th_i) / std::max(1e-3, theta_0[i]);
+                    dth += 1000.0 * theta_0[i] * viol * viol * viol;
+                } else if (th_i > theta_max[i]) {
+                    double viol = (th_i - theta_max[i]) / std::max(1e-3, theta_0[i]);
+                    dth -= 1000.0 * theta_0[i] * viol * viol * viol;
+                }
+                sv_adapt_theta[i]->setDerivative(state, dth);
+            }
         }
     } else {
-        for (int i = 0; i < 12; ++i) {
+        for (int i = 0; i < 15; ++i) {
             if (sv_adapt_theta[i]) sv_adapt_theta[i]->setDerivative(state, 0.0);
         }
     }
@@ -2097,26 +2359,27 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
     const auto& muscles = model.getMuscles();
     int number_of_active_muscles = active_muscle_indices.size();
 
-    // 1. Update Jacobian slowly
-    if (state.getTime() - last_jacobian_update_time > 0.05) {
+    // 1. Evaluate C^infty Smooth 6-DOF Quadratic Taylor Moment-Arm Jacobian continuously at every substep (zero staircases)
+    if (jacobian_6dof_q0.nrow() == 6 && jacobian_6dof_q0.ncol() == number_of_active_muscles) {
+        const double dq[6] = {
+            (cached_coordinate_pitch1 ? cached_coordinate_pitch1->getValue(state) : 0.0) - q0_6dof[0],
+            (cached_coordinate_pitch2 ? cached_coordinate_pitch2->getValue(state) : 0.0) - q0_6dof[1],
+            (cached_coordinate_roll1  ? cached_coordinate_roll1->getValue(state)  : 0.0) - q0_6dof[2],
+            (cached_coordinate_roll2  ? cached_coordinate_roll2->getValue(state)  : 0.0) - q0_6dof[3],
+            (cached_coordinate_yaw1   ? cached_coordinate_yaw1->getValue(state)   : 0.0) - q0_6dof[4],
+            (cached_coordinate_yaw2   ? cached_coordinate_yaw2->getValue(state)   : 0.0) - q0_6dof[5]
+        };
         for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
-            const Muscle& muscle = muscles.get(active_muscle_indices[muscle_index]);
-            double moment_arm_pitch1 = cached_coordinate_pitch1 ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_pitch1)) : 0.0;
-            double moment_arm_pitch2 = cached_coordinate_pitch2 ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_pitch2)) : 0.0;
-            double moment_arm_roll1  = cached_coordinate_roll1  ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_roll1))  : 0.0;
-            double moment_arm_roll2  = cached_coordinate_roll2  ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_roll2))  : 0.0;
-            double moment_arm_yaw1   = cached_coordinate_yaw1   ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_yaw1))   : 0.0;
-            double moment_arm_yaw2   = cached_coordinate_yaw2   ? muscle.computeMomentArm(state, *const_cast<Coordinate*>(cached_coordinate_yaw2))   : 0.0;
-
-            moment_arm_jacobian_3dof(0, muscle_index) = (moment_arm_pitch1 + moment_arm_pitch2) / 2.0;
-            moment_arm_jacobian_3dof(1, muscle_index) = (moment_arm_roll1  + moment_arm_roll2)  / 2.0;
-            moment_arm_jacobian_3dof(2, muscle_index) = (moment_arm_yaw1   + moment_arm_yaw2)   / 2.0;
-            moment_arm_jacobian_6dof(0, muscle_index) = moment_arm_pitch1;
-            moment_arm_jacobian_6dof(1, muscle_index) = moment_arm_pitch2;
-            moment_arm_jacobian_6dof(2, muscle_index) = moment_arm_roll1;
-            moment_arm_jacobian_6dof(3, muscle_index) = moment_arm_roll2;
-            moment_arm_jacobian_6dof(4, muscle_index) = moment_arm_yaw1;
-            moment_arm_jacobian_6dof(5, muscle_index) = moment_arm_yaw2;
+            for (int c = 0; c < 6; ++c) {
+                double val = jacobian_6dof_q0(c, muscle_index);
+                for (int d = 0; d < 6; ++d) {
+                    val += (jacobian_6dof_d1[d](c, muscle_index) + 0.5 * jacobian_6dof_d2[d](c, muscle_index) * dq[d]) * dq[d];
+                }
+                moment_arm_jacobian_6dof(c, muscle_index) = val;
+            }
+            moment_arm_jacobian_3dof(0, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(0, muscle_index) + moment_arm_jacobian_6dof(1, muscle_index));
+            moment_arm_jacobian_3dof(1, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(2, muscle_index) + moment_arm_jacobian_6dof(3, muscle_index));
+            moment_arm_jacobian_3dof(2, muscle_index) = 0.5 * (moment_arm_jacobian_6dof(4, muscle_index) + moment_arm_jacobian_6dof(5, muscle_index));
         }
         updateDecoderMatrix();
         last_jacobian_update_time = state.getTime();
@@ -2321,7 +2584,18 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
                 ? cached_primary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_primary_afferent_rates[muscle_index];
         static const double spindle_ccr_threshold = std::getenv("SPINDLE_CCR_THRESH") ? std::stod(std::getenv("SPINDLE_CCR_THRESH")) : 0.5;
-        double primary_afferent_above_baseline = std::max(0.0, (primary_afferent_value - baseline_primary_afferent_rates[muscle_index]) - spindle_ccr_threshold);
+        double delta_ia = primary_afferent_value - baseline_primary_afferent_rates[muscle_index];
+        double primary_afferent_above_baseline = 0.0;
+        if (spindle_ccr_threshold <= 0.0) {
+            primary_afferent_above_baseline = std::max(0.0, delta_ia);
+        } else if (delta_ia > 0.75 * spindle_ccr_threshold) {
+            if (delta_ia < 1.25 * spindle_ccr_threshold) {
+                double u = delta_ia - 0.75 * spindle_ccr_threshold;
+                primary_afferent_above_baseline = (u * u) / spindle_ccr_threshold;
+            } else {
+                primary_afferent_above_baseline = delta_ia - spindle_ccr_threshold;
+            }
+        }
         current_history_record.primary_afferent_firing_rate[muscle_index] = std::clamp(primary_afferent_above_baseline, 0.0, 500.0);
     }
 
@@ -2426,7 +2700,14 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
         static const double vest_scc_thresh  = std::getenv("VEST_SCC_THRESH")  ? std::stod(std::getenv("VEST_SCC_THRESH"))  : 0.005;
         static const double vest_oto_thresh  = std::getenv("VEST_OTO_THRESH")  ? std::stod(std::getenv("VEST_OTO_THRESH"))  : 0.020;
         auto deadzone = [](double v, double th) {
-            return (th <= 0.0) ? v : ((std::abs(v) <= th) ? 0.0 : ((v > 0.0) ? (v - th) : (v + th)));
+            if (th <= 0.0) return v;
+            double av = std::abs(v);
+            if (av <= 0.75 * th) return 0.0;
+            if (av < 1.25 * th) {
+                double u = av - 0.75 * th;
+                return (v >= 0.0 ? 1.0 : -1.0) * (u * u) / th;
+            }
+            return (v > 0.0) ? (v - th) : (v + th);
         };
         tonic_otolith_input_pitch = deadzone(tonic_otolith_input_pitch, vest_tilt_thresh);
         tonic_otolith_input_roll  = deadzone(tonic_otolith_input_roll,  vest_tilt_thresh);
@@ -2469,9 +2750,9 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
         double semicircular_canal_output_pitch =
             eff_K_sc * (semicircular_canal_direct_feedthrough * semicircular_canal_input_pitch + semicircular_canal_state_gain * semicircular_canal_state_pitch);
         double semicircular_canal_output_roll =
-            eff_K_sc * (semicircular_canal_direct_feedthrough * semicircular_canal_input_roll  + semicircular_canal_state_gain * semicircular_canal_state_roll);
+            1.4 * eff_K_sc * (semicircular_canal_direct_feedthrough * semicircular_canal_input_roll  + semicircular_canal_state_gain * semicircular_canal_state_roll);
         double semicircular_canal_output_yaw =
-            eff_K_sc * (semicircular_canal_direct_feedthrough * semicircular_canal_input_yaw   + semicircular_canal_state_gain * semicircular_canal_state_yaw);
+            1.4 * eff_K_sc * (semicircular_canal_direct_feedthrough * semicircular_canal_input_yaw   + semicircular_canal_state_gain * semicircular_canal_state_yaw);
 
         double phasic_otolith_output_pitch = eff_K_phas * phasic_otolith_pole * phasic_otolith_state_pitch;
         double phasic_otolith_output_roll  = eff_K_phas * phasic_otolith_pole * phasic_otolith_state_roll;
@@ -2500,7 +2781,15 @@ void HeadNeckNeuralControllerAdaptive::computeControls(const SimTK::State& state
             double filtered_primary_afferent_rate =
                 cervico_collic_direct_feedthrough * delayed_primary_afferent_rate +
                 cervico_collic_state_gain * cervico_collic_state;
-            double rectified_primary_afferent_rate = std::max(0.0, filtered_primary_afferent_rate);
+            const double ccr_rect_knee = 0.02;
+            double rectified_primary_afferent_rate = 0.0;
+            if (filtered_primary_afferent_rate > 0.0) {
+                if (filtered_primary_afferent_rate < 2.0 * ccr_rect_knee) {
+                    rectified_primary_afferent_rate = (filtered_primary_afferent_rate * filtered_primary_afferent_rate) / (4.0 * ccr_rect_knee);
+                } else {
+                    rectified_primary_afferent_rate = filtered_primary_afferent_rate - ccr_rect_knee;
+                }
+            }
             spinal_ccr_drive[muscle_index] = proprioceptive_gain * (rectified_primary_afferent_rate / 100.0);
         }
     }
