@@ -1,3 +1,9 @@
+import os, sys
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_UTIL_PATH = os.path.join(_REPO_ROOT, 'util')
+for _p in (_UTIL_PATH, _REPO_ROOT):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 """
 surrogacy/validate_in_opensim.py
 Step 3 of the Upgraded 15-Parameter, 6-DOF, 72-Muscle MIMO Differentiable Neuromotor Surrogate Pipeline.

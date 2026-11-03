@@ -1,3 +1,9 @@
+import os, sys
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+_UTIL_PATH = os.path.join(_REPO_ROOT, 'util')
+for _p in (_UTIL_PATH, _REPO_ROOT):
+    if _p not in sys.path:
+        sys.path.insert(0, _p)
 """
 surrogacy/measure_passive_plant.py
 Step 1b of the Upgraded 6-DOF, 72-Muscle MIMO Differentiable Neuromotor Surrogate.
