@@ -171,6 +171,13 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
         raise Exception("HeadNeckNeuralController not found!")
 
     # Pass the Phase 2.4 optimizer parameters (reflex gains, zeros, poles, phasic lead zero z_phas, and pitch task PID)
+    # Literature-fixed poles & 2nd-order delay compensator zeros (tau_5 = 2.5 ms MVST, tau_6 = 4.0 ms Propriospinal)
+    p_ton  = 15.0
+    z_sc   = 0.0025
+    p_sc   = 50.0
+    p_phas = 20.0
+    z_ccr  = 0.0040
+    p_ccr  = 100.0
     osim.PropertyHelper.setValueDouble(K_ton, controller.updPropertyByName("K_ton"))
     osim.PropertyHelper.setValueDouble(p_ton, controller.updPropertyByName("p_ton"))
     osim.PropertyHelper.setValueDouble(K_sc, controller.updPropertyByName("K_sc"))
@@ -182,6 +189,12 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     osim.PropertyHelper.setValueDouble(p_phas2, controller.updPropertyByName("p_phas2"))
 
     osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("k_p"))
+
+    # Literature-fixed Mahony SE_2(3) Observer relative weights (K_oto = 0.20 rad/s, K_prop = 2.50 rad/s)
+    osim.PropertyHelper.setValueDouble(0.20, controller.updPropertyByName("Kp_otolith_attitude"))
+    osim.PropertyHelper.setValueDouble(2.50, controller.updPropertyByName("K_proprioceptive_attitude_pitch"))
+    osim.PropertyHelper.setValueDouble(2.50, controller.updPropertyByName("K_proprioceptive_attitude_roll"))
+    osim.PropertyHelper.setValueDouble(2.50, controller.updPropertyByName("K_proprioceptive_attitude_yaw"))
 
     # Direct task space PID parameters (Pitch optimized by CMA-ES; Roll/Yaw fixed at analytical values)
     kp_task_pitch = float(os.environ.get("KP_TASK_PITCH", str(kp)))
@@ -229,7 +242,7 @@ def run_simulation(kp, ki, kd, K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas, k
     c_yaw1.setDefaultIsPrescribed(False)
 
     # Lock extraocular coordinates during neck perturbation evaluation
-    for eye_c in ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]:
+    for eye_c in ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd", "l_eye_sup_inf", "l_eye_inc_exc"]:
         if model.getCoordinateSet().contains(eye_c):
             c = model.updCoordinateSet().get(eye_c)
             c.setDefaultValue(0.0)

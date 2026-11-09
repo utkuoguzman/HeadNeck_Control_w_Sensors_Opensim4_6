@@ -44,6 +44,24 @@ def build_multisine_spline(targets, duration=20.1728, delay=1.5, ramp=1.5, dt_sp
     scale_factor = 1.0 / math.sqrt(K)
     amps = base_amps * scale_factor
 
+    spline = osim.SimmSpline()
+    for t in np.arange(0.0, delay, 0.02):
+        spline.addPoint(float(t), 0.0)
+    ramp_mode = os.environ.get("MULTISINE_RAMP_MODE", "A").upper()
+    if ramp_mode == "B":
+        for t in np.arange(delay, duration + 0.02, dt_spline):
+            t_rel = t - delay
+            if t_rel < ramp:
+                tau = t_rel / ramp
+                w = 10.0 * (tau**3) - 15.0 * (tau**4) + 6.0 * (tau**5)
+            else:
+                w = 1.0
+            y = 0.0
+            for k in range(K):
+                y += amps[k] * math.sin(2.0 * math.pi * freqs[k] * t_rel + phases[k])
+            spline.addPoint(float(t), float(w * y))
+        return spline, freqs, amps, phases, scale_factor
+
     # Solution A: Window in Acceleration Space (a_T1(t) = w(tau)*y''(t) + dv_match*phi_v(tau))
     # Eliminates the Leibniz product-rule acceleration parasite on 0.324 Hz while guaranteeing
     # exact C^2 continuity and zero velocity drift for t >= delay + ramp.
@@ -73,9 +91,6 @@ def build_multisine_spline(targets, duration=20.1728, delay=1.5, ramp=1.5, dt_sp
     x_fine[1:] = np.cumsum(0.5 * (dx_fine[:-1] + dx_fine[1:]) * dt_fine)
     x_offset = float(x_fine[-1] - y_fine[-1])
 
-    spline = osim.SimmSpline()
-    for t in np.arange(0.0, delay, 0.02):
-        spline.addPoint(float(t), 0.0)
     N_ramp_knots = int(round(ramp / dt_spline))
     for i_k in range(N_ramp_knots):
         t = delay + i_k * dt_spline
@@ -279,7 +294,7 @@ def main():
     c_yaw1.set_locked(False)
     c_yaw1.setDefaultIsPrescribed(False)
 
-    for eye_c in ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]:
+    for eye_c in ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd", "l_eye_sup_inf", "l_eye_inc_exc"]:
         if model.getCoordinateSet().contains(eye_c):
             c = model.updCoordinateSet().get(eye_c)
             c.setDefaultValue(0.0)

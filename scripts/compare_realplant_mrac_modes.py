@@ -98,7 +98,7 @@ def run_single_mode_from_global_best(mode_id, st_num, adapt_mult, sigma_leak):
 
     worker_tag = f"MRAC_OPT{mode_id}_S{st_num}_GLOBAL_FROZEN"
     cmd = [
-        sys.executable, "cmaes_worker_multisine.py",
+        sys.executable, os.path.join("util", "cmaes_worker_multisine.py"),
         "22.0", "0.707", "40.2786",
         *[str(v) for v in cma_args],
         worker_tag
