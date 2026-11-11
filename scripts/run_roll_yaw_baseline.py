@@ -65,25 +65,25 @@ def load_aligned_data():
 def get_latec_amplitudes(freqs):
     """
     LatEC (Lateral T1 translation -> Head Roll [deg/m]):
-    In Happee et al. (2023) Fig. 5, the time-domain lateral seat velocity trace Y_dot(t)
-    has a peak envelope of ~ +/- 0.025 m/s (2.5 cm/s) and induces head roll velocity
-    within +/- 10 deg/s.
+    In Happee et al. (2023) Fig. 5, the 2-second time-domain panels show:
+      - Lateral seat velocity Y_dot(t) peaking at +/- 0.02 m/s (2.0 cm/s)
+      - Head roll angular velocity phi_dot(t) peaking at +/- 10 deg/s
     Using our constant-velocity multisine law A(f_k) = (A_0 / sqrt(K)) * (f_ref / f_k)^1.0
-    with A_0 = 0.012 m at f_ref = 0.835 Hz (or v_0 = 2*pi*f_ref*A_0 / sqrt(8) = 0.0222 m/s per harmonic):
-      A(f_k) = (0.012 / sqrt(8)) * (0.835 / f_k) = 0.0035426 / f_k [m]
-    Peak velocity per component = 2 * pi * 0.0035426 = 0.02226 m/s (total multisine peak ~ 0.035 m/s, RMS ~ 0.022 m/s),
-    inducing peak roll rate ~ 10 deg/s, matching Happee Fig. 5!
+    calibrated so the 8-frequency sum matches Fig. 5's +/- 0.02 m/s seat velocity and +/- 10 deg/s roll rate:
+      A(f_k) = (0.0055 / sqrt(8)) * (0.835 / f_k) = 0.0016237 / f_k [m]
+    Peak harmonic velocity per component = 2 * pi * 0.0016237 = 0.01020 m/s (1.02 cm/s),
+    giving total multisine peak seat velocity ~ 0.022 m/s and peak target roll velocity ~ 10.5 deg/s!
     """
     K = len(freqs)
     scale = 1.0 / math.sqrt(K)
-    return np.array([0.012 * (0.835 / f) * scale for f in freqs])
+    return np.array([0.0055 * (0.835 / f) * scale for f in freqs])
 
 def get_yawma_amplitudes_deg(freqs):
     """
     YawMA (Axial T1 yaw rotation -> Head Global Yaw [deg/deg]):
     In Stensdotter et al. (2016) / Keshner & Peterson (1995) / Happee (2023) Fig. 9,
     rotational platform sum-of-sines scales as 1/f (constant angular velocity per harmonic)
-    with total RMS trunk yaw ~ 1.5 - 2.0 deg (peak ~ +/- 3.5 deg):
+    with total RMS trunk yaw ~ 1.5 - 2.0 deg (peak ~ +/- 3.5 deg) and peak yaw rate ~ +/- 15 deg/s:
       A_deg(f_k) = (3.0 / sqrt(9)) * (0.50 / f_k) = 0.50 / f_k [deg]
     At f_1 = 0.2016 Hz, A_1 = 2.48 deg; at f_9 = 4.0528 Hz, A_9 = 0.123 deg.
     Each harmonic has constant peak angular velocity = 2 * pi * 0.50 = 3.14 deg/s.
@@ -109,7 +109,7 @@ def generate_plausibility_plots(df_lat, df_yaw):
     fig.patch.set_facecolor('#ffffff')
 
     f_cont = np.geomspace(0.10, 4.5, 300)
-    a_cont_cm = (0.012 * (0.835 / f_cont) / math.sqrt(len(f_lat))) * 100.0
+    a_cont_cm = (0.0055 * (0.835 / f_cont) / math.sqrt(len(f_lat))) * 100.0
     v_cont_cms = 2.0 * np.pi * f_cont * a_cont_cm
 
     ax1 = axes[0, 0]
@@ -653,29 +653,36 @@ def render_baseline_4panel(sim_data, out_filename):
     gs = fig.add_gridspec(4, 1, height_ratios=[1.1, 1.1, 0.85, 1.15], hspace=0.32)
 
     # Subplot 1: Angle vs Time
+    pert_vel = np.gradient(sim_data["pert"], t)
     ax1 = fig.add_subplot(gs[0])
-    ax1.plot(t, ref_trace, 'k--', lw=1.6, label=f'Target Happee (2023) Reference {axis_name}')
-    ax1.plot(t, main_angle, color=color_main, lw=2.0, label=f'Zero-Shot Pitch-Trained Model {axis_name} [Mean = {mean_ang_ss:+.2f}°]')
+    ax1.plot(t, ref_trace, 'k--', lw=1.6, label=f'Target Happee (2023) Reference {axis_name} [Max = {np.max(np.abs(ref_trace[mask_ss])):.2f}°]')
+    ax1.plot(t, main_angle, color=color_main, lw=2.0, label=f'Zero-Shot Pitch-Trained Model {axis_name} [Mean = {mean_ang_ss:+.2f}°, Max = {np.max(np.abs(main_angle[mask_ss])):.2f}°]')
+    if mode == "YawMA":
+        ax1.plot(t, sim_data["pert"], color='#64748b', ls=':', lw=1.2, alpha=0.8, label=f'Applied Trunk Yaw Input gndyaw(t) [Max = {np.max(np.abs(sim_data["pert"][mask_ss])):.2f}°]')
     ax1.axvline(1.5, color='#64748b', ls=':', lw=1.3, label='Perturbation Ramp Start (t = 1.5s)')
     ax1.axvline(3.0, color='#dc2626', ls='--', lw=1.4, label='Steady-State Window (t >= 3.0s)')
     ax1.set_xlim(0, t[-1])
     ax1.set_ylabel(f'{axis_name} [deg]', fontweight='bold', fontsize=11)
     ax1.set_title(f'1. {axis_name} Angle vs. Time — Zero-Shot Baseline ({mode}, Duration: {t[-1]:.2f}s)', fontweight='bold', fontsize=12)
     ax1.grid(True, alpha=0.3)
-    ax1.legend(loc='upper right', fontsize=9)
+    ax1.legend(loc='upper right', fontsize=8.8)
 
     # Subplot 2: Angular Velocity vs Time
     ax2 = fig.add_subplot(gs[1])
+    if mode == "LatEC":
+        ax2.axhspan(-10, 10, color='#f1f5f9', alpha=0.9, label=r'Happee Fig. 5 Roll Rate Envelope ($\pm 10^\circ$/s; Seat $\dot{Y}$ Peak = ' + f'{np.max(np.abs(pert_vel[mask_ss])):.3f} m/s vs 0.020 m/s in Fig. 5)')
+    else:
+        ax2.axhspan(-15, 15, color='#f1f5f9', alpha=0.9, label=r'Target Yaw Rate Envelope ($\pm 15^\circ$/s; Trunk $\dot{\psi}_{\mathrm{T1}}$ Peak = ' + f'{np.max(np.abs(pert_vel[mask_ss])):.1f}°/s)')
     ax2.axhline(0, color='#94a3b8', lw=0.8)
-    ax2.plot(t, ref_vel, 'k--', lw=1.5, alpha=0.85, label=f'Target Happee Reference Velocity [RMS = {ref_rms_v:.2f}°/s]')
-    ax2.plot(t, main_vel, color=color_main, lw=1.8, label=f'Zero-Shot Model Velocity [RMS = {rms_vel_ss:.2f}°/s, corr r = {corr_vel_ss:+.3f}]')
+    ax2.plot(t, ref_vel, 'k--', lw=1.5, alpha=0.85, label=f'Target Happee Reference Velocity [RMS = {ref_rms_v:.2f}°/s, Peak = {np.max(np.abs(ref_vel[mask_ss])):.1f}°/s]')
+    ax2.plot(t, main_vel, color=color_main, lw=1.8, label=f'Zero-Shot Model Velocity [RMS = {rms_vel_ss:.2f}°/s, Peak = {np.max(np.abs(main_vel[mask_ss])):.1f}°/s, corr r = {corr_vel_ss:+.3f}]')
     ax2.axvline(1.5, color='#64748b', ls=':', lw=1.3)
     ax2.axvline(3.0, color='#dc2626', ls='--', lw=1.4)
     ax2.set_xlim(0, t[-1])
     ax2.set_ylabel(f'{axis_name} Vel [°/s]', fontweight='bold', fontsize=11)
     ax2.set_title(f'2. {axis_name} Angular Velocity vs. Time ({mode})', fontweight='bold', fontsize=12)
     ax2.grid(True, alpha=0.3)
-    ax2.legend(loc='upper right', fontsize=9)
+    ax2.legend(loc='upper right', fontsize=8.5)
 
     # Subplot 3: Cross-Axis Stability
     ax3 = fig.add_subplot(gs[2])
