@@ -2789,10 +2789,19 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             const double v_phas = state_variable_phasic_otolith_vel[axis_idx]->getValue(state);
             const double a_phas = (p_phas * p_fast) * (u_phas - x_phas) - (p_phas + p_fast) * v_phas;
 
-            // Exact output, 1st derivative, and 2nd derivative of Subsystem 2(B) VCR (no internal muscle zeros):
-            const double y_vcr     = -(k_ton * x_ton + k_sc * x_sc + k_phas * x_phas);
-            const double ydot_vcr  = -(k_ton * v_ton + k_sc * v_sc + k_phas * v_phas);
-            const double yddot_vcr = -(k_ton * a_ton + k_sc * a_sc + k_phas * a_phas);
+            // Strictly-proper state-space TF zeros (1 + tau_z * s) on 2nd-order VCR filters (zero direct feedthrough, pitch axis):
+            const double z_sc_lead   = (axis_idx == 0) ? std::clamp(get_z_sc(), 0.0, 0.150) : 0.0;
+            static const double env_z_phas = std::getenv("Z_PHAS_TAU") ? std::stod(std::getenv("Z_PHAS_TAU")) : -1.0;
+            const double z_phas_lead = (axis_idx == 0)
+                ? std::clamp((env_z_phas >= 0.0) ? env_z_phas : (2.40 * z_sc_lead), 0.0, 0.150)
+                : 0.0;
+
+            const double x_sc_eff   = x_sc   + z_sc_lead   * v_sc;
+            const double x_phas_eff = x_phas + z_phas_lead * v_phas;
+
+            const double y_vcr     = -(k_ton * x_ton + k_sc * x_sc_eff + k_phas * x_phas_eff);
+            const double ydot_vcr  = -(k_ton * v_ton + k_sc * v_sc     + k_phas * v_phas);
+            const double yddot_vcr = -(k_ton * a_ton + k_sc * a_sc     + k_phas * a_phas);
 
             // Branch Sub2B->Sub5 (2.5 ms MVST -> Sub 5) Sender-Side Delay Compensator: 1 + tau_5*s + 0.5*tau_5^2*s^2
             current_brainstem_vcr_torque[axis_idx] =
@@ -2828,8 +2837,16 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             double delayed_primary_afferent_rate = cervico_collic_record.primary_afferent_firing_rate[muscle_index];
             double a_ccr = (p_ccr * p_fast_ccr) * (delayed_primary_afferent_rate - x_ccr) - (p_ccr + p_fast_ccr) * v_ccr;
 
-            // H_ccr(s) output and derivatives (no internal delay compensators inside H_ccr):
-            double y_ccr     = x_ccr;
+            // H_ccr(s) output with strictly-proper 1st-order pitch CCR TF zero (1 + z_ccr * s):
+            double eta_pitch_z = 0.0;
+            if (moment_arm_jacobian_3dof.ncol() > muscle_index) {
+                double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+                double r_r = moment_arm_jacobian_3dof(1, muscle_index);
+                double r_y = moment_arm_jacobian_3dof(2, muscle_index);
+                eta_pitch_z = (r_p * r_p) / (r_p * r_p + r_r * r_r + r_y * r_y + 1e-8);
+            }
+            const double z_ccr_lead = eta_pitch_z * std::clamp(get_z_ccr(), 0.0, 0.150);
+            double y_ccr     = x_ccr + z_ccr_lead * v_ccr;
             double ydot_ccr  = v_ccr;
             double yddot_ccr = a_ccr;
 
@@ -2848,11 +2865,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             double w_ccr_m = 1.0;
             if (ccr_balance_mode == 1 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
                 double r_p = moment_arm_jacobian_3dof(0, muscle_index);
-                double r_r = moment_arm_jacobian_3dof(1, muscle_index);
-                double r_y = moment_arm_jacobian_3dof(2, muscle_index);
-                double eta_pitch = (r_p * r_p) / (r_p * r_p + r_r * r_r + r_y * r_y + 1e-8);
                 double w_target = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
-                w_ccr_m = 1.0 + eta_pitch * (w_target - 1.0);
+                w_ccr_m = 1.0 + eta_pitch_z * (w_target - 1.0);
             } else if (ccr_balance_mode == 2 && moment_arm_jacobian_3dof.ncol() > muscle_index) {
                 double r_p = moment_arm_jacobian_3dof(0, muscle_index);
                 w_ccr_m = (r_p > 1e-6) ? w_ccr_ext : ((r_p < -1e-6) ? w_ccr_flex : 1.0);
@@ -2862,7 +2876,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             const double u_ccr_dot  = scale_ccr * rect_slope * ydot_ccr;
             const double u_ccr_ddot = scale_ccr * rect_slope * yddot_ccr;
 
-            // Single Branch 1B->5 (tau_6 = 4.0 ms Propriospinal -> Sub 5 Voluntary-Gated Recip. Inhibition) Delay Compensator after Half-Wave Rectifier:
+            // Single Branch 1B->5 (tau_6 = 4.0 ms Propriospinal -> Sub 5 Voluntary-Gated Recip. Inhibition) Delay Compensator:
             current_history_record.spinal_ccr_drive[muscle_index] =
                 u_ccr + tau_6_prop_ccr_delay * u_ccr_dot + (0.5 * tau_6_prop_ccr_delay * tau_6_prop_ccr_delay) * u_ccr_ddot;
             current_history_record.spinal_ccr_drive_dot[muscle_index]  = u_ccr_dot + tau_6_prop_ccr_delay * u_ccr_ddot;

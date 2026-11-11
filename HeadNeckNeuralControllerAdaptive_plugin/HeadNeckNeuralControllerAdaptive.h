@@ -83,7 +83,7 @@ public:
     OpenSim_DECLARE_PROPERTY(enable_adaptation, bool, "If true, continuously adapts all 12 CMA-ES parameters via Simbody state variables (default: true)");
     OpenSim_DECLARE_PROPERTY(adaptation_rate_multiplier, double, "Global multiplier for all continuous adaptation rates (default: 1.0)");
     OpenSim_DECLARE_PROPERTY(sigma_leakage, double, "Continuous sigma-leakage coefficient toward nominal gains (default: 0.02)");
-    OpenSim_DECLARE_PROPERTY(adaptation_start_time, double, "Simulation time in seconds before adaptation activates (default: 2.5)");
+    OpenSim_DECLARE_PROPERTY(adaptation_start_time, double, "Simulation time in seconds before adaptation activates (default: 1.8)");
     OpenSim_DECLARE_PROPERTY(multisine_scale, double, "Scale factor for reference multisine excitation (default: 0.142887)");
 
     HeadNeckNeuralControllerAdaptive();
@@ -250,8 +250,15 @@ private:
         SimTK::Vec3 trajectory_acceleration{0.0};                  // Size 3 (pitch, roll, yaw) - Branch 1C compensated reference trajectory acceleration (Sub 1 -> Sub 7, 14.5 ms)
         SimTK::Vec3 trajectory_jerk{0.0};                          // Size 3 (pitch, roll, yaw) - Branch 1C compensated reference trajectory jerk (Sub 1 -> Sub 7, 14.5 ms)
         SimTK::Vec3 trajectory_position_1a{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 1A compensated trajectory position for tonic tilt efference copy (Sub 1 -> Sub 5, 9.0 ms)
+        SimTK::Vec3 trajectory_velocity_1a{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 1A compensated trajectory velocity
+        SimTK::Vec3 trajectory_acceleration_1a{0.0};               // Size 3 (pitch, roll, yaw) - Branch 1A compensated trajectory acceleration
         SimTK::Vec3 trajectory_velocity_1b{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory velocity for canal efference copy (Sub 1 -> Sub 5, 10.0 ms)
         SimTK::Vec3 trajectory_acceleration_1b{0.0};               // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory acceleration for phasic efference copy (Sub 1 -> Sub 5, 10.0 ms)
+        SimTK::Vec3 trajectory_jerk_1b{0.0};                       // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory jerk
+        SimTK::Vec3 trajectory_snap_1b{0.0};                       // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory snap
+        SimTK::Vec3 eff_tonic_tilt_3a{0.0};                        // Size 3 (pitch, roll, yaw) - Branch 3A compensated tonic tilt efference cancellation (Sub 3C -> Sub 2B, 1.5 ms)
+        SimTK::Vec3 eff_canal_vel_3a{0.0};                         // Size 3 (pitch, roll, yaw) - Branch 3A compensated canal velocity efference cancellation (Sub 3C -> Sub 2B, 1.5 ms)
+        SimTK::Vec3 eff_phasic_grav_acc_3a{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 3A compensated phasic gravity/pivot cancellation (Sub 3C -> Sub 2B, 1.5 ms)
         SimTK::Vec3 brainstem_vcr_torque{0.0};                     // Size 3 (pitch, roll, yaw) - Path 5 compensated Brainstem VCR torque (Sub 5 -> Sub 7, 2.5 ms)
         SimTK::Vec3 brainstem_vcr_torque_dot{0.0};                 // Size 3 (pitch, roll, yaw) - First derivative of Path 5 Brainstem VCR torque
         SimTK::Vec3 brainstem_vcr_torque_ddot{0.0};                // Size 3 (pitch, roll, yaw) - Second derivative of Path 5 Brainstem VCR torque

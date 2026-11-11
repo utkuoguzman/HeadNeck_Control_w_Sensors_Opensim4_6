@@ -153,8 +153,9 @@ def run_multisine_simulation(
 
     delay = 1.5
     ramp_duration = 1.5
-    eval_duration = 2.0 / freqs[0]  # 2 full cycles of 0.324 Hz = 6.1728 s
-    target_time = delay + ramp_duration + eval_duration  # 9.1728 s total (vs 25.4 s for 6 single sines)
+    eval_cycles = float(os.environ.get("MULTISINE_CYCLES", "2.0"))
+    eval_duration = eval_cycles / freqs[0]  # default 2 full cycles of 0.324 Hz = 6.1728 s (or 6 cycles = 18.5185 s)
+    target_time = delay + ramp_duration + eval_duration  # 9.1728 s default, or ~21.52 s for 6 cycles (matching Happee 20s trials)
 
     ms_spline = osim.SimmSpline()
     for t in np.arange(0.0, delay, 0.02):
