@@ -45,6 +45,31 @@ public:
     OpenSim_DECLARE_PROPERTY(p_phas2, double, "Second-order phasic otolith TF Pole in rad/s (if <= 0.0, bypasses second pole; default: -1.0)");
     OpenSim_DECLARE_PROPERTY(k_p, double, "Muscle-level CCR proportional gain");
 
+    // Per-Axis Vestibular (VCR) & Proprioceptive (CCR) Reflex Properties (Roll & Yaw independent paths; default <= -999 or < 0 falls back to base)
+    OpenSim_DECLARE_PROPERTY(K_ton_roll, double, "Roll Tonic otolith TF Gain (default: -1000.0 -> uses K_ton)");
+    OpenSim_DECLARE_PROPERTY(K_ton_yaw, double, "Yaw Tonic attitude TF Gain (default: -1000.0 -> uses K_ton)");
+    OpenSim_DECLARE_PROPERTY(p_ton_roll, double, "Roll Tonic otolith TF Pole in rad/s (default: -1.0 -> uses p_ton)");
+    OpenSim_DECLARE_PROPERTY(p_ton_yaw, double, "Yaw Tonic attitude TF Pole in rad/s (default: -1.0 -> uses p_ton)");
+    OpenSim_DECLARE_PROPERTY(K_sc_roll, double, "Roll Semicircular canal TF Gain (default: -1000.0 -> uses K_sc)");
+    OpenSim_DECLARE_PROPERTY(K_sc_yaw, double, "Yaw Semicircular canal TF Gain (default: -1000.0 -> uses K_sc)");
+    OpenSim_DECLARE_PROPERTY(z_sc_roll, double, "Roll Semicircular canal TF Zero in s (default: -1.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(z_sc_yaw, double, "Yaw Semicircular canal TF Zero in s (default: -1.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(p_sc_roll, double, "Roll Semicircular canal TF Pole in rad/s (default: -1.0 -> uses p_sc)");
+    OpenSim_DECLARE_PROPERTY(p_sc_yaw, double, "Yaw Semicircular canal TF Pole in rad/s (default: -1.0 -> uses p_sc)");
+    OpenSim_DECLARE_PROPERTY(K_phas_roll, double, "Roll Phasic otolith TF Gain (signed; default: -1000.0 -> uses K_phas)");
+    OpenSim_DECLARE_PROPERTY(z_phas_roll, double, "Roll Phasic otolith TF Zero in s (default: -1.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(p_phas_roll, double, "Roll Phasic otolith TF Pole in rad/s (default: -1.0 -> uses p_phas)");
+    OpenSim_DECLARE_PROPERTY(p_ap_roll, double, "Roll low-frequency phasic otolith all-pass/lag pole in rad/s (default: -1.0 -> disabled)");
+    OpenSim_DECLARE_PROPERTY(c_ap_roll, double, "Roll low-frequency phasic otolith all-pass/lag weight (default: 0.0 -> disabled)");
+    OpenSim_DECLARE_PROPERTY(Kp_prop_roll, double, "Roll Spindle-Decoded CCR Proportional Gain in Nm/rad (default: -1000.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_prop_yaw, double, "Yaw Spindle-Decoded CCR Proportional Gain in Nm/rad (default: -1000.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(z_ccr_roll, double, "Roll Spindle-Decoded CCR Lead Zero in s (default: -1.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(z_ccr_yaw, double, "Yaw Spindle-Decoded CCR Lead Zero in s (default: -1.0 -> 0.0)");
+    OpenSim_DECLARE_PROPERTY(p_ccr_roll, double, "Roll CCR TF Pole in rad/s (default: -1.0 -> uses p_ccr)");
+    OpenSim_DECLARE_PROPERTY(p_ccr_yaw, double, "Yaw CCR TF Pole in rad/s (default: -1.0 -> uses p_ccr)");
+    OpenSim_DECLARE_PROPERTY(deriv_comp_roll, double, "Roll high-frequency Taylor derivative compensator scale (default: 1.0)");
+    OpenSim_DECLARE_PROPERTY(deriv_comp_yaw, double, "Yaw high-frequency Taylor derivative compensator scale (default: 1.0)");
+
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
     OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double, "Gain for Vestibular-driven Gamma_dyn");
     OpenSim_DECLARE_PROPERTY(K_gamma_stat, double, "Gain for Alpha-Gamma Coactivation");
@@ -183,6 +208,8 @@ private:
         SimTK::Vector primary_afferent_firing_rate;                // Branch 3A (5.5ms -> Sub 6): Size N clean spindle Ia rate compensated by 1 + tau_3A*s + 0.5*tau_3A^2*s^2
         SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Branch 3B (7.0ms -> Sub 4): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
         SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Branch 3B (7.0ms -> Sub 4): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
+        SimTK::Vec3 raw_neck_relative_angle{0.0};                  // Clean Luenberger-filtered neck relative angle (pitch, roll, yaw) before Branch 3B jerk compensator
+        SimTK::Vec3 raw_neck_relative_speed{0.0};                  // Clean Luenberger-filtered neck relative speed (pitch, roll, yaw) before Branch 3B jerk compensator
         SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 4B (13.0ms -> Sub 1): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4B*s + 0.5*tau_4B^2*s^2
         SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 1C (14.5ms -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1C*s + 0.5*tau_1C^2*s^2
         SimTK::Vec3 cortical_voluntary_torque_dot{0.0};            // Branch 1C (14.5ms -> Sub 7): Size 3 1st derivative of cortical voluntary torque
