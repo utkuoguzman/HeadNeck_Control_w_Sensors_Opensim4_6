@@ -83,7 +83,7 @@ public:
     OpenSim_DECLARE_PROPERTY(enable_adaptation, bool, "If true, continuously adapts all 12 CMA-ES parameters via Simbody state variables (default: true)");
     OpenSim_DECLARE_PROPERTY(adaptation_rate_multiplier, double, "Global multiplier for all continuous adaptation rates (default: 1.0)");
     OpenSim_DECLARE_PROPERTY(sigma_leakage, double, "Continuous sigma-leakage coefficient toward nominal gains (default: 0.02)");
-    OpenSim_DECLARE_PROPERTY(adaptation_start_time, double, "Simulation time in seconds before adaptation activates (default: 2.5)");
+    OpenSim_DECLARE_PROPERTY(adaptation_start_time, double, "Simulation time in seconds before adaptation activates (default: 1.8)");
     OpenSim_DECLARE_PROPERTY(multisine_scale, double, "Scale factor for reference multisine excitation (default: 0.142887)");
 
     HeadNeckNeuralControllerAdaptive();
@@ -225,27 +225,52 @@ private:
 
     struct HistoryRecord {
         bool valid = false;
-        SimTK::Vec3 estimated_head_orientation{0.0};               // (roll, yaw, pitch) - Head global orientation
-        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Head global angular velocity (gain-normalized irregular canal firing with biological phase lead)
-        SimTK::Vec3 luenberger_angular_velocity{0.0};              // Clean Luenberger-inverted physical angular velocity (roll, yaw, pitch)
-        SimTK::Vec3 luenberger_angular_acceleration{0.0};          // Clean Luenberger-estimated angular acceleration d(x_Luen,scc)/dt (roll, yaw, pitch)
-        SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // Irregular otolith specific force GIF in head frame (with biological phase lead)
-        SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // Clean Luenberger-inverted regular otolith specific force GIF in head frame
+        SimTK::Vec3 estimated_head_orientation{0.0};               // (roll, yaw, pitch) - Branch 4B compensated head orientation (Sub 4 -> Sub 1, 13.0 ms)
+        SimTK::Vec3 estimated_head_orientation_4a{0.0};            // (roll, yaw, pitch) - Branch 4A compensated head orientation (Sub 4 -> Sub 5, 1.5 ms)
+        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // (roll, yaw, pitch) - Branch 2A compensated irregular canal firing (Sub 2 -> Sub 5, 2.0 ms)
+        SimTK::Vec3 luenberger_angular_velocity{0.0};              // (roll, yaw, pitch) - Branch 2B compensated regular canal velocity (Sub 2 -> Sub 4, 3.0 ms)
+        SimTK::Vec3 luenberger_angular_acceleration{0.0};          // (roll, yaw, pitch) - Clean Luenberger-estimated angular acceleration d(x_Luen,scc)/dt
+        SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // (x, y, z) - Branch 2A compensated irregular otolith specific force GIF (Sub 2 -> Sub 5, 2.0 ms)
+        SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // (x, y, z) - Branch 2B compensated regular otolith specific force GIF (Sub 2 -> Sub 4, 3.0 ms)
         SimTK::Mat33 rotation_world_to_head{1.0};                  // True skull rotation from world to head at record timestamp
         SimTK::Mat33 estimated_rotation_head_to_world{1.0};        // Observer estimated rotation from head to world at record timestamp
         SimTK::Vec3 trunk_orientation{0.0};                        // (roll, yaw, pitch) - Trunk global orientation
         SimTK::Vec3 trunk_angular_velocity{0.0};                   // (roll, yaw, pitch) - Trunk global angular velocity
         SimTK::Vec3 head_linear_velocity{0.0};                     // Linear velocity of the head in ground frame
-        SimTK::Vector primary_afferent_firing_rate;                // Size N (Spindle primary Ia firing rate above baseline)
-        SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Size 3 (pitch, roll, yaw)
-        SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Size 3 (pitch, roll, yaw)
-        SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Size 3 (pitch, roll, yaw) - Mahony head-frame angular velocity
-        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Size 3 (pitch, roll, yaw) - Cortical voluntary torque before 12ms descending delay
-        SimTK::Vec3 trajectory_position{0.0};                      // Size 3 (pitch, roll, yaw) - Cortical reference trajectory position
-        SimTK::Vec3 trajectory_velocity{0.0};                      // Size 3 (pitch, roll, yaw) - Cortical reference trajectory velocity
-        SimTK::Vec3 trajectory_acceleration{0.0};                  // Size 3 (pitch, roll, yaw) - Cortical reference trajectory acceleration
-        SimTK::Vector spinal_motor_excitations;                    // Size N - Total C1-C8 spinal pool alpha excitations before 8ms spinal/ventral-root efferent delay
-        SimTK::Vector spinal_alpha_excitations;                    // Size N - Active-Set QP descending alpha excitations before 8ms spinal/ventral-root efferent delay
+        SimTK::Vector primary_afferent_firing_rate;                // Size N - Branch 3A compensated spindle Ia firing rate (Sub 3 -> Sub 6, 5.5 ms)
+        SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Size 3 (pitch, roll, yaw) - Branch 3B compensated Cuneate angle (Sub 3 -> Sub 4, 7.0 ms)
+        SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Size 3 (pitch, roll, yaw) - Branch 3B compensated Cuneate speed (Sub 3 -> Sub 4, 7.0 ms)
+        SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Size 3 (pitch, roll, yaw) - Branch 4B compensated Mahony head-frame angular velocity (Sub 4 -> Sub 1, 13.0 ms)
+        SimTK::Vec3 mahony_estimated_angular_velocity_4a{0.0};     // Size 3 (pitch, roll, yaw) - Branch 4A compensated Mahony head-frame angular velocity (Sub 4 -> Sub 5, 1.5 ms)
+        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Size 3 (pitch, roll, yaw) - Branch 1C compensated voluntary torque (Sub 1 -> Sub 7, 14.5 ms)
+        SimTK::Vec3 cortical_voluntary_torque_dot{0.0};            // Size 3 (pitch, roll, yaw) - First derivative of Branch 1C voluntary torque
+        SimTK::Vec3 cortical_voluntary_torque_ddot{0.0};           // Size 3 (pitch, roll, yaw) - Second derivative of Branch 1C voluntary torque
+        SimTK::Vec3 trajectory_position{0.0};                      // Size 3 (pitch, roll, yaw) - Branch 1C compensated reference trajectory position (Sub 1 -> Sub 7, 14.5 ms)
+        SimTK::Vec3 trajectory_velocity{0.0};                      // Size 3 (pitch, roll, yaw) - Branch 1C compensated reference trajectory velocity (Sub 1 -> Sub 7, 14.5 ms)
+        SimTK::Vec3 trajectory_acceleration{0.0};                  // Size 3 (pitch, roll, yaw) - Branch 1C compensated reference trajectory acceleration (Sub 1 -> Sub 7, 14.5 ms)
+        SimTK::Vec3 trajectory_jerk{0.0};                          // Size 3 (pitch, roll, yaw) - Branch 1C compensated reference trajectory jerk (Sub 1 -> Sub 7, 14.5 ms)
+        SimTK::Vec3 trajectory_position_1a{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 1A compensated trajectory position for tonic tilt efference copy (Sub 1 -> Sub 5, 9.0 ms)
+        SimTK::Vec3 trajectory_velocity_1a{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 1A compensated trajectory velocity
+        SimTK::Vec3 trajectory_acceleration_1a{0.0};               // Size 3 (pitch, roll, yaw) - Branch 1A compensated trajectory acceleration
+        SimTK::Vec3 trajectory_velocity_1b{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory velocity for canal efference copy (Sub 1 -> Sub 5, 10.0 ms)
+        SimTK::Vec3 trajectory_acceleration_1b{0.0};               // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory acceleration for phasic efference copy (Sub 1 -> Sub 5, 10.0 ms)
+        SimTK::Vec3 trajectory_jerk_1b{0.0};                       // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory jerk
+        SimTK::Vec3 trajectory_snap_1b{0.0};                       // Size 3 (pitch, roll, yaw) - Branch 1B compensated trajectory snap
+        SimTK::Vec3 eff_tonic_tilt_3a{0.0};                        // Size 3 (pitch, roll, yaw) - Branch 3A compensated tonic tilt efference cancellation (Sub 3C -> Sub 2B, 1.5 ms)
+        SimTK::Vec3 eff_canal_vel_3a{0.0};                         // Size 3 (pitch, roll, yaw) - Branch 3A compensated canal velocity efference cancellation (Sub 3C -> Sub 2B, 1.5 ms)
+        SimTK::Vec3 eff_phasic_grav_acc_3a{0.0};                   // Size 3 (pitch, roll, yaw) - Branch 3A compensated phasic gravity/pivot cancellation (Sub 3C -> Sub 2B, 1.5 ms)
+        SimTK::Vec3 brainstem_vcr_torque{0.0};                     // Size 3 (pitch, roll, yaw) - Path 5 compensated Brainstem VCR torque (Sub 5 -> Sub 7, 2.5 ms)
+        SimTK::Vec3 brainstem_vcr_torque_dot{0.0};                 // Size 3 (pitch, roll, yaw) - First derivative of Path 5 Brainstem VCR torque
+        SimTK::Vec3 brainstem_vcr_torque_ddot{0.0};                // Size 3 (pitch, roll, yaw) - Second derivative of Path 5 Brainstem VCR torque
+        SimTK::Vector spinal_ccr_drive;                            // Size N - Path 6 compensated Spinal CCR excitation drive (Sub 6 -> Sub 7, 4.0 ms)
+        SimTK::Vector spinal_ccr_drive_dot;                        // Size N - First derivative of Path 6 Spinal CCR excitation drive
+        SimTK::Vector spinal_ccr_drive_ddot;                       // Size N - Second derivative of Path 6 Spinal CCR excitation drive
+        SimTK::Vector spinal_motor_excitations;                    // Size N - Branch 7A compensated extrafusal alpha motor command (Sub 7 -> Muscles, 5.5 ms)
+        SimTK::Vector spinal_alpha_excitations;                    // Size N - Active-Set QP descending alpha excitations
+        SimTK::Vector spinal_gamma_dyn_commands;                   // Size N - Branch 7B compensated Stage 1B dynamic fusimotor command gamma_d(t) (Sub 7 -> Spindles, 8.0 ms)
+        SimTK::Vector spinal_gamma_stat_commands;                  // Size N - Branch 7B compensated Stage 1A static fusimotor command gamma_s(t) (Sub 7 -> Spindles, 8.0 ms)
+        SimTK::Vector expected_normalized_fiber_lengths;           // Size N - Branch 7B compensated expected normalized fiber length L_hat(t) (Sub 7 -> Spindles, 8.0 ms)
+        SimTK::Vector expected_normalized_fiber_velocities;        // Size N - Branch 7B compensated expected normalized fiber velocity Ldot_hat(t) (Sub 7 -> Spindles, 8.0 ms)
     };
 
     struct DelayedData {
@@ -277,11 +302,13 @@ private:
     mutable std::vector<int> active_muscle_indices;
     mutable std::vector<std::string> muscle_names;
     mutable std::vector<std::string> cervico_collic_state_names;
+    mutable std::vector<std::string> cervico_collic_vel_state_names;
     mutable std::vector<std::string> spindle_length_change_state_names;
     mutable std::vector<std::string> spindle_velocity_state_names;
     mutable std::vector<std::string> spindle_dynamic_fusimotor_state_names;
     mutable std::vector<std::string> spindle_static_fusimotor_state_names;
     mutable std::vector<const StateVariable*> state_variable_cervico_collic;
+    mutable std::vector<const StateVariable*> state_variable_cervico_collic_vel;
     mutable std::vector<const StateVariable*> state_variable_spindle_length_change;
     mutable std::vector<const StateVariable*> state_variable_spindle_velocity;
     mutable std::vector<const StateVariable*> state_variable_spindle_dynamic_fusimotor;
@@ -291,6 +318,7 @@ private:
     mutable const StateVariable* state_variable_trajectory_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_error_integral[3] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
+    mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};
@@ -302,8 +330,11 @@ private:
     mutable const StateVariable* state_variable_observer_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_observer_position[3] = {nullptr};
     mutable const StateVariable* state_variable_tonic_otolith[3] = {nullptr};
+    mutable const StateVariable* state_variable_tonic_otolith_vel[3] = {nullptr};
     mutable const StateVariable* state_variable_semicircular_canal_reflex[3] = {nullptr};
+    mutable const StateVariable* state_variable_semicircular_canal_reflex_vel[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith[3] = {nullptr};
+    mutable const StateVariable* state_variable_phasic_otolith_vel[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith_stage2[3] = {nullptr};
 
     // --- CONTINUOUS ADAPTATION STATE VARIABLES (PATH 1 - 15 PARAMETERS) ---
@@ -338,13 +369,31 @@ private:
     mutable std::vector<double> cached_primary_afferent_velocity_scales;
     mutable std::vector<double> cached_maximum_isometric_forces;
     mutable std::vector<double> cached_minimum_excitations;
+    mutable std::vector<double> cached_optimal_fiber_lengths;
+    mutable std::vector<double> cached_tendon_slack_lengths;
+    mutable std::vector<double> cached_cosine_pennation_angles;
+    mutable std::vector<double> baseline_normalized_fiber_lengths;
+    mutable std::vector<double> baseline_reference_ia_rates;
+    mutable std::vector<double> baseline_reference_ii_rates;
     mutable std::vector<double> baseline_muscle_activations;
     mutable std::vector<double> baseline_primary_afferent_rates;
     mutable std::vector<double> baseline_secondary_afferent_rates;
     mutable std::vector<double> last_alpha_motor_excitations;
+    mutable std::vector<double> last_voluntary_alpha_excitations;
     mutable bool is_initialized;
     mutable double last_jacobian_update_time;
     mutable SimTK::Vec3 baseline_spatial_orientation;              // (roll, yaw, pitch)
+
+    void evaluateReferenceMileusnicSpindle(
+        int muscle_index,
+        double L_hat,
+        double Ldot_hat,
+        double f_dyn_hat,
+        double f_stat_hat,
+        double f_chain_hat,
+        double& r_ia_hat,
+        double& r_ii_hat,
+        double& kappa_fd) const;
 
     void initializeGeometryAndBaseline(const SimTK::State& state) const;
 };

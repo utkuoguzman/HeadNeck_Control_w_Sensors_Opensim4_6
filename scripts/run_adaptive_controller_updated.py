@@ -40,9 +40,29 @@ def build_multisine_spline(targets, duration=20.1728, delay=1.5, ramp=1.5, dt_sp
     K = len(targets)
     freqs = np.array([t[0] for t in targets], dtype=float)
     phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
-    base_amps = np.array([0.0215 * (0.835 / f) ** 2 for f in freqs], dtype=float)
-    scale_factor = 1.0 / math.sqrt(K)
-    amps = base_amps * scale_factor
+    ms_exp = float(os.environ.get("MULTISINE_EXP", "1.0"))
+    min_amp_m = float(os.environ.get("MULTISINE_MIN_AMP_M", "0.0"))
+    base_amps = np.array([0.0215 * ((0.835 / f) ** ms_exp) for f in freqs], dtype=float)
+    scale_factor = float(os.environ.get("MULTISINE_SCALE", str(1.0 / math.sqrt(K))))
+    amps = np.maximum(base_amps * scale_factor, min_amp_m)
+
+    spline = osim.SimmSpline()
+    for t in np.arange(0.0, delay, 0.02):
+        spline.addPoint(float(t), 0.0)
+    ramp_mode = os.environ.get("MULTISINE_RAMP_MODE", "A").upper()
+    if ramp_mode == "B":
+        for t in np.arange(delay, duration + 0.02, dt_spline):
+            t_rel = t - delay
+            if t_rel < ramp:
+                tau = t_rel / ramp
+                w = 10.0 * (tau**3) - 15.0 * (tau**4) + 6.0 * (tau**5)
+            else:
+                w = 1.0
+            y = 0.0
+            for k in range(K):
+                y += amps[k] * math.sin(2.0 * math.pi * freqs[k] * t_rel + phases[k])
+            spline.addPoint(float(t), float(w * y))
+        return spline, freqs, amps, phases, scale_factor
 
     # Solution A: Window in Acceleration Space (a_T1(t) = w(tau)*y''(t) + dv_match*phi_v(tau))
     # Eliminates the Leibniz product-rule acceleration parasite on 0.324 Hz while guaranteeing
@@ -73,9 +93,6 @@ def build_multisine_spline(targets, duration=20.1728, delay=1.5, ramp=1.5, dt_sp
     x_fine[1:] = np.cumsum(0.5 * (dx_fine[:-1] + dx_fine[1:]) * dt_fine)
     x_offset = float(x_fine[-1] - y_fine[-1])
 
-    spline = osim.SimmSpline()
-    for t in np.arange(0.0, delay, 0.02):
-        spline.addPoint(float(t), 0.0)
     N_ramp_knots = int(round(ramp / dt_spline))
     for i_k in range(N_ramp_knots):
         t = delay + i_k * dt_spline
@@ -114,38 +131,62 @@ def main():
     print("UPDATED 15-PARAMETER CONTINUOUS ADAPTIVE CONTROLLER (WITH K_COCONTR, QUADRATIC KNEE, SMOOTH J(q))", flush=True)
     print("=" * 96, flush=True)
 
-    # Load Stage 1 Converged 15-Parameter Set if available (Continuation Run), else Phase 2.4 Champion W18_P24G3
-    stage1_path = "logs/adaptive_stage1_15params_trajectory.json"
-    if os.path.exists(stage1_path):
-        with open(stage1_path, "r", encoding="utf-8") as f:
-            s1_data = json.load(f)
-        fp = s1_data["final_parameters_15d"]
-        p15 = [float(fp[k]) for k in ADAPT_15_NAMES]
-        champ_label = "Stage1_Converged_15D"
-        stage1_post_freqs = s1_data["per_freq_post"]
-        stage1_post_score = float(s1_data["post_adaptation_window_score"])
+    # Load latest 11D CMA-ES Global Champion from logs/candidates_multisine/W04_S4_G02.json (or ADAPT_SEED_JSON)
+    import glob
+    seed_json_path = os.environ.get("ADAPT_SEED_JSON", "logs/candidates_multisine/W04_S4_G02.json")
+    best_cand_data = None
+    best_cand_score = float("inf")
+    if os.path.exists(seed_json_path):
+        with open(seed_json_path, "r", encoding="utf-8") as f:
+            best_cand_data = json.load(f)
+        best_cand_score = float(best_cand_data.get("total_score", 1e12))
     else:
-        stage1_post_freqs = None
-        champ_path = "logs/candidates/W18_P24G3_2.45Hz.json"
-        if os.path.exists(champ_path):
-            with open(champ_path, "r", encoding="utf-8") as f:
-                champ_data = json.load(f)
-            p15 = champ_data["params"]
-            champ_label = "W18_P24G3"
+        cand_files = sorted(glob.glob("logs/candidates_multisine/W*.json"))
+        for cf in cand_files:
+            try:
+                with open(cf, "r", encoding="utf-8") as f:
+                    cd = json.load(f)
+                sc = float(cd.get("total_score", 1e12))
+                if sc < best_cand_score and "params" in cd and len(cd["params"]) == 15:
+                    best_cand_score = sc
+                    best_cand_data = cd
+            except Exception:
+                pass
+
+    if best_cand_data is not None:
+        p15 = [float(x) for x in best_cand_data["params"]]
+        champ_label = best_cand_data.get("worker", "CMAES_Champion")
+        stage1_post_freqs = best_cand_data["frequencies"]
+        stage1_post_score = float(best_cand_data["total_score"])
+    else:
+        stage1_path = "logs/adaptive_stage1_15params_trajectory.json"
+        if os.path.exists(stage1_path):
+            with open(stage1_path, "r", encoding="utf-8") as f:
+                s1_data = json.load(f)
+            fp = s1_data["final_parameters_15d"]
+            p15 = [float(fp[k]) for k in ADAPT_15_NAMES]
+            champ_label = "Stage1_Converged_15D"
+            stage1_post_freqs = s1_data["per_freq_post"]
+            stage1_post_score = float(s1_data["post_adaptation_window_score"])
         else:
-            with open("data/prescreen_rational_champion.json", "r", encoding="utf-8") as f:
-                champ_data = json.load(f)
-            p15 = champ_data["x0_15d"]
-            champ_label = "Seed_x0"
+            stage1_post_freqs = None
+            champ_path = "logs/candidates/W18_P24G3_2.45Hz.json"
+            if os.path.exists(champ_path):
+                with open(champ_path, "r", encoding="utf-8") as f:
+                    champ_data = json.load(f)
+                p15 = champ_data["params"]
+                champ_label = "W18_P24G3"
+            else:
+                with open("data/prescreen_rational_champion.json", "r", encoding="utf-8") as f:
+                    champ_data = json.load(f)
+                p15 = champ_data["x0_15d"]
+                champ_label = "Seed_x0"
 
     (
-        K_ton, p_ton, K_sc, r_lead_sc, p_sc, K_phas, p_phas,
-        kp_prop, r_lead_ccr, p_ccr, k_gamma_dyn, k_gamma_stat,
+        K_ton, p_ton, K_sc, z_sc, p_sc, K_phas, p_phas,
+        kp_prop, z_ccr, p_ccr, k_gamma_dyn, k_gamma_stat,
         kp_task_pitch, kd_task_pitch, ki_task_pitch
     ) = [float(x) for x in p15]
-
-    z_sc = r_lead_sc if r_lead_sc > 0.99 else max(0.001, min(0.95, r_lead_sc)) * p_sc
-    z_ccr = r_lead_ccr if r_lead_ccr > 0.99 else max(0.001, min(0.95, r_lead_ccr)) * p_ccr
 
     print(f"[ANCHOR] Using Seed {champ_label}:", flush=True)
     print(f"  K_ton={K_ton:.4f}, p_ton={p_ton:.2f}, K_sc={K_sc:.4f}, z_sc={z_sc:.2f}, p_sc={p_sc:.2f}", flush=True)
@@ -195,8 +236,8 @@ def main():
     os.environ["OSIM_BASE_GAINS"] = ",".join(f"{g:.4f}" for g in base_gains)
     os.environ["OSIM_BASE_PHASES"] = ",".join(f"{p:.4f}" for p in base_phases)
 
-    # Step 2: Run 20.1728s Continuous 12-Parameter Adaptive Simulation (t in [14.0s, 20.1728s] = 2 full stationary cycles of 0.324 Hz)
-    t_freeze = 14.0
+    # Step 2: Run 9.1728s Continuous Adaptive Simulation (adaptation active in [1.8s, 3.0s], evaluated in [3.0s, 9.1728s] = 2 full stationary cycles of 0.324 Hz)
+    t_freeze = float(os.environ.get("ADAPT_FREEZE_TIME", "3.0"))
     sim_duration = t_freeze + 2.0 / 0.324
     delay = 1.5
     ramp = 1.5
@@ -263,9 +304,9 @@ def main():
     osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
     osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
     osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("enable_adaptation"))
-    osim.PropertyHelper.setValueDouble(0.70, controller.updPropertyByName("adaptation_rate_multiplier"))
-    osim.PropertyHelper.setValueDouble(0.008, controller.updPropertyByName("sigma_leakage"))
-    osim.PropertyHelper.setValueDouble(3.0, controller.updPropertyByName("adaptation_start_time"))
+    osim.PropertyHelper.setValueDouble(float(os.environ.get("ADAPT_RATE_MULT", "0.70")), controller.updPropertyByName("adaptation_rate_multiplier"))
+    osim.PropertyHelper.setValueDouble(float(os.environ.get("ADAPT_SIGMA_LEAK", "1.20")), controller.updPropertyByName("sigma_leakage"))
+    osim.PropertyHelper.setValueDouble(float(os.environ.get("ADAPT_START_TIME", "1.8")), controller.updPropertyByName("adaptation_start_time"))
     osim.PropertyHelper.setValueDouble(scale_factor, controller.updPropertyByName("multisine_scale"))
 
     zero_func = osim.Constant(0.0)
@@ -279,7 +320,7 @@ def main():
     c_yaw1.set_locked(False)
     c_yaw1.setDefaultIsPrescribed(False)
 
-    for eye_c in ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]:
+    for eye_c in ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd", "l_eye_sup_inf", "l_eye_inc_exc"]:
         if model.getCoordinateSet().contains(eye_c):
             c = model.updCoordinateSet().get(eye_c)
             c.setDefaultValue(0.0)
@@ -321,8 +362,8 @@ def main():
             continue
         a0 = PER_MUSCLE_72_U0.get(name, 0.030)
         m.setActivation(state, a0)
-        gd0 = 100.0 * k_gamma_dyn * a0
-        gs0 = 100.0 * k_gamma_stat * a0
+        gd0 = 100.0 * min(max(k_gamma_dyn, 0.0), 1.0) * (0.25 + 0.75 * a0)
+        gs0 = 100.0 * min(max(k_gamma_stat, 0.0), 1.0) * a0
         fdyn0 = (gd0 * gd0) / (gd0 * gd0 + 3600.0)
         fstat0 = (gs0 * gs0) / (gs0 * gs0 + 3600.0)
         m.setStateVariableValue(state, "spindle/dynamic_activation", fdyn0)
@@ -414,10 +455,12 @@ def main():
     t_arr = np.array(log_t)
     mask = t_arr >= t_freeze
     t_fit = t_arr[mask]
-    y_fit = np.array(log_head_pitch)[mask]
+    p0_deg = log_head_pitch[0] if len(log_head_pitch) > 0 else 0.0
+    pitch_rel_arr = np.array(log_head_pitch) - p0_deg
+    y_fit = pitch_rel_arr[mask]
 
     pre_mask = t_arr <= 1.5
-    pre_drift_deg = float(np.max(np.abs(np.array(log_head_pitch)[pre_mask]))) if np.any(pre_mask) else 0.0
+    pre_drift_deg = float(np.max(np.abs(pitch_rel_arr[pre_mask]))) if np.any(pre_mask) else 0.0
     max_roll_deg = float(np.max(np.abs(log_roll)))
     max_yaw_deg = float(np.max(np.abs(log_yaw)))
 
@@ -510,7 +553,9 @@ def main():
         "adapt_Kp_task_pitch": kp_task_pitch, "adapt_Kd_task_pitch": kd_task_pitch, "adapt_Ki_task_pitch": ki_task_pitch
     }
     for name in ADAPT_15_NAMES:
-        norm_curve = 100.0 * np.array(log_params[name]) / max(1e-6, init_15[name])
+        base_v = init_15[name]
+        denom = base_v if abs(base_v) > 1e-4 else 0.0050
+        norm_curve = 100.0 + 100.0 * (np.array(log_params[name]) - base_v) / denom
         axes[2].plot(log_t, norm_curve, lw=1.4, label=name.replace("adapt_", ""))
     axes[2].axvline(t_freeze, color="gray", ls=":")
     axes[2].axhline(100.0, color="k", ls="--", lw=0.8)
@@ -539,7 +584,18 @@ def main():
             "per_freq_pre": pre_freq_results,
             "per_freq_post": per_freq_adapt,
         }, f, indent=2)
-    print(f"[DATA] Saved {out_json} and {fig_path}", flush=True)
+    os.makedirs("logs/candidates_multisine", exist_ok=True)
+    np.savez_compressed(
+        "logs/candidates_multisine/Adaptive_W04_S4_G02_ts.npz",
+        t=t_arr,
+        pitch=np.array(log_head_pitch),
+        p1=np.array(log_p1),
+        p2=np.array(log_p2),
+        roll=np.array(log_roll),
+        yaw=np.array(log_yaw),
+        ref_pitch=np.array(log_ref_pitch),
+    )
+    print(f"[DATA] Saved {out_json}, {fig_path}, and logs/candidates_multisine/Adaptive_W04_S4_G02_ts.npz", flush=True)
 
 
 if __name__ == "__main__":

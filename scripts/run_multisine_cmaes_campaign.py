@@ -54,7 +54,7 @@ def evaluate_multisine_candidate(candidate, w_idx, gen_idx):
             pass
 
     cmd = [
-        sys.executable, "cmaes_worker_multisine.py",
+        sys.executable, os.path.join("util", "cmaes_worker_multisine.py"),
         str(FIXED_W_N), str(FIXED_ZETA), str(FIXED_KI),
         *[str(v) for v in candidate],
         worker_label
@@ -161,7 +161,7 @@ def main():
     ]
     upper_bounds = [
         3.000, 150.000,  1.500,  0.600, 160.000, 28.000,
-       65.000,   2.000,  0.500, 240.000,  1.500,  1.500,
+       65.000,   2.000,  0.500, 240.000,  1.000,  1.000,  # K_gamma_dyn/stat capped at physiological 1.0 (100 pps)
        30.000,  12.000, 65.000
     ]
 
@@ -176,6 +176,7 @@ def main():
         "seed": 2026,
         "verbose": -1,
     }
+    x0 = np.clip(x0, np.array(lower_bounds) + 1e-6, np.array(upper_bounds) - 1e-6)
     es = cma.CMAEvolutionStrategy(x0, 1.0, opts)
 
     gen_records = []

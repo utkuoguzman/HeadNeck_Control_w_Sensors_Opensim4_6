@@ -54,11 +54,15 @@ def simulate_and_export_champion(champ_data):
         kp_task_pitch, kd_task_pitch, ki_task_pitch
     ) = params
 
-    # Ensure z_sc and z_ccr are actual zero locations (not ratios)
+    # Ensure z_sc and z_ccr match cmaes_worker_multisine.py CLI round-trip (r_sc = float(str(z_sc / p_sc)))
     if z_sc < 0.99:
-        z_sc = z_sc * p_sc
+        z_sc = float(str(z_sc)) * float(str(p_sc))
+    else:
+        z_sc = float(str(z_sc / p_sc)) * float(str(p_sc))
     if z_ccr < 0.99:
-        z_ccr = z_ccr * p_ccr
+        z_ccr = float(str(z_ccr)) * float(str(p_ccr))
+    else:
+        z_ccr = float(str(z_ccr / p_ccr)) * float(str(p_ccr))
 
     print("\n" + "=" * 92, flush=True)
     print(f"[EXPORT] Simulating Global Champion {worker_name} ({total_score:,.2f} pts) for .mot/.mto & 3-Panel Plot...", flush=True)
@@ -123,7 +127,12 @@ def simulate_and_export_champion(champ_data):
     c_yaw1.set_locked(False)
     c_yaw1.setDefaultIsPrescribed(False)
 
-    for eye_c in ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]:
+    eye_list = (
+        ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd", "l_eye_sup_inf", "l_eye_inc_exc"]
+        if os.environ.get("LOCK_EYES", "1") != "0"
+        else ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]
+    )
+    for eye_c in eye_list:
         if model.getCoordinateSet().contains(eye_c):
             c = model.updCoordinateSet().get(eye_c)
             c.setDefaultValue(0.0)
@@ -173,8 +182,10 @@ def simulate_and_export_champion(champ_data):
         active_muscle_names.append(name)
         a0 = PER_MUSCLE_72_U0.get(name, 0.030)
         m.setActivation(state, a0)
-        gd0 = 100.0 * k_gamma_dyn * a0
-        gs0 = 100.0 * k_gamma_stat * a0
+        k_gdyn_eff = min(max(k_gamma_dyn, 0.0), 1.0)
+        k_gstat_eff = min(max(k_gamma_stat, 0.0), 1.0)
+        gd0 = 100.0 * k_gdyn_eff * (0.25 + 0.75 * a0)
+        gs0 = 100.0 * k_gstat_eff * a0
         fdyn0 = (gd0 * gd0) / (gd0 * gd0 + 3600.0)
         fstat0 = (gs0 * gs0) / (gs0 * gs0 + 3600.0)
         m.setStateVariableValue(state, "spindle/dynamic_activation", fdyn0)
@@ -253,13 +264,14 @@ def simulate_and_export_champion(champ_data):
             r_mus.append(act_v)
         rows_deg_with_muscles.append(r_mus)
 
-    # Record t = 0.0 initial frame
-    record_frame(0.0, state)
+    # Record t = 0.0 initial frame on a state copy so manager state cache is untouched
+    record_frame(0.0, osim.State(state))
 
-    for step_idx in range(1, n_steps + 1):
-        t_target = min(step_idx * dt_step, sim_duration)
-        state = manager.integrate(t_target)
-        record_frame(state.getTime(), state)
+    current_time = 0.0
+    while current_time < sim_duration:
+        current_time = min(current_time + dt_step, sim_duration)
+        state = manager.integrate(current_time)
+        record_frame(current_time, state)
 
     os.makedirs("state_files", exist_ok=True)
     os.makedirs("results", exist_ok=True)

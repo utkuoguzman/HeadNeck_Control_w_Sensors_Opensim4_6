@@ -148,7 +148,7 @@ def run_single_adaptive_stage(
     c_yaw1.set_locked(False)
     c_yaw1.setDefaultIsPrescribed(False)
 
-    for eye_c in ["gaze_r_x", "gaze_r_y", "gaze_r_z", "gaze_l_x", "gaze_l_y", "gaze_l_z"]:
+    for eye_c in ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd", "l_eye_sup_inf", "l_eye_inc_exc"]:
         if model.getCoordinateSet().contains(eye_c):
             c = model.updCoordinateSet().get(eye_c)
             c.setDefaultValue(0.0)
@@ -422,10 +422,11 @@ def main():
     ]
     upper_bounds = [
         3.000, 150.000,  1.500,  0.600, 160.000, 28.000,
-       65.000,   2.000,  0.500, 240.000,  1.500,  1.500,
+       65.000,   2.000,  0.500, 240.000,  1.000,  1.000,  # K_gamma_dyn/stat capped at physiological 1.0 (100 pps)
        30.000,  12.000, 65.000
     ]
 
+    x0 = np.clip(x0, np.array(lower_bounds) + 1e-6, np.array(upper_bounds) - 1e-6)
     opts = {
         "bounds": [lower_bounds, upper_bounds],
         "CMA_stds": list(sigma0),
