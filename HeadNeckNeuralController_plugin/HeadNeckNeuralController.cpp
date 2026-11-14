@@ -475,6 +475,8 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     cached_coordinate_ground_pitch = coordinate_set.contains("gndpitch") ? &coordinate_set.get("gndpitch") : nullptr;
     cached_coordinate_ground_roll  = coordinate_set.contains("gndroll")  ? &coordinate_set.get("gndroll")  : nullptr;
     cached_coordinate_ground_yaw   = coordinate_set.contains("gndyaw")   ? &coordinate_set.get("gndyaw")   : nullptr;
+    cached_coordinate_spine_tx     = coordinate_set.contains("spine_tx") ? &coordinate_set.get("spine_tx") : nullptr;
+    cached_coordinate_spine_tz     = coordinate_set.contains("spine_tz") ? &coordinate_set.get("spine_tz") : nullptr;
     cached_skull = &model.getBodySet().get("skull");
 
     // Capture anatomical resting orientation as Vestibular Baseline

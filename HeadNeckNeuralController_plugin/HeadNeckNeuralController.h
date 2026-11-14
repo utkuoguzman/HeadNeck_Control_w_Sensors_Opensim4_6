@@ -314,6 +314,8 @@ private:
     mutable const Coordinate* cached_coordinate_ground_pitch = nullptr;
     mutable const Coordinate* cached_coordinate_ground_roll = nullptr;
     mutable const Coordinate* cached_coordinate_ground_yaw = nullptr;
+    mutable const Coordinate* cached_coordinate_spine_tx = nullptr;
+    mutable const Coordinate* cached_coordinate_spine_tz = nullptr;
     mutable const Body* cached_skull = nullptr;
     SimTK::Mat33 right_canal_projection_matrix;
     SimTK::Mat33 left_canal_projection_matrix;
