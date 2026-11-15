@@ -47,7 +47,7 @@ def run_multisine_simulation(
     kp, ki, kd,
     K_ton, p_ton=LIT_P_TON, K_sc=49.3723, z_sc=LIT_TAU_PLANT, p_sc=LIT_P_SC, K_phas=4.9396, p_phas=LIT_P_PHAS,
     kp_prop=2.5030, z_ccr=LIT_TAU_PLANT, p_ccr=LIT_P_CCR, k_gamma_dyn=0.9964, k_gamma_stat=0.9951,
-    worker_name="M-?", p_phas2=-1.0, z_phas=LIT_TAU_PLANT
+    worker_name="M-?", p_phas2=-1.0, z_phas=LIT_TAU_PLANT, extra_props=None
 ):
     ensure_libraries_loaded()
 
@@ -117,6 +117,29 @@ def run_multisine_simulation(
     osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("use_smith_predictor"))
     osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
     osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
+
+    if extra_props:
+        _prop_aliases = {
+            "Kp_roll": "Kp_task_roll",
+            "Kd_roll": "Kd_task_roll",
+            "Ki_roll": "Ki_task_roll",
+            "Kp_yaw": "Kp_task_yaw",
+            "Kd_yaw": "Kd_task_yaw",
+            "Ki_yaw": "Ki_task_yaw",
+        }
+        _per_axis_allowed = {
+            "Kp_task_roll", "Kd_task_roll", "Ki_task_roll",
+            "Kp_task_yaw", "Kd_task_yaw", "Ki_task_yaw",
+            "K_ton_roll", "K_ton_yaw", "p_ton_roll", "p_ton_yaw",
+            "K_sc_roll", "K_sc_yaw", "z_sc_roll", "z_sc_yaw", "p_sc_roll", "p_sc_yaw",
+            "K_phas_roll", "z_phas_roll", "p_phas_roll", "p_ap_roll", "c_ap_roll",
+            "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw", "p_ccr_roll", "p_ccr_yaw",
+            "deriv_comp_roll", "deriv_comp_yaw",
+        }
+        for _k, _v in extra_props.items():
+            _prop_name = _prop_aliases.get(_k, _k)
+            if _prop_name in _per_axis_allowed and _v is not None:
+                osim.PropertyHelper.setValueDouble(float(_v), controller.updPropertyByName(_prop_name))
 
     zero_func = osim.Constant(0.0)
     for coord_name in ["gndpitch", "gndroll", "gndyaw", "spine_ty", "spine_tz"]:
@@ -530,7 +553,7 @@ def run_multisine_simulation(
     # - Above 1.0 deg in Roll or Yaw, quadratic penalty prevents out-of-plane instability while keeping <1.0 deg 100% pure Bode.
     HF_CUTOFF_HZ = 10.0
     ROLL_YAW_DEADBAND_DEG = float(os.environ.get("ROLL_YAW_DEADBAND_DEG", "1.00"))
-    ROLL_YAW_EXCESS_WEIGHT = float(os.environ.get("ROLL_YAW_EXCESS_WEIGHT", "6400.0"))
+    ROLL_YAW_EXCESS_WEIGHT = float(os.environ.get("ROLL_YAW_EXCESS_WEIGHT", "0.0"))
     PITCH_HF_DEADBAND_DEG = float(os.environ.get("PITCH_HF_DEADBAND_DEG", "0.10"))
     PITCH_HF_EXCESS_WEIGHT = float(os.environ.get("PITCH_HF_EXCESS_WEIGHT", "10000.0"))
     try:

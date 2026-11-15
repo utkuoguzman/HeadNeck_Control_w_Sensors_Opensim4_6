@@ -374,26 +374,26 @@ def evaluate_axis_candidate(args):
 
 def run_roll_and_yaw_surgical_sweep():
     roll_candidates = [
-        ("R0_baseline", {}),
-        ("R1_lowPID_zphas", {"Kp_roll": 2.5, "Kd_roll": 0.40, "K_phas_roll": 17.0, "z_phas_roll": 0.045, "z_sc_roll": 0.012, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
-        ("R2_ap050_c55", {"Kp_roll": 2.5, "Kd_roll": 0.40, "K_phas_roll": 17.0, "z_phas_roll": 0.045, "z_sc_roll": 0.012, "p_ap_roll": 0.50, "c_ap_roll": 55.0, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
-        ("R3_ap055_c75", {"Kp_roll": 2.5, "Kd_roll": 0.40, "K_phas_roll": 17.5, "z_phas_roll": 0.050, "z_sc_roll": 0.012, "p_ap_roll": 0.55, "c_ap_roll": 75.0, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
-        ("R4_ap065_c65", {"Kp_roll": 2.0, "Kd_roll": 0.35, "K_phas_roll": 17.5, "z_phas_roll": 0.050, "z_sc_roll": 0.012, "p_ap_roll": 0.65, "c_ap_roll": 65.0, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
-        ("R5_ap045_c90", {"Kp_roll": 2.0, "Kd_roll": 0.35, "K_phas_roll": 18.0, "z_phas_roll": 0.055, "z_sc_roll": 0.014, "p_ap_roll": 0.45, "c_ap_roll": 90.0, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
-        ("R6_ap060_c50_ksc3", {"Kp_roll": 1.5, "Kd_roll": 0.30, "K_sc_roll": 3.2, "K_phas_roll": 16.5, "z_phas_roll": 0.048, "z_sc_roll": 0.015, "p_ap_roll": 0.60, "c_ap_roll": 50.0, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
-        ("R7_ap075_c55_kp4", {"Kp_roll": 4.0, "Kd_roll": 0.55, "K_phas_roll": 18.0, "z_phas_roll": 0.052, "z_sc_roll": 0.012, "p_ap_roll": 0.75, "c_ap_roll": 55.0, "K_ton_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R1_kp42_dc10", {"Kp_roll": 4.2, "Kd_roll": 1.35, "K_sc_roll": 3.5, "K_phas_roll": 16.0, "p_phas_roll": 5.5, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R2_kp34_dc10", {"Kp_roll": 3.4, "Kd_roll": 1.35, "K_sc_roll": 3.5, "K_phas_roll": 16.0, "p_phas_roll": 5.5, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R3_kp48_kt38_dc10", {"Kp_roll": 4.8, "Kd_roll": 1.40, "K_ton_roll": 3.8, "K_sc_roll": 3.2, "K_phas_roll": 16.5, "p_phas_roll": 5.8, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R4_kp38_kt42_dc10", {"Kp_roll": 3.8, "Kd_roll": 1.40, "K_ton_roll": 4.2, "K_sc_roll": 3.2, "K_phas_roll": 16.5, "p_phas_roll": 6.0, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R5_kp28_kt52_dc10", {"Kp_roll": 2.8, "Kd_roll": 1.30, "K_sc_roll": 3.8, "K_phas_roll": 15.8, "p_phas_roll": 5.2, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R6_kp35_ccr15_dc10", {"Kp_roll": 3.5, "Kd_roll": 1.40, "K_ton_roll": 4.5, "Kp_prop_roll": 1.5, "z_ccr_roll": 0.08, "K_sc_roll": 3.2, "K_phas_roll": 16.2, "p_phas_roll": 5.8, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
+        ("R7_kp45_ccr15_dc10", {"Kp_roll": 4.5, "Kd_roll": 1.45, "K_ton_roll": 3.8, "Kp_prop_roll": 1.5, "z_ccr_roll": 0.08, "K_sc_roll": 3.0, "K_phas_roll": 16.5, "p_phas_roll": 6.0, "z_phas_roll": 0.0, "z_sc_roll": 0.0, "deriv_comp_roll": 1.0}),
     ]
 
     yaw_candidates = [
-        ("Y1_clean_ccr8", {"K_sc_yaw": 0.30, "K_ton_yaw": 0.15, "Kp_yaw": 0.0, "Kd_yaw": 0.0, "Kp_prop_yaw": 8.0, "z_ccr_yaw": 0.14, "deriv_comp_yaw": 0.6}),
-        ("Y2_xover_ksc25_p35", {"K_sc_yaw": 2.5, "p_sc_yaw": 3.5, "K_ton_yaw": 1.5, "p_ton_yaw": 2.5, "Kp_yaw": 0.0, "Kd_yaw": 0.0, "Kp_prop_yaw": 8.5, "z_ccr_yaw": 0.15, "deriv_comp_yaw": 0.6}),
-        ("Y3_xover_ksc35_p28", {"K_sc_yaw": 3.5, "p_sc_yaw": 2.8, "K_ton_yaw": 2.0, "p_ton_yaw": 2.0, "Kp_yaw": 0.0, "Kd_yaw": 0.0, "Kp_prop_yaw": 9.5, "z_ccr_yaw": 0.16, "deriv_comp_yaw": 0.6}),
-        ("Y4_xover_ksc20_p45", {"K_sc_yaw": 2.0, "p_sc_yaw": 4.5, "K_ton_yaw": 1.2, "p_ton_yaw": 3.0, "Kp_yaw": 0.0, "Kd_yaw": 0.0, "Kp_prop_yaw": 10.5, "z_ccr_yaw": 0.16, "deriv_comp_yaw": 0.8}),
-        ("Y5_xover_ksc30_ccr11", {"K_sc_yaw": 3.0, "p_sc_yaw": 3.0, "K_ton_yaw": 2.5, "p_ton_yaw": 2.0, "Kp_yaw": 0.0, "Kd_yaw": 0.0, "Kp_prop_yaw": 11.5, "z_ccr_yaw": 0.17, "deriv_comp_yaw": 0.8}),
-        ("Y6_xover_ksc15_ccr9", {"K_sc_yaw": 1.5, "p_sc_yaw": 3.5, "K_ton_yaw": 1.0, "p_ton_yaw": 2.5, "Kp_yaw": 0.0, "Kd_yaw": 0.0, "Kp_prop_yaw": 9.0, "z_ccr_yaw": 0.15, "deriv_comp_yaw": 0.5}),
+        ("Y1_kp65_kt45", {"K_ton_yaw": 4.5, "p_ton_yaw": 2.5, "K_sc_yaw": 0.8, "p_sc_yaw": 4.0, "Kp_yaw": 0.0, "Kd_yaw": 0.03, "Kp_prop_yaw": 6.5, "z_ccr_yaw": 0.08, "deriv_comp_yaw": 0.30}),
+        ("Y2_kp75_kt50", {"K_ton_yaw": 5.0, "p_ton_yaw": 2.2, "K_sc_yaw": 1.0, "p_sc_yaw": 3.5, "Kp_yaw": 0.0, "Kd_yaw": 0.03, "Kp_prop_yaw": 7.5, "z_ccr_yaw": 0.07, "deriv_comp_yaw": 0.30}),
+        ("Y3_kp60_kt35_z06", {"K_ton_yaw": 3.5, "p_ton_yaw": 2.5, "K_sc_yaw": 0.6, "p_sc_yaw": 4.0, "Kp_yaw": 0.0, "Kd_yaw": 0.02, "Kp_prop_yaw": 6.0, "z_ccr_yaw": 0.06, "deriv_comp_yaw": 0.25}),
+        ("Y4_kp85_kt55", {"K_ton_yaw": 5.5, "p_ton_yaw": 2.4, "K_sc_yaw": 1.2, "p_sc_yaw": 3.5, "Kp_yaw": 0.0, "Kd_yaw": 0.03, "Kp_prop_yaw": 8.5, "z_ccr_yaw": 0.06, "deriv_comp_yaw": 0.25}),
+        ("Y5_kp70_ksc15_kt40", {"K_ton_yaw": 4.0, "p_ton_yaw": 2.8, "K_sc_yaw": 1.5, "p_sc_yaw": 3.2, "Kp_yaw": 0.0, "Kd_yaw": 0.03, "Kp_prop_yaw": 7.0, "z_ccr_yaw": 0.08, "deriv_comp_yaw": 0.30}),
+        ("Y6_kp65_z10_dc012", {"K_ton_yaw": 4.5, "p_ton_yaw": 2.5, "K_sc_yaw": 0.8, "p_sc_yaw": 4.0, "Kp_yaw": 0.0, "Kd_yaw": 0.02, "Kp_prop_yaw": 6.5, "z_ccr_yaw": 0.10, "deriv_comp_yaw": 0.12}),
+        ("Y7_kp55_z11_dc015", {"K_ton_yaw": 3.8, "p_ton_yaw": 2.6, "K_sc_yaw": 0.6, "p_sc_yaw": 4.5, "Kp_yaw": 0.0, "Kd_yaw": 0.02, "Kp_prop_yaw": 5.5, "z_ccr_yaw": 0.11, "deriv_comp_yaw": 0.15}),
     ]
 
-    tasks = [("LatEC", name, p, 2.0) for name, p in roll_candidates] + [("YawMA", name, p, 2.0) for name, p in yaw_candidates]
+    tasks = [("LatEC", name, p, 2.0) for name, p in roll_candidates] + [("YawMA", name, p, 3.0) for name, p in yaw_candidates]
     roll_res, yaw_res = [], []
     with ProcessPoolExecutor(max_workers=14) as ex:
         futs = [ex.submit(evaluate_axis_candidate, t) for t in tasks]
@@ -403,19 +403,19 @@ def run_roll_and_yaw_surgical_sweep():
                 roll_res.append(res)
             else:
                 yaw_res.append(res)
-            print(f"[{res['cand_id']}] cost={res['cost']:.2f} (G={res.get('gain_cost',0):.2f}, P={res.get('phase_cost',0):.2f}, noise={res.get('hf_noise_rms',0):.2f} deg/s, corr={res.get('corr_vel',0):.3f})")
-            print(f"   Gains : {res.get('gains')}")
-            print(f"   dBErrs: {res.get('db_errs')}")
-            print(f"   PhErrs: {res.get('ph_errs')}")
+            print(f"[{res['cand_id']}] aborted={res.get('aborted')} cost={res['cost']:.2f} (G={res.get('gain_cost',0):.2f}, P={res.get('phase_cost',0):.2f}, noise={res.get('hf_noise_rms',0):.2f} deg/s, corr={res.get('corr_vel',0):.3f})", flush=True)
+            print(f"   Gains : {res.get('gains')}", flush=True)
+            print(f"   dBErrs: {res.get('db_errs')}", flush=True)
+            print(f"   PhErrs: {res.get('ph_errs')}", flush=True)
 
     roll_res.sort(key=lambda x: x["cost"])
     yaw_res.sort(key=lambda x: x["cost"])
-    print("\n=== TOP ROLL CANDIDATES ===")
+    print("\n=== TOP ROLL CANDIDATES ===", flush=True)
     for r in roll_res:
-        print(f"{r['cand_id']:20s} | cost={r['cost']:6.2f} | noise={r.get('hf_noise_rms',0):4.2f} | corr={r.get('corr_vel',0):.3f} | PhErrs={r['ph_errs']} | dBErrs={r['db_errs']}")
-    print("\n=== TOP YAW CANDIDATES ===")
+        print(f"{r['cand_id']:20s} | aborted={r.get('aborted')} | cost={r['cost']:8.2f} | noise={r.get('hf_noise_rms',0):4.2f} | corr={r.get('corr_vel',0):.3f} | PhErrs={r.get('ph_errs')} | dBErrs={r.get('db_errs')}", flush=True)
+    print("\n=== TOP YAW CANDIDATES ===", flush=True)
     for r in yaw_res:
-        print(f"{r['cand_id']:20s} | cost={r['cost']:6.2f} | noise={r.get('hf_noise_rms',0):4.2f} | corr={r.get('corr_vel',0):.3f} | PhErrs={r['ph_errs']} | dBErrs={r['db_errs']}")
+        print(f"{r['cand_id']:20s} | aborted={r.get('aborted')} | cost={r['cost']:8.2f} | noise={r.get('hf_noise_rms',0):4.2f} | corr={r.get('corr_vel',0):.3f} | PhErrs={r.get('ph_errs')} | dBErrs={r.get('db_errs')}", flush=True)
 
 
 if __name__ == "__main__":
