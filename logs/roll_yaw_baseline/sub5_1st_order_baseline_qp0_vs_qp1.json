@@ -1,0 +1,568 @@
+{
+  "USE_6DOF_QP=0": {
+    "APEO": {
+      "tag": "base_APEO",
+      "mode": "APEO",
+      "ok": true,
+      "aborted": false,
+      "t_end": 21.519,
+      "use_6dof_qp": "0",
+      "classic_bode_score": 1948.51,
+      "gain_loss_pts": 1408.67,
+      "phase_loss_pts": 539.85,
+      "hf_noise_rms": 10.285,
+      "corr_vel": 0.9172,
+      "bins": [
+        {
+          "freq_hz": 0.324,
+          "db_err": -2.14,
+          "ph_err_deg": -7.2,
+          "sim_gain": 67.62,
+          "tgt_gain": 86.55
+        },
+        {
+          "freq_hz": 0.783,
+          "db_err": -1.38,
+          "ph_err_deg": -1.1,
+          "sim_gain": 202.1,
+          "tgt_gain": 236.93
+        },
+        {
+          "freq_hz": 1.099,
+          "db_err": -2.47,
+          "ph_err_deg": -2.8,
+          "sim_gain": 240.6,
+          "tgt_gain": 319.74
+        },
+        {
+          "freq_hz": 2.446,
+          "db_err": -0.02,
+          "ph_err_deg": 7.7,
+          "sim_gain": 422.41,
+          "tgt_gain": 423.34
+        },
+        {
+          "freq_hz": 5.583,
+          "db_err": 0.77,
+          "ph_err_deg": -17.7,
+          "sim_gain": 549.73,
+          "tgt_gain": 503.3
+        },
+        {
+          "freq_hz": 7.927,
+          "db_err": -0.94,
+          "ph_err_deg": -10.3,
+          "sim_gain": 513.66,
+          "tgt_gain": 572.69
+        }
+      ],
+      "cross": {
+        "p_tot_init": 0.0,
+        "p1_init": 0.0,
+        "p2_init": 0.0,
+        "max_abs_dp_tot": 6.57,
+        "max_abs_dp1": 6.71,
+        "max_abs_dp2": 10.85,
+        "max_abs_p_tot": 6.57,
+        "max_abs_p1": 6.71,
+        "max_abs_p2": 10.85,
+        "p_tot_t3": 0.95,
+        "p1_t3": 4.52,
+        "p2_t3": -3.57,
+        "p_tot_t12": 0.02,
+        "p1_t12": 5.31,
+        "p2_t12": -5.29,
+        "p_tot_end": 1.47,
+        "p1_end": 4.84,
+        "p2_end": -3.37,
+        "s_buckle_end": 8.22,
+        "max_s_buckle_ss": 15.59,
+        "rms_dp_tot_ss": 2.62,
+        "max_abs_roll_ss": 0.69,
+        "max_abs_yaw_rel_ss": 0.41
+      }
+    },
+    "LatEC": {
+      "tag": "base_LatEC",
+      "mode": "LatEC",
+      "ok": true,
+      "aborted": false,
+      "t_end": 19.543,
+      "use_6dof_qp": "0",
+      "classic_bode_score": 24593.11,
+      "gain_loss_pts": 10156.83,
+      "phase_loss_pts": 14436.28,
+      "hf_noise_rms": 6.323,
+      "corr_vel": 0.5348,
+      "bins": [
+        {
+          "freq_hz": 0.1209,
+          "db_err": -1.35,
+          "ph_err_deg": 88.9,
+          "sim_gain": 7.55,
+          "tgt_gain": 8.81
+        },
+        {
+          "freq_hz": 0.1986,
+          "db_err": -7.75,
+          "ph_err_deg": 70.1,
+          "sim_gain": 8.18,
+          "tgt_gain": 19.96
+        },
+        {
+          "freq_hz": 0.3214,
+          "db_err": -3.1,
+          "ph_err_deg": 32.6,
+          "sim_gain": 29.38,
+          "tgt_gain": 41.97
+        },
+        {
+          "freq_hz": 0.5588,
+          "db_err": -3.22,
+          "ph_err_deg": -2.4,
+          "sim_gain": 62.44,
+          "tgt_gain": 90.48
+        },
+        {
+          "freq_hz": 0.8722,
+          "db_err": -0.95,
+          "ph_err_deg": -5.7,
+          "sim_gain": 171.57,
+          "tgt_gain": 191.33
+        },
+        {
+          "freq_hz": 1.404,
+          "db_err": -1.87,
+          "ph_err_deg": -3.5,
+          "sim_gain": 332.1,
+          "tgt_gain": 411.82
+        },
+        {
+          "freq_hz": 2.0936,
+          "db_err": -0.88,
+          "ph_err_deg": 3.6,
+          "sim_gain": 322.81,
+          "tgt_gain": 357.14
+        },
+        {
+          "freq_hz": 3.9915,
+          "db_err": -3.81,
+          "ph_err_deg": 22.1,
+          "sim_gain": 319.15,
+          "tgt_gain": 494.8
+        }
+      ],
+      "cross": {
+        "p_tot_init": 0.0,
+        "p1_init": 0.0,
+        "p2_init": 0.0,
+        "max_abs_dp_tot": 5.75,
+        "max_abs_dp1": 5.25,
+        "max_abs_dp2": 6.15,
+        "max_abs_p_tot": 5.75,
+        "max_abs_p1": 5.25,
+        "max_abs_p2": 6.15,
+        "p_tot_t3": 5.53,
+        "p1_t3": 4.82,
+        "p2_t3": 0.71,
+        "p_tot_t12": -0.49,
+        "p1_t12": 4.51,
+        "p2_t12": -5.0,
+        "p_tot_end": -0.65,
+        "p1_end": 4.88,
+        "p2_end": -5.53,
+        "s_buckle_end": 10.42,
+        "max_s_buckle_ss": 11.16,
+        "rms_dp_tot_ss": 1.18,
+        "max_abs_roll_ss": 1.22,
+        "max_abs_yaw_rel_ss": 0.91
+      }
+    },
+    "YawMA": {
+      "tag": "base_YawMA",
+      "mode": "YawMA",
+      "ok": true,
+      "aborted": false,
+      "t_end": 12.921,
+      "use_6dof_qp": "0",
+      "classic_bode_score": 11456.05,
+      "gain_loss_pts": 9746.92,
+      "phase_loss_pts": 1709.13,
+      "hf_noise_rms": 2.136,
+      "corr_vel": 0.8832,
+      "bins": [
+        {
+          "freq_hz": 0.2016,
+          "db_err": 2.69,
+          "ph_err_deg": 2.9,
+          "sim_gain": 0.79,
+          "tgt_gain": 0.58
+        },
+        {
+          "freq_hz": 0.298,
+          "db_err": 2.57,
+          "ph_err_deg": -6.8,
+          "sim_gain": 0.85,
+          "tgt_gain": 0.63
+        },
+        {
+          "freq_hz": 0.4728,
+          "db_err": 0.65,
+          "ph_err_deg": -14.6,
+          "sim_gain": 0.83,
+          "tgt_gain": 0.77
+        },
+        {
+          "freq_hz": 0.6827,
+          "db_err": 0.22,
+          "ph_err_deg": -11.0,
+          "sim_gain": 0.86,
+          "tgt_gain": 0.84
+        },
+        {
+          "freq_hz": 0.9651,
+          "db_err": -1.16,
+          "ph_err_deg": -13.7,
+          "sim_gain": 0.99,
+          "tgt_gain": 1.13
+        },
+        {
+          "freq_hz": 1.4081,
+          "db_err": -1.95,
+          "ph_err_deg": -3.4,
+          "sim_gain": 1.15,
+          "tgt_gain": 1.44
+        },
+        {
+          "freq_hz": 1.9855,
+          "db_err": -1.51,
+          "ph_err_deg": -6.3,
+          "sim_gain": 1.21,
+          "tgt_gain": 1.44
+        },
+        {
+          "freq_hz": 2.8742,
+          "db_err": -4.96,
+          "ph_err_deg": -3.1,
+          "sim_gain": 0.9,
+          "tgt_gain": 1.59
+        },
+        {
+          "freq_hz": 4.0528,
+          "db_err": -7.15,
+          "ph_err_deg": 32.7,
+          "sim_gain": 0.54,
+          "tgt_gain": 1.22
+        }
+      ],
+      "cross": {
+        "p_tot_init": 0.0,
+        "p1_init": 0.0,
+        "p2_init": 0.0,
+        "max_abs_dp_tot": 5.75,
+        "max_abs_dp1": 5.3,
+        "max_abs_dp2": 5.64,
+        "max_abs_p_tot": 5.75,
+        "max_abs_p1": 5.3,
+        "max_abs_p2": 5.64,
+        "p_tot_t3": 5.42,
+        "p1_t3": 4.7,
+        "p2_t3": 0.72,
+        "p_tot_t12": -0.43,
+        "p1_t12": 4.87,
+        "p2_t12": -5.3,
+        "p_tot_end": -0.17,
+        "p1_end": 4.8,
+        "p2_end": -4.97,
+        "s_buckle_end": 9.77,
+        "max_s_buckle_ss": 10.65,
+        "rms_dp_tot_ss": 1.43,
+        "max_abs_roll_ss": 0.79,
+        "max_abs_yaw_rel_ss": 1.54
+      }
+    }
+  },
+  "USE_6DOF_QP=1": {
+    "APEO": {
+      "tag": "base_APEO",
+      "mode": "APEO",
+      "ok": true,
+      "aborted": false,
+      "t_end": 21.519,
+      "use_6dof_qp": "1",
+      "classic_bode_score": 1747.49,
+      "gain_loss_pts": 1366.7,
+      "phase_loss_pts": 380.79,
+      "hf_noise_rms": 9.999,
+      "corr_vel": 0.9395,
+      "bins": [
+        {
+          "freq_hz": 0.324,
+          "db_err": -2.1,
+          "ph_err_deg": 6.5,
+          "sim_gain": 67.92,
+          "tgt_gain": 86.55
+        },
+        {
+          "freq_hz": 0.783,
+          "db_err": 0.05,
+          "ph_err_deg": 2.8,
+          "sim_gain": 238.3,
+          "tgt_gain": 236.93
+        },
+        {
+          "freq_hz": 1.099,
+          "db_err": -2.06,
+          "ph_err_deg": -3.8,
+          "sim_gain": 252.27,
+          "tgt_gain": 319.74
+        },
+        {
+          "freq_hz": 2.446,
+          "db_err": 0.3,
+          "ph_err_deg": 8.5,
+          "sim_gain": 438.36,
+          "tgt_gain": 423.34
+        },
+        {
+          "freq_hz": 5.583,
+          "db_err": 1.88,
+          "ph_err_deg": -13.2,
+          "sim_gain": 624.76,
+          "tgt_gain": 503.3
+        },
+        {
+          "freq_hz": 7.927,
+          "db_err": 1.17,
+          "ph_err_deg": -8.4,
+          "sim_gain": 655.57,
+          "tgt_gain": 572.69
+        }
+      ],
+      "cross": {
+        "p_tot_init": 0.0,
+        "p1_init": 0.0,
+        "p2_init": 0.0,
+        "max_abs_dp_tot": 8.15,
+        "max_abs_dp1": 4.73,
+        "max_abs_dp2": 8.87,
+        "max_abs_p_tot": 8.15,
+        "max_abs_p1": 4.73,
+        "max_abs_p2": 8.87,
+        "p_tot_t3": 2.24,
+        "p1_t3": 3.25,
+        "p2_t3": -1.02,
+        "p_tot_t12": 1.17,
+        "p1_t12": 3.45,
+        "p2_t12": -2.28,
+        "p_tot_end": 1.31,
+        "p1_end": 3.36,
+        "p2_end": -2.05,
+        "s_buckle_end": 5.4,
+        "max_s_buckle_ss": 11.48,
+        "rms_dp_tot_ss": 3.08,
+        "max_abs_roll_ss": 0.77,
+        "max_abs_yaw_rel_ss": 0.6
+      }
+    },
+    "LatEC": {
+      "tag": "base_LatEC",
+      "mode": "LatEC",
+      "ok": true,
+      "aborted": false,
+      "t_end": 19.543,
+      "use_6dof_qp": "1",
+      "classic_bode_score": 15871.5,
+      "gain_loss_pts": 5241.22,
+      "phase_loss_pts": 10630.29,
+      "hf_noise_rms": 6.313,
+      "corr_vel": 0.5633,
+      "bins": [
+        {
+          "freq_hz": 0.1209,
+          "db_err": 0.95,
+          "ph_err_deg": 83.9,
+          "sim_gain": 9.83,
+          "tgt_gain": 8.81
+        },
+        {
+          "freq_hz": 0.1986,
+          "db_err": -2.31,
+          "ph_err_deg": 45.1,
+          "sim_gain": 15.3,
+          "tgt_gain": 19.96
+        },
+        {
+          "freq_hz": 0.3214,
+          "db_err": -4.43,
+          "ph_err_deg": 34.9,
+          "sim_gain": 25.19,
+          "tgt_gain": 41.97
+        },
+        {
+          "freq_hz": 0.5588,
+          "db_err": -3.16,
+          "ph_err_deg": 1.5,
+          "sim_gain": 62.87,
+          "tgt_gain": 90.48
+        },
+        {
+          "freq_hz": 0.8722,
+          "db_err": -1.27,
+          "ph_err_deg": -3.4,
+          "sim_gain": 165.31,
+          "tgt_gain": 191.33
+        },
+        {
+          "freq_hz": 1.404,
+          "db_err": -1.02,
+          "ph_err_deg": 0.3,
+          "sim_gain": 366.26,
+          "tgt_gain": 411.82
+        },
+        {
+          "freq_hz": 2.0936,
+          "db_err": -0.06,
+          "ph_err_deg": 1.7,
+          "sim_gain": 354.48,
+          "tgt_gain": 357.14
+        },
+        {
+          "freq_hz": 3.9915,
+          "db_err": -3.72,
+          "ph_err_deg": 18.2,
+          "sim_gain": 322.37,
+          "tgt_gain": 494.8
+        }
+      ],
+      "cross": {
+        "p_tot_init": 0.0,
+        "p1_init": 0.0,
+        "p2_init": 0.0,
+        "max_abs_dp_tot": 6.98,
+        "max_abs_dp1": 3.07,
+        "max_abs_dp2": 3.95,
+        "max_abs_p_tot": 6.98,
+        "max_abs_p1": 3.07,
+        "max_abs_p2": 3.95,
+        "p_tot_t3": 6.79,
+        "p1_t3": 2.97,
+        "p2_t3": 3.82,
+        "p_tot_t12": 0.62,
+        "p1_t12": 2.13,
+        "p2_t12": -1.5,
+        "p_tot_end": -0.28,
+        "p1_end": 2.12,
+        "p2_end": -2.4,
+        "s_buckle_end": 4.51,
+        "max_s_buckle_ss": 4.79,
+        "rms_dp_tot_ss": 2.03,
+        "max_abs_roll_ss": 1.63,
+        "max_abs_yaw_rel_ss": 0.61
+      }
+    },
+    "YawMA": {
+      "tag": "base_YawMA",
+      "mode": "YawMA",
+      "ok": true,
+      "aborted": false,
+      "t_end": 12.921,
+      "use_6dof_qp": "1",
+      "classic_bode_score": 8459.32,
+      "gain_loss_pts": 5915.11,
+      "phase_loss_pts": 2544.21,
+      "hf_noise_rms": 1.765,
+      "corr_vel": 0.8987,
+      "bins": [
+        {
+          "freq_hz": 0.2016,
+          "db_err": 2.8,
+          "ph_err_deg": 2.1,
+          "sim_gain": 0.8,
+          "tgt_gain": 0.58
+        },
+        {
+          "freq_hz": 0.298,
+          "db_err": 2.24,
+          "ph_err_deg": -6.7,
+          "sim_gain": 0.82,
+          "tgt_gain": 0.63
+        },
+        {
+          "freq_hz": 0.4728,
+          "db_err": 0.97,
+          "ph_err_deg": -13.0,
+          "sim_gain": 0.86,
+          "tgt_gain": 0.77
+        },
+        {
+          "freq_hz": 0.6827,
+          "db_err": 0.73,
+          "ph_err_deg": -10.8,
+          "sim_gain": 0.91,
+          "tgt_gain": 0.84
+        },
+        {
+          "freq_hz": 0.9651,
+          "db_err": -1.2,
+          "ph_err_deg": -14.8,
+          "sim_gain": 0.99,
+          "tgt_gain": 1.13
+        },
+        {
+          "freq_hz": 1.4081,
+          "db_err": -1.92,
+          "ph_err_deg": -0.6,
+          "sim_gain": 1.16,
+          "tgt_gain": 1.44
+        },
+        {
+          "freq_hz": 1.9855,
+          "db_err": -1.81,
+          "ph_err_deg": 3.3,
+          "sim_gain": 1.17,
+          "tgt_gain": 1.44
+        },
+        {
+          "freq_hz": 2.8742,
+          "db_err": -4.15,
+          "ph_err_deg": 12.5,
+          "sim_gain": 0.98,
+          "tgt_gain": 1.59
+        },
+        {
+          "freq_hz": 4.0528,
+          "db_err": -4.37,
+          "ph_err_deg": 42.7,
+          "sim_gain": 0.74,
+          "tgt_gain": 1.22
+        }
+      ],
+      "cross": {
+        "p_tot_init": 0.0,
+        "p1_init": 0.0,
+        "p2_init": 0.0,
+        "max_abs_dp_tot": 6.67,
+        "max_abs_dp1": 3.0,
+        "max_abs_dp2": 3.74,
+        "max_abs_p_tot": 6.67,
+        "max_abs_p1": 3.0,
+        "max_abs_p2": 3.74,
+        "p_tot_t3": 5.95,
+        "p1_t3": 2.73,
+        "p2_t3": 3.22,
+        "p_tot_t12": 1.07,
+        "p1_t12": 2.21,
+        "p2_t12": -1.14,
+        "p_tot_end": -0.04,
+        "p1_end": 2.03,
+        "p2_end": -2.07,
+        "s_buckle_end": 4.11,
+        "max_s_buckle_ss": 4.12,
+        "rms_dp_tot_ss": 2.54,
+        "max_abs_roll_ss": 0.52,
+        "max_abs_yaw_rel_ss": 1.32
+      }
+    }
+  }
+}

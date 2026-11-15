@@ -12,9 +12,9 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
 
     constructProperty_delay_vcr(0.010);
     constructProperty_delay_ccr(0.015);
-    constructProperty_Kp_proprioception(2.5030);
-    constructProperty_z_ccr(0.0150); // Step 1: Millard (2012) muscle activation delay compensator tau_act = 15.0 ms
-    constructProperty_p_ccr(100.0);  // Literature spinal CCR pole (100 rad/s, tau = 10 ms, fc = 15.9 Hz; paired with p_fast = 250 rad/s)
+    constructProperty_Kp_proprioception(0.44351132582628877);
+    constructProperty_z_ccr(0.0);
+    constructProperty_p_ccr(99.919586);
     constructProperty_K_recip_inhib(0.0); // 0.0 means complete reciprocal inhibition (no antagonist reflex)
     constructProperty_Kg_proprioception(0.0);
     constructProperty_K_vestibular(2.0);
@@ -22,41 +22,41 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_desired_yaw(0.0);
     constructProperty_desired_pitch(0.0);
     constructProperty_desired_roll(0.0);
-    constructProperty_K_ton(74.3907);
-    constructProperty_p_ton(15.0);   // Literature tonic otolith pole (15 rad/s, tau = 66.7 ms, fc = 2.4 Hz; paired with p_fast = 250 rad/s)
-    constructProperty_K_sc(49.3723);
-    constructProperty_z_sc(0.0150);  // Step 1: Millard (2012) muscle activation delay compensator tau_act = 15.0 ms
-    constructProperty_p_sc(50.0);    // Literature canal VCR pole (50 rad/s, tau = 20 ms, fc = 8.0 Hz; paired with p_fast = 250 rad/s)
-    constructProperty_K_phas(4.9396);
-    constructProperty_z_phas(-1.0);
-    constructProperty_p_phas(4.0);   // Step 3: Literature phasic otolith leaky-integrator pole (4.0 rad/s, tau = 250 ms, fc = 0.64 Hz; paired with p_fast = 250 rad/s)
+    constructProperty_K_ton(5.2598427596916935);
+    constructProperty_p_ton(16.227225);
+    constructProperty_K_sc(4.101868521564445);
+    constructProperty_z_sc(0.0055444407969709435);
+    constructProperty_p_sc(53.284141);
+    constructProperty_K_phas(15.420486774711076);
+    constructProperty_z_phas(0.013306657912730264);
+    constructProperty_p_phas(4.711937);
     constructProperty_p_phas2(-1.0);
-    constructProperty_k_p(2.5030);
-    constructProperty_K_ton_roll(-1000.0);
-    constructProperty_K_ton_yaw(-1000.0);
-    constructProperty_p_ton_roll(-1.0);
-    constructProperty_p_ton_yaw(-1.0);
-    constructProperty_K_sc_roll(-1000.0);
-    constructProperty_K_sc_yaw(-1000.0);
-    constructProperty_z_sc_roll(-1.0);
+    constructProperty_k_p(0.44351132582628877);
+    constructProperty_K_ton_roll(-0.85);
+    constructProperty_K_ton_yaw(5.2598427596916935);
+    constructProperty_p_ton_roll(3.0);
+    constructProperty_p_ton_yaw(16.227225);
+    constructProperty_K_sc_roll(2.029);
+    constructProperty_K_sc_yaw(1.2);
+    constructProperty_z_sc_roll(0.0);
     constructProperty_z_sc_yaw(-1.0);
-    constructProperty_p_sc_roll(-1.0);
-    constructProperty_p_sc_yaw(-1.0);
-    constructProperty_K_phas_roll(-1000.0);
-    constructProperty_z_phas_roll(-1.0);
-    constructProperty_p_phas_roll(-1.0);
+    constructProperty_p_sc_roll(60.0);
+    constructProperty_p_sc_yaw(3.5);
+    constructProperty_K_phas_roll(16.653);
+    constructProperty_z_phas_roll(0.0);
+    constructProperty_p_phas_roll(5.747);
     constructProperty_p_ap_roll(-1.0);
     constructProperty_c_ap_roll(0.0);
-    constructProperty_Kp_prop_roll(-1000.0);
-    constructProperty_Kp_prop_yaw(-1000.0);
-    constructProperty_z_ccr_roll(-1.0);
-    constructProperty_z_ccr_yaw(-1.0);
+    constructProperty_Kp_prop_roll(4.2);
+    constructProperty_Kp_prop_yaw(8.5);
+    constructProperty_z_ccr_roll(0.10);
+    constructProperty_z_ccr_yaw(0.06);
     constructProperty_p_ccr_roll(-1.0);
     constructProperty_p_ccr_yaw(-1.0);
     constructProperty_deriv_comp_roll(1.0);
     constructProperty_deriv_comp_yaw(1.0);
-    constructProperty_K_gamma_dyn(0.9964);
-    constructProperty_K_gamma_stat(0.9951);
+    constructProperty_K_gamma_dyn(1.0);
+    constructProperty_K_gamma_stat(1.0);
     constructProperty_K_gamma(1.0);
     constructProperty_Wp_base_pitch(400.0);
     constructProperty_Wv_base_pitch(40.0);
@@ -66,23 +66,23 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
 
     constructProperty_Wp_base_yaw(400.0);
     constructProperty_Wv_base_yaw(40.0);
-    constructProperty_Kp_task_pitch(-1.0);
-    constructProperty_Kd_task_pitch(-1.0);
-    constructProperty_Kp_task_roll(-1.0);
-    constructProperty_Kd_task_roll(-1.0);
-    constructProperty_Kp_task_yaw(-1.0);
-    constructProperty_Kd_task_yaw(-1.0);
-    constructProperty_Ki_task(6.54);
-    constructProperty_Ki_task_pitch(-1.0);
-    constructProperty_Ki_task_roll(0.0);
+    constructProperty_Kp_task_pitch(3.7901174594192497);
+    constructProperty_Kd_task_pitch(0.49457962404720823);
+    constructProperty_Kp_task_roll(1.4);
+    constructProperty_Kd_task_roll(1.14);
+    constructProperty_Kp_task_yaw(0.24);
+    constructProperty_Kd_task_yaw(0.03);
+    constructProperty_Ki_task(3.7214919179870036);
+    constructProperty_Ki_task_pitch(3.7214919179870036);
+    constructProperty_Ki_task_roll(1.5);
     constructProperty_Ki_task_yaw(0.0);
     constructProperty_trajectory_tau(0.1);
     constructProperty_use_dynamic_jacobian(true);
     constructProperty_K_eso(0.0);
     constructProperty_enable_eye_afferents(false);
     constructProperty_use_smith_predictor(true);
-    constructProperty_delay_smith_proprio(0.005);
-    constructProperty_delay_afferent_proprio(0.007);
+    constructProperty_delay_smith_proprio(0.003);
+    constructProperty_delay_afferent_proprio(0.003);
     constructProperty_delay_voluntary(0.040);
     constructProperty_fc_voluntary(2.0);
 
@@ -989,6 +989,8 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
         delayed_result.record.brainstem_vcr_torque_dot = source_record.brainstem_vcr_torque_dot;
         delayed_result.record.brainstem_vcr_torque_ddot = source_record.brainstem_vcr_torque_ddot;
         if (interpolate_spindle_afferents) {
+            delayed_result.record.raw_spindle_ia_rate = source_record.raw_spindle_ia_rate;
+            delayed_result.record.raw_spindle_ii_rate = source_record.raw_spindle_ii_rate;
             delayed_result.record.primary_afferent_firing_rate = source_record.primary_afferent_firing_rate;
             delayed_result.record.spinal_ccr_drive = source_record.spinal_ccr_drive;
             delayed_result.record.spinal_ccr_drive_dot = source_record.spinal_ccr_drive_dot;
@@ -1042,6 +1044,8 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
         delayed_result.record.brainstem_vcr_torque_dot = source_record.brainstem_vcr_torque_dot;
         delayed_result.record.brainstem_vcr_torque_ddot = source_record.brainstem_vcr_torque_ddot;
         if (interpolate_spindle_afferents) {
+            delayed_result.record.raw_spindle_ia_rate = source_record.raw_spindle_ia_rate;
+            delayed_result.record.raw_spindle_ii_rate = source_record.raw_spindle_ii_rate;
             delayed_result.record.primary_afferent_firing_rate = source_record.primary_afferent_firing_rate;
             delayed_result.record.spinal_ccr_drive = source_record.spinal_ccr_drive;
             delayed_result.record.spinal_ccr_drive_dot = source_record.spinal_ccr_drive_dot;
@@ -1175,6 +1179,16 @@ HeadNeckNeuralController::DelayedData HeadNeckNeuralController::getDelayedData(d
         iterator_upper->second.brainstem_vcr_torque_ddot * interpolation_weight;
 
     if (interpolate_spindle_afferents) {
+        auto lerp_vector = [interpolation_weight](const SimTK::Vector& lower_vec, const SimTK::Vector& upper_vec, SimTK::Vector& out_vec) {
+            if (lower_vec.size() > 0 && upper_vec.size() == lower_vec.size()) {
+                out_vec.resize(lower_vec.size());
+                for (int idx = 0; idx < out_vec.size(); ++idx) {
+                    out_vec[idx] = lower_vec[idx] * (1.0 - interpolation_weight) + upper_vec[idx] * interpolation_weight;
+                }
+            }
+        };
+        lerp_vector(iterator_lower->second.raw_spindle_ia_rate, iterator_upper->second.raw_spindle_ia_rate, interpolated_record.raw_spindle_ia_rate);
+        lerp_vector(iterator_lower->second.raw_spindle_ii_rate, iterator_upper->second.raw_spindle_ii_rate, interpolated_record.raw_spindle_ii_rate);
         if (iterator_lower->second.primary_afferent_firing_rate.size() > 0 &&
             iterator_upper->second.primary_afferent_firing_rate.size() == iterator_lower->second.primary_afferent_firing_rate.size()) {
             interpolated_record.primary_afferent_firing_rate.resize(iterator_lower->second.primary_afferent_firing_rate.size());
@@ -1483,8 +1497,16 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         std::vector<double> estimated_fiber_velocities(number_of_active_muscles, 0.0);
         const double k_gamma_dyn_capped  = std::clamp(get_K_gamma_dyn(),  0.0, 1.0);
         const double k_gamma_stat_capped = std::clamp(get_K_gamma_stat(), 0.0, 1.0);
-        const double tau_7b_agamma_delay = 0.0080; // Branch 7B (Sub 7 -> Sub 3 Spindles): 8.0 ms A-gamma fusimotor delay
+        const double tau_spindle_ia_delay = 0.0010; // Mileusnic (2006) Ia peripheral axon -> C1-C8 pool: 1.0 ms (uncompensated)
+        const double tau_spindle_ii_delay = 0.0025; // Mileusnic (2006) II peripheral axon -> C1-C8 pool: 2.5 ms (uncompensated)
+        const double tau_7b_agamma_delay  = 0.0025; // Branch 5B/7B (Sub 5 -> Sub 1A/3 Spindles): 2.5 ms A-gamma fusimotor delay
+        DelayedData delayed_spindle_ia_data    = getDelayedData(state.getTime(), tau_spindle_ia_delay, true);
+        DelayedData delayed_spindle_ii_data    = getDelayedData(state.getTime(), tau_spindle_ii_delay, true);
         DelayedData delayed_spinal_for_spindle = getDelayedData(state.getTime(), tau_7b_agamma_delay, true);
+        const bool has_delayed_spindle_ia = (!history.empty() && delayed_spindle_ia_data.record.valid &&
+            delayed_spindle_ia_data.record.raw_spindle_ia_rate.size() == number_of_active_muscles);
+        const bool has_delayed_spindle_ii = (!history.empty() && delayed_spindle_ii_data.record.valid &&
+            delayed_spindle_ii_data.record.raw_spindle_ii_rate.size() == number_of_active_muscles);
         const HistoryRecord& sp_rec = delayed_spinal_for_spindle.record;
         const bool has_sp_gamma = (sp_rec.valid &&
             sp_rec.spinal_gamma_dyn_commands.size() == number_of_active_muscles &&
@@ -1521,14 +1543,16 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             state_variable_spindle_static_fusimotor[muscle_index]->setDerivative(
                 state, (steady_state_static_fusimotor - static_fusimotor_activation) / 0.205);
 
-            double primary_afferent_value =
-                cached_primary_afferent_outputs[muscle_index]
+            double primary_afferent_value = has_delayed_spindle_ia
+                ? delayed_spindle_ia_data.record.raw_spindle_ia_rate[muscle_index]
+                : (cached_primary_afferent_outputs[muscle_index]
                     ? cached_primary_afferent_outputs[muscle_index]->getValue(state)
-                    : baseline_primary_afferent_rates[muscle_index];
-            double secondary_afferent_value =
-                cached_secondary_afferent_outputs[muscle_index]
+                    : baseline_primary_afferent_rates[muscle_index]);
+            double secondary_afferent_value = has_delayed_spindle_ii
+                ? delayed_spindle_ii_data.record.raw_spindle_ii_rate[muscle_index]
+                : (cached_secondary_afferent_outputs[muscle_index]
                     ? cached_secondary_afferent_outputs[muscle_index]->getValue(state)
-                    : baseline_secondary_afferent_rates[muscle_index];
+                    : baseline_secondary_afferent_rates[muscle_index]);
 
             // --- STAGE 2: PARALLEL REFERENCE MILEUSNIC SPINDLE (EFFERENCE COPY) & DYNAMIC GAIN NORMALIZATION kappa(f_hat_d) ---
             double ref_ia = 0.0, ref_ii = 0.0, kappa_gain = 1.0;
@@ -1603,18 +1627,18 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     }
 
     // --- ATLAS ANATOMICAL INTER-BLOCK DELAYS ---
-    const double tau_2b_cn8_cb_delay  = 0.0030; // Branch 2B (Sub 2 -> Sub 4 Cerebellum): 3.0 ms CN VIII + Mossy Fiber delay
-    const double tau_3b_cuneate_delay = 0.0070; // Branch 3B (Sub 3 -> Sub 4 Cerebellum): 7.0 ms Cuneate + CCT delay
-    const double tau_4b_thal_m1_delay = 0.0130; // Branch 4B (Sub 4 -> VL/VA Thalamus -> Sub 1 M1): 13.0 ms thalamocortical delay (7ms + 13ms = 20ms SEP)
+    const double tau_2b_cn8_cb_delay  = 0.0030; // Branch 2B (Sub 2A -> Sub 3 Cerebellum): 3.0 ms CN VIII + Mossy Fiber delay
+    const double tau_3b_cuneate_delay = 0.0030; // Branch 1A->3 (Sub 1A -> Sub 3 Cerebellum): 3.0 ms Cuneate + CCT delay
+    const double tau_4b_thal_m1_delay = 0.0130; // Branch 3B (Sub 3 -> VL/VA Thalamus -> Sub 4 M1): 13.0 ms thalamocortical delay (3ms + 13ms = 16ms SEP)
     const double tau_1a_m1_vn_tilt    = 0.0090; // Branch 1A (Sub 1 -> Sub 5 Brainstem VN Tonic Tilt): 9.0 ms corticobulbar delay
     const double tau_1b_m1_vn_canal   = 0.0100; // Branch 1B (Sub 1 -> Sub 5 Brainstem VN Canal/Phasic): 10.0 ms corticopontocerebellar delay
     const double tau_2a_cn8_vn_delay  = 0.0020; // Branch 2A (Sub 2 -> Sub 5 Brainstem VN): 2.0 ms CN VIII irregular afferent delay
-    const double tau_4a_fn_vn_delay   = 0.0015; // Branch 4A (Sub 4 -> Sub 5 Brainstem VN): 1.5 ms Uncinate Tract / Juxtarestiform delay
-    const double tau_3a_drg_ccr_delay = 0.0055; // Branch 3A (Sub 3 -> Sub 6 Spinal CCR): 5.5 ms DRG + Lamina VI/VII collateral delay
+    const double tau_4a_fn_vn_delay   = 0.0015; // Branch 3A (Sub 3 -> Sub 2B Brainstem VN): 1.5 ms Uncinate Tract / Juxtarestiform delay
+    const double tau_3a_drg_ccr_delay = 0.0010; // Mileusnic (2006) Ia peripheral axon -> C1-C8 Pool (Sub 6 Spinal CCR): 1.0 ms (uncompensated)
 
     DelayedData delayed_2b_cb_vest_data = getDelayedData(state.getTime(), tau_2b_cn8_cb_delay);
 
-    // --- SUBSYSTEM 4: SE_2(3) SPATIAL OBSERVER (Driven by Pre-Compensated Branch 2B [3.0 ms] & Branch 3B [7.0 ms]) ---
+    // --- SUBSYSTEM 3: SE_2(3) SPATIAL OBSERVER (Driven by Pre-Compensated Branch 2B [3.0 ms] & Branch 1A->3 [3.0 ms]) ---
     SimTK::Vec3 world_angular_velocity =
         (!history.empty() && delayed_2b_cb_vest_data.record.valid)
             ? delayed_2b_cb_vest_data.record.luenberger_angular_velocity
@@ -2254,14 +2278,16 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     const double tau_1c_m1_spinal_cst = 0.0145; // Branch 1C (Sub 1 -> Sub 7 Spinal Lamina IX QP & Fusimotor): 14.5 ms
     const double tau_2a_cn8_vn_delay  = 0.0020; // Branch 2A (Sub 2 -> Sub 5 Brainstem VN): 2.0 ms
     const double tau_2b_cn8_cb_delay  = 0.0030; // Branch 2B (Sub 2 -> Sub 4 Cerebellum): 3.0 ms
-    const double tau_3a_drg_ccr_delay = 0.0055; // Branch 3A (Sub 3 -> Sub 6 Spinal CCR): 5.5 ms
-    const double tau_3b_cuneate_delay = 0.0070; // Branch 3B (Sub 3 -> Sub 4 Cerebellum Cuneate): 7.0 ms
+    const double tau_spindle_ia_delay = 0.0010; // Mileusnic (2006) Spindle Ia peripheral axon -> C1-C8 pool: 1.0 ms (intrinsic lead-lag, uncompensated)
+    const double tau_spindle_ii_delay = 0.0025; // Mileusnic (2006) Spindle II peripheral axon -> C1-C8 pool: 2.5 ms (uncompensated)
+    const double tau_3a_drg_ccr_delay = tau_spindle_ia_delay; // Branch 1A->1B (Spindle Ia output -> C1-C8 Sub 6 Spinal CCR): 1.0 ms (uncompensated)
+    const double tau_3b_cuneate_delay = 0.0030; // Branch 1A->3 (Sub 1A -> Sub 3 Cerebellum Cuneate): 3.0 ms
     const double tau_4a_fn_vn_delay   = 0.0015; // Branch 3->2B (Cerebellum -> Brainstem VN Uncinate Tract): 1.5 ms
     const double tau_4b_thal_m1_delay = 0.0130; // Branch 3->4 (Cerebellum -> VL/VA Thalamus -> M1 Cortex): 13.0 ms
     const double tau_5_mvst_vcr_delay = 0.0025; // Path 2B->5 (Sub 2B -> Sub 5 MVST): 2.5 ms
-    const double tau_6_prop_ccr_delay = 0.0040; // Path 1B->5 (Sub 1B -> Sub 5 Propriospinal): 4.0 ms
-    const double tau_7a_aalpha_delay  = 0.0055; // Branch 5->Muscles (72 Extrafusal Muscles A-alpha + NMJ): 5.5 ms
-    const double tau_7b_agamma_delay  = 0.0080; // Branch 7B (Sub 7 -> Sub 3 72 Spindles A-gamma): 8.0 ms
+    const double tau_6_prop_ccr_delay = 0.0025; // C1-C8 Computation (CCR + Rectifier + Voluntary Recip. Inhibition -> Sub 5): 2.5 ms (uncompensated in Sub 1)
+    const double tau_7a_aalpha_delay  = 0.0025; // Branch 5A (Sub 5 -> 72 Extrafusal Muscles A-alpha axonal delay to Plant): 2.5 ms
+    const double tau_7b_agamma_delay  = 0.0025; // Branch 5B/7B (Sub 5 -> Sub 1A/3 72 Spindles A-gamma): 2.5 ms
 
     // --- SUBSYSTEM 1 SENDER-SIDE DELAY COMPENSATORS (1 + tau*s + 0.5*tau^2*s^2) FOR BRANCHES 1A, 1B, 1C ---
     DelayedData delayed_4b_thal_m1_ctrl = getDelayedData(state.getTime(), tau_4b_thal_m1_delay);
@@ -2318,15 +2344,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         wc_vol_sq_ctrl * (u_pid_roll  - vol_y[1]) - 2.0 * wc_vol_ctrl * vol_ydot[1],
         wc_vol_sq_ctrl * (u_pid_yaw   - vol_y[2]) - 2.0 * wc_vol_ctrl * vol_ydot[2]);
 
-    // Branch 1C (14.5 ms -> Sub 7): Compensated Cortical Voluntary Torque y + tau_1C*ydot + 0.5*tau_1C^2*yddot
-    const double dc_roll = std::clamp(get_deriv_comp_roll(), 0.0, 2.0);
-    const double dc_yaw  = std::clamp(get_deriv_comp_yaw(),  0.0, 2.0);
-    SimTK::Vec3 vol_ydot_scaled(vol_ydot[0], dc_roll * vol_ydot[1], dc_yaw * vol_ydot[2]);
-    SimTK::Vec3 vol_yddot_scaled(vol_yddot[0], dc_roll * vol_yddot[1], dc_yaw * vol_yddot[2]);
+    // Branch 4C (14.5 ms -> Sub 5): Unscaled Compensated Cortical Voluntary Torque y + tau_4C*ydot + 0.5*tau_4C^2*yddot (d_comp = 1 uniformly across Pitch/Roll/Yaw)
     SimTK::Vec3 current_cortical_voluntary_torque =
-        vol_y + tau_1c_m1_spinal_cst * vol_ydot_scaled + (0.5 * tau_1c_m1_spinal_cst * tau_1c_m1_spinal_cst) * vol_yddot_scaled;
+        vol_y + tau_1c_m1_spinal_cst * vol_ydot + (0.5 * tau_1c_m1_spinal_cst * tau_1c_m1_spinal_cst) * vol_yddot;
     SimTK::Vec3 current_cortical_voluntary_torque_dot =
-        vol_ydot_scaled + tau_1c_m1_spinal_cst * vol_yddot_scaled;
+        vol_ydot + tau_1c_m1_spinal_cst * vol_yddot;
 
     // Trajectory higher derivatives (jerk, snap, crackle from 2nd-order critically damped planner)
     const double inv_tau_sq = 1.0 / (trajectory_time_constant * trajectory_time_constant);
@@ -2446,63 +2468,45 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         oto_luen_internal_ddot[axis_index] = luen_adapt_state_weight * luen_adp_ddot + luen_stage1_ddot;
     }
 
-    // Branch 2A (2.0 ms -> Sub 5) & Branch 2B (3.0 ms -> Sub 4) Sender-Side Delay Compensators (1 + tau*s + 0.5*tau^2*s^2):
+    // Branch 2A (2.0 ms -> Sub 2B) & Branch 2B (3.0 ms -> Sub 3) 1st-Order Sender-Side Delay Compensators (1 + tau*s):
     const double irr_canal_d = canal_filter_parameters[1].direct_feedthrough_d / irregular_canal_passband_gain;
-    SimTK::Vec3 canal_irr_dot  = reconstructed_canal_irregular_dot  + irr_canal_d * current_world_angular_acceleration;
-    SimTK::Vec3 canal_irr_ddot = reconstructed_canal_irregular_ddot + irr_canal_d * current_world_angular_jerk;
+    SimTK::Vec3 canal_irr_dot = reconstructed_canal_irregular_dot + irr_canal_d * current_world_angular_acceleration;
     SimTK::Vec3 canal_irr_comp_2a =
         reconstructed_canal_angular_velocity +
-        tau_2a_cn8_vn_delay * canal_irr_dot +
-        (0.5 * tau_2a_cn8_vn_delay * tau_2a_cn8_vn_delay) * canal_irr_ddot;
+        tau_2a_cn8_vn_delay * canal_irr_dot;
     SimTK::Vec3 canal_luen_comp_2b =
         current_world_angular_velocity +
-        tau_2b_cn8_cb_delay * current_world_angular_acceleration +
-        (0.5 * tau_2b_cn8_cb_delay * tau_2b_cn8_cb_delay) * current_world_angular_jerk;
+        tau_2b_cn8_cb_delay * current_world_angular_acceleration;
     SimTK::Vec3 canal_luen_acc_comp_2b =
         current_world_angular_acceleration + tau_2b_cn8_cb_delay * current_world_angular_jerk;
 
-    SimTK::Vec3 coriolis_irr_dot  = -(current_head_frame_angular_velocity % reconstructed_otolith_specific_force);
-    SimTK::Vec3 coriolis_irr_ddot = -(current_head_frame_angular_acceleration % reconstructed_otolith_specific_force)
-                                    -(current_head_frame_angular_velocity % coriolis_irr_dot);
-    SimTK::Vec3 oto_irr_dot  = oto_irr_internal_dot  + coriolis_irr_dot;
-    SimTK::Vec3 oto_irr_ddot = oto_irr_internal_ddot + coriolis_irr_ddot;
+    SimTK::Vec3 coriolis_irr_dot = -(current_head_frame_angular_velocity % reconstructed_otolith_specific_force);
+    SimTK::Vec3 oto_irr_dot = oto_irr_internal_dot + coriolis_irr_dot;
     SimTK::Vec3 oto_irr_comp_2a =
         reconstructed_otolith_specific_force +
-        tau_2a_cn8_vn_delay * oto_irr_dot +
-        (0.5 * tau_2a_cn8_vn_delay * tau_2a_cn8_vn_delay) * oto_irr_ddot;
+        tau_2a_cn8_vn_delay * oto_irr_dot;
 
-    SimTK::Vec3 coriolis_luen_dot  = -(current_head_frame_angular_velocity % luenberger_otolith_specific_force);
-    SimTK::Vec3 coriolis_luen_ddot = -(current_head_frame_angular_acceleration % luenberger_otolith_specific_force)
-                                     -(current_head_frame_angular_velocity % coriolis_luen_dot);
-    SimTK::Vec3 oto_luen_dot  = oto_luen_internal_dot  + coriolis_luen_dot;
-    SimTK::Vec3 oto_luen_ddot = oto_luen_internal_ddot + coriolis_luen_ddot;
+    SimTK::Vec3 coriolis_luen_dot = -(current_head_frame_angular_velocity % luenberger_otolith_specific_force);
+    SimTK::Vec3 oto_luen_dot = oto_luen_internal_dot + coriolis_luen_dot;
     SimTK::Vec3 oto_luen_comp_2b =
         luenberger_otolith_specific_force +
-        tau_2b_cn8_cb_delay * oto_luen_dot +
-        (0.5 * tau_2b_cn8_cb_delay * tau_2b_cn8_cb_delay) * oto_luen_ddot;
+        tau_2b_cn8_cb_delay * oto_luen_dot;
 
-    // --- SUBSYSTEM 4 SENDER-SIDE DELAY COMPENSATORS FOR BRANCH 4A (1.5 ms -> Sub 5) & BRANCH 4B (13.0 ms -> Sub 1) ---
+    // --- SUBSYSTEM 3 SENDER-SIDE DELAY COMPENSATORS FOR BRANCH 3A (1st-Order, 1.5 ms -> Sub 2B) & BRANCH 3B (2nd-Order, 13.0 ms -> Sub 4 Cortex, d_comp = 1) ---
     SimTK::Vec3 est_head_ori_raw(estimated_head_roll, estimated_head_yaw, estimated_head_pitch);
-    SimTK::Vec3 world_vel_scaled_4b(dc_roll * current_world_angular_velocity[0], dc_yaw * current_world_angular_velocity[1], current_world_angular_velocity[2]);
-    SimTK::Vec3 world_acc_scaled_4b(dc_roll * current_world_angular_acceleration[0], dc_yaw * current_world_angular_acceleration[1], current_world_angular_acceleration[2]);
     SimTK::Vec3 est_head_ori_comp_4a =
         est_head_ori_raw +
-        tau_4a_fn_vn_delay * current_world_angular_velocity +
-        (0.5 * tau_4a_fn_vn_delay * tau_4a_fn_vn_delay) * current_world_angular_acceleration;
+        tau_4a_fn_vn_delay * current_world_angular_velocity;
     SimTK::Vec3 est_head_ori_comp_4b =
         est_head_ori_raw +
-        tau_4b_thal_m1_delay * world_vel_scaled_4b +
-        (0.5 * tau_4b_thal_m1_delay * tau_4b_thal_m1_delay) * world_acc_scaled_4b;
-    SimTK::Vec3 mahony_acc_scaled_4b(mahony_estimated_angular_acceleration[0], dc_roll * mahony_estimated_angular_acceleration[1], dc_yaw * mahony_estimated_angular_acceleration[2]);
-    SimTK::Vec3 mahony_jerk_scaled_4b(mahony_estimated_angular_jerk[0], dc_roll * mahony_estimated_angular_jerk[1], dc_yaw * mahony_estimated_angular_jerk[2]);
+        tau_4b_thal_m1_delay * current_world_angular_velocity +
+        (0.5 * tau_4b_thal_m1_delay * tau_4b_thal_m1_delay) * current_world_angular_acceleration;
     SimTK::Vec3 mahony_vel_comp_4b =
         mahony_estimated_angular_velocity +
-        tau_4b_thal_m1_delay * mahony_acc_scaled_4b +
-        (0.5 * tau_4b_thal_m1_delay * tau_4b_thal_m1_delay) * mahony_jerk_scaled_4b;
-    // Branch 4A (1.5 ms -> Sub 5): SO(3) 2nd-Order Taylor Compensator on R_hat_H^W
-    SimTK::Vec3 dtheta_4a =
-        tau_4a_fn_vn_delay * current_head_frame_angular_velocity +
-        (0.5 * tau_4a_fn_vn_delay * tau_4a_fn_vn_delay) * current_head_frame_angular_acceleration;
+        tau_4b_thal_m1_delay * mahony_estimated_angular_acceleration +
+        (0.5 * tau_4b_thal_m1_delay * tau_4b_thal_m1_delay) * mahony_estimated_angular_jerk;
+    // Branch 3A (1.5 ms -> Sub 2B): SO(3) 1st-Order Predictor Compensator on R_hat_H^W
+    SimTK::Vec3 dtheta_4a = tau_4a_fn_vn_delay * current_head_frame_angular_velocity;
     double dtheta_4a_norm = dtheta_4a.norm();
     SimTK::Rotation est_rot_comp_4a = (dtheta_4a_norm > 1e-12)
         ? (current_estimated_rotation_head_to_world * SimTK::Rotation(dtheta_4a_norm, SimTK::UnitVec3(dtheta_4a / dtheta_4a_norm)))
@@ -2526,7 +2530,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     SimTK::Vec3 cb_traj_jerk_1b = (!history.empty() && delayed_1b_m1_vn_data.record.valid) ? delayed_1b_m1_vn_data.record.trajectory_jerk_1b         : traj_jerk_vec;
     SimTK::Vec3 cb_traj_snap_1b = (!history.empty() && delayed_1b_m1_vn_data.record.valid) ? delayed_1b_m1_vn_data.record.trajectory_snap_1b         : traj_snap_vec;
 
-    // 1. Tonic Tilt Efference Signal Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate Compensator:
+    // 1. Tonic Tilt Efference Signal Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate 1st-Order Compensator:
     SimTK::Vec3 c_ton_raw(
         (estimated_head_pitch - baseline_spatial_orientation[2]) - cb_traj_pos_1a[0],
         (estimated_head_roll  - baseline_spatial_orientation[0]) - cb_traj_pos_1a[1],
@@ -2535,31 +2539,23 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         current_world_angular_velocity[2] - cb_traj_vel_1a[0],
         current_world_angular_velocity[0] - cb_traj_vel_1a[1],
         current_world_angular_velocity[1] - cb_traj_vel_1a[2]);
-    SimTK::Vec3 c_ton_ddot(
-        current_world_angular_acceleration[2] - cb_traj_acc_1a[0],
-        current_world_angular_acceleration[0] - cb_traj_acc_1a[1],
-        current_world_angular_acceleration[1] - cb_traj_acc_1a[2]);
     SimTK::Vec3 eff_tonic_tilt_comp_3a =
-        c_ton_raw + tau_4a_fn_vn_delay * c_ton_dot + (0.5 * tau_4a_fn_vn_delay * tau_4a_fn_vn_delay) * c_ton_ddot;
+        c_ton_raw + tau_4a_fn_vn_delay * c_ton_dot;
 
-    // 2. Canal Velocity Efference Signal Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate Compensator:
+    // 2. Canal Velocity Efference Signal Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate 1st-Order Compensator:
     SimTK::Vec3 eff_canal_vel_comp_3a =
-        cb_traj_vel_1b + tau_4a_fn_vn_delay * cb_traj_acc_1b + (0.5 * tau_4a_fn_vn_delay * tau_4a_fn_vn_delay) * cb_traj_jerk_1b;
+        cb_traj_vel_1b + tau_4a_fn_vn_delay * cb_traj_acc_1b;
 
-    // 3. Phasic Gravity & Pivot Accel. Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate Compensator:
+    // 3. Phasic Gravity & Pivot Accel. Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate 1st-Order Compensator:
     SimTK::Vec3 cb_gravity_head = (~current_estimated_rotation_head_to_world.asMat33()) * gravity_vector_world_hist;
     SimTK::Vec3 cb_gravity_head_dot  = -(current_head_frame_angular_velocity % cb_gravity_head);
-    SimTK::Vec3 cb_gravity_head_ddot = -(current_head_frame_angular_acceleration % cb_gravity_head)
-                                       -(current_head_frame_angular_velocity % cb_gravity_head_dot);
     SimTK::Vec3 cb_gravity_adapt_state(
         state_variable_phasic_otolith_stage2[0]->getValue(state),
         state_variable_phasic_otolith_stage2[1]->getValue(state),
         state_variable_phasic_otolith_stage2[2]->getValue(state));
     SimTK::Vec3 cb_gravity_adapt_dot  = (cb_gravity_head - cb_gravity_adapt_state) / irr_oto_adapt_tau;
-    SimTK::Vec3 cb_gravity_adapt_ddot = (cb_gravity_head_dot - cb_gravity_adapt_dot) / irr_oto_adapt_tau;
     SimTK::Vec3 cb_adapted_gravity_head      = (irr_oto_adapt_ratio - 1.0) * cb_gravity_adapt_state + cb_gravity_head;
     SimTK::Vec3 cb_adapted_gravity_head_dot  = (irr_oto_adapt_ratio - 1.0) * cb_gravity_adapt_dot   + cb_gravity_head_dot;
-    SimTK::Vec3 cb_adapted_gravity_head_ddot = (irr_oto_adapt_ratio - 1.0) * cb_gravity_adapt_ddot  + cb_gravity_head_ddot;
     const double head_pivot_radius_cb = 0.15;
     SimTK::Vec3 c_phas_raw(
         -cb_adapted_gravity_head[0] + head_pivot_radius_cb * cb_traj_acc_1b[0],
@@ -2569,12 +2565,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         -cb_adapted_gravity_head_dot[0] + head_pivot_radius_cb * cb_traj_jerk_1b[0],
         -cb_adapted_gravity_head_dot[2] + head_pivot_radius_cb * cb_traj_jerk_1b[1],
         0.0);
-    SimTK::Vec3 c_phas_ddot(
-        -cb_adapted_gravity_head_ddot[0] + head_pivot_radius_cb * cb_traj_snap_1b[0],
-        -cb_adapted_gravity_head_ddot[2] + head_pivot_radius_cb * cb_traj_snap_1b[1],
-        0.0);
     SimTK::Vec3 eff_phasic_grav_acc_comp_3a =
-        c_phas_raw + tau_4a_fn_vn_delay * c_phas_dot + (0.5 * tau_4a_fn_vn_delay * tau_4a_fn_vn_delay) * c_phas_ddot;
+        c_phas_raw + tau_4a_fn_vn_delay * c_phas_dot;
 
     HistoryRecord current_history_record;
     current_history_record.valid = true;
@@ -2634,6 +2626,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             baseline_reference_ii_rates[muscle_index] = ref_ii_0;
         }
     }
+    current_history_record.raw_spindle_ia_rate.resize(number_of_active_muscles);
+    current_history_record.raw_spindle_ii_rate.resize(number_of_active_muscles);
     current_history_record.primary_afferent_firing_rate.resize(number_of_active_muscles);
     std::vector<double> estimated_fiber_length_changes(number_of_active_muscles, 0.0);
     std::vector<double> estimated_fiber_velocities(number_of_active_muscles, 0.0);
@@ -2641,6 +2635,12 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     std::vector<double> estimated_fiber_jerks(number_of_active_muscles, 0.0);
     const double k_gamma_dyn_capped_ccr  = std::clamp(get_K_gamma_dyn(),  0.0, 1.0);
     const double k_gamma_stat_capped_ccr = std::clamp(get_K_gamma_stat(), 0.0, 1.0);
+    DelayedData delayed_spindle_ia_data = getDelayedData(current_simulation_time, tau_spindle_ia_delay, true);
+    DelayedData delayed_spindle_ii_data = getDelayedData(current_simulation_time, tau_spindle_ii_delay, true);
+    const bool has_delayed_spindle_ia_ctrl = (!history.empty() && delayed_spindle_ia_data.record.valid &&
+        delayed_spindle_ia_data.record.raw_spindle_ia_rate.size() == number_of_active_muscles);
+    const bool has_delayed_spindle_ii_ctrl = (!history.empty() && delayed_spindle_ii_data.record.valid &&
+        delayed_spindle_ii_data.record.raw_spindle_ii_rate.size() == number_of_active_muscles);
     DelayedData delayed_spinal_for_ccr = getDelayedData(state.getTime(), tau_7b_agamma_delay, true);
     const HistoryRecord& sp_rec_ccr = delayed_spinal_for_ccr.record;
     const bool has_sp_gamma_ccr = (sp_rec_ccr.valid &&
@@ -2651,14 +2651,24 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         estimated_fiber_length_changes[muscle_index] = state_variable_spindle_length_change[muscle_index]->getValue(state);
         estimated_fiber_velocities[muscle_index]     = state_variable_spindle_velocity[muscle_index]->getValue(state);
-        double primary_afferent_value =
+        double raw_spindle_ia_now =
             cached_primary_afferent_outputs[muscle_index]
                 ? cached_primary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_primary_afferent_rates[muscle_index];
-        double secondary_afferent_value =
+        double raw_spindle_ii_now =
             cached_secondary_afferent_outputs[muscle_index]
                 ? cached_secondary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_secondary_afferent_rates[muscle_index];
+        current_history_record.raw_spindle_ia_rate[muscle_index] = raw_spindle_ia_now;
+        current_history_record.raw_spindle_ii_rate[muscle_index] = raw_spindle_ii_now;
+
+        // C1-C8 Luenberger receives 1.0 ms delayed Ia and 2.5 ms delayed II peripheral axon outputs (no compensator at spindle)
+        double primary_afferent_value = has_delayed_spindle_ia_ctrl
+            ? delayed_spindle_ia_data.record.raw_spindle_ia_rate[muscle_index]
+            : raw_spindle_ia_now;
+        double secondary_afferent_value = has_delayed_spindle_ii_ctrl
+            ? delayed_spindle_ii_data.record.raw_spindle_ii_rate[muscle_index]
+            : raw_spindle_ii_now;
         static const double spindle_ccr_threshold = std::getenv("SPINDLE_CCR_THRESH") ? std::stod(std::getenv("SPINDLE_CCR_THRESH")) : 0.5;
         double dynamic_fusimotor_activation = state_variable_spindle_dynamic_fusimotor[muscle_index]->getValue(state);
         double static_fusimotor_activation  = state_variable_spindle_static_fusimotor[muscle_index]->getValue(state);
@@ -2701,70 +2711,55 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         estimated_fiber_accelerations[muscle_index] = sp_accel;
         estimated_fiber_jerks[muscle_index]         = sp_jerk;
 
-        // Branch 1A->1B (5.5 ms -> Sub 1B Spinal CCR) branches at DREZ BEFORE the External Cuneate Gate:
+        // Branch 1A->1B (1.0 ms Ia peripheral axon -> Sub 6 Spinal CCR) branches at DREZ BEFORE the External Cuneate Gate.
+        // Stored uncompensated at current time t and delayed by tau_3a_drg_ccr_delay = 1.0 ms (Mileusnic intrinsic lead-lag handles Ia delay):
         static const int ccr_drg_norm_k0 = std::getenv("CCR_DRG_NORM_K0") ? std::stoi(std::getenv("CCR_DRG_NORM_K0")) : 1;
-        double delta_ia_drg = primary_afferent_value - baseline_primary_afferent_rates[muscle_index];
+        double delta_ia_drg = raw_spindle_ia_now - baseline_primary_afferent_rates[muscle_index];
         if (ccr_drg_norm_k0 != 0) {
             delta_ia_drg /= std::max(1.0, kappa_0);
         }
         double primary_afferent_above_baseline = 0.0;
-        double d_above_d_delta = 0.0;
         if (spindle_ccr_threshold <= 0.0) {
             if (delta_ia_drg > 0.0) {
                 primary_afferent_above_baseline = delta_ia_drg;
-                d_above_d_delta = 1.0;
             }
         } else if (delta_ia_drg > 0.75 * spindle_ccr_threshold) {
             if (delta_ia_drg < 1.25 * spindle_ccr_threshold) {
                 double u = delta_ia_drg - 0.75 * spindle_ccr_threshold;
                 primary_afferent_above_baseline = (u * u) / spindle_ccr_threshold;
-                d_above_d_delta = (2.0 * u) / spindle_ccr_threshold;
             } else {
                 primary_afferent_above_baseline = delta_ia_drg - spindle_ccr_threshold;
-                d_above_d_delta = 1.0;
             }
         }
-        // Branch 3A (5.5 ms -> Sub 6 Spinal CCR) Sender-Side Delay Compensator (1 + tau_3A*s + 0.5*tau_3A^2*s^2):
-        double inv_len_scale = (cached_fiber_length_scales[muscle_index] > 1e-8) ? (1.37931034 / cached_fiber_length_scales[muscle_index]) : 0.0;
-        double r_ia_dot  = d_above_d_delta * inv_len_scale * estimated_fiber_velocities[muscle_index];
-        double r_ia_ddot = d_above_d_delta * inv_len_scale * sp_accel;
-        double r_ia_comp_3a = primary_afferent_above_baseline
-            + tau_3a_drg_ccr_delay * r_ia_dot
-            + (0.5 * tau_3a_drg_ccr_delay * tau_3a_drg_ccr_delay) * r_ia_ddot;
-        current_history_record.primary_afferent_firing_rate[muscle_index] = std::clamp(r_ia_comp_3a, 0.0, 500.0);
+        current_history_record.primary_afferent_firing_rate[muscle_index] = std::clamp(primary_afferent_above_baseline, 0.0, 500.0);
     }
 
-    // --- SUBSYSTEM 3 STAGE 2: 6-DOF PROPRIOCEPTIVE DECODER & BRANCH 3B (7.0 ms -> Sub 4) DELAY COMPENSATOR ---
+    // --- SUBSYSTEM 1A->3 STAGE 2: 6-DOF PROPRIOCEPTIVE DECODER & BRANCH 1A->3 (3.0 ms -> Sub 3) 1ST-ORDER DELAY COMPENSATOR ---
     SimTK::Vec3 estimated_neck_relative_accel(0.0);
-    SimTK::Vec3 estimated_neck_relative_jerk(0.0);
     if (proprioceptive_decoder_matrix.nrow() == 3 && proprioceptive_decoder_matrix.ncol() == number_of_active_muscles) {
         for (int row = 0; row < 3; ++row) {
             double sum_angle = 0.0;
             double sum_speed = 0.0;
             double sum_accel = 0.0;
-            double sum_jerk  = 0.0;
             for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
                 const double dec_w = proprioceptive_decoder_matrix(row, muscle_index);
                 sum_angle += dec_w * estimated_fiber_length_changes[muscle_index];
                 sum_speed += dec_w * estimated_fiber_velocities[muscle_index];
                 sum_accel += dec_w * estimated_fiber_accelerations[muscle_index];
-                sum_jerk  += dec_w * estimated_fiber_jerks[muscle_index];
             }
             estimated_neck_relative_angle[row] = sum_angle;
             estimated_neck_relative_speed[row] = sum_speed;
             estimated_neck_relative_accel[row] = sum_accel;
-            estimated_neck_relative_jerk[row]  = sum_jerk;
         }
     }
-    // Branch 3B (7.0 ms -> Sub 4 Cerebellum) Sender-Side Delay Compensator (1 + tau_3B*s + 0.5*tau_3B^2*s^2):
+    // Branch 1A->3 (3.0 ms -> Sub 3 Cerebellum) 1st-Order Sender-Side Delay Compensator (1 + tau_1A->3*s):
+    // Synchronizes Group Ia and II afferents arriving from C1-C8 to arrive together at the cerebellum.
     current_history_record.estimated_neck_relative_angle =
         estimated_neck_relative_angle +
-        tau_3b_cuneate_delay * estimated_neck_relative_speed +
-        (0.5 * tau_3b_cuneate_delay * tau_3b_cuneate_delay) * estimated_neck_relative_accel;
+        tau_3b_cuneate_delay * estimated_neck_relative_speed;
     current_history_record.estimated_neck_relative_speed =
         estimated_neck_relative_speed +
-        tau_3b_cuneate_delay * estimated_neck_relative_accel +
-        (0.5 * tau_3b_cuneate_delay * tau_3b_cuneate_delay) * estimated_neck_relative_jerk;
+        tau_3b_cuneate_delay * estimated_neck_relative_accel;
     current_history_record.raw_neck_relative_angle = estimated_neck_relative_angle;
     current_history_record.raw_neck_relative_speed = estimated_neck_relative_speed;
 
@@ -2905,7 +2900,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             const double x_sc_eff   = x_sc   + z_sc_lead   * v_sc;
             const double x_phas_eff = x_phas + z_phas_lead * v_phas;
 
-            const double dc_ax     = (axis_idx == 0) ? 1.0 : ((axis_idx == 1) ? dc_roll : dc_yaw);
             double ton_term_y      = k_ton * x_ton;
             double ton_term_v      = k_ton * v_ton;
             double ton_term_a      = k_ton * a_ton;
@@ -2918,12 +2912,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
                 ton_term_a = 0.0;
             }
             const double y_vcr     = -(ton_term_y + k_sc * x_sc_eff + k_phas * x_phas_eff);
-            const double ydot_vcr  = -dc_ax * (ton_term_v + k_sc * v_sc     + k_phas * v_phas);
-            const double yddot_vcr = -dc_ax * (ton_term_a + k_sc * a_sc     + k_phas * a_phas);
+            const double ydot_vcr  = -(ton_term_v + k_sc * v_sc     + k_phas * v_phas);
+            const double yddot_vcr = -(ton_term_a + k_sc * a_sc     + k_phas * a_phas);
 
-            // Branch Sub2B->Sub5 (2.5 ms MVST -> Sub 5) Sender-Side Delay Compensator: 1 + tau_5*s + 0.5*tau_5^2*s^2
-            current_brainstem_vcr_torque[axis_idx] =
-                y_vcr + tau_5_mvst_vcr_delay * ydot_vcr + (0.5 * tau_5_mvst_vcr_delay * tau_5_mvst_vcr_delay) * yddot_vcr;
+            // Branch Sub2B->Sub5 (2.5 ms MVST -> Sub 5) 1st-Order Sender-Side Delay Compensator: 1 + tau_5*s (d_comp = 1 across all 3 axes)
+            current_brainstem_vcr_torque[axis_idx]      = y_vcr + tau_5_mvst_vcr_delay * ydot_vcr;
             current_brainstem_vcr_torque_dot[axis_idx]  = ydot_vcr + tau_5_mvst_vcr_delay * yddot_vcr;
             current_brainstem_vcr_torque_ddot[axis_idx] = yddot_vcr;
         }
@@ -2932,7 +2925,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     current_history_record.brainstem_vcr_torque_dot  = current_brainstem_vcr_torque_dot;
     current_history_record.brainstem_vcr_torque_ddot = current_brainstem_vcr_torque_ddot;
 
-    // --- SUBSYSTEM 1B (LAMINA VI/VII): SPINAL CCR FILTER H_ccr(s) (p_ccr = 100, p_fast = 250) + HALF-WAVE RECTIFIER + BRANCH 1B->5 (4.0 ms -> Sub 5) ---
+    // --- SUBSYSTEM 1B (LAMINA VI/VII): SPINAL CCR FILTER H_ccr(s) (p_ccr = 100, p_fast = 250) + HALF-WAVE RECTIFIER (2.5 ms C1-C8 COMPUTE -> SUB 5) ---
     const HistoryRecord& cervico_collic_record = delayed_3a_drg_ccr_data.record;
     const double p_fast_ccr = 250.0;
     const double p_ccr = std::max(0.5, get_p_ccr());
@@ -2994,15 +2987,15 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             const double u_ccr_dot  = scale_ccr * rect_slope * ydot_ccr;
             const double u_ccr_ddot = scale_ccr * rect_slope * yddot_ccr;
 
-            // Single Branch 1B->5 (tau_6 = 4.0 ms Propriospinal -> Sub 5 Voluntary-Gated Recip. Inhibition) Delay Compensator:
-            current_history_record.spinal_ccr_drive[muscle_index] =
-                u_ccr + tau_6_prop_ccr_delay * u_ccr_dot + (0.5 * tau_6_prop_ccr_delay * tau_6_prop_ccr_delay) * u_ccr_ddot;
-            current_history_record.spinal_ccr_drive_dot[muscle_index]  = u_ccr_dot + tau_6_prop_ccr_delay * u_ccr_ddot;
+            // C1-C8 Computation (CCR + Rectifier + Voluntary Recip. Inhibition) takes tau_6 = 2.5 ms -> Sub 5.
+            // Sub 1 compensator ("1 + tau_6*s + 0.5*tau_6^2*s^2") removed; post-pool 15.0 ms compensation is in Sub 5.
+            current_history_record.spinal_ccr_drive[muscle_index]      = u_ccr;
+            current_history_record.spinal_ccr_drive_dot[muscle_index]  = u_ccr_dot;
             current_history_record.spinal_ccr_drive_ddot[muscle_index] = u_ccr_ddot;
         }
     }
 
-    // --- SUBSYSTEM 7: CONVERGING MOTOR COMMANDS (BRANCH 1C [14.5 ms], PATH 5 [2.5 ms], PATH 6 [4.0 ms]) ---
+    // --- SUBSYSTEM 7: CONVERGING MOTOR COMMANDS (BRANCH 1C [14.5 ms], PATH 5 [2.5 ms], C1-C8 COMPUTE [2.5 ms]) ---
     DelayedData delayed_5_mvst_vcr_data  = getDelayedData(current_simulation_time, tau_5_mvst_vcr_delay);
     DelayedData delayed_6_prop_ccr_data  = getDelayedData(current_simulation_time, tau_6_prop_ccr_delay, true);
 
@@ -3043,19 +3036,24 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     double ccr_spindle_torque_roll = 0.0;
     double ccr_spindle_torque_yaw  = 0.0;
     if (get_Kp_prop_roll() > -999.0 || get_Kp_prop_yaw() > -999.0) {
-        const SimTK::Vec3& ccr_neck_ang = (!history.empty() && delayed_3a_drg_ccr_data.record.valid)
-            ? delayed_3a_drg_ccr_data.record.raw_neck_relative_angle
+        const SimTK::Vec3& ccr_neck_ang = (!history.empty() && delayed_6_prop_ccr_data.record.valid)
+            ? delayed_6_prop_ccr_data.record.raw_neck_relative_angle
             : estimated_neck_relative_angle;
-        const SimTK::Vec3& ccr_neck_spd = (!history.empty() && delayed_3a_drg_ccr_data.record.valid)
-            ? delayed_3a_drg_ccr_data.record.raw_neck_relative_speed
+        const SimTK::Vec3& ccr_neck_spd = (!history.empty() && delayed_6_prop_ccr_data.record.valid)
+            ? delayed_6_prop_ccr_data.record.raw_neck_relative_speed
             : estimated_neck_relative_speed;
+        const bool has_1c_ccr = (!history.empty() && delayed_1c_m1_spinal_data.record.valid);
+        const double ref_pos_r = has_1c_ccr ? delayed_1c_m1_spinal_data.record.trajectory_position[1] : trajectory_position_roll;
+        const double ref_vel_r = has_1c_ccr ? delayed_1c_m1_spinal_data.record.trajectory_velocity[1] : trajectory_velocity_roll;
+        const double ref_pos_y = has_1c_ccr ? delayed_1c_m1_spinal_data.record.trajectory_position[2] : trajectory_position_yaw;
+        const double ref_vel_y = has_1c_ccr ? delayed_1c_m1_spinal_data.record.trajectory_velocity[2] : trajectory_velocity_yaw;
         if (get_Kp_prop_roll() > -999.0) {
             const double z_r = (get_z_ccr_roll() >= 0.0) ? get_z_ccr_roll() : 0.0;
-            ccr_spindle_torque_roll = -get_Kp_prop_roll() * (ccr_neck_ang[1] + z_r * ccr_neck_spd[1]);
+            ccr_spindle_torque_roll = -get_Kp_prop_roll() * ((ccr_neck_ang[1] - ref_pos_r) + z_r * (ccr_neck_spd[1] - ref_vel_r));
         }
         if (get_Kp_prop_yaw() > -999.0) {
             const double z_y = (get_z_ccr_yaw() >= 0.0) ? get_z_ccr_yaw() : 0.0;
-            ccr_spindle_torque_yaw = -get_Kp_prop_yaw() * (ccr_neck_ang[2] + z_y * ccr_neck_spd[2]);
+            ccr_spindle_torque_yaw = -get_Kp_prop_yaw() * ((ccr_neck_ang[2] - ref_pos_y) + z_y * (ccr_neck_spd[2] - ref_vel_y));
         }
     }
 
@@ -3075,6 +3073,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
     // --- STAGE 2: 15-ITERATION ACTIVE-SET QP SYNERGY SOLVER ---
     const std::vector<double>& maximum_isometric_forces = cached_maximum_isometric_forces;
+
+    const bool has_arriving_6_ccr = (
+        !history.empty() &&
+        delayed_6_prop_ccr_data.record.valid &&
+        delayed_6_prop_ccr_data.record.spinal_ccr_drive.size() == number_of_active_muscles);
 
     std::vector<double> alpha_motor_excitations(number_of_active_muscles);
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
@@ -3293,11 +3296,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     constexpr double freq_b1_sp    = 60.0;
     constexpr double sigma_v_sp    = 0.50; // Velocity gating threshold (L_0 / s)
 
-    const bool has_arriving_6_ccr = (
-        !history.empty() &&
-        delayed_6_prop_ccr_data.record.valid &&
-        delayed_6_prop_ccr_data.record.spinal_ccr_drive.size() == number_of_active_muscles);
-
     current_history_record.spinal_motor_excitations.resize(number_of_active_muscles);
     current_history_record.spinal_alpha_excitations.resize(number_of_active_muscles);
     current_history_record.spinal_gamma_dyn_commands.resize(number_of_active_muscles);
@@ -3306,127 +3304,88 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     current_history_record.expected_normalized_fiber_velocities.resize(number_of_active_muscles);
 
     static const double tau_muscle_act = std::getenv("TAU_MUSCLE_ACT") ? std::stod(std::getenv("TAU_MUSCLE_ACT")) : 0.0100;
+    const double tau_5a_comp = tau_6_prop_ccr_delay + tau_7a_aalpha_delay + tau_muscle_act; // 2.5 ms (C1-C8 compute) + 2.5 ms (5A axonal) + 10.0 ms (muscle activation) = 15.0 ms
+    const double tau_5b_comp = tau_6_prop_ccr_delay + tau_7b_agamma_delay + tau_muscle_act; // 2.5 ms (C1-C8 compute) + 2.5 ms (5B axonal) + 10.0 ms (muscle activation) = 15.0 ms
 
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         const double minimum_muscle_excitation = cached_minimum_excitations[muscle_index];
+        const double r_p = moment_arm_jacobian_3dof(0, muscle_index);
+        const double r_r = moment_arm_jacobian_3dof(1, muscle_index);
+        const double r_y = moment_arm_jacobian_3dof(2, muscle_index);
 
-        // --- POST-QP 2ND-ORDER MUSCLE ACTIVATION DELAY COMPENSATOR (Right after QP Solver, BEFORE Fusimotor / Recip / Alpha-Pool Split) ---
-        const double u_qp      = alpha_motor_excitations[muscle_index];
-        const double u_qp_dot  = alpha_motor_excitations_dot[muscle_index];
-        const double u_qp_ddot = alpha_motor_excitations_ddot[muscle_index];
+        // --- DIRECT QP OUTPUT (Post-QP 2nd-order tau_act block removed; compensated after alpha pool sum) ---
+        const double u_qp     = alpha_motor_excitations[muscle_index];
+        const double u_qp_dot = alpha_motor_excitations_dot[muscle_index];
 
-        const double u_qp_act_raw  = u_qp + tau_muscle_act * u_qp_dot + (0.5 * tau_muscle_act * tau_muscle_act) * u_qp_ddot;
-        const double u_qp_act      = std::clamp(u_qp_act_raw, minimum_muscle_excitation, 1.0);
-        const double u_qp_act_dot  = (u_qp_act_raw > minimum_muscle_excitation && u_qp_act_raw < 1.0)
-            ? (u_qp_dot + tau_muscle_act * u_qp_ddot)
-            : 0.0;
-        const double u_qp_act_ddot = (u_qp_act_raw > minimum_muscle_excitation && u_qp_act_raw < 1.0)
-            ? u_qp_ddot
-            : 0.0;
-
-        double excitation      = u_qp_act;
-        double excitation_dot  = u_qp_act_dot;
-        double excitation_ddot = u_qp_act_ddot;
+        double ccr_inh     = 0.0;
+        double ccr_inh_dot = 0.0;
 
         if (has_cervico_collic_afferents) {
             double inhibition_factor = 1.0;
             double maximum_transition_excitation = minimum_muscle_excitation + 0.05;
 
-            if (u_qp_act <= minimum_muscle_excitation) {
+            if (u_qp <= minimum_muscle_excitation) {
                 inhibition_factor = reciprocal_inhibition_gain;
-            } else if (u_qp_act >= maximum_transition_excitation) {
+            } else if (u_qp >= maximum_transition_excitation) {
                 inhibition_factor = 1.0;
             } else {
                 double transition_fraction =
-                    (u_qp_act - minimum_muscle_excitation) /
+                    (u_qp - minimum_muscle_excitation) /
                     (maximum_transition_excitation - minimum_muscle_excitation);
                 double smooth_step = transition_fraction * transition_fraction * (3.0 - 2.0 * transition_fraction);
                 inhibition_factor = reciprocal_inhibition_gain + smooth_step * (1.0 - reciprocal_inhibition_gain);
             }
 
-            // Pre-Compensated CCR Drive arriving from Subsystem 1B via Path 6 (4.0 ms Propriospinal delay)
+            // Uncompensated CCR Drive arriving from Subsystem 1B after C1-C8 compute (2.5 ms delay)
             const double ccr_u = has_arriving_6_ccr
                 ? delayed_6_prop_ccr_data.record.spinal_ccr_drive[muscle_index]
                 : current_history_record.spinal_ccr_drive[muscle_index];
             const double ccr_udot = (has_arriving_6_ccr && delayed_6_prop_ccr_data.record.spinal_ccr_drive_dot.size() == number_of_active_muscles)
                 ? delayed_6_prop_ccr_data.record.spinal_ccr_drive_dot[muscle_index]
                 : current_history_record.spinal_ccr_drive_dot[muscle_index];
-            const double ccr_uddot = (has_arriving_6_ccr && delayed_6_prop_ccr_data.record.spinal_ccr_drive_ddot.size() == number_of_active_muscles)
-                ? delayed_6_prop_ccr_data.record.spinal_ccr_drive_ddot[muscle_index]
-                : current_history_record.spinal_ccr_drive_ddot[muscle_index];
 
-            // Voluntary-Gated Reciprocal Inhibition output:
-            const double ccr_inh      = inhibition_factor * ccr_u;
-            const double ccr_inh_dot  = inhibition_factor * ccr_udot;
-            const double ccr_inh_ddot = inhibition_factor * ccr_uddot;
-
-            // --- POST-RECIPROCAL-INHIBITION 2ND-ORDER MUSCLE ACTIVATION DELAY COMPENSATOR (Right after Recip. Inhibition, before Alpha-Pool Sum) ---
-            const double ccr_inh_act_raw  = ccr_inh + tau_muscle_act * ccr_inh_dot + (0.5 * tau_muscle_act * tau_muscle_act) * ccr_inh_ddot;
-            const double ccr_inh_act      = std::max(0.0, ccr_inh_act_raw);
-            const double ccr_inh_act_dot  = (ccr_inh_act_raw > 0.0) ? (ccr_inh_dot + tau_muscle_act * ccr_inh_ddot) : 0.0;
-            const double ccr_inh_act_ddot = (ccr_inh_act_raw > 0.0) ? ccr_inh_ddot : 0.0;
-
-            excitation      += ccr_inh_act;
-            excitation_dot  += ccr_inh_act_dot;
-            excitation_ddot += ccr_inh_act_ddot;
+            // Voluntary-Gated Reciprocal Inhibition output (compensated after alpha pool sum):
+            const double ccr_inh_raw = inhibition_factor * ccr_u;
+            ccr_inh     = std::max(0.0, ccr_inh_raw);
+            ccr_inh_dot = (ccr_inh_raw > 0.0) ? (inhibition_factor * ccr_udot) : 0.0;
         }
 
-        if (excitation <= minimum_muscle_excitation || excitation >= 1.0) {
-            excitation_dot  = 0.0;
-            excitation_ddot = 0.0;
-        }
-        excitation = std::clamp(excitation, minimum_muscle_excitation, 1.0);
-
-        // --- BRANCH 5A VENTRAL ROOT DELAY COMPENSATOR (Sub 5 -> 72 Extrafusal Neck Muscles, tau_5A = 5.5 ms) ---
-        // C_5A(s) = 1 + tau_5A*s + 0.5*tau_5A^2*s^2
+        // --- ALPHA MOTONEURON POOL SUM & POST-POOL 15.0 ms 1ST-ORDER DELAY COMPENSATOR (1 + tau_5A_comp*s) ---
+        // Sums descending QP excitation (u_qp) + voluntary-gated CCR drive (ccr_inh), clamps to [u_min, 1.0],
+        // then applies uniform 1st-order compensation of 15.0 ms (2.5 ms C1-C8 compute + 2.5 ms Branch 5A axonal + 10.0 ms muscle activation).
+        const double u_qp_dot_eff   = (u_qp <= minimum_muscle_excitation || u_qp >= 1.0) ? 0.0 : u_qp_dot;
+        const double excitation     = std::clamp(u_qp + ccr_inh, minimum_muscle_excitation, 1.0);
+        const double excitation_dot = (excitation > minimum_muscle_excitation && excitation < 1.0)
+            ? (u_qp_dot_eff + ccr_inh_dot)
+            : 0.0;
         const double excitation_comp_7a = std::clamp(
-            excitation +
-            tau_7a_aalpha_delay * excitation_dot +
-            (0.5 * tau_7a_aalpha_delay * tau_7a_aalpha_delay) * excitation_ddot,
+            excitation + tau_5a_comp * excitation_dot,
             minimum_muscle_excitation, 1.0);
         current_history_record.spinal_motor_excitations[muscle_index] = excitation_comp_7a;
-        current_history_record.spinal_alpha_excitations[muscle_index] = u_qp_act;
+        current_history_record.spinal_alpha_excitations[muscle_index] = u_qp;
 
         // --- TWO-STAGE FUSIMOTOR CONTROLLER (Stage 1A: Model-Inversion gamma_s; Stage 1B: Velocity-Gated gamma_d) ---
-        // Receives Post-QP muscle-activation-compensated voluntary excitation:
-        double delta_u_vol      = 0.0;
-        double delta_u_vol_dot  = 0.0;
-        double delta_u_vol_ddot = 0.0;
+        // Receives planned voluntary excitation directly (Post-QP tau_act block merged into 1st-order Branch 5B compensator):
+        double delta_u_vol     = 0.0;
+        double delta_u_vol_dot = 0.0;
         for (int axis_idx = 0; axis_idx < 3; ++axis_idx) {
             const double jf = moment_arm_jacobian_3dof(axis_idx, muscle_index) * maximum_isometric_forces[muscle_index];
-            delta_u_vol      += jf * lambda_vol[axis_idx];
-            delta_u_vol_dot  += jf * lambda_vol_dot[axis_idx];
-            delta_u_vol_ddot += jf * lambda_vol_ddot[axis_idx];
+            delta_u_vol     += jf * lambda_vol[axis_idx];
+            delta_u_vol_dot += jf * lambda_vol_dot[axis_idx];
         }
-        double u_plan_raw       = std::clamp(minimum_muscle_excitation + std::max(0.0, delta_u_vol), minimum_muscle_excitation, 1.0);
-        double u_plan_raw_dot   = (delta_u_vol > 0.0 && u_plan_raw < 1.0) ? delta_u_vol_dot  : 0.0;
-        double u_plan_raw_ddot  = (delta_u_vol > 0.0 && u_plan_raw < 1.0) ? delta_u_vol_ddot : 0.0;
-
-        // Forward-predicted by Post-QP Muscle Activation Compensator (tau_act) before entering Two-Stage Fusimotor Controller:
-        const double u_plan_act_unclamped = u_plan_raw + tau_muscle_act * u_plan_raw_dot + (0.5 * tau_muscle_act * tau_muscle_act) * u_plan_raw_ddot;
-        double u_plan_alpha      = std::clamp(u_plan_act_unclamped, minimum_muscle_excitation, 1.0);
-        double u_plan_alpha_dot  = (u_plan_act_unclamped > minimum_muscle_excitation && u_plan_act_unclamped < 1.0)
-            ? (u_plan_raw_dot + tau_muscle_act * u_plan_raw_ddot)
-            : 0.0;
-        double u_plan_alpha_ddot = (u_plan_act_unclamped > minimum_muscle_excitation && u_plan_act_unclamped < 1.0)
-            ? u_plan_raw_ddot
-            : 0.0;
+        double u_plan_alpha     = std::clamp(minimum_muscle_excitation + std::max(0.0, delta_u_vol), minimum_muscle_excitation, 1.0);
+        double u_plan_alpha_dot = (delta_u_vol > 0.0 && u_plan_alpha < 1.0) ? delta_u_vol_dot : 0.0;
         last_voluntary_alpha_excitations[muscle_index] = u_plan_alpha;
 
-        // Apply Branch 7B (Sub 7 -> Sub 3 72 Intrafusal Spindles, tau_7B = 8.0 ms) 1 + tau_7B*s + 0.5*tau_7B^2*s^2
+        // Apply Branch 5B (Sub 5 -> Sub 1A/3 72 Intrafusal Spindles, 1st-order: 1 + tau_5b_comp*s = 15.0 ms = 2.5ms compute + 2.5ms A-gamma + 10.0ms activation)
         const double u_plan_alpha_7b = std::clamp(
-            u_plan_alpha +
-            tau_7b_agamma_delay * u_plan_alpha_dot +
-            0.5 * tau_7b_agamma_delay * tau_7b_agamma_delay * u_plan_alpha_ddot,
+            u_plan_alpha + tau_5b_comp * u_plan_alpha_dot,
             minimum_muscle_excitation, 1.0);
 
         const double L0_eq = baseline_normalized_fiber_lengths[muscle_index];
         const double l_opt = cached_optimal_fiber_lengths[muscle_index];
         const double l_ten = cached_tendon_slack_lengths[muscle_index];
         const double cos_p = cached_cosine_pennation_angles[muscle_index];
-        const double r_p   = moment_arm_jacobian_3dof(0, muscle_index);
-        const double r_r   = moment_arm_jacobian_3dof(1, muscle_index);
-        const double r_y   = moment_arm_jacobian_3dof(2, muscle_index);
         const double eff_scale = std::max(1e-4, l_opt * cos_p);
 
         const double dL_kin   = -(r_p * plan_pos_pitch  + r_r * plan_pos_roll  + r_y * plan_pos_yaw)  / eff_scale;
@@ -3434,12 +3393,10 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         const double L_hat    = std::clamp(L0_eq + dL_kin + dL_ten, 0.2, 2.5);
         const double Lp_hat   = std::clamp(-(r_p * plan_vel_pitch  + r_r * plan_vel_roll  + r_y * plan_vel_yaw)  / eff_scale, -20.0, 20.0);
         const double Lpp_hat  = std::clamp(-(r_p * plan_acc_pitch  + r_r * plan_acc_roll  + r_y * plan_acc_yaw)  / eff_scale, -200.0, 200.0);
-        const double Lppp_hat = std::clamp(-(r_p * plan_jerk_pitch + r_r * plan_jerk_roll + r_y * plan_jerk_yaw) / eff_scale, -2000.0, 2000.0);
 
-        // --- BRANCH 7B DELAY COMPENSATOR (Sub 7 -> Sub 3 72 Intrafusal Spindles, tau_7B = 8.0 ms) ---
-        // C_7B(s) = 1 + tau_7B*s + 0.5*tau_7B^2*s^2
-        const double L_hat_7b  = std::clamp(L_hat  + tau_7b_agamma_delay * Lp_hat  + 0.5 * tau_7b_agamma_delay * tau_7b_agamma_delay * Lpp_hat,  0.2, 2.5);
-        const double Lp_hat_7b = std::clamp(Lp_hat + tau_7b_agamma_delay * Lpp_hat + 0.5 * tau_7b_agamma_delay * tau_7b_agamma_delay * Lppp_hat, -20.0, 20.0);
+        // --- BRANCH 5B DELAY COMPENSATOR (Sub 5 -> Sub 1A/3 72 Intrafusal Spindles, 1st-order: 1 + tau_5b_comp*s = 15.0 ms) ---
+        const double L_hat_7b  = std::clamp(L_hat  + tau_5b_comp * Lp_hat,  0.2, 2.5);
+        const double Lp_hat_7b = std::clamp(Lp_hat + tau_5b_comp * Lpp_hat, -20.0, 20.0);
 
         // Stage 1A: Inverse Quasi-Static Law for gamma_s(t) with Lead Compensation (tau_s = 0.205 s)
         const double gamma_s_base = 100.0 * k_gamma_stat_eff * u_plan_alpha_7b;
@@ -3481,7 +3438,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         history.pop_front();
     }
 
-    // --- STAGE 5 & 6: VENTRAL ROOT EFFERENT DELAYS (BRANCH 7A: tau_7A = 5.5 ms A-alpha; BRANCH 7B: tau_7B = 8.0 ms A-gamma) ---
+    // --- STAGE 5 & 6: VENTRAL ROOT EFFERENT DELAYS (BRANCH 5A/7A: tau_7A = 2.5 ms A-alpha axonal; BRANCH 5B/7B: tau_7B = 2.5 ms A-gamma) ---
     DelayedData delayed_7a_alpha_data = getDelayedData(current_simulation_time, tau_7a_aalpha_delay, true);
     DelayedData delayed_7b_gamma_data = getDelayedData(current_simulation_time, tau_7b_agamma_delay, true);
     const HistoryRecord& record_7a = delayed_7a_alpha_data.record;
@@ -3509,10 +3466,10 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         if (muscle_control_vector.size() != number_of_controls) {
             muscle_control_vector.resize(number_of_controls);
         }
-        // Alpha motor command arriving at extrafusal NMJ after Branch 7A delay (tau_7A = 5.5 ms)
+        // Alpha motor command arriving at extrafusal NMJ after Branch 5A axonal delay (tau_7A = 2.5 ms)
         muscle_control_vector[0] = arriving_motor_excitation;
 
-        // Two-Stage Fusimotor commands (gamma_d, gamma_s) arriving at intrafusal fibers after Branch 7B delay (tau_7B = 8.0 ms)
+        // Two-Stage Fusimotor commands (gamma_d, gamma_s) arriving at intrafusal fibers after Branch 5B/7B delay (tau_7B = 2.5 ms)
         if (number_of_controls >= 3) {
             muscle_control_vector[1] = has_delayed_7b_gamma_commands ? record_7b.spinal_gamma_dyn_commands[muscle_index]  : (100.0 * k_gamma_dyn_eff * (0.25 + 0.75 * last_voluntary_alpha_excitations[muscle_index]));
             muscle_control_vector[2] = has_delayed_7b_gamma_commands ? record_7b.spinal_gamma_stat_commands[muscle_index] : (100.0 * k_gamma_stat_eff * last_voluntary_alpha_excitations[muscle_index]);

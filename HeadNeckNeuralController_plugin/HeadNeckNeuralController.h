@@ -100,8 +100,8 @@ public:
     OpenSim_DECLARE_PROPERTY(K_eso, double, "Gain for Extended State Observer disturbance rejection (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "If true, includes extraocular eye muscles (r_*, l_*) in controller state allocation (default: false)");
     OpenSim_DECLARE_PROPERTY(use_smith_predictor, bool, "If true, utilizes Smith Predictor delay compensation for Mahony proprioceptive fusion (default: true)");
-    OpenSim_DECLARE_PROPERTY(delay_smith_proprio, double, "Proprioceptive-to-vestibular differential delay in seconds for Mahony history alignment (default: 0.005)");
-    OpenSim_DECLARE_PROPERTY(delay_afferent_proprio, double, "Proprioceptive afferent transport delay in seconds arriving at the central observer (default: 0.007)");
+    OpenSim_DECLARE_PROPERTY(delay_smith_proprio, double, "Proprioceptive-to-vestibular differential delay in seconds for Mahony history alignment (default: 0.003)");
+    OpenSim_DECLARE_PROPERTY(delay_afferent_proprio, double, "Proprioceptive afferent transport delay in seconds arriving at the central observer (default: 0.003)");
 
     HeadNeckNeuralController();
     
@@ -193,27 +193,29 @@ private:
 
     struct HistoryRecord {
         bool valid = false;
-        SimTK::Vec3 estimated_head_orientation{0.0};               // Branch 4B (13.0ms -> Sub 1): (roll, yaw, pitch) compensated by 1 + tau_4B*s + 0.5*tau_4B^2*s^2
-        SimTK::Vec3 estimated_head_orientation_4a{0.0};            // Branch 4A (1.5ms -> Sub 5): (roll, yaw, pitch) compensated by 1 + tau_4A*s + 0.5*tau_4A^2*s^2
-        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Branch 2A (2.0ms -> Sub 5): irregular canal velocity compensated by 1 + tau_2A*s + 0.5*tau_2A^2*s^2
-        SimTK::Vec3 luenberger_angular_velocity{0.0};              // Branch 2B (3.0ms -> Sub 4): regular canal Luenberger velocity compensated by 1 + tau_2B*s + 0.5*tau_2B^2*s^2
-        SimTK::Vec3 luenberger_angular_acceleration{0.0};          // Branch 2B (3.0ms -> Sub 4): regular canal Luenberger acceleration compensated by 1 + tau_2B*s
-        SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // Branch 2A (2.0ms -> Sub 5): irregular otolith GIF compensated by 1 + tau_2A*s + 0.5*tau_2A^2*s^2
-        SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // Branch 2B (3.0ms -> Sub 4): regular otolith Luenberger GIF compensated by 1 + tau_2B*s + 0.5*tau_2B^2*s^2
+        SimTK::Vec3 estimated_head_orientation{0.0};               // Branch 3B (13.0ms -> Sub 4 Cortex): (roll, yaw, pitch) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
+        SimTK::Vec3 estimated_head_orientation_4a{0.0};            // Branch 3A (1.5ms -> Sub 2B): (roll, yaw, pitch) compensated by 1 + tau_3A*s
+        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Branch 2A (2.0ms -> Sub 2B): irregular canal velocity compensated by 1 + tau_2A*s
+        SimTK::Vec3 luenberger_angular_velocity{0.0};              // Branch 2B (3.0ms -> Sub 3): regular canal Luenberger velocity compensated by 1 + tau_2B*s
+        SimTK::Vec3 luenberger_angular_acceleration{0.0};          // Branch 2B (3.0ms -> Sub 3): regular canal Luenberger acceleration compensated by 1 + tau_2B*s
+        SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // Branch 2A (2.0ms -> Sub 2B): irregular otolith GIF compensated by 1 + tau_2A*s
+        SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // Branch 2B (3.0ms -> Sub 3): regular otolith Luenberger GIF compensated by 1 + tau_2B*s
         SimTK::Mat33 rotation_world_to_head{1.0};                  // True skull rotation from world to head at record timestamp
-        SimTK::Mat33 estimated_rotation_head_to_world{1.0};        // Branch 4A (1.5ms -> Sub 5) / 2B: Observer estimated rotation R_hat_H^W compensated by 1 + tau_4A*s + 0.5*tau_4A^2*s^2
-        SimTK::Vec3 trunk_orientation{0.0};                        // Branch 3B (7.0ms -> Sub 4): (roll, yaw, pitch) trunk orientation compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
-        SimTK::Vec3 trunk_angular_velocity{0.0};                   // Branch 3B (7.0ms -> Sub 4): (roll, yaw, pitch) trunk angular velocity
+        SimTK::Mat33 estimated_rotation_head_to_world{1.0};        // Branch 3A (1.5ms -> Sub 2B) / 2B: Observer estimated rotation R_hat_H^W compensated by 1 + tau_3A*s
+        SimTK::Vec3 trunk_orientation{0.0};                        // Branch 1A->3 (3.0ms -> Sub 3): (roll, yaw, pitch) trunk orientation compensated by 1 + tau_1A3*s
+        SimTK::Vec3 trunk_angular_velocity{0.0};                   // Branch 1A->3 (3.0ms -> Sub 3): (roll, yaw, pitch) trunk angular velocity
         SimTK::Vec3 head_linear_velocity{0.0};                     // Linear velocity of the head in ground frame
-        SimTK::Vector primary_afferent_firing_rate;                // Branch 3A (5.5ms -> Sub 6): Size N clean spindle Ia rate compensated by 1 + tau_3A*s + 0.5*tau_3A^2*s^2
-        SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Branch 3B (7.0ms -> Sub 4): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
-        SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Branch 3B (7.0ms -> Sub 4): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
-        SimTK::Vec3 raw_neck_relative_angle{0.0};                  // Clean Luenberger-filtered neck relative angle (pitch, roll, yaw) before Branch 3B jerk compensator
-        SimTK::Vec3 raw_neck_relative_speed{0.0};                  // Clean Luenberger-filtered neck relative speed (pitch, roll, yaw) before Branch 3B jerk compensator
-        SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 4B (13.0ms -> Sub 1): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4B*s + 0.5*tau_4B^2*s^2
-        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 1C (14.5ms -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1C*s + 0.5*tau_1C^2*s^2
-        SimTK::Vec3 cortical_voluntary_torque_dot{0.0};            // Branch 1C (14.5ms -> Sub 7): Size 3 1st derivative of cortical voluntary torque
-        SimTK::Vec3 cortical_voluntary_torque_ddot{0.0};           // Branch 1C (14.5ms -> Sub 7): Size 3 2nd derivative of cortical voluntary torque
+        SimTK::Vector raw_spindle_ia_rate;                         // Raw Mileusnic (2006) spindle Ia firing rate (above baseline) before 1.0 ms peripheral axon delay
+        SimTK::Vector raw_spindle_ii_rate;                         // Raw Mileusnic (2006) spindle II firing rate (above baseline) before 2.5 ms peripheral axon delay
+        SimTK::Vector primary_afferent_firing_rate;                // Branch 1A->1B (1.0 ms Ia axon -> C1-C8 Sub 1B): Size N delayed spindle Ia rate (uncompensated; Mileusnic intrinsic lead-lag)
+        SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Branch 1A->3 (3.0ms -> Sub 3): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1A3*s
+        SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Branch 1A->3 (3.0ms -> Sub 3): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1A3*s
+        SimTK::Vec3 raw_neck_relative_angle{0.0};                  // Clean Luenberger-filtered neck relative angle (pitch, roll, yaw) before Branch 1A->3 compensator
+        SimTK::Vec3 raw_neck_relative_speed{0.0};                  // Clean Luenberger-filtered neck relative speed (pitch, roll, yaw) before Branch 1A->3 compensator
+        SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 3B (13.0ms -> Sub 4 Cortex): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
+        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4C*s + 0.5*tau_4C^2*s^2
+        SimTK::Vec3 cortical_voluntary_torque_dot{0.0};            // Branch 4C (14.5ms -> Sub 5): Size 3 1st derivative of cortical voluntary torque
+        SimTK::Vec3 cortical_voluntary_torque_ddot{0.0};           // Branch 4C (14.5ms -> Sub 5): Size 3 2nd derivative of cortical voluntary torque
         SimTK::Vec3 trajectory_position_1a{0.0};                   // Branch 4A (9.0ms -> Sub 3C Tonic): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4A*s + 0.5*tau_4A^2*s^2
         SimTK::Vec3 trajectory_velocity_1a{0.0};                   // Branch 4A (9.0ms -> Sub 3C Tonic): Size 3 1st derivative of trajectory_position_1a
         SimTK::Vec3 trajectory_acceleration_1a{0.0};               // Branch 4A (9.0ms -> Sub 3C Tonic): Size 3 2nd derivative of trajectory_position_1a
@@ -221,25 +223,25 @@ private:
         SimTK::Vec3 trajectory_acceleration_1b{0.0};               // Branch 4B (10.0ms -> Sub 3C Phasic): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4B*s + 0.5*tau_4B^2*s^2
         SimTK::Vec3 trajectory_jerk_1b{0.0};                       // Branch 4B (10.0ms -> Sub 3C): Size 3 1st derivative of trajectory_acceleration_1b
         SimTK::Vec3 trajectory_snap_1b{0.0};                       // Branch 4B (10.0ms -> Sub 3C): Size 3 2nd derivative of trajectory_acceleration_1b
-        SimTK::Vec3 eff_tonic_tilt_3a{0.0};                        // Branch 3A (1.5ms -> Sub 2B Tonic): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3A*s + 0.5*tau_3A^2*s^2
-        SimTK::Vec3 eff_canal_vel_3a{0.0};                         // Branch 3A (1.5ms -> Sub 2B Canal): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3A*s + 0.5*tau_3A^2*s^2
-        SimTK::Vec3 eff_phasic_grav_acc_3a{0.0};                   // Branch 3A (1.5ms -> Sub 2B Phasic): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3A*s + 0.5*tau_3A^2*s^2
-        SimTK::Vec3 trajectory_position{0.0};                      // Branch 1C (14.5ms -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1C*s + 0.5*tau_1C^2*s^2
-        SimTK::Vec3 trajectory_velocity{0.0};                      // Branch 1C (14.5ms -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1C*s + 0.5*tau_1C^2*s^2
-        SimTK::Vec3 trajectory_acceleration{0.0};                  // Branch 1C (14.5ms -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1C*s + 0.5*tau_1C^2*s^2
-        SimTK::Vec3 trajectory_jerk{0.0};                          // Branch 1C (14.5ms -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1C*s + 0.5*tau_1C^2*s^2
-        SimTK::Vec3 brainstem_vcr_torque{0.0};                     // Path 5 (2.5ms MVST -> Sub 7): Size 3 (pitch, roll, yaw) compensated by 1 + tau_5*s + 0.5*tau_5^2*s^2
+        SimTK::Vec3 eff_tonic_tilt_3a{0.0};                        // Branch 3A (1.5ms -> Sub 2B Tonic): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3A*s
+        SimTK::Vec3 eff_canal_vel_3a{0.0};                         // Branch 3A (1.5ms -> Sub 2B Canal): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3A*s
+        SimTK::Vec3 eff_phasic_grav_acc_3a{0.0};                   // Branch 3A (1.5ms -> Sub 2B Phasic): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3A*s
+        SimTK::Vec3 trajectory_position{0.0};                      // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4C*s + 0.5*tau_4C^2*s^2
+        SimTK::Vec3 trajectory_velocity{0.0};                      // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4C*s + 0.5*tau_4C^2*s^2
+        SimTK::Vec3 trajectory_acceleration{0.0};                  // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4C*s + 0.5*tau_4C^2*s^2
+        SimTK::Vec3 trajectory_jerk{0.0};                          // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4C*s + 0.5*tau_4C^2*s^2
+        SimTK::Vec3 brainstem_vcr_torque{0.0};                     // Path 5 (2.5ms MVST -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_5*s
         SimTK::Vec3 brainstem_vcr_torque_dot{0.0};                 // Path 5 (2.5ms MVST -> Sub 7): Size 3 1st derivative of VCR torque
         SimTK::Vec3 brainstem_vcr_torque_ddot{0.0};                // Path 5 (2.5ms MVST -> Sub 7): Size 3 2nd derivative of VCR torque
-        SimTK::Vector spinal_ccr_drive;                            // Path 6 (4.0ms Propriospinal -> Sub 7): Size N CCR excitation compensated by 1 + tau_6*s + 0.5*tau_6^2*s^2
-        SimTK::Vector spinal_ccr_drive_dot;                        // Path 6 (4.0ms Propriospinal -> Sub 7): Size N 1st derivative of CCR excitation
-        SimTK::Vector spinal_ccr_drive_ddot;                       // Path 6 (4.0ms Propriospinal -> Sub 7): Size N 2nd derivative of CCR excitation
-        SimTK::Vector spinal_motor_excitations;                    // Branch 7A (5.5ms A-alpha -> 72 Muscles): Size N total pool alpha excitations compensated by 1 + tau_7A*s + 0.5*tau_7A^2*s^2
-        SimTK::Vector spinal_alpha_excitations;                    // Branch 7A (5.5ms A-alpha -> 72 Muscles): Size N Active-Set QP descending alpha excitations
-        SimTK::Vector spinal_gamma_dyn_commands;                   // Branch 7B (8.0ms A-gamma -> Sub 3 Spindles): Size N Stage 1B dynamic fusimotor commands compensated by 1 + tau_7B*s + 0.5*tau_7B^2*s^2
-        SimTK::Vector spinal_gamma_stat_commands;                  // Branch 7B (8.0ms A-gamma -> Sub 3 Spindles): Size N Stage 1A static fusimotor commands compensated by 1 + tau_7B*s + 0.5*tau_7B^2*s^2
-        SimTK::Vector expected_normalized_fiber_lengths;           // Branch 7B (8.0ms A-gamma -> Sub 3 Spindles): Size N expected L_hat(t) compensated by 1 + tau_7B*s + 0.5*tau_7B^2*s^2
-        SimTK::Vector expected_normalized_fiber_velocities;        // Branch 7B (8.0ms A-gamma -> Sub 3 Spindles): Size N expected dL_hat/dt(t) compensated by 1 + tau_7B*s + 0.5*tau_7B^2*s^2
+        SimTK::Vector spinal_ccr_drive;                            // Path 6 (2.5ms C1-C8 compute -> Sub 5): Size N uncompensated CCR excitation
+        SimTK::Vector spinal_ccr_drive_dot;                        // Path 6 (2.5ms C1-C8 compute -> Sub 5): Size N 1st derivative of CCR excitation
+        SimTK::Vector spinal_ccr_drive_ddot;                       // Path 6 (2.5ms C1-C8 compute -> Sub 5): Size N 2nd derivative of CCR excitation
+        SimTK::Vector spinal_motor_excitations;                    // Branch 5A (2.5ms axonal -> 72 Muscles): Size N post-pool-sum alpha excitations compensated by 1 + 15.0ms*s
+        SimTK::Vector spinal_alpha_excitations;                    // Branch 7A (2.5ms A-alpha -> 72 Muscles): Size N Active-Set QP descending alpha excitations
+        SimTK::Vector spinal_gamma_dyn_commands;                   // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N Stage 1B dynamic fusimotor commands compensated by 1 + 15.0ms*s
+        SimTK::Vector spinal_gamma_stat_commands;                  // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N Stage 1A static fusimotor commands compensated by 1 + 15.0ms*s
+        SimTK::Vector expected_normalized_fiber_lengths;           // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N expected L_hat(t) compensated by 1 + 15.0ms*s
+        SimTK::Vector expected_normalized_fiber_velocities;        // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N expected dL_hat/dt(t) compensated by 1 + 15.0ms*s
     };
     
     struct DelayedData {

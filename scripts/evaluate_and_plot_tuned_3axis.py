@@ -490,14 +490,25 @@ def render_tuned_comparison_4panel(sim_zero, sim_tuned, out_filename, apeo_score
     ax4.set_ylabel(f"Bode Gain [{gain_unit}]", color=color_main, fontweight="bold", fontsize=11)
     ax4_r.set_ylabel("Bode Phase [deg]", color="#b91c1c", fontweight="bold", fontsize=11)
     ax4.set_xlabel("Multisine Excitation Frequency [Hz] (Log Scale)", fontweight="bold", fontsize=11)
-    ax4.set_title(f"4. Tuned vs. Zero-Shot {len(freqs)}-Frequency Bode Response ({mode})", fontweight="bold", fontsize=12)
+    cls_tuned = compute_classic_bode_score(freq_res_tuned, is_apeo=False)["classic_bode_score"]
+    cls_zero = compute_classic_bode_score(freq_res_zero, is_apeo=False)["classic_bode_score"]
+    ax4.set_title(
+        f"4. Tuned vs. Zero-Shot {len(freqs)}-Frequency Bode Response ({mode}) — Classic Score: {cls_tuned:,.2f} pts (Zero-Shot: {cls_zero:,.2f} pts)",
+        fontweight="bold",
+        fontsize=11.5,
+    )
     ax4.grid(True, alpha=0.3)
 
     l1, lb1 = ax4.get_legend_handles_labels()
     l2, lb2 = ax4_r.get_legend_handles_labels()
     ax4.legend(l1 + l2, lb1 + lb2, loc="upper left", fontsize=8.0, ncol=2)
 
-    fig.suptitle(f"Surgically Tuned 3-Axis {mode} Evaluation vs. Zero-Shot Baseline (APEO Pitch = {apeo_score:,.2f} pts)", fontweight="bold", fontsize=13, y=0.98)
+    fig.suptitle(
+        f"Unified Ungated 3-Axis {mode} Evaluation — {mode}: {cls_tuned:,.2f} pts | APEO Pitch: {apeo_score:,.2f} pts",
+        fontweight="bold",
+        fontsize=12.8,
+        y=0.98,
+    )
     out_art = os.path.join(ART_DIR, out_filename)
     fig.savefig(out_art, bbox_inches="tight")
     shutil.copyfile(out_art, os.path.join(_ROOT, out_filename))
@@ -620,6 +631,21 @@ def render_apeo_pitch_4panel(apeo_res, out_filename="tuned_3axis_apeo_pitch_4pan
     print(f"[OK] Saved APEO pitch check plot: {out_art} (score={total_score:.2f} pts)", flush=True)
 
 
+def compute_classic_bode_score(freq_results, is_apeo=False):
+    gain_pts = 0.0
+    phase_pts = 0.0
+    for _, v in freq_results.items():
+        db = float(v["gain_db_diff"])
+        pe = float(v["phase_err_deg"] if is_apeo else v["phase_err"])
+        gain_pts += 100.0 * (db ** 2)
+        phase_pts += 1.0 * (pe ** 2)
+    return {
+        "classic_bode_score": round(gain_pts + phase_pts, 2),
+        "gain_loss_pts": round(gain_pts, 2),
+        "phase_loss_pts": round(phase_pts, 2),
+    }
+
+
 def compute_latec_cost(sim_res):
     fr = sim_res["freq_results"]
     g_cost = 0.0
@@ -634,41 +660,79 @@ def compute_latec_cost(sim_res):
     return g_cost + p_cost + 0.15 * sim_res["hf_noise_rms"]
 
 
+TUNED_3AXIS_OVERRIDES = {
+    # Roll (LatEC) Ungated Champion W2_cp_04_K_ton_roll (Classic Bode Score = 8,148.50 pts)
+    "Kp_roll": 1.4,
+    "Kd_roll": 1.14,
+    "Ki_roll": 1.5,
+    "K_ton_roll": -0.85,
+    "p_ton_roll": 3.0,
+    "K_sc_roll": 2.029,
+    "p_sc_roll": 60.0,
+    "z_sc_roll": 0.0,
+    "K_phas_roll": 16.653,
+    "p_phas_roll": 5.747,
+    "z_phas_roll": 0.0,
+    "Kp_prop_roll": 4.2,
+    "z_ccr_roll": 0.10,
+    "p_ap_roll": -1.0,
+    "c_ap_roll": 0.0,
+    "deriv_comp_roll": 0.0,
+    # Yaw (YawMA) Y4_hybrid
+    "Kp_yaw": 0.24,
+    "Kd_yaw": 0.03,
+    "Ki_yaw": 0.0,
+    "K_ton_yaw": 5.2598427596916935,
+    "p_ton_yaw": 16.227225,
+    "K_sc_yaw": 1.2,
+    "p_sc_yaw": 3.5,
+    "Kp_prop_yaw": 8.5,
+    "z_ccr_yaw": 0.06,
+    "deriv_comp_yaw": 0.25,
+}
+
+
+ZERO_SHOT_SENTINELS = {
+    "K_ton_roll": -1000.0,
+    "K_ton_yaw": -1000.0,
+    "p_ton_roll": -1.0,
+    "p_ton_yaw": -1.0,
+    "K_sc_roll": -1000.0,
+    "K_sc_yaw": -1000.0,
+    "z_sc_roll": -1.0,
+    "z_sc_yaw": -1.0,
+    "p_sc_roll": -1.0,
+    "p_sc_yaw": -1.0,
+    "K_phas_roll": -1000.0,
+    "z_phas_roll": -1.0,
+    "p_phas_roll": -1.0,
+    "p_ap_roll": -1.0,
+    "c_ap_roll": 0.0,
+    "Kp_prop_roll": -1000.0,
+    "Kp_prop_yaw": -1000.0,
+    "z_ccr_roll": -1.0,
+    "z_ccr_yaw": -1.0,
+    "p_ccr_roll": -1.0,
+    "p_ccr_yaw": -1.0,
+    "deriv_comp_roll": 1.0,
+    "deriv_comp_yaw": 1.0,
+}
+
+
 def main():
     df_lat, df_yaw = load_aligned_data()
     generate_plausibility_plots(df_lat, df_yaw)
 
     params_path = os.path.join(_ROOT, "logs/roll_yaw_baseline/tuned_3axis_params.json")
+    p_zero_shot = dict(P15_RUN4)
+    p_zero_shot.update(ZERO_SHOT_SENTINELS)
     p_combined = dict(P15_RUN4)
-    p_combined.update({
-        # Roll (LatEC) calibrated R4 overrides
-        "Kp_roll": 3.8,
-        "Kd_roll": 1.4,
-        "Ki_roll": 0.0,
-        "K_ton_roll": 4.2,
-        "K_sc_roll": 3.2,
-        "z_sc_roll": 0.0,
-        "K_phas_roll": 16.5,
-        "p_phas_roll": 6.0,
-        "z_phas_roll": 0.0,
-        "deriv_comp_roll": 1.0,
-        # Yaw (YawMA) calibrated Y4_hybrid overrides
-        "Kp_yaw": 0.24,
-        "Kd_yaw": 0.03,
-        "Ki_yaw": 0.0,
-        "K_ton_yaw": 5.2598427596916935,
-        "p_ton_yaw": 16.227225,
-        "K_sc_yaw": 1.2,
-        "p_sc_yaw": 3.5,
-        "Kp_prop_yaw": 8.5,
-        "z_ccr_yaw": 0.06,
-        "deriv_comp_yaw": 0.25,
-    })
+    p_combined.update(TUNED_3AXIS_OVERRIDES)
 
     with ProcessPoolExecutor(max_workers=4) as ex:
-        fut_lat_zero = ex.submit(run_full_axis_sim, ("LatEC", "zero_shot", P15_RUN4, 2.0))
+        fut_lat_zero = ex.submit(run_full_axis_sim, ("LatEC", "zero_shot", p_zero_shot, 2.0))
         fut_lat_tuned = ex.submit(run_full_axis_sim, ("LatEC", "tuned_3axis", p_combined, 2.0))
-        fut_yaw_zero = ex.submit(run_full_axis_sim, ("YawMA", "zero_shot", P15_RUN4, 2.0))
+        fut_yaw_zero = ex.submit(run_full_axis_sim, ("YawMA", "zero_shot", p_zero_shot, 2.0))
         fut_yaw_tuned = ex.submit(run_full_axis_sim, ("YawMA", "tuned_3axis", p_combined, 2.0))
 
         sim_lat_zero = fut_lat_zero.result()
@@ -678,14 +742,20 @@ def main():
 
     lat_cost = compute_latec_cost(sim_lat_tuned)
     yaw_cost = compute_latec_cost(sim_yaw_tuned)
-    best_name = "R4_Y4_hybrid_decoupled"
-    print(f"[EVAL] {best_name}: LatEC cost={lat_cost:.2f}, noise={sim_lat_tuned['hf_noise_rms']:.2f} deg/s, corr={sim_lat_tuned['corr_vel']:.3f}", flush=True)
-    print(f"[EVAL] {best_name}: YawMA cost={yaw_cost:.2f}, noise={sim_yaw_tuned['hf_noise_rms']:.2f} deg/s, corr={sim_yaw_tuned['corr_vel']:.3f}", flush=True)
+    lat_zero_cls = compute_classic_bode_score(sim_lat_zero["freq_results"], is_apeo=False)
+    lat_tuned_cls = compute_classic_bode_score(sim_lat_tuned["freq_results"], is_apeo=False)
+    yaw_zero_cls = compute_classic_bode_score(sim_yaw_zero["freq_results"], is_apeo=False)
+    yaw_tuned_cls = compute_classic_bode_score(sim_yaw_tuned["freq_results"], is_apeo=False)
+
+    best_name = "Ungated_W2_cp_04_Y4_P15"
+    print(f"[EVAL] {best_name}: LatEC Classic={lat_tuned_cls['classic_bode_score']:.2f} pts (G={lat_tuned_cls['gain_loss_pts']:.1f}, P={lat_tuned_cls['phase_loss_pts']:.1f}), noise={sim_lat_tuned['hf_noise_rms']:.2f} deg/s, corr={sim_lat_tuned['corr_vel']:.3f}", flush=True)
+    print(f"[EVAL] {best_name}: YawMA Classic={yaw_tuned_cls['classic_bode_score']:.2f} pts (G={yaw_tuned_cls['gain_loss_pts']:.1f}, P={yaw_tuned_cls['phase_loss_pts']:.1f}), noise={sim_yaw_tuned['hf_noise_rms']:.2f} deg/s, corr={sim_yaw_tuned['corr_vel']:.3f}", flush=True)
 
     with open(params_path, "w", encoding="utf-8") as f:
         json.dump(p_combined, f, indent=2)
 
     apeo_res = run_apeo_pitch_check(p_combined)
+    apeo_cls = compute_classic_bode_score(apeo_res["freq_results"], is_apeo=True)
 
     render_baseline_4panel(sim_lat_zero, "zero_shot_latec_roll_baseline_4panel.png")
     render_tuned_comparison_4panel(sim_lat_zero, sim_lat_tuned, "tuned_latec_roll_4panel.png", apeo_res["total_score"])
@@ -695,13 +765,21 @@ def main():
     summary = {
         "P_COMBINED_3AXIS": p_combined,
         "selected_joint_roll_candidate": best_name,
+        "ungated_all_3_axes": True,
         "APEO_Pitch_Check": {
+            "classic_bode_score": apeo_cls["classic_bode_score"],
+            "gain_loss_pts": apeo_cls["gain_loss_pts"],
+            "phase_loss_pts": apeo_cls["phase_loss_pts"],
             "total_score": apeo_res["total_score"],
             "run4_baseline_score": 991.107,
             "telemetry": apeo_res["telemetry"],
             "frequencies": apeo_res["freq_results"],
         },
         "LatEC_Roll": {
+            "classic_bode_score": lat_tuned_cls["classic_bode_score"],
+            "gain_loss_pts": lat_tuned_cls["gain_loss_pts"],
+            "phase_loss_pts": lat_tuned_cls["phase_loss_pts"],
+            "zero_shot_classic_bode_score": lat_zero_cls["classic_bode_score"],
             "tuned_cost": lat_cost,
             "zero_shot_hf_noise_rms": sim_lat_zero["hf_noise_rms"],
             "tuned_hf_noise_rms": sim_lat_tuned["hf_noise_rms"],
@@ -711,6 +789,10 @@ def main():
             "tuned_frequencies": sim_lat_tuned["freq_results"],
         },
         "YawMA_Yaw": {
+            "classic_bode_score": yaw_tuned_cls["classic_bode_score"],
+            "gain_loss_pts": yaw_tuned_cls["gain_loss_pts"],
+            "phase_loss_pts": yaw_tuned_cls["phase_loss_pts"],
+            "zero_shot_classic_bode_score": yaw_zero_cls["classic_bode_score"],
             "tuned_cost": yaw_cost,
             "zero_shot_hf_noise_rms": sim_yaw_zero["hf_noise_rms"],
             "tuned_hf_noise_rms": sim_yaw_tuned["hf_noise_rms"],
@@ -724,9 +806,9 @@ def main():
     with open(summary_path, "w", encoding="utf-8") as f:
         json.dump(summary, f, indent=2)
 
-    print(f"\n[SUMMARY] APEO Pitch Score = {apeo_res['total_score']:.2f} pts (Run 4 baseline = 991.11 pts)", flush=True)
-    print(f"[SUMMARY] LatEC Roll: HF Noise {sim_lat_zero['hf_noise_rms']:.2f} -> {sim_lat_tuned['hf_noise_rms']:.2f} deg/s | corr {sim_lat_zero['corr_vel']:.3f} -> {sim_lat_tuned['corr_vel']:.3f}", flush=True)
-    print(f"[SUMMARY] YawMA Yaw : HF Noise {sim_yaw_zero['hf_noise_rms']:.2f} -> {sim_yaw_tuned['hf_noise_rms']:.2f} deg/s | corr {sim_yaw_zero['corr_vel']:.3f} -> {sim_yaw_tuned['corr_vel']:.3f}", flush=True)
+    print(f"\n[SUMMARY] APEO Pitch Classic Bode Score = {apeo_res['total_score']:,.2f} pts (G={apeo_cls['gain_loss_pts']:.1f}, P={apeo_cls['phase_loss_pts']:.1f}; Run 4 baseline = 991.11 pts)", flush=True)
+    print(f"[SUMMARY] LatEC Roll Classic Bode Score = {lat_tuned_cls['classic_bode_score']:,.2f} pts (Zero-Shot = {lat_zero_cls['classic_bode_score']:,.2f} pts) | HF Noise {sim_lat_zero['hf_noise_rms']:.2f} -> {sim_lat_tuned['hf_noise_rms']:.2f} deg/s | corr {sim_lat_zero['corr_vel']:.3f} -> {sim_lat_tuned['corr_vel']:.3f}", flush=True)
+    print(f"[SUMMARY] YawMA Yaw  Classic Bode Score = {yaw_tuned_cls['classic_bode_score']:,.2f} pts (Zero-Shot = {yaw_zero_cls['classic_bode_score']:,.2f} pts) | HF Noise {sim_yaw_zero['hf_noise_rms']:.2f} -> {sim_yaw_tuned['hf_noise_rms']:.2f} deg/s | corr {sim_yaw_zero['corr_vel']:.3f} -> {sim_yaw_tuned['corr_vel']:.3f}", flush=True)
     print(f"[OK] Saved complete 3-axis summary to {summary_path}", flush=True)
 
 
