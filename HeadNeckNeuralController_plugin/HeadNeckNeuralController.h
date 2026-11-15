@@ -212,6 +212,7 @@ private:
         SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Branch 1A->3 (3.0ms -> Sub 3): Size 3 (pitch, roll, yaw) compensated by 1 + tau_1A3*s
         SimTK::Vec3 raw_neck_relative_angle{0.0};                  // Clean Luenberger-filtered neck relative angle (pitch, roll, yaw) before Branch 1A->3 compensator
         SimTK::Vec3 raw_neck_relative_speed{0.0};                  // Clean Luenberger-filtered neck relative speed (pitch, roll, yaw) before Branch 1A->3 compensator
+        SimTK::Vec3 raw_neck_relative_accel{0.0};                  // Clean Luenberger-filtered neck relative accel (pitch, roll, yaw) before Branch 1A->3 compensator
         SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 3B (13.0ms -> Sub 4 Cortex): Size 3 (pitch, roll, yaw) compensated by 1 + tau_3B*s + 0.5*tau_3B^2*s^2
         SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) compensated by 1 + tau_4C*s + 0.5*tau_4C^2*s^2
         SimTK::Vec3 cortical_voluntary_torque_dot{0.0};            // Branch 4C (14.5ms -> Sub 5): Size 3 1st derivative of cortical voluntary torque
