@@ -14,7 +14,7 @@
 
 To keep documentation clean and non-redundant, the mathematical formulations, interactive block diagrams, and engineering rationale are organized into two dedicated resources:
 
-1. 🖥️ **[Interactive Simulink & Anatomical Explorer (`docs/neuromotor_simulink_explorer.html`)](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/docs/neuromotor_simulink_explorer.html)**  
+1. 🖥️ **[Interactive Simulink & Anatomical Explorer (`docs/neuromotor_simulink_explorer.html`)](https://raw.githack.com/utkuoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/Harpee2017/neuromotor_block_explorer.html)**  
    *Click to launch the live interactive web app in your browser ([view source](docs/neuromotor_simulink_explorer.html)).* Contains the full Simulink-style block diagrams for the Top-Level Loop and all 7 Subsystems, interactive 3D brain region highlighting, annotated LaTeX transfer functions, `[Derivation]` analytical constant derivations, and universal pseudocode for every block.
 2. 📘 **[Engineering, Neurophysiological & Optimization Design Rationale (`docs/neuromotor_control_architecture_c4.md`)](docs/neuromotor_control_architecture_c4.md)**  
    Explains **why** each design choice was made:
