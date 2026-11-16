@@ -3047,49 +3047,88 @@
 					<target_location>2 0.5 0</target_location>
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
-					
-					<delay_vcr>0.015</delay_vcr>
-					<delay_ccr>0.015</delay_ccr>
-					
-					<Kp_proprioception>1.2476</Kp_proprioception>
-					<z_ccr>23.1819</z_ccr>
-					<p_ccr>55.5080</p_ccr>
+					<Kp_proprioception>0.22</Kp_proprioception>
+					<z_ccr>0.02</z_ccr>
+					<p_ccr>99.919586</p_ccr>
 					<K_recip_inhib>0</K_recip_inhib>
-					
-					<Kg_proprioception>0</Kg_proprioception>
-					
-					<K_vestibular>2</K_vestibular>
-					
-					<K_otolith>4</K_otolith>
-					
 					<desired_yaw>0</desired_yaw>
-					
 					<desired_pitch>0</desired_pitch>
-					
 					<desired_roll>0</desired_roll>
 					<trajectory_tau>0.1</trajectory_tau>
-					<K_ton>74.3907</K_ton>
-					<p_ton>17.7531</p_ton>
-					<K_sc>49.3723</K_sc>
-					<z_sc>500.0</z_sc>
-					<p_sc>37.8562</p_sc>
-					<K_phas>4.9396</K_phas>
-					<p_phas>63.8079</p_phas>
-					<k_p>2.5030</k_p>
-					<k_v>0.13</k_v>
-					<K_gamma_dyn>3.7051</K_gamma_dyn>
-					<K_gamma_stat>2.6738</K_gamma_stat>
-					<K_gamma>1</K_gamma>
-					<Wp_base_pitch>400</Wp_base_pitch>
-					<Wv_base_pitch>40</Wv_base_pitch>
-					<Wp_base_roll>400</Wp_base_roll>
-					<Wv_base_roll>40</Wv_base_roll>
-					<Wp_base_yaw>400</Wp_base_yaw>
-					<Wv_base_yaw>40</Wv_base_yaw>
-					<k_vigor>0</k_vigor>
-					<Ki_task>6.54</Ki_task>
-					<use_dynamic_jacobian>true</use_dynamic_jacobian>
-					<K_eso>0</K_eso>
+					<fc_voluntary>2.0</fc_voluntary>
+					<K_ton>5.2598427596916935</K_ton>
+					<p_ton>16.227225</p_ton>
+					<K_sc>4.101868521564445</K_sc>
+					<z_sc>0.015</z_sc>
+					<p_sc>53.284141</p_sc>
+					<K_phas>11.0</K_phas>
+					<z_phas>0.008</z_phas>
+					<p_phas>4.711937</p_phas>
+					<K_ton_roll>0.60</K_ton_roll>
+					<K_ton_yaw>5.2598427596916935</K_ton_yaw>
+					<p_ton_roll>3.0</p_ton_roll>
+					<p_ton_yaw>16.227225</p_ton_yaw>
+					<K_sc_roll>2.029</K_sc_roll>
+					<K_sc_yaw>1.20</K_sc_yaw>
+					<z_sc_roll>0.01</z_sc_roll>
+					<z_sc_yaw>0.01</z_sc_yaw>
+					<p_sc_roll>60.0</p_sc_roll>
+					<p_sc_yaw>3.5</p_sc_yaw>
+					<K_phas_roll>16.653</K_phas_roll>
+					<z_phas_roll>0.01</z_phas_roll>
+					<p_phas_roll>5.747</p_phas_roll>
+					<Kp_prop_pitch>0.50</Kp_prop_pitch>
+					<Kp_prop_roll>4.20</Kp_prop_roll>
+					<Kp_prop_yaw>8.50</Kp_prop_yaw>
+					<z_ccr_roll>0.10</z_ccr_roll>
+					<z_ccr_yaw>0.06</z_ccr_yaw>
+					<K_gamma_dyn>1.0</K_gamma_dyn>
+					<K_gamma_stat>1.0</K_gamma_stat>
+					<Kp_task_pitch>3.7901174594192497</Kp_task_pitch>
+					<Kd_task_pitch>0.54</Kd_task_pitch>
+					<Kp_task_roll>0.95</Kp_task_roll>
+					<Kd_task_roll>1.14</Kd_task_roll>
+					<Kp_task_yaw>0.24</Kp_task_yaw>
+					<Kd_task_yaw>0.03</Kd_task_yaw>
+					<Ki_task_pitch>3.7214919179870036</Ki_task_pitch>
+					<Ki_task_roll>1.50</Ki_task_roll>
+					<Ki_task_yaw>0.05</Ki_task_yaw>
+					<Kp_buckle>1.5</Kp_buckle>
+					<Kd_buckle>0.15</Kd_buckle>
+					<thresh_spindle_ia>0.50</thresh_spindle_ia>
+					<thresh_spindle_ii>0.25</thresh_spindle_ii>
+					<thresh_vest_tilt>0.002</thresh_vest_tilt>
+					<thresh_vest_scc>0.005</thresh_vest_scc>
+					<thresh_vest_oto>0.020</thresh_vest_oto>
+					<enable_axis_pitch>true</enable_axis_pitch>
+					<enable_axis_roll>true</enable_axis_roll>
+					<enable_axis_yaw>true</enable_axis_yaw>
+					<enable_ccr>true</enable_ccr>
+					<enable_ccr_spinal>true</enable_ccr_spinal>
+					<enable_ccr_task>true</enable_ccr_task>
+					<enable_ccr_pitch>true</enable_ccr_pitch>
+					<enable_ccr_roll>true</enable_ccr_roll>
+					<enable_ccr_yaw>true</enable_ccr_yaw>
+					<enable_vcr>true</enable_vcr>
+					<enable_vcr_tonic>true</enable_vcr_tonic>
+					<enable_vcr_canal>true</enable_vcr_canal>
+					<enable_vcr_phasic>true</enable_vcr_phasic>
+					<enable_vcr_pitch>true</enable_vcr_pitch>
+					<enable_vcr_roll>true</enable_vcr_roll>
+					<enable_vcr_yaw>true</enable_vcr_yaw>
+					<enable_task_controller>true</enable_task_controller>
+					<enable_task_integral>true</enable_task_integral>
+					<enable_task_pitch>true</enable_task_pitch>
+					<enable_task_roll>true</enable_task_roll>
+					<enable_task_yaw>true</enable_task_yaw>
+					<enable_decoder>true</enable_decoder>
+					<enable_mahony>true</enable_mahony>
+					<enable_efference_cancellation>true</enable_efference_cancellation>
+					<enable_fusimotor>true</enable_fusimotor>
+					<enable_reciprocal_inhibition>true</enable_reciprocal_inhibition>
+					<enable_antibuckling>true</enable_antibuckling>
+					<enable_lead_compensators>true</enable_lead_compensators>
+					<enable_eye_afferents>false</enable_eye_afferents>
 				</HeadNeckNeuralController>
 			</objects>
 			<groups />

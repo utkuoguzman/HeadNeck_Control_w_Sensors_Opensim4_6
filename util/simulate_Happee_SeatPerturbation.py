@@ -27,13 +27,12 @@ if controller is None:
 # Set the Happee Table 1 B1 (Eyes Closed) parameters via generic Property API
 osim.PropertyHelper.setValueDouble(2.0, controller.updPropertyByName("G_ton"))
 osim.PropertyHelper.setValueDouble(1.73, controller.updPropertyByName("G_sc"))
-osim.PropertyHelper.setValueDouble(0.45, controller.updPropertyByName("k_p"))
-osim.PropertyHelper.setValueDouble(0.13, controller.updPropertyByName("k_v"))
+osim.PropertyHelper.setValueDouble(0.45, controller.updPropertyByName("Kp_proprioception"))
 
 # Add the Voluntary Postural PID Drive to represent Na_post (baseline gravity compensation)
-osim.PropertyHelper.setValueDouble(49.5, controller.updPropertyByName("Kp_task"))
-osim.PropertyHelper.setValueDouble(41.2, controller.updPropertyByName("Ki_task"))
-osim.PropertyHelper.setValueDouble(5.3, controller.updPropertyByName("Kd_task"))
+osim.PropertyHelper.setValueDouble(49.5, controller.updPropertyByName("Kp_task_pitch"))
+osim.PropertyHelper.setValueDouble(41.2, controller.updPropertyByName("Ki_task_pitch"))
+osim.PropertyHelper.setValueDouble(5.3, controller.updPropertyByName("Kd_task_pitch"))
 
 # Instead of locking (which can cause Simbody redundant constraint errors),
 # we explicitly prescribe a constant 0.0 motion to all other base coordinates.

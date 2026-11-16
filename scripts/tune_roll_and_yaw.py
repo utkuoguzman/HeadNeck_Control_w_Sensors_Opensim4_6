@@ -112,8 +112,6 @@ def evaluate_axis_candidate(args):
     osim.PropertyHelper.setValueDouble(params["K_phas"], controller.updPropertyByName("K_phas"))
     osim.PropertyHelper.setValueDouble(params["z_phas"], controller.updPropertyByName("z_phas"))
     osim.PropertyHelper.setValueDouble(params["p_phas"], controller.updPropertyByName("p_phas"))
-    osim.PropertyHelper.setValueDouble(-1.0, controller.updPropertyByName("p_phas2"))
-    osim.PropertyHelper.setValueDouble(params["kp_prop"], controller.updPropertyByName("k_p"))
 
     osim.PropertyHelper.setValueDouble(params["Kp_pitch"], controller.updPropertyByName("Kp_task_pitch"))
     osim.PropertyHelper.setValueDouble(params["Kd_pitch"], controller.updPropertyByName("Kd_task_pitch"))
@@ -121,33 +119,26 @@ def evaluate_axis_candidate(args):
     osim.PropertyHelper.setValueDouble(params["Kd_roll"], controller.updPropertyByName("Kd_task_roll"))
     osim.PropertyHelper.setValueDouble(params["Kp_yaw"], controller.updPropertyByName("Kp_task_yaw"))
     osim.PropertyHelper.setValueDouble(params["Kd_yaw"], controller.updPropertyByName("Kd_task_yaw"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
     osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("K_eso"))
 
-    osim.PropertyHelper.setValueDouble(params["Ki_pitch"], controller.updPropertyByName("Ki_task"))
     osim.PropertyHelper.setValueDouble(params["Ki_pitch"], controller.updPropertyByName("Ki_task_pitch"))
-    osim.PropertyHelper.setValueDouble(params.get("Ki_roll", 0.0), controller.updPropertyByName("Ki_task_roll"))
-    osim.PropertyHelper.setValueDouble(params.get("Ki_yaw", 0.0), controller.updPropertyByName("Ki_task_yaw"))
+    osim.PropertyHelper.setValueDouble(params.get("Ki_roll", 1.5), controller.updPropertyByName("Ki_task_roll"))
+    osim.PropertyHelper.setValueDouble(params.get("Ki_yaw", 0.05), controller.updPropertyByName("Ki_task_yaw"))
 
     osim.PropertyHelper.setValueDouble(params["kp_prop"], controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(params["z_ccr"], controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(params["p_ccr"], controller.updPropertyByName("p_ccr"))
     osim.PropertyHelper.setValueDouble(params["k_gamma_dyn"], controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(params["k_gamma_stat"], controller.updPropertyByName("K_gamma_stat"))
-    osim.PropertyHelper.setValueDouble(0.010, controller.updPropertyByName("delay_vcr"))
-    osim.PropertyHelper.setValueDouble(0.015, controller.updPropertyByName("delay_ccr"))
-    osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("use_smith_predictor"))
-    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
-    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
 
     # Per-axis Roll & Yaw VCR/CCR properties
     per_axis_keys = [
         "K_ton_roll", "K_ton_yaw", "p_ton_roll", "p_ton_yaw",
         "K_sc_roll", "K_sc_yaw", "z_sc_roll", "z_sc_yaw", "p_sc_roll", "p_sc_yaw",
-        "K_phas_roll", "z_phas_roll", "p_phas_roll", "p_ap_roll", "c_ap_roll",
-        "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw", "p_ccr_roll", "p_ccr_yaw",
-        "deriv_comp_roll", "deriv_comp_yaw"
+        "K_phas_roll", "z_phas_roll", "p_phas_roll",
+        "Kp_prop_pitch", "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw",
+        "Kp_buckle", "Kd_buckle",
+        "thresh_spindle_ia", "thresh_spindle_ii", "thresh_vest_tilt", "thresh_vest_scc", "thresh_vest_oto",
     ]
     for pk in per_axis_keys:
         if pk in params:

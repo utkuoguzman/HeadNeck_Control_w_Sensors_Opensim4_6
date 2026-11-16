@@ -316,10 +316,13 @@ def _run_jobs_in_qp_mode(jobs, qp_mode_str, max_workers=6):
             json.dump({"jobs": jobs, "max_workers": max_workers}, f)
         env = os.environ.copy()
         env["USE_6DOF_QP"] = qp_mode_str
+        env["CCR_BALANCE_MODE"] = os.environ.get("CCR_BALANCE_MODE", "1")
+        env["CCR_USE_3AXIS_Z"] = os.environ.get("CCR_USE_3AXIS_Z", "0")
         subprocess.run(
             [sys.executable, __file__, "--subcmd", "_worker_batch", "--in-json", in_path, "--out-json", out_path],
             env=env,
             check=True,
+            timeout=1500,
         )
         with open(out_path, "r", encoding="utf-8") as f:
             return json.load(f)
@@ -493,27 +496,40 @@ def cmd_sensitivity():
     print(f"\nSaved sensitivity JSON: {out_path}", flush=True)
 
 
-def cmd_coopt_batch():
-    """Run all 12 baseline + co-optimization candidates in parallel under USE_6DOF_QP=1 + Fixes 1-3."""
+def _compute_j_comp(r):
+    if not r.get("ok"):
+        return float("inf")
+    c = r["cross"]
+    return round(
+        float(r["classic_bode_score"])
+        + 150.0 * float(c["max_abs_dp_tot"])
+        + 250.0 * abs(float(c["p_tot_t3"]))
+        + 250.0 * abs(float(c["p_tot_end"]))
+        + 300.0 * float(c["rms_dp_tot_ss"]),
+        2,
+    )
+
+
+def cmd_coopt_batch(max_workers=12):
+    """Run 12-worker positive-K_ton_roll + 6-DOF anti-buckling co-optimization batch (USE_6DOF_QP=1, CCR_BALANCE_MODE=1, CCR_USE_3AXIS_Z=0)."""
     base_params = _load_params()
 
     specs = [
-        # Jobs 1-3: New 6-DOF Baseline with Fixes 1-3
-        ("base_APEO",  "APEO",  {}),
-        ("base_LatEC", "LatEC", {}),
-        ("base_YawMA", "YawMA", {}),
-        # Jobs 4-6: APEO Pitch Sensitivity/Tuning
-        ("APEO_1", "APEO", {"kp_prop": 0.40, "K_sc": 3.85}),
-        ("APEO_2", "APEO", {"kp_prop": 0.38, "K_sc": 3.70, "K_ton": 5.60}),
-        ("APEO_3", "APEO", {"kp_prop": 0.41, "K_sc": 3.90, "z_sc": 0.0062}),
-        # Jobs 7-9: LatEC Roll Sensitivity/Tuning
-        ("LatEC_1", "LatEC", {"K_ton_roll": -1.10, "p_ton_roll": 2.6, "K_sc_roll": 1.85, "Kp_prop_roll": 4.0}),
-        ("LatEC_2", "LatEC", {"Kp_roll": 1.25, "Ki_roll": 1.65, "K_ton_roll": -1.00, "K_phas_roll": 17.8, "Kp_prop_roll": 3.8}),
-        ("LatEC_3", "LatEC", {"Kp_roll": 1.35, "Kd_roll": 1.05, "K_ton_roll": -0.95, "K_sc_roll": 1.90, "z_ccr_roll": 0.115}),
-        # Jobs 10-12: YawMA Yaw Sensitivity/Tuning
-        ("YawMA_1", "YawMA", {"K_sc_yaw": 1.45, "Kp_prop_yaw": 9.5, "z_ccr_yaw": 0.075, "deriv_comp_yaw": 0.35}),
-        ("YawMA_2", "YawMA", {"K_sc_yaw": 1.35, "p_sc_yaw": 4.2, "Kp_prop_yaw": 9.2, "z_ccr_yaw": 0.070, "deriv_comp_yaw": 0.30}),
-        ("YawMA_3", "YawMA", {"Kp_yaw": 0.22, "K_sc_yaw": 1.50, "Kp_prop_yaw": 10.0, "z_ccr_yaw": 0.080, "deriv_comp_yaw": 0.40}),
+        # 3 APEO Pitch candidates (6-DOF anti-buckling active, positive K_ton_roll cross-checked, z_ccr=0.0 avoids t=3s Roll/Yaw kick)
+        ("APEO_g1",  "APEO",  {"z_sc": 0.025, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.80}),
+        ("APEO_g2",  "APEO",  {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.80, "Kd_pitch": 0.54}),
+        ("APEO_g3",  "APEO",  {"z_sc": 0.030, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.80, "Kd_pitch": 0.54, "kp_prop": 0.50}),
+        # 6 LatEC Roll candidates enforcing positive K_ton_roll (+0.30..+0.80) + lowered Kp_roll (0.65..1.10)
+        ("LatEC_g1", "LatEC", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.30, "Kp_roll": 0.65}),
+        ("LatEC_g2", "LatEC", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.30, "Kp_roll": 0.80}),
+        ("LatEC_g3", "LatEC", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.65}),
+        ("LatEC_g4", "LatEC", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.80}),
+        ("LatEC_g5", "LatEC", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.60, "Kp_roll": 0.95}),
+        ("LatEC_g6", "LatEC", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.80, "Kp_roll": 1.10}),
+        # 3 YawMA Yaw candidates (with positive K_ton_roll + z_ccr=0.0 + 6-DOF anti-buckling)
+        ("YawMA_g1", "YawMA", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.80}),
+        ("YawMA_g2", "YawMA", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.45, "Kp_roll": 0.80, "K_sc_yaw": 1.35, "z_sc_yaw": 0.025, "Kp_prop_yaw": 8.5, "z_ccr_yaw": 0.075, "deriv_comp_yaw": 0.30}),
+        ("YawMA_g3", "YawMA", {"z_sc": 0.028, "z_phas": 0.013307, "z_ccr": 0.0, "K_ton_roll": 0.30, "Kp_roll": 0.65, "K_sc_yaw": 1.35, "z_sc_yaw": 0.025, "Kp_prop_yaw": 8.5, "z_ccr_yaw": 0.075, "deriv_comp_yaw": 0.30}),
     ]
 
     jobs = []
@@ -524,15 +540,23 @@ def cmd_coopt_batch():
         jobs.append({"tag": tag, "mode": mode, "params": p})
         overrides_by_tag[tag] = ov
 
-    print(f"Launching 12-worker coopt_batch (USE_6DOF_QP=1 + Fixes 1-3)...", flush=True)
+    print(f"Launching {max_workers}-worker coopt_batch (USE_6DOF_QP=1, CCR_BALANCE_MODE=1, CCR_USE_3AXIS_Z=0)...", flush=True)
     t0 = time.time()
-    res_list = _run_jobs_in_qp_mode(jobs, "1", max_workers=12)
+    res_list = _run_jobs_in_qp_mode(jobs, "1", max_workers=max_workers)
     wall = time.time() - t0
     print(f"\n=== COOPT_BATCH COMPLETE ({len(res_list)} jobs in {wall:.1f}s) ===", flush=True)
 
     for r in res_list:
         r["overrides"] = overrides_by_tag.get(r["tag"], {})
-        print(f"  {r['tag']:8s} ({r['mode']:5s}): {_fmt_trial(r)}", flush=True)
+        r["J_comp"] = _compute_j_comp(r)
+        j_str = f"J_comp={r['J_comp']:9.2f}" if r.get("ok") else "J_comp=      inf"
+        print(f"  {r['tag']:10s} ({r['mode']:5s}): {j_str} | {_fmt_trial(r)}", flush=True)
+
+    for mode in ("APEO", "LatEC", "YawMA"):
+        sub = sorted([r for r in res_list if r["mode"] == mode and r.get("ok")], key=lambda x: x["J_comp"])
+        print(f"\n  -- Ranked {mode} by J_comp --", flush=True)
+        for r in sub:
+            print(f"    {r['tag']:10s}: J_comp={r['J_comp']:9.2f} | Classic={r['classic_bode_score']:8.2f} | rms_dp={r['cross']['rms_dp_tot_ss']:4.2f} | max|dp|={r['cross']['max_abs_dp_tot']:5.2f} | p_t3={r['cross']['p_tot_t3']:+5.2f} | p_end={r['cross']['p_tot_end']:+5.2f}", flush=True)
 
     out_path = os.path.join(OUT_JSON_DIR, "sub5_coopt_batch_results.json")
     with open(out_path, "w", encoding="utf-8") as f:
@@ -549,6 +573,7 @@ def main():
     parser.add_argument("--subcmd", required=True, choices=["baseline", "sensitivity", "coopt_batch", "_worker_batch"])
     parser.add_argument("--in-json")
     parser.add_argument("--out-json")
+    parser.add_argument("--workers", type=int, default=12)
     args = parser.parse_args()
     if args.subcmd == "_worker_batch":
         _worker_batch_main(args.in_json, args.out_json)
@@ -557,7 +582,7 @@ def main():
     elif args.subcmd == "sensitivity":
         cmd_sensitivity()
     elif args.subcmd == "coopt_batch":
-        cmd_coopt_batch()
+        cmd_coopt_batch(max_workers=args.workers)
 
 
 if __name__ == "__main__":
