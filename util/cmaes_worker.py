@@ -62,12 +62,9 @@ def run_simulation(kp, ki, kd, g_ton, g_sc, g_phas, kp_prop, k_gamma_dyn, k_gamm
     osim.PropertyHelper.setValueDouble(g_sc, controller.updPropertyByName("G_sc"))
     osim.PropertyHelper.setValueDouble(g_phas, controller.updPropertyByName("G_phas"))
     
-    osim.PropertyHelper.setValueDouble(0.45, controller.updPropertyByName("k_p"))
-    osim.PropertyHelper.setValueDouble(0.13, controller.updPropertyByName("k_v"))
-
-    osim.PropertyHelper.setValueDouble(kp, controller.updPropertyByName("Kp_task"))
-    osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task"))
-    osim.PropertyHelper.setValueDouble(kd, controller.updPropertyByName("Kd_task"))
+    osim.PropertyHelper.setValueDouble(kp, controller.updPropertyByName("Kp_task_pitch"))
+    osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task_pitch"))
+    osim.PropertyHelper.setValueDouble(kd, controller.updPropertyByName("Kd_task_pitch"))
     osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(k_gamma_dyn, controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(k_gamma_stat, controller.updPropertyByName("K_gamma_stat"))

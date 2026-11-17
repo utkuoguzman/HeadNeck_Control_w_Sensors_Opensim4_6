@@ -184,7 +184,7 @@ def clamp_roll_params(p):
     p["Kp_roll"] = float(np.clip(p["Kp_roll"], 0.1, 6.0))
     p["Kd_roll"] = float(np.clip(p["Kd_roll"], 0.4, 3.0))
     p["Ki_roll"] = float(np.clip(p["Ki_roll"], 0.0, 4.0))
-    p["K_ton_roll"] = float(np.clip(p["K_ton_roll"], -2.5, 6.0))
+    p["K_ton_roll"] = float(np.clip(p["K_ton_roll"], 0.0, 6.0))
     p["p_ton_roll"] = float(np.clip(p["p_ton_roll"], 0.6, 25.0))
     p["K_sc_roll"] = float(np.clip(p["K_sc_roll"], 1.2, 7.0))
     p["p_sc_roll"] = float(np.clip(p["p_sc_roll"], 15.0, 65.0))

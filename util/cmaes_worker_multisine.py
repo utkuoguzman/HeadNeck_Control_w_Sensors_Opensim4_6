@@ -47,7 +47,7 @@ def run_multisine_simulation(
     kp, ki, kd,
     K_ton, p_ton=LIT_P_TON, K_sc=49.3723, z_sc=LIT_TAU_PLANT, p_sc=LIT_P_SC, K_phas=4.9396, p_phas=LIT_P_PHAS,
     kp_prop=2.5030, z_ccr=LIT_TAU_PLANT, p_ccr=LIT_P_CCR, k_gamma_dyn=0.9964, k_gamma_stat=0.9951,
-    worker_name="M-?", p_phas2=-1.0, z_phas=LIT_TAU_PLANT, extra_props=None
+    worker_name="M-?", p_phas2=0.0, z_phas=LIT_TAU_PLANT, extra_props=None
 ):
     ensure_libraries_loaded()
 
@@ -83,40 +83,30 @@ def run_multisine_simulation(
     osim.PropertyHelper.setValueDouble(K_phas, controller.updPropertyByName("K_phas"))
     osim.PropertyHelper.setValueDouble(z_phas, controller.updPropertyByName("z_phas"))
     osim.PropertyHelper.setValueDouble(p_phas, controller.updPropertyByName("p_phas"))
-    osim.PropertyHelper.setValueDouble(p_phas2, controller.updPropertyByName("p_phas2"))
-    osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("k_p"))
 
     kp_task_pitch = float(os.environ.get("KP_TASK_PITCH", str(kp)))
     kd_task_pitch = float(os.environ.get("KD_TASK_PITCH", str(kd)))
-    kp_task_roll  = float(os.environ.get("KP_TASK_ROLL",  "10.21"))
-    kd_task_roll  = float(os.environ.get("KD_TASK_ROLL",  "1.29"))
+    kp_task_roll  = float(os.environ.get("KP_TASK_ROLL",  "0.95"))
+    kd_task_roll  = float(os.environ.get("KD_TASK_ROLL",  "1.14"))
     kp_task_yaw   = float(os.environ.get("KP_TASK_YAW",   "0.24"))
-    kd_task_yaw   = float(os.environ.get("KD_TASK_YAW",   "0.12"))
+    kd_task_yaw   = float(os.environ.get("KD_TASK_YAW",   "0.03"))
     osim.PropertyHelper.setValueDouble(kp_task_pitch, controller.updPropertyByName("Kp_task_pitch"))
     osim.PropertyHelper.setValueDouble(kd_task_pitch, controller.updPropertyByName("Kd_task_pitch"))
     osim.PropertyHelper.setValueDouble(kp_task_roll,  controller.updPropertyByName("Kp_task_roll"))
     osim.PropertyHelper.setValueDouble(kd_task_roll,  controller.updPropertyByName("Kd_task_roll"))
     osim.PropertyHelper.setValueDouble(kp_task_yaw,   controller.updPropertyByName("Kp_task_yaw"))
     osim.PropertyHelper.setValueDouble(kd_task_yaw,   controller.updPropertyByName("Kd_task_yaw"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
     osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("K_eso"))
 
-    osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task"))
     osim.PropertyHelper.setValueDouble(ki, controller.updPropertyByName("Ki_task_pitch"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("Ki_task_roll"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("Ki_task_yaw"))
+    osim.PropertyHelper.setValueDouble(1.5, controller.updPropertyByName("Ki_task_roll"))
+    osim.PropertyHelper.setValueDouble(0.05, controller.updPropertyByName("Ki_task_yaw"))
 
     osim.PropertyHelper.setValueDouble(kp_prop, controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(z_ccr, controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(p_ccr, controller.updPropertyByName("p_ccr"))
     osim.PropertyHelper.setValueDouble(k_gamma_dyn, controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(k_gamma_stat, controller.updPropertyByName("K_gamma_stat"))
-    osim.PropertyHelper.setValueDouble(0.010, controller.updPropertyByName("delay_vcr"))
-    osim.PropertyHelper.setValueDouble(0.015, controller.updPropertyByName("delay_ccr"))
-    osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("use_smith_predictor"))
-    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
-    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
 
     if extra_props:
         _prop_aliases = {
@@ -132,9 +122,10 @@ def run_multisine_simulation(
             "Kp_task_yaw", "Kd_task_yaw", "Ki_task_yaw",
             "K_ton_roll", "K_ton_yaw", "p_ton_roll", "p_ton_yaw",
             "K_sc_roll", "K_sc_yaw", "z_sc_roll", "z_sc_yaw", "p_sc_roll", "p_sc_yaw",
-            "K_phas_roll", "z_phas_roll", "p_phas_roll", "p_ap_roll", "c_ap_roll",
-            "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw", "p_ccr_roll", "p_ccr_yaw",
-            "deriv_comp_roll", "deriv_comp_yaw",
+            "K_phas_roll", "z_phas_roll", "p_phas_roll",
+            "Kp_prop_pitch", "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw",
+            "Kp_buckle", "Kd_buckle",
+            "thresh_spindle_ia", "thresh_spindle_ii", "thresh_vest_tilt", "thresh_vest_scc", "thresh_vest_oto",
         }
         for _k, _v in extra_props.items():
             _prop_name = _prop_aliases.get(_k, _k)

@@ -4,6 +4,16 @@ import math
 import json
 import shutil
 from concurrent.futures import ProcessPoolExecutor
+
+for _env_k, _env_v in (
+    ("OMP_NUM_THREADS", "1"),
+    ("OPENBLAS_NUM_THREADS", "1"),
+    ("MKL_NUM_THREADS", "1"),
+    ("NUMEXPR_NUM_THREADS", "1"),
+    ("SIMBODY_NUM_THREADS", "1"),
+):
+    os.environ.setdefault(_env_k, _env_v)
+
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as ticker
@@ -53,8 +63,6 @@ def run_full_axis_sim(args):
     osim.PropertyHelper.setValueDouble(params["K_phas"], controller.updPropertyByName("K_phas"))
     osim.PropertyHelper.setValueDouble(params["z_phas"], controller.updPropertyByName("z_phas"))
     osim.PropertyHelper.setValueDouble(params["p_phas"], controller.updPropertyByName("p_phas"))
-    osim.PropertyHelper.setValueDouble(-1.0, controller.updPropertyByName("p_phas2"))
-    osim.PropertyHelper.setValueDouble(params["kp_prop"], controller.updPropertyByName("k_p"))
 
     osim.PropertyHelper.setValueDouble(params["Kp_pitch"], controller.updPropertyByName("Kp_task_pitch"))
     osim.PropertyHelper.setValueDouble(params["Kd_pitch"], controller.updPropertyByName("Kd_task_pitch"))
@@ -62,32 +70,25 @@ def run_full_axis_sim(args):
     osim.PropertyHelper.setValueDouble(params["Kd_roll"], controller.updPropertyByName("Kd_task_roll"))
     osim.PropertyHelper.setValueDouble(params["Kp_yaw"], controller.updPropertyByName("Kp_task_yaw"))
     osim.PropertyHelper.setValueDouble(params["Kd_yaw"], controller.updPropertyByName("Kd_task_yaw"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
     osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("K_eso"))
 
-    osim.PropertyHelper.setValueDouble(params["Ki_pitch"], controller.updPropertyByName("Ki_task"))
     osim.PropertyHelper.setValueDouble(params["Ki_pitch"], controller.updPropertyByName("Ki_task_pitch"))
-    osim.PropertyHelper.setValueDouble(params.get("Ki_roll", 0.0), controller.updPropertyByName("Ki_task_roll"))
-    osim.PropertyHelper.setValueDouble(params.get("Ki_yaw", 0.0), controller.updPropertyByName("Ki_task_yaw"))
+    osim.PropertyHelper.setValueDouble(params.get("Ki_roll", 1.5), controller.updPropertyByName("Ki_task_roll"))
+    osim.PropertyHelper.setValueDouble(params.get("Ki_yaw", 0.05), controller.updPropertyByName("Ki_task_yaw"))
 
     osim.PropertyHelper.setValueDouble(params["kp_prop"], controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(params["z_ccr"], controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(params["p_ccr"], controller.updPropertyByName("p_ccr"))
     osim.PropertyHelper.setValueDouble(params["k_gamma_dyn"], controller.updPropertyByName("K_gamma_dyn"))
     osim.PropertyHelper.setValueDouble(params["k_gamma_stat"], controller.updPropertyByName("K_gamma_stat"))
-    osim.PropertyHelper.setValueDouble(0.010, controller.updPropertyByName("delay_vcr"))
-    osim.PropertyHelper.setValueDouble(0.015, controller.updPropertyByName("delay_ccr"))
-    osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("use_smith_predictor"))
-    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_smith_proprio"))
-    osim.PropertyHelper.setValueDouble(0.007, controller.updPropertyByName("delay_afferent_proprio"))
 
     per_axis_keys = [
         "K_ton_roll", "K_ton_yaw", "p_ton_roll", "p_ton_yaw",
         "K_sc_roll", "K_sc_yaw", "z_sc_roll", "z_sc_yaw", "p_sc_roll", "p_sc_yaw",
-        "K_phas_roll", "z_phas_roll", "p_phas_roll", "p_ap_roll", "c_ap_roll",
-        "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw", "p_ccr_roll", "p_ccr_yaw",
-        "deriv_comp_roll", "deriv_comp_yaw",
+        "K_phas_roll", "z_phas_roll", "p_phas_roll",
+        "Kp_prop_pitch", "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw",
+        "Kp_buckle", "Kd_buckle",
+        "thresh_spindle_ia", "thresh_spindle_ii", "thresh_vest_tilt", "thresh_vest_scc", "thresh_vest_oto",
     ]
     for pk in per_axis_keys:
         if pk in params and params[pk] is not None:
@@ -298,6 +299,11 @@ def run_full_axis_sim(args):
             "phase_err_inv": ph_err,
         }
 
+    dp_arr = np.abs(pitch_arr - pitch_arr[0])
+    quiet_max_pitch_deg = float(np.max(dp_arr[t_arr < delay])) if np.any(t_arr < delay) else 0.0
+    full_max_pitch_deg = float(np.max(dp_arr)) if len(dp_arr) > 0 else 0.0
+    steady_max_pitch_deg = float(np.max(dp_arr[m_post])) if np.any(m_post) else full_max_pitch_deg
+
     return {
         "mode": mode,
         "label": label,
@@ -316,6 +322,9 @@ def run_full_axis_sim(args):
         "freq_results": freq_results,
         "hf_noise_rms": hf_noise_rms,
         "corr_vel": corr_vel,
+        "quiet_max_pitch_deg": quiet_max_pitch_deg,
+        "full_max_pitch_deg": full_max_pitch_deg,
+        "steady_max_pitch_deg": steady_max_pitch_deg,
     }
 
 
@@ -332,7 +341,7 @@ def run_apeo_pitch_check(params):
         params["K_ton"], params["p_ton"], params["K_sc"], params["z_sc"], params["p_sc"],
         params["K_phas"], params["p_phas"], params["kp_prop"], params["z_ccr"], params["p_ccr"],
         params["k_gamma_dyn"], params["k_gamma_stat"],
-        worker_name=worker_label, p_phas2=-1.0, z_phas=params["z_phas"],
+        worker_name=worker_label, p_phas2=0.0, z_phas=params["z_phas"],
         extra_props=params,
     )
     return {
@@ -611,7 +620,8 @@ def render_apeo_pitch_4panel(apeo_res, out_filename="tuned_3axis_apeo_pitch_4pan
     ax4.minorticks_off()
     ax4.set_xticks(freqs)
     ax4.set_xticklabels([f"{f:.3f} Hz" for f in freqs], fontweight="bold")
-    ax4.set_ylim(0, 660)
+    ylim_top = max(660.0, math.ceil(max(max(sim_gains), max(tgt_gains)) * 1.12 / 50.0) * 50.0)
+    ax4.set_ylim(0, ylim_top)
     ax4_r.set_ylim(-315, 30)
     ax4.set_ylabel("Bode Gain [deg/m]", color=color_main, fontweight="bold", fontsize=11)
     ax4_r.set_ylabel("Bode Phase [deg]", color="#b91c1c", fontweight="bold", fontsize=11)
@@ -661,61 +671,65 @@ def compute_latec_cost(sim_res):
 
 
 TUNED_3AXIS_OVERRIDES = {
-    # Roll (LatEC) Ungated Champion W2_cp_04_K_ton_roll (Classic Bode Score = 8,148.50 pts)
-    "Kp_roll": 1.4,
+    # Pitch: Equal/3D-isotropic muscle CCR + proper lead compensators + 6-DOF anti-buckling
+    "K_phas": 11.0,
+    "z_sc": 0.015,
+    "z_phas": 0.008,
+    "z_ccr": 0.02,
+    "Kd_pitch": 0.54,
+    "kp_prop": 0.22,
+    "Kp_prop_pitch": 0.50,
+    "Kp_buckle": 1.5,
+    "Kd_buckle": 0.15,
+    # Roll (LatEC): Positive K_ton_roll (+0.60) + open per-axis zeros
+    "Kp_roll": 0.95,
     "Kd_roll": 1.14,
     "Ki_roll": 1.5,
-    "K_ton_roll": -0.85,
+    "K_ton_roll": 0.6,
     "p_ton_roll": 3.0,
     "K_sc_roll": 2.029,
     "p_sc_roll": 60.0,
-    "z_sc_roll": 0.0,
+    "z_sc_roll": 0.01,
     "K_phas_roll": 16.653,
     "p_phas_roll": 5.747,
-    "z_phas_roll": 0.0,
+    "z_phas_roll": 0.01,
     "Kp_prop_roll": 4.2,
-    "z_ccr_roll": 0.10,
-    "p_ap_roll": -1.0,
-    "c_ap_roll": 0.0,
-    "deriv_comp_roll": 0.0,
-    # Yaw (YawMA) Y4_hybrid
+    "z_ccr_roll": 0.1,
+    # Yaw (YawMA): Open per-axis zeros & Ki_yaw > 0
     "Kp_yaw": 0.24,
     "Kd_yaw": 0.03,
-    "Ki_yaw": 0.0,
+    "Ki_yaw": 0.05,
     "K_ton_yaw": 5.2598427596916935,
     "p_ton_yaw": 16.227225,
     "K_sc_yaw": 1.2,
+    "z_sc_yaw": 0.01,
     "p_sc_yaw": 3.5,
     "Kp_prop_yaw": 8.5,
     "z_ccr_yaw": 0.06,
-    "deriv_comp_yaw": 0.25,
 }
 
 
 ZERO_SHOT_SENTINELS = {
-    "K_ton_roll": -1000.0,
-    "K_ton_yaw": -1000.0,
-    "p_ton_roll": -1.0,
-    "p_ton_yaw": -1.0,
-    "K_sc_roll": -1000.0,
-    "K_sc_yaw": -1000.0,
-    "z_sc_roll": -1.0,
-    "z_sc_yaw": -1.0,
-    "p_sc_roll": -1.0,
-    "p_sc_yaw": -1.0,
-    "K_phas_roll": -1000.0,
-    "z_phas_roll": -1.0,
-    "p_phas_roll": -1.0,
-    "p_ap_roll": -1.0,
-    "c_ap_roll": 0.0,
-    "Kp_prop_roll": -1000.0,
-    "Kp_prop_yaw": -1000.0,
-    "z_ccr_roll": -1.0,
-    "z_ccr_yaw": -1.0,
-    "p_ccr_roll": -1.0,
-    "p_ccr_yaw": -1.0,
-    "deriv_comp_roll": 1.0,
-    "deriv_comp_yaw": 1.0,
+    "K_ton_roll": 5.2598427596916935,
+    "K_ton_yaw": 5.2598427596916935,
+    "p_ton_roll": 16.227225,
+    "p_ton_yaw": 16.227225,
+    "K_sc_roll": 4.101868521564445,
+    "K_sc_yaw": 4.101868521564445,
+    "z_sc_roll": 0.0055444407969709435,
+    "z_sc_yaw": 0.0055444407969709435,
+    "p_sc_roll": 53.284141,
+    "p_sc_yaw": 53.284141,
+    "K_phas_roll": 15.420486774711076,
+    "z_phas_roll": 0.013306657912730264,
+    "p_phas_roll": 4.711937,
+    "Kp_prop_pitch": 0.0,
+    "Kp_prop_roll": 0.0,
+    "Kp_prop_yaw": 0.0,
+    "z_ccr_roll": 0.0,
+    "z_ccr_yaw": 0.0,
+    "Kp_buckle": 1.5,
+    "Kd_buckle": 0.15,
 }
 
 
@@ -726,19 +740,25 @@ def main():
     params_path = os.path.join(_ROOT, "logs/roll_yaw_baseline/tuned_3axis_params.json")
     p_zero_shot = dict(P15_RUN4)
     p_zero_shot.update(ZERO_SHOT_SENTINELS)
-    p_combined = dict(P15_RUN4)
-    p_combined.update(TUNED_3AXIS_OVERRIDES)
+    if os.path.exists(params_path):
+        with open(params_path, "r", encoding="utf-8") as f:
+            p_combined = json.load(f)
+    else:
+        p_combined = dict(P15_RUN4)
+        p_combined.update(TUNED_3AXIS_OVERRIDES)
 
-    with ProcessPoolExecutor(max_workers=4) as ex:
+    with ProcessPoolExecutor(max_workers=5) as ex:
         fut_lat_zero = ex.submit(run_full_axis_sim, ("LatEC", "zero_shot", p_zero_shot, 2.0))
         fut_lat_tuned = ex.submit(run_full_axis_sim, ("LatEC", "tuned_3axis", p_combined, 2.0))
         fut_yaw_zero = ex.submit(run_full_axis_sim, ("YawMA", "zero_shot", p_zero_shot, 2.0))
         fut_yaw_tuned = ex.submit(run_full_axis_sim, ("YawMA", "tuned_3axis", p_combined, 2.0))
+        fut_apeo = ex.submit(run_apeo_pitch_check, p_combined)
 
         sim_lat_zero = fut_lat_zero.result()
         sim_lat_tuned = fut_lat_tuned.result()
         sim_yaw_zero = fut_yaw_zero.result()
         sim_yaw_tuned = fut_yaw_tuned.result()
+        apeo_res = fut_apeo.result()
 
     lat_cost = compute_latec_cost(sim_lat_tuned)
     yaw_cost = compute_latec_cost(sim_yaw_tuned)
@@ -747,14 +767,13 @@ def main():
     yaw_zero_cls = compute_classic_bode_score(sim_yaw_zero["freq_results"], is_apeo=False)
     yaw_tuned_cls = compute_classic_bode_score(sim_yaw_tuned["freq_results"], is_apeo=False)
 
-    best_name = "Ungated_W2_cp_04_Y4_P15"
+    best_name = "Unified_6DOF_PosTon_v4"
     print(f"[EVAL] {best_name}: LatEC Classic={lat_tuned_cls['classic_bode_score']:.2f} pts (G={lat_tuned_cls['gain_loss_pts']:.1f}, P={lat_tuned_cls['phase_loss_pts']:.1f}), noise={sim_lat_tuned['hf_noise_rms']:.2f} deg/s, corr={sim_lat_tuned['corr_vel']:.3f}", flush=True)
     print(f"[EVAL] {best_name}: YawMA Classic={yaw_tuned_cls['classic_bode_score']:.2f} pts (G={yaw_tuned_cls['gain_loss_pts']:.1f}, P={yaw_tuned_cls['phase_loss_pts']:.1f}), noise={sim_yaw_tuned['hf_noise_rms']:.2f} deg/s, corr={sim_yaw_tuned['corr_vel']:.3f}", flush=True)
 
     with open(params_path, "w", encoding="utf-8") as f:
         json.dump(p_combined, f, indent=2)
 
-    apeo_res = run_apeo_pitch_check(p_combined)
     apeo_cls = compute_classic_bode_score(apeo_res["freq_results"], is_apeo=True)
 
     render_baseline_4panel(sim_lat_zero, "zero_shot_latec_roll_baseline_4panel.png")
@@ -785,6 +804,9 @@ def main():
             "tuned_hf_noise_rms": sim_lat_tuned["hf_noise_rms"],
             "zero_shot_corr_vel": sim_lat_zero["corr_vel"],
             "tuned_corr_vel": sim_lat_tuned["corr_vel"],
+            "quiet_max_pitch_deg": sim_lat_tuned["quiet_max_pitch_deg"],
+            "full_max_pitch_deg": sim_lat_tuned["full_max_pitch_deg"],
+            "steady_max_pitch_deg": sim_lat_tuned["steady_max_pitch_deg"],
             "zero_shot_frequencies": sim_lat_zero["freq_results"],
             "tuned_frequencies": sim_lat_tuned["freq_results"],
         },
@@ -798,6 +820,9 @@ def main():
             "tuned_hf_noise_rms": sim_yaw_tuned["hf_noise_rms"],
             "zero_shot_corr_vel": sim_yaw_zero["corr_vel"],
             "tuned_corr_vel": sim_yaw_tuned["corr_vel"],
+            "quiet_max_pitch_deg": sim_yaw_tuned["quiet_max_pitch_deg"],
+            "full_max_pitch_deg": sim_yaw_tuned["full_max_pitch_deg"],
+            "steady_max_pitch_deg": sim_yaw_tuned["steady_max_pitch_deg"],
             "zero_shot_frequencies": sim_yaw_zero["freq_results"],
             "tuned_frequencies": sim_yaw_tuned["freq_results"],
         },

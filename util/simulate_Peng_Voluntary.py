@@ -62,7 +62,7 @@ def run_peng_simulation():
     osim.PropertyHelper.setValueDouble(12.9448, controller.updPropertyByName("z_phas"))
     osim.PropertyHelper.setValueDouble(9.0170, controller.updPropertyByName("p_phas"))
     
-    osim.PropertyHelper.setValueDouble(1.2452, controller.updPropertyByName("k_p"))
+    osim.PropertyHelper.setValueDouble(1.2452, controller.updPropertyByName("Kp_proprioception"))
     osim.PropertyHelper.setValueDouble(23.1813, controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(55.5098, controller.updPropertyByName("p_ccr"))
     

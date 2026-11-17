@@ -25,15 +25,9 @@ def generate_mot_for_freq(freq):
         elif ctrl.getConcreteClassName() == "HeadNeckNeuralController":
             controller = ctrl
             
-    # Base LQR costs
-    for ax in ['pitch', 'roll', 'yaw']:
-        osim.PropertyHelper.setValueDouble(400.0, controller.updPropertyByName(f"Wp_base_{ax}"))
-        osim.PropertyHelper.setValueDouble(40.0, controller.updPropertyByName(f"Wv_base_{ax}"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("k_vigor"))
     osim.PropertyHelper.setValueDouble(0.1, controller.updPropertyByName("trajectory_tau"))
-    osim.PropertyHelper.setValueDouble(0.0, controller.updPropertyByName("K_eso"))
 
-    # Best reflex parameters (K_eso decoupled)
+    # Best reflex parameters
     osim.PropertyHelper.setValueDouble(14.9888, controller.updPropertyByName("K_ton"))
     osim.PropertyHelper.setValueDouble(37.0597, controller.updPropertyByName("z_ton"))
     osim.PropertyHelper.setValueDouble(3.7444, controller.updPropertyByName("p_ton"))
@@ -46,9 +40,8 @@ def generate_mot_for_freq(freq):
     osim.PropertyHelper.setValueDouble(12.1079, controller.updPropertyByName("z_phas"))
     osim.PropertyHelper.setValueDouble(8.8767, controller.updPropertyByName("p_phas"))
     
-    osim.PropertyHelper.setValueDouble(1.2955, controller.updPropertyByName("k_p"))
     osim.PropertyHelper.setValueDouble(1.2955, controller.updPropertyByName("Kp_proprioception"))
-    osim.PropertyHelper.setValueDouble(6.54, controller.updPropertyByName("Ki_task"))
+    osim.PropertyHelper.setValueDouble(6.54, controller.updPropertyByName("Ki_task_pitch"))
     osim.PropertyHelper.setValueDouble(24.0396, controller.updPropertyByName("z_ccr"))
     osim.PropertyHelper.setValueDouble(57.8333, controller.updPropertyByName("p_ccr"))
     

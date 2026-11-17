@@ -34,9 +34,10 @@ EYE_COORDS = ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd"
 PER_AXIS_PROP_KEYS = [
     "K_ton_roll", "K_ton_yaw", "p_ton_roll", "p_ton_yaw",
     "K_sc_roll", "K_sc_yaw", "z_sc_roll", "z_sc_yaw", "p_sc_roll", "p_sc_yaw",
-    "K_phas_roll", "z_phas_roll", "p_phas_roll", "p_ap_roll", "c_ap_roll",
-    "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw", "p_ccr_roll", "p_ccr_yaw",
-    "deriv_comp_roll", "deriv_comp_yaw",
+    "K_phas_roll", "z_phas_roll", "p_phas_roll",
+    "Kp_prop_pitch", "Kp_prop_roll", "Kp_prop_yaw", "z_ccr_roll", "z_ccr_yaw",
+    "Kp_buckle", "Kd_buckle",
+    "thresh_spindle_ia", "thresh_spindle_ii", "thresh_vest_tilt", "thresh_vest_scc", "thresh_vest_oto",
 ]
 
 
@@ -94,34 +95,24 @@ def _configure_controller(controller, params):
         "K_phas": params["K_phas"],
         "z_phas": params["z_phas"],
         "p_phas": params["p_phas"],
-        "p_phas2": -1.0,
-        "k_p": params["kp_prop"],
         "Kp_task_pitch": params["Kp_pitch"],
         "Kd_task_pitch": params["Kd_pitch"],
         "Kp_task_roll": params["Kp_roll"],
         "Kd_task_roll": params["Kd_roll"],
         "Kp_task_yaw": params["Kp_yaw"],
         "Kd_task_yaw": params["Kd_yaw"],
-        "k_vigor": 0.0,
         "trajectory_tau": 0.1,
-        "K_eso": 0.0,
-        "Ki_task": params["Ki_pitch"],
         "Ki_task_pitch": params["Ki_pitch"],
-        "Ki_task_roll": params.get("Ki_roll", 0.0),
-        "Ki_task_yaw": params.get("Ki_yaw", 0.0),
+        "Ki_task_roll": params.get("Ki_roll", 1.5),
+        "Ki_task_yaw": params.get("Ki_yaw", 0.05),
         "Kp_proprioception": params["kp_prop"],
         "z_ccr": params["z_ccr"],
         "p_ccr": params["p_ccr"],
         "K_gamma_dyn": params["k_gamma_dyn"],
         "K_gamma_stat": params["k_gamma_stat"],
-        "delay_vcr": 0.010,
-        "delay_ccr": 0.015,
-        "delay_smith_proprio": 0.007,
-        "delay_afferent_proprio": 0.007,
     }
     for prop_name, val in double_props.items():
         osim.PropertyHelper.setValueDouble(float(val), controller.updPropertyByName(prop_name))
-    osim.PropertyHelper.setValueBool(True, controller.updPropertyByName("use_smith_predictor"))
 
     for pk in PER_AXIS_PROP_KEYS:
         if pk in params and params[pk] is not None:
