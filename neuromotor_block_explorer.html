@@ -378,14 +378,14 @@
                 <text x="419" y="211" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#64748b">Luenbergers + Mahony + Eff.Cancel</text>
               </g>
 
-              <!-- Sub5: Alpha Motoneurons (C1-C8 Spinal Cord) (REFERENCE TIME t = 0 ms; Sender 5A=15ms comp / 2.5ms del, 5B=15ms comp / 2.5ms del) -->
+              <!-- Sub5: Alpha Motoneurons (C1-C8 Spinal Cord) (REFERENCE TIME t = 0 ms; Sender 5A=12.5ms comp / 2.5ms del, 5B=2.5ms comp / 2.5ms del) -->
               <g id="dnode-sub7">
                 <rect x="234" y="256" width="90" height="36" rx="4" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8"/>
                 <text x="279" y="270" text-anchor="middle" font-family="sans-serif" font-size="6.9" fill="#991b1b" font-weight="bold">Sub5: α-MN (C1–C8)</text>
-                <text x="279" y="281" text-anchor="middle" font-family="monospace" font-size="6.2" fill="#b91c1c" font-weight="bold">★0ms | ⚡5A/5B(15ms)</text>
+                <text x="279" y="281" text-anchor="middle" font-family="monospace" font-size="6.2" fill="#b91c1c" font-weight="bold">★0ms | ⚡5A(12.5)/5B(2.5)</text>
               </g>
 
-              <!-- Sub1B: Spinal CCR (C1–C8 compute 2.5 ms, uncomp. in Sub1; compensated 15ms in Sub5) -->
+              <!-- Sub1B: Spinal CCR (C1–C8 compute 2.5 ms, uncomp. in Sub1; compensated 12.5ms in Sub5) -->
               <g id="dnode-sub6">
                 <rect x="234" y="320" width="90" height="28" rx="3" fill="#ecfdf5" stroke="#059669" stroke-width="1.6"/>
                 <text x="279" y="332" text-anchor="middle" font-family="sans-serif" font-size="7.0" fill="#065f46" font-weight="bold">Sub1B: CCR (C1–C8)</text>
@@ -565,7 +565,7 @@
 Buffer:  history_buffer ← append (t, s(t)), prune entries older than max branch delay`,
         params: [
           {
-            label: "Sub4 Branches : 4A (9ms→8.0/17.0), 4B (10ms→8.0/18.0), 4C (14.5ms→30.0/22.5 ms)",
+            label: "Sub4 Branches : 4A (9ms→8.0/17.0), 4B (10ms→8.0/18.0), 4C (14.5ms→8.0/22.5 ms)",
             delayId: "desc",
             brainRegions: "m1,cst,nodulus,vn,spinal",
             derivTitle: "Causal Biproper Lead Compensators on Sub4 Outgoing Branches (4A, 4B, 4C)",
@@ -589,7 +589,7 @@ Buffer:  history_buffer ← append (t, s(t)), prune entries older than max branc
             derivLatex: String.raw`C_{1A\to 3}(s) = \frac{1 + \tau_z s}{1 + \tau_p s} = \frac{1 + 0.0110\,s}{1 + 0.0080\,s}, \qquad \tau_d = \mathbf{3.0\text{ ms}}`
           },
           {
-            label: "Sub3 Branches : 3A (1.5 ms → 30.0/9.5 ms → Sub2B), 3B (13.0 ms → 30.0/21.0 ms → Sub4)",
+            label: "Sub3 Branches : 3A (1.5 ms → 8.0/9.5 ms → Sub2B), 3B (13.0 ms → 8.0/21.0 ms → Sub4)",
             delayId: "asc",
             brainRegions: "nodulus,fastigial,vn,thalamus,m1",
             derivTitle: "Uncinate (1.5 ms) & Thalamocortical (13.0 ms) Biproper Lead Compensators",
@@ -601,7 +601,7 @@ Buffer:  history_buffer ← append (t, s(t)), prune entries older than max branc
             delayId: "spinal",
             brainRegions: "vn,mvst,spinal,ventralroots,spindles",
             derivTitle: "Brainstem MVST (2.5 ms), Sub1B (2.5 ms) & Ventral Root 5A (12.5 ms) / 5B (2.5 ms)",
-            derivDesc: "Sub2B applies C_5(s) (2.5 ms → 30.0/10.5 ms, slots 33..35); Sub1B compensates its own 2.5 ms C1–C8 compute on u_ccr via lead_1b (slots 66+5m+4 → 30.0/10.5 ms); Branch 5A applies 12.5 ms (2.5 ms Aα + 10.0 ms muscle activation → 30.0/20.5 ms) post-pool lead (lead_5a); and Branch 5B applies 2.5 ms (Aγ → 30.0/10.5 ms) voluntary fusimotor lead:",
+            derivDesc: "Sub2B applies C_5(s) (2.5 ms → 8.0/10.5 ms, slots 33..35); Sub1B compensates its own 2.5 ms C1–C8 compute on u_ccr via lead_1b (slots 66+5m+4 → 8.0/10.5 ms); Branch 5A applies 12.5 ms (2.5 ms Aα + 10.0 ms muscle activation → 8.0/20.5 ms) post-pool lead (lead_5a); and Branch 5B applies 2.5 ms (Aγ → 8.0/10.5 ms) voluntary fusimotor lead:",
             derivLatex: String.raw`C_5(s) = C_{1B}(s) = C_{5B}(s) = \frac{1+0.0105s}{1+0.0080s}, \quad C_{5A}(s) = \frac{1+0.0205s}{1+0.0080s}`
           }
         ]
@@ -728,7 +728,7 @@ Output:  τ_ctx → to causal biproper Branch 4C Lead Compensator`,
       s1_desc_delay: {
         type: "3 Outgoing Causal Biproper Lead Compensators (4A: 9ms, 4B: 10ms, 4C: 14.5ms)",
         title: "Sub4 Outgoing Branch Compensators: Causal C_4k(s) = (1 + τ_z·s)/(1 + τ_p·s)",
-        desc: "Every outgoing branch from Subsystem 4 (Cortex / VL-VA Thalamus) uses a causal biproper 1st-order lead compensator C_4k(s) = (1 + τ_z·s)/(1 + τ_p·s) with τ_p = max(tau_lead_pole, 0.50·τ_d) = 8.0 ms and τ_z = τ_d + τ_p (uniform across Pitch, Roll, and Yaw): Branch 4A (9.0 ms → 30.0/17.0 ms), Branch 4B (10.0 ms → 30.0/18.0 ms), and Branch 4C (14.5 ms → 30.0/22.5 ms), eliminating all Taylor derivatives.",
+        desc: "Every outgoing branch from Subsystem 4 (Cortex / VL-VA Thalamus) uses a causal biproper 1st-order lead compensator C_4k(s) = (1 + τ_z·s)/(1 + τ_p·s) with τ_p = max(tau_lead_pole, 0.50·τ_d) = 8.0 ms and τ_z = τ_d + τ_p (uniform across Pitch, Roll, and Yaw): Branch 4A (9.0 ms → 8.0/17.0 ms), Branch 4B (10.0 ms → 8.0/18.0 ms), and Branch 4C (14.5 ms → 8.0/22.5 ms), eliminating all Taylor derivatives.",
         latex: String.raw`\begin{aligned}
 \text{Branch 4A }(\tau_d = 9.0\text{ ms} \to \text{Sub3 Ton}):\quad C_{4A}(s) &= \frac{1 + 0.0170\,s}{1 + 0.0080\,s} \quad (x_1) \\
 \text{Branch 4B }(\tau_d = 10.0\text{ ms} \to \text{Sub3 Sc/Phas}):\quad C_{4B}(s) &= \frac{1 + 0.0180\,s}{1 + 0.0080\,s} \quad (x_2,\;a_{\text{traj}}) \\
@@ -1274,7 +1274,7 @@ Outputs: raw spindle firing rates Ia[1..N], II[1..N] (to Bias Subtraction)`,
       s3_gamma: {
         type: "Parallel Reference Mileusnic (2006) Spindle Model (Stage 2 Efference-Copy Predictor)",
         title: "Stage 2: Parallel Reference Mileusnic Spindle (Efference Copy) & Velocity-Gain Normalization κ_0 / κ(f̂_d)",
-        desc: "Instantiates a second, parallel Mileusnic et al. (2006) 3-fiber spindle ODE model (bag1, bag2, chain) in the controller state driven by the 2.5 ms-delayed (Branch 5B, 12.5 ms proper lead: 2.5 ms Aγ + 10.0 ms activation → 30.0/20.5 ms) pre-compensated expected normalized fiber kinematics (L̂_comp,i(t - τ_5B), L̂˙_comp,i(t - τ_5B)) and the exact same 2.5 ms-delayed Two-Stage fusimotor commands (γ_d,comp,i(t - τ_5B), γ_s,comp,i(t - τ_5B)) sent to the physical spindle. Outputs the expected reference firing rates r̂_Ia,i(t) and r̂_II,i(t) plus the resting-normalized dynamic-gamma velocity-gain factor κ_0,i / κ_i(f̂_d,i) to cancel both planned trajectory kinematics and γ_d-scaled velocity bursts while keeping resting velocity gain equal to 1.0.",
+        desc: "Instantiates a second, parallel Mileusnic et al. (2006) 3-fiber spindle ODE model (bag1, bag2, chain) in the controller state driven by the 2.5 ms-delayed (Branch 5B, 12.5 ms proper lead: 2.5 ms Aγ + 10.0 ms activation → 8.0/20.5 ms) pre-compensated expected normalized fiber kinematics (L̂_comp,i(t - τ_5B), L̂˙_comp,i(t - τ_5B)) and the exact same 2.5 ms-delayed Two-Stage fusimotor commands (γ_d,comp,i(t - τ_5B), γ_s,comp,i(t - τ_5B)) sent to the physical spindle. Outputs the expected reference firing rates r̂_Ia,i(t) and r̂_II,i(t) plus the resting-normalized dynamic-gamma velocity-gain factor κ_0,i / κ_i(f̂_d,i) to cancel both planned trajectory kinematics and γ_d-scaled velocity bursts while keeping resting velocity gain equal to 1.0.",
         latex: String.raw`\dot{\hat{\mathbf{x}}}_{\text{sp},i} = f_{\text{Mileusnic}}\!\Bigl(\hat{\mathbf{x}}_{\text{sp},i},\,\hat{L}_{\text{comp},i}(t-\tau_{5B}),\,\dot{\hat{L}}_{\text{comp},i}(t-\tau_{5B}),\,\gamma_{d,\text{comp},i}(t-\tau_{5B}),\,\gamma_{s,\text{comp},i}(t-\tau_{5B})\Bigr), \quad \bigl(\hat{r}_{\text{Ia},i},\,\hat{r}_{\text{II},i}\bigr) = h_{\text{Mileusnic}}\bigl(\hat{\mathbf{x}}_{\text{sp},i}\bigr), \quad \frac{\kappa_{0,i}}{\kappa_i(\hat{f}_{d,i})} = \frac{1 + \frac{\beta_1\,f_{d,0,i}}{\max(0.015,\,\beta_{0,1} + \beta_{2,\text{bag}_2}f_{s,0,i})}}{1 + \frac{\beta_1\,\hat{f}_{d,i}(t)}{\max(0.015,\,\beta_{0,1} + \beta_{2,\text{bag}_2}\hat{f}_{s,i}(t))}}`,
         math:
 `Inputs:  delayed pre-compensated expected fiber kinematics L̂_comp[1..72](t - τ_5B), L̂˙_comp[1..72](t - τ_5B)  (τ_5B = 2.5 ms)
@@ -1641,7 +1641,7 @@ Output:  fused_angular_velocity_head ← ω_fused(t)`,
 `Inputs:  fused_angular_velocity_head ω_fused(t) [from Fused ω Sum at NOW t],
          arriving_luenberger_oto_gif f̂_Luen,oto,comp,2A→3(t - 3.0 ms) [biproper lead]
 States:  quaternion q̂ = [q_0, q_1, q_2, q_3], linear_velocity v̂, linear_position p̂
-Params:  τ_v,leak = 15.0 s, τ_p,leak = 5.0 s, Branch 3A (τ_d = 1.5 ms → 30.0/9.5 ms), Branch 3B (τ_d = 13.0 ms → 30.0/21.0 ms)
+Params:  τ_v,leak = 15.0 s, τ_p,leak = 5.0 s, Branch 3A (τ_d = 1.5 ms → 8.0/9.5 ms), Branch 3B (τ_d = 13.0 ms → 8.0/21.0 ms)
 
 1. Quaternion kinematics & unit-norm update at NOW (t):
    q̇(t) ← ½ · (q̂(t) ⊗ [0, ω_fused(t)])
@@ -1720,7 +1720,7 @@ In Sub3(C) (Cerebellar Efference Cancellation Calculation):
 Outputs: eff_tonic_tilt[3], eff_canal_vel[3], eff_phasic_grav_acc[3] (sent across τ_3A = 1.5 ms to Sub2(B))`,
         params: [
           {
-            label: "⚡ Biproper Lead Uncinate Compensation (τ_3A = 1.5 ms → 30.0/9.5 ms) on All 3 Efference Signals",
+            label: "⚡ Biproper Lead Uncinate Compensation (τ_3A = 1.5 ms → 8.0/9.5 ms) on All 3 Efference Signals",
             derivTitle: "2-Stage Alignment: Sub4 (9/10 ms Biproper Lead) → Sub3(C) → Sub2(B) (1.5 ms Biproper Lead)",
             derivDesc: "Sub4 pre-compensates trajectory signals via causal biproper lead across 9.0 ms and 10.0 ms to Sub3(C). Sub3(C) combines them with local Mahony attitude and applies C_3A(s) = (1 + 9.5ms·s)/(1 + 8.0ms·s) across the 1.5 ms uncinate tract to Sub2(B):",
             derivLatex: String.raw`C_{3A}(s)\,e^{-\tau_{3A}s} = \left(\frac{1 + 0.0095\,s}{1 + 0.0080\,s}\right)e^{-0.0015\,s}`
@@ -1984,7 +1984,7 @@ Output:  arriving vestibulo_collic_torque → into Sub5 C1–C8 Alpha Motoneuron
       s6_ccr: {
         type: "72 Per-Muscle Spinal Interneuron 2nd-Order Filters + Open 3-Axis Trajectory-Referenced Task CCR",
         title: "Spinal Cervico-Collic Reflex (CCR) Filter — H_ccr(s) & Symmetric 3-Axis Task CCR",
-        desc: "Processes every muscle's primary spindle stretch rate (τ_Ia = 1.0 ms; Group II arrives at 2.5 ms) through a strictly proper (D = 0) 2nd-order spinal interneuron filter with open 3-axis moment-arm-weighted lead zero z_ccr,lead,i = η_pitch,i·z_ccr + η_roll,i·z_ccr_roll + η_yaw,i·z_ccr_yaw (z_ccr=0.008 s, z_ccr_roll=0.005 s, z_ccr_yaw=0.050 s, p_ccr=99.92 rad/s, p_fast=250 rad/s). Sub1B applies its dedicated 2.5 ms C1–C8 compute proper lead (lead_1b, slots 66+5i+4 → 30.0/10.5 ms) to u_ccr after rectification. In parallel across ALL 3 axes unconditionally, 2.5 ms raw_neck_relative_angle/speed drive voluntary-trajectory-referenced task-space CCR PD compensators (Pitch Kp_prop_pitch=1.10, Roll Kp_prop_roll=2.10, Yaw Kp_prop_yaw=14.0) referenced to Branch 4C (14.5 ms) trajectory (x_1, x_2).",
+        desc: "Processes every muscle's primary spindle stretch rate (τ_Ia = 1.0 ms; Group II arrives at 2.5 ms) through a strictly proper (D = 0) 2nd-order spinal interneuron filter with open 3-axis moment-arm-weighted lead zero z_ccr,lead,i = η_pitch,i·z_ccr + η_roll,i·z_ccr_roll + η_yaw,i·z_ccr_yaw (z_ccr=0.008 s, z_ccr_roll=0.005 s, z_ccr_yaw=0.050 s, p_ccr=99.92 rad/s, p_fast=250 rad/s). Sub1B applies its dedicated 2.5 ms C1–C8 compute proper lead (lead_1b, slots 66+5i+4 → 8.0/10.5 ms) to u_ccr after rectification. In parallel across ALL 3 axes unconditionally, 2.5 ms raw_neck_relative_angle/speed drive voluntary-trajectory-referenced task-space CCR PD compensators (Pitch Kp_prop_pitch=1.10, Roll Kp_prop_roll=2.10, Yaw Kp_prop_yaw=14.0) referenced to Branch 4C (14.5 ms) trajectory (x_1, x_2).",
         latex: String.raw`H_{\text{ccr},i}(s) = \frac{p_{\text{ccr}}\,p_{\text{fast}}(1 + z_{\text{ccr,lead},i} s)}{(s + p_{\text{ccr}})(s + p_{\text{fast}})}, \quad y_{\text{ccr},i} = x_{1,\text{ccr},i} + z_{\text{ccr,lead},i}x_{2,\text{ccr},i}, \qquad \tau_{\text{CCR},a} = -K_{p,\text{prop},a}\Bigl((\hat{q}_{\text{neck},a} - x_{1,4C,a}) + z_{\text{ccr},a}(\dot{\hat{q}}_{\text{neck},a} - x_{2,4C,a})\Bigr)`,
         math:
 `Input:   primary spindle stretch rate ΔIa[1..72] (τ_Ia = 1.0 ms uncompensated from Mileusnic spindles),
@@ -2003,7 +2003,7 @@ For each muscle i ∈ {1..72} do:
 Output:  filtered_primary_afferent_rate y_ccr[1..72] & open 3-axis voluntary-referenced ccr_spindle_torque[3]`,
         params: [
           "Per-Muscle H_ccr(s): p_ccr = 99.9196 rad/s, p_fast = 250.0 rad/s, z_ccr_lead blended from z_ccr (0.008), z_ccr_roll (0.005), z_ccr_yaw (0.050)",
-          "Spindle→C1–C8 Axon Delays: Ia = 1.0 ms, II = 2.5 ms (uncompensated); Sub1B C1–C8 Lead (2.5 ms → 30.0/10.5 ms) on u_ccr",
+          "Spindle→C1–C8 Axon Delays: Ia = 1.0 ms, II = 2.5 ms (uncompensated); Sub1B C1–C8 Lead (2.5 ms → 8.0/10.5 ms) on u_ccr",
           "Task-Space Pitch CCR: Kp_prop_pitch = 0.50 Nm/rad, z_ccr = 0.020 s (symmetric with Roll & Yaw)",
           "Task-Space Roll CCR: Kp_prop_roll = 2.10 Nm/rad, z_ccr_roll = 0.005 s, referenced to Branch 4C trajectory",
           "Task-Space Yaw CCR: Kp_prop_yaw = 14.0 Nm/rad, z_ccr_yaw = 0.050 s, referenced to Branch 4C trajectory"
@@ -2012,7 +2012,7 @@ Output:  filtered_primary_afferent_rate y_ccr[1..72] & open 3-axis voluntary-ref
       s6_rect: {
         type: "Half-Wave Stretch Rectifier, w_iso (0.050) & Sub1B 2.5ms Lead (P:0.50, R:2.10, Y:14.0)",
         title: "Half-Wave Stretch Rectification & 3D-Isotropic 6-Half-Space Moment-Capacity Scaling (w_iso)",
-        desc: "Every muscle's filtered stretch signal y_ccr,i is half-wave rectified (C¹ knee u_knee = 0.02) and scaled uniformly by (Kp_proprioception / 100)·w_iso,i (default Kp_proprioception = 0.050), where w_iso,i normalizes 6-half-space agonist/antagonist neck moment capacities across ALL ±Pitch, ±Roll, and ±Yaw directions strictly from musculoskeletal geometry J_3·F_max (zero hardcoded extensor/flexor weights). Sub1B applies its own 2.5 ms proper lead (lead_1b, slots 66+5i+4 → 30.0/10.5 ms) to u_ccr before the 2.5 ms C1–C8 compute delay to Sub5 (so u_qp is never double-compensated), while 0th-order raw_neck drives Pitch (0.50/0.020s), Roll (2.45/0.005s), and Yaw (14.0/0.050s) task-space CCR.",
+        desc: "Every muscle's filtered stretch signal y_ccr,i is half-wave rectified (C¹ knee u_knee = 0.02) and scaled uniformly by (Kp_proprioception / 100)·w_iso,i (default Kp_proprioception = 0.050), where w_iso,i normalizes 6-half-space agonist/antagonist neck moment capacities across ALL ±Pitch, ±Roll, and ±Yaw directions strictly from musculoskeletal geometry J_3·F_max (zero hardcoded extensor/flexor weights). Sub1B applies its own 2.5 ms proper lead (lead_1b, slots 66+5i+4 → 8.0/10.5 ms) to u_ccr before the 2.5 ms C1–C8 compute delay to Sub5 (so u_qp is never double-compensated), while 0th-order raw_neck drives Pitch (0.50/0.020s), Roll (2.45/0.005s), and Yaw (14.0/0.050s) task-space CCR.",
         latex: String.raw`\begin{aligned}
 C_{a,+} &= \sum_{r_{a,m}>0}|r_{a,m}|F_{\max,m},\; C_{a,-} = \sum_{r_{a,m}<0}|r_{a,m}|F_{\max,m},\; C_{\text{3D}} = \left(\prod_{a\in\{p,r,y\}} C_{a,+}C_{a,-}\right)^{\!1/6},\; w_{\text{iso},i} = \sum_{a\in\{p,r,y\}}\eta_{a,i}\frac{C_{\text{3D}}}{C_{a,\operatorname{sgn}(r_{a,i})}} \\
 u_{\text{ccr},i}(t) &= \frac{K_{p,\text{prop}}}{100}\,w_{\text{iso},i}\,\mathcal{R}_{0.02}\bigl(y_{\text{ccr},i}(t)\bigr), \qquad \tau_{\text{CCR},a}(t) = -K_{p,\text{prop},a}\Bigl((\hat{q}_{\text{neck},a} - x_{1,4C,a}) + z_{\text{ccr},a}(\dot{\hat{q}}_{\text{neck},a} - x_{2,4C,a})\Bigr)
@@ -2020,7 +2020,7 @@ u_{\text{ccr},i}(t) &= \frac{K_{p,\text{prop}}}{100}\,w_{\text{iso},i}\,\mathcal
         math:
 `Input:   filtered_primary_afferent_rate y_ccr[1..72], 0th-order raw_neck_relative_angle/speed (2.5 ms),
          arriving Branch 4C (14.5 ms) planned voluntary trajectory (x_1,4C, x_2,4C)
-Params:  Kp_proprioception = 0.050, smooth knee u_knee = 0.02, τ_6 = 2.5 ms (lead_1b → 30.0/10.5 ms)
+Params:  Kp_proprioception = 0.050, smooth knee u_knee = 0.02, τ_6 = 2.5 ms (lead_1b → 8.0/10.5 ms)
          Task CCR (All 3 Axes Open): Pitch 0.50/0.020s | Roll 2.45/0.005s | Yaw 14.0/0.050s
 
 1. Geometry-derived 3D-Isotropic 6-Half-Space Moment-Capacity Scaling (all 72 muscles):
@@ -2045,7 +2045,7 @@ Params:  Kp_proprioception = 0.050, smooth knee u_knee = 0.02, τ_6 = 2.5 ms (le
             derivDesc: "In the 72-muscle HYOID cervical model, muscles differ in moment-generating capacity across the 6 directional half-spaces (±pitch, ±roll, ±yaw) — e.g., extensors hold ~3.09× more pitch capacity than flexors (49.45 vs 15.98 N·m). Rather than hardcoded sagittal scalars, w_iso,i projects each muscle's moment-arm share η_{a,i} onto the ratio C_3D / C_{a,sgn(r_{a,i})} using the 6-half-space geometric mean C_3D = (∏ C_{a,+}C_{a,-})^{1/6}:",
             derivLatex: String.raw`\eta_{a,i} = \frac{r_{a,i}^2}{\|\mathbf{r}_i\|^2 + 10^{-8}}, \qquad w_{\text{iso},i} = \sum_{a\in\{p,r,y\}} \eta_{a,i}\,\frac{C_{\text{3D}}}{C_{a,\operatorname{sgn}(r_{a,i})}}`
           },
-          "C1–C8 Compute Lead (Sub1B → Sub5) : lead_1b (2.5 ms → 30.0/10.5 ms) applied directly on u_ccr in Sub1B"
+          "C1–C8 Compute Lead (Sub1B → Sub5) : lead_1b (2.5 ms → 8.0/10.5 ms) applied directly on u_ccr in Sub1B"
         ]
       },
       s7_torque_sum: {
@@ -2054,8 +2054,8 @@ Params:  Kp_proprioception = 0.050, smooth knee u_knee = 0.02, τ_6 = 2.5 ms (le
         desc: "Sums descending voluntary task torque τ_vol,comp,4C(t - 14.5 ms), Brainstem VCR torque τ_VCR,comp,5(t - 2.5 ms), and voluntary-trajectory-referenced Pitch, Roll & Yaw Task CCR torques τ_CCR,ax(t), and clamps to [-τ_max, +τ_max] before the 6-DOF QP.",
         latex: String.raw`\boldsymbol{\tau}_{\text{total}}(t) = \text{clamp}\!\left(\boldsymbol{\tau}_{\text{vol}} + \boldsymbol{\tau}_{\text{VCR}} + \boldsymbol{\tau}_{\text{CCR}},\; -\boldsymbol{\tau}_{\max},\; +\boldsymbol{\tau}_{\max}\right)`,
         math:
-`Inputs:  1: voluntary_torque τ_vol,comp,4C(t - 14.5 ms)[3]  [biproper lead 30.0/22.5 ms]
-         2: vestibulo_collic_torque τ_VCR,comp,5(t - 2.5 ms)[3] [biproper lead 30.0/10.5 ms]
+`Inputs:  1: voluntary_torque τ_vol,comp,4C(t - 14.5 ms)[3]  [biproper lead 8.0/22.5 ms]
+         2: vestibulo_collic_torque τ_VCR,comp,5(t - 2.5 ms)[3] [biproper lead 8.0/10.5 ms]
          3: ccr_spindle_torque[3] (Pitch, Roll & Yaw 2.5 ms raw_neck referenced to Branch 4C x_1, x_2)
 Params:  τ_max = [150, 100, 100]ᵀ N·m
 
@@ -2339,7 +2339,7 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       },
       atlas_m1_tree: {
         title: "⚡ M1 Layer V Pyramidal Branched Tree (Sub4 → Sub3 [9.0 & 10.0 ms], Sub5 [14.5 ms])",
-        desc: "Primary Motor Cortex (M1 Layer V Betz/pyramidal neurons, Subsystem 4) emits three independent descending branches using causal biproper 1st-order lead compensators uniformly across Pitch, Roll, and Yaw (zero Taylor polynomials, tau_lead_pole = 8.0 ms): Branch 4A (9.0 ms → 30.0/17.0 ms to Sub3 Tonic), Branch 4B (10.0 ms → 30.0/18.0 ms to Sub3 Canal/Phasic), and Branch 4C (14.5 ms → 30.0/22.5 ms along Lateral CST to Sub5, plus 2.5 ms Aα = 17.0 ms total MEP).",
+        desc: "Primary Motor Cortex (M1 Layer V Betz/pyramidal neurons, Subsystem 4) emits three independent descending branches using causal biproper 1st-order lead compensators uniformly across Pitch, Roll, and Yaw (zero Taylor polynomials, tau_lead_pole = 8.0 ms): Branch 4A (9.0 ms → 8.0/17.0 ms to Sub3 Tonic), Branch 4B (10.0 ms → 8.0/18.0 ms to Sub3 Canal/Phasic), and Branch 4C (14.5 ms → 8.0/22.5 ms along Lateral CST to Sub5, plus 2.5 ms Aα = 17.0 ms total MEP).",
         latex: String.raw`\begin{aligned}
 \text{Branch 4A (M1 }\to\text{ Sub3 Cerebellum, }9.0\text{ ms):}\quad C_{4A}(s) &= \frac{1 + 0.0170\,s}{1 + 0.0080\,s} \\[3pt]
 \text{Branch 4B (M1 }\to\text{ Sub3 Cerebellum, }10.0\text{ ms):}\quad C_{4B}(s) &= \frac{1 + 0.0180\,s}{1 + 0.0080\,s} \\[3pt]
@@ -2366,7 +2366,7 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       },
       atlas_cn8_tree: {
         title: "⚡ Vestibular CN VIII Branched Tree (Causal Biproper Lead: 2.0 ms & 3.0 ms)",
-        desc: "Primary vestibular afferents from the Vestibular Labyrinth (Subsystem 2A) project along two explicit CN VIII pathways using causal biproper 1st-order lead compensators (floored at τ_p = max(8.0 ms, 0.50·τ_d) = 8.0 ms): Branch Sub2A→Sub2B (2.0 ms → 30.0/10.0 ms) carrying irregular afferents to Brainstem VCR, and Branch Sub2A→Sub3 (3.0 ms → 30.0/11.0 ms) carrying regular Luenberger estimates to Cerebellum (sensor models remain completely untouched).",
+        desc: "Primary vestibular afferents from the Vestibular Labyrinth (Subsystem 2A) project along two explicit CN VIII pathways using causal biproper 1st-order lead compensators (floored at τ_p = max(8.0 ms, 0.50·τ_d) = 8.0 ms): Branch Sub2A→Sub2B (2.0 ms → 8.0/10.0 ms) carrying irregular afferents to Brainstem VCR, and Branch Sub2A→Sub3 (3.0 ms → 8.0/11.0 ms) carrying regular Luenberger estimates to Cerebellum (sensor models remain completely untouched).",
         latex: String.raw`\begin{aligned}
 \text{Branch Sub2A→Sub2B (2.0 ms):}\quad C_{2A\to 2B}(s) &= \frac{1 + 0.0100\,s}{1 + 0.0080\,s} \\[3pt]
 \text{Branch Sub2A→Sub3 (3.0 ms):}\quad C_{2A\to 3}(s) &= \frac{1 + 0.0110\,s}{1 + 0.0080\,s} \quad (\text{on }\hat{\omega},\,\hat{\alpha},\,\hat{f}) \\[3pt]
@@ -2408,16 +2408,16 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
    trunk_angular_velocity     : 0th-order (uncompensated)
 
 3. Branch Sub1B→Sub5 C1-C8 Computation (τ_6 = 2.5 ms):
-   u_ccr_comp[i](t) = evalProperLead(66+5i+4, u_ccr[i], 0.0025) [lead_1b in Sub1B: 30.0/10.5 ms]`,
+   u_ccr_comp[i](t) = evalProperLead(66+5i+4, u_ccr[i], 0.0025) [lead_1b in Sub1B: 8.0/10.5 ms]`,
         params: [
           "❄️ Spindle -> C1-C8 Pool : Separate Ia (1.0 ms) & II (2.5 ms) delays, uncompensated right out of Mileusnic spindles",
           "⚡ Branch Sub1A→Sub3 (τ = 3.0 ms) : Causal biproper lead (1+11.0ms·s)/(1+8.0ms·s) synchronizing Ia/II arrival at Sub3",
-          "⚡ Branch Sub1B→Sub5 C1-C8 Compute (τ_6 = 2.5 ms) : lead_1b (30.0/10.5 ms) on u_ccr in Sub1B"
+          "⚡ Branch Sub1B→Sub5 C1-C8 Compute (τ_6 = 2.5 ms) : lead_1b (8.0/10.5 ms) on u_ccr in Sub1B"
         ]
       },
       atlas_cb_tree: {
         title: "⚡ Cerebellar Efferent Branched Tree (Sub3 → Sub2B [1.5 ms] & Sub4 M1 [13.0 ms], Biproper Leads)",
-        desc: "Deep Cerebellar Nuclei (Subsystem 3) emit two independent efferent branches using causal biproper 1st-order lead compensators across all 3 axes uniformly: Branch 3A to Brainstem VN (1.5 ms → 30.0/9.5 ms, passing R̂_H^W directly without Taylor rotation) and Branch 3B ascending through VL/VA Thalamus (9.5 + 3.5 = 13.0 ms → 30.0/21.0 ms; total ascending SEP = 3.0 + 13.0 = 16.0 ms).",
+        desc: "Deep Cerebellar Nuclei (Subsystem 3) emit two independent efferent branches using causal biproper 1st-order lead compensators across all 3 axes uniformly: Branch 3A to Brainstem VN (1.5 ms → 8.0/9.5 ms, passing R̂_H^W directly without Taylor rotation) and Branch 3B ascending through VL/VA Thalamus (9.5 + 3.5 = 13.0 ms → 8.0/21.0 ms; total ascending SEP = 3.0 + 13.0 = 16.0 ms).",
         latex: String.raw`\begin{aligned}
 \text{Branch 3A (Sub3 }\to\text{ Sub2B, }1.5\text{ ms):}\quad C_{3A}(s) &= \frac{1 + 0.0095\,s}{1 + 0.0080\,s} \\[3pt]
 \text{Branch 3B (Sub3 }\to\text{ Sub4 M1, }13.0\text{ ms):}\quad C_{3B}(s) &= \frac{1 + 0.0210\,s}{1 + 0.0080\,s} \\[3pt]
@@ -2439,16 +2439,16 @@ Output:  1: controls[3×72] (to OpenSim Musculoskeletal Plant)`,
       },
       atlas_vcr_loop: {
         title: "⚡ Physically Delayed VCR Loop Breakdown (2.0 ms + 2.5 ms + 2.5 ms = 7.0 ms Total)",
-        desc: "Combines the CN VIII Branch Sub2A→Sub2B delay (2.0 ms, biproper lead 30.0/10.0 ms), Medial/Lateral Vestibulospinal Tract Path Sub2B→Sub5 delay (2.5 ms, biproper lead 30.0/10.5 ms uniformly across Pitch, Roll, and Yaw), and Aα ventral-root Branch 5A delay to plant (2.5 ms physical delay + 10.0 ms muscle activation compensated post-pool by 30.0/20.5 ms), giving 7.0 ms total VCR loop latency.",
+        desc: "Combines the CN VIII Branch Sub2A→Sub2B delay (2.0 ms, biproper lead 8.0/10.0 ms), Medial/Lateral Vestibulospinal Tract Path Sub2B→Sub5 delay (2.5 ms, biproper lead 8.0/10.5 ms uniformly across Pitch, Roll, and Yaw), and Aα ventral-root Branch 5A delay to plant (2.5 ms physical delay + 10.0 ms muscle activation compensated post-pool by 8.0/20.5 ms), giving 7.0 ms total VCR loop latency.",
         latex: String.raw`\begin{aligned}
 \tau_{\text{VCR,total}} &= \underbrace{\tau_{2A\to 2B}}_{\text{CN VIII } (\mathbf{2.0\text{ ms}})} + \underbrace{\tau_5}_{\text{MVST/LVST } (\mathbf{2.5\text{ ms}})} + \underbrace{\tau_{5A}}_{\text{A}\alpha\text{ Plant } (\mathbf{2.5\text{ ms}})} = \mathbf{7.0\text{ ms}} \\[5pt]
 C_{2A\to 2B}(s) &= \frac{1+0.010s}{1+0.008s}, \quad C_5(s) = \frac{1+0.0105s}{1+0.008s}, \quad C_{5A}(s) = \frac{1+0.0205s}{1+0.008s}
 \end{aligned}`,
         math: `Strictly Physical VCR Pathway Budget (Total = 7.0 ms)
 --------------------------------------------------------------------------------
-1. Branch Sub2A→Sub2B (Sub2A -> Sub2B CN VIII):  2.0 ms (biproper lead 30.0/10.0 ms)
-2. Path   Sub2B→Sub5  (Sub2B -> Sub5 MVST/LVST): 2.5 ms (biproper lead 30.0/10.5 ms, uniform 3-axis)
-3. Branch 5A          (Sub5 -> 72 Muscles Aα):   2.5 ms (+ 10.0 ms act → post-pool biproper lead 30.0/20.5 ms)
+1. Branch Sub2A→Sub2B (Sub2A -> Sub2B CN VIII):  2.0 ms (biproper lead 8.0/10.0 ms)
+2. Path   Sub2B→Sub5  (Sub2B -> Sub5 MVST/LVST): 2.5 ms (biproper lead 8.0/10.5 ms, uniform 3-axis)
+3. Branch 5A          (Sub5 -> 72 Muscles Aα):   2.5 ms (+ 10.0 ms act → post-pool biproper lead 8.0/20.5 ms)
 --------------------------------------------------------------------------------
 Total Physical VCR Loop Delay:                   7.0 ms`,
         params: [
@@ -2460,7 +2460,7 @@ Total Physical VCR Loop Delay:                   7.0 ms`,
       },
       atlas_ccr_loop: {
         title: "⚡ Physical CCR Loops: 72-Muscle w_iso (6.0 ms) & Open 3-Axis Voluntary-Ref Task CCR",
-        desc: "Combines the Mileusnic peripheral Group Ia delay (1.0 ms uncompensated; Group II arrives at 2.5 ms to C1–C8 Luenberger), C1–C8 computation (2.5 ms compensated directly in Sub1B via lead_1b 30.0/10.5 ms on u_ccr using 3D-isotropic w_iso scaling Kp_prop=0.050), and Branch 5A Aα plant delay (2.5 ms physical delay + 10.0 ms muscle activation, compensated post-pool by 30.0/20.5 ms) for 6.0 ms total physical CCR loop latency. Simultaneously, symmetric Task CCR compares 2.5 ms raw_neck against 14.5 ms Branch 4C trajectory across all 3 axes.",
+        desc: "Combines the Mileusnic peripheral Group Ia delay (1.0 ms uncompensated; Group II arrives at 2.5 ms to C1–C8 Luenberger), C1–C8 computation (2.5 ms compensated directly in Sub1B via lead_1b 8.0/10.5 ms on u_ccr using 3D-isotropic w_iso scaling Kp_prop=0.050), and Branch 5A Aα plant delay (2.5 ms physical delay + 10.0 ms muscle activation, compensated post-pool by 8.0/20.5 ms) for 6.0 ms total physical CCR loop latency. Simultaneously, symmetric Task CCR compares 2.5 ms raw_neck against 14.5 ms Branch 4C trajectory across all 3 axes.",
         latex: String.raw`\begin{aligned}
 \tau_{\text{CCR,total}} &= \underbrace{\tau_{\text{Ia}}}_{\text{Spindle Ia } (\mathbf{1.0\text{ ms}})} + \underbrace{\tau_{C1\text{–}C8}}_{\text{Compute } (\mathbf{2.5\text{ ms}})} + \underbrace{\tau_{5A}}_{\text{A}\alpha\text{ Plant } (\mathbf{2.5\text{ ms}})} = \mathbf{6.0\text{ ms}} \\[5pt]
 C_{\text{Ia}}(s) &= 1,\quad C_{\text{II}}(s) = 1,\quad C_{1B}(s) = \frac{1 + 0.0105\,s}{1 + 0.0080\,s},\quad C_{5A}(s) = \frac{1 + 0.0205\,s}{1 + 0.0080\,s}
@@ -2468,31 +2468,31 @@ C_{\text{Ia}}(s) &= 1,\quad C_{\text{II}}(s) = 1,\quad C_{1B}(s) = \frac{1 + 0.0
         math: `Strictly Physical CCR Pathway Budget (Total = 6.0 ms)
 --------------------------------------------------------------------------------
 1. Spindle → C1–C8    (Ia: 1.0 ms, II: 2.5 ms): Separate uncompensated delays
-2. C1–C8 Computation  (2.5 ms): Kp_prop=0.050·w_iso + lead_1b (30.0/10.5 ms) in Sub1B
+2. C1–C8 Computation  (2.5 ms): Kp_prop=0.050·w_iso + lead_1b (8.0/10.5 ms) in Sub1B
 3. Branch 5A          (2.5 ms + 10.0 ms act): Biproper lead (1+20.5ms·s)/(1+8.0ms·s) after Sub5 α-pool sum
 Parallel Task-Space CCR (P:0.50/.020s, R:2.10/.005s, Y:14.0/.050s): raw_neck (2.5ms) - x_4C (14.5ms)
 --------------------------------------------------------------------------------
 Total Physical CCR Loop Delay:  6.0 ms (lead_1b + Branch 5A)`,
         params: [
           "Segment 1 (Mileusnic Spindles → C1–C8) : Ia = 1.0 ms, II = 2.5 ms (uncompensated out of spindles)",
-          "⚡ Segment 2 (Sub1B C1–C8 Compute) = 2.5 ms : Kp_prop=0.050·w_iso + lead_1b (30.0/10.5 ms) directly in Sub1B",
+          "⚡ Segment 2 (Sub1B C1–C8 Compute) = 2.5 ms : Kp_prop=0.050·w_iso + lead_1b (8.0/10.5 ms) directly in Sub1B",
           "⚡ Segment 3 (Sub5 Post-Pool → Plant) = 2.5 ms : Biproper lead 5A (1+20.5ms·s)/(1+8.0ms·s) [2.5ms Aα + 10ms act]",
           "Parallel Task P/R/Y CCR : Open 3-axis voluntary-referenced PD (P: 0.50/.020s, R: 2.45/.005s, Y: 14.0/.050s)"
         ]
       },
       atlas_ventral_tree: {
         title: "⚡ Ventral Root α–γ Branched Motor Tree (Sub5 → 72 Muscles [2.5 ms Aα] & Spindles [2.5 ms Aγ])",
-        desc: "In Lamina IX of the C1–C8 cervical spinal cord (Subsystem 5), α-motoneurons and γ-motoneurons exit along two branches with matched physical 2.5 ms delays: Branch 5A applies 12.5 ms lead (2.5 ms Aα + 10.0 ms muscle activation → 30.0/20.5 ms) after the pool sum, and Branch 5B applies 2.5 ms Aγ axonal lead (30.0/10.5 ms) on (u_plan_α, L̂, L̂˙).",
+        desc: "In Lamina IX of the C1–C8 cervical spinal cord (Subsystem 5), α-motoneurons and γ-motoneurons exit along two branches with matched physical 2.5 ms delays: Branch 5A applies 12.5 ms lead (2.5 ms Aα + 10.0 ms muscle activation → 8.0/20.5 ms) after the pool sum, and Branch 5B applies 2.5 ms Aγ axonal lead (8.0/10.5 ms) on (u_plan_α, L̂, L̂˙).",
         latex: String.raw`\begin{aligned}
 \text{Branch 5A (Fast A}\alpha\text{ Extrafusal, }2.5\text{ ms):}\quad C_{5A}(s) &= \frac{1 + 0.0205\,s}{1 + 0.0080\,s} \quad (\tau_d = 12.5\text{ ms: }2.5\text{ms A}\alpha + 10\text{ms act}) \\
 \text{Branch 5B (Model-Inversion A}\gamma\text{ Fusimotor, }2.5\text{ ms):}\quad C_{5B}(s) &= \frac{1 + 0.0105\,s}{1 + 0.0080\,s} \quad (\tau_d = 2.5\text{ ms A}\gamma)
 \end{aligned}`,
         math: `Ventral Root Split Biproper Lead Compensators (Sub5 -> Plant & Sub1A)
 --------------------------------------------------------------------------------
-1. Branch 5A -> 72 Muscles (physical delay τ_5A = 2.5 ms; lead τ_d=12.5 ms → 30.0/20.5 ms):
+1. Branch 5A -> 72 Muscles (physical delay τ_5A = 2.5 ms; lead τ_d=12.5 ms → 8.0/20.5 ms):
    u_comp,5A[i](t) = evalProperLead(66+5i+0, u_pool[i], 0.0125)
 
-2. Branch 5B -> Sub1A (physical delay τ_5B = 2.5 ms; Aγ lead τ_d=2.5 ms → 30.0/10.5 ms):
+2. Branch 5B -> Sub1A (physical delay τ_5B = 2.5 ms; Aγ lead τ_d=2.5 ms → 8.0/10.5 ms):
    u_plan,5B[i](t)  = evalProperLead(66+5i+1, u_plan_α[i], 0.0025)
    L̂_comp,5B[i](t)  = evalProperLead(66+5i+2, L̂[i],        0.0025)
    L̂˙_comp,5B[i](t) = evalProperLead(66+5i+3, L̂˙[i],       0.0025)`,
@@ -5378,7 +5378,7 @@ Total Physical CCR Loop Delay:  6.0 ms (lead_1b + Branch 5A)`,
           if (narration) narration.innerHTML = `<strong>Tick ${T} ms — Biproper Lead Convergence on Sub3:</strong> <strong>Branch Sub2A→Sub3 (<code>3.0 ms</code>)</strong> and <strong>Branch Sub1A→Sub3 (<code>3.0 ms</code>)</strong> converge via <code>(1+11.0ms·s)/(1+8.0ms·s)</code> at <strong>Sub3</strong>.`;
         } else {
           hudTitle.textContent = `⚡ Tick ${T} ms: Sub3 Mahony Fuses Streams (K_oto=0.20, K_prop=2.50) & Emits 3A/3B Leads`;
-          hudEq.textContent = 'Sub3 uses biproper leads on 3A (30.0/9.5 ms → Sub2B) and 3B (30.0/21.0 ms → M1).';
+          hudEq.textContent = 'Sub3 uses biproper leads on 3A (8.0/9.5 ms → Sub2B) and 3B (8.0/21.0 ms → M1).';
           if (narration) narration.innerHTML = `<strong>⚡ Tick ${T} ms — Sub3 Mahony Observer &amp; Branch 3A/3B Biproper Leads:</strong> Sub3 fuses the streams with <code>K_oto = 0.20 rad/s</code> and <code>K_prop = 2.50 s⁻¹</code>, then applies causal biproper lead on both <strong>Branch 3A (<code>1.5 ms</code>)</strong> and <strong>Branch 3B (<code>13.0 ms</code>)</strong>.`;
         }
         return;
@@ -5408,11 +5408,11 @@ Total Physical CCR Loop Delay:  6.0 ms (lead_1b + Branch 5A)`,
         }
         if (T < -5) {
           hudTitle.textContent = `Tick ${T} ms: Lead-Compensated Efference Copies 4A (9.0 ms) & 4B (10.0 ms) En Route to Sub3 Cerebellum`;
-          hudEq.textContent = 'M1 applies biproper lead on Branch 4A (30.0/17.0 ms) & 4B (30.0/18.0 ms) to Sub3.';
+          hudEq.textContent = 'M1 applies biproper lead on Branch 4A (8.0/17.0 ms) & 4B (8.0/18.0 ms) to Sub3.';
           if (narration) narration.innerHTML = `<strong>Sub3 Efference-Copy Branches 4A &amp; 4B (Tick ${T} ms):</strong> M1 applies biproper lead to <code>θ_des</code> on <strong>Branch 4A (<code>9.0 ms</code>)</strong> and <code>(ω_des, α_des)</code> on <strong>Branch 4B (<code>10.0 ms</code>)</strong> to <strong>Sub3 Cerebellum</strong>, which forwards <code>c_ton/c_sc/c_phas</code> via <strong>biproper lead Branch 3A (<code>1.5 ms</code>)</strong> to Sub2B.`;
         } else {
           hudTitle.textContent = `⚡ Tick ${T} ms: Sub2B Cancels Planned Motion & Emits Path Sub2B→Sub5 (2.5 ms Lead)`;
-          hudEq.textContent = 'Open 3-axis VCR poles/zeros + biproper lead Path Sub2B→Sub5 (30.0/10.5 ms).';
+          hudEq.textContent = 'Open 3-axis VCR poles/zeros + biproper lead Path Sub2B→Sub5 (8.0/10.5 ms).';
           if (narration) narration.innerHTML = `<strong>⚡ Tick ${T} ms — Sub2B Brainstem VCR &amp; MVST Biproper Lead (<code>2.5 ms</code>):</strong> Sub2B subtracts Cerebellar Branch 3A efference signals, filters errors through open 3-axis filters (<code>p_ton=16.23/3.2, p_sc=60.0/60.0/3.5, p_phas=4.71/4.50</code>), and applies causal biproper lead <code>(1+10.5ms·s)/(1+8.0ms·s)</code> uniformly across Pitch, Roll, and Yaw.`;
         }
         return;
@@ -5433,9 +5433,9 @@ Total Physical CCR Loop Delay:  6.0 ms (lead_1b + Branch 5A)`,
           flashNodeBox(flashesEl, 234, 320, 90, 28, '#059669', 'Sub1B C1–C8 Compute (lead_1b 2.5 ms)');
           if (T === 0) flashNodeBox(flashesEl, 234, 256, 90, 36, '#059669', '✓ C1–C8 (lead_1b) → Sub5 [🕒 0 ms]');
           if (link67) { link67.setAttribute('stroke', '#059669'); link67.setAttribute('stroke-width', '3.5'); }
-          hudTitle.textContent = `Tick ${T} ms: Sub1B C1–C8 Compute + lead_1b (2.5 ms → 30.0/10.5 ms) → Sub5`;
+          hudTitle.textContent = `Tick ${T} ms: Sub1B C1–C8 Compute + lead_1b (2.5 ms → 8.0/10.5 ms) → Sub5`;
           hudEq.textContent = 'Sub1B lead_1b = (1+10.5ms·s)/(1+8.0ms·s); Branch 5A = 12.5ms (2.5ms Aα + 10ms act).';
-          if (narration) narration.innerHTML = '<strong>C1–C8 Compute &amp; Relay (<code>2.5 ms</code>, Sub1B ↔ Sub5):</strong> CCR filter (<code>p_ccr = 99.92 rad/s</code>, 3-axis blended zeros + <code>w_iso</code>) + rectifier + voluntary inhibition apply <code>lead_1b</code> (<strong>2.5 ms</strong> → 30.0/10.5 ms) inside Sub1B, keeping descending <code>u_qp</code> un-double-compensated.';
+          if (narration) narration.innerHTML = '<strong>C1–C8 Compute &amp; Relay (<code>2.5 ms</code>, Sub1B ↔ Sub5):</strong> CCR filter (<code>p_ccr = 99.92 rad/s</code>, 3-axis blended zeros + <code>w_iso</code>) + rectifier + voluntary inhibition apply <code>lead_1b</code> (<strong>2.5 ms</strong> → 8.0/10.5 ms) inside Sub1B, keeping descending <code>u_qp</code> un-double-compensated.';
         }
         return;
       }

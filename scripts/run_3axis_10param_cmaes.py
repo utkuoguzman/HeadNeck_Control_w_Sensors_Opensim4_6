@@ -188,6 +188,7 @@ def main():
     parser.add_argument("--gens", type=int, default=6, help="Number of CMA-ES generations to run")
     parser.add_argument("--workers", type=int, default=14, help="Parallel OpenSim worker processes")
     parser.add_argument("--seed", type=int, default=4201, help="Random seed for CMA-ES and Haar QR sampling")
+    parser.add_argument("--resume", action="store_true", help="Resume from existing logs/cmaes_3axis_10p_history.json")
     args = parser.parse_args()
 
     os.makedirs(LOG_DIR, exist_ok=True)
@@ -208,26 +209,67 @@ def main():
     }
     es = cma.CMAEvolutionStrategy(list(X0), 1.0, cma_opts)
 
-    with open(LEDGER_PATH, "w", encoding="utf-8") as f:
-        f.write(
-            "# 3-Axis 10-Parameter CMA-ES Ledger (Popsize=22: 2 TPA + 10 Mirrored Pairs, Active CMA, Zero Surrogate/GP)\n\n"
-            f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | t_delay=0.8s, ramp=1.5s, pert_dur=15.0s (T=15.8s)\n\n"
-            "| Gen | Best Total | APEO Bode | LatEC Bode | YawMA Bode | PitchXTalk (L/Y deg & pts) | σ | Params |\n"
-            "|---:|---:|---:|---:|---:|---|---:|---|\n"
-        )
-
     global_best_score = float("inf")
     global_best_entry = None
     history_records = []
+    start_gen = 1
+
+    if args.resume and os.path.exists(ALL_GENS_JSON):
+        with open(ALL_GENS_JSON, "r", encoding="utf-8") as f:
+            history_records = json.load(f)
+        for rec in history_records:
+            _ = ask_orthogonal_mirrored_nd(es, popsize, LOWER_BOUNDS, UPPER_BOUNDS, use_tpa=True)
+            logged_cands = [
+                np.array([float(c["params"][k]) for k in PARAM_NAMES], dtype=float)
+                for c in rec["candidates"]
+            ]
+            scores = [float(c["total_score"]) for c in rec["candidates"]]
+            es.tell(logged_cands, scores)
+            gb = rec["gen_best"]
+            if float(gb["total_score"]) < global_best_score:
+                global_best_score = float(gb["total_score"])
+                global_best_entry = gb
+        start_gen = len(history_records) + 1
+        print(
+            f"=== Resumed from {len(history_records)} completed generations "
+            f"(sigma={es.sigma:.4f}, GlobalBest={global_best_score:,.2f}) -> starting Gen {start_gen} ===",
+            flush=True,
+        )
+
+    if not history_records:
+        with open(LEDGER_PATH, "w", encoding="utf-8") as f:
+            f.write(
+                "# 3-Axis 10-Parameter CMA-ES Ledger (Popsize=22: 2 TPA + 10 Mirrored Pairs, Active CMA, Zero Surrogate/GP)\n\n"
+                f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | t_delay=0.8s, ramp=1.5s, pert_dur=15.0s (T=15.8s)\n\n"
+                "| Gen | Best Total | APEO Bode | LatEC Bode | YawMA Bode | PitchXTalk (L/Y deg & pts) | σ | Params |\n"
+                "|---:|---:|---:|---:|---:|---|---:|---|\n"
+            )
+    else:
+        with open(LEDGER_PATH, "w", encoding="utf-8") as f:
+            f.write(
+                "# 3-Axis 10-Parameter CMA-ES Ledger (Popsize=22: 2 TPA + 10 Mirrored Pairs, Active CMA, Zero Surrogate/GP)\n\n"
+                f"Started: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')} | t_delay=0.8s, ramp=1.5s, pert_dur=15.0s (T=15.8s)\n\n"
+                "| Gen | Best Total | APEO Bode | LatEC Bode | YawMA Bode | PitchXTalk (L/Y deg & pts) | σ | Params |\n"
+                "|---:|---:|---:|---:|---:|---|---:|---|\n"
+            )
+            for rec in history_records:
+                gb = rec["gen_best"]
+                p_str = ", ".join(f"{k}={gb['params'][k]}" for k in PARAM_NAMES)
+                f.write(
+                    f"| {rec['gen']} | {gb['total_score']:,.2f} | {gb['bode_apeo']:,.2f} | "
+                    f"{gb['bode_latec']:,.2f} | {gb['bode_yawma']:,.2f} | "
+                    f"{gb['pitch_dev_latec_deg']:.2f}°/{gb['pitch_dev_yawma_deg']:.2f}° "
+                    f"({gb['xtalk_latec']+gb['xtalk_yawma']:,.1f}) | {rec['sigma']:.3f} | {p_str} |\n"
+                )
 
     print(
         f"=== Starting 10D 3-Axis CMA-ES (Pop={popsize} [2 TPA + 10 Mirrored Pairs], Active=True, Zero Surrogate/GP, "
-        f"Workers={args.workers}, Gens={args.gens}) ===",
+        f"Workers={args.workers}, Gens={start_gen}..{args.gens}) ===",
         flush=True,
     )
 
     with ProcessPoolExecutor(max_workers=args.workers) as pool:
-        for gen in range(1, args.gens + 1):
+        for gen in range(start_gen, args.gens + 1):
             t0 = time.time()
             candidates = ask_orthogonal_mirrored_nd(es, popsize, LOWER_BOUNDS, UPPER_BOUNDS, use_tpa=True)
             if gen == 1:

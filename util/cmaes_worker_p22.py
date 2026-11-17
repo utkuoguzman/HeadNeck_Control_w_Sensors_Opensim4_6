@@ -128,16 +128,23 @@ def _load_plugin_cross_platform(plugin_dir, base_name):
             os.path.join(os.getcwd(), plugin_dir, "build", "Release", f"{base_name}.dll"),
             os.path.join(os.getcwd(), plugin_dir, "build", f"{base_name}.dll"),
         ]
+        for p in candidates:
+            if os.path.exists(p):
+                osim.LoadOpenSimLibrary(p)
+                return
+        osim.LoadOpenSimLibrary(candidates[0])
     else:
         candidates = [
             os.path.join(os.getcwd(), plugin_dir, "build", f"lib{base_name}.so"),
             os.path.join(os.getcwd(), plugin_dir, "build", "Release", f"lib{base_name}.so"),
         ]
-    for p in candidates:
-        if os.path.exists(p):
-            osim.LoadOpenSimLibrary(p)
-            return
-    osim.LoadOpenSimLibrary(candidates[0])
+        for p in candidates:
+            if os.path.exists(p):
+                handle = osim.LoadOpenSimLibraryExact(p)
+                if not handle:
+                    raise RuntimeError(f"Failed to load OpenSim Linux plugin: {p}")
+                return
+        raise FileNotFoundError(f"OpenSim Linux plugin not found in {candidates}")
 
 
 def ensure_libraries_loaded():

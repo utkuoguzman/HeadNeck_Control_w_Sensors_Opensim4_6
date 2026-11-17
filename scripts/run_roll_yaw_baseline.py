@@ -18,7 +18,11 @@ if _UTIL not in sys.path:
 import opensim as osim
 from cmaes_worker_p22 import ensure_libraries_loaded, PER_MUSCLE_72_U0
 
-ART_DIR = r"C:/Users/User/.gemini/antigravity/brain/89fb8d56-9d12-4051-a256-02497ef8d6ae"
+ART_DIR = (
+    r"C:/Users/User/.gemini/antigravity/brain/89fb8d56-9d12-4051-a256-02497ef8d6ae"
+    if sys.platform.startswith("win")
+    else os.path.join(_ROOT, "artifacts")
+)
 
 # Champion Pitch Parameter Set (Run 4, 991.11 pts):
 P15_RUN4 = {

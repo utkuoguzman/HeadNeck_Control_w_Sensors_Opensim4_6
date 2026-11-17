@@ -1,0 +1,45 @@
+{
+  "last_gen": 6,
+  "sigma": 0.9542756214148981,
+  "mean": {
+    "tau_lead_pole": 0.015358680594359178,
+    "K_sc": 4.775911727118235,
+    "p_sc": 56.051917938207225,
+    "z_sc": 0.01634279666172336,
+    "K_phas": 10.77723555459565,
+    "z_phas": 0.008539302053408155,
+    "Kp_prop_pitch": 0.5373035439057141,
+    "z_ccr": 0.020081456828681083,
+    "Kd_task_pitch": 0.7441215111959323,
+    "Ki_task_pitch": 1.6788536269819065
+  },
+  "global_best": {
+    "gen": 2,
+    "slot": 6,
+    "slot_type": "Pair3+",
+    "params": {
+      "tau_lead_pole": 0.011024,
+      "K_sc": 4.678367,
+      "p_sc": 53.925437,
+      "z_sc": 0.018324,
+      "K_phas": 10.710151,
+      "z_phas": 0.0081,
+      "Kp_prop_pitch": 0.475065,
+      "z_ccr": 0.01894,
+      "Kd_task_pitch": 0.702159,
+      "Ki_task_pitch": 2.030608
+    },
+    "total_score": 20666.18,
+    "bode_apeo": 5609.47,
+    "bode_latec": 9947.44,
+    "bode_yawma": 3932.02,
+    "xtalk_latec": 660.01,
+    "xtalk_yawma": 517.24,
+    "pitch_dev_latec_deg": 2.569,
+    "pitch_dev_yawma_deg": 2.274,
+    "hf_noise_apeo": 6.3,
+    "hf_noise_latec": 2.6,
+    "hf_noise_yawma": 2.08,
+    "aborted": false
+  }
+}
