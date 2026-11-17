@@ -3047,8 +3047,8 @@
 					<target_location>2 0.5 0</target_location>
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
-					<Kp_proprioception>0.22</Kp_proprioception>
-					<z_ccr>0.02</z_ccr>
+					<Kp_proprioception>0.050</Kp_proprioception>
+					<z_ccr>0.008</z_ccr>
 					<p_ccr>99.919586</p_ccr>
 					<K_recip_inhib>0</K_recip_inhib>
 					<desired_yaw>0</desired_yaw>
@@ -3056,42 +3056,43 @@
 					<desired_roll>0</desired_roll>
 					<trajectory_tau>0.1</trajectory_tau>
 					<fc_voluntary>2.0</fc_voluntary>
-					<K_ton>5.2598427596916935</K_ton>
+					<tau_lead_pole>0.030</tau_lead_pole>
+					<K_ton>4.5</K_ton>
 					<p_ton>16.227225</p_ton>
-					<K_sc>4.101868521564445</K_sc>
-					<z_sc>0.015</z_sc>
-					<p_sc>53.284141</p_sc>
-					<K_phas>11.0</K_phas>
-					<z_phas>0.008</z_phas>
+					<K_sc>5.20</K_sc>
+					<z_sc>0.016</z_sc>
+					<p_sc>60.0</p_sc>
+					<K_phas>11.6</K_phas>
+					<z_phas>0.010</z_phas>
 					<p_phas>4.711937</p_phas>
-					<K_ton_roll>0.60</K_ton_roll>
-					<K_ton_yaw>5.2598427596916935</K_ton_yaw>
-					<p_ton_roll>3.0</p_ton_roll>
+					<K_ton_roll>0.90</K_ton_roll>
+					<K_ton_yaw>6.2</K_ton_yaw>
+					<p_ton_roll>3.2</p_ton_roll>
 					<p_ton_yaw>16.227225</p_ton_yaw>
-					<K_sc_roll>2.029</K_sc_roll>
-					<K_sc_yaw>1.20</K_sc_yaw>
-					<z_sc_roll>0.01</z_sc_roll>
-					<z_sc_yaw>0.01</z_sc_yaw>
+					<K_sc_roll>3.5</K_sc_roll>
+					<K_sc_yaw>1.32</K_sc_yaw>
+					<z_sc_roll>0.018</z_sc_roll>
+					<z_sc_yaw>0.016</z_sc_yaw>
 					<p_sc_roll>60.0</p_sc_roll>
 					<p_sc_yaw>3.5</p_sc_yaw>
-					<K_phas_roll>16.653</K_phas_roll>
-					<z_phas_roll>0.01</z_phas_roll>
-					<p_phas_roll>5.747</p_phas_roll>
-					<Kp_prop_pitch>0.50</Kp_prop_pitch>
-					<Kp_prop_roll>4.20</Kp_prop_roll>
-					<Kp_prop_yaw>8.50</Kp_prop_yaw>
-					<z_ccr_roll>0.10</z_ccr_roll>
-					<z_ccr_yaw>0.06</z_ccr_yaw>
+					<K_phas_roll>13.5</K_phas_roll>
+					<z_phas_roll>0.012</z_phas_roll>
+					<p_phas_roll>4.5</p_phas_roll>
+					<Kp_prop_pitch>1.10</Kp_prop_pitch>
+					<Kp_prop_roll>2.10</Kp_prop_roll>
+					<Kp_prop_yaw>14.0</Kp_prop_yaw>
+					<z_ccr_roll>0.005</z_ccr_roll>
+					<z_ccr_yaw>0.050</z_ccr_yaw>
 					<K_gamma_dyn>1.0</K_gamma_dyn>
 					<K_gamma_stat>1.0</K_gamma_stat>
-					<Kp_task_pitch>3.7901174594192497</Kp_task_pitch>
-					<Kd_task_pitch>0.54</Kd_task_pitch>
-					<Kp_task_roll>0.95</Kp_task_roll>
-					<Kd_task_roll>1.14</Kd_task_roll>
-					<Kp_task_yaw>0.24</Kp_task_yaw>
-					<Kd_task_yaw>0.03</Kd_task_yaw>
-					<Ki_task_pitch>3.7214919179870036</Ki_task_pitch>
-					<Ki_task_roll>1.50</Ki_task_roll>
+					<Kp_task_pitch>3.2</Kp_task_pitch>
+					<Kd_task_pitch>1.45</Kd_task_pitch>
+					<Kp_task_roll>1.20</Kp_task_roll>
+					<Kd_task_roll>1.35</Kd_task_roll>
+					<Kp_task_yaw>0.55</Kp_task_yaw>
+					<Kd_task_yaw>0.05</Kd_task_yaw>
+					<Ki_task_pitch>0.45</Ki_task_pitch>
+					<Ki_task_roll>1.15</Ki_task_roll>
 					<Ki_task_yaw>0.05</Ki_task_yaw>
 					<Kp_buckle>1.5</Kp_buckle>
 					<Kd_buckle>0.15</Kd_buckle>
@@ -3099,7 +3100,7 @@
 					<thresh_spindle_ii>0.25</thresh_spindle_ii>
 					<thresh_vest_tilt>0.002</thresh_vest_tilt>
 					<thresh_vest_scc>0.005</thresh_vest_scc>
-					<thresh_vest_oto>0.020</thresh_vest_oto>
+					<thresh_vest_oto>0.005</thresh_vest_oto>
 					<enable_axis_pitch>true</enable_axis_pitch>
 					<enable_axis_roll>true</enable_axis_roll>
 					<enable_axis_yaw>true</enable_axis_yaw>

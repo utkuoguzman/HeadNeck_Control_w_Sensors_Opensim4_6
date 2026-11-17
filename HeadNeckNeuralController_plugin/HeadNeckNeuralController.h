@@ -15,8 +15,8 @@ OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 
 public:
 
-    OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for 72-muscle spinal CCR (default: 0.22)");
-    OpenSim_DECLARE_PROPERTY(z_ccr, double, "Pitch Cervico-Collic Reflex TF Zero in s (default: 0.02)");
+    OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for 72-muscle spinal CCR (default: 0.050)");
+    OpenSim_DECLARE_PROPERTY(z_ccr, double, "Pitch Cervico-Collic Reflex TF Zero in s (default: 0.008)");
     OpenSim_DECLARE_PROPERTY(p_ccr, double, "Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
     OpenSim_DECLARE_PROPERTY(K_recip_inhib, double, "Reciprocal inhibition fraction for antagonists (0.0=full block, 1.0=no block)");
 
@@ -26,48 +26,49 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(trajectory_tau, double, "Time constant for the internal 2nd-order trajectory planner");
     OpenSim_DECLARE_PROPERTY(fc_voluntary, double, "Voluntary controller low-pass cutoff frequency in Hz (default: 2.0)");
+    OpenSim_DECLARE_PROPERTY(tau_lead_pole, double, "Biophysical synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.030)");
 
     // Per-Axis Brainstem VCR & Task-Space Decoder CCR Properties (Pitch, Roll, Yaw — explicit non-negative parameters)
-    OpenSim_DECLARE_PROPERTY(K_ton, double, "Pitch Tonic otolith TF Gain");
-    OpenSim_DECLARE_PROPERTY(p_ton, double, "Pitch Tonic otolith TF Pole in rad/s");
-    OpenSim_DECLARE_PROPERTY(K_sc, double, "Pitch Semicircular canal TF Gain");
-    OpenSim_DECLARE_PROPERTY(z_sc, double, "Pitch Semicircular canal TF Zero in s");
-    OpenSim_DECLARE_PROPERTY(p_sc, double, "Pitch Semicircular canal TF Pole in rad/s");
-    OpenSim_DECLARE_PROPERTY(K_phas, double, "Pitch Phasic otolith TF Gain");
-    OpenSim_DECLARE_PROPERTY(z_phas, double, "Pitch Phasic otolith TF Zero in s");
-    OpenSim_DECLARE_PROPERTY(p_phas, double, "Pitch Phasic otolith TF Pole in rad/s");
-    OpenSim_DECLARE_PROPERTY(K_ton_roll, double, "Roll Tonic otolith TF Gain (default: 0.60)");
-    OpenSim_DECLARE_PROPERTY(K_ton_yaw, double, "Yaw Tonic attitude TF Gain (default: 5.259843)");
-    OpenSim_DECLARE_PROPERTY(p_ton_roll, double, "Roll Tonic otolith TF Pole in rad/s (default: 3.0)");
+    OpenSim_DECLARE_PROPERTY(K_ton, double, "Pitch Tonic otolith TF Gain (default: 4.5)");
+    OpenSim_DECLARE_PROPERTY(p_ton, double, "Pitch Tonic otolith TF Pole in rad/s (default: 16.227225)");
+    OpenSim_DECLARE_PROPERTY(K_sc, double, "Pitch Semicircular canal TF Gain (default: 5.20)");
+    OpenSim_DECLARE_PROPERTY(z_sc, double, "Pitch Semicircular canal TF Zero in s (default: 0.013)");
+    OpenSim_DECLARE_PROPERTY(p_sc, double, "Pitch Semicircular canal TF Pole in rad/s (default: 55.0)");
+    OpenSim_DECLARE_PROPERTY(K_phas, double, "Pitch Phasic otolith TF Gain (default: 11.2)");
+    OpenSim_DECLARE_PROPERTY(z_phas, double, "Pitch Phasic otolith TF Zero in s (default: 0.008)");
+    OpenSim_DECLARE_PROPERTY(p_phas, double, "Pitch Phasic otolith TF Pole in rad/s (default: 4.711937)");
+    OpenSim_DECLARE_PROPERTY(K_ton_roll, double, "Roll Tonic otolith TF Gain (default: 1.15)");
+    OpenSim_DECLARE_PROPERTY(K_ton_yaw, double, "Yaw Tonic attitude TF Gain (default: 6.2)");
+    OpenSim_DECLARE_PROPERTY(p_ton_roll, double, "Roll Tonic otolith TF Pole in rad/s (default: 3.2)");
     OpenSim_DECLARE_PROPERTY(p_ton_yaw, double, "Yaw Tonic attitude TF Pole in rad/s (default: 16.227225)");
-    OpenSim_DECLARE_PROPERTY(K_sc_roll, double, "Roll Semicircular canal TF Gain (default: 2.029)");
-    OpenSim_DECLARE_PROPERTY(K_sc_yaw, double, "Yaw Semicircular canal TF Gain (default: 1.20)");
-    OpenSim_DECLARE_PROPERTY(z_sc_roll, double, "Roll Semicircular canal TF Zero in s (default: 0.01)");
-    OpenSim_DECLARE_PROPERTY(z_sc_yaw, double, "Yaw Semicircular canal TF Zero in s (default: 0.01)");
+    OpenSim_DECLARE_PROPERTY(K_sc_roll, double, "Roll Semicircular canal TF Gain (default: 3.5)");
+    OpenSim_DECLARE_PROPERTY(K_sc_yaw, double, "Yaw Semicircular canal TF Gain (default: 1.32)");
+    OpenSim_DECLARE_PROPERTY(z_sc_roll, double, "Roll Semicircular canal TF Zero in s (default: 0.018)");
+    OpenSim_DECLARE_PROPERTY(z_sc_yaw, double, "Yaw Semicircular canal TF Zero in s (default: 0.016)");
     OpenSim_DECLARE_PROPERTY(p_sc_roll, double, "Roll Semicircular canal TF Pole in rad/s (default: 60.0)");
     OpenSim_DECLARE_PROPERTY(p_sc_yaw, double, "Yaw Semicircular canal TF Pole in rad/s (default: 3.5)");
-    OpenSim_DECLARE_PROPERTY(K_phas_roll, double, "Roll Phasic otolith TF Gain (default: 16.653)");
-    OpenSim_DECLARE_PROPERTY(z_phas_roll, double, "Roll Phasic otolith TF Zero in s (default: 0.01)");
+    OpenSim_DECLARE_PROPERTY(K_phas_roll, double, "Roll Phasic otolith TF Gain (default: 11.0)");
+    OpenSim_DECLARE_PROPERTY(z_phas_roll, double, "Roll Phasic otolith TF Zero in s (default: 0.012)");
     OpenSim_DECLARE_PROPERTY(p_phas_roll, double, "Roll Phasic otolith TF Pole in rad/s (default: 5.747)");
-    OpenSim_DECLARE_PROPERTY(Kp_prop_pitch, double, "Pitch Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 0.50)");
-    OpenSim_DECLARE_PROPERTY(Kp_prop_roll, double, "Roll Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 4.20)");
-    OpenSim_DECLARE_PROPERTY(Kp_prop_yaw, double, "Yaw Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 8.50)");
-    OpenSim_DECLARE_PROPERTY(z_ccr_roll, double, "Roll Spindle-Decoded CCR & Muscle Lead Zero in s (default: 0.10)");
-    OpenSim_DECLARE_PROPERTY(z_ccr_yaw, double, "Yaw Spindle-Decoded CCR & Muscle Lead Zero in s (default: 0.06)");
+    OpenSim_DECLARE_PROPERTY(Kp_prop_pitch, double, "Pitch Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 1.10)");
+    OpenSim_DECLARE_PROPERTY(Kp_prop_roll, double, "Roll Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 2.45)");
+    OpenSim_DECLARE_PROPERTY(Kp_prop_yaw, double, "Yaw Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 14.0)");
+    OpenSim_DECLARE_PROPERTY(z_ccr_roll, double, "Roll Spindle-Decoded CCR & Muscle Lead Zero in s (default: 0.005)");
+    OpenSim_DECLARE_PROPERTY(z_ccr_yaw, double, "Yaw Spindle-Decoded CCR & Muscle Lead Zero in s (default: 0.050)");
 
     // Gamma motor neuron drive (Alpha-Gamma Coactivation)
     OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double, "Gain for Vestibular-driven Gamma_dyn");
     OpenSim_DECLARE_PROPERTY(K_gamma_stat, double, "Gain for Alpha-Gamma Coactivation");
 
     // Explicit Cortical Task-Space PID Gains (Pitch, Roll, Yaw)
-    OpenSim_DECLARE_PROPERTY(Kp_task_pitch, double, "Explicit Task Kp for pitch in Nm/rad (default: 3.790117)");
-    OpenSim_DECLARE_PROPERTY(Kd_task_pitch, double, "Explicit Task Kd for pitch in Nms/rad (default: 0.54)");
-    OpenSim_DECLARE_PROPERTY(Kp_task_roll, double, "Explicit Task Kp for roll in Nm/rad (default: 0.95)");
-    OpenSim_DECLARE_PROPERTY(Kd_task_roll, double, "Explicit Task Kd for roll in Nms/rad (default: 1.14)");
-    OpenSim_DECLARE_PROPERTY(Kp_task_yaw, double, "Explicit Task Kp for yaw in Nm/rad (default: 0.24)");
-    OpenSim_DECLARE_PROPERTY(Kd_task_yaw, double, "Explicit Task Kd for yaw in Nms/rad (default: 0.03)");
-    OpenSim_DECLARE_PROPERTY(Ki_task_pitch, double, "Explicit Task Ki for pitch in Nm/(rad*s) (default: 3.721492)");
-    OpenSim_DECLARE_PROPERTY(Ki_task_roll, double, "Explicit Task Ki for roll in Nm/(rad*s) (default: 1.50)");
+    OpenSim_DECLARE_PROPERTY(Kp_task_pitch, double, "Explicit Task Kp for pitch in Nm/rad (default: 3.2)");
+    OpenSim_DECLARE_PROPERTY(Kd_task_pitch, double, "Explicit Task Kd for pitch in Nms/rad (default: 1.45)");
+    OpenSim_DECLARE_PROPERTY(Kp_task_roll, double, "Explicit Task Kp for roll in Nm/rad (default: 1.55)");
+    OpenSim_DECLARE_PROPERTY(Kd_task_roll, double, "Explicit Task Kd for roll in Nms/rad (default: 1.35)");
+    OpenSim_DECLARE_PROPERTY(Kp_task_yaw, double, "Explicit Task Kp for yaw in Nm/rad (default: 0.55)");
+    OpenSim_DECLARE_PROPERTY(Kd_task_yaw, double, "Explicit Task Kd for yaw in Nms/rad (default: 0.05)");
+    OpenSim_DECLARE_PROPERTY(Ki_task_pitch, double, "Explicit Task Ki for pitch in Nm/(rad*s) (default: 0.45)");
+    OpenSim_DECLARE_PROPERTY(Ki_task_roll, double, "Explicit Task Ki for roll in Nm/(rad*s) (default: 1.15)");
     OpenSim_DECLARE_PROPERTY(Ki_task_yaw, double, "Explicit Task Ki for yaw in Nm/(rad*s) (default: 0.05)");
 
     // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
@@ -79,7 +80,7 @@ public:
     OpenSim_DECLARE_PROPERTY(thresh_spindle_ii, double, "Secondary (II) spindle discharge modulation threshold in imp/s (Matthews & Stein 1969; default: 0.25)");
     OpenSim_DECLARE_PROPERTY(thresh_vest_tilt, double, "Vestibular nuclei graviceptive tilt threshold in rad (Bringoux et al. 2002; default: 0.002)");
     OpenSim_DECLARE_PROPERTY(thresh_vest_scc, double, "Vestibular nuclei semicircular canal velocity threshold in rad/s (Massot et al. 2011; default: 0.005)");
-    OpenSim_DECLARE_PROPERTY(thresh_vest_oto, double, "Vestibular nuclei otolith specific-force threshold in m/s^2 (Benson et al. 1986; default: 0.020)");
+    OpenSim_DECLARE_PROPERTY(thresh_vest_oto, double, "Vestibular nuclei otolith specific-force threshold in m/s^2 (default: 0.005)");
 
     // Explicit branch/feature diagnostic switches (all default true so full system always runs; false only when explicitly ablated and reported)
     OpenSim_DECLARE_PROPERTY(enable_axis_pitch, bool, "Master switch enabling pitch axis control/reflex pathways (default: true)");
@@ -361,9 +362,9 @@ private:
 
     // Proper biproper 1st-order lead compensator state C_lead(s) = (1 + tau_z*s)/(1 + tau_p*s)
     // Slots 0..35:  2A (0..5), 2B (6..14), 1A->3 (15..23), 3A efference (24..32), Path 5 MVST (33..35);
-    // Slots 36..62: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62);
-    // Slots 63..63+4N-1: per-muscle Sub5 Branches 5A & 5B (15.0 ms).
-    static constexpr int NUM_FIXED_LEAD_SLOTS = 63;
+    // Slots 36..65: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62), Pre-QP tau_act 10ms (63..65);
+    // Slots 66..66+5N-1: per-muscle Sub5 Branch 5A (2.5 ms: +0), Branch 5B (12.5 ms: +1..+3), and Sub1B C1-C8 CCR (2.5 ms: +4).
+    static constexpr int NUM_FIXED_LEAD_SLOTS = 66;
     mutable std::vector<const StateVariable*> state_variable_lead_comp;
     mutable std::vector<double> lead_u0;
     mutable std::vector<double> lead_u_curr;
