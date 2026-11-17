@@ -362,8 +362,8 @@ private:
 
     // Proper biproper 1st-order lead compensator state C_lead(s) = (1 + tau_z*s)/(1 + tau_p*s)
     // Slots 0..35:  2A (0..5), 2B (6..14), 1A->3 (15..23), 3A efference (24..32), Path 5 MVST (33..35);
-    // Slots 36..65: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62), Pre-QP tau_act 10ms (63..65);
-    // Slots 66..66+5N-1: per-muscle Sub5 Branch 5A (2.5 ms: +0), Branch 5B (12.5 ms: +1..+3), and Sub1B C1-C8 CCR (2.5 ms: +4).
+    // Slots 36..65: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62), unused (63..65);
+    // Slots 66..66+5N-1: per-muscle Sub5 Branch 5A (12.5 ms: +0), Branch 5B (2.5 ms: +1..+3), and Sub1B C1-C8 CCR (2.5 ms: +4).
     static constexpr int NUM_FIXED_LEAD_SLOTS = 66;
     mutable std::vector<const StateVariable*> state_variable_lead_comp;
     mutable std::vector<double> lead_u0;

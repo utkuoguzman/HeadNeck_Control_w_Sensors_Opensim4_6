@@ -23,19 +23,19 @@ static inline double applyBiologicalDeadband(double v, double th) {
 HeadNeckNeuralController::HeadNeckNeuralController() {
 
     constructProperty_Kp_proprioception(0.050);
-    constructProperty_z_ccr(0.008);
+    constructProperty_z_ccr(0.020);
     constructProperty_p_ccr(99.919586);
     constructProperty_K_recip_inhib(0.0); // 0.0 means complete reciprocal inhibition (no antagonist reflex)
     constructProperty_desired_yaw(0.0);
     constructProperty_desired_pitch(0.0);
     constructProperty_desired_roll(0.0);
-    constructProperty_K_ton(4.5);
+    constructProperty_K_ton(5.259843);
     constructProperty_p_ton(16.227225);
-    constructProperty_K_sc(5.20);
-    constructProperty_z_sc(0.016);
-    constructProperty_p_sc(60.0);
-    constructProperty_K_phas(11.6);
-    constructProperty_z_phas(0.010);
+    constructProperty_K_sc(4.101869);
+    constructProperty_z_sc(0.015);
+    constructProperty_p_sc(53.284141);
+    constructProperty_K_phas(11.0);
+    constructProperty_z_phas(0.008);
     constructProperty_p_phas(4.711937);
     constructProperty_K_ton_roll(0.90);
     constructProperty_K_ton_yaw(6.2);
@@ -50,21 +50,21 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_K_phas_roll(13.5);
     constructProperty_z_phas_roll(0.012);
     constructProperty_p_phas_roll(4.5);
-    constructProperty_Kp_prop_pitch(1.10);
+    constructProperty_Kp_prop_pitch(0.50);
     constructProperty_Kp_prop_roll(2.10);
     constructProperty_Kp_prop_yaw(14.0);
     constructProperty_z_ccr_roll(0.005);
     constructProperty_z_ccr_yaw(0.050);
     constructProperty_K_gamma_dyn(1.0);
     constructProperty_K_gamma_stat(1.0);
-    constructProperty_Kp_task_pitch(3.2);
-    constructProperty_Kd_task_pitch(1.45);
+    constructProperty_Kp_task_pitch(3.790117);
+    constructProperty_Kd_task_pitch(0.54);
     constructProperty_Kp_task_roll(1.20);
     constructProperty_Kd_task_roll(1.35);
     constructProperty_Kp_task_yaw(0.55);
     constructProperty_Kd_task_yaw(0.05);
-    constructProperty_Ki_task_pitch(0.45);
-    constructProperty_Ki_task_roll(1.15);
+    constructProperty_Ki_task_pitch(3.721492);
+    constructProperty_Ki_task_roll(0.45);
     constructProperty_Ki_task_yaw(0.05);
     constructProperty_Kp_buckle(1.5);
     constructProperty_Kd_buckle(0.15);
@@ -104,7 +104,7 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_enable_lead_compensators(true);
     constructProperty_enable_eye_afferents(false);
     constructProperty_fc_voluntary(2.0);
-    constructProperty_tau_lead_pole(0.030);
+    constructProperty_tau_lead_pole(0.008);
 
     right_canal_projection_matrix = SimTK::Mat33(
         -0.589, -0.177,  0.788,
@@ -843,7 +843,7 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
 
 double HeadNeckNeuralController::evalProperLead(int slot, double u_val, double tau_d, const SimTK::State& state) const {
     const double pole_floor = std::clamp(get_tau_lead_pole(), 0.0020, 0.2000);
-    const double tau_p  = std::max(pole_floor, 0.50 * tau_d);
+    const double tau_p      = std::max(pole_floor, 0.50 * tau_d);
     const double tau_z  = tau_d + tau_p;
     const double d_lead = tau_z / tau_p;
     if (slot >= 0 && slot < static_cast<int>(lead_u_curr.size())) {
@@ -3061,14 +3061,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     desired_total_torque[1] = act_axis[1] ? (voluntary_torque[1] + vestibulo_collic_torque[1] + ccr_spindle_torque_roll)  : 0.0;
     desired_total_torque[2] = act_axis[2] ? (voluntary_torque[2] + vestibulo_collic_torque[2] + ccr_spindle_torque_yaw)   : 0.0;
 
-    // Apply 10.0 ms Hill muscle activation proper lead on signed 3-axis torque BEFORE u_min muscle clamping (zero half-wave rectification)
-    const double tau_pre_qp_act = 0.0100;
-    for (int axis_idx = 0; axis_idx < 3; ++axis_idx) {
-        if (act_axis[axis_idx]) {
-            desired_total_torque[axis_idx] = evalProperLead(63 + axis_idx, desired_total_torque[axis_idx], tau_pre_qp_act, state);
-        }
-    }
-
     desired_total_torque[0] = std::clamp(desired_total_torque[0], -150.0, 150.0);
     desired_total_torque[1] = std::clamp(desired_total_torque[1], -100.0, 100.0);
     desired_total_torque[2] = std::clamp(desired_total_torque[2], -100.0, 100.0);
@@ -3254,8 +3246,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     current_history_record.expected_normalized_fiber_velocities.resize(number_of_active_muscles);
 
     const double tau_muscle_act = 0.0100;
-    const double tau_5a_comp = tau_7a_aalpha_delay;                  // 2.5 ms (5A A-alpha axonal; 10.0 ms muscle activation compensated pre-QP on signed torque)
-    const double tau_5b_comp = tau_7b_agamma_delay + tau_muscle_act; // 2.5 ms (5B A-gamma axonal) + 10.0 ms (muscle activation) = 12.5 ms
+    const double tau_5a_comp = tau_7a_aalpha_delay + tau_muscle_act; // 2.5 ms (5A A-alpha axonal) + 10.0 ms (muscle activation) = 12.5 ms
+    const double tau_5b_comp = tau_7b_agamma_delay;                  // 2.5 ms (5B A-gamma axonal)
 
     for (int muscle_index = 0; muscle_index < number_of_active_muscles; ++muscle_index) {
         const double minimum_muscle_excitation = cached_minimum_excitations[muscle_index];
@@ -3320,7 +3312,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             : minimum_muscle_excitation;
         last_voluntary_alpha_excitations[muscle_index] = u_plan_alpha;
 
-        // Apply Branch 5B (Sub 5 -> Sub 1A/3 72 Intrafusal Spindles, 12.5 ms proper lead: tau_p = max(tau_lead_pole, 0.5*tau_d))
+        // Apply Branch 5B (Sub 5 -> Sub 1A/3 72 Intrafusal Spindles, 2.5 ms proper lead: tau_p = max(tau_lead_pole, 0.5*tau_d))
         const double u_plan_alpha_7b = fusimotor_en
             ? std::clamp(evalProperLead(lead_base_slot + 1, u_plan_alpha, tau_5b_comp, state), minimum_muscle_excitation, 1.0)
             : minimum_muscle_excitation;
@@ -3336,7 +3328,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         const double L_hat  = fusimotor_en ? std::clamp(L0_eq + dL_kin + dL_ten, 0.2, 2.5) : L0_eq;
         const double Lp_hat = fusimotor_en ? std::clamp(-(r_p * plan_vel_pitch + r_r * plan_vel_roll + r_y * plan_vel_yaw) / eff_scale, -20.0, 20.0) : 0.0;
 
-        // --- BRANCH 5B PROPER LEAD COMPENSATOR (Sub 5 -> Sub 1A/3 72 Intrafusal Spindles, tau_d = 12.5 ms) ---
+        // --- BRANCH 5B PROPER LEAD COMPENSATOR (Sub 5 -> Sub 1A/3 72 Intrafusal Spindles, tau_d = 2.5 ms) ---
         const double L_hat_7b = fusimotor_en
             ? std::clamp(evalProperLead(lead_base_slot + 2, L_hat, tau_5b_comp, state), 0.2, 2.5)
             : L0_eq;

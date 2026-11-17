@@ -127,8 +127,10 @@ def run_axis_worker(args):
     c_yaw1.set_locked(False)
     c_yaw1.setDefaultIsPrescribed(False)
 
-    delay = 1.5
+    delay = 0.8
     ramp_duration = 1.5
+    pert_duration = 15.0
+    target_time = delay + pert_duration  # 0.8 + 15.0 = 15.8 s for all 3 modes
 
     if mode == "APEO":
         ordered_targets = sorted(CANONICAL_TARGETS, key=lambda x: x[0])
@@ -139,9 +141,6 @@ def run_axis_worker(args):
         phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
         amps_input_unit = np.array([0.0215 * (0.835 / f) / math.sqrt(K) for f in freqs], dtype=float)
         amps_sim_unit = amps_input_unit.copy()
-        eval_cycles = 6.0
-        eval_duration = eval_cycles / float(freqs[0])
-        target_time = delay + ramp_duration + eval_duration
         prescribed_coord_name = "spine_tx"
         ms_spline, _ = build_c2_multisine_spline(freqs, amps_sim_unit, phases, delay, ramp_duration, target_time)
     elif mode == "LatEC":
@@ -153,9 +152,6 @@ def run_axis_worker(args):
         phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
         amps_input_unit = np.array(get_latec_amplitudes(freqs), dtype=float)
         amps_sim_unit = amps_input_unit.copy()
-        eval_cycles = 2.0
-        eval_duration = eval_cycles / float(freqs[0])
-        target_time = delay + ramp_duration + eval_duration
         prescribed_coord_name = "spine_tz"
         ms_spline, _ = build_c2_multisine_spline(freqs, amps_sim_unit, phases, delay, ramp_duration, target_time)
     elif mode == "YawMA":
@@ -167,9 +163,6 @@ def run_axis_worker(args):
         phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
         amps_input_unit = np.array(get_yawma_amplitudes_deg(freqs), dtype=float)
         amps_sim_unit = np.radians(amps_input_unit)
-        eval_cycles = 2.0
-        eval_duration = eval_cycles / float(freqs[0])
-        target_time = delay + ramp_duration + eval_duration
         prescribed_coord_name = "gndyaw"
         ms_spline, _ = build_c2_zero_offset_spline_yaw(freqs, amps_sim_unit, phases, delay, ramp_duration, target_time)
     else:
@@ -334,6 +327,7 @@ def run_axis_worker(args):
     hf_noise_rms = 0.0
     corr_vel = 0.0
     hf_penalty = 0.0
+    pitch_crosstalk_penalty = 0.0
     pitch_hf_10hz_rms = 0.0
     gain_loss_pts = 0.0
     phase_loss_pts = 0.0
@@ -341,7 +335,9 @@ def run_axis_worker(args):
     if aborted or n_post < 50:
         progress = max(0.0, min(1.0, abort_time_s / target_time))
         classic_score = 6.0 * (200000.0 + (1.0 - progress) * 50000.0)
-        total_score = classic_score
+        if mode in ("LatEC", "YawMA"):
+            pitch_crosstalk_penalty = 100.0 * (full_pitch_dev_max ** 2)
+        total_score = classic_score + pitch_crosstalk_penalty
     else:
         t_fit = t_arr[m_post]
         t_rel = t_fit - delay
@@ -400,7 +396,6 @@ def run_axis_worker(args):
         corr_vel = float(np.corrcoef(vel_actual, vel_ref)[0, 1]) if np.std(vel_actual) > 1e-6 else 0.0
 
         classic_score = gain_loss_pts + phase_loss_pts
-        total_score = classic_score
         if mode == "APEO":
             t_u = np.arange(t_fit[0], t_fit[-1], 0.005)
             s_u = np.interp(t_u, t_fit, y_fit_deg)
@@ -409,9 +404,12 @@ def run_axis_worker(args):
             mag = np.abs(np.fft.rfft(s_u)) * 2.0 / np.sum(win)
             fr = np.fft.rfftfreq(len(s_u), d=0.005)
             pitch_hf_10hz_rms = float(np.sqrt(np.sum(mag[fr >= 10.0] ** 2) / 2.0))
-            pitch_hf_excess = max(0.0, pitch_hf_10hz_rms - 0.10)
-            hf_penalty = 10000.0 * pitch_hf_excess
-            total_score = classic_score + hf_penalty
+        if mode in ("LatEC", "YawMA"):
+            pitch_crosstalk_penalty = 100.0 * (full_pitch_dev_max ** 2)
+        else:
+            pitch_crosstalk_penalty = 0.0
+        hf_penalty = 0.0
+        total_score = classic_score + pitch_crosstalk_penalty
 
     return {
         "mode": mode,
@@ -436,6 +434,7 @@ def run_axis_worker(args):
         "tgt_phases": tgt_phases,
         "freq_results": freq_results,
         "classic_bode_score": round(classic_score, 2),
+        "pitch_crosstalk_penalty": round(pitch_crosstalk_penalty, 2),
         "total_score": round(total_score, 2),
         "gain_loss_pts": round(gain_loss_pts, 2),
         "phase_loss_pts": round(phase_loss_pts, 2),
@@ -453,7 +452,7 @@ def run_axis_worker(args):
     }
 
 
-def compute_ref_trace(t, freqs, amps, phases, tgt_gains, tgt_phases, delay=1.5, ramp=1.5):
+def compute_ref_trace(t, freqs, amps, phases, tgt_gains, tgt_phases, delay=0.8, ramp=1.5):
     ref_trace = np.zeros_like(t, dtype=float)
     for i, ti in enumerate(t):
         if ti < delay:
@@ -486,12 +485,12 @@ def render_standard_4panel(sim_res, out_filename):
     freq_res = sim_res["freq_results"]
     bool_banner = sim_res["bool_banner"]
 
-    ref_trace = compute_ref_trace(t, freqs, amps, phases, tgt_gains, tgt_phases)
+    ref_trace = compute_ref_trace(t, freqs, amps, phases, tgt_gains, tgt_phases, delay=0.8, ramp=1.5)
     main_vel = np.gradient(main_angle, t)
     ref_vel = np.gradient(ref_trace, t)
     pert_vel = np.gradient(sim_res["pert"], t)
 
-    mask_ss = t >= 3.0
+    mask_ss = t >= 2.3
     if not np.any(mask_ss):
         mask_ss = np.ones_like(t, dtype=bool)
     mean_ang_ss = float(np.mean(main_angle[mask_ss]))
@@ -548,8 +547,8 @@ def render_standard_4panel(sim_res, out_filename):
             alpha=0.85,
             label=f"Applied Trunk Yaw Input gndyaw(t) [Max = {np.max(np.abs(sim_res['pert'][mask_ss])):.2f}°]",
         )
-    ax1.axvline(1.5, color="#64748b", ls=":", lw=1.3, label="Perturbation Ramp Start (t = 1.5s)")
-    ax1.axvline(3.0, color="#dc2626", ls="--", lw=1.4, label="Steady-State Window (t >= 3.0s)")
+    ax1.axvline(0.8, color="#64748b", ls=":", lw=1.3, label="Perturbation Ramp Start (t = 0.8s)")
+    ax1.axvline(2.3, color="#dc2626", ls="--", lw=1.4, label="Steady-State Window (t >= 2.3s)")
     ax1.set_xlim(0, sim_res["target_time"])
     all_ang = [ref_trace, main_angle] + ([sim_res["pert"]] if mode == "YawMA" else [])
     y1_min = float(min(np.min(a) for a in all_ang))
@@ -573,8 +572,8 @@ def render_standard_4panel(sim_res, out_filename):
         lw=1.9,
         label=f"Current Model Velocity [RMS = {rms_vel_ss:.2f}°/s, HF Noise = {sim_res['hf_noise_rms']:.2f}°/s, corr r = {sim_res['corr_vel']:+.3f}]",
     )
-    ax2.axvline(1.5, color="#64748b", ls=":", lw=1.3)
-    ax2.axvline(3.0, color="#dc2626", ls="--", lw=1.4)
+    ax2.axvline(0.8, color="#64748b", ls=":", lw=1.3)
+    ax2.axvline(2.3, color="#dc2626", ls="--", lw=1.4)
     ax2.set_xlim(0, sim_res["target_time"])
     vel_abs = max(env_lim, float(np.max(np.abs(main_vel))), float(np.max(np.abs(ref_vel))))
     ax2.set_ylim(-1.22 * vel_abs, 1.28 * vel_abs)
@@ -644,8 +643,8 @@ def render_standard_4panel(sim_res, out_filename):
             label=f"Relative Neck-on-Trunk Yaw (y1+y2) [Quiet Max = {sim_res['quiet_yaw_rel_max_deg']:.3f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
         )
         cross_max_abs = max(sim_res["full_pitch_dev_max_deg"], sim_res["full_roll_max_deg"], sim_res["full_yaw_rel_max_deg"])
-    ax3.axvline(1.5, color="#64748b", ls=":", lw=1.3)
-    ax3.axvline(3.0, color="#dc2626", ls="--", lw=1.4)
+    ax3.axvline(0.8, color="#64748b", ls=":", lw=1.3)
+    ax3.axvline(2.3, color="#dc2626", ls="--", lw=1.4)
     ax3.set_xlim(0, sim_res["target_time"])
     cross_lim = max(1.5, 1.24 * cross_max_abs)
     ax3.set_ylim(-cross_lim, cross_lim)
@@ -731,8 +730,8 @@ def render_standard_4panel(sim_res, out_filename):
         ax4.set_xlabel("Multisine Excitation Frequency [Hz] (Log Scale)", fontweight="bold", fontsize=11)
 
         score_str = f"Classic Score: {sim_res['classic_bode_score']:,.2f} pts (G={sim_res['gain_loss_pts']:.1f}, P={sim_res['phase_loss_pts']:.1f})"
-        if mode == "APEO":
-            score_str += f" | HF>=10Hz: {sim_res['pitch_hf_10hz_rms_deg']:.3f}° (+{sim_res['hf_penalty']:.1f}) | Total: {sim_res['total_score']:,.2f} pts"
+        if mode in ("LatEC", "YawMA"):
+            score_str += f" | Pitch XTalk: {sim_res['full_pitch_dev_max_deg']:.2f}° (+{sim_res['pitch_crosstalk_penalty']:.1f}) | Total: {sim_res['total_score']:,.2f} pts"
         ax4.set_title(f"4. {len(freqs)}-Frequency Bode Response ({mode}) — {score_str}", fontweight="bold", fontsize=11.0)
         ax4.grid(True, alpha=0.3)
 
@@ -740,10 +739,10 @@ def render_standard_4panel(sim_res, out_filename):
         l2, lb2 = ax4_r.get_legend_handles_labels()
         ax4.legend(l1 + l2, lb1 + lb2, loc="upper left", fontsize=8.2, ncol=2)
 
-    if mode == "APEO":
-        score_hdr = f"Total: {sim_res['total_score']:,.2f} pts (Classic Bode: {sim_res['classic_bode_score']:,.2f} pts)"
+    if mode in ("LatEC", "YawMA"):
+        score_hdr = f"Total: {sim_res['total_score']:,.2f} pts (Classic Bode: {sim_res['classic_bode_score']:,.2f} + Pitch XTalk: {sim_res['pitch_crosstalk_penalty']:,.2f})"
     else:
-        score_hdr = f"Classic Bode: {sim_res['classic_bode_score']:,.2f} pts"
+        score_hdr = f"Total: {sim_res['total_score']:,.2f} pts (Classic Bode: {sim_res['classic_bode_score']:,.2f} pts)"
     fig.suptitle(
         f"Standard Plot ({mode} — {axis_name}) | {score_hdr}\n{bool_banner}",
         fontweight="bold",
@@ -770,12 +769,14 @@ def write_html_viewer(bool_banner, axes_summary, out_files, suffix=""):
     yawma = axes_summary["YawMA"]
 
     apeo_score = f"{apeo['total_score']:,.0f} pts"
-    latec_score = f"{latec['classic_bode_score']:,.0f} pts"
-    yawma_score = f"{yawma['classic_bode_score']:,.0f} pts"
+    latec_score = f"{latec['total_score']:,.0f} pts"
+    yawma_score = f"{yawma['total_score']:,.0f} pts"
+    combined_total = apeo['total_score'] + latec['total_score'] + yawma['total_score']
     score_summary = (
         f"APEO Pitch: {apeo['total_score']:,.2f} pts | "
-        f"LatEC Roll: {latec['classic_bode_score']:,.2f} pts | "
-        f"YawMA Yaw: {yawma['classic_bode_score']:,.2f} pts"
+        f"LatEC Roll: {latec['total_score']:,.2f} pts (XTalk +{latec['pitch_crosstalk_penalty']:.1f}) | "
+        f"YawMA Yaw: {yawma['total_score']:,.2f} pts (XTalk +{yawma['pitch_crosstalk_penalty']:.1f}) | "
+        f"Combined: {combined_total:,.2f} pts"
     )
 
     template = f'''<!DOCTYPE html>
@@ -921,6 +922,7 @@ def main():
             "abort_time_s": r["abort_time_s"],
             "abort_reason": r["abort_reason"],
             "classic_bode_score": r["classic_bode_score"],
+            "pitch_crosstalk_penalty": r["pitch_crosstalk_penalty"],
             "total_score": r["total_score"],
             "gain_loss_pts": r["gain_loss_pts"],
             "phase_loss_pts": r["phase_loss_pts"],
@@ -938,6 +940,10 @@ def main():
             "frequencies": r["freq_results"],
         }
 
+    summary["combined_bode_score"] = round(sum(summary["axes"][m]["classic_bode_score"] for m in modes), 2)
+    summary["combined_pitch_crosstalk_penalty"] = round(sum(summary["axes"][m]["pitch_crosstalk_penalty"] for m in modes), 2)
+    summary["combined_total_score"] = round(sum(summary["axes"][m]["total_score"] for m in modes), 2)
+
     summary_name = f"standard_plot_summary{suffix}.json"
     summary_path = os.path.join(_ROOT, "logs", summary_name)
     os.makedirs(os.path.dirname(summary_path), exist_ok=True)
@@ -949,11 +955,16 @@ def main():
         a = summary["axes"][m]
         print(
             f"[{m:5s}] Classic={a['classic_bode_score']:,.2f} pts (G={a['gain_loss_pts']:.1f}, P={a['phase_loss_pts']:.1f}), "
+            f"PitchXTalk={a['pitch_crosstalk_penalty']:.1f} (max={a['full_pitch_dev_max_deg']:.2f}°), "
             f"Total={a['total_score']:,.2f}, QuietMain={a['quiet_main_max_deg']:.3f}°, "
-            f"QuietPitchDev={a['quiet_pitch_dev_max_deg']:.3f}°, corr={a['corr_vel']:+.3f}, "
-            f"HFNoise={a['hf_noise_rms']:.2f}°/s, aborted={a['aborted']}",
+            f"corr={a['corr_vel']:+.3f}, HFNoise={a['hf_noise_rms']:.2f}°/s, aborted={a['aborted']}",
             flush=True,
         )
+    print(
+        f"[TOTAL] CombinedBode={summary['combined_bode_score']:,.2f} + PitchXTalk={summary['combined_pitch_crosstalk_penalty']:,.2f} "
+        f"= CombinedTotal={summary['combined_total_score']:,.2f} pts",
+        flush=True,
+    )
     print(f"[OK] Saved summary JSON: {summary_path}", flush=True)
     write_html_viewer(summary["bool_banner"], summary["axes"], out_files, suffix=suffix)
 
