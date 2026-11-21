@@ -398,7 +398,7 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	double  C, term1, term2, T, Tp;	// auxiliary variables 
 	
 	// Tension 2nd derivative for bag1 
-	C = (Lp>0.0) ? bag1.C_L : bag1.C_S;
+	C = bag1.C_S + (bag1.C_L - bag1.C_S) * 0.5 * (1.0 + std::tanh(1000.0 * Lp));
 	T = T1;
 	Tp = Tp1;
 	 
@@ -409,7 +409,7 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	sv_Td_bag1->setDerivative(s, (bag1.K_SR/bag1.M) * ( term1 + term2 + bag1.M*Lpp + Gamma_bag1 - T ));
 			
 	// Tension 2nd derivative for bag2 
-	C = (Lp>0.0) ? bag2.C_L : bag2.C_S;
+	C = bag2.C_S + (bag2.C_L - bag2.C_S) * 0.5 * (1.0 + std::tanh(1000.0 * Lp));
 	T = T2;
 	Tp = Tp2;
 	 
@@ -420,7 +420,7 @@ void Mileusnic06Spindle::computeStateVariableDerivatives(const SimTK::State& s) 
 	sv_Td_bag2->setDerivative(s, (bag2.K_SR/bag2.M) * ( term1 + term2 + bag2.M*Lpp + Gamma_bag2 - T ));
 					
 	// Tension 2nd derivative for the chain fiber
-	C = (Lp>0.0) ? chain.C_L : chain.C_S;
+	C = chain.C_S + (chain.C_L - chain.C_S) * 0.5 * (1.0 + std::tanh(1000.0 * Lp));
 	T = Tc;
 	Tp = Tpc;
 	

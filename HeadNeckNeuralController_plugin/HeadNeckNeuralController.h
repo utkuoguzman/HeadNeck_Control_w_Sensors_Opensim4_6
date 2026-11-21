@@ -16,8 +16,12 @@ OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 public:
 
     OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for 72-muscle spinal CCR (default: 0.050)");
+    OpenSim_DECLARE_PROPERTY(Kp_proprioception_roll, double, "Roll Gain for 72-muscle spinal CCR (default: 0.050)");
+    OpenSim_DECLARE_PROPERTY(Kp_proprioception_yaw, double, "Yaw Gain for 72-muscle spinal CCR (default: 0.050)");
     OpenSim_DECLARE_PROPERTY(z_ccr, double, "Pitch Cervico-Collic Reflex TF Zero in s (default: 0.008)");
-    OpenSim_DECLARE_PROPERTY(p_ccr, double, "Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
+    OpenSim_DECLARE_PROPERTY(p_ccr, double, "Pitch Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
+    OpenSim_DECLARE_PROPERTY(p_ccr_roll, double, "Roll Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
+    OpenSim_DECLARE_PROPERTY(p_ccr_yaw, double, "Yaw Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
     OpenSim_DECLARE_PROPERTY(K_recip_inhib, double, "Reciprocal inhibition fraction for antagonists (0.0=full block, 1.0=no block)");
 
     // Voluntary command & cortical 2 Hz low-pass planner
@@ -26,7 +30,9 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(trajectory_tau, double, "Time constant for the internal 2nd-order trajectory planner");
     OpenSim_DECLARE_PROPERTY(fc_voluntary, double, "Voluntary controller low-pass cutoff frequency in Hz (default: 2.0)");
-    OpenSim_DECLARE_PROPERTY(tau_lead_pole, double, "Biophysical synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.030)");
+    OpenSim_DECLARE_PROPERTY(tau_lead_pole, double, "Pitch synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
+    OpenSim_DECLARE_PROPERTY(tau_lead_pole_roll, double, "Roll synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
+    OpenSim_DECLARE_PROPERTY(tau_lead_pole_yaw, double, "Yaw synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
 
     // Per-Axis Brainstem VCR & Task-Space Decoder CCR Properties (Pitch, Roll, Yaw — explicit non-negative parameters)
     OpenSim_DECLARE_PROPERTY(K_ton, double, "Pitch Tonic otolith TF Gain (default: 4.5)");
@@ -71,9 +77,19 @@ public:
     OpenSim_DECLARE_PROPERTY(Ki_task_roll, double, "Explicit Task Ki for roll in Nm/(rad*s) (default: 1.15)");
     OpenSim_DECLARE_PROPERTY(Ki_task_yaw, double, "Explicit Task Ki for yaw in Nm/(rad*s) (default: 0.05)");
 
+    // Cortical voluntary roll stabilization driven by cerebellar SE2(3) lateral velocity/position (obs_vz, obs_pz)
+    OpenSim_DECLARE_PROPERTY(Kv_trans_roll, double, "Voluntary roll torque gain on SE2(3) lateral velocity obs_vz in Nm/(m/s) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_trans_roll, double, "Voluntary roll torque gain on SE2(3) lateral position obs_pz in Nm/m (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(tau_vel_leak, double, "Cerebellar SE2(3) linear velocity-storage leak time constant in s (default: 15.0)");
+    OpenSim_DECLARE_PROPERTY(tau_pos_leak, double, "Cerebellar SE2(3) egocentric linear position-tether leak time constant in s (default: 5.0)");
+
     // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
     OpenSim_DECLARE_PROPERTY(Kp_buckle, double, "6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
-    OpenSim_DECLARE_PROPERTY(Kd_buckle, double, "6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
+    OpenSim_DECLARE_PROPERTY(Kp_buckle_roll, double, "Roll 6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
+    OpenSim_DECLARE_PROPERTY(Kp_buckle_yaw, double, "Yaw 6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
+    OpenSim_DECLARE_PROPERTY(Kd_buckle, double, "Pitch 6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
+    OpenSim_DECLARE_PROPERTY(Kd_buckle_roll, double, "Roll 6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
+    OpenSim_DECLARE_PROPERTY(Kd_buckle_yaw, double, "Yaw 6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
 
     // Biological sensory receptor recruitment thresholds (C1-smooth deadbands; literature defaults)
     OpenSim_DECLARE_PROPERTY(thresh_spindle_ia, double, "Primary (Ia) spindle discharge modulation threshold in imp/s (Matthews & Stein 1969; default: 0.50)");
@@ -162,6 +178,22 @@ public:
     OpenSim_DECLARE_OUTPUT(est_neck_yaw_speed, double, getOutputNeckYawSpeed, SimTK::Stage::Velocity);
     double getOutputNeckYawSpeed(const SimTK::State& state) const { return estimated_neck_relative_speed[2]; }
 
+    // Tendon-compliance-compensated Cuneate static secondary-spindle neck posture [pitch, roll, yaw] (rad)
+    OpenSim_DECLARE_OUTPUT(cuneate_neck_pitch, double, getCuneateNeckPitch, SimTK::Stage::Velocity);
+    double getCuneateNeckPitch(const SimTK::State& state) const {
+        return state_variable_cuneate_posture[0] ? state_variable_cuneate_posture[0]->getValue(state) : cuneate_posture_neck_angle[0];
+    }
+
+    OpenSim_DECLARE_OUTPUT(cuneate_neck_roll, double, getCuneateNeckRoll, SimTK::Stage::Velocity);
+    double getCuneateNeckRoll(const SimTK::State& state) const {
+        return state_variable_cuneate_posture[1] ? state_variable_cuneate_posture[1]->getValue(state) : cuneate_posture_neck_angle[1];
+    }
+
+    OpenSim_DECLARE_OUTPUT(cuneate_neck_yaw, double, getCuneateNeckYaw, SimTK::Stage::Velocity);
+    double getCuneateNeckYaw(const SimTK::State& state) const {
+        return state_variable_cuneate_posture[2] ? state_variable_cuneate_posture[2]->getValue(state) : cuneate_posture_neck_angle[2];
+    }
+
     // Mahony Spatial Observer OpenSim Outputs (accessible by reporters and python scripts)
     OpenSim_DECLARE_OUTPUT(mahony_pitch, double, getMahonyPitch, SimTK::Stage::Velocity);
     OpenSim_DECLARE_OUTPUT(mahony_roll, double, getMahonyRoll, SimTK::Stage::Velocity);
@@ -232,6 +264,8 @@ private:
         SimTK::Vec<6> raw_neck_6dof_speed{0.0};                    // Clean Luenberger-filtered 6-DOF neck speeds [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
         SimTK::Vec<6> raw_neck_6dof_accel{0.0};                    // Clean Luenberger-filtered 6-DOF neck accels [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
         SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 3B (13.0ms -> Sub 4 Cortex): Size 3 (pitch, roll, yaw) proper lead compensated
+        SimTK::Vec3 estimated_linear_velocity{0.0};                // Branch 3B (13.0ms -> Sub 4 Cortex): SE2(3) observer linear velocity [x, y, z]
+        SimTK::Vec3 estimated_linear_position{0.0};                // Branch 3B (13.0ms -> Sub 4 Cortex): SE2(3) observer egocentric position [x, y, z]
         SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 trajectory_position_1a{0.0};                   // Branch 4A (9.0ms -> Sub 3C Tonic): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 trajectory_velocity_1b{0.0};                   // Branch 4B (10.0ms -> Sub 3C Canal): Size 3 (pitch, roll, yaw) proper lead compensated
@@ -271,6 +305,7 @@ private:
     mutable SimTK::Matrix proprioceptive_decoder_matrix_6dof;      // 6 x N full 6-DOF reconstruction matrix: -(J6 * J6^T)^{-1} * J6
     mutable SimTK::Vec3 estimated_neck_relative_angle;             // Decoded relative neck angle [pitch, roll, yaw] (rad)
     mutable SimTK::Vec3 estimated_neck_relative_speed;             // Decoded relative neck speed [pitch, roll, yaw] (rad/s)
+    mutable SimTK::Vec3 cuneate_posture_neck_angle{0.0};           // Tendon-compensated static secondary-spindle neck posture [pitch, roll, yaw] (rad)
     mutable SimTK::Vec<6> estimated_neck_6dof_angle{0.0};          // Decoded individual 6-DOF neck angles [pitch1, pitch2, roll1, roll2, yaw1, yaw2] (rad)
     mutable SimTK::Vec<6> estimated_neck_6dof_speed{0.0};          // Decoded individual 6-DOF neck speeds [pitch1, pitch2, roll1, roll2, yaw1, yaw2] (rad/s)
     mutable SimTK::Vec3 mahony_estimated_angle;                    // Mahony estimated head attitude [pitch, roll, yaw] (rad)
@@ -307,6 +342,8 @@ private:
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
+    mutable const StateVariable* state_variable_velocity_storage[3] = {nullptr};
+    mutable const StateVariable* state_variable_cuneate_posture[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_irregular_otolith_adapt[3] = {nullptr};
@@ -323,6 +360,7 @@ private:
     mutable const StateVariable* state_variable_phasic_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith_vel[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith_stage2[3] = {nullptr};
+    mutable const StateVariable* state_variable_cb_canal_roll_dev = nullptr;
     mutable const Coordinate* cached_coordinate_pitch1 = nullptr;
     mutable const Coordinate* cached_coordinate_pitch2 = nullptr;
     mutable const Coordinate* cached_coordinate_roll1 = nullptr;
@@ -359,6 +397,7 @@ private:
     mutable bool is_initialized;
     mutable double last_jacobian_update_time;
     mutable SimTK::Vec3 baseline_spatial_orientation;              // (roll, yaw, pitch)
+    mutable SimTK::Rotation baseline_rotation_head_to_world;
 
     // Proper biproper 1st-order lead compensator state C_lead(s) = (1 + tau_z*s)/(1 + tau_p*s)
     // Slots 0..35:  2A (0..5), 2B (6..14), 1A->3 (15..23), 3A efference (24..32), Path 5 MVST (33..35);
@@ -370,7 +409,7 @@ private:
     mutable std::vector<double> lead_u_curr;
     mutable std::vector<double> lead_tau_p;
     mutable bool lead_u0_initialized = false;
-    double evalProperLead(int slot, double u_val, double tau_d, const SimTK::State& state) const;
+    double evalProperLead(int slot, double u_val, double tau_d, const SimTK::State& state, double pole_override = -1.0) const;
     
     void initializeGeometryAndBaseline(const SimTK::State& state) const;
     void evaluateReferenceMileusnicSpindle(

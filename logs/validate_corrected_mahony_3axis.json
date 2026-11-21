@@ -1,0 +1,991 @@
+{
+  "elapsed_s": 599.5,
+  "records": [
+    {
+      "name": "APEO_G35",
+      "mode": "APEO",
+      "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "bode_score": 4791.85,
+      "gain_loss_pts": 2288.17,
+      "phase_loss_pts": 2503.67,
+      "hf_noise_rms": 6.652,
+      "corr_vel": 0.9508,
+      "xtalk_penalty": 404.17,
+      "lowfreq_ptp_deg": 2.1433,
+      "mahony_stats": {
+        "PITCH": {
+          "true_ptp": 12.47,
+          "est_ptp": 12.3042,
+          "slope": 0.9837,
+          "r": 0.99832,
+          "rmse_deg": 0.5394,
+          "mean_err_deg": 0.5199
+        },
+        "ROLL": {
+          "true_ptp": 3.3847,
+          "est_ptp": 3.3757,
+          "slope": 0.9964,
+          "r": 0.99855,
+          "rmse_deg": 0.0447,
+          "mean_err_deg": -0.0182
+        },
+        "YAW": {
+          "true_ptp": 0.9682,
+          "est_ptp": 0.9893,
+          "slope": 0.9647,
+          "r": 0.99136,
+          "rmse_deg": 0.0233,
+          "mean_err_deg": -0.0124
+        }
+      },
+      "cuneate_stats": {
+        "PITCH": {
+          "true_ptp": 12.462,
+          "est_ptp": 14.672,
+          "slope": 0.9376,
+          "r": 0.88797,
+          "rmse_deg": 1.5477,
+          "mean_err_deg": 0.9928
+        },
+        "ROLL": {
+          "true_ptp": 3.3891,
+          "est_ptp": 5.7505,
+          "slope": 1.0747,
+          "r": 0.8501,
+          "rmse_deg": 0.5109,
+          "mean_err_deg": -0.0299
+        },
+        "YAW": {
+          "true_ptp": 0.9318,
+          "est_ptp": 5.1371,
+          "slope": 0.3334,
+          "r": 0.05779,
+          "rmse_deg": 0.8065,
+          "mean_err_deg": 0.0195
+        }
+      },
+      "est_neck_stats": {
+        "PITCH": {
+          "true_ptp": 12.462,
+          "est_ptp": 22.413,
+          "slope": 1.1858,
+          "r": 0.65121,
+          "rmse_deg": 3.3972,
+          "mean_err_deg": -0.3275
+        },
+        "ROLL": {
+          "true_ptp": 3.3891,
+          "est_ptp": 8.9826,
+          "slope": 1.1262,
+          "r": 0.52986,
+          "rmse_deg": 1.3757,
+          "mean_err_deg": 0.0194
+        },
+        "YAW": {
+          "true_ptp": 0.9318,
+          "est_ptp": 11.6698,
+          "slope": 0.6805,
+          "r": 0.0491,
+          "rmse_deg": 1.9254,
+          "mean_err_deg": 0.0217
+        }
+      },
+      "mahony_speed_stats": {
+        "PITCH": {
+          "true_ptp": 158.9091,
+          "est_ptp": 158.9202,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.062,
+          "mean_err_deg": 0.0107
+        },
+        "ROLL": {
+          "true_ptp": 85.7366,
+          "est_ptp": 85.7992,
+          "slope": 1.0,
+          "r": 0.99993,
+          "rmse_deg": 0.1485,
+          "mean_err_deg": -0.0009
+        },
+        "YAW": {
+          "true_ptp": 19.1952,
+          "est_ptp": 19.2066,
+          "slope": 1.0,
+          "r": 0.99999,
+          "rmse_deg": 0.0102,
+          "mean_err_deg": -0.0003
+        }
+      },
+      "vol3_steady": null,
+      "freq_results": {
+        "0.324": {
+          "gain_db_diff": -3.087,
+          "gain_loss_pts": 952.6,
+          "phase_err": -45.85,
+          "phase_loss_pts": 2102.3
+        },
+        "0.783": {
+          "gain_db_diff": -2.104,
+          "gain_loss_pts": 442.6,
+          "phase_err": 10.78,
+          "phase_loss_pts": 116.2
+        },
+        "1.099": {
+          "gain_db_diff": -2.298,
+          "gain_loss_pts": 528.2,
+          "phase_err": 5.12,
+          "phase_loss_pts": 26.2
+        },
+        "2.446": {
+          "gain_db_diff": 0.809,
+          "gain_loss_pts": 65.4,
+          "phase_err": 6.22,
+          "phase_loss_pts": 38.7
+        },
+        "5.583": {
+          "gain_db_diff": 1.291,
+          "gain_loss_pts": 166.7,
+          "phase_err": -14.71,
+          "phase_loss_pts": 216.4
+        },
+        "7.927": {
+          "gain_db_diff": -1.152,
+          "gain_loss_pts": 132.6,
+          "phase_err": -1.94,
+          "phase_loss_pts": 3.8
+        }
+      }
+    },
+    {
+      "name": "YawMA_G35",
+      "mode": "YawMA",
+      "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "bode_score": 1080.48,
+      "gain_loss_pts": 431.14,
+      "phase_loss_pts": 649.34,
+      "hf_noise_rms": 1.231,
+      "corr_vel": 0.968,
+      "xtalk_penalty": 677.18,
+      "lowfreq_ptp_deg": 2.8236,
+      "mahony_stats": {
+        "PITCH": {
+          "true_ptp": 0.9163,
+          "est_ptp": 0.8162,
+          "slope": 0.5139,
+          "r": 0.59749,
+          "rmse_deg": 0.6331,
+          "mean_err_deg": 0.614
+        },
+        "ROLL": {
+          "true_ptp": 3.1198,
+          "est_ptp": 3.1926,
+          "slope": 1.0163,
+          "r": 0.99876,
+          "rmse_deg": 0.0427,
+          "mean_err_deg": 0.0091
+        },
+        "YAW": {
+          "true_ptp": 7.1383,
+          "est_ptp": 7.1291,
+          "slope": 0.9972,
+          "r": 0.99998,
+          "rmse_deg": 0.0171,
+          "mean_err_deg": 0.0136
+        }
+      },
+      "cuneate_stats": {
+        "PITCH": {
+          "true_ptp": 0.9032,
+          "est_ptp": 1.2121,
+          "slope": 1.0516,
+          "r": 0.78851,
+          "rmse_deg": 1.1591,
+          "mean_err_deg": 1.1499
+        },
+        "ROLL": {
+          "true_ptp": 3.1175,
+          "est_ptp": 5.0337,
+          "slope": 1.0485,
+          "r": 0.80902,
+          "rmse_deg": 0.6052,
+          "mean_err_deg": 0.0399
+        },
+        "YAW": {
+          "true_ptp": 4.3523,
+          "est_ptp": 7.3195,
+          "slope": 1.0106,
+          "r": 0.69176,
+          "rmse_deg": 0.9505,
+          "mean_err_deg": -0.0194
+        }
+      },
+      "est_neck_stats": {
+        "PITCH": {
+          "true_ptp": 0.9032,
+          "est_ptp": 2.007,
+          "slope": 1.167,
+          "r": 0.51374,
+          "rmse_deg": 0.4294,
+          "mean_err_deg": 0.2533
+        },
+        "ROLL": {
+          "true_ptp": 3.1175,
+          "est_ptp": 8.7397,
+          "slope": 1.0605,
+          "r": 0.5228,
+          "rmse_deg": 1.3698,
+          "mean_err_deg": 0.0517
+        },
+        "YAW": {
+          "true_ptp": 4.3523,
+          "est_ptp": 13.6222,
+          "slope": 1.2403,
+          "r": 0.47957,
+          "rmse_deg": 2.0555,
+          "mean_err_deg": 0.008
+        }
+      },
+      "mahony_speed_stats": {
+        "PITCH": {
+          "true_ptp": 9.8487,
+          "est_ptp": 9.8815,
+          "slope": 1.0,
+          "r": 0.99995,
+          "rmse_deg": 0.0206,
+          "mean_err_deg": 0.011
+        },
+        "ROLL": {
+          "true_ptp": 45.0287,
+          "est_ptp": 45.0111,
+          "slope": 0.9999,
+          "r": 0.99994,
+          "rmse_deg": 0.1437,
+          "mean_err_deg": 0.0002
+        },
+        "YAW": {
+          "true_ptp": 38.6949,
+          "est_ptp": 38.699,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.013,
+          "mean_err_deg": 0.0003
+        }
+      },
+      "vol3_steady": null,
+      "freq_results": {
+        "0.2016": {
+          "gain_db_diff": 0.717,
+          "gain_loss_pts": 51.4,
+          "phase_err": 8.38,
+          "phase_loss_pts": 70.2
+        },
+        "0.2980": {
+          "gain_db_diff": 0.273,
+          "gain_loss_pts": 7.4,
+          "phase_err": 2.26,
+          "phase_loss_pts": 5.1
+        },
+        "0.4728": {
+          "gain_db_diff": -0.427,
+          "gain_loss_pts": 18.2,
+          "phase_err": -0.03,
+          "phase_loss_pts": 0.0
+        },
+        "0.6827": {
+          "gain_db_diff": 0.161,
+          "gain_loss_pts": 2.6,
+          "phase_err": 1.25,
+          "phase_loss_pts": 1.6
+        },
+        "0.9651": {
+          "gain_db_diff": -1.02,
+          "gain_loss_pts": 104.0,
+          "phase_err": -0.78,
+          "phase_loss_pts": 0.6
+        },
+        "1.4081": {
+          "gain_db_diff": -1.076,
+          "gain_loss_pts": 115.7,
+          "phase_err": 9.49,
+          "phase_loss_pts": 90.0
+        },
+        "1.9855": {
+          "gain_db_diff": 0.371,
+          "gain_loss_pts": 13.8,
+          "phase_err": 12.58,
+          "phase_loss_pts": 158.2
+        },
+        "2.8742": {
+          "gain_db_diff": -0.247,
+          "gain_loss_pts": 6.1,
+          "phase_err": 11.35,
+          "phase_loss_pts": 128.9
+        },
+        "4.0528": {
+          "gain_db_diff": -1.057,
+          "gain_loss_pts": 111.8,
+          "phase_err": 13.96,
+          "phase_loss_pts": 194.8
+        }
+      }
+    },
+    {
+      "name": "LatEC_G2_CLEAN",
+      "mode": "LatEC",
+      "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "bode_score": 37873.35,
+      "gain_loss_pts": 18592.51,
+      "phase_loss_pts": 19280.84,
+      "hf_noise_rms": 0.773,
+      "corr_vel": 0.7903,
+      "xtalk_penalty": 31.91,
+      "lowfreq_ptp_deg": 0.678,
+      "mahony_stats": {
+        "PITCH": {
+          "true_ptp": 0.9535,
+          "est_ptp": 0.815,
+          "slope": 0.8445,
+          "r": 0.93785,
+          "rmse_deg": 0.2595,
+          "mean_err_deg": 0.2528
+        },
+        "ROLL": {
+          "true_ptp": 2.5405,
+          "est_ptp": 2.5243,
+          "slope": 0.9948,
+          "r": 0.99993,
+          "rmse_deg": 0.0093,
+          "mean_err_deg": -0.006
+        },
+        "YAW": {
+          "true_ptp": 0.4794,
+          "est_ptp": 0.4726,
+          "slope": 0.9808,
+          "r": 0.99881,
+          "rmse_deg": 0.0152,
+          "mean_err_deg": 0.0144
+        }
+      },
+      "cuneate_stats": {
+        "PITCH": {
+          "true_ptp": 0.9508,
+          "est_ptp": 2.1833,
+          "slope": 1.4065,
+          "r": 0.49596,
+          "rmse_deg": 0.7098,
+          "mean_err_deg": 0.5732
+        },
+        "ROLL": {
+          "true_ptp": 2.5422,
+          "est_ptp": 5.9932,
+          "slope": 0.956,
+          "r": 0.45906,
+          "rmse_deg": 1.0339,
+          "mean_err_deg": 0.0393
+        },
+        "YAW": {
+          "true_ptp": 0.4704,
+          "est_ptp": 2.1987,
+          "slope": -0.3851,
+          "r": -0.10387,
+          "rmse_deg": 0.3736,
+          "mean_err_deg": -0.0131
+        }
+      },
+      "est_neck_stats": {
+        "PITCH": {
+          "true_ptp": 0.9508,
+          "est_ptp": 4.0914,
+          "slope": 0.9522,
+          "r": 0.20206,
+          "rmse_deg": 0.8642,
+          "mean_err_deg": -0.3842
+        },
+        "ROLL": {
+          "true_ptp": 2.5422,
+          "est_ptp": 10.7425,
+          "slope": 1.7766,
+          "r": 0.42325,
+          "rmse_deg": 2.1717,
+          "mean_err_deg": -0.1427
+        },
+        "YAW": {
+          "true_ptp": 0.4704,
+          "est_ptp": 2.9847,
+          "slope": 2.3822,
+          "r": 0.46024,
+          "rmse_deg": 0.4554,
+          "mean_err_deg": 0.0215
+        }
+      },
+      "mahony_speed_stats": {
+        "PITCH": {
+          "true_ptp": 20.8446,
+          "est_ptp": 20.7955,
+          "slope": 0.9999,
+          "r": 0.99997,
+          "rmse_deg": 0.0209,
+          "mean_err_deg": 0.0045
+        },
+        "ROLL": {
+          "true_ptp": 22.053,
+          "est_ptp": 22.0504,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.0054,
+          "mean_err_deg": -0.0
+        },
+        "YAW": {
+          "true_ptp": 9.166,
+          "est_ptp": 9.1667,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.0024,
+          "mean_err_deg": 0.0002
+        }
+      },
+      "vol3_steady": null,
+      "freq_results": {
+        "0.1209": {
+          "gain_db_diff": 4.028,
+          "gain_loss_pts": 1622.4,
+          "phase_err": 86.57,
+          "phase_loss_pts": 7494.7
+        },
+        "0.1986": {
+          "gain_db_diff": 8.191,
+          "gain_loss_pts": 6710.1,
+          "phase_err": 62.99,
+          "phase_loss_pts": 3967.3
+        },
+        "0.3214": {
+          "gain_db_diff": 3.281,
+          "gain_loss_pts": 1076.6,
+          "phase_err": 5.9,
+          "phase_loss_pts": 34.8
+        },
+        "0.5588": {
+          "gain_db_diff": 3.086,
+          "gain_loss_pts": 952.5,
+          "phase_err": -48.69,
+          "phase_loss_pts": 2371.1
+        },
+        "0.8722": {
+          "gain_db_diff": -2.161,
+          "gain_loss_pts": 467.0,
+          "phase_err": -56.82,
+          "phase_loss_pts": 3228.3
+        },
+        "1.4040": {
+          "gain_db_diff": -6.696,
+          "gain_loss_pts": 4483.0,
+          "phase_err": -24.36,
+          "phase_loss_pts": 593.6
+        },
+        "2.0936": {
+          "gain_db_diff": -3.904,
+          "gain_loss_pts": 1523.9,
+          "phase_err": 12.16,
+          "phase_loss_pts": 147.9
+        },
+        "3.9915": {
+          "gain_db_diff": -4.192,
+          "gain_loss_pts": 1757.0,
+          "phase_err": 37.99,
+          "phase_loss_pts": 1443.1
+        }
+      }
+    },
+    {
+      "name": "LatEC_G2_EPS1E9",
+      "mode": "LatEC",
+      "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "bode_score": 40930.67,
+      "gain_loss_pts": 22711.38,
+      "phase_loss_pts": 18219.3,
+      "hf_noise_rms": 0.814,
+      "corr_vel": 0.7968,
+      "xtalk_penalty": 44.33,
+      "lowfreq_ptp_deg": 0.7863,
+      "mahony_stats": {
+        "PITCH": {
+          "true_ptp": 1.1482,
+          "est_ptp": 1.0295,
+          "slope": 0.8687,
+          "r": 0.98464,
+          "rmse_deg": 0.2655,
+          "mean_err_deg": 0.2607
+        },
+        "ROLL": {
+          "true_ptp": 2.645,
+          "est_ptp": 2.6612,
+          "slope": 1.0009,
+          "r": 0.99992,
+          "rmse_deg": 0.0118,
+          "mean_err_deg": 0.0094
+        },
+        "YAW": {
+          "true_ptp": 0.5739,
+          "est_ptp": 0.5676,
+          "slope": 0.9856,
+          "r": 0.99913,
+          "rmse_deg": 0.012,
+          "mean_err_deg": 0.011
+        }
+      },
+      "cuneate_stats": {
+        "PITCH": {
+          "true_ptp": 1.1481,
+          "est_ptp": 2.4254,
+          "slope": 1.1679,
+          "r": 0.59745,
+          "rmse_deg": 0.6917,
+          "mean_err_deg": 0.5703
+        },
+        "ROLL": {
+          "true_ptp": 2.6475,
+          "est_ptp": 5.6446,
+          "slope": 1.0542,
+          "r": 0.48651,
+          "rmse_deg": 1.0614,
+          "mean_err_deg": 0.0532
+        },
+        "YAW": {
+          "true_ptp": 0.5524,
+          "est_ptp": 2.1312,
+          "slope": -0.1526,
+          "r": -0.04984,
+          "rmse_deg": 0.3574,
+          "mean_err_deg": -0.0123
+        }
+      },
+      "est_neck_stats": {
+        "PITCH": {
+          "true_ptp": 1.1481,
+          "est_ptp": 4.2007,
+          "slope": 0.6503,
+          "r": 0.21727,
+          "rmse_deg": 0.8534,
+          "mean_err_deg": -0.4411
+        },
+        "ROLL": {
+          "true_ptp": 2.6475,
+          "est_ptp": 10.5119,
+          "slope": 1.6292,
+          "r": 0.3961,
+          "rmse_deg": 2.1431,
+          "mean_err_deg": 0.0019
+        },
+        "YAW": {
+          "true_ptp": 0.5524,
+          "est_ptp": 3.115,
+          "slope": 1.6772,
+          "r": 0.39612,
+          "rmse_deg": 0.4315,
+          "mean_err_deg": 0.0139
+        }
+      },
+      "mahony_speed_stats": {
+        "PITCH": {
+          "true_ptp": 21.554,
+          "est_ptp": 21.6157,
+          "slope": 0.9999,
+          "r": 0.99996,
+          "rmse_deg": 0.0204,
+          "mean_err_deg": 0.0046
+        },
+        "ROLL": {
+          "true_ptp": 20.7548,
+          "est_ptp": 20.7543,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.0052,
+          "mean_err_deg": 0.0002
+        },
+        "YAW": {
+          "true_ptp": 7.2626,
+          "est_ptp": 7.2608,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.0021,
+          "mean_err_deg": 0.0002
+        }
+      },
+      "vol3_steady": null,
+      "freq_results": {
+        "0.1209": {
+          "gain_db_diff": 8.365,
+          "gain_loss_pts": 6997.2,
+          "phase_err": 90.52,
+          "phase_loss_pts": 8193.3
+        },
+        "0.1986": {
+          "gain_db_diff": 7.224,
+          "gain_loss_pts": 5219.0,
+          "phase_err": 45.63,
+          "phase_loss_pts": 2081.9
+        },
+        "0.3214": {
+          "gain_db_diff": 3.893,
+          "gain_loss_pts": 1515.2,
+          "phase_err": -9.92,
+          "phase_loss_pts": 98.3
+        },
+        "0.5588": {
+          "gain_db_diff": 3.318,
+          "gain_loss_pts": 1100.6,
+          "phase_err": -49.94,
+          "phase_loss_pts": 2494.5
+        },
+        "0.8722": {
+          "gain_db_diff": -1.477,
+          "gain_loss_pts": 218.2,
+          "phase_err": -58.32,
+          "phase_loss_pts": 3401.6
+        },
+        "1.4040": {
+          "gain_db_diff": -6.806,
+          "gain_loss_pts": 4631.7,
+          "phase_err": -21.31,
+          "phase_loss_pts": 454.0
+        },
+        "2.0936": {
+          "gain_db_diff": -3.716,
+          "gain_loss_pts": 1380.5,
+          "phase_err": 11.26,
+          "phase_loss_pts": 126.7
+        },
+        "3.9915": {
+          "gain_db_diff": -4.061,
+          "gain_loss_pts": 1648.9,
+          "phase_err": 37.0,
+          "phase_loss_pts": 1368.9
+        }
+      }
+    },
+    {
+      "name": "LatEC_W615_CLEAN",
+      "mode": "LatEC",
+      "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "bode_score": 56582.82,
+      "gain_loss_pts": 15690.82,
+      "phase_loss_pts": 40892.0,
+      "hf_noise_rms": 1.66,
+      "corr_vel": 0.8748,
+      "xtalk_penalty": 66.51,
+      "lowfreq_ptp_deg": 0.6861,
+      "mahony_stats": {
+        "PITCH": {
+          "true_ptp": 1.0438,
+          "est_ptp": 0.9517,
+          "slope": 0.8613,
+          "r": 0.99463,
+          "rmse_deg": 0.2119,
+          "mean_err_deg": 0.2075
+        },
+        "ROLL": {
+          "true_ptp": 4.2563,
+          "est_ptp": 4.285,
+          "slope": 0.9996,
+          "r": 0.99989,
+          "rmse_deg": 0.0136,
+          "mean_err_deg": 0.0041
+        },
+        "YAW": {
+          "true_ptp": 0.9257,
+          "est_ptp": 0.9158,
+          "slope": 0.9945,
+          "r": 0.9979,
+          "rmse_deg": 0.028,
+          "mean_err_deg": 0.0257
+        }
+      },
+      "cuneate_stats": {
+        "PITCH": {
+          "true_ptp": 1.0479,
+          "est_ptp": 2.4551,
+          "slope": 1.0545,
+          "r": 0.58909,
+          "rmse_deg": 0.579,
+          "mean_err_deg": 0.4386
+        },
+        "ROLL": {
+          "true_ptp": 4.2606,
+          "est_ptp": 7.7898,
+          "slope": 1.1149,
+          "r": 0.66966,
+          "rmse_deg": 1.0846,
+          "mean_err_deg": 0.0195
+        },
+        "YAW": {
+          "true_ptp": 0.8957,
+          "est_ptp": 3.1579,
+          "slope": 0.5248,
+          "r": 0.21952,
+          "rmse_deg": 0.4024,
+          "mean_err_deg": 0.0633
+        }
+      },
+      "est_neck_stats": {
+        "PITCH": {
+          "true_ptp": 1.0479,
+          "est_ptp": 4.7741,
+          "slope": 1.3395,
+          "r": 0.42196,
+          "rmse_deg": 0.8743,
+          "mean_err_deg": -0.4381
+        },
+        "ROLL": {
+          "true_ptp": 4.2606,
+          "est_ptp": 14.4254,
+          "slope": 1.7735,
+          "r": 0.46588,
+          "rmse_deg": 3.0191,
+          "mean_err_deg": -0.0801
+        },
+        "YAW": {
+          "true_ptp": 0.8957,
+          "est_ptp": 6.201,
+          "slope": 1.3382,
+          "r": 0.26951,
+          "rmse_deg": 0.8004,
+          "mean_err_deg": -0.0007
+        }
+      },
+      "mahony_speed_stats": {
+        "PITCH": {
+          "true_ptp": 16.4273,
+          "est_ptp": 16.3893,
+          "slope": 1.0001,
+          "r": 0.99999,
+          "rmse_deg": 0.012,
+          "mean_err_deg": 0.0037
+        },
+        "ROLL": {
+          "true_ptp": 42.2082,
+          "est_ptp": 42.2188,
+          "slope": 1.0001,
+          "r": 1.0,
+          "rmse_deg": 0.0125,
+          "mean_err_deg": 0.0
+        },
+        "YAW": {
+          "true_ptp": 13.6524,
+          "est_ptp": 13.652,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.0034,
+          "mean_err_deg": 0.0005
+        }
+      },
+      "vol3_steady": null,
+      "freq_results": {
+        "0.1209": {
+          "gain_db_diff": 5.118,
+          "gain_loss_pts": 2619.1,
+          "phase_err": 179.74,
+          "phase_loss_pts": 32306.3
+        },
+        "0.1986": {
+          "gain_db_diff": 5.637,
+          "gain_loss_pts": 3177.9,
+          "phase_err": 58.59,
+          "phase_loss_pts": 3432.8
+        },
+        "0.3214": {
+          "gain_db_diff": 0.462,
+          "gain_loss_pts": 21.3,
+          "phase_err": 46.23,
+          "phase_loss_pts": 2137.1
+        },
+        "0.5588": {
+          "gain_db_diff": 8.299,
+          "gain_loss_pts": 6887.6,
+          "phase_err": -14.82,
+          "phase_loss_pts": 219.5
+        },
+        "0.8722": {
+          "gain_db_diff": 5.037,
+          "gain_loss_pts": 2537.3,
+          "phase_err": -44.75,
+          "phase_loss_pts": 2003.0
+        },
+        "1.4040": {
+          "gain_db_diff": 0.546,
+          "gain_loss_pts": 29.8,
+          "phase_err": -25.27,
+          "phase_loss_pts": 638.5
+        },
+        "2.0936": {
+          "gain_db_diff": 1.953,
+          "gain_loss_pts": 381.4,
+          "phase_err": -4.99,
+          "phase_loss_pts": 24.9
+        },
+        "3.9915": {
+          "gain_db_diff": -0.604,
+          "gain_loss_pts": 36.5,
+          "phase_err": 11.39,
+          "phase_loss_pts": 129.8
+        }
+      }
+    },
+    {
+      "name": "VOL_3AXIS_TURN",
+      "mode": "VOL3",
+      "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+      "aborted": false,
+      "abort_time_s": 10.0,
+      "bode_score": 0.0,
+      "gain_loss_pts": 0.0,
+      "phase_loss_pts": 0.0,
+      "hf_noise_rms": 0.0,
+      "corr_vel": 0.0,
+      "xtalk_penalty": 0.0,
+      "lowfreq_ptp_deg": 0.0,
+      "mahony_stats": {
+        "PITCH": {
+          "true_ptp": 9.5903,
+          "est_ptp": 9.5828,
+          "slope": 1.0026,
+          "r": 0.98357,
+          "rmse_deg": 0.2803,
+          "mean_err_deg": 0.228
+        },
+        "ROLL": {
+          "true_ptp": 5.1187,
+          "est_ptp": 5.1838,
+          "slope": 1.0261,
+          "r": 0.99788,
+          "rmse_deg": 0.0885,
+          "mean_err_deg": 0.0756
+        },
+        "YAW": {
+          "true_ptp": 17.12,
+          "est_ptp": 16.9026,
+          "slope": 0.9874,
+          "r": 0.99974,
+          "rmse_deg": 0.1773,
+          "mean_err_deg": -0.1679
+        }
+      },
+      "cuneate_stats": {
+        "PITCH": {
+          "true_ptp": 9.0992,
+          "est_ptp": 10.5494,
+          "slope": 1.0801,
+          "r": 0.80905,
+          "rmse_deg": 0.9877,
+          "mean_err_deg": 0.7195
+        },
+        "ROLL": {
+          "true_ptp": 4.4547,
+          "est_ptp": 6.3351,
+          "slope": 0.879,
+          "r": 0.7486,
+          "rmse_deg": 0.7045,
+          "mean_err_deg": 0.5078
+        },
+        "YAW": {
+          "true_ptp": 17.3717,
+          "est_ptp": 18.7607,
+          "slope": 1.1041,
+          "r": 0.95357,
+          "rmse_deg": 0.9375,
+          "mean_err_deg": -0.4707
+        }
+      },
+      "est_neck_stats": {
+        "PITCH": {
+          "true_ptp": 9.0992,
+          "est_ptp": 10.9978,
+          "slope": 0.3412,
+          "r": 0.24149,
+          "rmse_deg": 8.0702,
+          "mean_err_deg": -7.964
+        },
+        "ROLL": {
+          "true_ptp": 4.4547,
+          "est_ptp": 5.8233,
+          "slope": 0.4661,
+          "r": 0.29235,
+          "rmse_deg": 6.4456,
+          "mean_err_deg": -6.3673
+        },
+        "YAW": {
+          "true_ptp": 17.3717,
+          "est_ptp": 10.5107,
+          "slope": 0.295,
+          "r": 0.51031,
+          "rmse_deg": 14.748,
+          "mean_err_deg": -14.6223
+        }
+      },
+      "mahony_speed_stats": {
+        "PITCH": {
+          "true_ptp": 100.4568,
+          "est_ptp": 100.533,
+          "slope": 0.9999,
+          "r": 0.99999,
+          "rmse_deg": 0.0247,
+          "mean_err_deg": 0.0045
+        },
+        "ROLL": {
+          "true_ptp": 34.4807,
+          "est_ptp": 34.4793,
+          "slope": 1.0,
+          "r": 0.99999,
+          "rmse_deg": 0.0118,
+          "mean_err_deg": 0.0002
+        },
+        "YAW": {
+          "true_ptp": 67.2097,
+          "est_ptp": 67.2133,
+          "slope": 1.0,
+          "r": 1.0,
+          "rmse_deg": 0.0061,
+          "mean_err_deg": -0.0029
+        }
+      },
+      "vol3_steady": {
+        "true_mean_deg": {
+          "P": 8.158,
+          "R": 4.546,
+          "Y": 16.639
+        },
+        "mah_mean_deg": {
+          "P": 8.527,
+          "R": 4.655,
+          "Y": 16.424
+        },
+        "cun_mean_deg": {
+          "P": 8.313,
+          "R": 3.976,
+          "Y": 16.47
+        },
+        "mah_ss_rmse_deg": {
+          "P": 0.3804,
+          "R": 0.1096,
+          "Y": 0.2156
+        }
+      },
+      "freq_results": {}
+    }
+  ],
+  "eps_divergence": {
+    "t_div_1e4_deg_s": 2.38,
+    "t_div_0p05_deg_s": 2.625,
+    "max_abs_dR_deg": 0.629934,
+    "bode_diff_pts": 3057.32
+  }
+}

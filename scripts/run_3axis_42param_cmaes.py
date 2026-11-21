@@ -85,8 +85,8 @@ PARAM_SPECS = [
     ("Kd_task_yaw",       0.05,      0.01,   0.50,   0.020),
     ("Ki_task_yaw",       0.05,      0.005,  0.50,   0.020),
     # Fusimotor & Anti-Buckling
-    ("K_gamma_dyn",       1.0,       0.3,    2.5,    0.18),
-    ("K_gamma_stat",      1.0,       0.3,    2.5,    0.18),
+    ("K_gamma_dyn",       0.92,      0.0,    1.0,    0.15),
+    ("K_gamma_stat",      0.98,      0.0,    1.0,    0.15),
     ("Kp_buckle",         1.5,       0.4,    4.0,    0.30),
     ("Kd_buckle",         0.15,      0.03,   0.50,   0.035),
 ]
@@ -173,8 +173,12 @@ def _sim_job(job):
         "abort_time_s": float(res["abort_time_s"]),
         "classic_bode_score": float(res["classic_bode_score"]),
         "pitch_crosstalk_penalty": float(res["pitch_crosstalk_penalty"]),
+        "hf_penalty": float(res["hf_penalty"]),
         "total_score": float(res["total_score"]),
         "full_pitch_dev_max_deg": float(res["full_pitch_dev_max_deg"]),
+        "post_pitch_dev_max_deg": float(res["post_pitch_dev_max_deg"]),
+        "post_roll_max_deg": float(res["post_roll_max_deg"]),
+        "post_yaw_rel_max_deg": float(res["post_yaw_rel_max_deg"]),
         "hf_noise_rms": float(res["hf_noise_rms"]),
     }
 
@@ -237,7 +241,11 @@ def main():
         for rec in history_records:
             _ = ask_orthogonal_mirrored_nd(es, popsize, LOWER_BOUNDS, UPPER_BOUNDS, use_tpa=True)
             logged_cands = [
-                np.array([float(c["params"][k]) for k in PARAM_NAMES], dtype=float)
+                np.clip(
+                    np.array([float(c["params"][k]) for k in PARAM_NAMES], dtype=float),
+                    LOWER_BOUNDS,
+                    UPPER_BOUNDS,
+                )
                 for c in rec["candidates"]
             ]
             scores = [float(c["total_score"]) for c in rec["candidates"]]

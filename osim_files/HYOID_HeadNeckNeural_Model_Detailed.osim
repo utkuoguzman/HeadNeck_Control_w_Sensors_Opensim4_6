@@ -3048,8 +3048,12 @@
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
 					<Kp_proprioception>0.050</Kp_proprioception>
+					<Kp_proprioception_roll>0.050</Kp_proprioception_roll>
+					<Kp_proprioception_yaw>0.050</Kp_proprioception_yaw>
 					<z_ccr>0.020</z_ccr>
 					<p_ccr>99.919586</p_ccr>
+					<p_ccr_roll>99.919586</p_ccr_roll>
+					<p_ccr_yaw>99.919586</p_ccr_yaw>
 					<K_recip_inhib>0</K_recip_inhib>
 					<desired_yaw>0</desired_yaw>
 					<desired_pitch>0</desired_pitch>
@@ -3057,6 +3061,8 @@
 					<trajectory_tau>0.1</trajectory_tau>
 					<fc_voluntary>2.0</fc_voluntary>
 					<tau_lead_pole>0.008</tau_lead_pole>
+					<tau_lead_pole_roll>0.008</tau_lead_pole_roll>
+					<tau_lead_pole_yaw>0.008</tau_lead_pole_yaw>
 					<K_ton>5.259843</K_ton>
 					<p_ton>16.227225</p_ton>
 					<K_sc>4.101869</K_sc>
@@ -3095,7 +3101,11 @@
 					<Ki_task_roll>0.45</Ki_task_roll>
 					<Ki_task_yaw>0.05</Ki_task_yaw>
 					<Kp_buckle>1.5</Kp_buckle>
+					<Kp_buckle_roll>1.5</Kp_buckle_roll>
+					<Kp_buckle_yaw>1.5</Kp_buckle_yaw>
 					<Kd_buckle>0.15</Kd_buckle>
+					<Kd_buckle_roll>0.15</Kd_buckle_roll>
+					<Kd_buckle_yaw>0.15</Kd_buckle_yaw>
 					<thresh_spindle_ia>0.50</thresh_spindle_ia>
 					<thresh_spindle_ii>0.25</thresh_spindle_ii>
 					<thresh_vest_tilt>0.002</thresh_vest_tilt>

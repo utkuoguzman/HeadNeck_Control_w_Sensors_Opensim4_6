@@ -42,6 +42,7 @@ for PLUGIN in vestibular_plugin proprioception_plugin HeadNeckNeuralController_p
     cmake --build "${PLUGIN}/build" --config Release -j 8
 done
 
-echo "[TRUBA ARF] Starting 3-Axis 43-Param CMA-ES on $(hostname) with 112 workers at $(date)"
-python scripts/run_3axis_42param_cmaes.py --gens 12 --workers 112 --seed-from-state logs/cmaes_3axis_10p_state.json --resume
-echo "[TRUBA ARF] Finished 3-Axis 43-Param CMA-ES at $(date)"
+echo "[TRUBA ARF] Starting 36P-v2 Axis-Decoupled CMA-ES (Pop=74, 222 sims/gen = 2 waves) on $(hostname) at $(date)"
+python scripts/run_3axis_36param_v2_cmaes.py --gens 24 --workers 112 --resume
+
+echo "[TRUBA ARF] Finished at $(date)"

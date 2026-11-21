@@ -1,0 +1,40 @@
+{
+  "gen": 20,
+  "slot": 35,
+  "roll_id": "roll_g20_s35",
+  "rank_score": 2427.35,
+  "latec_canon": 2427.35,
+  "bode_latec": 2106.91,
+  "xtalk_latec": 277.02,
+  "hf_latec": 43.42,
+  "hf_rms_latec": 1.318,
+  "aborted": false,
+  "params_roll18": {
+    "K_sc_roll": 3.5102724557100347,
+    "z_sc_roll": 0.02393911550124478,
+    "p_sc_roll": 41.49221170154583,
+    "K_phas_roll": 4.754734472507771,
+    "z_phas_roll": 0.013357728279574018,
+    "p_phas_roll": 11.739666102415512,
+    "K_ton_roll": 0.8824209797164067,
+    "p_ton_roll": 2.853466039104756,
+    "Kp_prop_roll": 0.5495935396784101,
+    "z_ccr_roll": 0.0028298499900442633,
+    "p_ccr_roll": 57.763048742548584,
+    "Kp_proprioception_roll": 0.04280198021579599,
+    "Kp_task_roll": 0.8384067558778607,
+    "Kd_task_roll": 2.8765724875414604,
+    "Ki_task_roll": 1.2794942865480623,
+    "tau_lead_pole_roll": 0.021650175667015187,
+    "Kp_buckle_roll": 1.8426678472085718,
+    "Kd_buckle_roll": 0.06173419856874597
+  },
+  "initial_rank_score": 2427.35,
+  "effective_rank": 2427.35,
+  "verify_scores": [
+    2427.35
+  ],
+  "verified_bode_latec": 2106.91,
+  "verified_hf_rms_latec": 1.318,
+  "verified_aborted": false
+}

@@ -1,0 +1,819 @@
+{
+  "source_43p_gens": 12,
+  "source_43p_global_best": 12636.18,
+  "source_43p_sigma": 0.9477459675162494,
+  "frozen_params": {
+    "K_phas": 10.711265,
+    "p_ton": 20.223918,
+    "K_sc_yaw": 1.443302,
+    "z_sc_yaw": 0.01933,
+    "z_ccr_roll": 0.007426,
+    "Kp_task_pitch": 4.65154,
+    "K_gamma_dyn": 0.857744
+  },
+  "active_specs": [
+    [
+      "tau_lead_pole",
+      0.015870092107006795,
+      0.004,
+      0.03,
+      0.001895491935032499
+    ],
+    [
+      "K_sc",
+      4.90750145551083,
+      2.5,
+      7.5,
+      0.20850411285357487
+    ],
+    [
+      "z_sc",
+      0.013685385414366133,
+      0.005,
+      0.035,
+      0.0023693649187906235
+    ],
+    [
+      "p_sc",
+      54.07035248150057,
+      30.0,
+      90.0,
+      3.7909838700649976
+    ],
+    [
+      "z_phas",
+      0.009644341219557174,
+      0.002,
+      0.025,
+      0.001895491935032499
+    ],
+    [
+      "p_phas",
+      4.5901329364258645,
+      2.0,
+      12.0,
+      0.9477459675162494
+    ],
+    [
+      "K_ton",
+      5.633331162552522,
+      2.0,
+      10.0,
+      0.7581967740129996
+    ],
+    [
+      "K_sc_roll",
+      4.174591285552057,
+      1.5,
+      8.0,
+      0.5686475805097496
+    ],
+    [
+      "z_sc_roll",
+      0.02142972432335873,
+      0.005,
+      0.045,
+      0.003790983870064998
+    ],
+    [
+      "p_sc_roll",
+      69.29862844284415,
+      30.0,
+      100.0,
+      8.529713707646245
+    ],
+    [
+      "K_phas_roll",
+      12.913923059382443,
+      6.0,
+      24.0,
+      2.0850411285357486
+    ],
+    [
+      "z_phas_roll",
+      0.013707259763029243,
+      0.003,
+      0.035,
+      0.002843237902548748
+    ],
+    [
+      "p_phas_roll",
+      6.918906607587507,
+      1.5,
+      12.0,
+      0.9477459675162494
+    ],
+    [
+      "K_ton_roll",
+      0.9056678130934509,
+      0.2,
+      3.5,
+      0.1895491935032499
+    ],
+    [
+      "p_ton_roll",
+      2.5864727963092884,
+      1.0,
+      10.0,
+      0.7581967740129996
+    ],
+    [
+      "p_sc_yaw",
+      2.8706268289452663,
+      1.0,
+      15.0,
+      0.7581967740129996
+    ],
+    [
+      "K_ton_yaw",
+      6.505795585311701,
+      2.0,
+      12.0,
+      0.9477459675162494
+    ],
+    [
+      "p_ton_yaw",
+      17.800648440196824,
+      5.0,
+      35.0,
+      2.843237902548748
+    ],
+    [
+      "Kp_prop_pitch",
+      0.5685820857904136,
+      0.25,
+      1.2,
+      0.04738729837581247
+    ],
+    [
+      "z_ccr",
+      0.0204390861715393,
+      0.004,
+      0.045,
+      0.0023693649187906235
+    ],
+    [
+      "Kp_prop_roll",
+      2.676220063119418,
+      0.8,
+      5.0,
+      0.3790983870064998
+    ],
+    [
+      "Kp_prop_yaw",
+      14.440946972371332,
+      4.0,
+      30.0,
+      2.3693649187906236
+    ],
+    [
+      "z_ccr_yaw",
+      0.038799759656478285,
+      0.01,
+      0.12,
+      0.009477459675162494
+    ],
+    [
+      "p_ccr",
+      93.18655840994221,
+      40.0,
+      160.0,
+      14.21618951274374
+    ],
+    [
+      "Kp_proprioception",
+      0.04876243804412329,
+      0.015,
+      0.15,
+      0.009477459675162494
+    ],
+    [
+      "Kd_task_pitch",
+      0.833462815914286,
+      0.25,
+      1.6,
+      0.09477459675162495
+    ],
+    [
+      "Ki_task_pitch",
+      1.808621027419926,
+      0.8,
+      6.5,
+      0.33171108863068727
+    ],
+    [
+      "Kp_task_roll",
+      1.0583833996466077,
+      0.4,
+      4.0,
+      0.23693649187906235
+    ],
+    [
+      "Kd_task_roll",
+      1.7109955863852653,
+      0.4,
+      3.5,
+      0.23693649187906235
+    ],
+    [
+      "Ki_task_roll",
+      0.3455686368716172,
+      0.05,
+      2.5,
+      0.11372951610194992
+    ],
+    [
+      "Kp_task_yaw",
+      0.4795165898702053,
+      0.15,
+      2.5,
+      0.11372951610194992
+    ],
+    [
+      "Kd_task_yaw",
+      0.0659933559934104,
+      0.01,
+      0.5,
+      0.01895491935032499
+    ],
+    [
+      "Ki_task_yaw",
+      0.04192039829632571,
+      0.005,
+      0.5,
+      0.01895491935032499
+    ],
+    [
+      "K_gamma_stat",
+      0.9401670684300207,
+      0.0,
+      1.0,
+      0.1421618951274374
+    ],
+    [
+      "Kp_buckle",
+      1.4443642237296952,
+      0.4,
+      4.0,
+      0.2843237902548748
+    ],
+    [
+      "Kd_buckle",
+      0.19679558997509655,
+      0.03,
+      0.5,
+      0.03317110886306873
+    ]
+  ],
+  "seed_slot0_43p_champ": {
+    "tau_lead_pole": 0.0144,
+    "K_sc": 4.842596,
+    "z_sc": 0.01481,
+    "p_sc": 59.332063,
+    "z_phas": 0.013035,
+    "p_phas": 4.472013,
+    "K_ton": 6.404167,
+    "K_sc_roll": 4.303977,
+    "z_sc_roll": 0.025643,
+    "p_sc_roll": 70.956471,
+    "K_phas_roll": 11.339915,
+    "z_phas_roll": 0.012682,
+    "p_phas_roll": 7.831982,
+    "K_ton_roll": 1.170932,
+    "p_ton_roll": 1.500218,
+    "p_sc_yaw": 1.602845,
+    "K_ton_yaw": 6.539453,
+    "p_ton_yaw": 18.759398,
+    "Kp_prop_pitch": 0.58896,
+    "z_ccr": 0.019237,
+    "Kp_prop_roll": 3.327602,
+    "Kp_prop_yaw": 14.897679,
+    "z_ccr_yaw": 0.029326,
+    "p_ccr": 88.807256,
+    "Kp_proprioception": 0.040517,
+    "Kd_task_pitch": 1.000823,
+    "Ki_task_pitch": 2.054547,
+    "Kp_task_roll": 1.346662,
+    "Kd_task_roll": 2.086375,
+    "Ki_task_roll": 0.161695,
+    "Kp_task_yaw": 0.427085,
+    "Kd_task_yaw": 0.071444,
+    "Ki_task_yaw": 0.028907,
+    "K_gamma_stat": 0.547487,
+    "Kp_buckle": 1.44224,
+    "Kd_buckle": 0.174447
+  },
+  "seed_slot1_43p_last_best": {
+    "tau_lead_pole": 0.0144,
+    "K_sc": 4.842596,
+    "z_sc": 0.01481,
+    "p_sc": 59.332063,
+    "z_phas": 0.013035,
+    "p_phas": 4.472013,
+    "K_ton": 6.404167,
+    "K_sc_roll": 4.303977,
+    "z_sc_roll": 0.025643,
+    "p_sc_roll": 70.956471,
+    "K_phas_roll": 11.339915,
+    "z_phas_roll": 0.012682,
+    "p_phas_roll": 7.831982,
+    "K_ton_roll": 1.170932,
+    "p_ton_roll": 1.500218,
+    "p_sc_yaw": 1.602845,
+    "K_ton_yaw": 6.539453,
+    "p_ton_yaw": 18.759398,
+    "Kp_prop_pitch": 0.58896,
+    "z_ccr": 0.019237,
+    "Kp_prop_roll": 3.327602,
+    "Kp_prop_yaw": 14.897679,
+    "z_ccr_yaw": 0.029326,
+    "p_ccr": 88.807256,
+    "Kp_proprioception": 0.040517,
+    "Kd_task_pitch": 1.000823,
+    "Ki_task_pitch": 2.054547,
+    "Kp_task_roll": 1.346662,
+    "Kd_task_roll": 2.086375,
+    "Ki_task_roll": 0.161695,
+    "Kp_task_yaw": 0.427085,
+    "Kd_task_yaw": 0.071444,
+    "Ki_task_yaw": 0.028907,
+    "K_gamma_stat": 0.547487,
+    "Kp_buckle": 1.44224,
+    "Kd_buckle": 0.174447
+  },
+  "audit": [
+    {
+      "rank": 1,
+      "name": "K_gamma_dyn",
+      "roi_beta_pts_per_sigma": 9.63,
+      "max_axis_corr": 0.079,
+      "recent_drift_sigma": 0.174,
+      "total_shift_sigma": 0.088,
+      "champ_val": 0.857744,
+      "mean_val": 0.906834,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 2,
+      "name": "p_ton",
+      "roi_beta_pts_per_sigma": 13.63,
+      "max_axis_corr": 0.089,
+      "recent_drift_sigma": 0.06,
+      "total_shift_sigma": 0.472,
+      "champ_val": 20.223918,
+      "mean_val": 17.642171,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 3,
+      "name": "z_ccr_roll",
+      "roi_beta_pts_per_sigma": 36.27,
+      "max_axis_corr": 0.087,
+      "recent_drift_sigma": 0.076,
+      "total_shift_sigma": 1.216,
+      "champ_val": 0.007426,
+      "mean_val": 0.002568,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 4,
+      "name": "K_sc_yaw",
+      "roi_beta_pts_per_sigma": 38.24,
+      "max_axis_corr": 0.118,
+      "recent_drift_sigma": 0.08,
+      "total_shift_sigma": 0.317,
+      "champ_val": 1.443302,
+      "mean_val": 1.41511,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 5,
+      "name": "K_phas_roll",
+      "roi_beta_pts_per_sigma": 49.54,
+      "max_axis_corr": 0.258,
+      "recent_drift_sigma": 0.176,
+      "total_shift_sigma": 0.266,
+      "champ_val": 11.339915,
+      "mean_val": 12.913923,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 6,
+      "name": "z_sc_yaw",
+      "roi_beta_pts_per_sigma": 57.87,
+      "max_axis_corr": 0.061,
+      "recent_drift_sigma": 0.137,
+      "total_shift_sigma": 0.085,
+      "champ_val": 0.01933,
+      "mean_val": 0.015703,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 7,
+      "name": "Kp_task_pitch",
+      "roi_beta_pts_per_sigma": 63.1,
+      "max_axis_corr": 0.133,
+      "recent_drift_sigma": 0.101,
+      "total_shift_sigma": 0.684,
+      "champ_val": 4.65154,
+      "mean_val": 4.166486,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 8,
+      "name": "K_phas",
+      "roi_beta_pts_per_sigma": 66.14,
+      "max_axis_corr": 0.073,
+      "recent_drift_sigma": 0.053,
+      "total_shift_sigma": 0.189,
+      "champ_val": 10.711265,
+      "mean_val": 10.881045,
+      "status": "FROZEN"
+    },
+    {
+      "rank": 9,
+      "name": "p_ccr",
+      "roi_beta_pts_per_sigma": 74.82,
+      "max_axis_corr": 0.069,
+      "recent_drift_sigma": 0.064,
+      "total_shift_sigma": 0.449,
+      "champ_val": 88.807256,
+      "mean_val": 93.186558,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 10,
+      "name": "p_phas",
+      "roi_beta_pts_per_sigma": 76.52,
+      "max_axis_corr": 0.23,
+      "recent_drift_sigma": 0.067,
+      "total_shift_sigma": 0.122,
+      "champ_val": 4.472013,
+      "mean_val": 4.590133,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 11,
+      "name": "Ki_task_roll",
+      "roi_beta_pts_per_sigma": 78.32,
+      "max_axis_corr": 0.049,
+      "recent_drift_sigma": 0.11,
+      "total_shift_sigma": 0.87,
+      "champ_val": 0.161695,
+      "mean_val": 0.345569,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 12,
+      "name": "Kp_prop_pitch",
+      "roi_beta_pts_per_sigma": 79.07,
+      "max_axis_corr": 0.05,
+      "recent_drift_sigma": 0.095,
+      "total_shift_sigma": 0.626,
+      "champ_val": 0.58896,
+      "mean_val": 0.568582,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 13,
+      "name": "z_phas",
+      "roi_beta_pts_per_sigma": 79.73,
+      "max_axis_corr": 0.144,
+      "recent_drift_sigma": 0.153,
+      "total_shift_sigma": 0.553,
+      "champ_val": 0.013035,
+      "mean_val": 0.009644,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 14,
+      "name": "K_ton_roll",
+      "roi_beta_pts_per_sigma": 85.11,
+      "max_axis_corr": 0.072,
+      "recent_drift_sigma": 0.103,
+      "total_shift_sigma": 0.028,
+      "champ_val": 1.170932,
+      "mean_val": 0.905668,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 15,
+      "name": "K_gamma_stat",
+      "roi_beta_pts_per_sigma": 90.23,
+      "max_axis_corr": 0.084,
+      "recent_drift_sigma": 0.395,
+      "total_shift_sigma": 0.266,
+      "champ_val": 0.547487,
+      "mean_val": 0.940167,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 16,
+      "name": "Kd_task_yaw",
+      "roi_beta_pts_per_sigma": 97.82,
+      "max_axis_corr": 0.126,
+      "recent_drift_sigma": 0.116,
+      "total_shift_sigma": 0.8,
+      "champ_val": 0.071444,
+      "mean_val": 0.065993,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 17,
+      "name": "Kp_proprioception",
+      "roi_beta_pts_per_sigma": 104.19,
+      "max_axis_corr": 0.078,
+      "recent_drift_sigma": 0.101,
+      "total_shift_sigma": 0.124,
+      "champ_val": 0.040517,
+      "mean_val": 0.048762,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 18,
+      "name": "Kp_buckle",
+      "roi_beta_pts_per_sigma": 106.03,
+      "max_axis_corr": 0.102,
+      "recent_drift_sigma": 0.067,
+      "total_shift_sigma": 0.185,
+      "champ_val": 1.44224,
+      "mean_val": 1.444364,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 19,
+      "name": "Kp_task_yaw",
+      "roi_beta_pts_per_sigma": 109.14,
+      "max_axis_corr": 0.087,
+      "recent_drift_sigma": 0.124,
+      "total_shift_sigma": 0.587,
+      "champ_val": 0.427085,
+      "mean_val": 0.479517,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 20,
+      "name": "Ki_task_pitch",
+      "roi_beta_pts_per_sigma": 134.81,
+      "max_axis_corr": 0.085,
+      "recent_drift_sigma": 0.179,
+      "total_shift_sigma": 0.371,
+      "champ_val": 2.054547,
+      "mean_val": 1.808621,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 21,
+      "name": "Kd_task_pitch",
+      "roi_beta_pts_per_sigma": 150.06,
+      "max_axis_corr": 0.109,
+      "recent_drift_sigma": 0.11,
+      "total_shift_sigma": 0.893,
+      "champ_val": 1.000823,
+      "mean_val": 0.833463,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 22,
+      "name": "p_sc",
+      "roi_beta_pts_per_sigma": 164.84,
+      "max_axis_corr": 0.078,
+      "recent_drift_sigma": 0.086,
+      "total_shift_sigma": 0.495,
+      "champ_val": 59.332063,
+      "mean_val": 54.070352,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 23,
+      "name": "Kp_task_roll",
+      "roi_beta_pts_per_sigma": 169.86,
+      "max_axis_corr": 0.143,
+      "recent_drift_sigma": 0.06,
+      "total_shift_sigma": 0.566,
+      "champ_val": 1.346662,
+      "mean_val": 1.058383,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 24,
+      "name": "K_ton_yaw",
+      "roi_beta_pts_per_sigma": 170.27,
+      "max_axis_corr": 0.234,
+      "recent_drift_sigma": 0.1,
+      "total_shift_sigma": 0.306,
+      "champ_val": 6.539453,
+      "mean_val": 6.505796,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 25,
+      "name": "tau_lead_pole",
+      "roi_beta_pts_per_sigma": 172.05,
+      "max_axis_corr": 0.235,
+      "recent_drift_sigma": 0.18,
+      "total_shift_sigma": 0.256,
+      "champ_val": 0.0144,
+      "mean_val": 0.01587,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 26,
+      "name": "z_sc",
+      "roi_beta_pts_per_sigma": 175.28,
+      "max_axis_corr": 0.242,
+      "recent_drift_sigma": 0.116,
+      "total_shift_sigma": 1.063,
+      "champ_val": 0.01481,
+      "mean_val": 0.013685,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 27,
+      "name": "Kd_buckle",
+      "roi_beta_pts_per_sigma": 182.42,
+      "max_axis_corr": 0.273,
+      "recent_drift_sigma": 0.119,
+      "total_shift_sigma": 1.337,
+      "champ_val": 0.174447,
+      "mean_val": 0.196796,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 28,
+      "name": "Kp_prop_roll",
+      "roi_beta_pts_per_sigma": 183.66,
+      "max_axis_corr": 0.201,
+      "recent_drift_sigma": 0.253,
+      "total_shift_sigma": 1.441,
+      "champ_val": 3.327602,
+      "mean_val": 2.67622,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 29,
+      "name": "K_ton",
+      "roi_beta_pts_per_sigma": 184.91,
+      "max_axis_corr": 0.116,
+      "recent_drift_sigma": 0.063,
+      "total_shift_sigma": 0.467,
+      "champ_val": 6.404167,
+      "mean_val": 5.633331,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 30,
+      "name": "z_ccr",
+      "roi_beta_pts_per_sigma": 219.32,
+      "max_axis_corr": 0.057,
+      "recent_drift_sigma": 0.113,
+      "total_shift_sigma": 0.143,
+      "champ_val": 0.019237,
+      "mean_val": 0.020439,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 31,
+      "name": "Ki_task_yaw",
+      "roi_beta_pts_per_sigma": 229.77,
+      "max_axis_corr": 0.08,
+      "recent_drift_sigma": 0.148,
+      "total_shift_sigma": 0.404,
+      "champ_val": 0.028907,
+      "mean_val": 0.04192,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 32,
+      "name": "K_sc",
+      "roi_beta_pts_per_sigma": 238.57,
+      "max_axis_corr": 0.13,
+      "recent_drift_sigma": 0.114,
+      "total_shift_sigma": 0.598,
+      "champ_val": 4.842596,
+      "mean_val": 4.907501,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 33,
+      "name": "p_ton_yaw",
+      "roi_beta_pts_per_sigma": 249.83,
+      "max_axis_corr": 0.069,
+      "recent_drift_sigma": 0.093,
+      "total_shift_sigma": 0.524,
+      "champ_val": 18.759398,
+      "mean_val": 17.800648,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 34,
+      "name": "p_ton_roll",
+      "roi_beta_pts_per_sigma": 278.21,
+      "max_axis_corr": 0.099,
+      "recent_drift_sigma": 0.135,
+      "total_shift_sigma": 0.767,
+      "champ_val": 1.500218,
+      "mean_val": 2.586473,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 35,
+      "name": "Kd_task_roll",
+      "roi_beta_pts_per_sigma": 299.86,
+      "max_axis_corr": 0.168,
+      "recent_drift_sigma": 0.153,
+      "total_shift_sigma": 1.444,
+      "champ_val": 2.086375,
+      "mean_val": 1.710996,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 36,
+      "name": "z_sc_roll",
+      "roi_beta_pts_per_sigma": 299.89,
+      "max_axis_corr": 0.271,
+      "recent_drift_sigma": 0.108,
+      "total_shift_sigma": 0.857,
+      "champ_val": 0.025643,
+      "mean_val": 0.02143,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 37,
+      "name": "Kp_prop_yaw",
+      "roi_beta_pts_per_sigma": 304.03,
+      "max_axis_corr": 0.23,
+      "recent_drift_sigma": 0.101,
+      "total_shift_sigma": 0.176,
+      "champ_val": 14.897679,
+      "mean_val": 14.440947,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 38,
+      "name": "p_sc_yaw",
+      "roi_beta_pts_per_sigma": 326.57,
+      "max_axis_corr": 0.188,
+      "recent_drift_sigma": 0.151,
+      "total_shift_sigma": 0.787,
+      "champ_val": 1.602845,
+      "mean_val": 2.870627,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 39,
+      "name": "K_sc_roll",
+      "roi_beta_pts_per_sigma": 360.76,
+      "max_axis_corr": 0.245,
+      "recent_drift_sigma": 0.202,
+      "total_shift_sigma": 1.124,
+      "champ_val": 4.303977,
+      "mean_val": 4.174591,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 40,
+      "name": "p_phas_roll",
+      "roi_beta_pts_per_sigma": 431.32,
+      "max_axis_corr": 0.372,
+      "recent_drift_sigma": 0.115,
+      "total_shift_sigma": 2.419,
+      "champ_val": 7.831982,
+      "mean_val": 6.918907,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 41,
+      "name": "z_ccr_yaw",
+      "roi_beta_pts_per_sigma": 442.69,
+      "max_axis_corr": 0.257,
+      "recent_drift_sigma": 0.149,
+      "total_shift_sigma": 1.12,
+      "champ_val": 0.029326,
+      "mean_val": 0.0388,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 42,
+      "name": "z_phas_roll",
+      "roi_beta_pts_per_sigma": 487.0,
+      "max_axis_corr": 0.312,
+      "recent_drift_sigma": 0.089,
+      "total_shift_sigma": 0.569,
+      "champ_val": 0.012682,
+      "mean_val": 0.013707,
+      "status": "ACTIVE"
+    },
+    {
+      "rank": 43,
+      "name": "p_sc_roll",
+      "roi_beta_pts_per_sigma": 546.99,
+      "max_axis_corr": 0.214,
+      "recent_drift_sigma": 0.111,
+      "total_shift_sigma": 1.033,
+      "champ_val": 70.956471,
+      "mean_val": 69.298628,
+      "status": "ACTIVE"
+    }
+  ]
+}
