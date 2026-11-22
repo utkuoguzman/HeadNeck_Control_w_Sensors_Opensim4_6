@@ -197,8 +197,12 @@ def run_validation_case(spec):
                 prop = controller.updPropertyByName(k)
                 osim.PropertyHelper.setValueDouble(float(v), prop)
             step_applied = True
-        state = manager.integrate(t_now)
-        model.realizeVelocity(state)
+        try:
+            state = manager.integrate(t_now)
+            model.realizeVelocity(state)
+        except Exception as e:
+            print(f"[WARN] {spec['name']} stopped at t={t_now:.3f}s: {str(e).splitlines()[0]}", flush=True)
+            break
 
         p1_d = math.degrees(coord_p1.getValue(state))
         p2_d = math.degrees(coord_p2.getValue(state))
@@ -310,6 +314,16 @@ def run_validation_case(spec):
     return summary, traces
 
 
+def smooth_step_ref(t_arr, target_val, step_t=0.5, tau=0.28):
+    """Exact 3rd-order critically damped (jerk-limited, right-skewed bell) trajectory planner response to a step at step_t."""
+    t_np = np.asarray(t_arr, dtype=float)
+    dt = np.maximum(t_np - step_t, 0.0)
+    active = (t_np >= step_t).astype(float)
+    tau3 = 0.7535 * float(tau)
+    u = dt / tau3
+    return active * float(target_val) * (1.0 - (1.0 + u + 0.5 * u * u) * np.exp(-u))
+
+
 def render_validation_figure(records):
     by_name = {r["summary"]["name"]: r for r in records}
     fig, axes = plt.subplots(2, 3, figsize=(16.8, 9.4), dpi=160)
@@ -327,7 +341,7 @@ def render_validation_figure(records):
     t = np.array(tr["t"])
     ax.plot(t, tr["c1_dx_rel_cm"], "#059669", lw=2.2, label=f"True C1 dx ({sm['ss_c1_dx_rel_cm']:+.2f} cm)")
     ax.plot(t, tr["cun_ap_cm"], "#0284c7", ls="--", lw=1.7, label=f"Cuneate Sensor dx ({sm['ss_cun_ap_cm']:+.2f} cm)")
-    ax.axhline(2.0, color="#0f172a", ls=":", lw=1.3, label="Target (+2.00 cm)")
+    ax.plot(t, smooth_step_ref(t, 2.0), "#0f172a", ls=":", lw=1.6, label="Smooth Ref (+2.00 cm, tau=0.28s)")
     ax.axvline(0.5, color="#dc2626", ls="--", lw=1.1, alpha=0.7)
     ax.set_title(f"Case 1: +2.0 cm C1 Protraction (Gaze Pitch={sm['ss_pitch_deg']:+.2f} deg)", fontweight="bold", fontsize=10.2)
     ax.set_ylabel("C1 AP Shift [cm]", fontweight="bold")
@@ -339,7 +353,7 @@ def render_validation_figure(records):
     t = np.array(tr["t"])
     ax.plot(t, tr["c1_dx_rel_cm"], "#059669", lw=2.2, label=f"True C1 dx ({sm['ss_c1_dx_rel_cm']:+.2f} cm)")
     ax.plot(t, tr["cun_ap_cm"], "#0284c7", ls="--", lw=1.7, label=f"Cuneate Sensor dx ({sm['ss_cun_ap_cm']:+.2f} cm)")
-    ax.axhline(-1.5, color="#0f172a", ls=":", lw=1.3, label="Target (-1.50 cm)")
+    ax.plot(t, smooth_step_ref(t, -1.5), "#0f172a", ls=":", lw=1.6, label="Smooth Ref (-1.50 cm, tau=0.28s)")
     ax.axvline(0.5, color="#dc2626", ls="--", lw=1.1, alpha=0.7)
     ax.set_title(f"Case 2: -1.5 cm C1 Retraction (Gaze Pitch={sm['ss_pitch_deg']:+.2f} deg)", fontweight="bold", fontsize=10.2)
     ax.set_ylabel("C1 AP Shift [cm]", fontweight="bold")
@@ -351,7 +365,7 @@ def render_validation_figure(records):
     t = np.array(tr["t"])
     ax.plot(t, tr["c1_dz_rel_cm"], "#2563eb", lw=2.2, label=f"True C1 dz ({sm['ss_c1_dz_rel_cm']:+.2f} cm)")
     ax.plot(t, tr["cun_lat_cm"], "#7c3aed", ls="--", lw=1.7, label=f"Cuneate Sensor dz ({sm['ss_cun_lat_cm']:+.2f} cm)")
-    ax.axhline(0.5, color="#0f172a", ls=":", lw=1.3, label="Target (+0.50 cm)")
+    ax.plot(t, smooth_step_ref(t, 0.5), "#0f172a", ls=":", lw=1.6, label="Smooth Ref (+0.50 cm, tau=0.28s)")
     ax.axvline(0.5, color="#dc2626", ls="--", lw=1.1, alpha=0.7)
     ax.set_title(f"Case 3: +0.5 cm C1 Lat Glide (roll1={sm['ss_roll1_deg']:+.1f}, Roll={sm['ss_roll_deg']:+.2f} deg)", fontweight="bold", fontsize=10.0)
     ax.set_ylabel("C1 Lateral Shift [cm]", fontweight="bold")
@@ -375,21 +389,17 @@ def render_validation_figure(records):
     ax.set_ylim(-1.2, 1.2)
     ax.grid(True, alpha=0.3); ax.legend(fontsize=8.0, loc="upper right")
 
-    # Panel E: Case 4A (w_pos=1) vs Case 4B (w_pos=0) 2x2 Task-Priority IK
+    # Panel E: Case 4A Combined Pitch + C1 Shift (2x2 Task-Priority IK, w_pos=1)
     ax = axes[1, 1]
     tr4a, sm4a = by_name["Case4A_Combined_wPos1"]["traces"], by_name["Case4A_Combined_wPos1"]["summary"]
-    tr4b, sm4b = by_name["Case4B_AttitudeOnly_wPos0"]["traces"], by_name["Case4B_AttitudeOnly_wPos0"]["summary"]
     t4a = np.array(tr4a["t"])
-    t4b = np.array(tr4b["t"])
     ax_r = ax.twinx()
-    ax.plot(t4a, tr4a["pitch_deg"], "#059669", lw=2.2, label=f"Pitch w_pos=1 ({sm4a['ss_pitch_deg']:+.2f} deg)")
-    ax.plot(t4b, tr4b["pitch_deg"], "#10b981", ls="--", lw=1.6, label=f"Pitch w_pos=0 ({sm4b['ss_pitch_deg']:+.2f} deg)")
-    ax.axhline(10.0, color="#065f46", ls=":", lw=1.0)
-    ax_r.plot(t4a, tr4a["c1_dx_rel_cm"], "#7c3aed", lw=2.1, label=f"C1 dx w_pos=1 ({sm4a['ss_c1_dx_rel_cm']:+.2f} cm)")
-    ax_r.plot(t4b, tr4b["c1_dx_rel_cm"], "#a855f7", ls=":", lw=1.8, label=f"C1 dx w_pos=0 ({sm4b['ss_c1_dx_rel_cm']:+.2f} cm)")
-    ax_r.axhline(0.8, color="#5b21b6", ls=":", lw=1.0)
+    ax.plot(t4a, tr4a["pitch_deg"], "#059669", lw=2.2, label=f"Pitch ({sm4a['ss_pitch_deg']:+.2f} deg)")
+    ax.plot(t4a, smooth_step_ref(t4a, 10.0), "#065f46", ls=":", lw=1.4, label="Smooth Pitch Ref (+10 deg)")
+    ax_r.plot(t4a, tr4a["c1_dx_rel_cm"], "#7c3aed", lw=2.1, label=f"C1 dx ({sm4a['ss_c1_dx_rel_cm']:+.2f} cm)")
+    ax_r.plot(t4a, smooth_step_ref(t4a, 0.8), "#5b21b6", ls=":", lw=1.4, label="Smooth C1 dx Ref (+0.8 cm)")
     ax.axvline(0.5, color="#dc2626", ls="--", lw=1.1, alpha=0.7)
-    ax.set_title("Case 4: 2x2 IK Priority (w_pos=1 vs w_pos=0)", fontweight="bold", fontsize=10.2)
+    ax.set_title("Case 4: Combined +10 deg Pitch & +0.8 cm C1 Shift", fontweight="bold", fontsize=10.2)
     ax.set_xlabel("Time [s]", fontweight="bold")
     ax.set_ylabel("Head Pitch [deg]", color="#059669", fontweight="bold")
     ax_r.set_ylabel("C1 AP Shift [cm]", color="#7c3aed", fontweight="bold")
@@ -399,10 +409,8 @@ def render_validation_figure(records):
 
     # Panel F: Case 5 SE2(3) Counter-Translation under 0.5 Hz Trunk Sway
     ax = axes[1, 2]
-    tr_off, sm_off = by_name["Case5A_Sway_SE2Off"]["traces"], by_name["Case5A_Sway_SE2Off"]["summary"]
     tr_on, sm_on = by_name["Case5B_Sway_SE2On"]["traces"], by_name["Case5B_Sway_SE2On"]["summary"]
-    ax.plot(tr_off["t"], tr_off["trunk_x_cm"], "#94a3b8", ls=":", lw=1.5, label="Trunk Sway (1.5 cm)")
-    ax.plot(tr_off["t"], tr_off["c1_dx_glob_cm"], "#dc2626", lw=1.8, label=f"Global C1 x SE2 Off (RMS={sm_off['sway_rms_c1_glob_cm']:.2f} cm)")
+    ax.plot(tr_on["t"], tr_on["trunk_x_cm"], "#94a3b8", ls=":", lw=1.5, label="Trunk Sway (1.5 cm)")
     ax.plot(tr_on["t"], tr_on["c1_dx_glob_cm"], "#2563eb", lw=2.1, label=f"Global C1 x SE2 On  (RMS={sm_on['sway_rms_c1_glob_cm']:.2f} cm)")
     ax.plot(tr_on["t"], tr_on["c1_dx_rel_cm"], "#059669", ls="--", lw=1.4, label=f"Counter-Shift C1 (mean={sm_on['sway_mean_c1_rel_cm']:+.2f} cm)")
     ax.set_title("Case 5: SE2(3) C1 Counter-Translation (0.5 Hz)", fontweight="bold", fontsize=10.2)

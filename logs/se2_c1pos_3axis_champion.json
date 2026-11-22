@@ -5,7 +5,7 @@
     "Kv_trans_roll": 0.0,
     "Kp_trans_pitch": 0.0,
     "Kv_trans_pitch": 0.0,
-    "Kp_shift_obs_pz": -0.0445,
+    "Kp_shift_obs_pz": -0.0455,
     "Kv_shift_obs_vz": 0.0,
     "Kp_shift_obs_px": 0.0,
     "Kv_shift_obs_vx": 0.0,
@@ -21,6 +21,9 @@
     "shift_station_blend": 0.0,
     "w_pos_ap": 1.0,
     "w_pos_lat": 1.0,
+    "vol_diff_ff_stiff_ap": 5.5,
+    "vol_diff_ff_stiff_lat": 7.0,
+    "vol_ki_shift_ap": 40.0,
     "trajectory_tau": 0.28
   },
   "best_sway_ap_config": {
@@ -33,54 +36,54 @@
     "tau_obs_washout_sway": 2.2
   },
   "latec_0p1209_hz": {
-    "ph_0p12": -303.66,
-    "ph_err_0p12": 0.73,
-    "db_0p12": -0.02
+    "ph_0p12": -304.05,
+    "ph_err_0p12": 0.34,
+    "db_0p12": 0.044
   },
   "apeo_5p583_hz": {
-    "sim_gain": 575.568,
-    "db_5p583": 1.165
+    "sim_gain": 570.337,
+    "db_5p583": 1.086
   },
   "verified_3axis_windows": {
-    "combined_bode_score": 4782.9,
-    "combined_xtalk_penalty": 511.14,
-    "combined_hf_penalty": 345.19,
-    "combined_total_score": 5639.24,
+    "combined_bode_score": 4830.07,
+    "combined_xtalk_penalty": 471.86,
+    "combined_hf_penalty": 280.41,
+    "combined_total_score": 5582.34,
     "false_booleans": [],
     "axes": {
       "APEO": {
-        "classic_bode_score": 2170.07,
-        "gain_loss_pts": 1319.51,
-        "phase_loss_pts": 850.56,
-        "pitch_crosstalk_penalty": 3.89,
-        "hf_penalty": 114.97,
-        "hf_noise_rms": 4.795,
-        "total_score": 2288.93,
-        "corr_vel": 0.958,
+        "classic_bode_score": 2186.7,
+        "gain_loss_pts": 1235.13,
+        "phase_loss_pts": 951.57,
+        "pitch_crosstalk_penalty": 0.31,
+        "hf_penalty": 106.97,
+        "hf_noise_rms": 4.625,
+        "total_score": 2293.98,
+        "corr_vel": 0.9605,
         "quiet_main_max_deg": 0.0,
         "aborted": false
       },
       "LatEC": {
-        "classic_bode_score": 1929.19,
-        "gain_loss_pts": 633.12,
-        "phase_loss_pts": 1296.07,
-        "pitch_crosstalk_penalty": 326.29,
-        "hf_penalty": 103.75,
-        "hf_noise_rms": 2.037,
-        "total_score": 2359.23,
-        "corr_vel": 0.9365,
+        "classic_bode_score": 1868.92,
+        "gain_loss_pts": 565.52,
+        "phase_loss_pts": 1303.41,
+        "pitch_crosstalk_penalty": 285.52,
+        "hf_penalty": 90.49,
+        "hf_noise_rms": 1.902,
+        "total_score": 2244.93,
+        "corr_vel": 0.9355,
         "quiet_main_max_deg": 0.0,
         "aborted": false
       },
       "YawMA": {
-        "classic_bode_score": 683.64,
-        "gain_loss_pts": 468.93,
-        "phase_loss_pts": 214.71,
-        "pitch_crosstalk_penalty": 180.96,
-        "hf_penalty": 126.47,
-        "hf_noise_rms": 2.249,
-        "total_score": 991.08,
-        "corr_vel": 0.9816,
+        "classic_bode_score": 774.45,
+        "gain_loss_pts": 607.42,
+        "phase_loss_pts": 167.03,
+        "pitch_crosstalk_penalty": 186.03,
+        "hf_penalty": 82.95,
+        "hf_noise_rms": 1.822,
+        "total_score": 1043.43,
+        "corr_vel": 0.9852,
         "quiet_main_max_deg": 0.0,
         "aborted": false
       }
@@ -146,7 +149,7 @@
     "Kv_trans_pitch": 0.0,
     "Kp_shift_obs_px": 0.0,
     "Kv_shift_obs_vx": 0.0,
-    "Kp_shift_obs_pz": -0.0445,
+    "Kp_shift_obs_pz": -0.0455,
     "Kv_shift_obs_vz": 0.0,
     "Kp_shift_lat": 4.5,
     "Kd_shift_lat": 0.3,
@@ -160,6 +163,9 @@
     "tau_vel_leak": 3.0,
     "tau_pos_leak": 2.0,
     "tau_obs_washout": 5.0,
+    "vol_diff_ff_stiff_ap": 5.5,
+    "vol_diff_ff_stiff_lat": 7.0,
+    "vol_ki_shift_ap": 40.0,
     "trajectory_tau": 0.28
   }
 }

@@ -270,7 +270,7 @@
       </div>
       <!-- Active Block Explanation Content (Hidden until a block is clicked) -->
       <div id="insp-content" class="hidden flex flex-col md:flex-row md:items-start justify-between gap-3">
-        <div class="flex-1 min-w-0">
+        <div id="insp-left-col" class="flex-1 min-w-0">
           <div class="flex items-center gap-2 mb-1">
             <h3 class="font-bold text-xs text-neutral-900 font-mono" id="insp-title"></h3>
           </div>
@@ -288,7 +288,7 @@
             <div class="bg-white border border-neutral-300 rounded p-2.5 font-mono text-[11px] leading-relaxed text-neutral-900 overflow-x-auto whitespace-pre-wrap" id="insp-math"></div>
           </div>
         </div>
-        <div id="insp-side-col" class="w-full md:w-80 bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all">
+        <div id="insp-side-col" class="w-full md:w-[540px] lg:w-[580px] bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all">
           <!-- Special Anatomical Conduction Delay Minimap (Shown for Inter-Block Delay & Compensator Blocks) -->
           <div id="insp-delay-minimap-box" class="hidden mb-3 bg-slate-50 border border-slate-300 rounded-md p-2 shadow-inner">
             <div class="flex flex-wrap items-center justify-between border-b border-slate-300 pb-1.5 mb-1.5 gap-1">
@@ -501,8 +501,8 @@
                    onclick="jumpDelayTick(-7)"
                    onmouseenter="highlightDelayPath('prop,spinal', 'spindles,drg,spinal,ventralroots')"
                    onmouseleave="clearDelayPathHighlight()">
-                <div class="font-bold">2. CCR Loop: 6.0 ms</div>
-                <div class="text-[8.5px] text-slate-600">1.0 + 2.5 + 2.5 = 6.0 ms</div>
+                <div class="font-bold">2. CCR Loop: 3.5 ms</div>
+                <div class="text-[8.5px] text-slate-600">1.0 + 0.0 + 2.5 = 3.5 ms</div>
               </div>
               <div class="bg-slate-50 border border-slate-300 border-l-4 border-l-violet-600 rounded px-2 py-1 text-slate-800 cursor-pointer hover:bg-slate-100"
                    onclick="jumpDelayTick(-31)"
@@ -514,7 +514,7 @@
             </div>
           </div>
 
-          <div class="flex items-center justify-between mb-1">
+          <div id="insp-params-hdr" class="flex items-center justify-between mb-1">
             <div class="font-bold text-[10px] text-neutral-700 uppercase tracking-wider">Symbols, Parameters &amp; States</div>
             <span id="deriv-hint" class="hidden text-[9.5px] font-medium text-sky-700 bg-sky-50 border border-sky-200 px-1.5 py-0.2 rounded">Hover or Click</span>
           </div>
@@ -698,6 +698,12 @@ delta_acc_rad = gamma_ik * (a_ref[s] - Jp[s] * theta_acc_ref) / Jm[s];
             derivTitle: "Critically Damped Gains & Closed-Form 2×2 Weighted Cervical IK",
             derivDesc: "Placing both poles at s = -1/τ_traj (τ_traj = 0.28 s) keeps voluntary step velocities and accelerations inside the 2 Hz cortical filter and muscle dynamics without overshoot, while the 2×2 weighted IK minimizes (θ - θ*)² + w_eff·(J_+θ + J_-δ - p_ref)² (giving exact minimum-norm regularization λ_IK² = 10⁻⁵):",
             derivLatex: String.raw`\delta_{\text{ref},s}^* = \operatorname{clamp}_{\text{lim}}\!\left(\frac{\gamma_{\text{IK},s}}{J_{-,s}}\bigl(p_{\text{ref},s} - J_{+,s}\theta_s^*\bigr)\right), \qquad \gamma_{\text{IK},s} = \frac{w_{\text{eff},s} J_{-,s}^2}{w_{\text{eff},s} J_{-,s}^2 + 10^{-5}}`
+          },
+          {
+            label: "J_c1_pos, J_com_pos : 3×N_q Blended Station Jacobians",
+            derivTitle: "Blended Skull-Center Station Jacobian J_pos(q) (3×N_q)",
+            derivDesc: "Time-varying OpenSim Simbody station Jacobians evaluated at C1-skull pivot and skull CoM, blended 0.40/0.60.",
+            derivLatex: "J_{\\text{pos}}(q) = 0.40\\,J_{\\text{C1,pos}}(q) + 0.60\\,J_{\\text{CoM,pos}}(q) \\in \\mathbb{R}^{3 \\times N_q}, \\quad \\dot{p}_{\\text{head}} = J_{\\text{pos}}(q)\\,\\dot{q}"
           }
         ]
       },
@@ -807,7 +813,7 @@ if (act_task[s] && shift_gate[s] > 1e-9 && ik[s].gamma_ik > 1e-9):
           "Voluntary Gaze-Lock Ramp (vol_cmd_gate = 0 in passive) : Pitch (16/4.8/24), Roll (11/2.8/13), Yaw (5/0.8/5)",
           "Symmetric 2-DOF C1-Shift PID : Base Kp=4.5, Kd=0.30, Ki=3.0 → Vol. kp_s=6.5, kd=0.30, ki_s=16.0 + 2.8·δ*_ref FF",
           "Voluntary Reflex Gating : Phasic VCR ×(1 - 0.90·vol_cmd_gate), Kd_buckle_vol=0.75 (Pitch), τ_cun=0.05+0.09·vol_sh",
-          "SE₂(3) Observer Counter-Translation : Kp_shift_obs_pz=-0.0445 (LatEC), Kv_shift_obs_vx=-0.16 (Case 5B w/ 0.5·τ_wash vel HPF)",
+          "SE₂(3) Observer Counter-Translation : Kp_shift_obs_pz=-0.0455 (LatEC), Kv_shift_obs_vx=-0.16 (Case 5B w/ 0.5·τ_wash vel HPF)",
           "Zero Effect on Passive VCR/CCR : vol_cmd_gate & vol_shift_gate are identically 0 when desired_* == 0",
           {
             label: "Why Passive Stiffness Feedforward (2.8·δ*_ref) + Washout Solve Both Drift Channels",
@@ -815,7 +821,19 @@ if (act_task[s] && shift_gate[s] > 1e-9 && ik[s].gamma_ik > 1e-9):
             derivDesc: "Because the 6-DOF QP applies anti-buckling torque τ_buckle = Kp_buckle·(q1 - q2) against differential C1-shift postures when spindle efference cancellation zeros ref_d_pos, holding a steady protraction δ* creates ~2·Kp_buckle ≈ 2.4–2.8 N·m of static restoring load. Feeding 2.8·δ*_ref directly under vol_shift_gate unloads the shift integrator, while washing out obs_vx at 0.50·τ_wash alongside obs_px stops nonlinear tilt-gravity velocity DC drift without touching Ki_shift_lat in LatEC:",
             derivLatex: String.raw`\tau_{\text{diff,ff},s} = 2.8\,g_{\text{vol,shift},s}\,\delta_{\text{ref},s}^*, \qquad \hat{v}_{\text{hp},s}(s) = \frac{\tau_{v,\text{wash}} s}{1 + \tau_{v,\text{wash}} s}\hat{v}_s(s)`
           },
-          "J_head = 0.05 kg·m² : Inertial feedforward"
+          "J_head = 0.05 kg·m² : Inertial feedforward",
+          {
+            label: "K_p, K_d, K_i : 3×3 Angular & 2×2 Shift Task Gain Matrices",
+            derivTitle: "M1 Outer-Loop Task Gain Matrices (Diagonal 3×3 & 2×2)",
+            derivDesc: "Exact CMA-ES / controller diagonal gain matrices for [Pitch, Roll, Yaw] orientation and [AP, Lat] head shift.",
+            derivLatex: "K_{p,\\text{ang}} = \\mathrm{diag}(3.790117,\\,1.20,\\,0.55),\\; K_{d,\\text{ang}} = \\mathrm{diag}(0.54,\\,1.35,\\,0.05),\\; K_{i,\\text{ang}} = \\mathrm{diag}(3.721492,\\,0.45,\\,0.05) \\\\ K_{p,\\text{shift}} = \\mathrm{diag}(4.5,\\,4.5),\\; K_{d,\\text{shift}} = \\mathrm{diag}(0.25,\\,0.25),\\; K_{i,\\text{shift}} = \\mathrm{diag}(3.0,\\,3.0)"
+          },
+          {
+            label: "J_head(q) : 6×N_q Skull Spatial Body Jacobian",
+            derivTitle: "Skull 6-DOF Spatial Jacobian J_head(q) (6×N_q)",
+            derivDesc: "Maps generalized joint velocities q̇ ∈ ℝ^{N_q} to 6D skull twist [ω_head; v_head] ∈ ℝ⁶ at runtime via SimbodyMatterSubsystem.",
+            derivLatex: "J_{\\text{head}}(q) = \\begin{bmatrix} J_{\\omega,\\text{head}}(q) \\\\ J_{v,\\text{head}}(q) \\end{bmatrix} \\in \\mathbb{R}^{6 \\times N_q}, \\quad \\begin{bmatrix} \\omega \\\\ v \\end{bmatrix} = J_{\\text{head}}(q)\\,\\dot{q}"
+          }
         ]
       },
       s1_lpf: {
@@ -933,9 +951,25 @@ w_left  = left_canal_projection_matrix  * omega_head;  // canals 3..5`
         latex: "",
         math: "",
         params: [
-          "B_R : Right 3×3 canal orientation matrix",
-          "B_L : Left 3×3 canal orientation matrix",
-          "ω_canal : 6-element canal velocity vector"
+          {
+            label: "B_R : Right 3×3 canal orientation matrix",
+            derivTitle: "B_R — Right Semicircular Canal Projection Matrix (3×3)",
+            derivDesc: "Rows are unit canal normals [Anterior, Posterior, Horizontal] in head coordinates (x=AP, y=Vertical, z=Lateral).",
+            derivLatex: "B_R = \\begin{bmatrix} -0.589 & -0.177 & 0.788 \\\\ -0.694 & -0.270 & -0.667 \\\\ -0.323 & 0.946 & -0.038 \\end{bmatrix}"
+          },
+          {
+            label: "B_L : Left 3×3 canal orientation matrix",
+            derivTitle: "B_L — Left Semicircular Canal Projection Matrix (3×3)",
+            derivDesc: "Rows are unit canal normals [Anterior, Posterior, Horizontal] mirrored across the sagittal plane (z negated).",
+            derivLatex: "B_L = \\begin{bmatrix} -0.589 & -0.177 & -0.788 \\\\ -0.694 & -0.270 & 0.667 \\\\ -0.323 & 0.946 & 0.038 \\end{bmatrix}"
+          },
+          "ω_canal : 6-element canal velocity vector",
+          {
+            label: "R_W^H(t) ∈ SO(3) : 3×3 World-to-Head Direction Cosine Matrix",
+            derivTitle: "R_W^H(t) — World-to-Head Rotation Matrix (3×3)",
+            derivDesc: "Transpose of Simbody skull body rotation R_H^W(t); transforms world angular velocity and gravito-inertial force into head coordinates.",
+            derivLatex: "R_W^H(t) = \\left(R_H^W(t)\\right)^{\\top} = \\begin{bmatrix} r_{11} & r_{21} & r_{31} \\\\ r_{12} & r_{22} & r_{32} \\\\ r_{13} & r_{23} & r_{33} \\end{bmatrix} \\in SO(3)"
+          }
         ]
       },
       s2_canals_irr: {
@@ -1042,7 +1076,12 @@ for a in 0..2:
         latex: "",
         math: "",
         params: [
-          "B_R⁻¹, B_L⁻¹ : Inverse canal geometry matrices",
+          {
+            label: "B_R⁻¹, B_L⁻¹ : Inverse canal geometry matrices",
+            derivTitle: "B_R⁻¹, B_L⁻¹ — Exact Inverse Canal Reconstruction Matrices (3×3)",
+            derivDesc: "Reconstructs 3D head angular velocity [ω_x, ω_y, ω_z]ᵀ from the three canal channels [Ant, Post, Horiz]ᵀ.",
+            derivLatex: "B_R^{-1} = \\begin{bmatrix} -0.6430 & -0.7408 & -0.3317 \\\\ -0.1896 & -0.2777 & 0.9424 \\\\ 0.7458 & -0.6161 & -0.0363 \\end{bmatrix}, \\quad B_L^{-1} = \\begin{bmatrix} -0.6430 & -0.7408 & -0.3317 \\\\ -0.1896 & -0.2777 & 0.9424 \\\\ -0.7458 & 0.6161 & 0.0363 \\end{bmatrix}"
+          },
           {
             label: "G_pass,irr = 0.541800 : Irregular passband gain",
             derivTitle: "Irregular Canal Passband Gain (G_pass,irr = 0.541800)",
@@ -1068,7 +1107,12 @@ for a in 0..2:
         latex: "",
         math: "",
         params: [
-          "B_R⁻¹, B_L⁻¹ : Inverse canal geometry matrices",
+          {
+            label: "B_R⁻¹, B_L⁻¹ : Inverse canal geometry matrices",
+            derivTitle: "B_R⁻¹, B_L⁻¹ — Exact Inverse Canal Reconstruction Matrices (3×3)",
+            derivDesc: "Reconstructs 3D head angular velocity [ω_x, ω_y, ω_z]ᵀ from the three canal channels [Ant, Post, Horiz]ᵀ.",
+            derivLatex: "B_R^{-1} = \\begin{bmatrix} -0.6430 & -0.7408 & -0.3317 \\\\ -0.1896 & -0.2777 & 0.9424 \\\\ 0.7458 & -0.6161 & -0.0363 \\end{bmatrix}, \\quad B_L^{-1} = \\begin{bmatrix} -0.6430 & -0.7408 & -0.3317 \\\\ -0.1896 & -0.2777 & 0.9424 \\\\ -0.7458 & 0.6161 & 0.0363 \\end{bmatrix}"
+          },
           {
             label: "G_pass,reg = 0.436629 : Regular passband gain",
             derivTitle: "Regular Canal Passband Gain (G_pass,reg = 0.436629)",
@@ -1715,7 +1759,13 @@ R_prop  = composeProprioceptiveHeadRotation(arr_trunk[3], arr_neck[3], R_base);`
         params: [
           "Branch Sub2A→Sub3 (Sub2A → Sub3): τ_2B = 3.0 ms, causal biproper lead (1+11.0ms·s)/(1+8.0ms·s) on ω̂_Luen, α̂_Luen, f̂_Luen,oto",
           "Branch Sub1A→Sub3 (Sub1A → Sub3): τ_1A→3 = 3.0 ms, causal biproper lead (1+11.0ms·s)/(1+8.0ms·s) on neck & trunk_orient (trunk_vel 0th-ord)",
-          "Branch 4A (Sub4 → Sub3): τ_4A = 9.0 ms, causal biproper lead (1+17.0ms·s)/(1+8.0ms·s)"
+          "Branch 4A (Sub4 → Sub3): τ_4A = 9.0 ms, causal biproper lead (1+17.0ms·s)/(1+8.0ms·s)",
+          {
+            label: "R_base, R_prop ∈ SO(3) : 3×3 Head-to-World Rotation Matrices",
+            derivTitle: "R_base, R_prop ∈ SO(3) — Body-to-World Attitude Matrices (3×3)",
+            derivDesc: "Orthogonal 3×3 direction-cosine matrices (RᵀR = I, det R = +1) mapping head frame vectors to world frame.",
+            derivLatex: "R = \\begin{bmatrix} r_{11} & r_{12} & r_{13} \\\\ r_{21} & r_{22} & r_{23} \\\\ r_{31} & r_{32} & r_{33} \\end{bmatrix} \\in SO(3), \\quad R_{\\text{err}} = R_{\\text{base}}^{\\top} R_{\\text{prop}}"
+          }
         ]
       },
       s4_oto: {
@@ -2003,7 +2053,13 @@ tau_ton[a] = K_ton[a] * ton_state[a];`
           "Roll (Ungated LatEC): K_ton_roll = 0.90 Nm/rad (positive restorative), p_ton_roll = 3.20 rad/s (~0.51 Hz, τ = 312.5 ms), 0 zeros",
           "Yaw (Ungated YawMA): K_ton_yaw = 6.20 Nm/rad, p_ton_yaw = 16.227 rad/s (~2.58 Hz, τ = 61.6 ms), 0 zeros",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
-          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)"
+          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
+          {
+            label: "K_ton : 3×3 Tonic Otolith-VCR Gain Matrix",
+            derivTitle: "K_ton — 3-Axis Tonic Tilt VCR Gain Matrix (3×3)",
+            derivDesc: "Diagonal gain matrix weighting [Pitch, Roll, Yaw] tonic otolith-tilt reflex commands.",
+            derivLatex: "K_{\\text{ton}} = \\mathrm{diag}\\!\\left(K_{\\text{ton,P}},\\, K_{\\text{ton,R}},\\, K_{\\text{ton,Y}}\\right) = \\begin{bmatrix} 5.259843 & 0 & 0 \\\\ 0 & 0.90 & 0 \\\\ 0 & 0 & 6.20 \\end{bmatrix}"
+          }
         ]
       },
       s5_sc: {
@@ -2032,7 +2088,13 @@ d(sc_vel[a])/dt   = p_sc[a]*250.0*(u_sc[a] - sc_state[a]) - (p_sc[a]+250.0)*sc_v
           "Roll: K_sc_roll = 3.50, z_sc_roll = 18.0 ms (0.018 s open lead), p_sc_roll = 60.0 rad/s (τ = 16.7 ms)",
           "Yaw: K_sc_yaw = 1.32, z_sc_yaw = 16.0 ms (0.016 s open lead), p_sc_yaw = 3.50 rad/s (τ = 285.7 ms)",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
-          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)"
+          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
+          {
+            label: "K_sc : 3×3 Semicircular Canal VCR Gain Matrix",
+            derivTitle: "K_sc — 3-Axis Canal Angular-Velocity VCR Gain Matrix (3×3)",
+            derivDesc: "Diagonal gain matrix weighting [Pitch, Roll, Yaw] semicircular canal VCR damping.",
+            derivLatex: "K_{\\text{sc}} = \\mathrm{diag}\\!\\left(K_{\\text{sc,P}},\\, K_{\\text{sc,R}},\\, K_{\\text{sc,Y}}\\right) = \\begin{bmatrix} 4.101869 & 0 & 0 \\\\ 0 & 3.50 & 0 \\\\ 0 & 0 & 1.32 \\end{bmatrix}"
+          }
         ]
       },
       s5_phas: {
@@ -2061,7 +2123,13 @@ d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_phas[a] - phas_state[a]) - (p_phas[a]+2
           "Roll: K_phas_roll = 13.500, z_phas_roll = 12.0 ms (0.012 s open lead), p_phas_roll = 4.50 rad/s (~0.72 Hz, τ = 222.2 ms)",
           "Yaw: Phasic otolith linear-translation input is zero on Earth-vertical yaw",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
-          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)"
+          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
+          {
+            label: "K_phas : 3×3 Phasic Otolith-VCR Gain Matrix",
+            derivTitle: "K_phas — Phasic Linear-Acceleration VCR Gain Matrix (3×3)",
+            derivDesc: "Diagonal gain matrix for dynamic translational otolith VCR on [Pitch (AP), Roll (Lat), Yaw].",
+            derivLatex: "K_{\\text{phas}} = \\mathrm{diag}\\!\\left(K_{\\text{phas,P}},\\, K_{\\text{phas,R}},\\, 0\\right) = \\begin{bmatrix} 11.0 & 0 & 0 \\\\ 0 & 13.5 & 0 \\\\ 0 & 0 & 0 \\end{bmatrix}"
+          }
         ]
       },
       s5_sum: {
@@ -2083,7 +2151,13 @@ d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_phas[a] - phas_state[a]) - (p_phas[a]+2
           "Pitch VCR: K_ton=5.26 (p=16.23), K_sc=4.10 (z=15ms, p=53.3), K_phas=11.00 (z=8ms, p=4.71)",
           "Roll VCR: K_ton_roll=0.90 (p=3.2), K_sc_roll=3.50 (p=60.0, z=18ms), K_phas_roll=13.50 (p=4.50, z=12ms)",
           "Yaw VCR: K_ton_yaw=6.20 (p=16.23), K_sc_yaw=1.32 (p=3.5, z=16ms), K_phas_yaw=0",
-          "Strict Properness (D = 0) + MVST (τ_5 = 2.5 ms, biproper lead): Total VCR loop = 2.0 + 2.5 + 2.5 = 7.0 ms"
+          "Strict Properness (D = 0) + MVST (τ_5 = 2.5 ms, biproper lead): Total VCR loop = 2.0 + 2.5 + 2.5 = 7.0 ms",
+          {
+            label: "K_ton, K_sc, K_phas : 3×3 VCR Diagonal Gain Matrices",
+            derivTitle: "Sub2B VCR 3×3 Diagonal Gain Matrices",
+            derivDesc: "All three 3-axis diagonal VCR gain matrices summed at Sub2B MVST output.",
+            derivLatex: "K_{\\text{ton}} = \\mathrm{diag}(5.259843,\\,0.90,\\,6.20),\\quad K_{\\text{sc}} = \\mathrm{diag}(4.101869,\\,3.50,\\,1.32),\\quad K_{\\text{phas}} = \\mathrm{diag}(11.0,\\,13.5,\\,0)"
+          }
         ]
       },
       s5_comp_5: {
@@ -2140,7 +2214,7 @@ d(v_ccr[i])/dt = p_ccr*250.0*(u_1B[i] - x_ccr[i]) - (p_ccr+250.0)*v_ccr[i];
 y_ccr[i] = x_ccr[i] + z_lead * v_ccr[i];`
           },
           {
-            text: "In parallel across all 3 axes, evaluate voluntary-trajectory-referenced task-space CCR PD torque comparing 2.5 ms raw_neck against 14.5 ms Branch 4C plans.",
+            text: "In parallel across all 3 axes, evaluate voluntary-trajectory-referenced task-space CCR PD torque comparing 0 ms local raw_neck against 14.5 ms Branch 4C plans.",
             latex: String.raw`\tau_{\text{CCR},a} = -K_{p,\text{prop},a}\Bigl((\hat{q}_{\text{neck},a} - x_{1,4C,a}) + z_{\text{ccr},a}(\dot{\hat{q}}_{\text{neck},a} - x_{2,4C,a})\Bigr)`,
             pseudo:
 `tau_ccr_task[a] = -Kp_prop[a] * ((ccr_neck_ang[a] - ref_pos_4c[a]) + z_ccr_ax[a] * (ccr_neck_spd[a] - ref_vel_4c[a]));`
@@ -2154,7 +2228,13 @@ y_ccr[i] = x_ccr[i] + z_lead * v_ccr[i];`
           "Spindle→C1–C8 Axon Delays: Ia = 1.0 ms, II = 2.5 ms (uncompensated); Sub1B C1–C8 Lead (2.5 ms → 8.0/10.5 ms) on u_ccr",
           "Task-Space Pitch CCR: Kp_prop_pitch = 0.50 Nm/rad, z_ccr = 0.020 s (symmetric with Roll & Yaw)",
           "Task-Space Roll CCR: Kp_prop_roll = 2.10 Nm/rad, z_ccr_roll = 0.005 s, referenced to Branch 4C trajectory",
-          "Task-Space Yaw CCR: Kp_prop_yaw = 14.0 Nm/rad, z_ccr_yaw = 0.050 s, referenced to Branch 4C trajectory"
+          "Task-Space Yaw CCR: Kp_prop_yaw = 14.0 Nm/rad, z_ccr_yaw = 0.050 s, referenced to Branch 4C trajectory",
+          {
+            label: "K_p,ccr : 3×3 Isotropic CCR Task Gain Matrix",
+            derivTitle: "K_{p,ccr} — 3-Axis Cervicocollic Reflex Gain Matrix (3×3)",
+            derivDesc: "Global CCR gain 0.05 scaled by axis-specific task gains [Pitch, Roll, Yaw].",
+            derivLatex: "K_{p,\\text{ccr}} = 0.05 \\cdot \\mathrm{diag}(0.50,\\, 2.10,\\, 14.0) = \\begin{bmatrix} 0.025 & 0 & 0 \\\\ 0 & 0.105 & 0 \\\\ 0 & 0 & 0.700 \\end{bmatrix}"
+          }
         ]
       },
       s6_rect: {
@@ -2258,7 +2338,13 @@ tau_qp[2*a + 1] = tau_total[a] + w2 * v_diff[a] + tau_buckle[a];`
             derivLatex: String.raw`\boldsymbol{\tau}_{\text{qp},2a/2a+1} = \tau_{\text{total},a} + w_{1/2,a}v_{\text{diff},a} \mp \tau_{\text{buckle},a}, \qquad \boldsymbol{\mu} = \bigl(A_{6,\text{free}}A_{6,\text{free}}^\top + \lambda_{\text{QP}}I_6\bigr)^{-1}\boldsymbol{\tau}_{\text{rem}}`
           },
           "u_min[72] : Per-muscle literature-centered 6-DOF equilibrium baselines (1.38% – 6.95% MVC)",
-          "u_α[72] = u_min[72] + Δu[72] : Optimal descending motor excitations"
+          "u_α[72] = u_min[72] + Δu[72] : Optimal descending motor excitations",
+          {
+            label: "J_6(q), J_pos(q), K_buckle : 6×72 Action & 3×3 Anti-Buckling Matrices",
+            derivTitle: "QP Muscle-Action Matrix J_6(q) & Anti-Buckling Gain Matrices",
+            derivDesc: "J_6(q) is the 6×72 runtime skull-wrench matrix (moment arms × unit line-of-action); K_{p/d,buckle} are 3×3 diagonal neck-segment gains.",
+            derivLatex: "J_6(q) \\in \\mathbb{R}^{6 \\times 72},\\quad \\tau_6 = J_6(q)\\,F_{\\max}\\,\\mathbf{a}, \\qquad K_{p,\\text{buckle}} = \\mathrm{diag}(1.5,\\,1.5,\\,1.5),\\; K_{d,\\text{buckle}} = \\mathrm{diag}(0.15,\\,0.15,\\,0.15)"
+          }
         ]
       },
       s7_recip: {
@@ -2722,7 +2808,13 @@ omega_head  = (~X_GS.R()) * omega_world;`
         latex: "",
         math: "",
         params: [
-          "Output: head_body_angular_velocity [roll, yaw, pitch] (rad/s)"
+          "Output: head_body_angular_velocity [roll, yaw, pitch] (rad/s)",
+          {
+            label: "R_W^H(t) ∈ SO(3) : 3×3 World-to-Head Direction Cosine Matrix",
+            derivTitle: "R_W^H(t) — World-to-Head Rotation Matrix (3×3)",
+            derivDesc: "Transpose of Simbody skull body rotation R_H^W(t); transforms world angular velocity and gravito-inertial force into head coordinates.",
+            derivLatex: "R_W^H(t) = \\left(R_H^W(t)\\right)^{\\top} = \\begin{bmatrix} r_{11} & r_{21} & r_{31} \\\\ r_{12} & r_{22} & r_{32} \\\\ r_{13} & r_{23} & r_{33} \\end{bmatrix} \\in SO(3)"
+          }
         ]
       },
       io_skull_gif: {
@@ -2741,7 +2833,13 @@ f_GIF = rotation_world_to_head * (a_lin - Vec3(0.0, -9.81, 0.0));`
         latex: "",
         math: "",
         params: [
-          "g_W = [0, -9.81, 0]^T m/s^2 : World gravity vector"
+          "g_W = [0, -9.81, 0]^T m/s^2 : World gravity vector",
+          {
+            label: "R_W^H(t) ∈ SO(3) : 3×3 World-to-Head Direction Cosine Matrix",
+            derivTitle: "R_W^H(t) — World-to-Head Rotation Matrix (3×3)",
+            derivDesc: "Transpose of Simbody skull body rotation R_H^W(t); transforms world angular velocity and gravito-inertial force into head coordinates.",
+            derivLatex: "R_W^H(t) = \\left(R_H^W(t)\\right)^{\\top} = \\begin{bmatrix} r_{11} & r_{21} & r_{31} \\\\ r_{12} & r_{22} & r_{32} \\\\ r_{13} & r_{23} & r_{33} \\end{bmatrix} \\in SO(3)"
+          }
         ]
       },
       io_muscle_kinematics: {
@@ -5120,21 +5218,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
       atlas: {
         breadcrumb: "Anatomical_Delay_and_Prospective_Coding_Atlas (Enlarged Sagittal Minimap Topology)",
         svg: `
-          <div class="w-full bg-neutral-100 text-neutral-800 rounded-t border border-neutral-300 px-3 py-1.5 flex flex-wrap items-center justify-between gap-2 mb-1">
-            <div class="flex items-center gap-2 font-mono text-[10.5px]">
-              <span class="px-2 py-0.5 rounded bg-neutral-200 border border-neutral-400 text-neutral-900 font-bold">ANATOMICAL DELAY &amp; PROSPECTIVE CODING ATLAS</span>
-              <span class="text-neutral-600">Subsystems, outgoing axons &amp; internal arrows color-coded by source subsystem • Solid axonal tracts</span>
-            </div>
-            <div class="flex flex-wrap items-center gap-1 font-mono">
-              <span class="text-[10px] text-neutral-500 mr-1">Filter View:</span>
-              <button id="atlas-btn-all" onclick="filterAtlasView('all')" class="px-2 py-0.5 rounded text-[10px] font-bold bg-neutral-800 text-white border border-neutral-700">All Layers</button>
-              <button id="atlas-btn-delays" onclick="filterAtlasView('delays')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white text-neutral-700 hover:bg-neutral-200 border border-neutral-300">1. Physical Path Delays</button>
-              <button id="atlas-btn-subsystems" onclick="filterAtlasView('subsystems')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white text-neutral-700 hover:bg-neutral-200 border border-neutral-300">2. Subsystems (1A, 1B, 2A, 2B, 3, 4, 5)</button>
-              <button id="atlas-btn-prospective" onclick="filterAtlasView('prospective')" class="px-2 py-0.5 rounded text-[10px] font-semibold bg-white text-neutral-700 hover:bg-neutral-200 border border-neutral-300">3. Sender Bulk vs Receiver Fix</button>
-            </div>
-          </div>
-
-          <svg id="atlas-main-svg" viewBox="0 0 1160 740" class="w-full h-auto select-none bg-white border border-neutral-300 rounded-b">
+          <svg id="atlas-main-svg" viewBox="0 0 1160 740" class="w-full h-auto select-none bg-white border border-neutral-300 rounded cursor-pointer" onclick="if (!event.target.closest('.sim-block')) showAtlasDelayOnly()">
             <defs>
               <marker id="at-amber" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
                 <path d="M 0 1 L 10 5 L 0 9 z" fill="#d97706"/>
@@ -5282,11 +5366,10 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
                 <text x="982" y="558" text-anchor="middle" font-family="monospace" font-size="7.0" font-weight="bold" fill="#047857">Branch Sub1A→Sub3 (Cuneate→CB): 3.0ms</text>
                 <text x="982" y="567" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#64748b">Tot: 3.0ms (Biproper Lead) → CB</text>
 
-                <!-- Co-located C1–C8 Shared Computation Loop (Sub1B → Sub5): ↻ 2.5ms -->
-                <path d="M 526,608 A 10 10 0 1 1 540,624" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#at-emerald)"/>
-                <path d="M 538,626 A 10 10 0 0 1 524,612" fill="none" stroke="#059669" stroke-width="2.5" marker-end="url(#at-emerald)"/>
-                <rect x="546" y="606" width="144" height="19" rx="3" fill="#ffffff" stroke="#059669" stroke-width="1.1"/>
-                <text x="618" y="618" text-anchor="middle" font-family="monospace" font-size="6.9" font-weight="bold" fill="#047857">↻ 2.5ms (C1–C8 relay delay)</text>
+                <!-- Direct Local Compute Arrow Sub1B → Sub5 (0 ms) -->
+                <path d="M 554,636 L 554,600" fill="none" stroke="#059669" stroke-width="2.6" marker-end="url(#at-emerald)"/>
+                <rect x="562" y="607" width="84" height="19" rx="3" fill="#ffffff" stroke="#059669" stroke-width="1.1"/>
+                <text x="604" y="619" text-anchor="middle" font-family="monospace" font-size="6.9" font-weight="bold" fill="#047857">Sub1B→Sub5: 0ms</text>
               </g>
             </g>
 
@@ -5615,11 +5698,10 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
         }
       });
 
-      // Reset bottom dock to empty state until the user explicitly clicks a block (or auto-inspect atlas_dilemma on Atlas tab)
+      // Reset bottom dock to empty state until the user explicitly clicks a block (or show full 13-branch delay sync on Atlas tab)
       closeDerivPopover(true);
       if (tabKey === 'atlas') {
-        const bannerEl = container.querySelector('[onclick*="atlas_dilemma"]');
-        inspectBlock('atlas_dilemma', bannerEl);
+        showAtlasDelayOnly();
         return;
       }
       const emptyEl = document.getElementById('insp-empty');
@@ -5720,7 +5802,12 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
       s7_comp_5a: 'spinal',
       s7_delay_5a: 'spinal',
       s7_comp_5b: 'spinal',
-      s7_delay_5b: 'spinal'
+      s7_delay_5b: 'spinal',
+      atlas_m1_tree: 'desc',
+      atlas_cb_tree: 'asc',
+      atlas_cn8_tree: 'vest',
+      atlas_ventral_tree: 'spinal',
+      atlas_ia_tree: 'prop'
     };
     const DELAY_BLOCK_START_TICK = {
       top_hist: -31,
@@ -5778,7 +5865,12 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
       s7_comp_5a: 0,
       s7_delay_5a: 0,
       s7_comp_5b: 0,
-      s7_delay_5b: 0
+      s7_delay_5b: 0,
+      atlas_m1_tree: -15,
+      atlas_cb_tree: -28,
+      atlas_cn8_tree: -7,
+      atlas_ventral_tree: 0,
+      atlas_ia_tree: -7
     };
     // Scoped animation configuration per delay-related block so each block ONLY animates its own pathway & window
     const DELAY_BLOCK_SCOPE = {
@@ -5786,6 +5878,31 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
         mode: 'all', minTick: -31, maxTick: 3,
         segIds: ['vest_s5', 'vest_s4', 'cb_s5', 'prop_s4', 'prop_s6', 'asc', 'desc_s7', 'desc_cb', 'spinal'],
         badge: 'All 13 Branches (-30.5 to +2.5 ms)'
+      },
+      atlas_m1_tree: {
+        mode: 's1_desc', minTick: -15, maxTick: 0,
+        segIds: ['desc_s7', 'desc_cb'],
+        badge: 'M1 Outgoing Biproper Leads: 4A=9ms(8/17), 4B=10ms(8/18), 4C=14.5ms(8/22.5)'
+      },
+      atlas_cb_tree: {
+        mode: 's4_both', minTick: -28, maxTick: -2,
+        segIds: ['asc', 'cb_s5'],
+        badge: 'Cerebellar Outgoing Leads: 3A = 1.5ms (→Sub2B) & 3B = 13.0ms (→Thal→M1)'
+      },
+      atlas_cn8_tree: {
+        mode: 's2_vest', minTick: -7, maxTick: 0,
+        segIds: ['vest_s5', 'vest_s4'],
+        badge: 'Vestibular Pathways: CN VIII Irr→2B (2.0ms), Reg→Sub3 (3.0ms), MVST→Sub5 (2.5ms)'
+      },
+      atlas_ventral_tree: {
+        mode: 's7_spinal', minTick: 0, maxTick: 3,
+        segIds: ['spinal'],
+        badge: 'Ventral Root Leads: 5A = 12.5ms (2.5ms Aα + 10ms Act.→Plant) & 5B = 2.5ms (Fusimotor→Spindles)'
+      },
+      atlas_ia_tree: {
+        mode: 's3_prop', minTick: -7, maxTick: 0,
+        segIds: ['prop_s4', 'prop_s6'],
+        badge: 'Spindle Pathways: Ia (1.0ms) & II (2.5ms) → C1–C8 CCR, Cuneocerebellar 1A→Sub3 (3.0ms)'
       },
       s1_delay: {
         mode: 's1_asc', minTick: -28, maxTick: -15,
@@ -6686,13 +6803,48 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
       clearBrainHighlight();
     }
 
+    function showAtlasDelayOnly() {
+      const emptyEl = document.getElementById('insp-empty');
+      const contentEl = document.getElementById('insp-content');
+      const leftCol = document.getElementById('insp-left-col');
+      const paramsHdr = document.getElementById('insp-params-hdr');
+      const paramsEl = document.getElementById('insp-params');
+      const sideCol = document.getElementById('insp-side-col');
+      const delayBox = document.getElementById('insp-delay-minimap-box');
+      if (emptyEl) emptyEl.classList.add('hidden');
+      if (contentEl) contentEl.classList.remove('hidden');
+      if (leftCol) leftCol.classList.add('hidden');
+      if (paramsHdr) paramsHdr.classList.add('hidden');
+      if (paramsEl) { paramsEl.classList.add('hidden'); paramsEl.innerHTML = ''; }
+      document.querySelectorAll('.sim-block').forEach(b => b.classList.remove('selected'));
+      closeDerivPopover(true);
+      if (delayBox && sideCol) {
+        _activeDelayBlockKey = 'top_hist';
+        delayBox.classList.remove('hidden');
+        sideCol.className = "w-full md:w-[540px] lg:w-[580px] mx-auto bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all";
+        applyDelayScopeUI();
+        _danimPlaying = true;
+        const playBtn = document.getElementById('danim-play-btn');
+        if (playBtn) playBtn.textContent = '⏸ Pause';
+        _defaultDelayHighlight = null;
+        clearDelayPathHighlight();
+        jumpDelayTick(-31);
+      }
+    }
+
     function inspectBlock(blockKey, el) {
       const info = BLOCK_INFO[blockKey];
       if (!info) return;
       const emptyEl = document.getElementById('insp-empty');
       const contentEl = document.getElementById('insp-content');
+      const leftCol = document.getElementById('insp-left-col');
+      const paramsHdr = document.getElementById('insp-params-hdr');
+      const paramsEl = document.getElementById('insp-params');
       if (emptyEl) emptyEl.classList.add('hidden');
       if (contentEl) contentEl.classList.remove('hidden');
+      if (leftCol) leftCol.classList.remove('hidden');
+      if (paramsHdr) paramsHdr.classList.remove('hidden');
+      if (paramsEl) paramsEl.classList.remove('hidden');
       document.querySelectorAll('.sim-block').forEach(b => b.classList.remove('selected'));
       if (el) el.classList.add('selected');
 
@@ -6715,7 +6867,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
           jumpDelayTick(startTick);
         } else {
           delayBox.classList.add('hidden');
-          sideCol.className = "w-full md:w-80 bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all";
+          sideCol.className = "w-full md:w-[540px] lg:w-[580px] bg-white border border-neutral-300 rounded p-2.5 shrink-0 relative transition-all";
           _defaultDelayHighlight = null;
         }
       }

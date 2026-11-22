@@ -102,6 +102,15 @@ public:
     OpenSim_DECLARE_PROPERTY(w_pos_lat, double, "2x2 weighted IK weight for lateral head-on-trunk shift vs attitude-only control (0=attitude-only; default: 1.0)");
     OpenSim_DECLARE_PROPERTY(shift_station_blend, double, "Horizontal shift station blend [0=C1/C0 atlanto-occipital pivot, 1=skull COM] (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(tau_obs_washout, double, "First-order high-pass washout time constant on obs_px/obs_pz feeding C1 shift loop in s (default: 4.0)");
+    OpenSim_DECLARE_PROPERTY(vol_kp_shift_ap, double, "Voluntary-gated AP differential proportional gain floor in Nm/rad (default: 6.5)");
+    OpenSim_DECLARE_PROPERTY(vol_kp_shift_lat, double, "Voluntary-gated lateral differential proportional gain floor in Nm/rad (default: 6.5)");
+    OpenSim_DECLARE_PROPERTY(vol_ki_shift_ap, double, "Voluntary-gated AP differential integral gain floor in Nm/(rad*s) (default: 40.0)");
+    OpenSim_DECLARE_PROPERTY(vol_ki_shift_lat, double, "Voluntary-gated lateral differential integral gain floor in Nm/(rad*s) (default: 16.0)");
+    OpenSim_DECLARE_PROPERTY(vol_diff_ff_stiff_ap, double, "Voluntary-gated AP differential stiffness feedforward in Nm/rad (default: 5.5)");
+    OpenSim_DECLARE_PROPERTY(vol_diff_ff_stiff_lat, double, "Voluntary-gated lateral differential stiffness feedforward in Nm/rad (default: 7.0)");
+    OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_ap, double, "Voluntary-gated AP differential velocity feedforward in Nms/rad (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_lat, double, "Voluntary-gated lateral differential velocity feedforward in Nms/rad (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(urgency, double, "Cortical movement urgency / vigor dial u in [0.0, 1.0]: 0.0=relaxed/calibrated baseline (tau_0, KP_0, KD_0), 1.0=maximal urgent fast tracking with anisotropic speed & impedance scaling (default: 0.0)");
 
     // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
     OpenSim_DECLARE_PROPERTY(Kp_buckle, double, "6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
@@ -402,8 +411,10 @@ private:
     mutable const StateVariable* state_variable_semicircular_canal[6][2][2] = {{{nullptr}}};
     mutable const StateVariable* state_variable_trajectory_position[3] = {nullptr};
     mutable const StateVariable* state_variable_trajectory_velocity[3] = {nullptr};
+    mutable const StateVariable* state_variable_trajectory_acceleration[3] = {nullptr};
     mutable const StateVariable* state_variable_traj_diff_pos[2] = {nullptr};
     mutable const StateVariable* state_variable_traj_diff_vel[2] = {nullptr};
+    mutable const StateVariable* state_variable_traj_diff_acc[2] = {nullptr};
     mutable const StateVariable* state_variable_error_integral[3] = {nullptr};
     mutable const StateVariable* state_variable_shift_error_integral[2] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
