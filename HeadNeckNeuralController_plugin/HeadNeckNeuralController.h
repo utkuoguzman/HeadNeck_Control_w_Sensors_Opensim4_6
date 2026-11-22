@@ -28,6 +28,8 @@ public:
     OpenSim_DECLARE_PROPERTY(desired_yaw, double, "Voluntary desired yaw angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(desired_pitch, double, "Voluntary desired pitch angle for the head (rad)");
     OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
+    OpenSim_DECLARE_PROPERTY(desired_ap_shift, double, "Voluntary desired AP head-on-trunk shift in m (+ anterior protraction, - retraction; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(desired_lat_shift, double, "Voluntary desired lateral head-on-trunk shift in m (+ rightward glide, - leftward glide; default: 0.0)");
     OpenSim_DECLARE_PROPERTY(trajectory_tau, double, "Time constant for the internal 2nd-order trajectory planner");
     OpenSim_DECLARE_PROPERTY(fc_voluntary, double, "Voluntary controller low-pass cutoff frequency in Hz (default: 2.0)");
     OpenSim_DECLARE_PROPERTY(tau_lead_pole, double, "Pitch synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
@@ -77,11 +79,29 @@ public:
     OpenSim_DECLARE_PROPERTY(Ki_task_roll, double, "Explicit Task Ki for roll in Nm/(rad*s) (default: 1.15)");
     OpenSim_DECLARE_PROPERTY(Ki_task_yaw, double, "Explicit Task Ki for yaw in Nm/(rad*s) (default: 0.05)");
 
-    // Cortical voluntary roll stabilization driven by cerebellar SE2(3) lateral velocity/position (obs_vz, obs_pz)
+    // Cortical voluntary roll & pitch stabilization driven by cerebellar SE2(3) velocity/position (obs_v*, obs_p*)
     OpenSim_DECLARE_PROPERTY(Kv_trans_roll, double, "Voluntary roll torque gain on SE2(3) lateral velocity obs_vz in Nm/(m/s) (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(Kp_trans_roll, double, "Voluntary roll torque gain on SE2(3) lateral position obs_pz in Nm/m (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kv_trans_pitch, double, "Voluntary pitch torque gain on SE2(3) AP velocity obs_vx in Nm/(m/s) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_trans_pitch, double, "Voluntary pitch torque gain on SE2(3) AP position obs_px in Nm/m (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(tau_vel_leak, double, "Cerebellar SE2(3) linear velocity-storage leak time constant in s (default: 15.0)");
     OpenSim_DECLARE_PROPERTY(tau_pos_leak, double, "Cerebellar SE2(3) egocentric linear position-tether leak time constant in s (default: 5.0)");
+
+    // Cortical horizontal head-on-trunk shift PID gains, 2x2 IK weights & SE2(3) counter-translation couplings
+    OpenSim_DECLARE_PROPERTY(Kp_shift_ap, double, "Cortical AP shift differential proportional gain Kp_shift_ap in Nm/rad (default: 4.5)");
+    OpenSim_DECLARE_PROPERTY(Kd_shift_ap, double, "Cortical AP shift differential derivative gain Kd_shift_ap in Nms/rad (default: 0.45)");
+    OpenSim_DECLARE_PROPERTY(Ki_shift_ap, double, "Cortical AP shift differential integral gain Ki_shift_ap in Nm/(rad*s) (default: 6.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_shift_lat, double, "Cortical lateral shift differential proportional gain Kp_shift_lat in Nm/rad (default: 4.5)");
+    OpenSim_DECLARE_PROPERTY(Kd_shift_lat, double, "Cortical lateral shift differential derivative gain Kd_shift_lat in Nms/rad (default: 0.45)");
+    OpenSim_DECLARE_PROPERTY(Ki_shift_lat, double, "Cortical lateral shift differential integral gain Ki_shift_lat in Nm/(rad*s) (default: 6.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_shift_obs_px, double, "SE2(3) AP position-to-shift counter-translation gain (obs_px -> desired AP shift) in m/m (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kv_shift_obs_vx, double, "SE2(3) AP velocity-to-shift counter-translation gain (obs_vx -> desired AP shift) in m/(m/s) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_shift_obs_pz, double, "SE2(3) lateral position-to-shift counter-translation gain (obs_pz -> desired Lat shift) in m/m (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(Kv_shift_obs_vz, double, "SE2(3) lateral velocity-to-shift counter-translation gain (obs_vz -> desired Lat shift) in m/(m/s) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(w_pos_ap, double, "2x2 weighted IK weight for AP head-on-trunk shift vs attitude-only control (0=attitude-only; default: 1.0)");
+    OpenSim_DECLARE_PROPERTY(w_pos_lat, double, "2x2 weighted IK weight for lateral head-on-trunk shift vs attitude-only control (0=attitude-only; default: 1.0)");
+    OpenSim_DECLARE_PROPERTY(shift_station_blend, double, "Horizontal shift station blend [0=C1/C0 atlanto-occipital pivot, 1=skull COM] (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(tau_obs_washout, double, "First-order high-pass washout time constant on obs_px/obs_pz feeding C1 shift loop in s (default: 4.0)");
 
     // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
     OpenSim_DECLARE_PROPERTY(Kp_buckle, double, "6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
@@ -209,6 +229,39 @@ public:
     double getMahonyRollSpeed(const SimTK::State& state) const;
     double getMahonyYawSpeed(const SimTK::State& state) const;
 
+    // 6-DOF Cuneate head-on-trunk horizontal shift outputs (m) and SE2(3) translational observer outputs
+    OpenSim_DECLARE_OUTPUT(cuneate_ap_shift, double, getCuneateApShift, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(cuneate_lat_shift, double, getCuneateLatShift, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(obs_pos_x, double, getObserverPosX, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(obs_pos_z, double, getObserverPosZ, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(obs_vel_x, double, getObserverVelX, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(obs_vel_z, double, getObserverVelZ, SimTK::Stage::Velocity);
+
+    double getCuneateApShift(const SimTK::State& state) const {
+        const double x_filt = state_variable_cuneate_diff[0] ? state_variable_cuneate_diff[0]->getValue(state) : 0.0;
+        return (std::abs(x_filt) > 1e-12) ? x_filt : cuneate_posture_shift_m[0];
+    }
+    double getCuneateLatShift(const SimTK::State& state) const {
+        const double x_filt = state_variable_cuneate_diff[1] ? state_variable_cuneate_diff[1]->getValue(state) : 0.0;
+        return (std::abs(x_filt) > 1e-12) ? x_filt : cuneate_posture_shift_m[1];
+    }
+    double getObserverPosX(const SimTK::State& state) const {
+        if (!get_enable_mahony()) return 0.0;
+        return state_variable_observer_position[0] ? state_variable_observer_position[0]->getValue(state) : getStateVariableValue(state, "obs_px");
+    }
+    double getObserverPosZ(const SimTK::State& state) const {
+        if (!get_enable_mahony()) return 0.0;
+        return state_variable_observer_position[2] ? state_variable_observer_position[2]->getValue(state) : getStateVariableValue(state, "obs_pz");
+    }
+    double getObserverVelX(const SimTK::State& state) const {
+        if (!get_enable_mahony()) return 0.0;
+        return state_variable_observer_velocity[0] ? state_variable_observer_velocity[0]->getValue(state) : getStateVariableValue(state, "obs_vx");
+    }
+    double getObserverVelZ(const SimTK::State& state) const {
+        if (!get_enable_mahony()) return 0.0;
+        return state_variable_observer_velocity[2] ? state_variable_observer_velocity[2]->getValue(state) : getStateVariableValue(state, "obs_vz");
+    }
+
     // Decoded proprioceptive relative state (passive observer / multisensory fusion)
     const SimTK::Vec3& getEstimatedNeckRelativeAngle() const { return estimated_neck_relative_angle; }
     const SimTK::Vec3& getEstimatedNeckRelativeSpeed() const { return estimated_neck_relative_speed; }
@@ -266,15 +319,23 @@ private:
         SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 3B (13.0ms -> Sub 4 Cortex): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 estimated_linear_velocity{0.0};                // Branch 3B (13.0ms -> Sub 4 Cortex): SE2(3) observer linear velocity [x, y, z]
         SimTK::Vec3 estimated_linear_position{0.0};                // Branch 3B (13.0ms -> Sub 4 Cortex): SE2(3) observer egocentric position [x, y, z]
+        SimTK::Vec2 cuneate_diff_angle_1a3{0.0};                   // Branch 1A->3 (3.0ms -> Sub 3): Size 2 [pitch1-pitch2, roll1-roll2] Cuneate diff angle
+        SimTK::Vec2 cuneate_diff_speed_1a3{0.0};                   // Branch 1A->3 (3.0ms -> Sub 3): Size 2 [dpitch, droll] Cuneate diff speed
+        SimTK::Vec2 cuneate_diff_angle_3b{0.0};                    // Branch 3B (13.0ms -> Sub 4 Cortex): Size 2 [pitch1-pitch2, roll1-roll2] Cuneate diff angle
+        SimTK::Vec2 cuneate_diff_speed_3b{0.0};                    // Branch 3B (13.0ms -> Sub 4 Cortex): Size 2 [dpitch, droll] Cuneate diff speed
         SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
+        SimTK::Vec2 cortical_voluntary_diff_torque{0.0};           // Branch 4C (14.5ms -> Sub 5): Size 2 [AP pitch1-pitch2, Lat roll1-roll2] shift torque
         SimTK::Vec3 trajectory_position_1a{0.0};                   // Branch 4A (9.0ms -> Sub 3C Tonic): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 trajectory_velocity_1b{0.0};                   // Branch 4B (10.0ms -> Sub 3C Canal): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 trajectory_acceleration_1b{0.0};               // Branch 4B (10.0ms -> Sub 3C Phasic): Size 3 (pitch, roll, yaw) proper lead compensated
+        SimTK::Vec2 trajectory_diff_acc_1b{0.0};                   // Branch 4B (10.0ms -> Sub 3C Phasic): Size 2 [AP, Lat] planned shift accel (rad/s^2)
         SimTK::Vec3 eff_tonic_tilt_3a{0.0};                        // Branch 3A (1.5ms -> Sub 2B Tonic): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 eff_canal_vel_3a{0.0};                         // Branch 3A (1.5ms -> Sub 2B Canal): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 eff_phasic_grav_acc_3a{0.0};                   // Branch 3A (1.5ms -> Sub 2B Phasic): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 trajectory_position{0.0};                      // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vec3 trajectory_velocity{0.0};                      // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
+        SimTK::Vec2 trajectory_diff_position{0.0};                 // Branch 4C (14.5ms -> Sub 5): Size 2 [AP, Lat] planned diff angle (rad)
+        SimTK::Vec2 trajectory_diff_velocity{0.0};                 // Branch 4C (14.5ms -> Sub 5): Size 2 [AP, Lat] planned diff speed (rad/s)
         SimTK::Vec3 brainstem_vcr_torque{0.0};                     // Path 5 (2.5ms MVST -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
         SimTK::Vector spinal_ccr_drive;                            // Path 6 (2.5ms C1-C8 compute -> Sub 5): Size N uncompensated CCR excitation
         SimTK::Vector spinal_motor_excitations;                    // Branch 5A (2.5ms axonal -> 72 Muscles): Size N post-pool-sum alpha excitations proper lead compensated
@@ -301,11 +362,14 @@ private:
     mutable SimTK::Matrix jacobian_6dof_d1[6];                     // 6 x N 1st-order Taylor slopes dJ/dq_d
     mutable SimTK::Matrix jacobian_6dof_d2[6];                     // 6 x N 2nd-order Taylor curvatures d2J/dq_d^2
     mutable double q0_6dof[6] = {0.0};                             // Baseline 6-DOF coordinates [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
+    mutable double J_c1_pos[2][2] = {{-0.00506, -0.08327}, {0.00570, 0.07605}};  // 2x2 positional Jacobian of C1/C0 (skull origin) [AP(p1,p2); Lat(r1,r2)] in m/rad
+    mutable double J_com_pos[2][2] = {{-0.06806, -0.14632}, {0.06870, 0.13905}}; // 2x2 positional Jacobian of skull COM [AP(p1,p2); Lat(r1,r2)] in m/rad
     mutable SimTK::Matrix proprioceptive_decoder_matrix;           // 3 x N summed reconstruction matrix: (pitch1+pitch2, roll1+roll2, yaw1+yaw2)
     mutable SimTK::Matrix proprioceptive_decoder_matrix_6dof;      // 6 x N full 6-DOF reconstruction matrix: -(J6 * J6^T)^{-1} * J6
     mutable SimTK::Vec3 estimated_neck_relative_angle;             // Decoded relative neck angle [pitch, roll, yaw] (rad)
     mutable SimTK::Vec3 estimated_neck_relative_speed;             // Decoded relative neck speed [pitch, roll, yaw] (rad/s)
     mutable SimTK::Vec3 cuneate_posture_neck_angle{0.0};           // Tendon-compensated static secondary-spindle neck posture [pitch, roll, yaw] (rad)
+    mutable SimTK::Vec2 cuneate_posture_shift_m{0.0};              // Tendon-compensated 6-DOF Cuneate station shift [AP x, Lat z] (m)
     mutable SimTK::Vec<6> estimated_neck_6dof_angle{0.0};          // Decoded individual 6-DOF neck angles [pitch1, pitch2, roll1, roll2, yaw1, yaw2] (rad)
     mutable SimTK::Vec<6> estimated_neck_6dof_speed{0.0};          // Decoded individual 6-DOF neck speeds [pitch1, pitch2, roll1, roll2, yaw1, yaw2] (rad/s)
     mutable SimTK::Vec3 mahony_estimated_angle;                    // Mahony estimated head attitude [pitch, roll, yaw] (rad)
@@ -338,12 +402,20 @@ private:
     mutable const StateVariable* state_variable_semicircular_canal[6][2][2] = {{{nullptr}}};
     mutable const StateVariable* state_variable_trajectory_position[3] = {nullptr};
     mutable const StateVariable* state_variable_trajectory_velocity[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_diff_pos[2] = {nullptr};
+    mutable const StateVariable* state_variable_traj_diff_vel[2] = {nullptr};
     mutable const StateVariable* state_variable_error_integral[3] = {nullptr};
+    mutable const StateVariable* state_variable_shift_error_integral[2] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
     mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
+    mutable const StateVariable* state_variable_vol_diff_filter_stage1[2] = {nullptr};
+    mutable const StateVariable* state_variable_vol_diff_filter_stage2[2] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_velocity_storage[3] = {nullptr};
     mutable const StateVariable* state_variable_cuneate_posture[3] = {nullptr};
+    mutable const StateVariable* state_variable_cuneate_diff[2] = {nullptr};
+    mutable const StateVariable* state_variable_obs_wash_lpf[2] = {nullptr};
+    mutable const StateVariable* state_variable_obs_vel_wash_lpf[2] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_irregular_otolith_adapt[3] = {nullptr};
@@ -401,9 +473,11 @@ private:
 
     // Proper biproper 1st-order lead compensator state C_lead(s) = (1 + tau_z*s)/(1 + tau_p*s)
     // Slots 0..35:  2A (0..5), 2B (6..14), 1A->3 (15..23), 3A efference (24..32), Path 5 MVST (33..35);
-    // Slots 36..65: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62), unused (63..65);
-    // Slots 66..66+5N-1: per-muscle Sub5 Branch 5A (12.5 ms: +0), Branch 5B (2.5 ms: +1..+3), and Sub1B C1-C8 CCR (2.5 ms: +4).
-    static constexpr int NUM_FIXED_LEAD_SLOTS = 66;
+    // Slots 36..62: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62);
+    // Slots 63..79: 1A->3 diff ang/spd (63..66), 3B diff ang/spd (67..70), 4B diff acc (71..72),
+    //               4C vol_diff/diff_pos/diff_vel (73..78), spare (79);
+    // Slots 80..80+5N-1: per-muscle Sub5 Branch 5A (12.5 ms: +0), Branch 5B (2.5 ms: +1..+3), and Sub1B C1-C8 CCR (2.5 ms: +4).
+    static constexpr int NUM_FIXED_LEAD_SLOTS = 80;
     mutable std::vector<const StateVariable*> state_variable_lead_comp;
     mutable std::vector<double> lead_u0;
     mutable std::vector<double> lead_u_curr;

@@ -557,20 +557,10 @@ def render_standard_4panel(sim_res, out_filename):
         lw=2.1,
         label=f"Current Model {axis_name} [Mean = {mean_ang_ss:+.2f}°, Max = {max_ang_ss:.2f}°, Quiet Max|Δ| = {sim_res['quiet_main_max_deg']:.3f}°]",
     )
-    if mode == "YawMA":
-        ax1.plot(
-            t,
-            sim_res["pert"],
-            color="#64748b",
-            ls=":",
-            lw=1.3,
-            alpha=0.85,
-            label=f"Applied Trunk Yaw Input gndyaw(t) [Max = {np.max(np.abs(sim_res['pert'][mask_ss])):.2f}°]",
-        )
     ax1.axvline(0.8, color="#64748b", ls=":", lw=1.3, label="Perturbation Ramp Start (t = 0.8s)")
     ax1.axvline(5.0, color="#dc2626", ls="--", lw=1.4, label="Steady-State Scoring Window (t >= 5.0s)")
     ax1.set_xlim(0, sim_res["target_time"])
-    all_ang = [ref_trace, main_angle] + ([sim_res["pert"]] if mode == "YawMA" else [])
+    all_ang = [ref_trace, main_angle]
     y1_min = float(min(np.min(a) for a in all_ang))
     y1_max = float(max(np.max(a) for a in all_ang))
     span1 = max(1.0, y1_max - y1_min)
@@ -654,15 +644,7 @@ def render_standard_4panel(sim_res, out_filename):
             lw=1.5,
             label=f"Coupled Head Roll (r1+r2) [Post-5s Max = {sim_res['post_roll_max_deg']:.2f}°, Full Max = {sim_res['full_roll_max_deg']:.2f}°]",
         )
-        ax3.plot(
-            t,
-            yaw_rel,
-            color="#64748b",
-            ls="--",
-            lw=1.25,
-            label=f"Relative Neck-on-Trunk Yaw (y1+y2) [Post-5s Max = {sim_res['post_yaw_rel_max_deg']:.2f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
-        )
-        cross_max_abs = max(sim_res["full_pitch_dev_max_deg"], sim_res["full_roll_max_deg"], sim_res["full_yaw_rel_max_deg"])
+        cross_max_abs = max(sim_res["full_pitch_dev_max_deg"], sim_res["full_roll_max_deg"])
     ax3.axvline(0.8, color="#64748b", ls=":", lw=1.3)
     ax3.axvline(5.0, color="#dc2626", ls="--", lw=1.4)
     ax3.set_xlim(0, sim_res["target_time"])
@@ -775,8 +757,11 @@ def render_standard_4panel(sim_res, out_filename):
 
     out_art = os.path.join(ART_DIR, out_filename)
     os.makedirs(ART_DIR, exist_ok=True)
+    res_dir = os.path.join(_ROOT, "results")
+    os.makedirs(res_dir, exist_ok=True)
     fig.savefig(out_art, bbox_inches="tight")
     shutil.copyfile(out_art, os.path.join(_ROOT, out_filename))
+    shutil.copyfile(out_art, os.path.join(res_dir, out_filename))
     plt.close(fig)
     print(f"[OK] Saved standard plot: {out_art}", flush=True)
 
@@ -891,9 +876,12 @@ def write_html_viewer(bool_banner, axes_summary, out_files, suffix=""):
     viewer_name = f"standard_plot_viewer{suffix}.html"
     art_viewer = os.path.join(ART_DIR, viewer_name)
     root_viewer = os.path.join(_ROOT, viewer_name)
+    res_dir = os.path.join(_ROOT, "results")
+    os.makedirs(res_dir, exist_ok=True)
     with open(art_viewer, "w", encoding="utf-8") as f:
         f.write(template)
     shutil.copyfile(art_viewer, root_viewer)
+    shutil.copyfile(art_viewer, os.path.join(res_dir, viewer_name))
     print(f"[OK] Saved self-contained viewer: {art_viewer}", flush=True)
 
 
@@ -909,11 +897,17 @@ def parse_set_args(raw_list):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate canonical 3-axis Standard Plots using exact current .osim parameters.")
+    parser.add_argument("--params-json", default="", help="Optional JSON file with a 'params' dict applied before --set overrides")
     parser.add_argument("--set", action="append", default=[], dest="overrides", help="Explicit property override KEY=VAL (e.g. enable_ccr=false)")
     parser.add_argument("--tag", default="", help="Optional filename suffix tag (e.g. 'no_ccr')")
     args = parser.parse_args()
 
-    overrides = parse_set_args(args.overrides)
+    overrides = []
+    if args.params_json.strip():
+        pjson = json.load(open(args.params_json.strip(), "r", encoding="utf-8"))
+        pdict = pjson["params"] if isinstance(pjson, dict) and "params" in pjson else pjson
+        overrides.extend((k, f"{float(v):.15g}") for k, v in pdict.items())
+    overrides.extend(parse_set_args(args.overrides))
     suffix = f"_{args.tag.strip()}" if args.tag.strip() else ""
 
     modes = ["APEO", "LatEC", "YawMA"]

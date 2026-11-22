@@ -647,8 +647,6 @@ def render_baseline_4panel(sim_data, out_filename):
     ax1 = fig.add_subplot(gs[0])
     ax1.plot(t, ref_trace, 'k--', lw=1.6, label=f'Target Happee (2023) Reference {axis_name} [Max = {np.max(np.abs(ref_trace[mask_ss])):.2f}°]')
     ax1.plot(t, main_angle, color=color_main, lw=2.0, label=f'Zero-Shot Pitch-Trained Model {axis_name} [Mean = {mean_ang_ss:+.2f}°, Max = {np.max(np.abs(main_angle[mask_ss])):.2f}°]')
-    if mode == "YawMA":
-        ax1.plot(t, sim_data["pert"], color='#64748b', ls=':', lw=1.2, alpha=0.8, label=f'Applied Trunk Yaw Input gndyaw(t) [Max = {np.max(np.abs(sim_data["pert"][mask_ss])):.2f}°]')
     ax1.axvline(1.5, color='#64748b', ls=':', lw=1.3, label='Perturbation Ramp Start (t = 1.5s)')
     ax1.axvline(3.0, color='#dc2626', ls='--', lw=1.4, label='Steady-State Window (t >= 3.0s)')
     ax1.set_xlim(0, t[-1])
@@ -683,7 +681,6 @@ def render_baseline_4panel(sim_data, out_filename):
     else:
         ax3.plot(t, pitch - pitch[0], color='#059669', lw=1.4, label=f'Pitch Deviation (p1+p2 - p0) [Max = {np.max(np.abs(pitch - pitch[0])):.2f}°]')
         ax3.plot(t, roll, color='#dc2626', lw=1.4, label=f'Coupled Head Roll (r1+r2) [Max = {np.max(np.abs(roll)):.2f}°]')
-        ax3.plot(t, yaw_rel, color='#64748b', ls='--', lw=1.2, label=f'Relative Neck-on-Trunk Yaw (y1+y2) [Max = {np.max(np.abs(yaw_rel)):.2f}°]')
     ax3.axvline(1.5, color='#64748b', ls=':', lw=1.3)
     ax3.axvline(3.0, color='#dc2626', ls='--', lw=1.4)
     ax3.set_xlim(0, t[-1])
