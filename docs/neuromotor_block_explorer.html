@@ -989,6 +989,7 @@ dz2/dt = -a0_irr * z1 - a1_irr * z2 + omega_canal[c];`
             latex: String.raw`y_{\text{irr},c}(t) = c_{0,\text{irr}}z_{1,\text{irr},c} + c_{1,\text{irr}}z_{2,\text{irr},c} + d_{\text{irr}}\,\omega_{\text{canal},c}`,
             pseudo:
 `y_irr[c] = c0_irr * z1 + c1_irr * z2 + d_irr * omega_canal[c];
+// Optional Tier-1 sensory noise (enable_sensor_noise): base=0.0080 rad/s, rel=2.0%, tau_OU=12 ms
 // d_irr = 27.09, c1_irr = k*(1/tau_1 - a1), c0_irr = -k*a0`
           }
         ],
@@ -1029,7 +1030,8 @@ dz2/dt = -a0_reg * z1 - a1_reg * z2 + omega_canal[c];`
             text: "Compute the low-noise Regular afferent firing output supplying the Vestibular Luenberger observer.",
             latex: String.raw`y_{\text{reg},c}(t) = c_{0,\text{reg}}z_{1,\text{reg},c} + c_{1,\text{reg}}z_{2,\text{reg},c} + d_{\text{reg}}\,\omega_{\text{canal},c}`,
             pseudo:
-`y_reg[c] = c0_reg * z1 + c1_reg * z2 + d_reg * omega_canal[c];`
+`y_reg[c] = c0_reg * z1 + c1_reg * z2 + d_reg * omega_canal[c];
+// Optional Tier-1 sensory noise (enable_sensor_noise): base=0.0030 rad/s, rel=0.8%, tau_OU=15 ms`
           }
         ],
         desc: "",
@@ -1210,6 +1212,7 @@ u_stage1 = (alpha_irr - 1.0) * x_irr_adapt[j] + f_GIF[j];`
 c_mac = 1.0 - d_mac;       // -2.885714
 d(x_irr_mac[j])/dt = (u_stage1 - x_irr_mac[j]) / 0.0070;
 f_irr[j] = c_mac * x_irr_mac[j] + d_mac * u_stage1;
+// Optional bilateral Tier-1 sensory noise (enable_sensor_noise): base=0.055 m/s^2, rel=1.5%, tau_OU=15 ms
 y_oto_irr[j] = (245.0 / 9.81) * f_irr[j];`
           }
         ],
@@ -1291,7 +1294,8 @@ u_stage1 = (alpha_reg - 1.0) * x_reg_adapt[j] + f_GIF[j];`
 `d_mac = 0.0276 / 0.0175;   // 1.577143
 c_mac = 1.0 - d_mac;       // -0.577143
 d(x_reg_mac[j])/dt = (u_stage1 - x_reg_mac[j]) / 0.0175;
-y_oto_reg[j] = (66.0 / 9.81) * (c_mac * x_reg_mac[j] + d_mac * u_stage1);`
+y_oto_reg[j] = (66.0 / 9.81) * (c_mac * x_reg_mac[j] + d_mac * u_stage1);
+// Optional bilateral Tier-1 sensory noise (enable_sensor_noise): base=0.030 m/s^2, rel=0.4%, tau_OU=20 ms`
           }
         ],
         desc: "",
@@ -1449,7 +1453,9 @@ AP_chain = X*(L_sec/L_0SR)*(T_chain/K_SR - dLN) + (1-X)*(L_sec/L_0PR)*(L_tilde -
             pseudo:
 `II_rate = 7250.0  * (AP_bag2 + AP_chain);
 AP_stat = 10000.0 * (AP_bag2 + AP_chain);
-Ia_rate = max(AP_bag1, AP_stat) + 0.156 * min(AP_bag1, AP_stat);`
+Ia_rate = max(AP_bag1, AP_stat) + 0.156 * min(AP_bag1, AP_stat);
+// Optional rate-tapered Tier-1 spindle noise (enable_sensor_noise, 200 Hz C^2 B-spline OU):
+//   Ia: base=0.40 pps*r/(r+1.5), rel=1.5%, tau_OU=20 ms; II: base=0.18 pps*r/(r+1.5), rel=1.0%, tau_OU=30 ms`
           }
         ],
         desc: "",
@@ -1779,7 +1785,8 @@ R_prop  = composeProprioceptiveHeadRotation(arr_trunk[3], arr_neck[3], R_base);`
 `u_exp   = (~R_hat) * Vec3(0, 1, 0);
 e_oto   = u_meas % u_exp;
 trans_sq = (f_oto_h - 9.81 * u_exp).normSqr();
-oto_gate = 1.0 / (1.0 + 4.0 * trans_sq);`
+trans_sq_eff = max(0.0, trans_sq - 3.0 * sigma_a_bilat * sigma_a_bilat); // debiased when sensor noise ON
+oto_gate = 1.0 / (1.0 + 4.0 * trans_sq_eff);`
           }
         ],
         desc: "",
@@ -1833,12 +1840,12 @@ e_prop = Vec3(0.5*(E_prop(2,1)-E_prop(1,2)),
         title: "Fused ω Sum (Fastigial Multisensory Summing Junction)",
         steps: [
           {
-            text: "Combine the acceleration-gated otolith tilt error and full proprioceptive SO(3) anchor, then fuse into head angular velocity with drift-tether gain Kp_mahony = 0.08 rad/s.",
-            latex: String.raw`\mathbf{e}_{\text{tot}} = g_{\text{acc}}\,\mathbf{e}_{\text{oto}} + \mathbf{e}_{\text{prop}}, \qquad \boldsymbol{\omega}_{\text{fused}}(t) = \tilde{\boldsymbol{\omega}}_H(t) + K_{p,\text{mah}}\,\mathbf{e}_{\text{tot}}\quad(K_{p,\text{mah}} = 0.08)`,
+            text: "Combine the inverse-variance-weighted (w_oto_mahony = 0.50), acceleration-gated otolith tilt error and full proprioceptive SO(3) anchor, then fuse into head angular velocity with drift-tether gain Kp_mahony = 0.25 rad/s and leaky velocity storage (vs_leak_rate = 0.05 s^-1).",
+            latex: String.raw`\mathbf{e}_{\text{tot}} = w_{\text{oto}}\,g_{\text{acc}}\,\mathbf{e}_{\text{oto}} + \mathbf{e}_{\text{prop}}, \qquad \boldsymbol{\omega}_{\text{fused}}(t) = \tilde{\boldsymbol{\omega}}_H(t) + K_{p,\text{mah}}\,\mathbf{e}_{\text{tot}}\quad(w_{\text{oto}}=0.50,\;K_{p,\text{mah}}=0.25)`,
             pseudo:
-`e_total = oto_gate * e_oto + e_prop;
-omega_fused = omega_h + 0.08 * e_total;
-// Integral bias lock Ki_mahony = 0.0016 also feeds Velocity Storage ODE`
+`e_total = (0.50 * oto_gate) * e_oto + e_prop;  // w_oto_mahony = 0.50
+omega_fused = omega_h + 0.25 * e_total;          // Kp_mahony = 0.25 rad/s
+// Integral bias lock Ki_mahony = 0.008 rad/s^2 & cupula leak vs_leak_rate = 0.05 /s feed Velocity Storage ODE`
           }
         ],
         desc: "",
@@ -2498,6 +2505,8 @@ rec_7b = getDelayedData(t, 0.0025, true);`
             latex: String.raw`\text{controls}_i(t) = \begin{bmatrix} \operatorname{clamp}(u_{\text{final},i},\;u_{\min,i},\;1) \\ \gamma_{\text{dyn,del},i} \\ \gamma_{\text{stat,del},i} \end{bmatrix}`,
             pseudo:
 `ctrl_vec[0] = clamp(rec_7a.spinal_motor_excitations[i], u_min[i], 1.0);
+// Optional Tier-1 alpha-motoneuron SDN (enable_motor_noise):
+//   sig = noise_scale * clamp(sqrt(60/max(5,Fmax_i)), 0.80, 2.00) * hypot(0.0015, 0.035*exc), tau_OU=60 ms
 ctrl_vec[1] = rec_7b.spinal_gamma_dyn_commands[i];
 ctrl_vec[2] = rec_7b.spinal_gamma_stat_commands[i];
 muscle.addInControls(ctrl_vec, controls);`

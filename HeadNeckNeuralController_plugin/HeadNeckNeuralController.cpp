@@ -156,6 +156,19 @@ static inline double computeVoluntaryEngagement(double urgency) {
     return std::clamp(std::tanh(u / 0.15) / kNorm, 0.0, 1.0);
 }
 
+// Continuous supraspinal readiness s_supra(u) in [0, 1] for hypo-alert u in [-1, 0); identically 1.0 for u >= 0.
+static inline double computeSupraspinalAlertness(double urgency) {
+    if (urgency >= 0.0) return 1.0;
+    const double a = std::clamp(1.0 + urgency, 0.0, 1.0);
+    return a * a;
+}
+
+// Continuous segmental spinal readiness s_spinal(u) in [0, 1] for hypo-alert u in [-1, 0); identically 1.0 for u >= 0.
+static inline double computeSpinalAlertness(double urgency) {
+    if (urgency >= 0.0) return 1.0;
+    return std::clamp(1.0 + urgency, 0.0, 1.0);
+}
+
 // 3rd-order critically damped (jerk-limited, right-skewed bell) pole time constant tau_3 matched to 2nd-order T_95 at urgency=0,
 // with anisotropic urgency/vigor compression (Meisingset 2015 / Roijezon 2010 / Rigoux & Guigon 2012):
 // dof_idx: 0=pitch, 1=roll, 2=yaw, 3=ap_shift, 4=lat_shift.
@@ -375,6 +388,7 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_vol_diff_ff_vel_ap(0.0);
     constructProperty_vol_diff_ff_vel_lat(0.0);
     constructProperty_urgency(0.0);
+    constructProperty_highg_oto_knee_mps2(7.80);
     constructProperty_phasic_oto_sat_mps2(0.0);
     constructProperty_phasic_torque_sat_nm(8.5);
     constructProperty_Kp_buckle(1.5);
@@ -422,6 +436,10 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_enable_motor_noise(false);
     constructProperty_noise_seed(42);
     constructProperty_noise_scale(1.0);
+    constructProperty_Kp_mahony(0.25);
+    constructProperty_Ki_mahony(0.008);
+    constructProperty_w_oto_mahony(0.50);
+    constructProperty_vs_leak_rate(0.05);
     constructProperty_fc_voluntary(2.0);
     constructProperty_tau_lead_pole(0.008);
     constructProperty_tau_lead_pole_roll(0.008);
@@ -512,6 +530,7 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("vs_omega_roll", SimTK::Stage::Velocity);
     addStateVariable("vs_omega_yaw", SimTK::Stage::Velocity);
     addStateVariable("vs_omega_pitch", SimTK::Stage::Velocity);
+    addStateVariable("highg_acc_env", SimTK::Stage::Velocity);
     addStateVariable("cuneate_filt_pitch", SimTK::Stage::Velocity);
     addStateVariable("cuneate_filt_roll", SimTK::Stage::Velocity);
     addStateVariable("cuneate_filt_yaw", SimTK::Stage::Velocity);
@@ -724,6 +743,7 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& state
     setStateVariableValue(state, "vs_omega_roll", 0.0);
     setStateVariableValue(state, "vs_omega_yaw", 0.0);
     setStateVariableValue(state, "vs_omega_pitch", 0.0);
+    setStateVariableValue(state, "highg_acc_env", 0.0);
     setStateVariableValue(state, "cuneate_filt_pitch", 0.0);
     setStateVariableValue(state, "cuneate_filt_roll", 0.0);
     setStateVariableValue(state, "cuneate_filt_yaw", 0.0);
@@ -857,6 +877,7 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     state_variable_velocity_storage[0]            = traverseToStateVariable("vs_omega_roll");
     state_variable_velocity_storage[1]            = traverseToStateVariable("vs_omega_yaw");
     state_variable_velocity_storage[2]            = traverseToStateVariable("vs_omega_pitch");
+    state_variable_highg_acc_env                  = traverseToStateVariable("highg_acc_env");
     state_variable_cuneate_posture[0]             = traverseToStateVariable("cuneate_filt_pitch");
     state_variable_cuneate_posture[1]             = traverseToStateVariable("cuneate_filt_roll");
     state_variable_cuneate_posture[2]             = traverseToStateVariable("cuneate_filt_yaw");
@@ -1937,7 +1958,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             }
         }
         if (use_snoise) {
-            applyVestibularCanalNoise(regular_canal_afferent_outputs[canal_index], regular_canal_passband_gain, canal_index, 0.008, 0.015, noise_time, s_scale);
+            applyVestibularCanalNoise(regular_canal_afferent_outputs[canal_index], regular_canal_passband_gain, canal_index, 0.0030, 0.008, noise_time, s_scale);
         }
     }
     SimTK::Vec3 filtered_right_regular_canal_output(regular_canal_afferent_outputs[0], regular_canal_afferent_outputs[1], regular_canal_afferent_outputs[2]);
@@ -2149,10 +2170,10 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
                     : baseline_secondary_afferent_rates[muscle_index]);
             if (use_snoise) {
                 if (!has_delayed_spindle_ia) {
-                    applySpindleNoise(primary_afferent_value, 24, 1.2, 0.035, muscle_index, noise_time, s_scale);
+                    applySpindleNoise(primary_afferent_value, 24, 0.40, 0.015, muscle_index, noise_time, s_scale);
                 }
                 if (!has_delayed_spindle_ii) {
-                    applySpindleNoise(secondary_afferent_value, 24 + number_of_active_muscles, 0.6, 0.025, muscle_index, noise_time, s_scale);
+                    applySpindleNoise(secondary_afferent_value, 24 + number_of_active_muscles, 0.18, 0.010, muscle_index, noise_time, s_scale);
                 }
             }
 
@@ -2482,15 +2503,16 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     const double u_pos = std::clamp(urgency_now, 0.0, 1.0);
     const double urg_scale_p = 1.0 + 1.5 * u_pos;
     const double urg_scale_d = std::sqrt(urg_scale_p);
-    const double kp_pitch = std::max(std::max(0.0, get_Kp_task_pitch()), vol_cmd_gate[0] * 18.0 * urg_scale_p);
-    const double kd_pitch = std::max(std::max(0.0, get_Kd_task_pitch()), vol_cmd_gate[0] * 4.80 * urg_scale_d);
-    const double ki_pitch = act_task_int[0] ? std::max(std::max(0.0, get_Ki_task_pitch()), vol_cmd_gate[0] * 42.0) : 0.0;
-    const double kp_roll  = std::max(std::max(0.0, get_Kp_task_roll()),  vol_cmd_gate[1] * 11.0 * urg_scale_p);
-    const double kd_roll  = std::max(std::max(0.0, get_Kd_task_roll()),  vol_cmd_gate[1] * 2.80 * urg_scale_d);
-    const double ki_roll  = act_task_int[1] ? std::max(std::max(0.0, get_Ki_task_roll()),  vol_cmd_gate[1] * 13.0) : 0.0;
-    const double kp_yaw   = std::max(std::max(0.0, get_Kp_task_yaw()),   vol_cmd_gate[2] * 5.00 * urg_scale_p);
-    const double kd_yaw   = std::max(std::max(0.0, get_Kd_task_yaw()),   vol_cmd_gate[2] * 0.80 * urg_scale_d);
-    const double ki_yaw   = act_task_int[2] ? std::max(std::max(0.0, get_Ki_task_yaw()),   vol_cmd_gate[2] * 5.00) : 0.0;
+    const double s_supra_now = computeSupraspinalAlertness(urgency_now);
+    const double kp_pitch = std::max(s_supra_now * std::max(0.0, get_Kp_task_pitch()), vol_cmd_gate[0] * 18.0 * urg_scale_p);
+    const double kd_pitch = std::max(s_supra_now * std::max(0.0, get_Kd_task_pitch()), vol_cmd_gate[0] * 4.80 * urg_scale_d);
+    const double ki_pitch = act_task_int[0] ? std::max(s_supra_now * std::max(0.0, get_Ki_task_pitch()), vol_cmd_gate[0] * 42.0) : 0.0;
+    const double kp_roll  = std::max(s_supra_now * std::max(0.0, get_Kp_task_roll()),  vol_cmd_gate[1] * 11.0 * urg_scale_p);
+    const double kd_roll  = std::max(s_supra_now * std::max(0.0, get_Kd_task_roll()),  vol_cmd_gate[1] * 2.80 * urg_scale_d);
+    const double ki_roll  = act_task_int[1] ? std::max(s_supra_now * std::max(0.0, get_Ki_task_roll()),  vol_cmd_gate[1] * 13.0) : 0.0;
+    const double kp_yaw   = std::max(s_supra_now * std::max(0.0, get_Kp_task_yaw()),   vol_cmd_gate[2] * 5.00 * urg_scale_p);
+    const double kd_yaw   = std::max(s_supra_now * std::max(0.0, get_Kd_task_yaw()),   vol_cmd_gate[2] * 0.80 * urg_scale_d);
+    const double ki_yaw   = act_task_int[2] ? std::max(s_supra_now * std::max(0.0, get_Ki_task_yaw()),   vol_cmd_gate[2] * 5.00) : 0.0;
 
     const double ki_axis[3] = { ki_pitch, ki_roll, ki_yaw };
     const double int_limit_nm[3] = { 25.0, 15.0, 15.0 };
@@ -2653,7 +2675,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     SimTK::Vec3 otolith_attitude_error_head = predicted_up_direction_head % expected_up_direction_head;
     const SimTK::Vec3 expected_gravity_up_head = 9.81 * expected_up_direction_head;
     const double trans_acc_sq = (otolith_specific_force_head - expected_gravity_up_head).normSqr();
-    const double sigma_a_bilat = use_snoise ? (0.08 * 0.70710678 * s_scale) : 0.0;
+    const double sigma_a_bilat = use_snoise ? (0.030 * 0.70710678 * s_scale) : 0.0;
     const double trans_acc_sq_eff = std::max(0.0, trans_acc_sq - 3.0 * sigma_a_bilat * sigma_a_bilat);
     const double oto_acc_gate = 1.0 / (1.0 + 4.0 * trans_acc_sq_eff);
 
@@ -2674,10 +2696,12 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         prop_roll_gate  * proprioceptive_attitude_error_head[0],
         prop_yaw_gate   * proprioceptive_attitude_error_head[1],
         prop_pitch_gate * proprioceptive_attitude_error_head[2]);
+    const double w_oto_m = std::max(0.0, get_w_oto_mahony());
     const SimTK::Vec3 total_attitude_error_head =
-        oto_acc_gate * otolith_attitude_error_head + gated_prop_att_err_head;
-    const double Kp_mahony = 0.08;   // Critically damped drift tether (omega_0 = 0.04 rad/s, zeta = 1.0)
-    const double Ki_mahony = 0.0016; // Integral cupula/gyro bias lock (Mahony et al. 2008 Eq. 14b)
+        (w_oto_m * oto_acc_gate) * otolith_attitude_error_head + gated_prop_att_err_head;
+    const double Kp_mahony = std::max(0.0, get_Kp_mahony());
+    const double Ki_mahony = std::max(0.0, get_Ki_mahony());
+    const double vs_leak   = std::max(0.0, get_vs_leak_rate());
 
     // --- STAGE 3: FUSED ANGULAR VELOCITY SUMMING JUNCTION & VELOCITY-STORAGE INTEGRAL LOCK ---
     SimTK::Vec3 fused_angular_velocity_head =
@@ -2709,11 +2733,11 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     // Write to state derivatives
     const bool mahony_enabled = get_enable_mahony();
     state_variable_velocity_storage[0]->setDerivative(
-        state, omega_cupula_reg * luenberger_angular_velocity_roll  + (mahony_enabled ? (Ki_mahony * total_attitude_error_head[0]) : (-0.05 * vs_state_roll)));
+        state, omega_cupula_reg * luenberger_angular_velocity_roll  + (mahony_enabled ? (Ki_mahony * total_attitude_error_head[0] - vs_leak * vs_state_roll)  : (-0.05 * vs_state_roll)));
     state_variable_velocity_storage[1]->setDerivative(
-        state, omega_cupula_reg * luenberger_angular_velocity_yaw   + (mahony_enabled ? (Ki_mahony * total_attitude_error_head[1]) : (-0.05 * vs_state_yaw)));
+        state, omega_cupula_reg * luenberger_angular_velocity_yaw   + (mahony_enabled ? (Ki_mahony * total_attitude_error_head[1] - vs_leak * vs_state_yaw)   : (-0.05 * vs_state_yaw)));
     state_variable_velocity_storage[2]->setDerivative(
-        state, omega_cupula_reg * luenberger_angular_velocity_pitch + (mahony_enabled ? (Ki_mahony * total_attitude_error_head[2]) : (-0.05 * vs_state_pitch)));
+        state, omega_cupula_reg * luenberger_angular_velocity_pitch + (mahony_enabled ? (Ki_mahony * total_attitude_error_head[2] - vs_leak * vs_state_pitch) : (-0.05 * vs_state_pitch)));
     state_variable_observer_quaternion[0]->setDerivative(state, mahony_enabled ? quaternion_0_derivative : 0.0);
     state_variable_observer_quaternion[1]->setDerivative(state, mahony_enabled ? quaternion_1_derivative : 0.0);
     state_variable_observer_quaternion[2]->setDerivative(state, mahony_enabled ? quaternion_2_derivative : 0.0);
@@ -2837,6 +2861,20 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         semicircular_canal_input_yaw   = applyBiologicalDeadband(semicircular_canal_input_yaw,   vest_scc_thresh);
         phasic_otolith_input_pitch     = applyBiologicalDeadband(phasic_otolith_input_pitch,     vest_oto_thresh);
         phasic_otolith_input_roll      = applyBiologicalDeadband(phasic_otolith_input_roll,      vest_oto_thresh);
+        const double highg_knee = std::max(0.0, get_highg_oto_knee_mps2());
+        const double highg_env  = state_variable_highg_acc_env ? std::max(0.0, state_variable_highg_acc_env->getValue(state)) : 0.0;
+        const double phasic_irr_mag = std::max(std::abs(phasic_otolith_input_pitch), std::abs(phasic_otolith_input_roll));
+        const double ex_reg = (highg_knee > 1e-6) ? std::max(0.0, std::sqrt(std::max(0.0, trans_acc_sq_eff)) - highg_knee) : 0.0;
+        const double ex_irr = (highg_knee > 1e-6) ? std::max(0.0, 0.5 * (phasic_irr_mag - 1.90 * highg_knee)) : 0.0;
+        const double highg_excess = std::max(ex_reg, ex_irr);
+        if (state_variable_highg_acc_env) {
+            const double tau_hg = (highg_excess > highg_env) ? 0.002 : 0.250;
+            state_variable_highg_acc_env->setDerivative(state, (highg_excess - highg_env) / tau_hg);
+        }
+        const double highg_env_eff = std::max(highg_env, highg_excess);
+        const double g_highg = (highg_knee > 1e-6 && highg_env_eff > 1e-9)
+            ? (1.0 / (1.0 + (highg_env_eff / 0.65) * (highg_env_eff / 0.65)))
+            : 1.0;
         const double phasic_oto_sat    = std::max(0.0, get_phasic_oto_sat_mps2());
         phasic_otolith_input_pitch     = applyLinearKneeSaturation(phasic_otolith_input_pitch, 0.85 * phasic_oto_sat, phasic_oto_sat);
         phasic_otolith_input_roll      = applyLinearKneeSaturation(phasic_otolith_input_roll,  0.85 * phasic_oto_sat, phasic_oto_sat);
@@ -2867,6 +2905,20 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         const bool vcr_sc_en   = get_enable_vcr_canal();
         const bool vcr_phas_en = get_enable_vcr_phasic();
 
+        const double vol_move_active[3] = {
+            std::clamp(std::max(
+                std::max(std::abs(get_desired_pitch()), std::max(std::abs(trajectory_position_pitch), 0.25 * std::abs(trajectory_velocity_pitch))) / 0.0087,
+                std::max(std::abs(desired_shift_raw_m[0]), std::max(std::abs(traj_shift_pos_m[0]), 0.25 * std::abs(traj_shift_vel_m[0]))) / 0.0020
+            ), 0.0, 1.0),
+            std::clamp(std::max(
+                std::max(std::abs(get_desired_roll()), std::max(std::abs(trajectory_position_roll), 0.25 * std::abs(trajectory_velocity_roll))) / 0.0087,
+                std::max(std::abs(desired_shift_raw_m[1]), std::max(std::abs(traj_shift_pos_m[1]), 0.25 * std::abs(traj_shift_vel_m[1]))) / 0.0020
+            ), 0.0, 1.0),
+            std::clamp(
+                std::max(std::abs(get_desired_yaw()), std::max(std::abs(trajectory_position_yaw), 0.25 * std::abs(trajectory_velocity_yaw))) / 0.0087,
+                0.0, 1.0)
+        };
+
         for (int axis_idx = 0; axis_idx < 3; ++axis_idx) {
             const double p_ton  = p_ton_arr[axis_idx];
             const double p_sc   = p_sc_arr[axis_idx];
@@ -2876,7 +2928,8 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             const double u_phas_raw = (axis_idx == 0) ? phasic_otolith_input_pitch     : ((axis_idx == 1) ? phasic_otolith_input_roll     : phasic_otolith_input_yaw);
             const double u_ton  = (act_vcr[axis_idx] && vcr_ton_en)  ? u_ton_raw  : 0.0;
             const double u_sc   = (act_vcr[axis_idx] && vcr_sc_en)   ? u_sc_raw   : 0.0;
-            const double u_phas = (act_vcr[axis_idx] && vcr_phas_en) ? ((1.0 - 0.90 * vol_cmd_gate[axis_idx]) * u_phas_raw) : 0.0;
+            const double vol_phas_suppress = vol_cmd_gate[axis_idx] * vol_move_active[axis_idx];
+            const double u_phas = (act_vcr[axis_idx] && vcr_phas_en) ? (g_highg * (1.0 - 0.90 * vol_phas_suppress) * u_phas_raw) : 0.0;
 
             const double x_ton  = state_variable_tonic_otolith[axis_idx]->getValue(state);
             const double v_ton  = state_variable_tonic_otolith_vel[axis_idx]->getValue(state);
@@ -2886,9 +2939,10 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
 
             const double x_sc   = state_variable_semicircular_canal_reflex[axis_idx]->getValue(state);
             const double v_sc   = state_variable_semicircular_canal_reflex_vel[axis_idx]->getValue(state);
+            const double p_sc_eff = (axis_idx == 0) ? (22.0 + g_highg * std::max(0.0, p_sc - 22.0)) : p_sc;
             state_variable_semicircular_canal_reflex[axis_idx]->setDerivative(state, v_sc);
             state_variable_semicircular_canal_reflex_vel[axis_idx]->setDerivative(
-                state, (p_sc * p_fast) * (u_sc - x_sc) - (p_sc + p_fast) * v_sc);
+                state, (p_sc_eff * p_fast) * (u_sc - x_sc) - (p_sc_eff + p_fast) * v_sc);
 
             const double x_phas = state_variable_phasic_otolith[axis_idx]->getValue(state);
             const double v_phas = state_variable_phasic_otolith_vel[axis_idx]->getValue(state);
@@ -3100,8 +3154,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             irr_p.state_space_output_c0 * irr_dx2 + irr_p.state_space_output_c1 * irr_ddx2;
 
         if (use_snoise_ctrl) {
-            applyVestibularCanalNoise(regular_canal_afferent_outputs[canal_index],   regular_canal_passband_gain,   canal_index,     0.008, 0.015, noise_time_ctrl, s_scale_ctrl);
-            applyVestibularCanalNoise(irregular_canal_afferent_outputs[canal_index], irregular_canal_passband_gain, 6 + canal_index, 0.028, 0.040, noise_time_ctrl, s_scale_ctrl);
+            applyVestibularCanalNoise(regular_canal_afferent_outputs[canal_index],   regular_canal_passband_gain,   canal_index,     0.0030, 0.008, noise_time_ctrl, s_scale_ctrl);
+            applyVestibularCanalNoise(irregular_canal_afferent_outputs[canal_index], irregular_canal_passband_gain, 6 + canal_index, 0.0080, 0.020, noise_time_ctrl, s_scale_ctrl);
         }
     }
 
@@ -3380,8 +3434,17 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     SimTK::Vec3 traj_vel_vec(trajectory_velocity_pitch, trajectory_velocity_roll, trajectory_velocity_yaw);
     SimTK::Vec3 traj_acc_vec(trajectory_acceleration_pitch, trajectory_acceleration_roll, trajectory_acceleration_yaw);
 
+    const double urgency_ctrl    = get_urgency();
+    const double s_supra_ctrl    = computeSupraspinalAlertness(urgency_ctrl);
+    const double s_spinal_ctrl   = computeSpinalAlertness(urgency_ctrl);
+    const double highg_knee_ctrl = std::max(0.0, get_highg_oto_knee_mps2());
+    const double highg_env_ctrl  = state_variable_highg_acc_env ? std::max(0.0, state_variable_highg_acc_env->getValue(state)) : 0.0;
+    const double g_highg_ctrl    = (highg_knee_ctrl > 1e-6 && highg_env_ctrl > 1e-9)
+        ? (1.0 / (1.0 + (highg_env_ctrl / 0.65) * (highg_env_ctrl / 0.65)))
+        : 1.0;
+
     const double tau_lead_pry[3] = {
-        std::clamp(get_tau_lead_pole(),      0.0020, 0.2000),
+        std::clamp(get_tau_lead_pole(),      0.0020, 0.2000) + (1.0 - g_highg_ctrl) * 0.022,
         std::clamp(get_tau_lead_pole_roll(), 0.0020, 0.2000),
         std::clamp(get_tau_lead_pole_yaw(),  0.0020, 0.2000)
     };
@@ -3700,8 +3763,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
                 ? cached_secondary_afferent_outputs[muscle_index]->getValue(state)
                 : baseline_secondary_afferent_rates[muscle_index];
         if (use_snoise_ctrl) {
-            applySpindleNoise(raw_spindle_ia_now, 24, 1.2, 0.035, muscle_index, noise_time_ctrl, s_scale_ctrl);
-            applySpindleNoise(raw_spindle_ii_now, 24 + number_of_active_muscles, 0.6, 0.025, muscle_index, noise_time_ctrl, s_scale_ctrl);
+            applySpindleNoise(raw_spindle_ia_now, 24, 0.40, 0.015, muscle_index, noise_time_ctrl, s_scale_ctrl);
+            applySpindleNoise(raw_spindle_ii_now, 24 + number_of_active_muscles, 0.18, 0.010, muscle_index, noise_time_ctrl, s_scale_ctrl);
         }
         current_history_record.raw_spindle_ia_rate[muscle_index] = raw_spindle_ia_now;
         current_history_record.raw_spindle_ii_rate[muscle_index] = raw_spindle_ii_now;
@@ -3906,23 +3969,29 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         semicircular_canal_input_yaw   = applyBiologicalDeadband(semicircular_canal_input_yaw,   vest_scc_thresh);
         phasic_otolith_input_pitch     = applyBiologicalDeadband(phasic_otolith_input_pitch,     vest_oto_thresh);
         phasic_otolith_input_roll      = applyBiologicalDeadband(phasic_otolith_input_roll,      vest_oto_thresh);
+        const double phasic_irr_mag_c  = std::max(std::abs(phasic_otolith_input_pitch), std::abs(phasic_otolith_input_roll));
+        const double ex_irr_ctrl       = (highg_knee_ctrl > 1e-6) ? std::max(0.0, 0.5 * (phasic_irr_mag_c - 1.90 * highg_knee_ctrl)) : 0.0;
+        const double highg_env_vcr     = std::max(highg_env_ctrl, ex_irr_ctrl);
+        const double g_highg_vcr       = (highg_knee_ctrl > 1e-6 && highg_env_vcr > 1e-9)
+            ? (1.0 / (1.0 + (highg_env_vcr / 0.65) * (highg_env_vcr / 0.65)))
+            : 1.0;
         const double phasic_oto_sat_c  = std::max(0.0, get_phasic_oto_sat_mps2());
         phasic_otolith_input_pitch     = applyLinearKneeSaturation(phasic_otolith_input_pitch, 0.85 * phasic_oto_sat_c, phasic_oto_sat_c);
         phasic_otolith_input_roll      = applyLinearKneeSaturation(phasic_otolith_input_roll,  0.85 * phasic_oto_sat_c, phasic_oto_sat_c);
 
         const double k_ton_arr[3] = {
-            std::max(0.0, get_K_ton()),
-            std::max(0.0, get_K_ton_roll()),
-            std::max(0.0, get_K_ton_yaw())
+            s_supra_ctrl * std::max(0.0, get_K_ton()),
+            s_supra_ctrl * std::max(0.0, get_K_ton_roll()),
+            s_supra_ctrl * std::max(0.0, get_K_ton_yaw())
         };
         const double k_sc_arr[3] = {
-            std::max(0.0, get_K_sc()),
-            std::max(0.0, get_K_sc_roll()),
-            std::max(0.0, get_K_sc_yaw())
+            s_supra_ctrl * std::max(0.0, get_K_sc()),
+            s_supra_ctrl * std::max(0.0, get_K_sc_roll()),
+            s_supra_ctrl * std::max(0.0, get_K_sc_yaw())
         };
         const double k_phas_arr[3] = {
-            std::max(0.0, get_K_phas()),
-            std::max(0.0, get_K_phas_roll()),
+            s_supra_ctrl * std::max(0.0, get_K_phas()),
+            s_supra_ctrl * std::max(0.0, get_K_phas_roll()),
             0.0
         };
 
@@ -3960,8 +4029,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
             const double x_sc_eff = x_sc + z_sc_lead * v_sc;
             const double phasic_tau_sat = std::max(0.0, get_phasic_torque_sat_nm());
-            double tau_phas_sust = k_phas * x_phas;
-            double tau_phas_lead = k_phas * z_phas_lead * v_phas;
+            double tau_phas_sust = (std::sqrt(g_highg_vcr) * k_phas) * x_phas;
+            double tau_phas_lead = (g_highg_vcr * k_phas) * z_phas_lead * v_phas;
             double tau_phas_axis = tau_phas_sust + tau_phas_lead;
             if (phasic_tau_sat > 1e-6) {
                 // Knee at 7.6 Nm (above APEO max 7.51 Nm and LatEC max 4.87 Nm) -> 0% Bode distortion
@@ -3982,9 +4051,9 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
     // --- SUBSYSTEM 1B (LAMINA VI/VII): SPINAL CCR FILTER H_ccr(s) (p_ccr, p_fast = 250) + 3D-ISOTROPIC HALF-WAVE RECTIFIER (2.5 ms C1-C8 -> SUB 5) ---
     const double kp_prop_spinal[3] = {
-        std::max(0.0, get_Kp_proprioception()),
-        std::max(0.0, get_Kp_proprioception_roll()),
-        std::max(0.0, get_Kp_proprioception_yaw())
+        s_spinal_ctrl * std::max(0.0, get_Kp_proprioception()),
+        s_spinal_ctrl * std::max(0.0, get_Kp_proprioception_roll()),
+        s_spinal_ctrl * std::max(0.0, get_Kp_proprioception_yaw())
     };
     const bool any_spinal_gain = (kp_prop_spinal[0] > 0.0 || kp_prop_spinal[1] > 0.0 || kp_prop_spinal[2] > 0.0);
     bool has_cervico_collic_afferents = (number_of_active_muscles > 0);
@@ -4088,9 +4157,9 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
     // --- STAGE 1: DESCENDING TASK-TORQUE SUMMING JUNCTION & CLAMP (Symmetric 3-Axis 72-Muscle Decoder CCR) ---
     const bool sp_cancels_plan = get_enable_fusimotor() && get_enable_efference_cancellation();
-    const double kp_ccr_pitch = (act_ccr_task && act_ccr_axis[0]) ? std::max(0.0, get_Kp_prop_pitch()) : 0.0;
-    const double kp_ccr_roll  = (act_ccr_task && act_ccr_axis[1]) ? std::max(0.0, get_Kp_prop_roll())  : 0.0;
-    const double kp_ccr_yaw   = (act_ccr_task && act_ccr_axis[2]) ? std::max(0.0, get_Kp_prop_yaw())   : 0.0;
+    const double kp_ccr_pitch = (act_ccr_task && act_ccr_axis[0]) ? (s_spinal_ctrl * std::max(0.0, get_Kp_prop_pitch())) : 0.0;
+    const double kp_ccr_roll  = (act_ccr_task && act_ccr_axis[1]) ? (s_spinal_ctrl * std::max(0.0, get_Kp_prop_roll()))  : 0.0;
+    const double kp_ccr_yaw   = (act_ccr_task && act_ccr_axis[2]) ? (s_spinal_ctrl * std::max(0.0, get_Kp_prop_yaw()))   : 0.0;
 
     double ccr_spindle_torque_pitch = 0.0;
     double ccr_spindle_torque_roll  = 0.0;
@@ -4141,14 +4210,14 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
     const int qp_dof = 6;
     const Matrix& active_jacobian = moment_arm_jacobian_6dof;
     const double kp_buckle_arr[3] = {
-        std::max(0.0, get_Kp_buckle()),
-        std::max(0.0, get_Kp_buckle_roll()),
-        std::max(0.0, get_Kp_buckle_yaw())
+        s_spinal_ctrl * std::max(0.0, get_Kp_buckle()),
+        s_spinal_ctrl * std::max(0.0, get_Kp_buckle_roll()),
+        s_spinal_ctrl * std::max(0.0, get_Kp_buckle_yaw())
     };
     const double kd_buckle_arr[3] = {
-        std::max(0.0, get_Kd_buckle()),
-        std::max(0.0, get_Kd_buckle_roll()),
-        std::max(0.0, get_Kd_buckle_yaw())
+        s_spinal_ctrl * std::max(0.0, get_Kd_buckle()),
+        s_spinal_ctrl * std::max(0.0, get_Kd_buckle_roll()),
+        s_spinal_ctrl * std::max(0.0, get_Kd_buckle_yaw())
     };
     const bool has_arriving_1c = (!history.empty() && delayed_1c_m1_spinal_data.record.valid);
     const double plan_pos_pitch  = has_arriving_1c ? delayed_1c_m1_spinal_data.record.trajectory_position[0]     : trajectory_position_pitch;

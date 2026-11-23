@@ -115,7 +115,8 @@ public:
     OpenSim_DECLARE_PROPERTY(vol_diff_ff_stiff_lat, double, "Voluntary-gated lateral differential stiffness feedforward in Nm/rad (default: 7.0)");
     OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_ap, double, "Voluntary-gated AP differential velocity feedforward in Nms/rad (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_lat, double, "Voluntary-gated lateral differential velocity feedforward in Nms/rad (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(urgency, double, "Cortical movement urgency / vigor dial u in [0.0, 1.0]: 0.0=relaxed/calibrated baseline (tau_0, KP_0, KD_0), 1.0=maximal urgent fast tracking with anisotropic speed & impedance scaling (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(urgency, double, "Unified CNS alertness & movement vigor dial u in [-1.0, 1.0]: -1.0=passive neck, (-1,0)=hypo-alert/relaxed, 0.0=alert APEO baseline, (0,1]=braced/ballistic fast tracking (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_oto_knee_mps2, double, "Linear-below-knee translational acceleration threshold [m/s^2] above which high-G otolith reweighting & shock damping engage (default: 7.80, strictly above APEO).");
 
     // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
     OpenSim_DECLARE_PROPERTY(Kp_buckle, double, "6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
@@ -173,6 +174,10 @@ public:
     OpenSim_DECLARE_PROPERTY(enable_motor_noise, bool, "Toggle Tier-1 physiological 72-muscle alpha-motoneuron SDN (default: false)");
     OpenSim_DECLARE_PROPERTY(noise_seed, int, "Deterministic PRNG seed for physiological noise bank (default: 42)");
     OpenSim_DECLARE_PROPERTY(noise_scale, double, "Global amplitude scale for physiological noise (1.0 = healthy Tier 1, default: 1.0)");
+    OpenSim_DECLARE_PROPERTY(Kp_mahony, double, "Mahony SO(3) proportional attitude fusion gain [rad/s] (default: 0.25).");
+    OpenSim_DECLARE_PROPERTY(Ki_mahony, double, "Mahony SO(3) integral velocity-storage bias lock gain [rad/s^2] (default: 0.008).");
+    OpenSim_DECLARE_PROPERTY(w_oto_mahony, double, "Inverse-variance Mahony weight on otolith gravity relative to pooled cervical proprioception (default: 0.50).");
+    OpenSim_DECLARE_PROPERTY(vs_leak_rate, double, "Physiological velocity-storage leak rate [1/s] (tau_vs = 20 s -> 0.05, default: 0.05).");
 
     HeadNeckNeuralController();
     
@@ -436,6 +441,7 @@ private:
     mutable const StateVariable* state_variable_vol_diff_filter_stage2[2] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_velocity_storage[3] = {nullptr};
+    mutable const StateVariable* state_variable_highg_acc_env = nullptr;
     mutable const StateVariable* state_variable_cuneate_posture[3] = {nullptr};
     mutable const StateVariable* state_variable_cuneate_diff[2] = {nullptr};
     mutable const StateVariable* state_variable_obs_wash_lpf[2] = {nullptr};
@@ -523,11 +529,11 @@ private:
         double& out_ref_ii,
         double& out_kappa_gain) const;
 
-    // Lazy 500 Hz Delta_t-invariant OU noise bank evaluated via C^1 Catmull-Rom cubic interpolation.
+    // Lazy 200 Hz Delta_t-invariant OU noise bank evaluated via variance-normalized C^2 cubic B-spline.
     // Zero allocation/RNG work when both enable_sensor_noise and enable_motor_noise are false.
     struct BiologicalNoiseBank {
-        static constexpr double kDt = 0.002;     // 500 Hz knot spacing
-        static constexpr int kChunkKnots = 500;  // 1.0 s growth chunks
+        static constexpr double kDt = 0.005;     // 200 Hz knot spacing
+        static constexpr int kChunkKnots = 200;  // 1.0 s growth chunks
         int cached_seed = -1;
         int n_muscles = 0;
         int n_channels = 0;
@@ -535,16 +541,17 @@ private:
         std::mt19937_64 rng;
         std::vector<double> alphas;
         std::vector<double> sigmas;
+        std::vector<double> bspline_norms;
         std::vector<double> state_vals;
         std::vector<double> knots;
 
         static double tauForChannel(int ch, int n_mus) {
-            if (ch < 6) return 0.010;                  // 0..5:   Regular canals
-            if (ch < 12) return 0.008;                 // 6..11:  Irregular canals
-            if (ch < 18) return 0.015;                 // 12..17: Regular otoliths (L/R 3D)
-            if (ch < 24) return 0.010;                 // 18..23: Irregular otoliths (L/R 3D)
-            if (ch < 24 + n_mus) return 0.015;         // 24..24+N-1: Spindle Ia
-            if (ch < 24 + 2 * n_mus) return 0.025;     // 24+N..24+2N-1: Spindle II
+            if (ch < 6) return 0.015;                  // 0..5:   Regular canals
+            if (ch < 12) return 0.012;                 // 6..11:  Irregular canals
+            if (ch < 18) return 0.020;                 // 12..17: Regular otoliths (L/R 3D)
+            if (ch < 24) return 0.015;                 // 18..23: Irregular otoliths (L/R 3D)
+            if (ch < 24 + n_mus) return 0.020;         // 24..24+N-1: Spindle Ia
+            if (ch < 24 + 2 * n_mus) return 0.030;     // 24+N..24+2N-1: Spindle II
             return 0.060;                              // 24+2N..24+3N-1: Motor alpha common drive
         }
 
@@ -556,6 +563,7 @@ private:
             rng.seed(static_cast<std::uint64_t>(static_cast<std::uint32_t>(seed)) + 0x9e3779b97f4a7c15ULL);
             alphas.resize(n_channels);
             sigmas.resize(n_channels);
+            bspline_norms.resize(n_channels);
             state_vals.resize(n_channels);
             knots.clear();
             std::normal_distribution<double> std_norm(0.0, 1.0);
@@ -564,6 +572,7 @@ private:
                 const double a = std::exp(-kDt / std::max(1e-4, tau));
                 alphas[ch] = a;
                 sigmas[ch] = std::sqrt(std::max(0.0, 1.0 - a * a));
+                bspline_norms[ch] = 1.0 / std::sqrt(std::max(0.1, (18.0 + 16.0 * a + 2.0 * a * a) / 36.0));
                 state_vals[ch] = std_norm(rng);
             }
             knots.insert(knots.end(), state_vals.begin(), state_vals.end());
@@ -608,7 +617,12 @@ private:
             const double p3 = knots[static_cast<size_t>(k3) * n_channels + ch];
             const double f2 = f * f;
             const double f3 = f2 * f;
-            return 0.5 * ((2.0 * p1) + (-p0 + p2) * f + (2.0 * p0 - 5.0 * p1 + 4.0 * p2 - p3) * f2 + (-p0 + 3.0 * p1 - 3.0 * p2 + p3) * f3);
+            const double omf = 1.0 - f;
+            const double w0 = (omf * omf * omf) / 6.0;
+            const double w1 = (3.0 * f3 - 6.0 * f2 + 4.0) / 6.0;
+            const double w2 = (-3.0 * f3 + 3.0 * f2 + 3.0 * f + 1.0) / 6.0;
+            const double w3 = f3 / 6.0;
+            return bspline_norms[ch] * (w0 * p0 + w1 * p1 + w2 * p2 + w3 * p3);
         }
     };
     mutable BiologicalNoiseBank noise_bank;
@@ -623,21 +637,20 @@ private:
         if (s_scale <= 0.0 || std::abs(pass_gain) < 1e-12) return;
         const double eta_reg = 0.5 * (noise_bank.eval(t_sec, 12 + axis_idx) + noise_bank.eval(t_sec, 15 + axis_idx));
         const double a_phys = rate / pass_gain;
-        rate += pass_gain * s_scale * std::hypot(0.08, 0.010 * a_phys) * eta_reg;
+        rate += pass_gain * s_scale * std::hypot(0.030, 0.004 * a_phys) * eta_reg;
     }
 
     void applyIrregularOtolithForceNoise(double& force_phys, int axis_idx, double t_sec, double s_scale) const {
         if (s_scale <= 0.0) return;
         const double eta_irr = 0.5 * (noise_bank.eval(t_sec, 18 + axis_idx) + noise_bank.eval(t_sec, 21 + axis_idx));
-        force_phys += s_scale * std::hypot(0.24, 0.030 * force_phys) * eta_irr;
+        force_phys += s_scale * std::hypot(0.055, 0.015 * force_phys) * eta_irr;
     }
 
     void applySpindleNoise(double& rate, int ch_offset, double base_sd, double rel_sd, int mus_idx, double t_sec, double s_scale) const {
-        if (s_scale <= 0.0) return;
-        const double fmax_m = (mus_idx >= 0 && mus_idx < static_cast<int>(cached_maximum_isometric_forces.size()))
-            ? cached_maximum_isometric_forces[mus_idx] : 50.0;
-        const double sp_sz = std::clamp(std::sqrt(50.0 / std::max(5.0, fmax_m)), 0.85, 1.73);
-        rate = std::max(0.0, rate + s_scale * sp_sz * std::hypot(base_sd, rel_sd * rate) * noise_bank.eval(t_sec, ch_offset + mus_idx));
+        if (s_scale <= 0.0 || rate <= 1e-9) return;
+        const double active_env = rate / (rate + 1.5);
+        const double sig = s_scale * std::hypot(base_sd * active_env, rel_sd * rate);
+        rate = std::max(0.0, rate + sig * noise_bank.eval(t_sec, ch_offset + mus_idx));
     }
 
     void applyMotorNoise(double& exc, int mus_idx, int n_mus, double t_sec, double m_scale) const {

@@ -1,0 +1,1089 @@
+{
+  "meta": {
+    "seeds": [
+      1,
+      2,
+      3
+    ],
+    "wall_s": 1841.16
+  },
+  "quiet_stance": [
+    {
+      "kind": "quiet",
+      "label": "Off (0,0)",
+      "sensor_noise": false,
+      "motor_noise": false,
+      "seed": 42,
+      "stop_reason": null,
+      "wall_s": 30.57,
+      "pitch_rms_deg": 0.0011,
+      "roll_rms_deg": 0.0002,
+      "yaw_rms_deg": 0.0002,
+      "max_exc_deg": 0.0088,
+      "max_act": 0.0695
+    },
+    {
+      "kind": "quiet",
+      "label": "Sensor (1,0)",
+      "sensor_noise": true,
+      "motor_noise": false,
+      "seed": 1,
+      "stop_reason": null,
+      "wall_s": 195.47,
+      "pitch_rms_deg": 0.1962,
+      "roll_rms_deg": 0.0787,
+      "yaw_rms_deg": 0.0206,
+      "max_exc_deg": 0.4673,
+      "max_act": 0.1589
+    },
+    {
+      "kind": "quiet",
+      "label": "Sensor (1,0)",
+      "sensor_noise": true,
+      "motor_noise": false,
+      "seed": 2,
+      "stop_reason": null,
+      "wall_s": 193.59,
+      "pitch_rms_deg": 0.2058,
+      "roll_rms_deg": 0.0911,
+      "yaw_rms_deg": 0.0275,
+      "max_exc_deg": 0.4897,
+      "max_act": 0.1414
+    },
+    {
+      "kind": "quiet",
+      "label": "Sensor (1,0)",
+      "sensor_noise": true,
+      "motor_noise": false,
+      "seed": 3,
+      "stop_reason": null,
+      "wall_s": 193.83,
+      "pitch_rms_deg": 0.4126,
+      "roll_rms_deg": 0.1015,
+      "yaw_rms_deg": 0.0342,
+      "max_exc_deg": 0.9323,
+      "max_act": 0.1829
+    },
+    {
+      "kind": "quiet",
+      "label": "Motor (0,1)",
+      "sensor_noise": false,
+      "motor_noise": true,
+      "seed": 1,
+      "stop_reason": null,
+      "wall_s": 183.64,
+      "pitch_rms_deg": 0.049,
+      "roll_rms_deg": 0.035,
+      "yaw_rms_deg": 0.0114,
+      "max_exc_deg": 0.2079,
+      "max_act": 0.084
+    },
+    {
+      "kind": "quiet",
+      "label": "Motor (0,1)",
+      "sensor_noise": false,
+      "motor_noise": true,
+      "seed": 2,
+      "stop_reason": null,
+      "wall_s": 174.95,
+      "pitch_rms_deg": 0.0506,
+      "roll_rms_deg": 0.0305,
+      "yaw_rms_deg": 0.0102,
+      "max_exc_deg": 0.21,
+      "max_act": 0.0915
+    },
+    {
+      "kind": "quiet",
+      "label": "Motor (0,1)",
+      "sensor_noise": false,
+      "motor_noise": true,
+      "seed": 3,
+      "stop_reason": null,
+      "wall_s": 176.34,
+      "pitch_rms_deg": 0.0736,
+      "roll_rms_deg": 0.0327,
+      "yaw_rms_deg": 0.011,
+      "max_exc_deg": 0.2871,
+      "max_act": 0.1141
+    },
+    {
+      "kind": "quiet",
+      "label": "Both (1,1)",
+      "sensor_noise": true,
+      "motor_noise": true,
+      "seed": 1,
+      "stop_reason": null,
+      "wall_s": 165.0,
+      "pitch_rms_deg": 0.1895,
+      "roll_rms_deg": 0.0656,
+      "yaw_rms_deg": 0.0292,
+      "max_exc_deg": 0.4311,
+      "max_act": 0.1773
+    },
+    {
+      "kind": "quiet",
+      "label": "Both (1,1)",
+      "sensor_noise": true,
+      "motor_noise": true,
+      "seed": 2,
+      "stop_reason": null,
+      "wall_s": 162.47,
+      "pitch_rms_deg": 0.1932,
+      "roll_rms_deg": 0.0878,
+      "yaw_rms_deg": 0.0329,
+      "max_exc_deg": 0.5275,
+      "max_act": 0.1954
+    },
+    {
+      "kind": "quiet",
+      "label": "Both (1,1)",
+      "sensor_noise": true,
+      "motor_noise": true,
+      "seed": 3,
+      "stop_reason": null,
+      "wall_s": 161.26,
+      "pitch_rms_deg": 0.3715,
+      "roll_rms_deg": 0.1077,
+      "yaw_rms_deg": 0.0323,
+      "max_exc_deg": 0.9217,
+      "max_act": 0.1792
+    }
+  ],
+  "bode": [
+    {
+      "kind": "bode",
+      "tag": "OFF",
+      "mode": "APEO",
+      "seed": 42,
+      "sensor_noise": false,
+      "motor_noise": false,
+      "classic_bode_score": 2155.3,
+      "total_score": 2260.51,
+      "gain_loss_pts": 1263.96,
+      "phase_loss_pts": 891.34,
+      "pitch_crosstalk_penalty": 0.31,
+      "hf_penalty": 104.89,
+      "hf_noise_rms": 4.58,
+      "post_pitch_dev_max_deg": 7.035,
+      "post_roll_max_deg": 0.038,
+      "post_yaw_rel_max_deg": 0.041,
+      "corr_vel": 0.9606,
+      "quiet_main_max_deg": 0.0089,
+      "aborted": false,
+      "freq_frf": {
+        "0.324": {
+          "sim_gain": 75.1862675770476,
+          "sim_phase": -32.1919229906332,
+          "target_gain": 86.55,
+          "target_phase": -7.03
+        },
+        "0.783": {
+          "sim_gain": 203.06724291130692,
+          "sim_phase": -93.50277365717308,
+          "target_gain": 236.93,
+          "target_phase": -96.96
+        },
+        "1.099": {
+          "sim_gain": 298.51408482516774,
+          "sim_phase": -110.25755204192534,
+          "target_gain": 319.74,
+          "target_phase": -109.23
+        },
+        "2.446": {
+          "sim_gain": 407.0151451617434,
+          "sim_phase": -158.74779597534217,
+          "target_gain": 423.34,
+          "target_phase": -161.34
+        },
+        "5.583": {
+          "sim_gain": 568.3114569532503,
+          "sim_phase": -211.70284756516253,
+          "target_gain": 503.3,
+          "target_phase": -201.38
+        },
+        "7.927": {
+          "sim_gain": 415.52459742119026,
+          "sim_phase": -236.13417298135334,
+          "target_gain": 572.69,
+          "target_phase": -247.62
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "OFF",
+      "mode": "LatEC",
+      "seed": 42,
+      "sensor_noise": false,
+      "motor_noise": false,
+      "classic_bode_score": 1941.32,
+      "total_score": 2348.25,
+      "gain_loss_pts": 620.73,
+      "phase_loss_pts": 1320.59,
+      "pitch_crosstalk_penalty": 325.5,
+      "hf_penalty": 81.43,
+      "hf_noise_rms": 1.805,
+      "post_pitch_dev_max_deg": 0.467,
+      "post_roll_max_deg": 8.054,
+      "post_yaw_rel_max_deg": 1.743,
+      "corr_vel": 0.9372,
+      "quiet_main_max_deg": 0.0,
+      "aborted": false,
+      "freq_frf": {
+        "0.1209": {
+          "sim_gain": 8.670787270544128,
+          "sim_phase": -295.85706346345677,
+          "target_gain": 8.8121,
+          "target_phase": -304.3956
+        },
+        "0.5588": {
+          "sim_gain": 96.19037588340397,
+          "sim_phase": -213.12567688279253,
+          "target_gain": 90.4836,
+          "target_phase": -229.1921
+        },
+        "0.8722": {
+          "sim_gain": 220.5970921131788,
+          "sim_phase": -241.51472062286717,
+          "target_gain": 191.3284,
+          "target_phase": -237.2924
+        },
+        "1.4040": {
+          "sim_gain": 376.80781019054206,
+          "sim_phase": -284.7881252481478,
+          "target_gain": 411.8162,
+          "target_phase": -288.0149
+        },
+        "2.0936": {
+          "sim_gain": 425.0246131080876,
+          "sim_phase": -312.9133515762691,
+          "target_gain": 357.1374,
+          "target_phase": -328.3241
+        },
+        "3.9915": {
+          "sim_gain": 429.7994685297752,
+          "sim_phase": -339.5585194916255,
+          "target_gain": 494.7986,
+          "target_phase": -366.4625
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "OFF",
+      "mode": "YawMA",
+      "seed": 42,
+      "sensor_noise": false,
+      "motor_noise": false,
+      "classic_bode_score": 660.68,
+      "total_score": 860.34,
+      "gain_loss_pts": 444.54,
+      "phase_loss_pts": 216.15,
+      "pitch_crosstalk_penalty": 141.06,
+      "hf_penalty": 58.59,
+      "hf_noise_rms": 1.531,
+      "post_pitch_dev_max_deg": 0.647,
+      "post_roll_max_deg": 0.996,
+      "post_yaw_rel_max_deg": 4.479,
+      "corr_vel": 0.9886,
+      "quiet_main_max_deg": 0.0001,
+      "aborted": false,
+      "freq_frf": {
+        "0.2016": {
+          "sim_gain": 0.6219805060384299,
+          "sim_phase": 10.460466592734448,
+          "target_gain": 0.5806,
+          "target_phase": 1.0364
+        },
+        "0.2980": {
+          "sim_gain": 0.665659549937006,
+          "sim_phase": 13.521688450300116,
+          "target_gain": 0.6341,
+          "target_phase": 10.295
+        },
+        "0.4728": {
+          "sim_gain": 0.782078322201044,
+          "sim_phase": 16.25097709926918,
+          "target_gain": 0.7695,
+          "target_phase": 15.0535
+        },
+        "0.6827": {
+          "sim_gain": 0.9521654359683372,
+          "sim_phase": 13.962054282893074,
+          "target_gain": 0.8396,
+          "target_phase": 13.5245
+        },
+        "0.9651": {
+          "sim_gain": 1.107787397566446,
+          "sim_phase": 2.9733030536411125,
+          "target_gain": 1.1315,
+          "target_phase": 12.7583
+        },
+        "1.4081": {
+          "sim_gain": 1.2949762483217113,
+          "sim_phase": -10.390902329008359,
+          "target_gain": 1.4443,
+          "target_phase": -9.2208
+        },
+        "1.9855": {
+          "sim_gain": 1.501852925827013,
+          "sim_phase": -28.794898894660815,
+          "target_gain": 1.4429,
+          "target_phase": -31.9132
+        },
+        "2.8742": {
+          "sim_gain": 1.3797842856690088,
+          "sim_phase": -67.65329875132664,
+          "target_gain": 1.5875,
+          "target_phase": -65.1805
+        },
+        "4.0528": {
+          "sim_gain": 1.1686479452119027,
+          "sim_phase": -98.46948591138556,
+          "target_gain": 1.2235,
+          "target_phase": -100.0
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "APEO",
+      "seed": 1,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 1838.89,
+      "total_score": 2161.38,
+      "gain_loss_pts": 1361.16,
+      "phase_loss_pts": 477.73,
+      "pitch_crosstalk_penalty": 213.9,
+      "hf_penalty": 108.6,
+      "hf_noise_rms": 4.66,
+      "post_pitch_dev_max_deg": 6.805,
+      "post_roll_max_deg": 1.446,
+      "post_yaw_rel_max_deg": 0.222,
+      "corr_vel": 0.9611,
+      "quiet_main_max_deg": 0.2687,
+      "aborted": false,
+      "freq_frf": {
+        "0.324": {
+          "sim_gain": 71.26662143051013,
+          "sim_phase": -20.66894667105433,
+          "target_gain": 86.55,
+          "target_phase": -7.03
+        },
+        "0.783": {
+          "sim_gain": 205.52646074740682,
+          "sim_phase": -90.81765455847061,
+          "target_gain": 236.93,
+          "target_phase": -96.96
+        },
+        "1.099": {
+          "sim_gain": 297.8837104099094,
+          "sim_phase": -108.3702599898575,
+          "target_gain": 319.74,
+          "target_phase": -109.23
+        },
+        "2.446": {
+          "sim_gain": 405.47675624891303,
+          "sim_phase": -158.3788182517772,
+          "target_gain": 423.34,
+          "target_phase": -161.34
+        },
+        "5.583": {
+          "sim_gain": 562.3067983032156,
+          "sim_phase": -211.66727624464,
+          "target_gain": 503.3,
+          "target_phase": -201.38
+        },
+        "7.927": {
+          "sim_gain": 415.28294108242517,
+          "sim_phase": -235.84532284355998,
+          "target_gain": 572.69,
+          "target_phase": -247.62
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "LatEC",
+      "seed": 1,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 3096.84,
+      "total_score": 3563.72,
+      "gain_loss_pts": 1673.12,
+      "phase_loss_pts": 1423.72,
+      "pitch_crosstalk_penalty": 371.86,
+      "hf_penalty": 95.01,
+      "hf_noise_rms": 1.949,
+      "post_pitch_dev_max_deg": 1.048,
+      "post_roll_max_deg": 8.35,
+      "post_yaw_rel_max_deg": 1.619,
+      "corr_vel": 0.9363,
+      "quiet_main_max_deg": 0.0832,
+      "aborted": false,
+      "freq_frf": {
+        "0.1209": {
+          "sim_gain": 12.872304615854693,
+          "sim_phase": -294.5161913332152,
+          "target_gain": 8.8121,
+          "target_phase": -304.3956
+        },
+        "0.5588": {
+          "sim_gain": 96.5917758738038,
+          "sim_phase": -211.64670572891012,
+          "target_gain": 90.4836,
+          "target_phase": -229.1921
+        },
+        "0.8722": {
+          "sim_gain": 220.36268256428602,
+          "sim_phase": -240.92695694491812,
+          "target_gain": 191.3284,
+          "target_phase": -237.2924
+        },
+        "1.4040": {
+          "sim_gain": 375.29801695415415,
+          "sim_phase": -283.7884570451612,
+          "target_gain": 411.8162,
+          "target_phase": -288.0149
+        },
+        "2.0936": {
+          "sim_gain": 419.59666880685086,
+          "sim_phase": -312.73262272865526,
+          "target_gain": 357.1374,
+          "target_phase": -328.3241
+        },
+        "3.9915": {
+          "sim_gain": 430.5651953927906,
+          "sim_phase": -339.1840916948595,
+          "target_gain": 494.7986,
+          "target_phase": -366.4625
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "YawMA",
+      "seed": 1,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 598.37,
+      "total_score": 936.55,
+      "gain_loss_pts": 382.29,
+      "phase_loss_pts": 216.08,
+      "pitch_crosstalk_penalty": 272.57,
+      "hf_penalty": 65.61,
+      "hf_noise_rms": 1.62,
+      "post_pitch_dev_max_deg": 1.156,
+      "post_roll_max_deg": 1.179,
+      "post_yaw_rel_max_deg": 4.493,
+      "corr_vel": 0.9885,
+      "quiet_main_max_deg": 0.037,
+      "aborted": false,
+      "freq_frf": {
+        "0.2016": {
+          "sim_gain": 0.6189666318733849,
+          "sim_phase": 10.466606051690562,
+          "target_gain": 0.5806,
+          "target_phase": 1.0364
+        },
+        "0.2980": {
+          "sim_gain": 0.6665178035750575,
+          "sim_phase": 14.034062262296386,
+          "target_gain": 0.6341,
+          "target_phase": 10.295
+        },
+        "0.4728": {
+          "sim_gain": 0.7619352343140486,
+          "sim_phase": 15.843163271554332,
+          "target_gain": 0.7695,
+          "target_phase": 15.0535
+        },
+        "0.6827": {
+          "sim_gain": 0.9516979688894786,
+          "sim_phase": 13.10859060103088,
+          "target_gain": 0.8396,
+          "target_phase": 13.5245
+        },
+        "0.9651": {
+          "sim_gain": 1.1103182915141891,
+          "sim_phase": 3.1715197880067567,
+          "target_gain": 1.1315,
+          "target_phase": 12.7583
+        },
+        "1.4081": {
+          "sim_gain": 1.3158421215840672,
+          "sim_phase": -10.221114990194682,
+          "target_gain": 1.4443,
+          "target_phase": -9.2208
+        },
+        "1.9855": {
+          "sim_gain": 1.498433007011467,
+          "sim_phase": -29.056418949746995,
+          "target_gain": 1.4429,
+          "target_phase": -31.9132
+        },
+        "2.8742": {
+          "sim_gain": 1.3976406681108975,
+          "sim_phase": -68.18487666198303,
+          "target_gain": 1.5875,
+          "target_phase": -65.1805
+        },
+        "4.0528": {
+          "sim_gain": 1.1754808679852675,
+          "sim_phase": -98.48868493632878,
+          "target_gain": 1.2235,
+          "target_phase": -100.0
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "APEO",
+      "seed": 2,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 2232.06,
+      "total_score": 2409.57,
+      "gain_loss_pts": 1322.87,
+      "phase_loss_pts": 909.19,
+      "pitch_crosstalk_penalty": 66.28,
+      "hf_penalty": 111.23,
+      "hf_noise_rms": 4.717,
+      "post_pitch_dev_max_deg": 6.317,
+      "post_roll_max_deg": 0.789,
+      "post_yaw_rel_max_deg": 0.199,
+      "corr_vel": 0.9604,
+      "quiet_main_max_deg": 0.2793,
+      "aborted": false,
+      "freq_frf": {
+        "0.324": {
+          "sim_gain": 73.41790456363319,
+          "sim_phase": -32.927244744976036,
+          "target_gain": 86.55,
+          "target_phase": -7.03
+        },
+        "0.783": {
+          "sim_gain": 211.20168640246825,
+          "sim_phase": -95.88116342917955,
+          "target_gain": 236.93,
+          "target_phase": -96.96
+        },
+        "1.099": {
+          "sim_gain": 283.497682115939,
+          "sim_phase": -112.1508910860832,
+          "target_gain": 319.74,
+          "target_phase": -109.23
+        },
+        "2.446": {
+          "sim_gain": 408.7852990679708,
+          "sim_phase": -158.8594860153362,
+          "target_gain": 423.34,
+          "target_phase": -161.34
+        },
+        "5.583": {
+          "sim_gain": 563.7297464000916,
+          "sim_phase": -211.536233701568,
+          "target_gain": 503.3,
+          "target_phase": -201.38
+        },
+        "7.927": {
+          "sim_gain": 413.23065604345027,
+          "sim_phase": -236.68716378252816,
+          "target_gain": 572.69,
+          "target_phase": -247.62
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "LatEC",
+      "seed": 2,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 3622.82,
+      "total_score": 4144.2,
+      "gain_loss_pts": 2177.95,
+      "phase_loss_pts": 1444.87,
+      "pitch_crosstalk_penalty": 432.13,
+      "hf_penalty": 89.26,
+      "hf_noise_rms": 1.89,
+      "post_pitch_dev_max_deg": 1.237,
+      "post_roll_max_deg": 7.702,
+      "post_yaw_rel_max_deg": 1.671,
+      "corr_vel": 0.9362,
+      "quiet_main_max_deg": 0.186,
+      "aborted": false,
+      "freq_frf": {
+        "0.1209": {
+          "sim_gain": 5.623206726945877,
+          "sim_phase": -293.1429668898401,
+          "target_gain": 8.8121,
+          "target_phase": -304.3956
+        },
+        "0.5588": {
+          "sim_gain": 98.49514545933422,
+          "sim_phase": -211.81111065107862,
+          "target_gain": 90.4836,
+          "target_phase": -229.1921
+        },
+        "0.8722": {
+          "sim_gain": 220.33531184662564,
+          "sim_phase": -242.0724008809886,
+          "target_gain": 191.3284,
+          "target_phase": -237.2924
+        },
+        "1.4040": {
+          "sim_gain": 372.2247826169411,
+          "sim_phase": -284.15828047679895,
+          "target_gain": 411.8162,
+          "target_phase": -288.0149
+        },
+        "2.0936": {
+          "sim_gain": 422.44476794257974,
+          "sim_phase": -312.6584800648888,
+          "target_gain": 357.1374,
+          "target_phase": -328.3241
+        },
+        "3.9915": {
+          "sim_gain": 427.5549725137711,
+          "sim_phase": -339.38827380386954,
+          "target_gain": 494.7986,
+          "target_phase": -366.4625
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "YawMA",
+      "seed": 2,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 652.57,
+      "total_score": 961.49,
+      "gain_loss_pts": 444.97,
+      "phase_loss_pts": 207.61,
+      "pitch_crosstalk_penalty": 241.73,
+      "hf_penalty": 67.19,
+      "hf_noise_rms": 1.639,
+      "post_pitch_dev_max_deg": 0.821,
+      "post_roll_max_deg": 1.32,
+      "post_yaw_rel_max_deg": 4.547,
+      "corr_vel": 0.9878,
+      "quiet_main_max_deg": 0.0708,
+      "aborted": false,
+      "freq_frf": {
+        "0.2016": {
+          "sim_gain": 0.6154754274468407,
+          "sim_phase": 10.180432152944334,
+          "target_gain": 0.5806,
+          "target_phase": 1.0364
+        },
+        "0.2980": {
+          "sim_gain": 0.6648905884677717,
+          "sim_phase": 14.09246977818931,
+          "target_gain": 0.6341,
+          "target_phase": 10.295
+        },
+        "0.4728": {
+          "sim_gain": 0.7744291938956114,
+          "sim_phase": 15.488692373800674,
+          "target_gain": 0.7695,
+          "target_phase": 15.0535
+        },
+        "0.6827": {
+          "sim_gain": 0.958567643282873,
+          "sim_phase": 13.49928494013393,
+          "target_gain": 0.8396,
+          "target_phase": 13.5245
+        },
+        "0.9651": {
+          "sim_gain": 1.1066245346374486,
+          "sim_phase": 3.230851044595008,
+          "target_gain": 1.1315,
+          "target_phase": 12.7583
+        },
+        "1.4081": {
+          "sim_gain": 1.288482719679734,
+          "sim_phase": -9.06206668902431,
+          "target_gain": 1.4443,
+          "target_phase": -9.2208
+        },
+        "1.9855": {
+          "sim_gain": 1.5033736081158506,
+          "sim_phase": -29.036211334772883,
+          "target_gain": 1.4429,
+          "target_phase": -31.9132
+        },
+        "2.8742": {
+          "sim_gain": 1.3853409211185361,
+          "sim_phase": -67.89945656575316,
+          "target_gain": 1.5875,
+          "target_phase": -65.1805
+        },
+        "4.0528": {
+          "sim_gain": 1.1705034099241132,
+          "sim_phase": -98.29295448149912,
+          "target_gain": 1.2235,
+          "target_phase": -100.0
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "APEO",
+      "seed": 3,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 3294.76,
+      "total_score": 3736.43,
+      "gain_loss_pts": 1602.8,
+      "phase_loss_pts": 1691.95,
+      "pitch_crosstalk_penalty": 328.31,
+      "hf_penalty": 113.36,
+      "hf_noise_rms": 4.762,
+      "post_pitch_dev_max_deg": 6.761,
+      "post_roll_max_deg": 1.78,
+      "post_yaw_rel_max_deg": 0.341,
+      "corr_vel": 0.9588,
+      "quiet_main_max_deg": 0.775,
+      "aborted": false,
+      "freq_frf": {
+        "0.324": {
+          "sim_gain": 68.17107782911472,
+          "sim_phase": -44.9010309792115,
+          "target_gain": 86.55,
+          "target_phase": -7.03
+        },
+        "0.783": {
+          "sim_gain": 198.95527863944935,
+          "sim_phase": -92.76893633903775,
+          "target_gain": 236.93,
+          "target_phase": -96.96
+        },
+        "1.099": {
+          "sim_gain": 295.69201449514327,
+          "sim_phase": -110.40210188902925,
+          "target_gain": 319.74,
+          "target_phase": -109.23
+        },
+        "2.446": {
+          "sim_gain": 408.9871050826176,
+          "sim_phase": -159.6015275073949,
+          "target_gain": 423.34,
+          "target_phase": -161.34
+        },
+        "5.583": {
+          "sim_gain": 567.788102217828,
+          "sim_phase": -211.8298441353628,
+          "target_gain": 503.3,
+          "target_phase": -201.38
+        },
+        "7.927": {
+          "sim_gain": 415.3942331992601,
+          "sim_phase": -236.36931061752136,
+          "target_gain": 572.69,
+          "target_phase": -247.62
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "LatEC",
+      "seed": 3,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 2147.06,
+      "total_score": 2634.29,
+      "gain_loss_pts": 746.18,
+      "phase_loss_pts": 1400.89,
+      "pitch_crosstalk_penalty": 387.2,
+      "hf_penalty": 100.03,
+      "hf_noise_rms": 2.0,
+      "post_pitch_dev_max_deg": 0.731,
+      "post_roll_max_deg": 8.967,
+      "post_yaw_rel_max_deg": 1.827,
+      "corr_vel": 0.935,
+      "quiet_main_max_deg": 0.1784,
+      "aborted": false,
+      "freq_frf": {
+        "0.1209": {
+          "sim_gain": 10.129643914311899,
+          "sim_phase": -315.1918380098737,
+          "target_gain": 8.8121,
+          "target_phase": -304.3956
+        },
+        "0.5588": {
+          "sim_gain": 95.19112377949985,
+          "sim_phase": -213.40418745814807,
+          "target_gain": 90.4836,
+          "target_phase": -229.1921
+        },
+        "0.8722": {
+          "sim_gain": 222.24108153174922,
+          "sim_phase": -241.50121589432166,
+          "target_gain": 191.3284,
+          "target_phase": -237.2924
+        },
+        "1.4040": {
+          "sim_gain": 378.406678622522,
+          "sim_phase": -284.2419648223182,
+          "target_gain": 411.8162,
+          "target_phase": -288.0149
+        },
+        "2.0936": {
+          "sim_gain": 424.20234726722146,
+          "sim_phase": -312.41068967388713,
+          "target_gain": 357.1374,
+          "target_phase": -328.3241
+        },
+        "3.9915": {
+          "sim_gain": 433.14368410512463,
+          "sim_phase": -339.0784371812887,
+          "target_gain": 494.7986,
+          "target_phase": -366.4625
+        }
+      }
+    },
+    {
+      "kind": "bode",
+      "tag": "ON",
+      "mode": "YawMA",
+      "seed": 3,
+      "sensor_noise": true,
+      "motor_noise": true,
+      "classic_bode_score": 604.52,
+      "total_score": 998.99,
+      "gain_loss_pts": 420.26,
+      "phase_loss_pts": 184.26,
+      "pitch_crosstalk_penalty": 333.68,
+      "hf_penalty": 60.79,
+      "hf_noise_rms": 1.559,
+      "post_pitch_dev_max_deg": 0.779,
+      "post_roll_max_deg": 1.652,
+      "post_yaw_rel_max_deg": 4.429,
+      "corr_vel": 0.989,
+      "quiet_main_max_deg": 0.065,
+      "aborted": false,
+      "freq_frf": {
+        "0.2016": {
+          "sim_gain": 0.6232199953081703,
+          "sim_phase": 9.863631432462043,
+          "target_gain": 0.5806,
+          "target_phase": 1.0364
+        },
+        "0.2980": {
+          "sim_gain": 0.6651060355341807,
+          "sim_phase": 12.755263930711903,
+          "target_gain": 0.6341,
+          "target_phase": 10.295
+        },
+        "0.4728": {
+          "sim_gain": 0.7780710001228389,
+          "sim_phase": 15.96801066624893,
+          "target_gain": 0.7695,
+          "target_phase": 15.0535
+        },
+        "0.6827": {
+          "sim_gain": 0.9512435464435731,
+          "sim_phase": 14.64735157132925,
+          "target_gain": 0.8396,
+          "target_phase": 13.5245
+        },
+        "0.9651": {
+          "sim_gain": 1.1088719134733678,
+          "sim_phase": 3.732645498090287,
+          "target_gain": 1.1315,
+          "target_phase": 12.7583
+        },
+        "1.4081": {
+          "sim_gain": 1.2827079012886318,
+          "sim_phase": -9.942494618309755,
+          "target_gain": 1.4443,
+          "target_phase": -9.2208
+        },
+        "1.9855": {
+          "sim_gain": 1.5027105902797446,
+          "sim_phase": -29.33513299018058,
+          "target_gain": 1.4429,
+          "target_phase": -31.9132
+        },
+        "2.8742": {
+          "sim_gain": 1.4063808229282102,
+          "sim_phase": -67.96900706498207,
+          "target_gain": 1.5875,
+          "target_phase": -65.1805
+        },
+        "4.0528": {
+          "sim_gain": 1.1714881834802995,
+          "sim_phase": -98.66348880905554,
+          "target_gain": 1.2235,
+          "target_phase": -100.0
+        }
+      }
+    }
+  ],
+  "ensemble_frf_classic": {
+    "APEO": {
+      "off_classic": 2155.3,
+      "ens_classic": 2370.99,
+      "delta_pct": 10.01
+    },
+    "LatEC": {
+      "off_classic": 1941.32,
+      "ens_classic": 1960.61,
+      "delta_pct": 0.99
+    },
+    "YawMA": {
+      "off_classic": 660.68,
+      "ens_classic": 614.8,
+      "delta_pct": -6.94
+    }
+  },
+  "voluntary_shift": [
+    {
+      "name": "Case1_AP_Protraction",
+      "label": "+2.0 cm C1 Protraction (0 deg Gaze)",
+      "aborted": false,
+      "false_booleans": [],
+      "quiet_max_att_deg": 0.0057,
+      "quiet_max_c1_cm": 0.0013,
+      "ss_c1_dx_rel_cm": 1.979,
+      "ss_c1_dz_rel_cm": -0.003,
+      "ss_com_dx_rel_cm": 1.984,
+      "ss_com_dz_rel_cm": -0.003,
+      "ss_cun_ap_cm": 1.983,
+      "ss_cun_lat_cm": -0.002,
+      "ss_pitch_deg": -0.024,
+      "ss_roll_deg": 0.001,
+      "ss_yaw_deg": 0.001,
+      "ss_pitch1_deg": 14.69,
+      "ss_pitch2_deg": -14.71,
+      "ss_roll1_deg": 0.02,
+      "ss_roll2_deg": -0.02,
+      "max_abs_pitch_deg": 1.604,
+      "max_abs_roll_deg": 0.027,
+      "max_abs_yaw_deg": 0.039,
+      "max_abs_roll1_deg": 0.048,
+      "sway_rms_c1_glob_cm": 1.972,
+      "sway_rms_com_glob_cm": 1.977,
+      "sway_rms_c1_rel_cm": 1.972,
+      "sway_mean_c1_rel_cm": 1.972,
+      "sway_rms_pitch_deg": 0.027,
+      "ss_std_cun_ap_cm": 0.0053,
+      "ss_std_cun_lat_cm": 0.0011,
+      "ss_std_pitch_deg": 0.008,
+      "tag": "OFF"
+    },
+    {
+      "name": "Case1_AP_Protraction",
+      "label": "+2.0 cm C1 Protraction (0 deg Gaze)",
+      "aborted": false,
+      "false_booleans": [],
+      "quiet_max_att_deg": 0.0791,
+      "quiet_max_c1_cm": 0.0111,
+      "ss_c1_dx_rel_cm": 1.97,
+      "ss_c1_dz_rel_cm": -0.005,
+      "ss_com_dx_rel_cm": 1.971,
+      "ss_com_dz_rel_cm": -0.009,
+      "ss_cun_ap_cm": 1.975,
+      "ss_cun_lat_cm": -0.004,
+      "ss_pitch_deg": 0.002,
+      "ss_roll_deg": -0.043,
+      "ss_yaw_deg": -0.012,
+      "ss_pitch1_deg": 14.64,
+      "ss_pitch2_deg": -14.64,
+      "ss_roll1_deg": -0.0,
+      "ss_roll2_deg": -0.04,
+      "max_abs_pitch_deg": 1.623,
+      "max_abs_roll_deg": 0.104,
+      "max_abs_yaw_deg": 0.211,
+      "max_abs_roll1_deg": 0.135,
+      "sway_rms_c1_glob_cm": 1.963,
+      "sway_rms_com_glob_cm": 1.964,
+      "sway_rms_c1_rel_cm": 1.963,
+      "sway_mean_c1_rel_cm": 1.963,
+      "sway_rms_pitch_deg": 0.038,
+      "ss_std_cun_ap_cm": 0.0162,
+      "ss_std_cun_lat_cm": 0.0549,
+      "ss_std_pitch_deg": 0.0365,
+      "tag": "ON"
+    },
+    {
+      "name": "Case4A_Combined_wPos1",
+      "label": "+10 deg Pitch + +0.8 cm C1 Protraction (w_pos_ap=1.0)",
+      "aborted": false,
+      "false_booleans": [],
+      "quiet_max_att_deg": 0.0057,
+      "quiet_max_c1_cm": 0.0013,
+      "ss_c1_dx_rel_cm": 0.764,
+      "ss_c1_dz_rel_cm": -0.003,
+      "ss_com_dx_rel_cm": -0.403,
+      "ss_com_dz_rel_cm": -0.003,
+      "ss_cun_ap_cm": 0.765,
+      "ss_cun_lat_cm": -0.002,
+      "ss_pitch_deg": 10.419,
+      "ss_roll_deg": 0.001,
+      "ss_yaw_deg": 0.0,
+      "ss_pitch1_deg": 16.72,
+      "ss_pitch2_deg": -6.3,
+      "ss_roll1_deg": 0.03,
+      "ss_roll2_deg": -0.03,
+      "max_abs_pitch_deg": 10.509,
+      "max_abs_roll_deg": 0.015,
+      "max_abs_yaw_deg": 0.038,
+      "max_abs_roll1_deg": 0.031,
+      "sway_rms_c1_glob_cm": 0.749,
+      "sway_rms_com_glob_cm": 0.407,
+      "sway_rms_c1_rel_cm": 0.749,
+      "sway_mean_c1_rel_cm": 0.748,
+      "sway_rms_pitch_deg": 10.32,
+      "ss_std_cun_ap_cm": 0.0012,
+      "ss_std_cun_lat_cm": 0.0001,
+      "ss_std_pitch_deg": 0.0533,
+      "tag": "OFF"
+    },
+    {
+      "name": "Case4A_Combined_wPos1",
+      "label": "+10 deg Pitch + +0.8 cm C1 Protraction (w_pos_ap=1.0)",
+      "aborted": false,
+      "false_booleans": [],
+      "quiet_max_att_deg": 0.0791,
+      "quiet_max_c1_cm": 0.0111,
+      "ss_c1_dx_rel_cm": 0.761,
+      "ss_c1_dz_rel_cm": -0.006,
+      "ss_com_dx_rel_cm": -0.409,
+      "ss_com_dz_rel_cm": -0.014,
+      "ss_cun_ap_cm": 0.757,
+      "ss_cun_lat_cm": -0.006,
+      "ss_pitch_deg": 10.452,
+      "ss_roll_deg": -0.062,
+      "ss_yaw_deg": -0.042,
+      "ss_pitch1_deg": 16.73,
+      "ss_pitch2_deg": -6.28,
+      "ss_roll1_deg": -0.01,
+      "ss_roll2_deg": -0.05,
+      "max_abs_pitch_deg": 10.564,
+      "max_abs_roll_deg": 0.128,
+      "max_abs_yaw_deg": 0.143,
+      "max_abs_roll1_deg": 0.088,
+      "sway_rms_c1_glob_cm": 0.748,
+      "sway_rms_com_glob_cm": 0.411,
+      "sway_rms_c1_rel_cm": 0.748,
+      "sway_mean_c1_rel_cm": 0.748,
+      "sway_rms_pitch_deg": 10.344,
+      "ss_std_cun_ap_cm": 0.0198,
+      "ss_std_cun_lat_cm": 0.0598,
+      "ss_std_pitch_deg": 0.0802,
+      "tag": "ON"
+    }
+  ]
+}

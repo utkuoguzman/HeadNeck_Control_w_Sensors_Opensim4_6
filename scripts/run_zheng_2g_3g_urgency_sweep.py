@@ -30,11 +30,11 @@ for _p in (_ROOT, _SCRIPT_DIR, os.path.join(_ROOT, "util")):
         sys.path.insert(0, _p)
 
 import opensim as osim
+from cmaes_worker_p22 import PER_MUSCLE_72_U0, ensure_libraries_loaded
 from scripts.generate_standard_plot import apply_cli_overrides_and_inspect
 from validate_5dof_voluntary_and_se2_shift import (
     CHAMP_C1_JSON,
     MODEL_PATH,
-    ensure_libraries_loaded,
 )
 
 ART_DIR = r"C:\Users\User\.gemini\antigravity\brain\89fb8d56-9d12-4051-a256-02497ef8d6ae"
@@ -43,7 +43,7 @@ OUT_PNG = os.path.join(_ROOT, "results", "zheng_2g_3g_urgency_sweep.png")
 
 G_ACC = 9.81
 G_LEVELS = [2.0, 3.0]
-URGENCY_LIST = [0.00, 0.05, 0.10, 0.20, 0.50, 1.00]
+URGENCY_LIST = [-1.00, -0.75, -0.50, -0.25, 0.00, 0.20, 0.50, 1.00]
 
 T_SETTLE = 0.35
 T_IMPACT = 0.35
@@ -71,6 +71,19 @@ def compute_engagement(u: float) -> float:
         return 0.0
     k_norm = math.tanh(1.0 / 0.15)
     return min(max(math.tanh(u_c / 0.15) / k_norm, 0.0), 1.0)
+
+
+def compute_supraspinal_alertness(u: float) -> float:
+    if u >= 0.0:
+        return 1.0
+    a = min(max(1.0 + float(u), 0.0), 1.0)
+    return a * a
+
+
+def compute_spinal_alertness(u: float) -> float:
+    if u >= 0.0:
+        return 1.0
+    return min(max(1.0 + float(u), 0.0), 1.0)
 
 
 def eval_haversine_sled_kinematics(t_abs: float, g_level: float, sign_x: float = -1.0):
@@ -140,6 +153,8 @@ def run_single_case(spec: dict) -> dict:
         "desired_yaw": 0.0,
         "desired_ap_shift": 0.0,
         "desired_lat_shift": 0.0,
+        "enable_sensor_noise": False,
+        "enable_motor_noise": False,
     })
     if "phasic_oto_sat_mps2" in spec and spec["phasic_oto_sat_mps2"] is not None:
         init_overrides["phasic_oto_sat_mps2"] = float(spec["phasic_oto_sat_mps2"])
@@ -150,7 +165,7 @@ def run_single_case(spec: dict) -> dict:
     controller = None
     for i in range(model.getControllerSet().getSize()):
         ctrl = model.updControllerSet().get(i)
-        if ctrl.getName() == "baseline_activation_controller":
+        if ctrl.getConcreteClassName() == "FixationController":
             ctrl.set_enabled(False)
         elif ctrl.getConcreteClassName() == "HeadNeckNeuralController":
             controller = ctrl
@@ -222,13 +237,15 @@ def run_single_case(spec: dict) -> dict:
         m = muscles.get(i)
         mname = m.getName()
         if mname.startswith("r_") or mname.startswith("l_"):
+            m.setAppliesForce(state, False)
             continue
         neck_muscle_indices.append(i)
         if mname in SPLEN_CAP_NAMES:
             splen_indices.append(i)
         if mname in SCM_NAMES:
             scm_indices.append(i)
-        u0 = 0.03
+        u0 = PER_MUSCLE_72_U0.get(mname, 0.030)
+        m.setActivation(state, u0)
         gd0 = 100.0 * k_gdyn * (0.25 + 0.75 * u0)
         gs0 = 100.0 * k_gstat * u0
         fdyn0 = (gd0 * gd0) / (gd0 * gd0 + 3600.0)
@@ -342,6 +359,8 @@ def run_single_case(spec: dict) -> dict:
     if len(f_imp_rel) > 0:
         idx_max_flex = int(np.argmax(f_imp_rel))
         idx_min_flex = int(np.argmin(f_imp_rel))
+        onset_mask = t_imp_ms <= 150.0 + 1e-9
+        min_flex_onset_deg = float(np.min(f_imp_rel[onset_mask])) if np.any(onset_mask) else 0.0
         idx_abs_peak = int(np.argmax(np.abs(f_imp_rel)))
         peak_flex_deg = float(f_imp_rel[idx_max_flex])
         min_flex_deg = float(f_imp_rel[idx_min_flex])
@@ -355,11 +374,22 @@ def run_single_case(spec: dict) -> dict:
         idx_splen_peak = int(np.argmax(splen_imp))
         peak_splen_cap = float(splen_imp[idx_splen_peak])
         t_peak_splen_ms = float(t_imp_ms[idx_splen_peak])
+        # Prominence-aware peak counter: count distinct activation peaks (prominence >= 0.015 within +/- 50 ms)
+        win_half = 25
+        n_splen_peaks = 0
+        for k in range(1, len(splen_imp) - 1):
+            if splen_imp[k] > 0.08 and splen_imp[k] > splen_imp[k - 1] and splen_imp[k] >= splen_imp[k + 1]:
+                lo = max(0, k - win_half)
+                hi = min(len(splen_imp), k + win_half + 1)
+                prom = float(splen_imp[k] - max(np.min(splen_imp[lo : k + 1]), np.min(splen_imp[k:hi])))
+                if prom >= 0.015:
+                    n_splen_peaks += 1
         peak_scm = float(np.max(scm_imp))
         max_neck_act = float(np.max(max_act_imp))
     else:
-        peak_flex_deg = min_flex_deg = t_peak_ms = signed_peak_rel_deg = t_signed_peak_ms = 0.0
+        peak_flex_deg = min_flex_deg = min_flex_onset_deg = t_peak_ms = signed_peak_rel_deg = t_signed_peak_ms = 0.0
         peak_pitch_abs_deg = peak_vel_dps = nose_y_min = com_x_max_m = peak_splen_cap = t_peak_splen_ms = peak_scm = max_neck_act = 0.0
+        n_splen_peaks = 0
 
     wall_s = time.time() - t0
     return {
@@ -367,6 +397,8 @@ def run_single_case(spec: dict) -> dict:
         "urgency": urgency,
         "urgency_applied": u_applied,
         "engagement": round(engagement, 6),
+        "supraspinal_alertness": round(compute_supraspinal_alertness(urgency), 4),
+        "spinal_alertness": round(compute_spinal_alertness(urgency), 4),
         "sign_x": sign_x,
         "wall_s": round(wall_s, 2),
         "stop_reason": stop_reason,
@@ -375,6 +407,7 @@ def run_single_case(spec: dict) -> dict:
         "spine_tx_end_m": round(float(tx_arr[-1]), 4),
         "peak_flex_deg": round(peak_flex_deg, 2),
         "min_flex_deg": round(min_flex_deg, 2),
+        "min_flex_onset_deg": round(min_flex_onset_deg, 2),
         "signed_peak_rel_deg": round(signed_peak_rel_deg, 2),
         "t_peak_ms": round(t_peak_ms, 1),
         "t_signed_peak_ms": round(t_signed_peak_ms, 1),
@@ -384,6 +417,7 @@ def run_single_case(spec: dict) -> dict:
         "com_x_max_m": round(com_x_max_m, 4),
         "peak_splen_cap": round(peak_splen_cap, 4),
         "t_peak_splen_ms": round(t_peak_splen_ms, 1),
+        "n_splen_peaks": n_splen_peaks,
         "peak_scm": round(peak_scm, 4),
         "max_neck_act": round(max_neck_act, 4),
         "t_imp_ms": [round(float(v), 2) for v in t_imp_ms],
@@ -397,9 +431,17 @@ def run_single_case(spec: dict) -> dict:
 
 
 def make_comparison_plot(results_by_key: dict):
-    fig, axes = plt.subplots(2, 2, figsize=(14.5, 9.5), dpi=180, sharex=True)
-    cmap = plt.get_cmap("viridis")
-    colors = [cmap(x) for x in np.linspace(0.05, 0.92, len(URGENCY_LIST))]
+    fig, axes = plt.subplots(2, 2, figsize=(15.0, 9.6), dpi=180, sharex=True)
+    color_map = {
+        -1.00: "#64748b",
+        -0.75: "#ea580c",
+        -0.50: "#d97706",
+        -0.25: "#0d9488",
+         0.00: "#059669",
+         0.20: "#2563eb",
+         0.50: "#4f46e5",
+         1.00: "#7c3aed",
+    }
 
     corridors = {
         2.0: (33.0, 40.0, "NBDL 2g corridor (33–40°)"),
@@ -429,17 +471,19 @@ def make_comparison_plot(results_by_key: dict):
         for idx, u in enumerate(URGENCY_LIST):
             r = results_by_key[(g_level, u)]
             e_val = r["engagement"]
-            lw = 2.6 if (idx == 0 or idx == len(URGENCY_LIST) - 1) else 1.7
-            ls = "-"
-            lbl = f"u={u:.2f} (e={e_val:.3f}) | pk={r['peak_flex_deg']:.1f}°, spl={r['peak_splen_cap']:.2f}"
-            ax_ang.plot(r["t_imp_ms"], r["pitch_rel_deg"], color=colors[idx], linewidth=lw, linestyle=ls, label=lbl)
-            ax_act.plot(r["t_imp_ms"], r["splen_cap_act"], color=colors[idx], linewidth=lw, linestyle=ls, label=f"u={u:.2f} (e={e_val:.3f})")
+            col_hex = color_map.get(u, "#1f2937")
+            lw = 2.6 if u in (-0.75, 0.00, 1.00) else 1.7
+            ls = "--" if u == -1.00 else "-"
+            tag = " [Passive]" if u == -1.00 else (" [Relaxed NBDL]" if abs(u + 0.75) < 1e-6 else (" [Alert APEO]" if u == 0.0 else (" [Max Braced]" if u == 1.0 else "")))
+            lbl = f"u={u:+.2f}{tag} | pk={r['peak_flex_deg']:.1f}°, spl={r['peak_splen_cap']:.2f}"
+            ax_ang.plot(r["t_imp_ms"], r["pitch_rel_deg"], color=col_hex, linewidth=lw, linestyle=ls, label=lbl)
+            ax_act.plot(r["t_imp_ms"], r["splen_cap_act"], color=col_hex, linewidth=lw, linestyle=ls, label=f"u={u:+.2f} (nPk={r['n_splen_peaks']})")
 
         ax_ang.set_title(f"{int(g_level)}g Frontal Sled Pulse — Head C.G. Sagittal Rotation vs T1", fontsize=11.5, fontweight="bold")
         ax_ang.set_ylabel("Sagittal Flexion Rel. to Settle (°)", fontsize=10)
         ax_ang.grid(True, linestyle=":", alpha=0.55)
         ax_ang.set_xlim(0.0, 350.0)
-        ax_ang.legend(loc="upper left", fontsize=7.6, framealpha=0.92)
+        ax_ang.legend(loc="upper left", fontsize=7.2, framealpha=0.92)
 
         ax_act.set_title(f"{int(g_level)}g Frontal Sled Pulse — Splenius Capitis Activation", fontsize=11.5, fontweight="bold")
         ax_act.set_xlabel("Time Since Impact Onset (ms) [after 0.35 s quiet pre-settle]", fontsize=10)
@@ -447,11 +491,11 @@ def make_comparison_plot(results_by_key: dict):
         ax_act.grid(True, linestyle=":", alpha=0.55)
         ax_act.set_xlim(0.0, 350.0)
         ax_act.set_ylim(0.0, max(0.75, max(results_by_key[(g_level, u)]["peak_splen_cap"] for u in URGENCY_LIST) + 0.08))
-        ax_act.legend(loc="upper right", fontsize=8.0, framealpha=0.92)
+        ax_act.legend(loc="upper right", fontsize=7.6, framealpha=0.92)
 
     fig.suptitle(
-        "C11 + e(u) Zheng et al. (2021) / NBDL 2g & 3g Validation — C^2 Haversine Pulse (37.5–212.5 ms, pk 125 ms)",
-        fontsize=13.0,
+        "Unified Alertness/Urgency u ∈ [-1, +1] — Zheng et al. (2021) / NBDL 2g & 3g Sled (C^2 Haversine, High-G Reweighted)",
+        fontsize=12.0,
         fontweight="bold",
         y=0.985,
     )
@@ -516,18 +560,18 @@ def main():
     with open(OUT_JSON, "w", encoding="utf-8") as f:
         json.dump(payload, f, indent=2)
 
-    print("\n=== SUMMARY TABLE: C11 + e(u) vs. Zheng et al. (2021) / NBDL 2g & 3g ===")
-    hdr = f"{'G':>3} | {'u':>4} | {'e(u)':>6} | {'Settle':>7} | {'PkFlex':>7} | {'MinFlex':>8} | {'t_pk':>7} | {'Vmax':>8} | {'SplenPk':>7} | {'t_spl':>7} | {'SCM_Pk':>7} | {'MaxAct':>7} | {'tx_end':>8}"
+    print("\n=== SUMMARY TABLE: Unified Alertness u in [-1, +1] vs. Zheng et al. (2021) / NBDL 2g & 3g ===")
+    hdr = f"{'G':>3} | {'u':>6} | {'s_sup':>5} | {'e(u)':>5} | {'Settle':>7} | {'PkFlex':>7} | {'MinOns':>7} | {'MinFlex':>8} | {'t_pk':>7} | {'Vmax':>8} | {'SplenPk':>7} | {'nPk':>3} | {'SCM_Pk':>7} | {'MaxAct':>7}"
     print(hdr)
     print("-" * len(hdr))
     for g in G_LEVELS:
         for u in URGENCY_LIST:
             r = results_by_key[(g, u)]
             print(
-                f"{int(g):>2}g | {u:4.2f} | {r['engagement']:6.4f} | {r['pitch_at_settle_deg']:+6.2f}° | "
-                f"{r['peak_flex_deg']:+6.2f}° | {r['min_flex_deg']:+7.2f}° | {r['t_peak_ms']:5.1f}ms | "
-                f"{r['peak_vel_dps']:6.1f}°/s | {r['peak_splen_cap']:7.4f} | {r['t_peak_splen_ms']:5.1f}ms | "
-                f"{r['peak_scm']:7.4f} | {r['max_neck_act']:7.4f} | {r['spine_tx_end_m']:+7.4f}m"
+                f"{int(g):>2}g | {u:+6.2f} | {r['supraspinal_alertness']:5.3f} | {r['engagement']:5.3f} | {r['pitch_at_settle_deg']:+6.2f}° | "
+                f"{r['peak_flex_deg']:+6.2f}° | {r['min_flex_onset_deg']:+6.2f}° | {r['min_flex_deg']:+7.2f}° | {r['t_peak_ms']:5.1f}ms | "
+                f"{r['peak_vel_dps']:6.1f}°/s | {r['peak_splen_cap']:7.4f} | {r['n_splen_peaks']:3d} | "
+                f"{r['peak_scm']:7.4f} | {r['max_neck_act']:7.4f}"
             )
     print(f"\nSaved JSON: {OUT_JSON}")
     print(f"Saved PNG : {OUT_PNG}")

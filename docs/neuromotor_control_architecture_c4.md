@@ -336,3 +336,48 @@ All `7` validation cases verified cleanly (`urgency = 0.50`, `e(0.50) = 0.9975` 
 Evaluated across `2g` (`19.62 m/s²`, `tx_end = -0.3863 m`) and `3g` (`29.43 m/s²`, `tx_end = -0.5794 m`) `-X` **$C^2$-smooth haversine** T1 pulses (`37.5 -> 212.5 ms`, peak at `125 ms`, after `0.35 s` pre-settle) over `u in [0.00, 1.00]` (`logs/zheng_2g_3g_urgency_sweep.json`, `results/zheng_2g_3g_urgency_sweep.png`, `0` failures):
 - **Eliminates high-G backward whip & muscle saturation:** Without saturation, `u = 0.00` flung the head `-44.87°` (`2g`) and `-56.01°` (`3g`) backward while saturating *splenius capitis* at `0.882` and `0.998`. With linear-below-knee `8.5 / 13.5 N·m` saturation and the $C^2$ haversine pulse, the sharp `~65 ms` triangular-jerk corner spike is eliminated; at `u = 0.00` *splenius capitis* forms a smooth unimodal burst peaking at **`0.3607 @ 136 ms`** (`2g`) and **`0.4215 @ 148 ms`** (`3g`)—never saturating (`0.332–0.380` at `2g`, `0.422–0.498` at `3g` across all `u`)—while head excursion stays tightly stabilized (`+0.04° to +2.73°` / `-1.79° to -9.48°` at `2g`; `+0.36° to +4.53°` / `-0.73° to -6.41°` at `3g`). At high urgency (`u >= 0.20`), the 40 ms delayed `3.5–5.0 Hz` cortical gaze-lock loop adds a mild `~28 Hz` (`35 ms` period) oscillatory modulation on top of the extensor envelope.
 - **Physical interpretation vs. NBDL (`33–47°`):** Even with `K_phas = 0`, the `APEO`-calibrated alert reflex baseline (`K_ton + K_sc + Spinal CCR`) stabilizes `2g–3g` frontal whip within `+6.55°` (`2g`) and `+10.34°` (`3g`), whereas Zheng et al. (2021) modeled relaxed unbraced subjects using lower postural vestibular sensitivity (`Gs = Gc = 0.65`) and passive controller-off flexion reaches `+49.72°` at `2g`.
+
+---
+
+## 11. Tier-1 Physiological Sensory & Motor Noise + Multisensory Observer (`enable_sensor_noise`, `enable_motor_noise`)
+
+### 11.1 Noise Bank Architecture (`200 Hz` $C^2$ Cubic B-Spline OU + Zero-Allocation Toggle)
+To study healthy biological postural variability and robustness while keeping the deterministic campaign/validation path unchanged, [`HeadNeckNeuralController`](../HeadNeckNeuralController_plugin/HeadNeckNeuralController.h) exposes two independent boolean switches (both default `false` -> zero RNG work or heap allocation):
+- `enable_sensor_noise` (`bool`, default `false`): injects Tier-1 population-pooled Ornstein–Uhlenbeck (OU) noise across bilateral vestibular canals, bilateral regular/irregular otolith maculae, and 72 muscle spindles (`Ia`, `II`).
+- `enable_motor_noise` (`bool`, default `false`): injects Tier-1 signal-dependent alpha-motoneuron execution noise (SDN) immediately upstream of `muscle.addInControls`.
+- `noise_seed` (`int`, default `42`) and `noise_scale` (`double`, default `1.0`).
+
+Noise waveforms are lazily generated on a fixed $\Delta t = 0.005\,\text{s}$ (`200 Hz`, $1.0\,\text{s}$ chunks) grid using `std::mt19937_64` seeded with `uint32_t(noise_seed) + 0x9e3779b97f4a7c15ULL` and evaluated continuously via a **variance-normalized $C^2$ uniform cubic B-spline** (`bspline_norms[ch] = 1 / sqrt((18 + 16*a + 2*a^2)/36)`), guaranteeing smooth derivatives for `SemiExplicitEuler2`.
+
+| Stream / Channel | OU $\tau$ (`ms`) | Additive Base SD | Signal-Dependent SD | Physiological Formulation Notes |
+| :--- | :---: | :---: | :---: | :--- |
+| **Regular Canals (`ch 0..5`)** | `15` | `0.0030 rad/s` | `0.8%` | Applied per canal in passband-scaled units in both `computeStateVariableDerivatives` and `computeControls` |
+| **Irregular Canals (`ch 6..11`)** | `12` | `0.0080 rad/s` | `2.0%` | Feeds fast phasic canal VCR (`applyVestibularCanalNoise`) |
+| **Regular Otoliths (`ch 12..17`)** | `20` | `0.030 m/s²` | `0.4%` | Bilateral L/R 3D average per axis feeding the 2-stage Otolith Luenberger & Mahony observer |
+| **Irregular Otoliths (`ch 18..23`)** | `15` | `0.055 m/s²` | `1.5%` | Bilateral L/R 3D average per axis feeding phasic otolith VCR (`applyIrregularOtolithForceNoise`) |
+| **Spindle `Ia` (`ch 24..24+N-1`)** | `20` | `0.40 pps` (tapered) | `1.5%` | Base SD tapered by $r / (r + 1.5)$ before non-negative clamp to eliminate zero-clipping DC bias in shortened muscles |
+| **Spindle `II` (`ch 24+N..24+2N-1`)** | `30` | `0.18 pps` (tapered) | `1.0%` | Applied to fallback state derivatives only when `!has_delayed_spindle_*`, and stored in `HistoryRecord` in `computeControls` |
+| **Alpha Motoneuron SDN (`ch 24+2N..24+3N-1`)** | `60` | `0.0015` | `3.5%` of `exc` | Scaled by muscle-size factor $\text{clamp}(\sqrt{60 / \max(5, F_{\max,m})}, 0.80, 2.00)$ and clamped to `[0, 1]` |
+
+### 11.2 Physiological Multisensory Mahony & Velocity-Storage Observer Properties
+To prevent un-damped low-frequency canal/otolith noise random-walk integration while preserving high-precision deterministic tracking, four observer properties were exposed on `HeadNeckNeuralController`:
+- `Kp_mahony = 0.25 rad/s` (default), `Ki_mahony = 0.008 rad/s²` (default): balanced proportional-integral bias lock on `SO(3)`.
+- `w_oto_mahony = 0.50` (default): inverse-variance Mahony weighting between acceleration-gated otolith gravity innovation and pooled cervical proprioception (`total_attitude_error_head = (w_oto_mahony * oto_acc_gate) * otolith_attitude_error_head + gated_prop_att_err_head`).
+- `vs_leak_rate = 0.05 s⁻¹` (default, $\tau_{\text{vs}} = 20\,\text{s}$): physiological velocity-storage cupula leak active during Mahony estimation.
+- `oto_acc_gate` noise debiasing: `trans_acc_sq_eff = max(0, trans_acc_sq - 3 * sigma_a_bilat^2)` with $\sigma_{a,\text{bilat}} = 0.030/\sqrt{2}\cdot\text{scale}$.
+
+### 11.3 Verified Tier-1 Noise Validation Metrics (`scripts/validate_biological_noise.py`)
+Verified across `10` quiet stance (`t = 1..5 s`, 3 seeds for noisy conditions), `12` 3-axis Passive Bode, and `4` 5-DOF C1 shift simulations (`logs/biological_noise_validation.json`, `results/biological_noise_validation.png`, `0` aborts):
+- **2×2 Quiet Upright Stance Ablation:**
+  - `Off (0,0)`: Pitch `0.0011°`, Roll `0.0002°`, Yaw `0.0002°`, `MaxExc = 0.009°`, `MaxAct = 0.0695`.
+  - `Sensor (1,0)` (Seeds 1–3): Pitch `0.2715 ± 0.1223°`, Roll `0.0904 ± 0.0114°`, Yaw `0.0274 ± 0.0068°`, `MaxExc = 0.932°`, `MaxAct = 0.1829`.
+  - `Motor (0,1)` (Seeds 1–3): Pitch `0.0577 ± 0.0138°`, Roll `0.0327 ± 0.0023°`, Yaw `0.0109 ± 0.0006°`, `MaxExc = 0.287°`, `MaxAct = 0.1141`.
+  - `Both (1,1)` (Seeds 1–3): Pitch `0.2514 ± 0.1040°`, Roll `0.0870 ± 0.0211°`, Yaw `0.0315 ± 0.0020°`, `MaxExc = 0.922°`, `MaxAct = 0.1954`.
+- **3-Axis Passive Bode (`Noise-OFF` vs. `Sensor+Motor ON`, Seeds 1–3):**
+  - `APEO`: OFF Total `2,260.51` (`Classic 2,155.30`, `r_v = +0.961`) -> ON Total `2,769.13 ± 846.85` (`Classic 2,455.24 ± 753.16`, `r_v = +0.960`, `+22.50%`), **3-Seed Ensemble FRF Classic `2,370.99` (`+10.01%`)**.
+  - `LatEC`: OFF Total `2,348.25` (`Classic 1,941.32`, `r_v = +0.937`) -> ON Total `3,447.40 ± 761.65` (`Classic 2,955.57 ± 747.95`, `r_v = +0.936`, `+46.81%`), **3-Seed Ensemble FRF Classic `1,960.61` (`+0.99%`)**.
+  - `YawMA`: OFF Total `860.34` (`Classic 660.68`, `r_v = +0.989`) -> ON Total `965.68 ± 31.43` (`Classic 618.49 ± 29.68`, `r_v = +0.988`, `+12.24%`), **3-Seed Ensemble FRF Classic `614.80` (`-6.94%`)**.
+  - **Combined:** Noise-OFF Total **`5,469.10 pts`** (`Classic 4,757.30`, `-29.63 pts` vs. prior `5,498.73`), Noise-ON single-trial mean `7,182.21 ± 456.65 pts`, **3-Seed Ensemble FRF Classic `4,946.40 pts` (`+3.97%`)**.
+- **5-DOF Voluntary C1 Shift (`seed = 42`):**
+  - `Case1_AP_Protraction`: OFF `C1_dx = +1.98 cm` (`p = -0.02°`) -> ON `C1_dx = +1.97 cm` (`p = +0.00°, r = -0.04°, y = -0.01°`, `Q = 0.079°`).
+  - `Case4A_Combined_wPos1`: OFF `C1_dx = +0.76 cm` (`p = +10.42°`) -> ON `C1_dx = +0.76 cm` (`p = +10.45°, r = -0.06°, y = -0.04°`, `Q = 0.079°`).
