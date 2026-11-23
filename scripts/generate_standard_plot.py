@@ -62,6 +62,8 @@ def apply_cli_overrides_and_inspect(controller, overrides):
         low = val.strip().lower()
         if low in ("true", "false"):
             osim.PropertyHelper.setValueBool(low == "true", prop)
+        elif prop.getTypeName() == "int":
+            osim.PropertyHelper.setValueInt(int(round(float(val))), prop)
         else:
             osim.PropertyHelper.setValueDouble(float(val), prop)
 

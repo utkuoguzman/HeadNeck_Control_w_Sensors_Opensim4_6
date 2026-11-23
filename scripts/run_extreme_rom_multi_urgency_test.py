@@ -2,6 +2,7 @@ import json
 import math
 import os
 import shutil
+import sys
 import time
 import matplotlib
 matplotlib.use("Agg")
@@ -11,12 +12,14 @@ import opensim as osim
 
 REPO_ROOT = r"D:\Akademik\PhD_Thesis\OpenSim\HeadNeck_Control_w_Sensors_Opensim4_6"
 ART_DIR = r"C:\Users\User\.gemini\antigravity\brain\89fb8d56-9d12-4051-a256-02497ef8d6ae"
-MODEL_PATH = os.path.join(REPO_ROOT, "osim_files", "HYOID_HeadNeckNeural_Model_Detailed.osim")
-PLUGIN_REL = os.path.join(REPO_ROOT, "HeadNeckNeuralController_plugin", "build", "Release", "osimHeadNeckNeural.dll")
-MILLARD_REL = os.path.join(REPO_ROOT, "proprioception_plugin", "build", "Release", "osimMillard12EqWithAff.dll")
-VEST_REL = os.path.join(REPO_ROOT, "vestibular_plugin", "build", "Release", "osimVestibular.dll")
-FIX_REL = os.path.join(REPO_ROOT, "FixationController_plugin", "build", "Release", "osimFixationController.dll")
-CHAMP_JSON = os.path.join(REPO_ROOT, "logs", "se2_c1pos_3axis_champion.json")
+sys.path.insert(0, os.path.join(REPO_ROOT, "scripts"))
+
+from validate_5dof_voluntary_and_se2_shift import (
+    CHAMP_C1_JSON,
+    MODEL_PATH,
+    ensure_libraries_loaded,
+)
+
 OUT_PNG = os.path.join(REPO_ROOT, "results", "extreme_rom_multi_urgency_test.png")
 OUT_JSON = os.path.join(REPO_ROOT, "logs", "extreme_rom_multi_urgency_test.json")
 
@@ -41,11 +44,9 @@ def set_prop(controller, name, val):
 
 def main():
     t0 = time.time()
-    for dll in [MILLARD_REL, VEST_REL, FIX_REL, PLUGIN_REL]:
-        if os.path.exists(dll):
-            osim.LoadOpenSimLibraryExact(dll)
+    ensure_libraries_loaded()
 
-    champ_obj = json.load(open(CHAMP_JSON, "r", encoding="utf-8"))
+    champ_obj = json.load(open(CHAMP_C1_JSON, "r", encoding="utf-8"))
     base_params = dict(champ_obj["params"])
     base_params.update({
         "w_pos_ap": 0.0,
@@ -67,7 +68,7 @@ def main():
     })
 
     model = osim.Model(MODEL_PATH)
-    controller = osim.HeadNeckNeuralController.safeDownCast(model.updComponent("HeadNeckNeuralController"))
+    controller = model.updControllerSet().get("VCR_CCR_Controller")
     for k, v in base_params.items():
         if isinstance(v, bool):
             continue
@@ -76,19 +77,65 @@ def main():
         except Exception:
             pass
 
+    c_yaw1 = model.updCoordinateSet().get("yaw1")
+    c_yaw1.set_locked(False)
+    c_yaw1.setDefaultIsPrescribed(False)
+
     state = model.initSystem()
+    c_yaw1.setIsPrescribed(state, False)
+    model.realizePosition(state)
+
+    skull = model.getBodySet().get("skull")
+    R_head_to_world = skull.getTransformInGround(state).R()
+    q0 = osim.Rotation(R_head_to_world).convertRotationToQuaternion()
+    for idx in range(4):
+        model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/obs_q{idx}", q0.get(idx))
+
+    for sv in (
+        "pitch_error_integral",
+        "roll_error_integral",
+        "yaw_error_integral",
+        "vol_filt_pitch",
+        "vol_filt_roll",
+        "vol_filt_yaw",
+    ):
+        model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/{sv}", 0.0)
+
+    k_gdyn = float(base_params.get("K_gamma_dyn", 0.857744))
+    k_gstat = float(base_params.get("K_gamma_stat", 0.69312344))
+    muscles = model.updMuscles()
+    n_mus = muscles.getSize()
+    for i in range(n_mus):
+        m = muscles.get(i)
+        mname = m.getName()
+        if mname.startswith("r_") or mname.startswith("l_"):
+            continue
+        u0 = 0.03
+        gd0 = 100.0 * k_gdyn * (0.25 + 0.75 * u0)
+        gs0 = 100.0 * k_gstat * u0
+        fdyn0 = (gd0 * gd0) / (gd0 * gd0 + 3600.0)
+        fstat0 = (gs0 * gs0) / (gs0 * gs0 + 3600.0)
+        m.setStateVariableValue(state, "spindle/dynamic_activation", fdyn0)
+        m.setStateVariableValue(state, "spindle/static_activation", fstat0)
+        model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/sp_fdyn_{mname}", fdyn0)
+        model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/sp_fstat_{mname}", fstat0)
+
     model.equilibrateMuscles(state)
+
+    manager = osim.Manager(model)
+    manager.setWriteToStorage(False)
+    manager.setPerformAnalyses(False)
+    manager.setIntegratorMethod(5)
+    manager.setIntegratorAccuracy(1e-4)
+    manager.setIntegratorMinimumStepSize(1e-4)
+    manager.setIntegratorMaximumStepSize(0.001)
+    state.setTime(0.0)
+    manager.initialize(state)
 
     cs = model.getCoordinateSet()
     c_p1, c_p2 = cs.get("pitch1"), cs.get("pitch2")
     c_r1, c_r2 = cs.get("roll1"), cs.get("roll2")
     c_y1, c_y2 = cs.get("yaw1"), cs.get("yaw2")
-    muscles = model.getMuscles()
-    n_mus = muscles.getSize()
-
-    manager = osim.Manager(model)
-    manager.setIntegratorAccuracy(1e-4)
-    manager.initialize(state)
 
     dt = 0.01
     duration = 20.5
@@ -108,7 +155,6 @@ def main():
     stop_reason = None
 
     while t_now < duration - 1e-9:
-        # Check phase transition at current t_now
         for ph in PHASES:
             if ph["t_start"] - 1e-9 <= t_now < ph["t_end"] - 1e-9:
                 if ph["id"] != curr_phase_id:
@@ -141,16 +187,20 @@ def main():
         vr = math.degrees(c_r1.getSpeedValue(state) + c_r2.getSpeedValue(state))
         vy = math.degrees(c_y1.getSpeedValue(state) + c_y2.getSpeedValue(state))
 
-        rp = math.degrees(controller.getStateVariableValue(state, "traj_pos_pitch"))
-        rr = math.degrees(controller.getStateVariableValue(state, "traj_pos_roll"))
-        ry = math.degrees(controller.getStateVariableValue(state, "traj_pos_yaw"))
-        rvp = math.degrees(controller.getStateVariableValue(state, "traj_vel_pitch"))
-        rvr = math.degrees(controller.getStateVariableValue(state, "traj_vel_roll"))
-        rvy = math.degrees(controller.getStateVariableValue(state, "traj_vel_yaw"))
+        rp = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/traj_pos_pitch"))
+        rr = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/traj_pos_roll"))
+        ry = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/traj_pos_yaw"))
+        rvp = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/traj_vel_pitch"))
+        rvr = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/traj_vel_roll"))
+        rvy = math.degrees(model.getStateVariableValue(state, "/controllerset/VCR_CCR_Controller/traj_vel_yaw"))
 
         m_act = 0.0
         for m_i in range(n_mus):
-            a = float(muscles.get(m_i).getActivation(state))
+            m = muscles.get(m_i)
+            mname = m.getName()
+            if mname.startswith("r_") or mname.startswith("l_"):
+                continue
+            a = float(m.getActivation(state))
             if a > m_act:
                 m_act = a
 
@@ -168,7 +218,6 @@ def main():
         tr["y1"].append(y1); tr["y2"].append(y2)
         tr["max_act"].append(m_act)
 
-    # Summarize each phase
     t_np = np.array(tr["t"])
     phase_summaries = []
     for ph in PHASES:
@@ -216,7 +265,6 @@ def main():
             "phases": phase_summaries,
         }, f, indent=2)
 
-    # Render 3-Panel Diagnostic Figure
     fig, axes = plt.subplots(3, 1, figsize=(16.5, 12.2), dpi=160, sharex=True)
     fig.suptitle(
         "20.5 s Extreme-ROM (90% Joint Limits) Multi-Urgency Voluntary Tracking Test (u in [0.0, 0.75])\n"
@@ -226,7 +274,6 @@ def main():
         y=0.98,
     )
 
-    # Panel A: 3-Axis Head Attitude Tracking vs Smooth 3rd-Order Reference
     ax = axes[0]
     ax.plot(t_np, tr["pitch"], "#059669", lw=2.2, label="True Head Pitch (p1+p2)")
     ax.plot(t_np, tr["ref_pitch"], "#065f46", ls=":", lw=1.5, label="3rd-Order Pitch Ref")
@@ -236,13 +283,12 @@ def main():
     ax.plot(t_np, tr["ref_yaw"], "#4c1d95", ls=":", lw=1.5, label="3rd-Order Yaw Ref")
     for ph in PHASES[1:]:
         ax.axvline(ph["t_start"], color="#94a3b8", ls="--", lw=0.9, alpha=0.7)
-        ax.text(ph["t_start"] + 0.08, 78.0, f"P{ph['id']}\nu={ph['urgency']:.2f}", fontsize=7.5, fontweight="bold", color="#334155")
+        ax.text(ph["t_start"] + 0.08, 75.0, f"P{ph['id']}\nu={ph['urgency']:.2f}", fontsize=7.5, fontweight="bold", color="#334155")
     ax.set_ylim(-85, 95)
     ax.set_ylabel("Head Attitude [deg]", fontweight="bold")
     ax.set_title("Panel A: 3-Axis Extreme-ROM Head Attitude vs. 3rd-Order Reference Trajectory", fontweight="bold", fontsize=10.8)
     ax.grid(True, alpha=0.3); ax.legend(fontsize=8.2, ncol=3, loc="lower left")
 
-    # Panel B: Upper (q2) vs Lower (q1) Cervical Joint Split & Hard Limits
     ax = axes[1]
     ax.plot(t_np, tr["p1"], "#059669", lw=1.9, label="Lower Pitch p1 [-19.2, +28.8]")
     ax.plot(t_np, tr["p2"], "#34d399", ls="--", lw=1.9, label="Upper Pitch p2 [-39.6, +57.6]")
@@ -257,7 +303,6 @@ def main():
     ax.set_title("Panel B: Lower (q1) vs. Upper (q2) Cervical Joint Partitioning & Hard-Stop Margins", fontweight="bold", fontsize=10.8)
     ax.grid(True, alpha=0.3); ax.legend(fontsize=8.0, ncol=3, loc="upper left")
 
-    # Panel C: Angular Velocity Profiles & Peak Muscle Activation
     ax = axes[2]
     ax_r = ax.twinx()
     ax.plot(t_np, tr["vel_pitch"], "#059669", lw=1.9, label="Pitch Velocity [deg/s]")

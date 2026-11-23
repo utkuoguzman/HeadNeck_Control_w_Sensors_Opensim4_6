@@ -61,7 +61,10 @@ def run_validation_case(spec):
             controller = ctrl
     assert controller is not None, "HeadNeckNeuralController not found"
 
-    ov_list = [(k, f"{float(v):.15g}") for k, v in init_overrides.items()]
+    ov_list = [
+        (k, ("true" if v else "false") if isinstance(v, bool) else (v if isinstance(v, str) else f"{float(v):.15g}"))
+        for k, v in init_overrides.items()
+    ]
     bool_state, false_booleans, _ = apply_cli_overrides_and_inspect(controller, ov_list)
     assert not false_booleans, f"{name} false booleans: {false_booleans}"
 
@@ -439,6 +442,7 @@ def build_validation_specs(champ_params, kp_px, kv_vx, ki_ap_sway, pid_ov=None):
         Kv_shift_obs_vz=0.0,
         shift_station_blend=0.0,
         trajectory_tau=0.28,
+        urgency=0.0,
     )
     return [
         {
@@ -446,7 +450,7 @@ def build_validation_specs(champ_params, kp_px, kv_vx, ki_ap_sway, pid_ov=None):
             "label": "+2.0 cm C1 Protraction (0 deg Gaze)",
             "base_params": champ_params,
             "init_overrides": dict(no_se2_ov, w_pos_ap=1.0),
-            "step_overrides": {"desired_ap_shift": 0.020},
+            "step_overrides": {"desired_ap_shift": 0.020, "urgency": 0.50},
             "step_time": 0.5,
             "duration": 6.0,
         },
@@ -455,7 +459,7 @@ def build_validation_specs(champ_params, kp_px, kv_vx, ki_ap_sway, pid_ov=None):
             "label": "-1.5 cm C1 Retraction (0 deg Gaze)",
             "base_params": champ_params,
             "init_overrides": dict(no_se2_ov, w_pos_ap=1.0),
-            "step_overrides": {"desired_ap_shift": -0.015},
+            "step_overrides": {"desired_ap_shift": -0.015, "urgency": 0.50},
             "step_time": 0.5,
             "duration": 6.0,
         },
@@ -464,7 +468,7 @@ def build_validation_specs(champ_params, kp_px, kv_vx, ki_ap_sway, pid_ov=None):
             "label": "+0.5 cm C1 Lateral Glide (0 deg Gaze)",
             "base_params": champ_params,
             "init_overrides": dict(no_se2_ov, w_pos_lat=1.0),
-            "step_overrides": {"desired_lat_shift": 0.005},
+            "step_overrides": {"desired_lat_shift": 0.005, "urgency": 0.50},
             "step_time": 0.5,
             "duration": 6.0,
         },
@@ -473,7 +477,7 @@ def build_validation_specs(champ_params, kp_px, kv_vx, ki_ap_sway, pid_ov=None):
             "label": "+10 deg Pitch + +0.8 cm C1 Protraction (w_pos_ap=1.0)",
             "base_params": champ_params,
             "init_overrides": dict(no_se2_ov, w_pos_ap=1.0),
-            "step_overrides": {"desired_pitch": math.radians(10.0), "desired_ap_shift": 0.008},
+            "step_overrides": {"desired_pitch": math.radians(10.0), "desired_ap_shift": 0.008, "urgency": 0.50},
             "step_time": 0.5,
             "duration": 6.0,
         },
@@ -482,7 +486,7 @@ def build_validation_specs(champ_params, kp_px, kv_vx, ki_ap_sway, pid_ov=None):
             "label": "+10 deg Pitch + +0.8 cm cmd Ignored (w_pos_ap=0.0)",
             "base_params": champ_params,
             "init_overrides": dict(no_se2_ov, w_pos_ap=0.0),
-            "step_overrides": {"desired_pitch": math.radians(10.0), "desired_ap_shift": 0.008},
+            "step_overrides": {"desired_pitch": math.radians(10.0), "desired_ap_shift": 0.008, "urgency": 0.50},
             "step_time": 0.5,
             "duration": 6.0,
         },

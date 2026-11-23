@@ -2109,19 +2109,21 @@ d(sc_vel[a])/dt   = p_sc[a]*250.0*(u_sc[a] - sc_state[a]) - (p_sc[a]+250.0)*sc_v
 d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_phas[a] - phas_state[a]) - (p_phas[a]+250.0)*phas_vel[a];`
           },
           {
-            text: "Apply the open phasic lead zero z_phas,a to produce mid-band linear-acceleration restorative torque on Pitch and Roll.",
-            latex: String.raw`\tau_{\text{phas},a} = K_{\text{phas},a}\bigl(x_{1,\text{phas},a} + z_{\text{phas},a}x_{2,\text{phas},a}\bigr) \qquad (\text{P: }11.0/8\text{ms},\;\text{R: }13.5/12\text{ms},\;\text{Y: }0)`,
+            text: "Apply the open phasic lead zero z_phas,a and linear-below-knee C^1 saturation (1:1 identity below 7.6 Nm sustained / 11.5 Nm total so APEO/LatEC Bode experiences 0% distortion; smooth tanh ceiling at 8.5 Nm / 13.5 Nm to prevent high-G 2g–3g backward whip).",
+            latex: String.raw`\tau_{\text{phas},a} = \mathcal{S}_{11.5}^{13.5}\!\Bigl(\mathcal{S}_{7.6}^{8.5}(K_{\text{phas},a}x_{1,\text{phas},a}) + K_{\text{phas},a}z_{\text{phas},a}x_{2,\text{phas},a}\Bigr)`,
             pseudo:
-`tau_phas[a] = K_phas[a] * (phas_state[a] + z_phas[a] * phas_vel[a]);`
+`tau_sust = applyLinearKneeSaturation(K_phas[a]*phas_state[a], 7.6, phasic_torque_sat_nm);
+tau_phas[a] = applyLinearKneeSaturation(tau_sust + K_phas[a]*z_phas[a]*phas_vel[a], 11.5, 13.5);`
           }
         ],
         desc: "",
         latex: "",
         math: "",
         params: [
-          "Pitch: K_phas = 11.000, z_phas = 8.0 ms (0.008 s open lead), p_phas = 4.7119 rad/s (~0.75 Hz, τ = 212.2 ms)",
-          "Roll: K_phas_roll = 13.500, z_phas_roll = 12.0 ms (0.012 s open lead), p_phas_roll = 4.50 rad/s (~0.72 Hz, τ = 222.2 ms)",
+          "Pitch: K_phas = 13.070, z_phas = 28.6 ms, p_phas = 2.28 rad/s",
+          "Roll: K_phas_roll = 4.153, z_phas_roll = 9.8 ms, p_phas_roll = 5.75 rad/s",
           "Yaw: Phasic otolith linear-translation input is zero on Earth-vertical yaw",
+          "phasic_torque_sat_nm = 8.5 Nm (sustained knee = 7.6 Nm -> 8.5 Nm; total knee = 11.5 Nm -> 13.5 Nm): 0% APEO/LatEC Bode regression, prevents >50 Nm crash hyper-extension whip",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
           "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
           {
