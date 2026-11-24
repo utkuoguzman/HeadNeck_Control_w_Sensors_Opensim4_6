@@ -32,7 +32,7 @@ import opensim as osim
 from cmaes_worker_p22 import ensure_libraries_loaded, PER_MUSCLE_72_U0
 from scripts.generate_standard_plot import MODEL_PATH, ART_DIR, apply_cli_overrides_and_inspect
 
-CHAMP_C1_JSON = os.path.join(_ROOT, "logs", "se2_c1pos_3axis_champion.json")
+CHAMP_C1_JSON = os.environ.get("HN_CHAMP_JSON") or os.path.join(_ROOT, "logs", "se2_c1pos_3axis_champion.json")
 CHAMP_FALLBACK_JSON = os.path.join(_ROOT, "logs", "se2_3axis_champion_final.json")
 OUT_JSON = os.path.join(_ROOT, "logs", "validation_5dof_voluntary_shift.json")
 OUT_PNG = os.path.join(_ROOT, "results", "validation_5dof_voluntary_shift.png")

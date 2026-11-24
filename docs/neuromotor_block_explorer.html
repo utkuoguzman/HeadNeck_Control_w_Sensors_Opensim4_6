@@ -796,10 +796,13 @@ dI_sh/dt = (act_task_int[s] && shift_gate[s] > 1e-9 && gamma_ik > 1e-9)
          ? shift_gate[s] * anti_windup(I_sh, shift_err) : -2.0 * I_sh;`
           },
           {
-            text: "Ramp voluntary shift stiffness (kp_s → 6.5) and integral (ki_s → 16.0) under vol_shift_gate (keeping Kd_shift = 0.30 unramped) and add passive cervical stiffness feedforward (2.8·g_vol,sh·δ*_ref) alongside Cullen voluntary phasic-VCR suppression (1 - 0.90·g_cmd), Pitch voluntary Kd_buckle (0.75), and velocity-gated Sherrington reciprocal inhibition & fusimotor u_plan_alpha.",
-            latex: String.raw`\tau_{\text{diff},s} = g_{\text{shift},s}\Bigl[k_{p,s}\,e_{\text{sh},s} + K_{d,\text{sh},s}\,\dot{e}_{\text{sh},s} + k_{i,s}\,I_{\text{sh},s} + 2.8\,g_{\text{vol,sh},s}\,\delta_{\text{ref},s}^* + 0.02\,\ddot{\delta}_s^*\Bigr], \qquad k_{p,s}=\max(K_{p,\text{sh}},6.5\,g_{\text{vol,sh}}),\;\; k_{i,s}=\max(K_{i,\text{sh}},16.0\,g_{\text{vol,sh}})`,
+            text: "Ramp voluntary shift stiffness (kp_s → 6.5) and integral (ki_s → 16.0) under vol_shift_gate (keeping Kd_shift = 0.30 unramped) and add passive cervical stiffness feedforward (2.8·g_vol,sh·δ*_ref) alongside unified alertness/urgency u ∈ [-1, +1] (s_supra, s_spinal, e(u)), motion-gated phasic-VCR suppression (1 - 0.90·vol_cmd_gate·vol_move_active), Pitch voluntary Kd_buckle (0.75), and velocity-gated Sherrington reciprocal inhibition & fusimotor u_plan_alpha.",
+            latex: String.raw`s_{\text{supra}}(u)=\begin{cases}(1+u)^2,&u<0\\1,&u\ge 0\end{cases},\quad s_{\text{sp}}(u)=\begin{cases}1+u,&u<0\\1,&u\ge 0\end{cases},\quad e(u)=\begin{cases}0,&u\le 0\\\frac{\tanh(u/0.15)}{\tanh(1/0.15)},&u>0\end{cases},\quad \tau_{\text{diff},s} = g_{\text{shift},s}\Bigl[k_{p,s}\,e_{\text{sh},s} + K_{d,\text{sh},s}\,\dot{e}_{\text{sh},s} + k_{i,s}\,I_{\text{sh},s} + 2.8\,g_{\text{vol,sh},s}\,\delta_{\text{ref},s}^* + 0.02\,\ddot{\delta}_s^*\Bigr]`,
             pseudo:
-`kp_s = max(Kp_shift[s], vol_shift_gate_now[s] * 6.5);   // base 4.5 -> 6.5 (Kd stays 0.30)
+`s_supra = computeSupraspinalAlertness(u);   // (1+u)^2 for u<0, 1 for u>=0
+s_sp    = computeSpinalAlertness(u);        // (1+u)   for u<0, 1 for u>=0
+e_u     = computeVoluntaryEngagement(u);    // 0 for u<=0, tanh(u/0.15)/norm for u>0
+kp_s = max(Kp_shift[s], vol_shift_gate_now[s] * 6.5);   // base 4.5 -> 6.5 (Kd stays 0.30)
 ki_s = max(Ki_shift[s], vol_shift_gate_now[s] * 16.0);  // base 3.0 -> 16.0
 if (act_task[s] && shift_gate[s] > 1e-9 && ik[s].gamma_ik > 1e-9):
   tau_diff_raw[s] = shift_gate[s] * (kp_s * shift_err + Kd_shift[s] * edot + ki_s * shift_int
@@ -810,9 +813,10 @@ if (act_task[s] && shift_gate[s] > 1e-9 && ik[s].gamma_ik > 1e-9):
         latex: "",
         math: "",
         params: [
+          "Unified Alertness/Urgency u ∈ [-1, +1] : Hypo-alert (u<0) → s_supra=(1+u)², s_sp=1+u; Alert (u=0); Braced/Ballistic (u>0) → e(u)",
           "Voluntary Gaze-Lock Ramp (vol_cmd_gate = 0 in passive) : Pitch (16/4.8/24), Roll (11/2.8/13), Yaw (5/0.8/5)",
           "Symmetric 2-DOF C1-Shift PID : Base Kp=4.5, Kd=0.30, Ki=3.0 → Vol. kp_s=6.5, kd=0.30, ki_s=16.0 + 2.8·δ*_ref FF",
-          "Voluntary Reflex Gating : Phasic VCR ×(1 - 0.90·vol_cmd_gate), Kd_buckle_vol=0.75 (Pitch), τ_cun=0.05+0.09·vol_sh",
+          "Voluntary Reflex Gating : Phasic VCR ×(1 - 0.90·vol_cmd_gate·vol_move_active) [bracing keeps phasic VCR active], Kd_buckle_vol=0.75 (Pitch), τ_cun=0.05+0.09·vol_sh",
           "SE₂(3) Observer Counter-Translation : Kp_shift_obs_pz=-0.0455 (LatEC), Kv_shift_obs_vx=-0.16 (Case 5B w/ 0.5·τ_wash vel HPF)",
           "Zero Effect on Passive VCR/CCR : vol_cmd_gate & vol_shift_gate are identically 0 when desired_* == 0",
           {
@@ -2105,22 +2109,29 @@ d(sc_vel[a])/dt   = p_sc[a]*250.0*(u_sc[a] - sc_state[a]) - (p_sc[a]+250.0)*sc_v
         ]
       },
       s5_phas: {
-        type: "Open Phasic Otolith Filter (D = 0): Pitch (11.0, 8ms, 4.71) | Roll (13.5, 12ms, 4.50)",
-        title: "Irregular Otolith Phasic Central Filter — H_phas(s) (Open Pitch & Roll Velocity-Storage Tuning)",
+        type: "Open Phasic Otolith Filter (D = 0) + High-G Sensory Reweighting & Knee Saturation",
+        title: "Irregular Otolith Phasic Central Filter — H_phas(s) + highg_acc_env Reweighting",
         steps: [
           {
-            text: "Integrate the strictly proper 2nd-order phasic otolith velocity-storage VCR states on Pitch and Roll (p_fast = 250 rad/s).",
-            latex: String.raw`\dot{x}_{1,\text{phas},a} = x_{2,\text{phas},a}, \qquad \dot{x}_{2,\text{phas},a} = p_{\text{phas},a}p_{\text{fast}}\bigl(u_{\text{phas},a} - x_{1,\text{phas},a}\bigr) - (p_{\text{phas},a} + p_{\text{fast}})x_{2,\text{phas},a}`,
+            text: "Evaluate the dual regular+irregular high-G excess detector highg_acc_env (knee = 7.80 m/s², irregular knee = 1.90×7.80 = 14.82 m/s², τ_attack = 2 ms, τ_release = 250 ms) and gate u_phas via g_highg and vol_move_active before integrating the strictly proper 2nd-order phasic otolith VCR states (p_fast = 250 rad/s).",
+            latex: String.raw`g_{\text{highg}} = \frac{1}{1 + (\text{highg\_env\_eff}/0.65)^2}, \qquad \dot{x}_{1,\text{phas},a} = x_{2,\text{phas},a}, \qquad \dot{x}_{2,\text{phas},a} = p_{\text{phas},a}p_{\text{fast}}\bigl(g_{\text{highg}}(1 - 0.90\,g_{\text{cmd},a}g_{\text{mv},a})u_{\text{phas},a} - x_{1,\text{phas},a}\bigr) - (p_{\text{phas},a} + p_{\text{fast}})x_{2,\text{phas},a}`,
             pseudo:
-`d(phas_state[a])/dt = phas_vel[a];
-d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_phas[a] - phas_state[a]) - (p_phas[a]+250.0)*phas_vel[a];`
+`ex_reg = max(0, sqrt(trans_acc_sq_eff) - highg_oto_knee_mps2);  // knee = 7.80 m/s^2
+ex_irr = max(0, 0.5 * (phasic_irr_mag - 1.90 * 7.80));
+tau_hg = (max(ex_reg, ex_irr) > highg_env) ? 0.002 : 0.250;
+g_highg = 1.0 / (1.0 + (highg_env_eff / 0.65)^2);
+u_phas = g_highg * (1.0 - 0.90 * vol_cmd_gate[a] * vol_move_active[a]) * u_phas_raw;
+d(phas_state[a])/dt = phas_vel[a];
+d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_phas - phas_state[a]) - (p_phas[a]+250.0)*phas_vel[a];`
           },
           {
-            text: "Apply the open phasic lead zero z_phas,a and linear-below-knee C^1 saturation (1:1 identity below 7.6 Nm sustained / 11.5 Nm total so APEO/LatEC Bode experiences 0% distortion; smooth tanh ceiling at 8.5 Nm / 13.5 Nm to prevent high-G 2g–3g backward whip).",
-            latex: String.raw`\tau_{\text{phas},a} = \mathcal{S}_{11.5}^{13.5}\!\Bigl(\mathcal{S}_{7.6}^{8.5}(K_{\text{phas},a}x_{1,\text{phas},a}) + K_{\text{phas},a}z_{\text{phas},a}x_{2,\text{phas},a}\Bigr)`,
+            text: "Scale sustained (√g_highg) and lead (g_highg) terms with supraspinal alertness s_supra(u), apply linear-below-knee C^1 saturation (1:1 identity below 7.6 Nm sustained / 11.5 Nm total -> 0% APEO/LatEC distortion; smooth tanh ceiling at 8.5 Nm / 13.5 Nm), and couple g_highg into pitch canal pole p_sc_eff and MVST lead pole tau_lead[0].",
+            latex: String.raw`\tau_{\text{phas},a} = \mathcal{S}_{11.5}^{13.5}\!\Bigl(\mathcal{S}_{7.6}^{8.5}\bigl(\sqrt{g_{\text{highg}}}\,s_{\text{supra}}K_{\text{phas},a}x_{1,\text{phas},a}\bigr) + g_{\text{highg}}\,s_{\text{supra}}K_{\text{phas},a}z_{\text{phas},a}x_{2,\text{phas},a}\Bigr)`,
             pseudo:
-`tau_sust = applyLinearKneeSaturation(K_phas[a]*phas_state[a], 7.6, phasic_torque_sat_nm);
-tau_phas[a] = applyLinearKneeSaturation(tau_sust + K_phas[a]*z_phas[a]*phas_vel[a], 11.5, 13.5);`
+`tau_sust = applyLinearKneeSaturation(sqrt(g_highg) * k_phas[a] * phas_state[a], 7.6, phasic_torque_sat_nm);
+tau_lead = g_highg * k_phas[a] * z_phas[a] * phas_vel[a];
+tau_phas[a] = applyLinearKneeSaturation(tau_sust + tau_lead, 11.5, 13.5);
+// On Pitch: p_sc_eff = 22.0 + g_highg * max(0, p_sc - 22.0);  tau_lead[0] += (1 - g_highg) * 0.022;`
           }
         ],
         desc: "",
@@ -2130,6 +2141,7 @@ tau_phas[a] = applyLinearKneeSaturation(tau_sust + K_phas[a]*z_phas[a]*phas_vel[
           "Pitch: K_phas = 13.070, z_phas = 28.6 ms, p_phas = 2.28 rad/s",
           "Roll: K_phas_roll = 4.153, z_phas_roll = 9.8 ms, p_phas_roll = 5.75 rad/s",
           "Yaw: Phasic otolith linear-translation input is zero on Earth-vertical yaw",
+          "highg_oto_knee_mps2 = 7.80 m/s² (rolloff 0.65, τ_att=2 ms, τ_rel=250 ms) : 0% Bode effect; scales u_phas, √g_highg/g_highg, p_sc_eff, tau_lead[0]",
           "phasic_torque_sat_nm = 8.5 Nm (sustained knee = 7.6 Nm -> 8.5 Nm; total knee = 11.5 Nm -> 13.5 Nm): 0% APEO/LatEC Bode regression, prevents >50 Nm crash hyper-extension whip",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
           "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",

@@ -280,12 +280,14 @@ Because Happee et al. (2017) seated perturbations excite strictly anterior-poste
 
 ---
 
-## 10. Voluntary Ballistic Control, Engagement–Urgency Scheduling & Full-ROM Upgrades (`C11 + e(u)`)
+## 10. Voluntary Ballistic Control, Unified Alertness / Urgency Scheduling & High-G Sled (`C11 + u ∈ [-1, +1] + High-G`)
 
-### 10.1 Continuous Cortical Engagement $e(u)$ and Urgency $u \in [0, 1]$
-To eliminate any discrete `desired != 0` threshold jump while preserving exact passive perturbation behavior (`APEO`, `LatEC`, `YawMA`), voluntary cortical engagement is governed continuously by a single scalar **`urgency`** $u \in [0, 1]$ (`HeadNeckNeuralController.cpp`, `computeVoluntaryEngagement`):
-- **Engagement curve:** $e(u) = \dfrac{\tanh(u / 0.15)}{\tanh(1 / 0.15)}$, with $e(0) = 0.0$ (passive Bode benchmarks), $e(0.20) \approx 0.87$ (gentle voluntary turns), $e(0.50) \approx 0.997$ (brisk turns / neutral returns), and $e(1.0) = 1.0$ (maximal ballistic sprints). Drives 3-axis coupled cortical gaze-lock impedance, proprioceptive attitude gating, phasic VCR suppression, shift $J^T \leftrightarrow J^{-T}$ blending, and ROM-proportional `tau_buckle` targets uniformly across all 3 axes.
-- **Vigor / speed scaling:** 3rd-order jerk-limited trajectory poles $\tau_3(u) = 0.7535\,\tau_0 / (1 + \beta_i u)$ ($\beta = \{1.80, 1.40, 2.10, 1.80, 1.40\}$), impedance boost $(1 + 1.5 u)$ on $K_P$ / $\sqrt{1 + 1.5 u}$ on $K_D$, and `fc_voluntary(u) = fc_voluntary * (1 + 1.5 u)` (`2.0 Hz -> 5.0 Hz` at $u = 1.0$).
+### 10.1 Unified Alertness / Urgency $u \in [-1, +1]$ and Continuous Engagement $e(u)$
+To eliminate discrete threshold jumps while unifying hypo-alert relaxation (`u < 0`), passive/alert calibration (`u = 0`), and voluntary/braced readiness (`u > 0`) into a single property, control scheduling is governed by **`urgency`** $u \in [-1, +1]$ (`HeadNeckNeuralController.cpp`, `computeVoluntaryEngagement`, `computeSupraspinalAlertness`, `computeSpinalAlertness`):
+- **Voluntary engagement (`u > 0`):** $e(u) = \begin{cases} 0, & u \le 0 \\ \dfrac{\tanh(u / 0.15)}{\tanh(1 / 0.15)}, & u > 0 \end{cases}$, giving $e(0) = 0.0$ (passive Bode benchmarks), $e(0.20) \approx 0.870$, $e(0.50) \approx 0.997$, and $e(1.0) = 1.0$. Drives 3-axis coupled cortical gaze-lock impedance, proprioceptive attitude gating, shift $J^T \leftrightarrow J^{-T}$ blending, and ROM-proportional `tau_buckle` targets uniformly across all 3 axes.
+- **Hypo-alert reflex scaling (`u < 0`):** `computeSupraspinalAlertness(u)` equals $(1 + u)^2$ for $u < 0$ ($1.0$ for $u \ge 0$), smoothly scaling supraspinal VCR (`K_ton`, `K_sc`, `K_phas`) and cortical task loops; `computeSpinalAlertness(u)` equals $1 + u$ for $u < 0$ ($1.0$ for $u \ge 0$), scaling segmental spinal CCR gain (`Kp_proprioception`). At $u = -1.0$ both readiness factors vanish (pure passive biomechanics); at $u = -0.75$ ($s_{\text{supra}} = 0.0625$, $s_{\text{spinal}} = 0.25$) the neck matches NBDL relaxed human sled kinematics without any separate alertness property.
+- **Motion-gated voluntary phasic suppression:** During active voluntary turns/shifts, phasic otolith VCR is suppressed by `vol_phas_suppress = vol_cmd_gate[a] * vol_move_active[a]` ($1 - 0.90\,\text{vol\_phas\_suppress}$), where `vol_move_active[3]` activates only when desired or reference trajectory position/velocity is non-zero—so pure upright bracing ($u > 0$ with `desired_* == 0`) retains full phasic stabilization and preserves strict forward-flexion monotonicity across $u \in [-1, +1]$.
+- **Vigor / speed scaling:** 3rd-order jerk-limited trajectory poles $\tau_3(u) = 0.7535\,\tau_0 / (1 + \beta_i \max(0, u))$ ($\beta = \{1.80, 1.40, 2.10, 1.80, 1.40\}$), impedance boost $(1 + 1.5 u)$ on $K_P$ / $\sqrt{1 + 1.5 u}$ on $K_D$, and `fc_voluntary(u) = fc_voluntary * (1 + 1.5 * max(0, u))` (`2.0 Hz -> 5.0 Hz` at $u = 1.0$).
 
 ### 10.2 Full-ROM Exact-Jacobian Semismooth-Newton Bounded QP & `C11` Model Refinements
 - **Semismooth-Newton Bounded Dual QP (`HeadNeckNeuralController.cpp`):** Replaces the greedy never-release active-set loop with a 20-step 6-DOF semismooth-Newton dual solver initialized at the unconstrained Gram solve with monotonic Armijo backtracking, $4\times$ Pitch/Roll balance priority over infeasible Yaw above $8^\circ$, voluntary QP saturation anti-windup, and live capacity scaling $F_{\text{eff},m} = F_{\text{iso},m} \big((1 - w_{\text{exact}}) + w_{\text{exact}} f_L(l_{\text{norm},m})\cos\alpha_m\big)$ blended smoothly above `0.14 rad` (`8.0°`) alongside exact `computeMomentArm()`.
@@ -294,48 +296,52 @@ To eliminate any discrete `desired != 0` threshold jump while preserving exact p
   - Floating-hyoid passive compliance on `digastric_post` and `digastric_post_L` (`strain_at_zero_force = 0.4`, `strain_at_one_norm_force = 1.4`) to remove the rigid-C3 tether artifact at large Yaw.
   - Panjabi C1–C2 neutral-zone compliance on `C2_C1_Bushing` Y-axis (`3.9 -> 1.2 N·m/rad`, Pitch/Roll X/Z kept at `7.8 N·m/rad`).
 
-### 10.3 Verified 3-Axis Passive Bode (`c11_oto_sat_final`)
-With `u = 0` (`e(0) = 0`), `ALL 28 TRUE`, `aborted = False`, and linear-below-knee $C^1$ phasic otolith saturation enabled (`phasic_torque_sat_nm = 8.5 Nm`):
-- **APEO (Pitch):** `Classic = 2,185.28`, `XTalk = 0.29`, `HFJitter = 105.02`, **`Total = 2,290.59 pts`** (`corr = +0.961`, `QuietMain = 0.009°`)
-- **LatEC (Roll):** `Classic = 1,962.94`, `XTalk = 307.40`, `HFJitter = 81.71`, **`Total = 2,352.04 pts`** (`corr = +0.937`, `QuietMain = 0.000°`)
-- **YawMA (Yaw):** `Classic = 640.15`, `XTalk = 158.96`, `HFJitter = 56.99`, **`Total = 856.10 pts`** (`corr = +0.989`, `QuietMain = 0.000°`)
-- **Combined Total:** **`5,498.73 pts`** (`CombinedBode = 4,788.37`, `XTalk = 466.65`, `HFJitter = 243.72` — `logs/standard_plot_summary_c11_oto_sat_final.json`). Matches/slightly improves on the pre-saturation TRUBA baseline (`5,493.61 pts`), confirming `0%` small-signal Bode distortion.
+### 10.3 Verified 3-Axis Passive Bode (`7049173` TRUBA GCC 15.3 Baseline, `Noise-OFF`)
+With `u = 0` (`e(0) = 0`, $s_{\text{supra}} = s_{\text{spinal}} = 1.0$), `ALL 28 TRUE`, `aborted = False`, and high-G reweighting + linear-below-knee $C^1$ phasic saturation active (`logs/standard_plot_summary_c11_highg_alertness.json`, `results/standard_plot_viewer_c11_highg_alertness.html`):
+- **APEO (Pitch):** `Classic = 2,164.85` (`G = 1,265.99`, `P = 898.86`), `XTalk = 0.35`, `HFJitter = 105.10`, **`Total = 2,270.29 pts`** (`corr = +0.961`, `QuietMain = 0.009°`)
+- **LatEC (Roll):** `Classic = 2,007.92` (`G = 641.61`, `P = 1,366.31`), `XTalk = 313.77`, `HFJitter = 79.14`, **`Total = 2,400.83 pts`** (`corr = +0.937`, `QuietMain = 0.000°`)
+- **YawMA (Yaw):** `Classic = 646.30` (`G = 429.85`, `P = 216.45`), `XTalk = 137.66`, `HFJitter = 59.29`, **`Total = 843.25 pts`** (`corr = +0.989`, `QuietMain = 0.000°`)
+- **Combined Total:** **`5,514.37 pts`** (`CombinedBode = 4,819.07`, `XTalk = 451.78`, `HFJitter = 243.53` on TRUBA GCC 15.3 `-march=x86-64-v3 -flto`; prior local MSVC baseline `5,469.10 pts`). Both `highg_excess == 0` and linear-knee saturation (`7.6 / 11.5 N·m`) remain `0%` active across passive Bode amplitudes.
 
-### 10.4 Verified 18.0 s `C11 + (e(u), u)` Roll / Pitch / `±50°` Yaw Sweep (`scripts/run_rpy_50deg_yaw_sweep.py`)
-In OpenSim's `HYOID_HeadNeckNeural_Model_Detailed.osim` coordinate convention (`+X` anterior), `+pitch` tilts the chin up (**Extension**) and `-pitch` pitches the chin down (**Flexion**). Verified locally (`logs/rpy_50deg_yaw_sweep.json`, `results/rpy_50deg_yaw_sweep.png`, `stop_reason = null`, `0` overshoot flags):
+### 10.4 Verified 18.0 s `C11 + u ∈ [-1, +1]` Roll / Pitch / `±50°` Yaw Sweep (`scripts/run_rpy_50deg_yaw_sweep.py`)
+In OpenSim's `HYOID_HeadNeckNeural_Model_Detailed.osim` coordinate convention (`+X` anterior), `+pitch` tilts the chin up (**Extension**) and `-pitch` pitches the chin down (**Flexion**). Verified on TRUBA (`7049173`, `logs/rpy_50deg_yaw_sweep.json`, `results/rpy_50deg_yaw_sweep.png`, `stop_reason = null`, **`0` overshoot flags** across all 10 phases):
 
 | Phase | Target `(P, R, Y)` | End `(P, R, Y)` | Realized $v_{\text{peak}}$ (`Ref`) | Bounce `ovsEnd` (`%`) | $T_{95}$ | Max XTalk | Peak Act | Flag |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | `0_Quiet` (`u=0.0`) | `(0, 0, 0)°` | `(+0.73, 0.00, 0.00)°` | `27.6 (0.0) °/s` | `0.00° (0.0%)` | `0.00 s` | `1.55°` | `0.568` | `False` |
-| `1_Pitch_Ext_60` | `(+60, 0, 0)°` | `(+57.53, 0.00, -0.01)°` | `232.8 (215.6) °/s` | `0.13° (0.23%)` | `0.48 s` | `0.08°` | `0.541` | `False` |
-| `2_Pitch_Flex_110` | `(-50, 0, 0)°` | `(-47.76, -0.02, -0.01)°` | `392.2 (395.3) °/s` | `0.17° (0.16%)` | `0.68 s` | `2.05°` | `1.000` | `False` |
-| `3_Pitch_Neutral` (`u=0.5`) | `(0, 0, 0)°` | `(-0.99, 0.00, -0.03)°` | `109.8 (121.9) °/s` | `0.39° (0.83%)` | `1.03 s` | `0.17°` | `0.720` | `False` |
-| `4_Roll_Left_40` | `(0, +40, 0)°` | `(+0.11, +38.06, +1.74)°` | `130.1 (123.1) °/s` | `0.12° (0.31%)` | `0.68 s` | `1.83°` | `0.309` | `False` |
-| `5_Roll_Rev_80` | `(0, -40, 0)°` | `(+0.01, -37.52, -1.76)°` | `254.0 (246.3) °/s` | `0.14° (0.19%)` | `0.67 s` | `3.39°` | `0.959` | `False` |
-| `6_Roll_Neutral` (`u=0.5`) | `(0, 0, 0)°` | `(+0.27, -1.17, -0.04)°` | `91.8 (87.3) °/s` | `0.08° (0.21%)` | `0.87 s` | `2.78°` | `0.291` | `False` |
-| `7_Yaw_Left_50` | `(0, 0, +50)°` | `(+2.47, -2.64, +47.15)°` | `241.4 (198.8) °/s` | `1.06° (2.25%)` | `0.33 s` | `4.52°` | `0.999` | `False` |
-| `8_Yaw_Rev_100` | `(0, 0, -50)°` | `(+2.70, +2.88, -47.21)°` | `458.7 (397.5) °/s` | `0.41° (0.44%)` | `0.35 s` | `4.31°` | `0.999` | `False` |
-| `9_Yaw_Neutral` (`u=0.5`) | `(0, 0, 0)°` | `(-0.45, -0.78, -0.49)°` | `179.6 (131.5) °/s` | `0.31° (0.67%)` | `0.71 s` | `2.85°` | `0.920` | `False` |
+| `1_Pitch_Ext_60` | `(+60, 0, 0)°` | `(+58.15, -0.01, -0.00)°` | `232.5 (215.6) °/s` | `0.20° (0.35%)` | `0.50 s` | `0.08°` | `0.544` | `False` |
+| `2_Pitch_Flex_110` | `(-50, 0, 0)°` | `(-46.86, +0.03, +0.04)°` | `402.1 (395.3) °/s` | `0.17° (0.16%)` | `0.66 s` | `1.85°` | `1.000` | `False` |
+| `3_Pitch_Neutral` (`u=0.5`) | `(0, 0, 0)°` | `(+0.31, +0.08, -0.02)°` | `112.3 (121.9) °/s` | `0.33° (0.70%)` | `1.00 s` | `0.18°` | `0.634` | `False` |
+| `4_Roll_Left_40` | `(0, +40, 0)°` | `(+0.62, +38.88, +2.48)°` | `133.8 (123.1) °/s` | `0.18° (0.46%)` | `0.73 s` | `2.91°` | `0.681` | `False` |
+| `5_Roll_Rev_80` | `(0, -40, 0)°` | `(+1.31, -37.93, -2.32)°` | `260.0 (246.3) °/s` | `0.16° (0.21%)` | `0.68 s` | `4.77°` | `0.996` | `False` |
+| `6_Roll_Neutral` (`u=0.5`) | `(0, 0, 0)°` | `(+0.79, -0.76, +0.32)°` | `92.9 (87.3) °/s` | `0.09° (0.23%)` | `0.88 s` | `4.21°` | `0.648` | `False` |
+| `7_Yaw_Left_50` | `(0, 0, +50)°` | `(+2.51, -3.46, +47.47)°` | `237.6 (198.8) °/s` | `1.04° (2.21%)` | `0.33 s` | `5.63°` | `0.999` | `False` |
+| `8_Yaw_Rev_100` | `(0, 0, -50)°` | `(+2.66, +2.94, -45.37)°` | `444.7 (397.5) °/s` | `1.48° (1.60%)` | `0.35 s` | `6.12°` | `0.998` | `False` |
+| `9_Yaw_Neutral` (`u=0.5`) | `(0, 0, 0)°` | `(-1.95, +0.04, +0.01)°` | `142.9 (131.5) °/s` | `0.73° (1.60%)` | `0.62 s` | `5.09°` | `0.976` | `False` |
 
-### 10.5 Linear-Below-Knee $C^1$ Phasic Otolith VCR Saturation (`HeadNeckNeuralController.cpp`)
-Under high-G frontal sled impacts (`2g–3g`, `19.6–29.4 m/s²`), an unbounded linear phasic otolith VCR (`K_phas = 13.07 N·m/(m/s²)`) integrates the sled pulse into `50–70 N·m` of backward extension torque—far above the `12.4 N·m` physical inertial load at `2g` and saturating *splenius capitis* to `0.88–1.00`, flinging the head `-45° to -56°` backward. Meanwhile, naive `tanh` scaling attenuates inside `APEO`'s operating envelope (`max|k_phas*x_phas| = 7.51 N·m`, `max|tau_phas| = 11.41 N·m`).
-- **Solution (`applyLinearKneeSaturation`):** Strictly **identity (`1:1` linear)** below the small-signal operating knee and $C^1$-smooth `tanh` saturation toward a physiological ceiling above it (`phasic_torque_sat_nm = 8.5 N·m`, `phasic_oto_sat_mps2 = 0.0`):
-  - Sustained phasic torque $K_{\text{phas}} x_{\text{phas}}$: linear for $| \tau | \le 7.6\text{ N}\cdot\text{m}$, saturating toward `8.5 N·m`.
-  - Total phasic axis torque $\tau_{\text{phas,sust}} + K_{\text{phas}} z_{\text{phas}} v_{\text{phas}}$: linear for $| \tau | \le 11.5\text{ N}\cdot\text{m}$, saturating toward `13.5 N·m`.
-  - Regular otolith afferents (`66 imp/s/g`) feeding the `SE2(3)` Mahony observer remain untouched.
+### 10.5 Dual High-G Sensory Reweighting (`highg_acc_env`) & Linear-Below-Knee Phasic Saturation
+Under high-G frontal sled impacts (`2g–3g`, `19.6–29.4 m/s²`), linear small-signal phasic otolith gains (`K_phas = 13.07 N·m/(m/s²)`) create excessive early extensor torque—flinging the head backward (`-45° to -56°` without saturation, or causing onset whip before forward flexion). Two complementary biophysical nonlinearities resolve this cleanly with `0%` small-signal Bode distortion:
+- **Dual Regular + Irregular High-G Detector (`highg_acc_env`):** Driven by excess above `highg_oto_knee_mps2 = 7.80 m/s²` across regular translational acceleration ($\text{ex}_{\text{reg}} = \max(0, \|\hat{a}_{\text{trans}}\|_{\text{eff}} - 7.80)$) and irregular otolith transients ($\text{ex}_{\text{irr}} = \max(0, 0.5\,(|\text{oto}_{\text{irr}}| - 1.90 \cdot 7.80))$), with asymmetric fast attack (`tau_attack = 2 ms`) and slow release (`tau_release = 250 ms`), producing high-G attenuation factor:
+  $$g_{\text{highg}} = \frac{1}{1 + (\text{highg\_env\_eff} / 0.65)^2}$$
+  1. Scales phasic otolith drive $u_{\text{phas}}$ by $g_{\text{highg}}$ and applies differential gain/lead reweighting ($\tau_{\text{phas,sust}} \propto \sqrt{g_{\text{highg}}}$, $\tau_{\text{phas,lead}} \propto g_{\text{highg}}$).
+  2. Softens the pitch canal pole $p_{\text{sc,eff}} = 22.0 + g_{\text{highg}}\max(0, p_{\text{sc}} - 22.0)$ and relaxes the pitch MVST lead pole $\tau_{\text{lead},0} \leftarrow \tau_{\text{lead},0} + (1 - g_{\text{highg}})\cdot 0.022\,\text{s}$.
+- **Linear-Below-Knee $C^1$ Phasic Saturation (`applyLinearKneeSaturation`):** Strictly **identity (`1:1` linear)** below the small-signal operating knee (`7.6 N·m` sustained / `11.5 N·m` total) and $C^1$-smooth `tanh` ceiling above it (`phasic_torque_sat_nm = 8.5 N·m`, `13.5 N·m` total; `phasic_oto_sat_mps2 = 0.0`). Regular otolith afferents (`66 imp/s/g`) feeding the `SE2(3)` Mahony observer remain untouched.
 
 ### 10.6 Verified 5-DOF C1 Shift & `SE2(3)` Counter-Translation Suite (`scripts/validate_5dof_voluntary_and_se2_shift.py`)
-All `7` validation cases verified cleanly (`urgency = 0.50`, `e(0.50) = 0.9975` for voluntary Cases 1–4B; `urgency = 0.0` passive sway in Cases 5A–5B; `logs/validation_5dof_voluntary_shift.json`, `results/validation_5dof_voluntary_shift.png`):
-- `Case1_AP_Protraction` (`+2.0 cm` cmd): `C1_dx = +1.98 cm` (`COM = +1.98 cm`, `cuneate = +1.98 cm`), steady-state gaze invariance `[p=-0.02°, r=+0.00°, y=+0.00°]`, `p1/p2 = [+14.7° / -14.7°]`, `Q = 0.006°`.
-- `Case2_AP_Retraction` (`-1.5 cm` cmd): `C1_dx = -1.56 cm` (`COM = -1.55 cm`, `cuneate = -1.49 cm`), steady-state gaze invariance `[p=-0.08°, r=-0.02°, y=-0.00°]`, `p1/p2 = [-11.5° / +11.4°]`, `Q = 0.006°`.
-- `Case3_Lat_Glide` (`+0.5 cm` cmd): `C1_dz = +0.49 cm` (`cuneate = +0.49 cm`), steady-state gaze invariance `[p=-0.00°, r=+0.04°, y=-0.00°]`, `Q = 0.006°`.
-- `Case4A_Combined_wPos1` (`+10°` + `+0.8 cm`) vs `Case4B_AttitudeOnly_wPos0`: C1 offset tracks `+0.76 cm` (`cuneate = +0.78 cm`, `p = +9.91°`, `p1/p2 = [+16.2°/-6.2°]`) when enabled vs `-1.12 cm` (`p = +9.99°`, `p1/p2 = [+2.5°/+7.5°]`) when `w_pos_ap = 0`.
-- `Case5A_Sway_SE2Off` vs `Case5B_Sway_SE2On`: `SE2(3)` counter-translation reduces global C1 sway RMS under sinusoidal `0.5 Hz` AP perturbation from `1.04 cm` to `0.91 cm` (`-12.5%`, `Q = 0.002°`).
+All `7` validation cases verified cleanly on TRUBA (`7049173`, `urgency = 0.50`, `e(0.50) = 0.997` for voluntary Cases 1–4B; `urgency = 0.0` passive sway in Cases 5A–5B; `logs/validation_5dof_voluntary_shift.json`, `results/validation_5dof_voluntary_shift.png`):
+- `Case1_AP_Protraction` (`+2.0 cm` cmd): `C1_dx = +1.97 cm` (`COM = +1.98 cm`, `cuneate = +1.98 cm`), steady-state gaze invariance `[p=-0.03°, r=-0.00°, y=+0.00°]`, `p1/p2 = [+14.6° / -14.7°]`, `Q = 0.006°`.
+- `Case2_AP_Retraction` (`-1.5 cm` cmd): `C1_dx = -1.56 cm` (`COM = -1.55 cm`, `cuneate = -1.49 cm`), steady-state gaze invariance `[p=-0.14°, r=+0.00°, y=+0.02°]`, `p1/p2 = [-11.6° / +11.5°]`, `Q = 0.006°`.
+- `Case3_Lat_Glide` (`+0.5 cm` cmd): `C1_dz = +0.48 cm` (`cuneate = +0.50 cm`), steady-state gaze invariance `[p=-0.07°, r=-0.01°, y=-0.01°]`, `Q = 0.006°`.
+- `Case4A_Combined_wPos1` (`+10°` + `+0.8 cm`) vs `Case4B_AttitudeOnly_wPos0`: C1 offset tracks `+0.76 cm` (`cuneate = +0.77 cm`, `p = +10.43°`, `p1/p2 = [+16.7°/-6.3°]`) when enabled vs `-1.17 cm` (`p = +10.50°`, `p1/p2 = [+2.6°/+7.9°]`) when `w_pos_ap = 0`.
+- `Case5A_Sway_SE2Off` vs `Case5B_Sway_SE2On`: `SE2(3)` counter-translation reduces global C1 sway RMS under sinusoidal `0.5 Hz` AP perturbation from `1.04 cm` (`1.038 cm`) to `0.93 cm` (`0.932 cm`, `-10.2%`; `COM`: `1.004 -> 0.883 cm`, `Q = 0.002°`).
 
 ### 10.7 Verified Zheng et al. (2021) / NBDL `2g` & `3g` Frontal Sled Sweep (`scripts/run_zheng_2g_3g_urgency_sweep.py`)
-Evaluated across `2g` (`19.62 m/s²`, `tx_end = -0.3863 m`) and `3g` (`29.43 m/s²`, `tx_end = -0.5794 m`) `-X` **$C^2$-smooth haversine** T1 pulses (`37.5 -> 212.5 ms`, peak at `125 ms`, after `0.35 s` pre-settle) over `u in [0.00, 1.00]` (`logs/zheng_2g_3g_urgency_sweep.json`, `results/zheng_2g_3g_urgency_sweep.png`, `0` failures):
-- **Eliminates high-G backward whip & muscle saturation:** Without saturation, `u = 0.00` flung the head `-44.87°` (`2g`) and `-56.01°` (`3g`) backward while saturating *splenius capitis* at `0.882` and `0.998`. With linear-below-knee `8.5 / 13.5 N·m` saturation and the $C^2$ haversine pulse, the sharp `~65 ms` triangular-jerk corner spike is eliminated; at `u = 0.00` *splenius capitis* forms a smooth unimodal burst peaking at **`0.3607 @ 136 ms`** (`2g`) and **`0.4215 @ 148 ms`** (`3g`)—never saturating (`0.332–0.380` at `2g`, `0.422–0.498` at `3g` across all `u`)—while head excursion stays tightly stabilized (`+0.04° to +2.73°` / `-1.79° to -9.48°` at `2g`; `+0.36° to +4.53°` / `-0.73° to -6.41°` at `3g`). At high urgency (`u >= 0.20`), the 40 ms delayed `3.5–5.0 Hz` cortical gaze-lock loop adds a mild `~28 Hz` (`35 ms` period) oscillatory modulation on top of the extensor envelope.
-- **Physical interpretation vs. NBDL (`33–47°`):** Even with `K_phas = 0`, the `APEO`-calibrated alert reflex baseline (`K_ton + K_sc + Spinal CCR`) stabilizes `2g–3g` frontal whip within `+6.55°` (`2g`) and `+10.34°` (`3g`), whereas Zheng et al. (2021) modeled relaxed unbraced subjects using lower postural vestibular sensitivity (`Gs = Gc = 0.65`) and passive controller-off flexion reaches `+49.72°` at `2g`.
+Evaluated across `2g` (`19.62 m/s²`, `tx_end = -0.3863 m`) and `3g` (`29.43 m/s²`, `tx_end = -0.5794 m`) `-X` **$C^2$-smooth haversine** T1 pulses (`37.5 -> 212.5 ms`, peak at `125 ms`, after `0.35 s` pre-settle) across the full unified sweep `u ∈ [-1.00, -0.75, -0.50, -0.25, 0.00, +0.20, +0.50, +1.00]` (`7049173`, `logs/zheng_2g_3g_urgency_sweep.json`, `results/zheng_2g_3g_urgency_sweep.png`, `0` failures):
+- **Eliminates onset whip & achieves strict monotonicity across all 8 `u ∈ [-1, +1]`:**
+  - `2g` peak flexion (`u = -1.00 -> +1.00`): **`+45.72° → +37.48° → +19.46° → +9.20° → +5.63° → +5.35° → +5.13° → +4.79°`**, with onset backward excursion kept within `-0.00° to -0.78°`, settle error `+0.00°`, and *splenius capitis* peak `0.025–0.277`.
+  - `3g` peak flexion (`u = -1.00 -> +1.00`): **`+54.46° → +45.93° → +32.13° → +17.76° → +11.60° → +10.13° → +9.29° → +8.34°`**, with onset backward excursion kept within `-0.00° to -0.47°`, settle error `+0.00°`, and *splenius capitis* peak `0.025–0.442`.
+- **Dead-center NBDL relaxed human corridors (`u = -0.75`):** Hits **`+37.48°`** inside the NBDL `2g` corridor (`33–40°`) and **`+45.93°`** inside the NBDL `3g` corridor (`40–47°`) smoothly via the same unified `urgency` scalar (`s_supra = 0.0625`, `s_spinal = 0.25`).
+- **TRUBA CMA-ES Identifiability Finding & Residual `~88 ms` Bimodal *Splenius* Mechanism:** For `u >= -0.25`, *splenius capitis* still exhibits a two-peak burst (`n_splen_peaks = 2`, first peak `~88 ms`). Joint Pitch+Sled optimization on TRUBA (`7049239` 24-point `(K_phas, z_phas)` probe [0/24 passed Stage A] + `7049529` 40-generation `pop=26` CMA-ES across 18 Pitch gains) reached Gen 39 candidate `#3` (`logs/truba_joint_pitch_sled_champion.json`, `APEO = 1,629.87 pts`, `2g u=0: +4.38°`), **but** full 4-suite verification (`7050190`, `logs/standard_plot_summary_c11_joint_sled_bode.json`) was **gate-rejected** (`CombinedTotal = 5,877.77 pts > 5,525` gate) because the Pitch-only shift coupled into Roll `LatEC` (`2,400.83 → 3,259.15 pts`) while adding `n_splen_peaks = 3` at high urgency. Consequently, `7049173` remains the active verified champion. Physically, the `~88 ms → ~125 ms` cleft occurs because `g_highg` (`0.65 m/s²` half-width above `7.80 m/s²`) collapses phasic otolith drive from `1.0` to `~0.07` too abruptly before spinal CCR + canal/tonic reflexes peak—pointing directly to a targeted C++ `g_highg` floor/slope refinement rather than gain retuning.
 
 ---
 
@@ -366,18 +372,21 @@ To prevent un-damped low-frequency canal/otolith noise random-walk integration w
 - `vs_leak_rate = 0.05 s⁻¹` (default, $\tau_{\text{vs}} = 20\,\text{s}$): physiological velocity-storage cupula leak active during Mahony estimation.
 - `oto_acc_gate` noise debiasing: `trans_acc_sq_eff = max(0, trans_acc_sq - 3 * sigma_a_bilat^2)` with $\sigma_{a,\text{bilat}} = 0.030/\sqrt{2}\cdot\text{scale}$.
 
-### 11.3 Verified Tier-1 Noise Validation Metrics (`scripts/validate_biological_noise.py`)
-Verified across `10` quiet stance (`t = 1..5 s`, 3 seeds for noisy conditions), `12` 3-axis Passive Bode, and `4` 5-DOF C1 shift simulations (`logs/biological_noise_validation.json`, `results/biological_noise_validation.png`, `0` aborts):
-- **2×2 Quiet Upright Stance Ablation:**
-  - `Off (0,0)`: Pitch `0.0011°`, Roll `0.0002°`, Yaw `0.0002°`, `MaxExc = 0.009°`, `MaxAct = 0.0695`.
-  - `Sensor (1,0)` (Seeds 1–3): Pitch `0.2715 ± 0.1223°`, Roll `0.0904 ± 0.0114°`, Yaw `0.0274 ± 0.0068°`, `MaxExc = 0.932°`, `MaxAct = 0.1829`.
-  - `Motor (0,1)` (Seeds 1–3): Pitch `0.0577 ± 0.0138°`, Roll `0.0327 ± 0.0023°`, Yaw `0.0109 ± 0.0006°`, `MaxExc = 0.287°`, `MaxAct = 0.1141`.
-  - `Both (1,1)` (Seeds 1–3): Pitch `0.2514 ± 0.1040°`, Roll `0.0870 ± 0.0211°`, Yaw `0.0315 ± 0.0020°`, `MaxExc = 0.922°`, `MaxAct = 0.1954`.
-- **3-Axis Passive Bode (`Noise-OFF` vs. `Sensor+Motor ON`, Seeds 1–3):**
-  - `APEO`: OFF Total `2,260.51` (`Classic 2,155.30`, `r_v = +0.961`) -> ON Total `2,769.13 ± 846.85` (`Classic 2,455.24 ± 753.16`, `r_v = +0.960`, `+22.50%`), **3-Seed Ensemble FRF Classic `2,370.99` (`+10.01%`)**.
-  - `LatEC`: OFF Total `2,348.25` (`Classic 1,941.32`, `r_v = +0.937`) -> ON Total `3,447.40 ± 761.65` (`Classic 2,955.57 ± 747.95`, `r_v = +0.936`, `+46.81%`), **3-Seed Ensemble FRF Classic `1,960.61` (`+0.99%`)**.
-  - `YawMA`: OFF Total `860.34` (`Classic 660.68`, `r_v = +0.989`) -> ON Total `965.68 ± 31.43` (`Classic 618.49 ± 29.68`, `r_v = +0.988`, `+12.24%`), **3-Seed Ensemble FRF Classic `614.80` (`-6.94%`)**.
-  - **Combined:** Noise-OFF Total **`5,469.10 pts`** (`Classic 4,757.30`, `-29.63 pts` vs. prior `5,498.73`), Noise-ON single-trial mean `7,182.21 ± 456.65 pts`, **3-Seed Ensemble FRF Classic `4,946.40 pts` (`+3.97%`)**.
-- **5-DOF Voluntary C1 Shift (`seed = 42`):**
-  - `Case1_AP_Protraction`: OFF `C1_dx = +1.98 cm` (`p = -0.02°`) -> ON `C1_dx = +1.97 cm` (`p = +0.00°, r = -0.04°, y = -0.01°`, `Q = 0.079°`).
-  - `Case4A_Combined_wPos1`: OFF `C1_dx = +0.76 cm` (`p = +10.42°`) -> ON `C1_dx = +0.76 cm` (`p = +10.45°, r = -0.06°, y = -0.04°`, `Q = 0.079°`).
+### 11.3 Verified Tier-1 Noise Validation Metrics (`scripts/validate_biological_noise.py` & `scripts/truba_overnight_noise_suite.py`)
+First verified locally (`logs/biological_noise_validation.json`, `results/biological_noise_validation.png`, `0` aborts), then stress-tested on TRUBA across a **110-simulation Multi-Seed Biological Noise Robustness Suite (`7050264`, `orfoz287` `-n 56`, `2,158.2 s` total wall time, `0/110` aborts, `logs/truba_overnight_noise_suite.json`, `results/truba_overnight_noise_suite.png`)**:
+- **3-Axis Passive Bode Noise Scaling (`48` sims: `noise_scale ∈ {0.0, 0.5, 1.0, 1.5}` × 5 Seeds):**
+  - `scale = 0.0` (OFF): `CombinedTotal = 5,514.37 pts` (`EnsFRF Classic = 4,819.07`, `APEO = 2,270.29`, `LatEC = 2,400.83`, `YawMA = 843.25`, `r_v = 0.961 / 0.937 / 0.989`).
+  - `scale = 0.5`: `CombinedTotal = 5,725.13 pts` (`EnsFRF Classic = 4,806.63`, `-0.26%`, `APEO = 2,383.30 ± 118.08`, `LatEC = 2,448.63 ± 84.65`, `YawMA = 893.20 ± 45.42`).
+  - `scale = 1.0` (**Tier-1 Baseline**): `CombinedTotal = 6,344.70 pts` (**`EnsFRF Classic = 4,844.64`, only `+0.53%` coherent FRF change**; `APEO = 2,626.99 ± 226.55`, `LatEC = 2,751.06 ± 211.78`, `YawMA = 966.65 ± 96.89`, `r_v = 0.960 / 0.937 / 0.988`).
+  - `scale = 1.5`: `CombinedTotal = 7,303.73 pts` (`EnsFRF Classic = 4,983.52`, `+3.41%`, `APEO = 2,991.59 ± 314.45`, `LatEC = 3,222.80 ± 538.58`, `YawMA = 1,089.34 ± 129.50`).
+- **Zheng `2g` & `3g` Sled Multi-Seed Noise Robustness (`48` sims: `u ∈ {-0.75, 0.00, +0.50, +1.00}`, OFF vs. 5 Seeds ON at `scale = 1.0`, `0/48` aborts):**
+  - `2g` (`OFF -> 5-seed ON mean ± SD`): `u=-0.75` `37.48° -> 37.46 ± 0.06°`; `u=0.00` `5.63° -> 5.74 ± 0.04°`; `u=+0.50` `5.13° -> 5.30 ± 0.16°`; `u=+1.00` `4.79° -> 5.03 ± 0.05°`.
+  - `3g` (`OFF -> 5-seed ON mean ± SD`): `u=-0.75` `45.93° -> 46.00 ± 0.10°`; `u=0.00` `11.60° -> 11.65 ± 0.10°`; `u=+0.50` `9.29° -> 9.19 ± 0.10°`; `u=+1.00` `8.34° -> 8.34 ± 0.14°`. Max OFF-vs-ON mean shift across all 8 cells is `<= 0.24°`.
+- **2×2 Quiet Upright Stance Ablation (`10` sims, `t = 1..5 s`, TRUBA Seeds 1–3):**
+  - `Off (0,0)`: Pitch `0.0011°`, Roll `0.0002°`, Yaw `0.0002°`, `MaxExc = 0.0088°`, `MaxAct = 0.0695`.
+  - `Sensor (1,0)`: Pitch `0.362 ± 0.192°`, Roll `0.093 ± 0.024°`, Yaw `0.036 ± 0.007°`, `MaxExc = 1.085°`, `MaxAct = 0.159`.
+  - `Motor (0,1)`: Pitch `0.091 ± 0.041°`, Roll `0.025 ± 0.010°`, Yaw `0.014 ± 0.001°`, `MaxExc = 0.325°`, `MaxAct = 0.121`.
+  - `Both (1,1)`: Pitch `0.363 ± 0.142°`, Roll `0.086 ± 0.014°`, Yaw `0.030 ± 0.008°`, `MaxExc = 0.754°`, `MaxAct = 0.187`.
+- **`18.0 s` Voluntary 3-Axis RPY Sweep (`4` sims: OFF vs. Seeds 1–3 ON, `scale = 1.0`):**
+  - All `4/4` complete `18.0 s` with **`0` overshoot flags** (`MaxOvsTgt`: `0.73°` OFF vs. `0.54° / 0.83° / 0.89°` ON); RMS tracking errors hold within `~0.1°` (`Pitch 3.705° -> 3.737–3.801°`, `Roll 2.311° -> 2.268–2.337°`, `Yaw 2.624° -> 2.563–2.711°`).
+- **5-DOF Voluntary C1 Shift (`seed = 42`, prior local Tier-1 check):** `Case1_AP_Protraction` tracks `+1.97 cm` (`p = +0.00°`) vs. OFF `+1.98 cm`; `Case4A_Combined_wPos1` tracks `+0.76 cm` (`p = +10.45°`) vs. OFF `+0.76 cm`.
