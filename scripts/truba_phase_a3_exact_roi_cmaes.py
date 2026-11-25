@@ -105,7 +105,7 @@ TIER_AB_CLEAN_LOCKED = {
     "K_gto_vol_suppress": 0.85,
     "enable_sensor_noise": False,
     "enable_motor_noise": False,
-    # Locked Roll/Yaw voluntary PID defaults (u=0 during LatEC/YawMA)
+    # Locked Roll/Yaw voluntary PID defaults + zero cortical shift coupling at u=0
     "Kp_task_roll": 11.0,
     "Kd_task_roll": 2.80,
     "Ki_task_roll": 13.0,
@@ -113,6 +113,12 @@ TIER_AB_CLEAN_LOCKED = {
     "Kd_task_yaw": 0.80,
     "Ki_task_yaw": 5.00,
     "Ki_ton_yaw": 0.0,
+    "Kp_shift_obs_px": 0.0,
+    "Kv_shift_obs_vx": 0.0,
+    "Kp_shift_obs_pz": 0.0,
+    "Kv_shift_obs_vz": 0.0,
+    "w_pos_ap": 0.0,
+    "w_pos_lat": 0.0,
     # Locked Low-ROI Pitch & Shared Biophysics (14 params -> drops Pitch 38D -> 24D so pop=28 > D!)
     "vcr_upper_share_pitch": 0.44,
     "tau_ton_int": 4.0,
@@ -709,12 +715,12 @@ def run_sled_exact(params_dict: dict, g_level: float, urgency: float) -> dict:
     f_imp = f_arr[imp] - float(f_arr[idx0])
     sp_imp = sp_arr[imp]
 
-    # Apply 15 ms causal exponential sEMG envelope filter (tau_emg = 0.015 s) to splenius activation
+    # Apply 13 ms causal exponential sEMG envelope filter (tau_emg = 0.013 s) to splenius activation
     sp_env = np.empty_like(sp_imp)
     if len(sp_imp) > 0:
         sp_env[0] = sp_imp[0]
         dt_emg = float(DT_LOG)
-        alpha_emg = dt_emg / (0.015 + dt_emg)
+        alpha_emg = dt_emg / (0.013 + dt_emg)
         for k_e in range(1, len(sp_imp)):
             sp_env[k_e] = sp_env[k_e - 1] + alpha_emg * (sp_imp[k_e] - sp_env[k_e - 1])
     pk_flex = float(np.max(f_imp))
@@ -771,6 +777,11 @@ def run_vol60_exact(params_dict: dict) -> dict:
     ov.update(TIER_AB_CLEAN_LOCKED)
     model = osim.Model(KUO_MODEL_PATH)
     controller, _ = _apply_srs_and_ctrl(model, ov)
+    for eye_c in ["r_eye_add_abd", "r_eye_sup_inf", "r_eye_inc_exc", "l_eye_add_abd", "l_eye_sup_inf", "l_eye_inc_exc"]:
+        if model.getCoordinateSet().contains(eye_c):
+            c = model.updCoordinateSet().get(eye_c)
+            c.setDefaultValue(0.0)
+            c.setDefaultLocked(True)
     zero_func = osim.Constant(0.0)
     for cn in ["gndpitch", "gndroll", "gndyaw", "spine_tx", "spine_ty", "spine_tz"]:
         c = model.updCoordinateSet().get(cn)
@@ -875,21 +886,21 @@ def score_pitch_candidate(idx: int, axis_params: dict, apeo_res: dict, sled_res:
     v60_end, v60_ovs = float(vol60["end_pitch_deg"]), float(vol60["ovs_deg"])
     loss_vol60 = (
         200.0 * max(0.0, 58.0 - v60_end) ** 2
-        + 150.0 * max(0.0, v60_end - 62.0) ** 2
-        + 150.0 * max(0.0, v60_ovs - 2.0) ** 2
+        + 200.0 * max(0.0, v60_end - 62.0) ** 2
+        + 250.0 * max(0.0, v60_ovs - 1.5) ** 2
     )
     loss_kin = (
-        500.0 * max(0.0, pk2_br - pk2_u0 + 4.0) ** 2
-        + 500.0 * max(0.0, pk3_br - pk3_u0 + 6.0) ** 2
+        500.0 * max(0.0, pk2_br - pk2_u0 + 3.0) ** 2
+        + 500.0 * max(0.0, pk3_br - pk3_u0 + 5.0) ** 2
         + 500.0 * max(0.0, pk2_u0 + 4.0 - pk3_u0) ** 2
-        + 350.0 * max(0.0, 20.0 - pk2_u0) ** 2
-        + 350.0 * max(0.0, pk2_u0 - 38.0) ** 2
-        + 350.0 * max(0.0, 28.0 - pk3_u0) ** 2
-        + 350.0 * max(0.0, pk3_u0 - 46.0) ** 2
+        + 350.0 * max(0.0, 10.0 - pk2_u0) ** 2
+        + 350.0 * max(0.0, pk2_u0 - 25.0) ** 2
+        + 350.0 * max(0.0, 16.0 - pk3_u0) ** 2
+        + 350.0 * max(0.0, pk3_u0 - 34.0) ** 2
         + 250.0 * max(0.0, 3.5 - pk2_br) ** 2
-        + 250.0 * max(0.0, pk2_br - 12.5) ** 2
+        + 250.0 * max(0.0, pk2_br - 11.0) ** 2
         + 250.0 * max(0.0, 6.5 - pk3_br) ** 2
-        + 250.0 * max(0.0, pk3_br - 19.0) ** 2
+        + 250.0 * max(0.0, pk3_br - 16.0) ** 2
         + 500.0 * max(0.0, max(s2_u0["max_act"], s2_br["max_act"], s3_u0["max_act"], s3_br["max_act"]) - 0.88) ** 2
         + loss_vol60
     )
@@ -900,9 +911,9 @@ def score_pitch_candidate(idx: int, axis_params: dict, apeo_res: dict, sled_res:
         and s2_u0["n_pk"] <= 1 and s2_br["n_pk"] <= 1 and s3_u0["n_pk"] <= 1 and s3_br["n_pk"] <= 1
         and s2_u0["dip"] <= 0.015 and s3_u0["dip"] <= 0.015 and s2_br["dip"] <= 0.015 and s3_br["dip"] <= 0.015
         and s2_u0["min_ons"] >= -0.40 and s3_u0["min_ons"] >= -0.40
-        and 20.0 <= pk2_u0 <= 38.0 and 28.0 <= pk3_u0 <= 46.0
-        and 3.5 <= pk2_br <= 12.5 and 6.5 <= pk3_br <= 19.0
-        and pk2_br + 4.0 <= pk2_u0 and pk3_br + 6.0 <= pk3_u0 and pk2_u0 + 4.0 <= pk3_u0
+        and 10.0 <= pk2_u0 <= 25.0 and 16.0 <= pk3_u0 <= 34.0
+        and 3.5 <= pk2_br <= 11.0 and 6.5 <= pk3_br <= 16.0
+        and pk2_br + 3.0 <= pk2_u0 and pk3_br + 5.0 <= pk3_u0 and pk2_u0 + 4.0 <= pk3_u0
         and v60_end >= 57.5 and v60_ovs <= 3.0
     )
 
@@ -973,26 +984,22 @@ def run_pitch_mode(pool, args):
     sigma_init = args.sigma
 
     existing_best = safe_load_json(BEST_PITCH_JSON)
-    if args.init_preset in ("default", "low_tanh") and existing_best and "axis_params" in existing_best and float(existing_best.get("loss", 1e18)) < 80000.0:
+    if args.init_preset in ("default", "soft_srs") and existing_best and "axis_params" in existing_best and float(existing_best.get("loss", 1e18)) < 80000.0:
         ap_b = dict(existing_best["axis_params"])
-        if args.init_preset == "low_tanh":
-            ap_b["phasic_torque_tanh_nm"] = 4.8
-            ap_b["K_phas"] = max(15.5, float(ap_b.get("K_phas", 15.5)))
-            ap_b["K_lig_protective"] = min(0.08, float(ap_b.get("K_lig_protective", 0.08)))
         x0 = [float(np.clip(ap_b.get(n, x), lb, ub)) for n, x, lb, ub in zip(names, x0, lbs, ubs)]
-        sigma_init = min(args.sigma, 0.42 if args.init_preset == "low_tanh" else 0.35)
-        print(f"[EXACT-34D PITCH:{args.island}] Warm-starting ({args.init_preset}) from shared best (loss={existing_best['loss']:.1f}, sigma={sigma_init})", flush=True)
+        sigma_init = min(args.sigma, 0.35)
+        print(f"[EXACT-24D PITCH:{args.island}] Warm-starting ({args.init_preset}) from shared best (loss={existing_best['loss']:.1f}, sigma={sigma_init})", flush=True)
 
     es = cma.CMAEvolutionStrategy(
         x0, sigma_init,
         {"bounds": [lbs, ubs], "CMA_stds": stds, "popsize": args.pop,
          "maxiter": args.gens, "seed": args.seed, "verb_disp": 0, "verb_log": 0},
     )
-    hist_path = os.path.join(STATE_DIR, f"history_pitch34_{args.island}.json")
+    hist_path = os.path.join(STATE_DIR, f"history_pitch24_{args.island}.json")
     hist = []
     best_local = None
     t_start = time.time()
-    print(f"[EXACT-34D PITCH:{args.island}] 34D EXACT 15.8s | pop={args.pop} gens={args.gens} workers={args.workers} preset={args.init_preset} seed={args.seed}", flush=True)
+    print(f"[EXACT-24D PITCH:{args.island}] {len(names)}D EXACT 15.8s | pop={args.pop} gens={args.gens} workers={args.workers} preset={args.init_preset} seed={args.seed}", flush=True)
 
     for gen in range(1, args.gens + 1):
         if args.stop_epoch > 0 and time.time() >= args.stop_epoch:
@@ -1053,10 +1060,10 @@ def run_pitch_mode(pool, args):
         })
         ap = gen_best["axis_params"]
         print(
-            f"[EXACT36:{args.island} G{gen:02d}] {time.time()-t_g:5.1f}s ab={n_ab:2d} | "
+            f"[EXACT24:{args.island} G{gen:02d}] {time.time()-t_g:5.1f}s ab={n_ab:2d} | "
             f"Loss={gen_best['loss']:7.1f} mean={pop_mean:7.1f} med={pop_med:7.1f} (APEO={gen_best['apeo_total']:6.1f} G={gen_best.get('apeo_gain_loss',0):5.0f} P={gen_best.get('apeo_phase_loss',0):5.0f} rv={gen_best.get('apeo_rv',0):.3f} "
             f"2g={gen_best.get('pk_2g_u0',0):.1f}/{gen_best.get('pk_2g_br',0):.1f} 3g={gen_best.get('pk_3g_u0',0):.1f}/{gen_best.get('pk_3g_br',0):.1f} v60={gen_best.get('vol60_end',0):.1f} nPk={gen_best.get('n_pk')} "
-            f"a0={ap['oto_reweight_a0_mps2']:.1f} uSh={ap['vcr_upper_share_pitch']:.2f} hT={ap['phasic_oto_tanh_mps2']:.0f} ksrs={ap['srs_k_srs']:.1f}) "
+            f"a0={ap.get('oto_reweight_a0_mps2',0):.1f} KiT={ap.get('Ki_ton',2.6):.2f} hT={ap.get('phasic_oto_tanh_mps2',0):.0f} ksrs={ap.get('srs_k_srs',0):.1f}) "
             f"| Best={best_local['loss']:7.1f} {'*SHARED*' if published else ''}",
             flush=True,
         )

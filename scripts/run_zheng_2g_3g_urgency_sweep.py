@@ -373,13 +373,13 @@ def run_single_case(spec: dict) -> dict:
         com_x_max_m = float(np.max(cx_imp))
         splen_env = np.empty_like(splen_imp)
         splen_env[0] = splen_imp[0]
-        _alpha_emg = float(DT_LOG) / (0.015 + float(DT_LOG))
+        _alpha_emg = float(DT_LOG) / (0.013 + float(DT_LOG))
         for _k_e in range(1, len(splen_imp)):
             splen_env[_k_e] = splen_env[_k_e - 1] + _alpha_emg * (splen_imp[_k_e] - splen_env[_k_e - 1])
         idx_splen_peak = int(np.argmax(splen_env))
         peak_splen_cap = float(splen_env[idx_splen_peak])
         t_peak_splen_ms = float(t_imp_ms[idx_splen_peak])
-        # Prominence-aware peak counter on 15 ms sEMG envelope
+        # Prominence-aware peak counter on 13 ms sEMG envelope
         win_half = 25
         n_splen_peaks = 0
         for k in range(1, len(splen_env) - 1):

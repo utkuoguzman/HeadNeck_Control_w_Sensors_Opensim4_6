@@ -142,11 +142,11 @@ static inline double computeSmoothIntegratorExcess(double val, double lim) {
     return (val >= 0.0) ? mag : -mag;
 }
 
-// C1-smooth gate activating the 2x2 horizontal-shift controller when w_pos > 0 and either shift command or obs coupling is nonzero.
+// C1-smooth gate activating the 2x2 horizontal-shift controller when w_pos > 0 and either voluntary shift command or voluntary-gated obs coupling is nonzero.
 static inline double computeCorticalShiftGate(
-    double w_pos, double desired_shift_m, double traj_pos_m, double traj_vel_m, double kp_obs, double kv_obs) {
+    double w_pos, double desired_shift_m, double traj_pos_m, double traj_vel_m, double kp_obs, double kv_obs, double vol_eng = 0.0) {
     const double g_w   = std::clamp(w_pos, 0.0, 1.0);
-    const double g_obs = smoothstep01((std::abs(kp_obs) + std::abs(kv_obs)) / 1e-3);
+    const double g_obs = std::clamp(vol_eng, 0.0, 1.0) * smoothstep01((std::abs(kp_obs) + std::abs(kv_obs)) / 1e-3);
     const double mag   = std::max(std::abs(desired_shift_m), std::max(std::abs(traj_pos_m), std::abs(traj_vel_m)));
     const double g_cmd = smoothstep01(mag / 1e-5);
     return g_w * std::max(g_obs, g_cmd);
@@ -2414,7 +2414,7 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             const double u_act_est = (muscle_index < static_cast<int>(last_alpha_motor_excitations.size()))
                 ? last_alpha_motor_excitations[muscle_index]
                 : u0_alpha;
-            const double da_dt_est = (u_act_est - act_m_now) / ((u_act_est > act_m_now) ? 0.010 : 0.040);
+            const double da_dt_est = (u_act_est - act_m_now) / ((u_act_est > act_m_now) ? 0.010 : 0.025);
             const double eps_ten_cun = 0.052;
             const double r_p_cun = (moment_arm_jacobian_3dof.ncol() > muscle_index) ? moment_arm_jacobian_3dof(0, muscle_index) : 0.0;
             const double r_r_cun = (moment_arm_jacobian_3dof.ncol() > muscle_index) ? moment_arm_jacobian_3dof(1, muscle_index) : 0.0;
@@ -2612,8 +2612,9 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
 
         const double x_w  = state_variable_obs_wash_lpf[s]->getValue(state);
         const double x_vw = state_variable_obs_vel_wash_lpf[s]->getValue(state);
+        const double e_eng_now = computeVoluntaryEngagement(urgency_now);
         const double g_obs_wash = get_enable_mahony()
-            ? (std::clamp(w_pos_arr[s], 0.0, 1.0) * smoothstep01((std::abs(kp_shift_obs_arr[s]) + std::abs(kv_shift_obs_arr[s])) / 1e-3))
+            ? (e_eng_now * std::clamp(w_pos_arr[s], 0.0, 1.0) * smoothstep01((std::abs(kp_shift_obs_arr[s]) + std::abs(kv_shift_obs_arr[s])) / 1e-3))
             : 0.0;
         double obs_p_hp = raw_obs_p_arr[s];
         double obs_v_hp = raw_obs_v_arr[s];
@@ -2629,9 +2630,8 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         }
         obs_p_eff[s] = obs_p_hp - (Jp_now[s] - jc1_p) * del_mahony_att_2[s];
 
-        const double e_eng_now = computeVoluntaryEngagement(urgency_now);
         shift_gate_now[s] = computeCorticalShiftGate(
-            w_pos_arr[s], desired_shift_raw_m[s], traj_shift_pos_m[s], traj_shift_vel_m[s], kp_shift_obs_arr[s], kv_shift_obs_arr[s]);
+            w_pos_arr[s], desired_shift_raw_m[s], traj_shift_pos_m[s], traj_shift_vel_m[s], kp_shift_obs_arr[s], kv_shift_obs_arr[s], e_eng_now);
         vol_shift_gate_now[s] = std::clamp(w_pos_arr[s], 0.0, 1.0) * e_eng_now;
 
         p_ref_now[s] = traj_shift_pos_m[s] + kp_shift_obs_arr[s] * obs_p_eff[s] + kv_shift_obs_arr[s] * obs_v_hp;
@@ -3002,7 +3002,6 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             fallback_diff_acc = SimTK::Vec2(0.0);
         }
 
-        const double head_pivot_radius = 0.15;
         const SimTK::Vec3 fallback_trans_acc_world(
             Jp_now[0] * fallback_traj_acc_pitch + Jm_now[0] * fallback_diff_acc[0],
             0.0,
@@ -3023,8 +3022,8 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             (!history.empty() && delayed_4a_fn_vn_data.record.valid)
                 ? delayed_4a_fn_vn_data.record.eff_phasic_grav_acc_3a
                 : SimTK::Vec3(
-                    -current_cb_adapted_gravity_head[0] + head_pivot_radius * fallback_traj_acc_pitch + fallback_trans_acc_head[0],
-                    -current_cb_adapted_gravity_head[2] + head_pivot_radius * fallback_traj_acc_roll  + fallback_trans_acc_head[2],
+                    -current_cb_adapted_gravity_head[0] + fallback_trans_acc_head[0],
+                    -current_cb_adapted_gravity_head[2] + fallback_trans_acc_head[2],
                     0.0);
 
         // Block 1 in Sub2(B): Tonic Tilt Efference Cancellation (arriving from Sub3(C) via 1.5 ms Uncinate Tract)
@@ -3668,16 +3667,16 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
         const double x_w  = state_variable_obs_wash_lpf[s] ? state_variable_obs_wash_lpf[s]->getValue(state) : 0.0;
         const double x_vw = state_variable_obs_vel_wash_lpf[s] ? state_variable_obs_vel_wash_lpf[s]->getValue(state) : 0.0;
+        const double e_eng_ctrl = computeVoluntaryEngagement(get_urgency());
         const double g_obs_wash_c = get_enable_mahony()
-            ? (std::clamp(w_pos_ctrl[s], 0.0, 1.0) * smoothstep01((std::abs(kp_obs_ctrl[s]) + std::abs(kv_obs_ctrl[s])) / 1e-3))
+            ? (e_eng_ctrl * std::clamp(w_pos_ctrl[s], 0.0, 1.0) * smoothstep01((std::abs(kp_obs_ctrl[s]) + std::abs(kv_obs_ctrl[s])) / 1e-3))
             : 0.0;
         const double obs_p_hp = (tau_wash_ctrl > 1e-3) ? (raw_obs_p_ctrl[s] - g_obs_wash_c * x_w)  : raw_obs_p_ctrl[s];
         const double obs_v_hp = (tau_wash_ctrl > 1e-3) ? (raw_obs_v_ctrl[s] - g_obs_wash_c * x_vw) : raw_obs_v_ctrl[s];
         const double obs_p_eff_c = obs_p_hp - (Jp_ctrl[s] - jc1_p) * del_mah_att_ctrl[s];
 
         shift_gate_ctrl[s] = computeCorticalShiftGate(
-            w_pos_ctrl[s], desired_shift_raw_m_ctrl[s], traj_shift_pos_ctrl[s], traj_shift_vel_ctrl[s], kp_obs_ctrl[s], kv_obs_ctrl[s]);
-        const double e_eng_ctrl = computeVoluntaryEngagement(get_urgency());
+            w_pos_ctrl[s], desired_shift_raw_m_ctrl[s], traj_shift_pos_ctrl[s], traj_shift_vel_ctrl[s], kp_obs_ctrl[s], kv_obs_ctrl[s], e_eng_ctrl);
         vol_shift_gate_ctrl[s] = std::clamp(w_pos_ctrl[s], 0.0, 1.0) * e_eng_ctrl;
 
         const double p_ref_c = traj_shift_pos_ctrl[s] + kp_obs_ctrl[s] * obs_p_eff_c + kv_obs_ctrl[s] * obs_v_hp;
@@ -3917,15 +3916,14 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         0.0,
         state_variable_phasic_otolith_stage2[2]->getValue(state));
     SimTK::Vec3 cb_adapted_gravity_head = (irr_oto_adapt_ratio - 1.0) * cb_gravity_adapt_state + cb_gravity_head;
-    const double head_pivot_radius_cb = 0.15;
     const SimTK::Vec3 cb_vol_trans_acc_world(
         Jp_ctrl[0] * cb_traj_acc_1b[0] + Jm_ctrl[0] * cb_traj_diff_acc_1b[0],
         0.0,
         Jp_ctrl[1] * cb_traj_acc_1b[1] + Jm_ctrl[1] * cb_traj_diff_acc_1b[1]);
     const SimTK::Vec3 cb_vol_trans_acc_head = (~current_estimated_rotation_head_to_world.asMat33()) * cb_vol_trans_acc_world;
     SimTK::Vec3 c_phas_raw(
-        -cb_adapted_gravity_head[0] + head_pivot_radius_cb * cb_traj_acc_1b[0] + cb_vol_trans_acc_head[0],
-        -cb_adapted_gravity_head[2] + head_pivot_radius_cb * cb_traj_acc_1b[1] + cb_vol_trans_acc_head[2],
+        -cb_adapted_gravity_head[0] + cb_vol_trans_acc_head[0],
+        -cb_adapted_gravity_head[2] + cb_vol_trans_acc_head[2],
         0.0);
 
     SimTK::Vec3 eff_tonic_tilt_comp_3a, eff_canal_vel_comp_3a, eff_phasic_grav_acc_comp_3a;
@@ -4165,7 +4163,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         const double u_act_est_ctrl = (muscle_index < static_cast<int>(last_alpha_motor_excitations.size()))
             ? last_alpha_motor_excitations[muscle_index]
             : u0_alpha;
-        const double da_dt_est_ctrl = (u_act_est_ctrl - act_m_ctrl) / ((u_act_est_ctrl > act_m_ctrl) ? 0.010 : 0.040);
+        const double da_dt_est_ctrl = (u_act_est_ctrl - act_m_ctrl) / ((u_act_est_ctrl > act_m_ctrl) ? 0.010 : 0.025);
         const double eps_ten_cun_ctrl = 0.052;
         const double r_p_cun_ctrl = (moment_arm_jacobian_3dof.ncol() > muscle_index) ? moment_arm_jacobian_3dof(0, muscle_index) : 0.0;
         const double r_r_cun_ctrl = (moment_arm_jacobian_3dof.ncol() > muscle_index) ? moment_arm_jacobian_3dof(1, muscle_index) : 0.0;

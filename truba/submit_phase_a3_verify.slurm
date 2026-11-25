@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -J A3_Verify
+#SBATCH -J V3_Verify
 #SBATCH -A uoguzman
 #SBATCH -p debug,orfoz
 #SBATCH -N 1
@@ -7,8 +7,8 @@
 #SBATCH -c 1
 #SBATCH --time=00:45:00
 #SBATCH --chdir=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6
-#SBATCH --output=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/logs/phase_a3/slurm-%x-%j.out
-#SBATCH --error=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/logs/phase_a3/slurm-%x-%j.err
+#SBATCH --output=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/logs/phase_a3_v3/slurm-%x-%j.out
+#SBATCH --error=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/logs/phase_a3_v3/slurm-%x-%j.err
 
 set -euo pipefail
 MINIFORGE_DIR="/arf/scratch/${USER}/miniforge3"
@@ -22,7 +22,7 @@ export LD_LIBRARY_PATH="${CONDA_PREFIX}/lib:${WORKSPACE_DIR}/vestibular_plugin/b
 export SIMB_NUM_THREADS=1 SIMBODY_NUM_THREADS=1 OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1 NUMEXPR_NUM_THREADS=1 MPLBACKEND=Agg
 
 cd "${WORKSPACE_DIR}"
-mkdir -p logs/phase_a3
-echo "[PHASE-A3 VERIFY] host=$(hostname) at $(date)"
-python -u scripts/truba_phase_a3_joint_cmaes.py --mode verify --workers "${SLURM_NTASKS}"
-echo "[PHASE-A3 VERIFY] Finished at $(date)"
+mkdir -p logs/phase_a3_v3
+echo "[PHASE-A3-V3 VERIFY] host=$(hostname) at $(date)"
+python -u scripts/truba_phase_a3_exact_roi_cmaes.py --mode verify --workers "${SLURM_NTASKS}"
+echo "[PHASE-A3-V3 VERIFY] Finished at $(date)"
