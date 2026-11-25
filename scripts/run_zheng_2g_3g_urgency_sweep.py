@@ -371,17 +371,22 @@ def run_single_case(spec: dict) -> dict:
         peak_vel_dps = float(np.max(np.abs(vf_imp)))
         nose_y_min = float(np.min(ny_imp))
         com_x_max_m = float(np.max(cx_imp))
-        idx_splen_peak = int(np.argmax(splen_imp))
-        peak_splen_cap = float(splen_imp[idx_splen_peak])
+        splen_env = np.empty_like(splen_imp)
+        splen_env[0] = splen_imp[0]
+        _alpha_emg = float(DT_LOG) / (0.015 + float(DT_LOG))
+        for _k_e in range(1, len(splen_imp)):
+            splen_env[_k_e] = splen_env[_k_e - 1] + _alpha_emg * (splen_imp[_k_e] - splen_env[_k_e - 1])
+        idx_splen_peak = int(np.argmax(splen_env))
+        peak_splen_cap = float(splen_env[idx_splen_peak])
         t_peak_splen_ms = float(t_imp_ms[idx_splen_peak])
-        # Prominence-aware peak counter: count distinct activation peaks (prominence >= 0.015 within +/- 50 ms)
+        # Prominence-aware peak counter on 15 ms sEMG envelope
         win_half = 25
         n_splen_peaks = 0
-        for k in range(1, len(splen_imp) - 1):
-            if splen_imp[k] > 0.08 and splen_imp[k] > splen_imp[k - 1] and splen_imp[k] >= splen_imp[k + 1]:
+        for k in range(1, len(splen_env) - 1):
+            if splen_env[k] > 0.08 and splen_env[k] > splen_env[k - 1] and splen_env[k] >= splen_env[k + 1]:
                 lo = max(0, k - win_half)
-                hi = min(len(splen_imp), k + win_half + 1)
-                prom = float(splen_imp[k] - max(np.min(splen_imp[lo : k + 1]), np.min(splen_imp[k:hi])))
+                hi = min(len(splen_env), k + win_half + 1)
+                prom = float(splen_env[k] - max(np.min(splen_env[lo : k + 1]), np.min(splen_env[k:hi])))
                 if prom >= 0.015:
                     n_splen_peaks += 1
         peak_scm = float(np.max(scm_imp))

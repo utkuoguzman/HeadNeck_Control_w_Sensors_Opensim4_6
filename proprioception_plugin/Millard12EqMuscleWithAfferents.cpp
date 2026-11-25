@@ -410,10 +410,12 @@ void Millard12EqMuscleWithAfferents::computeStateVariableDerivatives(const SimTK
         const double s_thix  = sv_srs_thix->getValue(s);
         const double s_min   = std::clamp(get_srs_thix_min(), 0.05, 1.0);
         const double tau_rec = std::max(0.05, get_tau_srs_thix_rec());
-        const double d_break = std::max(0.005, get_delta_srs_thix_break());
+        const double d_break = std::max(0.004, get_delta_srs_thix_break());
         const double v_l0    = std::abs(getFiberVelocity(s)) / std::max(1e-4, getOptimalFiberLength());
         const double k_break = std::min(40.0, v_l0 / d_break);
-        sv_srs_thix->setDerivative(s, (1.0 - s_thix) / tau_rec - k_break * std::max(0.0, s_thix - s_min));
+        const double r_rest  = v_l0 / 0.015;
+        const double w_rest  = std::exp(-r_rest * r_rest);
+        sv_srs_thix->setDerivative(s, w_rest * (1.0 - s_thix) / tau_rec - k_break * std::max(0.0, s_thix - s_min));
     }
 }
 

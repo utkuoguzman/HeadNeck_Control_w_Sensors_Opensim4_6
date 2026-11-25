@@ -252,16 +252,6 @@ static inline Cervical2x2IKResult solveWeighted2x2CervicalIK(
     return res;
 }
 
-// Replace large Mahony tilt errors with canal-integrated orientation inside the 0.025 rad cusp gate.
-static inline double computeCuspGatedGravitySinDelta(double cb_canal_dev, double mahony_est_angle, double baseline_angle) {
-    const double mahony_dev = mahony_est_angle - baseline_angle;
-    const double norm_dev   = cb_canal_dev / 0.025;
-    const double sq_dev     = norm_dev * norm_dev;
-    const double cusp_gate  = (sq_dev * sq_dev) / (1.0 + sq_dev * sq_dev);
-    const double eff_dev    = cb_canal_dev + cusp_gate * (mahony_dev - cb_canal_dev);
-    return 9.81 * (std::sin(mahony_est_angle) - std::sin(baseline_angle + eff_dev));
-}
-
 // Physical skull angular velocity resolved directly in skull (head) frame: (x=roll, y=yaw, z=pitch).
 static inline SimTK::Vec3 computeSkullBodyAngularVelocity(const OpenSim::Body& skull, const SimTK::State& state) {
     const SimTK::Transform& X_GS = skull.getMobilizedBody().getBodyTransform(state);
@@ -363,6 +353,10 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_p_phas(4.711937);
     constructProperty_K_ton_roll(0.90);
     constructProperty_K_ton_yaw(6.2);
+    constructProperty_Ki_ton(2.5);
+    constructProperty_Ki_ton_roll(0.5);
+    constructProperty_Ki_ton_yaw(0.0);
+    constructProperty_tau_ton_int(4.0);
     constructProperty_p_ton_roll(3.2);
     constructProperty_p_ton_yaw(16.227225);
     constructProperty_K_sc_roll(3.5);
@@ -381,15 +375,15 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_z_ccr_yaw(0.050);
     constructProperty_K_gamma_dyn(1.0);
     constructProperty_K_gamma_stat(1.0);
-    constructProperty_Kp_task_pitch(3.790117);
-    constructProperty_Kd_task_pitch(0.54);
-    constructProperty_Kp_task_roll(1.20);
-    constructProperty_Kd_task_roll(1.35);
-    constructProperty_Kp_task_yaw(0.55);
-    constructProperty_Kd_task_yaw(0.05);
-    constructProperty_Ki_task_pitch(3.721492);
-    constructProperty_Ki_task_roll(0.45);
-    constructProperty_Ki_task_yaw(0.05);
+    constructProperty_Kp_task_pitch(18.0);
+    constructProperty_Kd_task_pitch(4.80);
+    constructProperty_Kp_task_roll(11.0);
+    constructProperty_Kd_task_roll(2.80);
+    constructProperty_Kp_task_yaw(5.00);
+    constructProperty_Kd_task_yaw(0.80);
+    constructProperty_Ki_task_pitch(42.0);
+    constructProperty_Ki_task_roll(13.0);
+    constructProperty_Ki_task_yaw(5.00);
     constructProperty_Kv_trans_roll(0.0);
     constructProperty_Kp_trans_roll(0.0);
     constructProperty_Kv_trans_pitch(0.0);
@@ -432,7 +426,7 @@ HeadNeckNeuralController::HeadNeckNeuralController() {
     constructProperty_phasic_oto_tanh_mps2(0.0);
     constructProperty_phasic_torque_tanh_nm(0.0);
     constructProperty_oto_reweight_a0_mps2(0.0);
-    constructProperty_oto_reweight_tau_s(0.050);
+    constructProperty_oto_reweight_tau_s(0.200);
     constructProperty_vcr_upper_share_pitch(0.50);
     constructProperty_K_gto_ib(0.0005);
     constructProperty_p_gto_ib(150.0);
@@ -590,6 +584,12 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("highg_acc_env", SimTK::Stage::Velocity);
     addStateVariable("oto_reweight_ax", SimTK::Stage::Velocity);
     addStateVariable("oto_reweight_az", SimTK::Stage::Velocity);
+    addStateVariable("buckle_lpf_pos_pitch", SimTK::Stage::Velocity);
+    addStateVariable("buckle_lpf_pos_roll", SimTK::Stage::Velocity);
+    addStateVariable("buckle_lpf_pos_yaw", SimTK::Stage::Velocity);
+    addStateVariable("buckle_lpf_vel_pitch", SimTK::Stage::Velocity);
+    addStateVariable("buckle_lpf_vel_roll", SimTK::Stage::Velocity);
+    addStateVariable("buckle_lpf_vel_yaw", SimTK::Stage::Velocity);
     addStateVariable("cuneate_filt_pitch", SimTK::Stage::Velocity);
     addStateVariable("cuneate_filt_roll", SimTK::Stage::Velocity);
     addStateVariable("cuneate_filt_yaw", SimTK::Stage::Velocity);
@@ -636,6 +636,9 @@ void HeadNeckNeuralController::extendAddToSystem(SimTK::MultibodySystem& system)
     addStateVariable("ton_vel_pitch", SimTK::Stage::Velocity);
     addStateVariable("ton_vel_roll", SimTK::Stage::Velocity);
     addStateVariable("ton_vel_yaw", SimTK::Stage::Velocity);
+    addStateVariable("ton_int_pitch", SimTK::Stage::Velocity);
+    addStateVariable("ton_int_roll", SimTK::Stage::Velocity);
+    addStateVariable("ton_int_yaw", SimTK::Stage::Velocity);
     addStateVariable("sc_state_pitch", SimTK::Stage::Velocity);
     addStateVariable("sc_state_roll", SimTK::Stage::Velocity);
     addStateVariable("sc_state_yaw", SimTK::Stage::Velocity);
@@ -816,6 +819,12 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& state
     setStateVariableValue(state, "highg_acc_env", 0.0);
     setStateVariableValue(state, "oto_reweight_ax", 0.0);
     setStateVariableValue(state, "oto_reweight_az", 0.0);
+    setStateVariableValue(state, "buckle_lpf_pos_pitch", 0.0);
+    setStateVariableValue(state, "buckle_lpf_pos_roll", 0.0);
+    setStateVariableValue(state, "buckle_lpf_pos_yaw", 0.0);
+    setStateVariableValue(state, "buckle_lpf_vel_pitch", 0.0);
+    setStateVariableValue(state, "buckle_lpf_vel_roll", 0.0);
+    setStateVariableValue(state, "buckle_lpf_vel_yaw", 0.0);
     setStateVariableValue(state, "cuneate_filt_pitch", 0.0);
     setStateVariableValue(state, "cuneate_filt_roll", 0.0);
     setStateVariableValue(state, "cuneate_filt_yaw", 0.0);
@@ -862,6 +871,9 @@ void HeadNeckNeuralController::extendInitStateFromProperties(SimTK::State& state
     setStateVariableValue(state, "ton_vel_pitch", 0.0);
     setStateVariableValue(state, "ton_vel_roll", 0.0);
     setStateVariableValue(state, "ton_vel_yaw", 0.0);
+    setStateVariableValue(state, "ton_int_pitch", 0.0);
+    setStateVariableValue(state, "ton_int_roll", 0.0);
+    setStateVariableValue(state, "ton_int_yaw", 0.0);
     setStateVariableValue(state, "sc_state_pitch", 0.0);
     setStateVariableValue(state, "sc_state_roll", 0.0);
     setStateVariableValue(state, "sc_state_yaw", 0.0);
@@ -963,6 +975,12 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     state_variable_highg_acc_env                  = traverseToStateVariable("highg_acc_env");
     state_variable_oto_reweight[0]                = traverseToStateVariable("oto_reweight_ax");
     state_variable_oto_reweight[1]                = traverseToStateVariable("oto_reweight_az");
+    state_variable_buckle_lpf_pos[0]              = traverseToStateVariable("buckle_lpf_pos_pitch");
+    state_variable_buckle_lpf_pos[1]              = traverseToStateVariable("buckle_lpf_pos_roll");
+    state_variable_buckle_lpf_pos[2]              = traverseToStateVariable("buckle_lpf_pos_yaw");
+    state_variable_buckle_lpf_vel[0]              = traverseToStateVariable("buckle_lpf_vel_pitch");
+    state_variable_buckle_lpf_vel[1]              = traverseToStateVariable("buckle_lpf_vel_roll");
+    state_variable_buckle_lpf_vel[2]              = traverseToStateVariable("buckle_lpf_vel_yaw");
     state_variable_cuneate_posture[0]             = traverseToStateVariable("cuneate_filt_pitch");
     state_variable_cuneate_posture[1]             = traverseToStateVariable("cuneate_filt_roll");
     state_variable_cuneate_posture[2]             = traverseToStateVariable("cuneate_filt_yaw");
@@ -1006,6 +1024,9 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
     state_variable_tonic_otolith_vel[0]   = traverseToStateVariable("ton_vel_pitch");
     state_variable_tonic_otolith_vel[1]   = traverseToStateVariable("ton_vel_roll");
     state_variable_tonic_otolith_vel[2]   = traverseToStateVariable("ton_vel_yaw");
+    state_variable_tonic_integral[0]      = traverseToStateVariable("ton_int_pitch");
+    state_variable_tonic_integral[1]      = traverseToStateVariable("ton_int_roll");
+    state_variable_tonic_integral[2]      = traverseToStateVariable("ton_int_yaw");
     state_variable_semicircular_canal_reflex[0] = traverseToStateVariable("sc_state_pitch");
     state_variable_semicircular_canal_reflex[1] = traverseToStateVariable("sc_state_roll");
     state_variable_semicircular_canal_reflex[2] = traverseToStateVariable("sc_state_yaw");
@@ -1171,81 +1192,81 @@ void HeadNeckNeuralController::initializeGeometryAndBaseline(const SimTK::State&
         double minimum_excitation_value = 0.030;
         {
             // Group 1: Superficial Flexors (1.0% - 2.5% MVC)
-            if      (muscle_name == "Sterno_hyoid")          minimum_excitation_value = 0.0139074664;
-            else if (muscle_name == "Sterno_hyoid_L")        minimum_excitation_value = 0.0138869448;
-            else if (muscle_name == "SternoThyroid")         minimum_excitation_value = 0.0139580126;
-            else if (muscle_name == "SternoThyroid_L")       minimum_excitation_value = 0.0139146060;
-            else if (muscle_name == "Omo_hyoid")             minimum_excitation_value = 0.0140401442;
-            else if (muscle_name == "Omo_hyoid_L")           minimum_excitation_value = 0.0140511883;
-            else if (muscle_name == "stern_mast")            minimum_excitation_value = 0.0137600533;
-            else if (muscle_name == "stern_mast_L")          minimum_excitation_value = 0.0138882584;
-            else if (muscle_name == "cleid_mast")            minimum_excitation_value = 0.0140218931;
-            else if (muscle_name == "cleid_mast_L")          minimum_excitation_value = 0.0140604434;
-            else if (muscle_name == "cleid_occ")             minimum_excitation_value = 0.0141125391;
-            else if (muscle_name == "cleid_occ_L")           minimum_excitation_value = 0.0141761987;
-            else if (muscle_name == "scalenus_ant")          minimum_excitation_value = 0.0145401926;
-            else if (muscle_name == "scalenus_ant_L")        minimum_excitation_value = 0.0144270113;
+            if      (muscle_name == "Sterno_hyoid")          minimum_excitation_value = 0.0139717799;
+            else if (muscle_name == "Sterno_hyoid_L")        minimum_excitation_value = 0.0139511131;
+            else if (muscle_name == "SternoThyroid")         minimum_excitation_value = 0.0140165696;
+            else if (muscle_name == "SternoThyroid_L")       minimum_excitation_value = 0.0139732141;
+            else if (muscle_name == "Omo_hyoid")             minimum_excitation_value = 0.0140871490;
+            else if (muscle_name == "Omo_hyoid_L")           minimum_excitation_value = 0.0140976246;
+            else if (muscle_name == "stern_mast")            minimum_excitation_value = 0.0138502387;
+            else if (muscle_name == "stern_mast_L")          minimum_excitation_value = 0.0139775579;
+            else if (muscle_name == "cleid_mast")            minimum_excitation_value = 0.0140710738;
+            else if (muscle_name == "cleid_mast_L")          minimum_excitation_value = 0.0141093965;
+            else if (muscle_name == "cleid_occ")             minimum_excitation_value = 0.0141636123;
+            else if (muscle_name == "cleid_occ_L")           minimum_excitation_value = 0.0142268903;
+            else if (muscle_name == "scalenus_ant")          minimum_excitation_value = 0.0145635402;
+            else if (muscle_name == "scalenus_ant_L")        minimum_excitation_value = 0.0144509115;
             // Group 2: Deep / Upper Cervical Flexors (2.0% - 4.0% MVC)
-            else if (muscle_name == "digastric_post")        minimum_excitation_value = 0.0257708683;
-            else if (muscle_name == "digastric_post_L")      minimum_excitation_value = 0.0260257723;
-            else if (muscle_name == "digastric_ant")         minimum_excitation_value = 0.0351123801;
-            else if (muscle_name == "digastric_ant_L")       minimum_excitation_value = 0.0352215535;
-            else if (muscle_name == "Geniohyoid")            minimum_excitation_value = 0.0358435442;
-            else if (muscle_name == "Geniohyoid_L")          minimum_excitation_value = 0.0357879142;
-            else if (muscle_name == "Mylohyoid_Post")        minimum_excitation_value = 0.0353440759;
-            else if (muscle_name == "Mylohyoid_Post_L")      minimum_excitation_value = 0.0354227939;
-            else if (muscle_name == "Mylohyoid_Ant")         minimum_excitation_value = 0.0357049120;
-            else if (muscle_name == "Mylohyoid_Ant_L")       minimum_excitation_value = 0.0359162302;
-            else if (muscle_name == "Stylohyoid_Lat")        minimum_excitation_value = 0.0326655729;
-            else if (muscle_name == "Stylohyoid_Lat_L")      minimum_excitation_value = 0.0327162539;
-            else if (muscle_name == "Stylohyoid_Med")        minimum_excitation_value = 0.0327072420;
-            else if (muscle_name == "Stylohyoid_Med_L")      minimum_excitation_value = 0.0327579685;
-            else if (muscle_name == "scalenus_med")          minimum_excitation_value = 0.0326803693;
-            else if (muscle_name == "scalenus_med_L")        minimum_excitation_value = 0.0325170091;
-            else if (muscle_name == "scalenus_post")         minimum_excitation_value = 0.0317368734;
-            else if (muscle_name == "scalenus_post_L")       minimum_excitation_value = 0.0316464182;
-            else if (muscle_name == "long_cap_sklc4")        minimum_excitation_value = 0.0353953794;
-            else if (muscle_name == "long_cap_sklc4_L")      minimum_excitation_value = 0.0353956169;
-            else if (muscle_name == "long_col_c1thx")        minimum_excitation_value = 0.0295473898;
-            else if (muscle_name == "long_col_c1thx_L")      minimum_excitation_value = 0.0295025776;
-            else if (muscle_name == "long_col_c1c5")         minimum_excitation_value = 0.0334943909;
-            else if (muscle_name == "long_col_c1c5_L")       minimum_excitation_value = 0.0334361024;
-            else if (muscle_name == "long_col_c5thx")        minimum_excitation_value = 0.0298660580;
-            else if (muscle_name == "long_col_c5thx_L")      minimum_excitation_value = 0.0298181117;
+            else if (muscle_name == "digastric_post")        minimum_excitation_value = 0.0257784706;
+            else if (muscle_name == "digastric_post_L")      minimum_excitation_value = 0.0260315629;
+            else if (muscle_name == "digastric_ant")         minimum_excitation_value = 0.0351035340;
+            else if (muscle_name == "digastric_ant_L")       minimum_excitation_value = 0.0352121622;
+            else if (muscle_name == "Geniohyoid")            minimum_excitation_value = 0.0358026992;
+            else if (muscle_name == "Geniohyoid_L")          minimum_excitation_value = 0.0357473405;
+            else if (muscle_name == "Mylohyoid_Post")        minimum_excitation_value = 0.0353313751;
+            else if (muscle_name == "Mylohyoid_Post_L")      minimum_excitation_value = 0.0354097912;
+            else if (muscle_name == "Mylohyoid_Ant")         minimum_excitation_value = 0.0356659213;
+            else if (muscle_name == "Mylohyoid_Ant_L")       minimum_excitation_value = 0.0358758631;
+            else if (muscle_name == "Stylohyoid_Lat")        minimum_excitation_value = 0.0326644051;
+            else if (muscle_name == "Stylohyoid_Lat_L")      minimum_excitation_value = 0.0327149724;
+            else if (muscle_name == "Stylohyoid_Med")        minimum_excitation_value = 0.0327060436;
+            else if (muscle_name == "Stylohyoid_Med_L")      minimum_excitation_value = 0.0327566529;
+            else if (muscle_name == "scalenus_med")          minimum_excitation_value = 0.0326753625;
+            else if (muscle_name == "scalenus_med_L")        minimum_excitation_value = 0.0325128869;
+            else if (muscle_name == "scalenus_post")         minimum_excitation_value = 0.0317342344;
+            else if (muscle_name == "scalenus_post_L")       minimum_excitation_value = 0.0316441400;
+            else if (muscle_name == "long_cap_sklc4")        minimum_excitation_value = 0.0353821366;
+            else if (muscle_name == "long_cap_sklc4_L")      minimum_excitation_value = 0.0353826554;
+            else if (muscle_name == "long_col_c1thx")        minimum_excitation_value = 0.0295571264;
+            else if (muscle_name == "long_col_c1thx_L")      minimum_excitation_value = 0.0295123366;
+            else if (muscle_name == "long_col_c1c5")         minimum_excitation_value = 0.0334928305;
+            else if (muscle_name == "long_col_c1c5_L")       minimum_excitation_value = 0.0334346502;
+            else if (muscle_name == "long_col_c5thx")        minimum_excitation_value = 0.0298662164;
+            else if (muscle_name == "long_col_c5thx_L")      minimum_excitation_value = 0.0298183092;
             // Group 3: Superficial Extensors (2.0% - 5.0% MVC)
-            else if (muscle_name == "trap_cl")               minimum_excitation_value = 0.0222030957;
-            else if (muscle_name == "trap_cl_L")             minimum_excitation_value = 0.0221611600;
-            else if (muscle_name == "trap_acr")              minimum_excitation_value = 0.0391430837;
-            else if (muscle_name == "trap_acr_L")            minimum_excitation_value = 0.0389694904;
-            else if (muscle_name == "splen_cap_sklc6")       minimum_excitation_value = 0.0232840744;
-            else if (muscle_name == "splen_cap_sklc6_L")     minimum_excitation_value = 0.0233107645;
-            else if (muscle_name == "splen_cap_sklthx")      minimum_excitation_value = 0.0256466659;
-            else if (muscle_name == "splen_cap_sklthx_L")    minimum_excitation_value = 0.0256818910;
-            else if (muscle_name == "splen_cerv_c3thx")      minimum_excitation_value = 0.0487024411;
-            else if (muscle_name == "splen_cerv_c3thx_L")    minimum_excitation_value = 0.0486376139;
-            else if (muscle_name == "semi_cap_sklc5")        minimum_excitation_value = 0.0221057900;
-            else if (muscle_name == "semi_cap_sklc5_L")      minimum_excitation_value = 0.0222267488;
-            else if (muscle_name == "semi_cap_sklthx")       minimum_excitation_value = 0.0230974719;
-            else if (muscle_name == "semi_cap_sklthx_L")     minimum_excitation_value = 0.0231614554;
-            else if (muscle_name == "levator_scap")          minimum_excitation_value = 0.0494874183;
-            else if (muscle_name == "levator_scap_L")        minimum_excitation_value = 0.0494206141;
+            else if (muscle_name == "trap_cl")               minimum_excitation_value = 0.0222292352;
+            else if (muscle_name == "trap_cl_L")             minimum_excitation_value = 0.0221871083;
+            else if (muscle_name == "trap_acr")              minimum_excitation_value = 0.0391398794;
+            else if (muscle_name == "trap_acr_L")            minimum_excitation_value = 0.0389673090;
+            else if (muscle_name == "splen_cap_sklc6")       minimum_excitation_value = 0.0232569485;
+            else if (muscle_name == "splen_cap_sklc6_L")     minimum_excitation_value = 0.0232838387;
+            else if (muscle_name == "splen_cap_sklthx")      minimum_excitation_value = 0.0255911988;
+            else if (muscle_name == "splen_cap_sklthx_L")    minimum_excitation_value = 0.0256264685;
+            else if (muscle_name == "splen_cerv_c3thx")      minimum_excitation_value = 0.0486577974;
+            else if (muscle_name == "splen_cerv_c3thx_L")    minimum_excitation_value = 0.0485928643;
+            else if (muscle_name == "semi_cap_sklc5")        minimum_excitation_value = 0.0221330996;
+            else if (muscle_name == "semi_cap_sklc5_L")      minimum_excitation_value = 0.0222535606;
+            else if (muscle_name == "semi_cap_sklthx")       minimum_excitation_value = 0.0230533402;
+            else if (muscle_name == "semi_cap_sklthx_L")     minimum_excitation_value = 0.0231172728;
+            else if (muscle_name == "levator_scap")          minimum_excitation_value = 0.0493851759;
+            else if (muscle_name == "levator_scap_L")        minimum_excitation_value = 0.0493189848;
             // Group 4: Deep Cervical Extensors (3.0% - 7.0% MVC)
-            else if (muscle_name == "semi_cerv_c3thx")       minimum_excitation_value = 0.0694999818;
-            else if (muscle_name == "semi_cerv_c3thx_L")     minimum_excitation_value = 0.0694159181;
-            else if (muscle_name == "longissi_cap_sklc6")    minimum_excitation_value = 0.0305173104;
-            else if (muscle_name == "longissi_cap_sklc6_L")  minimum_excitation_value = 0.0305802837;
-            else if (muscle_name == "longissi_cerv_c4thx")   minimum_excitation_value = 0.0687748785;
-            else if (muscle_name == "longissi_cerv_c4thx_L") minimum_excitation_value = 0.0686880523;
-            else if (muscle_name == "iliocost_cerv_c5rib")   minimum_excitation_value = 0.0665554157;
-            else if (muscle_name == "iliocost_cerv_c5rib_L") minimum_excitation_value = 0.0664675579;
-            else if (muscle_name == "rectcap_post_maj")      minimum_excitation_value = 0.0305236751;
-            else if (muscle_name == "rectcap_post_maj_L")    minimum_excitation_value = 0.0305448742;
-            else if (muscle_name == "rectcap_post_min")      minimum_excitation_value = 0.0307383191;
-            else if (muscle_name == "rectcap_post_min_L")    minimum_excitation_value = 0.0308234885;
-            else if (muscle_name == "obl_cap_sup")           minimum_excitation_value = 0.0320057410;
-            else if (muscle_name == "obl_cap_sup_L")         minimum_excitation_value = 0.0321181604;
-            else if (muscle_name == "obl_cap_inf")           minimum_excitation_value = 0.0358454823;
-            else if (muscle_name == "obl_cap_inf_L")         minimum_excitation_value = 0.0358149574;
+            else if (muscle_name == "semi_cerv_c3thx")       minimum_excitation_value = 0.0694157512;
+            else if (muscle_name == "semi_cerv_c3thx_L")     minimum_excitation_value = 0.0693322383;
+            else if (muscle_name == "longissi_cap_sklc6")    minimum_excitation_value = 0.0305156418;
+            else if (muscle_name == "longissi_cap_sklc6_L")  minimum_excitation_value = 0.0305784910;
+            else if (muscle_name == "longissi_cerv_c4thx")   minimum_excitation_value = 0.0687598170;
+            else if (muscle_name == "longissi_cerv_c4thx_L") minimum_excitation_value = 0.0686729647;
+            else if (muscle_name == "iliocost_cerv_c5rib")   minimum_excitation_value = 0.0665445799;
+            else if (muscle_name == "iliocost_cerv_c5rib_L") minimum_excitation_value = 0.0664567190;
+            else if (muscle_name == "rectcap_post_maj")      minimum_excitation_value = 0.0305471736;
+            else if (muscle_name == "rectcap_post_maj_L")    minimum_excitation_value = 0.0305686797;
+            else if (muscle_name == "rectcap_post_min")      minimum_excitation_value = 0.0307442921;
+            else if (muscle_name == "rectcap_post_min_L")    minimum_excitation_value = 0.0308294544;
+            else if (muscle_name == "obl_cap_sup")           minimum_excitation_value = 0.0320102550;
+            else if (muscle_name == "obl_cap_sup_L")         minimum_excitation_value = 0.0321224423;
+            else if (muscle_name == "obl_cap_inf")           minimum_excitation_value = 0.0358471301;
+            else if (muscle_name == "obl_cap_inf_L")         minimum_excitation_value = 0.0358175853;
         }
         cached_minimum_excitations[active_index] = minimum_excitation_value;
         last_alpha_motor_excitations[active_index] = minimum_excitation_value;
@@ -2666,21 +2687,20 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     };
 
     // PID Integrator derivatives (using Branch 3B proper-lead-compensated Mahony spatial orientation)
-    // Active cortical gaze-lock impedance ramps up ONLY during voluntary attitude/shift tasks (0 in passive benchmarks)
-    // and scales with urgency > 0 around the urgency=0 calibrated baseline (CDC Impulsive Pull / PMC7189480 gain scheduling).
+    // Active cortical gaze-lock impedance engages ONLY during voluntary attitude/shift tasks (vol_cmd_gate == 0 in passive Bode/relaxed sled)
+    // and scales with urgency > 0 around the calibrated baseline (CDC Impulsive Pull / PMC7189480 gain scheduling).
     const double u_pos = std::clamp(urgency_now, 0.0, 1.0);
     const double urg_scale_p = 1.0 + 1.5 * u_pos;
     const double urg_scale_d = std::sqrt(urg_scale_p);
-    const double s_supra_now = computeSupraspinalAlertness(urgency_now);
-    const double kp_pitch = std::max(s_supra_now * std::max(0.0, get_Kp_task_pitch()), vol_cmd_gate[0] * 18.0 * urg_scale_p);
-    const double kd_pitch = std::max(s_supra_now * std::max(0.0, get_Kd_task_pitch()), vol_cmd_gate[0] * 4.80 * urg_scale_d);
-    const double ki_pitch = act_task_int[0] ? std::max(s_supra_now * std::max(0.0, get_Ki_task_pitch()), vol_cmd_gate[0] * 42.0) : 0.0;
-    const double kp_roll  = std::max(s_supra_now * std::max(0.0, get_Kp_task_roll()),  vol_cmd_gate[1] * 11.0 * urg_scale_p);
-    const double kd_roll  = std::max(s_supra_now * std::max(0.0, get_Kd_task_roll()),  vol_cmd_gate[1] * 2.80 * urg_scale_d);
-    const double ki_roll  = act_task_int[1] ? std::max(s_supra_now * std::max(0.0, get_Ki_task_roll()),  vol_cmd_gate[1] * 13.0) : 0.0;
-    const double kp_yaw   = std::max(s_supra_now * std::max(0.0, get_Kp_task_yaw()),   vol_cmd_gate[2] * 5.00 * urg_scale_p);
-    const double kd_yaw   = std::max(s_supra_now * std::max(0.0, get_Kd_task_yaw()),   vol_cmd_gate[2] * 0.80 * urg_scale_d);
-    const double ki_yaw   = act_task_int[2] ? std::max(s_supra_now * std::max(0.0, get_Ki_task_yaw()),   vol_cmd_gate[2] * 5.00) : 0.0;
+    const double kp_pitch = vol_cmd_gate[0] * urg_scale_p * std::max(0.0, get_Kp_task_pitch());
+    const double kd_pitch = vol_cmd_gate[0] * urg_scale_d * std::max(0.0, get_Kd_task_pitch());
+    const double ki_pitch = act_task_int[0] ? (vol_cmd_gate[0] * std::max(0.0, get_Ki_task_pitch())) : 0.0;
+    const double kp_roll  = vol_cmd_gate[1] * urg_scale_p * std::max(0.0, get_Kp_task_roll());
+    const double kd_roll  = vol_cmd_gate[1] * urg_scale_d * std::max(0.0, get_Kd_task_roll());
+    const double ki_roll  = act_task_int[1] ? (vol_cmd_gate[1] * std::max(0.0, get_Ki_task_roll())) : 0.0;
+    const double kp_yaw   = vol_cmd_gate[2] * urg_scale_p * std::max(0.0, get_Kp_task_yaw());
+    const double kd_yaw   = vol_cmd_gate[2] * urg_scale_d * std::max(0.0, get_Kd_task_yaw());
+    const double ki_yaw   = act_task_int[2] ? (vol_cmd_gate[2] * std::max(0.0, get_Ki_task_yaw())) : 0.0;
 
     const double ki_axis[3] = { ki_pitch, ki_roll, ki_yaw };
     const double int_limit_nm[3] = { 25.0, 15.0, 15.0 };
@@ -2704,7 +2724,9 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         const double s_u   = smoothstep01((last_qp_max_u - 0.92) / 0.06) * lim_same_dir;
         const double alpha_sat = vol_cmd_gate[axis] * std::max(s_def, s_u);
 
-        const double int_dot = (1.0 - alpha_sat) * eff_pos_err - alpha_sat * (0.5 * err_int) + lim_bleed;
+        const double int_dot = (vol_cmd_gate[axis] > 1e-6)
+            ? ((1.0 - alpha_sat) * eff_pos_err - alpha_sat * (0.5 * err_int) + lim_bleed)
+            : (-20.0 * err_int);
         state_variable_error_integral[axis]->setDerivative(state, act_task_int[axis] ? int_dot : 0.0);
     }
     const double pitch_error_integral = err_int_axis[0];
@@ -2816,6 +2838,14 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             state, wc_vol_sq * (unfiltered_vol_diff_torque[s] - vol_diff_pos) - 2.0 * wc_vol * vol_diff_vel);
     }
 
+    // Keep buckle_lpf states cleanly damped to zero (direct passive tau_buckle avoids 2nd-order LPF phase-lag destabilization at 2-5 Hz)
+    for (int axis = 0; axis < 3; ++axis) {
+        const double bx = state_variable_buckle_lpf_pos[axis]->getValue(state);
+        const double bv = state_variable_buckle_lpf_vel[axis]->getValue(state);
+        state_variable_buckle_lpf_pos[axis]->setDerivative(state, -20.0 * bx);
+        state_variable_buckle_lpf_vel[axis]->setDerivative(state, -20.0 * bv);
+    }
+
     // --- SUBSYSTEM 4 INPUTS 2 & 3 (Pre-Compensated at Senders Sub 2 [Branch 2B, 3.0 ms] & Sub 3 [Branch 3B, 7.0 ms]) ---
     SimTK::Vec3 predicted_up_direction_head;
     if (otolith_specific_force_head.norm() > 1e-4) {
@@ -2848,7 +2878,8 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     const double trans_acc_sq = (otolith_specific_force_head - expected_gravity_up_head).normSqr();
     const double sigma_a_bilat = use_snoise ? (0.030 * 0.70710678 * s_scale) : 0.0;
     const double trans_acc_sq_eff = std::max(0.0, trans_acc_sq - 3.0 * sigma_a_bilat * sigma_a_bilat);
-    const double oto_acc_gate = 1.0 / (1.0 + 4.0 * trans_acc_sq_eff);
+    // Smooth C^infty somatogravic tilt rejection: 1.0 at quiet stance, strongly attenuates linear acceleration leak above 0.25 m/s^2
+    const double oto_acc_gate = 1.0 / (1.0 + 16.0 * trans_acc_sq_eff);
 
     const SimTK::Rotation R_prop_head_to_world = composeProprioceptiveHeadRotation(
         arriving_trunk_pitch, arriving_trunk_roll, arriving_trunk_yaw,
@@ -2929,8 +2960,6 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
     const double cb_canal_roll_dev  = state_variable_cb_canal_roll_dev->getValue(state);
     const double mahony_pitch_dev   = estimated_head_pitch - baseline_spatial_orientation[2];
     const double mahony_roll_dev    = estimated_head_roll  - baseline_spatial_orientation[0];
-    current_cb_gravity_head[0] += computeCuspGatedGravitySinDelta(cb_canal_pitch_dev, estimated_head_pitch, baseline_spatial_orientation[2]);
-    current_cb_gravity_head[2] -= computeCuspGatedGravitySinDelta(cb_canal_roll_dev,  estimated_head_roll,  baseline_spatial_orientation[0]);
     SimTK::Vec3 gravity_adapt_state(
         state_variable_phasic_otolith_stage2[0]->getValue(state),
         0.0,
@@ -3047,13 +3076,19 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
         const double highg_env_eff = std::max(highg_env, highg_excess);
         const double g_highg = computeHighGAttenuation(highg_knee, highg_env_eff, highg_rolloff);
         const double rw_a0  = std::max(0.0, get_oto_reweight_a0_mps2());
-        const double rw_tau = std::max(0.005, get_oto_reweight_tau_s());
+        const double rw_rec = std::max(0.020, get_oto_reweight_tau_s());
         const SimTK::Vec3 a_trans_rw = otolith_specific_force_head - expected_gravity_up_head;
-        const double rw_ax = state_variable_oto_reweight[0] ? state_variable_oto_reweight[0]->getValue(state) : 0.0;
-        const double rw_az = state_variable_oto_reweight[1] ? state_variable_oto_reweight[1]->getValue(state) : 0.0;
-        if (state_variable_oto_reweight[0]) state_variable_oto_reweight[0]->setDerivative(state, (a_trans_rw[0] - rw_ax) / rw_tau);
-        if (state_variable_oto_reweight[1]) state_variable_oto_reweight[1]->setDerivative(state, (a_trans_rw[2] - rw_az) / rw_tau);
-        const double rw_r2      = (rw_a0 > 1e-6) ? ((rw_ax * rw_ax + rw_az * rw_az) / (rw_a0 * rw_a0)) : 0.0;
+        const double ax_mag = std::abs(a_trans_rw[0]);
+        const double az_mag = std::abs(a_trans_rw[2]);
+        const double rw_ax  = state_variable_oto_reweight[0] ? state_variable_oto_reweight[0]->getValue(state) : 0.0;
+        const double rw_az  = state_variable_oto_reweight[1] ? state_variable_oto_reweight[1]->getValue(state) : 0.0;
+        const double tau_rw_x = (ax_mag > rw_ax) ? 0.005 : rw_rec;
+        const double tau_rw_z = (az_mag > rw_az) ? 0.005 : rw_rec;
+        if (state_variable_oto_reweight[0]) state_variable_oto_reweight[0]->setDerivative(state, (ax_mag - rw_ax) / tau_rw_x);
+        if (state_variable_oto_reweight[1]) state_variable_oto_reweight[1]->setDerivative(state, (az_mag - rw_az) / tau_rw_z);
+        const double rw_ax_eff  = std::max(rw_ax, ax_mag);
+        const double rw_az_eff  = std::max(rw_az, az_mag);
+        const double rw_r2      = (rw_a0 > 1e-6) ? ((rw_ax_eff * rw_ax_eff + rw_az_eff * rw_az_eff) / (rw_a0 * rw_a0)) : 0.0;
         const double w_oto_rw   = (rw_a0 > 1e-6) ? (1.0 / (1.0 + rw_r2 * rw_r2)) : 1.0;
         const double sqrt_w_oto = std::sqrt(w_oto_rw);
         const double phasic_oto_sat    = std::max(0.0, get_phasic_oto_sat_mps2());
@@ -3119,6 +3154,11 @@ void HeadNeckNeuralController::computeStateVariableDerivatives(const SimTK::Stat
             state_variable_tonic_otolith[axis_idx]->setDerivative(state, v_ton);
             state_variable_tonic_otolith_vel[axis_idx]->setDerivative(
                 state, (p_ton * p_fast) * (u_ton - x_ton) - (p_ton + p_fast) * v_ton);
+            if (state_variable_tonic_integral[axis_idx]) {
+                const double tau_ti = std::max(0.25, get_tau_ton_int());
+                const double x_ti   = state_variable_tonic_integral[axis_idx]->getValue(state);
+                state_variable_tonic_integral[axis_idx]->setDerivative(state, x_ton - x_ti / tau_ti);
+            }
 
             const double x_sc   = state_variable_semicircular_canal_reflex[axis_idx]->getValue(state);
             const double v_sc   = state_variable_semicircular_canal_reflex_vel[axis_idx]->getValue(state);
@@ -3660,9 +3700,8 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         static constexpr double kShiftInvAlpha[2] = { 0.42, 0.35 };
         const double u_pos_ctrl = std::clamp(get_urgency(), 0.0, 1.0);
         const double urg_scale_p_ctrl = 1.0 + 1.5 * u_pos_ctrl;
-        const double kp_att_base_c[2] = { std::max(0.0, get_Kp_task_pitch()), std::max(0.0, get_Kp_task_roll()) };
         for (int s = 0; s < 2; ++s) {
-            const double kp_att_eff_s = std::max(kp_att_base_c[s], vol_cmd_gate_ctrl[s] * ((s == 0) ? 16.0 : 11.0) * urg_scale_p_ctrl);
+            const double kp_att_eff_s = vol_cmd_gate_ctrl[s] * urg_scale_p_ctrl * ((s == 0) ? std::max(0.0, get_Kp_task_pitch()) : std::max(0.0, get_Kp_task_roll()));
             const double r_att_s = std::max(vol_cmd_gate_ctrl[s], kp_att_eff_s / (kp_att_eff_s + 3.0));
             const double w_jt_1  = (std::abs(Jm_ctrl[s]) > 1e-8) ? (J1_ctrl[s] / (2.0 * Jm_ctrl[s])) :  1.0;
             const double w_jt_2  = (std::abs(Jm_ctrl[s]) > 1e-8) ? (J2_ctrl[s] / (2.0 * Jm_ctrl[s])) : -1.0;
@@ -3873,10 +3912,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
     // 3. Phasic Gravity & Pivot Accel. Calc. in Sub3(C) [order: (pitch, roll, yaw)] + 1.5 ms Uncinate Proper Lead Compensator:
     SimTK::Vec3 cb_gravity_head = (~current_estimated_rotation_head_to_world.asMat33()) * gravity_vector_world_hist;
-    const double cb_canal_pitch_dev_ctrl = state_variable_phasic_otolith_stage2[1]->getValue(state);
-    const double cb_canal_roll_dev_ctrl  = state_variable_cb_canal_roll_dev->getValue(state);
-    cb_gravity_head[0] += computeCuspGatedGravitySinDelta(cb_canal_pitch_dev_ctrl, estimated_head_pitch, baseline_spatial_orientation[2]);
-    cb_gravity_head[2] -= computeCuspGatedGravitySinDelta(cb_canal_roll_dev_ctrl,  estimated_head_roll,  baseline_spatial_orientation[0]);
     SimTK::Vec3 cb_gravity_adapt_state(
         state_variable_phasic_otolith_stage2[0]->getValue(state),
         0.0,
@@ -4280,9 +4315,12 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         phasic_otolith_input_pitch     = applyLinearKneeSaturation(phasic_otolith_input_pitch, 0.85 * phasic_oto_sat_c, phasic_oto_sat_c);
         phasic_otolith_input_roll      = applyLinearKneeSaturation(phasic_otolith_input_roll,  0.85 * phasic_oto_sat_c, phasic_oto_sat_c);
         const double rw_a0_c           = std::max(0.0, get_oto_reweight_a0_mps2());
+        const SimTK::Vec3 a_trans_rw_c = current_gravitoinertial_force_head + (~current_estimated_rotation_head_to_world.asMat33()) * gravity_vector_world_hist;
         const double rw_ax_c           = state_variable_oto_reweight[0] ? state_variable_oto_reweight[0]->getValue(state) : 0.0;
         const double rw_az_c           = state_variable_oto_reweight[1] ? state_variable_oto_reweight[1]->getValue(state) : 0.0;
-        const double rw_r2_c           = (rw_a0_c > 1e-6) ? ((rw_ax_c * rw_ax_c + rw_az_c * rw_az_c) / (rw_a0_c * rw_a0_c)) : 0.0;
+        const double rw_ax_eff_c       = std::max(rw_ax_c, std::abs(a_trans_rw_c[0]));
+        const double rw_az_eff_c       = std::max(rw_az_c, std::abs(a_trans_rw_c[2]));
+        const double rw_r2_c           = (rw_a0_c > 1e-6) ? ((rw_ax_eff_c * rw_ax_eff_c + rw_az_eff_c * rw_az_eff_c) / (rw_a0_c * rw_a0_c)) : 0.0;
         const double w_oto_rw_c        = (rw_a0_c > 1e-6) ? (1.0 / (1.0 + rw_r2_c * rw_r2_c)) : 1.0;
         const double sqrt_w_oto_c      = std::sqrt(w_oto_rw_c);
 
@@ -4290,6 +4328,11 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             s_supra_ctrl * std::max(0.0, get_K_ton()),
             s_supra_ctrl * std::max(0.0, get_K_ton_roll()),
             s_supra_ctrl * std::max(0.0, get_K_ton_yaw())
+        };
+        const double ki_ton_arr[3] = {
+            s_supra_ctrl * std::max(0.0, get_Ki_ton()),
+            s_supra_ctrl * std::max(0.0, get_Ki_ton_roll()),
+            s_supra_ctrl * std::max(0.0, get_Ki_ton_yaw())
         };
         const double k_sc_arr[3] = {
             s_supra_ctrl * std::max(0.0, get_K_sc()) * (1.0 + std::max(0.0, get_highg_sc_gain_boost()) * (1.0 - g_highg_vcr)),
@@ -4311,10 +4354,13 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
                 continue;
             }
             const double k_ton  = vcr_ton_en_ctrl  ? k_ton_arr[axis_idx]  : 0.0;
+            const double ki_ton = vcr_ton_en_ctrl  ? ki_ton_arr[axis_idx] : 0.0;
             const double k_sc   = vcr_sc_en_ctrl   ? k_sc_arr[axis_idx]   : 0.0;
             const double k_phas = vcr_phas_en_ctrl ? k_phas_arr[axis_idx] : 0.0;
 
             const double x_ton  = state_variable_tonic_otolith[axis_idx]->getValue(state);
+            const double x_ti   = state_variable_tonic_integral[axis_idx] ? state_variable_tonic_integral[axis_idx]->getValue(state) : 0.0;
+            const double tau_ton_int = (ki_ton > 0.0) ? (3.5 * std::tanh((ki_ton * x_ti) / 3.5)) : 0.0;
             const double x_sc   = state_variable_semicircular_canal_reflex[axis_idx]->getValue(state);
             const double v_sc   = state_variable_semicircular_canal_reflex_vel[axis_idx]->getValue(state);
             const double x_phas = state_variable_phasic_otolith[axis_idx]->getValue(state);
@@ -4357,7 +4403,7 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
             if (phasic_tau_tanh > 1e-6) {
                 tau_phas_axis = applyTanhSaturation(tau_phas_axis, phasic_tau_tanh);
             }
-            const double y_vcr = -(k_ton * x_ton + k_sc * x_sc_eff + tau_phas_axis);
+            const double y_vcr = -(k_ton * x_ton + tau_ton_int + k_sc * x_sc_eff + tau_phas_axis);
 
             // Option B Proper Lead Compensator C_lead(s) = (1 + tau_z*s)/(1 + tau_p*s) across Path 5 MVST (tau_5 = 2.5 ms):
             current_brainstem_vcr_torque[axis_idx] =
@@ -4526,16 +4572,6 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
 
     const int qp_dof = 6;
     const Matrix& active_jacobian = moment_arm_jacobian_6dof;
-    const double kp_buckle_arr[3] = {
-        s_spinal_ctrl * std::max(0.0, get_Kp_buckle()),
-        s_spinal_ctrl * std::max(0.0, get_Kp_buckle_roll()),
-        s_spinal_ctrl * std::max(0.0, get_Kp_buckle_yaw())
-    };
-    const double kd_buckle_arr[3] = {
-        s_spinal_ctrl * std::max(0.0, get_Kd_buckle()),
-        s_spinal_ctrl * std::max(0.0, get_Kd_buckle_roll()),
-        s_spinal_ctrl * std::max(0.0, get_Kd_buckle_yaw())
-    };
     const bool has_arriving_1c = (!history.empty() && delayed_1c_m1_spinal_data.record.valid);
     const double plan_pos_pitch  = has_arriving_1c ? delayed_1c_m1_spinal_data.record.trajectory_position[0]     : trajectory_position_pitch;
     const double plan_pos_roll   = has_arriving_1c ? delayed_1c_m1_spinal_data.record.trajectory_position[1]     : trajectory_position_roll;
@@ -4580,11 +4616,13 @@ void HeadNeckNeuralController::computeControls(const SimTK::State& state, SimTK:
         if (antibuckling_enabled && act_axis[axis]) {
             const double diff_ang = (ccr_6dof_ang[2 * axis] - ccr_6dof_ang[2 * axis + 1]) - ref_d_pos;
             const double diff_spd = (ccr_6dof_spd[2 * axis] - ccr_6dof_spd[2 * axis + 1]) - ref_d_vel;
+            const double kp_b_base = s_spinal_ctrl * std::max(0.0, (axis == 0) ? get_Kp_buckle() : ((axis == 1) ? get_Kp_buckle_roll() : get_Kp_buckle_yaw()));
+            const double kd_b_base = s_spinal_ctrl * std::max(0.0, (axis == 0) ? get_Kd_buckle() : ((axis == 1) ? get_Kd_buckle_roll() : get_Kd_buckle_yaw()));
             const double kp_b_vol = (axis == 2) ? 3.5 : 0.0;
             const double kd_b_vol = (axis == 0) ? 0.75 : ((axis == 2) ? 0.45 : 0.0);
-            const double kp_b_eff = std::max(kp_buckle_arr[axis], vol_cmd_gate_ctrl[axis] * kp_b_vol);
+            const double kp_b_eff = std::max(kp_b_base, vol_cmd_gate_ctrl[axis] * kp_b_vol);
             const double extra_subocc_kd = (axis == 0) ? (s_spinal_ctrl * std::max(0.0, get_K_subocc_shear_damp())) : 0.0;
-            const double kd_b_eff = std::max(kd_buckle_arr[axis], vol_cmd_gate_ctrl[axis] * kd_b_vol) + extra_subocc_kd;
+            const double kd_b_eff = std::max(kd_b_base, vol_cmd_gate_ctrl[axis] * kd_b_vol) + extra_subocc_kd;
             tau_buckle[axis] = kp_b_eff * diff_ang + kd_b_eff * diff_spd;
         } else {
             tau_buckle[axis] = 0.0;

@@ -50,6 +50,10 @@ public:
     OpenSim_DECLARE_PROPERTY(p_phas, double, "Pitch Phasic otolith TF Pole in rad/s (default: 4.711937)");
     OpenSim_DECLARE_PROPERTY(K_ton_roll, double, "Roll Tonic otolith TF Gain (default: 1.15)");
     OpenSim_DECLARE_PROPERTY(K_ton_yaw, double, "Yaw Tonic attitude TF Gain (default: 6.2)");
+    OpenSim_DECLARE_PROPERTY(Ki_ton, double, "Pitch Brainstem INC/MVN leaky tonic verticality integrator gain in Nm/(rad*s) (default: 2.5)");
+    OpenSim_DECLARE_PROPERTY(Ki_ton_roll, double, "Roll Brainstem INC/MVN leaky tonic verticality integrator gain in Nm/(rad*s) (default: 0.5)");
+    OpenSim_DECLARE_PROPERTY(Ki_ton_yaw, double, "Yaw Brainstem leaky tonic orientation integrator gain in Nm/(rad*s) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(tau_ton_int, double, "Brainstem tonic verticality integrator leak time constant in s (default: 4.0)");
     OpenSim_DECLARE_PROPERTY(p_ton_roll, double, "Roll Tonic otolith TF Pole in rad/s (default: 3.2)");
     OpenSim_DECLARE_PROPERTY(p_ton_yaw, double, "Yaw Tonic attitude TF Pole in rad/s (default: 16.227225)");
     OpenSim_DECLARE_PROPERTY(K_sc_roll, double, "Roll Semicircular canal TF Gain (default: 3.5)");
@@ -476,6 +480,8 @@ private:
     mutable const StateVariable* state_variable_velocity_storage[3] = {nullptr};
     mutable const StateVariable* state_variable_highg_acc_env = nullptr;
     mutable const StateVariable* state_variable_oto_reweight[2] = {nullptr, nullptr};
+    mutable const StateVariable* state_variable_buckle_lpf_pos[3] = {nullptr, nullptr, nullptr};
+    mutable const StateVariable* state_variable_buckle_lpf_vel[3] = {nullptr, nullptr, nullptr};
     mutable const StateVariable* state_variable_cuneate_posture[3] = {nullptr};
     mutable const StateVariable* state_variable_cuneate_diff[2] = {nullptr};
     mutable const StateVariable* state_variable_obs_wash_lpf[2] = {nullptr};
@@ -491,6 +497,7 @@ private:
     mutable const StateVariable* state_variable_observer_position[3] = {nullptr};
     mutable const StateVariable* state_variable_tonic_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_tonic_otolith_vel[3] = {nullptr};
+    mutable const StateVariable* state_variable_tonic_integral[3] = {nullptr};
     mutable const StateVariable* state_variable_semicircular_canal_reflex[3] = {nullptr};
     mutable const StateVariable* state_variable_semicircular_canal_reflex_vel[3] = {nullptr};
     mutable const StateVariable* state_variable_phasic_otolith[3] = {nullptr};
