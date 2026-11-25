@@ -5,6 +5,7 @@
 #include "Mileusnic06Spindle.h"
 #include "Poppele70Spindle.h"
 #include "Lin02GolgiTendonOrgan.h"
+#include "DynamicLigamentForce.h"
 #include "SpindleController.h"
 #include "AfferentAnalysis.h"
 #include <OpenSim/Common/Object.h>
@@ -31,6 +32,9 @@ extern "C" OSIMPLUGIN_API void RegisterTypes_osimMillard12EqWithAff() {
 
         log << "Registering Lin02GolgiTendonOrgan..." << std::endl;
         Object::registerType(Lin02GolgiTendonOrgan());
+
+        log << "Registering DynamicLigamentForce..." << std::endl;
+        Object::registerType(DynamicLigamentForce());
 
         log << "Registering SpindleController..." << std::endl;
         Object::registerType(SpindleController());

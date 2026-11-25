@@ -21,6 +21,7 @@ set(SOURCE_FILES
     Mileusnic06Spindle.cpp
     Poppele70Spindle.cpp
     Lin02GolgiTendonOrgan.cpp
+    DynamicLigamentForce.cpp
     SpindleController.cpp
     TugOfWarController.cpp
     AfferentAnalysis.cpp
@@ -34,6 +35,7 @@ set(HEADER_FILES
     Mileusnic06Spindle.h
     Poppele70Spindle.h
     Lin02GolgiTendonOrgan.h
+    DynamicLigamentForce.h
     SpindleController.h
     TugOfWarController.h
     AfferentAnalysis.h
@@ -54,7 +56,7 @@ if(MSVC)
     target_compile_options(${PROJECT_NAME} PRIVATE /O2 /Ob3 /arch:AVX2 /GL)
     target_link_options(${PROJECT_NAME} PRIVATE /LTCG)
 else()
-    target_compile_options(${PROJECT_NAME} PRIVATE -O3 -march=native -flto)
+    target_compile_options(${PROJECT_NAME} PRIVATE -O3 -march=x86-64-v3 -flto)
     target_link_options(${PROJECT_NAME} PRIVATE -flto)
 endif()
 

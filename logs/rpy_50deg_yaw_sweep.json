@@ -1,0 +1,417 @@
+{
+  "elapsed_s": 1046.4,
+  "t_end_s": 18.0,
+  "stop_reason": null,
+  "phases": [
+    {
+      "id": 0,
+      "name": "0_Quiet_Neutral",
+      "window_s": [
+        0.0,
+        0.79
+      ],
+      "urgency": 0.0,
+      "primary_axis": null,
+      "lit_range": "0",
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_deg": [
+        0.73,
+        0.0,
+        0.0
+      ],
+      "realized_peak_vel_primary_deg_s": 27.6,
+      "ref_peak_vel_primary_deg_s": 0.0,
+      "peak_vel_deg_s": [
+        27.6,
+        0.2,
+        0.2
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 0.0,
+      "overshoot_vs_end_pct": 0.0,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.0,
+      "max_off_axis_crosstalk_deg": 1.55,
+      "peak_muscle_act": 0.568
+    },
+    {
+      "id": 1,
+      "name": "1_Pitch_Ext_60",
+      "window_s": [
+        0.8,
+        2.5
+      ],
+      "urgency": 1.0,
+      "primary_axis": "pitch",
+      "lit_range": "150-330 deg/s",
+      "target_deg": [
+        60.0,
+        0.0,
+        0.0
+      ],
+      "end_deg": [
+        58.15,
+        -0.01,
+        -0.0
+      ],
+      "realized_peak_vel_primary_deg_s": 232.5,
+      "ref_peak_vel_primary_deg_s": 215.6,
+      "peak_vel_deg_s": [
+        232.5,
+        2.9,
+        1.5
+      ],
+      "ref_peak_vel_deg_s": [
+        215.6,
+        0.0,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 0.2,
+      "overshoot_vs_end_pct": 0.35,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.5,
+      "max_off_axis_crosstalk_deg": 0.08,
+      "peak_muscle_act": 0.544
+    },
+    {
+      "id": 2,
+      "name": "2_Pitch_Flex_110",
+      "window_s": [
+        2.5,
+        4.5
+      ],
+      "urgency": 1.0,
+      "primary_axis": "pitch",
+      "lit_range": "200-330+ deg/s",
+      "target_deg": [
+        -50.0,
+        0.0,
+        0.0
+      ],
+      "end_deg": [
+        -46.8,
+        0.02,
+        -0.02
+      ],
+      "realized_peak_vel_primary_deg_s": 402.3,
+      "ref_peak_vel_primary_deg_s": 395.3,
+      "peak_vel_deg_s": [
+        402.3,
+        13.5,
+        27.7
+      ],
+      "ref_peak_vel_deg_s": [
+        395.3,
+        0.0,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 0.18,
+      "overshoot_vs_end_pct": 0.17,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.66,
+      "max_off_axis_crosstalk_deg": 1.45,
+      "peak_muscle_act": 1.0
+    },
+    {
+      "id": 3,
+      "name": "3_Pitch_Neutral",
+      "window_s": [
+        4.5,
+        6.2
+      ],
+      "urgency": 0.5,
+      "primary_axis": "pitch",
+      "lit_range": "return",
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_deg": [
+        0.13,
+        0.1,
+        -0.01
+      ],
+      "realized_peak_vel_primary_deg_s": 111.9,
+      "ref_peak_vel_primary_deg_s": 121.9,
+      "peak_vel_deg_s": [
+        111.9,
+        2.0,
+        6.4
+      ],
+      "ref_peak_vel_deg_s": [
+        121.9,
+        0.0,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.28,
+      "overshoot_vs_target_pct": 0.59,
+      "overshoot_vs_end_deg": 0.15,
+      "overshoot_vs_end_pct": 0.32,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.97,
+      "max_off_axis_crosstalk_deg": 0.19,
+      "peak_muscle_act": 0.637
+    },
+    {
+      "id": 4,
+      "name": "4_Roll_Left_40",
+      "window_s": [
+        6.2,
+        8.0
+      ],
+      "urgency": 1.0,
+      "primary_axis": "roll",
+      "lit_range": "150-250 deg/s",
+      "target_deg": [
+        0.0,
+        40.0,
+        0.0
+      ],
+      "end_deg": [
+        1.23,
+        38.89,
+        2.34
+      ],
+      "realized_peak_vel_primary_deg_s": 130.3,
+      "ref_peak_vel_primary_deg_s": 123.1,
+      "peak_vel_deg_s": [
+        67.3,
+        130.3,
+        16.7
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        123.1,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 0.19,
+      "overshoot_vs_end_pct": 0.48,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.76,
+      "max_off_axis_crosstalk_deg": 2.87,
+      "peak_muscle_act": 0.67
+    },
+    {
+      "id": 5,
+      "name": "5_Roll_Rev_80",
+      "window_s": [
+        8.0,
+        10.0
+      ],
+      "urgency": 1.0,
+      "primary_axis": "roll",
+      "lit_range": "200-300 deg/s",
+      "target_deg": [
+        0.0,
+        -40.0,
+        0.0
+      ],
+      "end_deg": [
+        0.96,
+        -37.93,
+        -2.5
+      ],
+      "realized_peak_vel_primary_deg_s": 262.5,
+      "ref_peak_vel_primary_deg_s": 246.3,
+      "peak_vel_deg_s": [
+        81.9,
+        262.5,
+        40.2
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        246.3,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 0.18,
+      "overshoot_vs_end_pct": 0.23,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.69,
+      "max_off_axis_crosstalk_deg": 4.91,
+      "peak_muscle_act": 0.934
+    },
+    {
+      "id": 6,
+      "name": "6_Roll_Neutral",
+      "window_s": [
+        10.0,
+        11.7
+      ],
+      "urgency": 0.5,
+      "primary_axis": "roll",
+      "lit_range": "return",
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_deg": [
+        0.89,
+        -0.87,
+        0.35
+      ],
+      "realized_peak_vel_primary_deg_s": 92.8,
+      "ref_peak_vel_primary_deg_s": 87.3,
+      "peak_vel_deg_s": [
+        78.7,
+        92.8,
+        26.3
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        87.3,
+        0.0
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 0.07,
+      "overshoot_vs_end_pct": 0.18,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.86,
+      "max_off_axis_crosstalk_deg": 4.07,
+      "peak_muscle_act": 0.712
+    },
+    {
+      "id": 7,
+      "name": "7_Yaw_Left_50",
+      "window_s": [
+        11.7,
+        13.5
+      ],
+      "urgency": 1.0,
+      "primary_axis": "yaw",
+      "lit_range": "250-365 deg/s",
+      "target_deg": [
+        0.0,
+        0.0,
+        50.0
+      ],
+      "end_deg": [
+        2.56,
+        -3.66,
+        47.43
+      ],
+      "realized_peak_vel_primary_deg_s": 237.1,
+      "ref_peak_vel_primary_deg_s": 198.8,
+      "peak_vel_deg_s": [
+        67.8,
+        31.0,
+        237.1
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        0.0,
+        198.8
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 1.22,
+      "overshoot_vs_end_pct": 2.6,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.33,
+      "max_off_axis_crosstalk_deg": 5.94,
+      "peak_muscle_act": 0.999
+    },
+    {
+      "id": 8,
+      "name": "8_Yaw_Rev_100",
+      "window_s": [
+        13.5,
+        15.5
+      ],
+      "urgency": 1.0,
+      "primary_axis": "yaw",
+      "lit_range": "400-600+ deg/s",
+      "target_deg": [
+        0.0,
+        0.0,
+        -50.0
+      ],
+      "end_deg": [
+        2.49,
+        2.88,
+        -45.26
+      ],
+      "realized_peak_vel_primary_deg_s": 448.7,
+      "ref_peak_vel_primary_deg_s": 397.5,
+      "peak_vel_deg_s": [
+        119.9,
+        51.4,
+        448.7
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        0.0,
+        397.5
+      ],
+      "overshoot_vs_target_deg": 0.0,
+      "overshoot_vs_target_pct": 0.0,
+      "overshoot_vs_end_deg": 1.64,
+      "overshoot_vs_end_pct": 1.77,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.35,
+      "max_off_axis_crosstalk_deg": 6.32,
+      "peak_muscle_act": 1.0
+    },
+    {
+      "id": 9,
+      "name": "9_Yaw_Neutral",
+      "window_s": [
+        15.5,
+        18.0
+      ],
+      "urgency": 0.5,
+      "primary_axis": "yaw",
+      "lit_range": "return",
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_deg": [
+        -2.19,
+        -0.1,
+        0.09
+      ],
+      "realized_peak_vel_primary_deg_s": 147.7,
+      "ref_peak_vel_primary_deg_s": 131.5,
+      "peak_vel_deg_s": [
+        108.0,
+        38.6,
+        147.7
+      ],
+      "ref_peak_vel_deg_s": [
+        0.0,
+        0.0,
+        131.5
+      ],
+      "overshoot_vs_target_deg": 0.61,
+      "overshoot_vs_target_pct": 1.36,
+      "overshoot_vs_end_deg": 0.53,
+      "overshoot_vs_end_pct": 1.16,
+      "overshoot_flagged": false,
+      "t95_settling_s": 0.63,
+      "max_off_axis_crosstalk_deg": 5.22,
+      "peak_muscle_act": 0.98
+    }
+  ]
+}

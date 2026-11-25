@@ -1,0 +1,377 @@
+{
+  "elapsed_s": 1342.2,
+  "t_end_s": 20.5,
+  "stop_reason": null,
+  "phases": [
+    {
+      "id": 0,
+      "name": "0_Quiet_Neutral",
+      "window_s": [
+        0.0,
+        0.99
+      ],
+      "urgency": 0.0,
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_pitch_deg": 0.54,
+      "end_roll_deg": -0.01,
+      "end_yaw_deg": 0.0,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          0.47,
+          0.07
+        ],
+        "r1_r2": [
+          -0.0,
+          -0.01
+        ],
+        "y1_y2": [
+          -0.0,
+          0.01
+        ]
+      },
+      "peak_vel_deg_s": [
+        27.6,
+        0.4,
+        0.4
+      ],
+      "peak_muscle_act": 0.568
+    },
+    {
+      "id": 1,
+      "name": "1_90pct_Extension",
+      "window_s": [
+        1.0,
+        3.0
+      ],
+      "urgency": 0.5,
+      "target_deg": [
+        -52.9,
+        0.0,
+        0.0
+      ],
+      "end_pitch_deg": -44.42,
+      "end_roll_deg": 0.17,
+      "end_yaw_deg": -0.06,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          -14.58,
+          -29.84
+        ],
+        "r1_r2": [
+          -0.03,
+          0.2
+        ],
+        "y1_y2": [
+          -0.31,
+          0.25
+        ]
+      },
+      "peak_vel_deg_s": [
+        154.3,
+        11.3,
+        17.9
+      ],
+      "peak_muscle_act": 1.0
+    },
+    {
+      "id": 2,
+      "name": "2_90pct_Flexion",
+      "window_s": [
+        3.0,
+        5.0
+      ],
+      "urgency": 0.75,
+      "target_deg": [
+        77.8,
+        0.0,
+        0.0
+      ],
+      "end_pitch_deg": 59.2,
+      "end_roll_deg": -0.02,
+      "end_yaw_deg": 0.11,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          18.79,
+          40.42
+        ],
+        "r1_r2": [
+          0.0,
+          -0.03
+        ],
+        "y1_y2": [
+          0.09,
+          0.01
+        ]
+      },
+      "peak_vel_deg_s": [
+        339.8,
+        8.9,
+        3.6
+      ],
+      "peak_muscle_act": 1.0
+    },
+    {
+      "id": 3,
+      "name": "3_Pitch_Neutral",
+      "window_s": [
+        5.0,
+        7.0
+      ],
+      "urgency": 0.5,
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_pitch_deg": 4.34,
+      "end_roll_deg": 0.03,
+      "end_yaw_deg": 0.03,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          0.83,
+          3.51
+        ],
+        "r1_r2": [
+          0.01,
+          0.03
+        ],
+        "y1_y2": [
+          0.0,
+          0.02
+        ]
+      },
+      "peak_vel_deg_s": [
+        99.7,
+        3.8,
+        2.2
+      ],
+      "peak_muscle_act": 0.931
+    },
+    {
+      "id": 4,
+      "name": "4_90pct_LeftRoll",
+      "window_s": [
+        7.0,
+        9.0
+      ],
+      "urgency": 0.5,
+      "target_deg": [
+        0.0,
+        42.1,
+        0.0
+      ],
+      "end_pitch_deg": -1.4,
+      "end_roll_deg": 33.26,
+      "end_yaw_deg": 0.01,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          5.22,
+          -6.62
+        ],
+        "r1_r2": [
+          5.44,
+          27.83
+        ],
+        "y1_y2": [
+          -0.29,
+          0.3
+        ]
+      },
+      "peak_vel_deg_s": [
+        10.3,
+        98.0,
+        7.7
+      ],
+      "peak_muscle_act": 0.286
+    },
+    {
+      "id": 5,
+      "name": "5_90pct_RightRoll",
+      "window_s": [
+        9.0,
+        11.0
+      ],
+      "urgency": 0.75,
+      "target_deg": [
+        0.0,
+        -42.1,
+        0.0
+      ],
+      "end_pitch_deg": -1.4,
+      "end_roll_deg": -32.77,
+      "end_yaw_deg": -0.0,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          5.05,
+          -6.45
+        ],
+        "r1_r2": [
+          -5.29,
+          -27.49
+        ],
+        "y1_y2": [
+          0.54,
+          -0.54
+        ]
+      },
+      "peak_vel_deg_s": [
+        20.9,
+        209.4,
+        13.2
+      ],
+      "peak_muscle_act": 0.59
+    },
+    {
+      "id": 6,
+      "name": "6_Roll_Neutral",
+      "window_s": [
+        11.0,
+        13.0
+      ],
+      "urgency": 0.5,
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_pitch_deg": 0.01,
+      "end_roll_deg": -1.63,
+      "end_yaw_deg": 0.26,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          0.3,
+          -0.28
+        ],
+        "r1_r2": [
+          -0.27,
+          -1.36
+        ],
+        "y1_y2": [
+          0.09,
+          0.18
+        ]
+      },
+      "peak_vel_deg_s": [
+        4.9,
+        81.7,
+        4.5
+      ],
+      "peak_muscle_act": 0.227
+    },
+    {
+      "id": 7,
+      "name": "7_90pct_LeftYaw",
+      "window_s": [
+        13.0,
+        15.0
+      ],
+      "urgency": 0.5,
+      "target_deg": [
+        0.0,
+        0.0,
+        70.2
+      ],
+      "end_pitch_deg": 28.47,
+      "end_roll_deg": -23.26,
+      "end_yaw_deg": 43.84,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          14.02,
+          14.45
+        ],
+        "r1_r2": [
+          2.71,
+          -25.97
+        ],
+        "y1_y2": [
+          20.66,
+          23.18
+        ]
+      },
+      "peak_vel_deg_s": [
+        128.0,
+        72.0,
+        185.6
+      ],
+      "peak_muscle_act": 1.0
+    },
+    {
+      "id": 8,
+      "name": "8_90pct_RightYaw",
+      "window_s": [
+        15.0,
+        17.0
+      ],
+      "urgency": 0.75,
+      "target_deg": [
+        0.0,
+        0.0,
+        -70.2
+      ],
+      "end_pitch_deg": 21.37,
+      "end_roll_deg": 17.57,
+      "end_yaw_deg": -44.96,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          13.0,
+          8.37
+        ],
+        "r1_r2": [
+          -1.13,
+          18.71
+        ],
+        "y1_y2": [
+          -22.2,
+          -22.76
+        ]
+      },
+      "peak_vel_deg_s": [
+        63.8,
+        153.2,
+        445.9
+      ],
+      "peak_muscle_act": 1.0
+    },
+    {
+      "id": 9,
+      "name": "9_Final_Neutral",
+      "window_s": [
+        17.0,
+        20.5
+      ],
+      "urgency": 0.25,
+      "target_deg": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "end_pitch_deg": -8.72,
+      "end_roll_deg": 11.36,
+      "end_yaw_deg": -1.62,
+      "end_q1q2_deg": {
+        "p1_p2": [
+          -0.93,
+          -7.79
+        ],
+        "r1_r2": [
+          2.38,
+          8.98
+        ],
+        "y1_y2": [
+          -1.22,
+          -0.4
+        ]
+      },
+      "peak_vel_deg_s": [
+        70.3,
+        42.6,
+        148.9
+      ],
+      "peak_muscle_act": 1.0
+    }
+  ]
+}

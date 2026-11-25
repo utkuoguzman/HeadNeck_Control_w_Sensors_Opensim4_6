@@ -3048,8 +3048,12 @@
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
 					<Kp_proprioception>0.050</Kp_proprioception>
+					<Kp_proprioception_roll>0.050</Kp_proprioception_roll>
+					<Kp_proprioception_yaw>0.050</Kp_proprioception_yaw>
 					<z_ccr>0.020</z_ccr>
 					<p_ccr>99.919586</p_ccr>
+					<p_ccr_roll>99.919586</p_ccr_roll>
+					<p_ccr_yaw>99.919586</p_ccr_yaw>
 					<K_recip_inhib>0</K_recip_inhib>
 					<desired_yaw>0</desired_yaw>
 					<desired_pitch>0</desired_pitch>
@@ -3057,6 +3061,8 @@
 					<trajectory_tau>0.1</trajectory_tau>
 					<fc_voluntary>2.0</fc_voluntary>
 					<tau_lead_pole>0.008</tau_lead_pole>
+					<tau_lead_pole_roll>0.008</tau_lead_pole_roll>
+					<tau_lead_pole_yaw>0.008</tau_lead_pole_yaw>
 					<K_ton>5.259843</K_ton>
 					<p_ton>16.227225</p_ton>
 					<K_sc>4.101869</K_sc>
@@ -3095,7 +3101,11 @@
 					<Ki_task_roll>0.45</Ki_task_roll>
 					<Ki_task_yaw>0.05</Ki_task_yaw>
 					<Kp_buckle>1.5</Kp_buckle>
+					<Kp_buckle_roll>1.5</Kp_buckle_roll>
+					<Kp_buckle_yaw>1.5</Kp_buckle_yaw>
 					<Kd_buckle>0.15</Kd_buckle>
+					<Kd_buckle_roll>0.15</Kd_buckle_roll>
+					<Kd_buckle_yaw>0.15</Kd_buckle_yaw>
 					<thresh_spindle_ia>0.50</thresh_spindle_ia>
 					<thresh_spindle_ii>0.25</thresh_spindle_ii>
 					<thresh_vest_tilt>0.002</thresh_vest_tilt>
@@ -3524,7 +3534,8 @@
 					</ForceVelocityCurve>
 					
 					<FiberForceLengthCurve name="digastric_post_FiberForceLengthCurve">
-						
+						<strain_at_zero_force>0.4</strain_at_zero_force>
+						<strain_at_one_norm_force>1.4</strain_at_one_norm_force>
 					</FiberForceLengthCurve>
 					
 					<TendonForceLengthCurve name="digastric_post_TendonForceLengthCurve">
@@ -4426,7 +4437,8 @@
 					</ForceVelocityCurve>
 					
 					<FiberForceLengthCurve name="digastric_post_L_FiberForceLengthCurve">
-						
+						<strain_at_zero_force>0.4</strain_at_zero_force>
+						<strain_at_one_norm_force>1.4</strain_at_one_norm_force>
 					</FiberForceLengthCurve>
 					
 					<TendonForceLengthCurve name="digastric_post_L_TendonForceLengthCurve">
@@ -10079,7 +10091,7 @@
 					
 					<socket_frame2>/bodyset/cerv1</socket_frame2>
 					
-					<rotational_stiffness>7.7999999999999998 3.8999999999999999 7.7999999999999998</rotational_stiffness>
+					<rotational_stiffness>7.7999999999999998 1.2 7.7999999999999998</rotational_stiffness>
 					
 					<translational_stiffness>0 0 0</translational_stiffness>
 					
@@ -11889,7 +11901,7 @@
 					
 					<lower_stiffness>200</lower_stiffness>
 					
-					<lower_limit>-0.209440</lower_limit>
+					<lower_limit>-0.287979</lower_limit>
 					
 					<damping>20</damping>
 					
@@ -11905,7 +11917,7 @@
 					
 					<lower_stiffness>250</lower_stiffness>
 					
-					<lower_limit>-0.431969</lower_limit>
+					<lower_limit>-0.602139</lower_limit>
 					
 					<damping>25</damping>
 					
@@ -11917,11 +11929,11 @@
 					
 					<upper_stiffness>250</upper_stiffness>
 					
-					<upper_limit>0.078540</upper_limit>
+					<upper_limit>0.108210</upper_limit>
 					
 					<lower_stiffness>250</lower_stiffness>
 					
-					<lower_limit>-0.078540</lower_limit>
+					<lower_limit>-0.108210</lower_limit>
 					
 					<damping>25</damping>
 					
@@ -11933,11 +11945,11 @@
 					
 					<upper_stiffness>250</upper_stiffness>
 					
-					<upper_limit>0.431969</upper_limit>
+					<upper_limit>0.607375</upper_limit>
 					
 					<lower_stiffness>250</lower_stiffness>
 					
-					<lower_limit>-0.431969</lower_limit>
+					<lower_limit>-0.607375</lower_limit>
 					
 					<damping>25</damping>
 					
@@ -11949,11 +11961,11 @@
 					
 					<upper_stiffness>250</upper_stiffness>
 					
-					<upper_limit>0.497419</upper_limit>
+					<upper_limit>0.689405</upper_limit>
 					
 					<lower_stiffness>250</lower_stiffness>
 					
-					<lower_limit>-0.497419</lower_limit>
+					<lower_limit>-0.689405</lower_limit>
 					
 					<damping>25</damping>
 					
@@ -11965,11 +11977,11 @@
 					
 					<upper_stiffness>250</upper_stiffness>
 					
-					<upper_limit>0.353429</upper_limit>
+					<upper_limit>0.497419</upper_limit>
 					
 					<lower_stiffness>250</lower_stiffness>
 					
-					<lower_limit>-0.353429</lower_limit>
+					<lower_limit>-0.497419</lower_limit>
 					
 					<damping>25</damping>
 					

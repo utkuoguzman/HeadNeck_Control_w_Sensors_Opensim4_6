@@ -62,6 +62,8 @@ def apply_cli_overrides_and_inspect(controller, overrides):
         low = val.strip().lower()
         if low in ("true", "false"):
             osim.PropertyHelper.setValueBool(low == "true", prop)
+        elif prop.getTypeName() == "int":
+            osim.PropertyHelper.setValueInt(int(round(float(val))), prop)
         else:
             osim.PropertyHelper.setValueDouble(float(val), prop)
 
@@ -310,8 +312,9 @@ def run_axis_worker(args):
     else:
         main_arr = yaw_glob_arr
 
+    eval_start_time = 5.0
     m_quiet = t_arr <= delay
-    m_post = t_arr >= (delay + ramp_duration)
+    m_post = t_arr >= eval_start_time
     n_post = int(np.sum(m_post))
 
     quiet_main_max = float(np.max(np.abs(main_arr[m_quiet] - main_arr[0]))) if np.any(m_quiet) else 0.0
@@ -322,6 +325,10 @@ def run_axis_worker(args):
     full_pitch_dev_max = float(np.max(np.abs(p_arr - p_arr[0])))
     full_roll_max = float(np.max(np.abs(r_arr)))
     full_yaw_rel_max = float(np.max(np.abs(yaw_rel_arr)))
+
+    post_pitch_dev_max = float(np.max(np.abs(p_arr[m_post] - p_arr[0]))) if np.any(m_post) else full_pitch_dev_max
+    post_roll_max = float(np.max(np.abs(r_arr[m_post]))) if np.any(m_post) else full_roll_max
+    post_yaw_rel_max = float(np.max(np.abs(yaw_rel_arr[m_post]))) if np.any(m_post) else full_yaw_rel_max
 
     freq_results = {}
     hf_noise_rms = 0.0
@@ -335,15 +342,19 @@ def run_axis_worker(args):
     if aborted or n_post < 50:
         progress = max(0.0, min(1.0, abort_time_s / target_time))
         classic_score = 6.0 * (200000.0 + (1.0 - progress) * 50000.0)
-        if mode in ("LatEC", "YawMA"):
-            pitch_crosstalk_penalty = 100.0 * (full_pitch_dev_max ** 2)
+        if mode == "APEO":
+            pitch_crosstalk_penalty = 100.0 * (full_roll_max ** 2 + full_yaw_rel_max ** 2)
+        elif mode == "LatEC":
+            pitch_crosstalk_penalty = 100.0 * (full_pitch_dev_max ** 2 + full_yaw_rel_max ** 2)
+        else:
+            pitch_crosstalk_penalty = 100.0 * (full_pitch_dev_max ** 2 + full_roll_max ** 2)
         total_score = classic_score + pitch_crosstalk_penalty
     else:
         t_fit = t_arr[m_post]
         t_rel = t_fit - delay
         y_fit_deg = main_arr[m_post]
 
-        cols = [np.ones_like(t_fit), t_fit - (delay + ramp_duration)]
+        cols = [np.ones_like(t_fit), t_fit - eval_start_time]
         for k in range(K):
             omega_k = 2.0 * math.pi * float(freqs[k])
             psi_k = omega_k * t_rel + float(phases[k])
@@ -370,7 +381,9 @@ def run_axis_worker(args):
             db_err = 20.0 * math.log10(max(sim_gain, 1e-6) / float(tgt_gains[k]))
 
             g_pts = 100.0 * (db_err ** 2)
-            p_pts = 1.0 * (ph_err ** 2)
+            p_pts_raw = 1.0 * (ph_err ** 2)
+            phase_excluded = False
+            p_pts = 0.0 if phase_excluded else p_pts_raw
             gain_loss_pts += g_pts
             phase_loss_pts += p_pts
 
@@ -387,6 +400,8 @@ def run_axis_worker(args):
                 "target_phase": tp,
                 "phase_err": ph_err,
                 "phase_loss_pts": p_pts,
+                "phase_loss_pts_raw": p_pts_raw,
+                "phase_excluded": phase_excluded,
             }
 
         vel_actual = np.gradient(y_fit_deg, t_fit)
@@ -404,12 +419,16 @@ def run_axis_worker(args):
             mag = np.abs(np.fft.rfft(s_u)) * 2.0 / np.sum(win)
             fr = np.fft.rfftfreq(len(s_u), d=0.005)
             pitch_hf_10hz_rms = float(np.sqrt(np.sum(mag[fr >= 10.0] ** 2) / 2.0))
-        if mode in ("LatEC", "YawMA"):
-            pitch_crosstalk_penalty = 100.0 * (full_pitch_dev_max ** 2)
+        if mode == "APEO":
+            pitch_crosstalk_penalty = 100.0 * (post_roll_max ** 2 + post_yaw_rel_max ** 2)
+            hf_penalty = 5.0 * (hf_noise_rms ** 2)
+        elif mode == "LatEC":
+            pitch_crosstalk_penalty = 100.0 * (post_pitch_dev_max ** 2 + post_yaw_rel_max ** 2)
+            hf_penalty = 25.0 * (hf_noise_rms ** 2)
         else:
-            pitch_crosstalk_penalty = 0.0
-        hf_penalty = 0.0
-        total_score = classic_score + pitch_crosstalk_penalty
+            pitch_crosstalk_penalty = 100.0 * (post_pitch_dev_max ** 2 + post_roll_max ** 2)
+            hf_penalty = 25.0 * (hf_noise_rms ** 2)
+        total_score = classic_score + pitch_crosstalk_penalty + hf_penalty
 
     return {
         "mode": mode,
@@ -449,6 +468,9 @@ def run_axis_worker(args):
         "full_pitch_dev_max_deg": round(full_pitch_dev_max, 3),
         "full_roll_max_deg": round(full_roll_max, 3),
         "full_yaw_rel_max_deg": round(full_yaw_rel_max, 3),
+        "post_pitch_dev_max_deg": round(post_pitch_dev_max, 3),
+        "post_roll_max_deg": round(post_roll_max, 3),
+        "post_yaw_rel_max_deg": round(post_yaw_rel_max, 3),
     }
 
 
@@ -490,7 +512,7 @@ def render_standard_4panel(sim_res, out_filename):
     ref_vel = np.gradient(ref_trace, t)
     pert_vel = np.gradient(sim_res["pert"], t)
 
-    mask_ss = t >= 2.3
+    mask_ss = t >= 5.0
     if not np.any(mask_ss):
         mask_ss = np.ones_like(t, dtype=bool)
     mean_ang_ss = float(np.mean(main_angle[mask_ss]))
@@ -537,20 +559,10 @@ def render_standard_4panel(sim_res, out_filename):
         lw=2.1,
         label=f"Current Model {axis_name} [Mean = {mean_ang_ss:+.2f}°, Max = {max_ang_ss:.2f}°, Quiet Max|Δ| = {sim_res['quiet_main_max_deg']:.3f}°]",
     )
-    if mode == "YawMA":
-        ax1.plot(
-            t,
-            sim_res["pert"],
-            color="#64748b",
-            ls=":",
-            lw=1.3,
-            alpha=0.85,
-            label=f"Applied Trunk Yaw Input gndyaw(t) [Max = {np.max(np.abs(sim_res['pert'][mask_ss])):.2f}°]",
-        )
     ax1.axvline(0.8, color="#64748b", ls=":", lw=1.3, label="Perturbation Ramp Start (t = 0.8s)")
-    ax1.axvline(2.3, color="#dc2626", ls="--", lw=1.4, label="Steady-State Window (t >= 2.3s)")
+    ax1.axvline(5.0, color="#dc2626", ls="--", lw=1.4, label="Steady-State Scoring Window (t >= 5.0s)")
     ax1.set_xlim(0, sim_res["target_time"])
-    all_ang = [ref_trace, main_angle] + ([sim_res["pert"]] if mode == "YawMA" else [])
+    all_ang = [ref_trace, main_angle]
     y1_min = float(min(np.min(a) for a in all_ang))
     y1_max = float(max(np.max(a) for a in all_ang))
     span1 = max(1.0, y1_max - y1_min)
@@ -573,7 +585,7 @@ def render_standard_4panel(sim_res, out_filename):
         label=f"Current Model Velocity [RMS = {rms_vel_ss:.2f}°/s, HF Noise = {sim_res['hf_noise_rms']:.2f}°/s, corr r = {sim_res['corr_vel']:+.3f}]",
     )
     ax2.axvline(0.8, color="#64748b", ls=":", lw=1.3)
-    ax2.axvline(2.3, color="#dc2626", ls="--", lw=1.4)
+    ax2.axvline(5.0, color="#dc2626", ls="--", lw=1.4)
     ax2.set_xlim(0, sim_res["target_time"])
     vel_abs = max(env_lim, float(np.max(np.abs(main_vel))), float(np.max(np.abs(ref_vel))))
     ax2.set_ylim(-1.22 * vel_abs, 1.28 * vel_abs)
@@ -593,14 +605,14 @@ def render_standard_4panel(sim_res, out_filename):
             roll,
             color="#dc2626",
             lw=1.5,
-            label=f"Head Roll (r1+r2) [Quiet Max = {sim_res['quiet_roll_max_deg']:.3f}°, Full Max = {sim_res['full_roll_max_deg']:.2f}°]",
+            label=f"Head Roll (r1+r2) [Post-5s Max = {sim_res['post_roll_max_deg']:.2f}°, Full Max = {sim_res['full_roll_max_deg']:.2f}°]",
         )
         ax3.plot(
             t,
             yaw_rel,
             color="#059669",
             lw=1.5,
-            label=f"Head Yaw (y1+y2) [Quiet Max = {sim_res['quiet_yaw_rel_max_deg']:.3f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
+            label=f"Head Yaw (y1+y2) [Post-5s Max = {sim_res['post_yaw_rel_max_deg']:.2f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
         )
         cross_max_abs = max(sim_res["full_roll_max_deg"], sim_res["full_yaw_rel_max_deg"])
     elif mode == "LatEC":
@@ -609,14 +621,14 @@ def render_standard_4panel(sim_res, out_filename):
             pitch_dev,
             color="#059669",
             lw=1.5,
-            label=f"Pitch Deviation (p-p0) [Quiet Max = {sim_res['quiet_pitch_dev_max_deg']:.3f}°, Full Max = {sim_res['full_pitch_dev_max_deg']:.2f}°]",
+            label=f"Pitch Deviation (p-p0) [Post-5s Max = {sim_res['post_pitch_dev_max_deg']:.2f}°, Full Max = {sim_res['full_pitch_dev_max_deg']:.2f}°]",
         )
         ax3.plot(
             t,
             yaw_rel,
             color="#d97706",
             lw=1.5,
-            label=f"Coupled Neck Yaw (y1+y2) [Quiet Max = {sim_res['quiet_yaw_rel_max_deg']:.3f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
+            label=f"Coupled Neck Yaw (y1+y2) [Post-5s Max = {sim_res['post_yaw_rel_max_deg']:.2f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
         )
         cross_max_abs = max(sim_res["full_pitch_dev_max_deg"], sim_res["full_yaw_rel_max_deg"])
     else:
@@ -625,26 +637,18 @@ def render_standard_4panel(sim_res, out_filename):
             pitch_dev,
             color="#059669",
             lw=1.5,
-            label=f"Pitch Deviation (p-p0) [Quiet Max = {sim_res['quiet_pitch_dev_max_deg']:.3f}°, Full Max = {sim_res['full_pitch_dev_max_deg']:.2f}°]",
+            label=f"Pitch Deviation (p-p0) [Post-5s Max = {sim_res['post_pitch_dev_max_deg']:.2f}°, Full Max = {sim_res['full_pitch_dev_max_deg']:.2f}°]",
         )
         ax3.plot(
             t,
             roll,
             color="#dc2626",
             lw=1.5,
-            label=f"Coupled Head Roll (r1+r2) [Quiet Max = {sim_res['quiet_roll_max_deg']:.3f}°, Full Max = {sim_res['full_roll_max_deg']:.2f}°]",
+            label=f"Coupled Head Roll (r1+r2) [Post-5s Max = {sim_res['post_roll_max_deg']:.2f}°, Full Max = {sim_res['full_roll_max_deg']:.2f}°]",
         )
-        ax3.plot(
-            t,
-            yaw_rel,
-            color="#64748b",
-            ls="--",
-            lw=1.25,
-            label=f"Relative Neck-on-Trunk Yaw (y1+y2) [Quiet Max = {sim_res['quiet_yaw_rel_max_deg']:.3f}°, Full Max = {sim_res['full_yaw_rel_max_deg']:.2f}°]",
-        )
-        cross_max_abs = max(sim_res["full_pitch_dev_max_deg"], sim_res["full_roll_max_deg"], sim_res["full_yaw_rel_max_deg"])
+        cross_max_abs = max(sim_res["full_pitch_dev_max_deg"], sim_res["full_roll_max_deg"])
     ax3.axvline(0.8, color="#64748b", ls=":", lw=1.3)
-    ax3.axvline(2.3, color="#dc2626", ls="--", lw=1.4)
+    ax3.axvline(5.0, color="#dc2626", ls="--", lw=1.4)
     ax3.set_xlim(0, sim_res["target_time"])
     cross_lim = max(1.5, 1.24 * cross_max_abs)
     ax3.set_ylim(-cross_lim, cross_lim)
@@ -687,6 +691,8 @@ def render_standard_4panel(sim_res, out_filename):
         ax4_r.plot(freqs, sim_phases, "D-", color="#b91c1c", lw=2.1, label="Current Model Phase [deg]")
 
         for f, tg, mg, tp, mp in zip(freqs, tgt_gains, sim_gains, tgt_phases, sim_phases):
+            key = f"{float(f):.3f}" if mode == "APEO" else f"{float(f):.4f}"
+            is_ph_excl = bool(freq_res[key].get("phase_excluded", False))
             db = 20.0 * math.log10(max(mg, 1e-6) / float(tg))
             pe = float(mp) - float(tp)
             ax4.annotate(
@@ -700,14 +706,14 @@ def render_standard_4panel(sim_res, out_filename):
                 color=color_main,
             )
             ax4_r.annotate(
-                f"{pe:+.1f}°",
+                f"{pe:+.1f}° (excl.)" if is_ph_excl else f"{pe:+.1f}°",
                 (f, mp),
                 textcoords="offset points",
                 xytext=(0, -14),
                 ha="center",
                 fontsize=8.2,
                 fontweight="bold",
-                color="#b91c1c",
+                color="#6b7280" if is_ph_excl else "#b91c1c",
             )
 
         ax4.set_xscale("log")
@@ -729,9 +735,10 @@ def render_standard_4panel(sim_res, out_filename):
         ax4_r.set_ylabel("Bode Phase [deg]", color="#b91c1c", fontweight="bold", fontsize=11)
         ax4.set_xlabel("Multisine Excitation Frequency [Hz] (Log Scale)", fontweight="bold", fontsize=11)
 
-        score_str = f"Classic Score: {sim_res['classic_bode_score']:,.2f} pts (G={sim_res['gain_loss_pts']:.1f}, P={sim_res['phase_loss_pts']:.1f})"
-        if mode in ("LatEC", "YawMA"):
-            score_str += f" | Pitch XTalk: {sim_res['full_pitch_dev_max_deg']:.2f}° (+{sim_res['pitch_crosstalk_penalty']:.1f}) | Total: {sim_res['total_score']:,.2f} pts"
+        score_str = (
+            f"Classic Score: {sim_res['classic_bode_score']:,.2f} pts (G={sim_res['gain_loss_pts']:.1f}, P={sim_res['phase_loss_pts']:.1f}) "
+            f"| XTalk: +{sim_res['pitch_crosstalk_penalty']:.1f} | HFJitter: +{sim_res['hf_penalty']:.1f} | Total: {sim_res['total_score']:,.2f} pts"
+        )
         ax4.set_title(f"4. {len(freqs)}-Frequency Bode Response ({mode}) — {score_str}", fontweight="bold", fontsize=11.0)
         ax4.grid(True, alpha=0.3)
 
@@ -739,10 +746,10 @@ def render_standard_4panel(sim_res, out_filename):
         l2, lb2 = ax4_r.get_legend_handles_labels()
         ax4.legend(l1 + l2, lb1 + lb2, loc="upper left", fontsize=8.2, ncol=2)
 
-    if mode in ("LatEC", "YawMA"):
-        score_hdr = f"Total: {sim_res['total_score']:,.2f} pts (Classic Bode: {sim_res['classic_bode_score']:,.2f} + Pitch XTalk: {sim_res['pitch_crosstalk_penalty']:,.2f})"
-    else:
-        score_hdr = f"Total: {sim_res['total_score']:,.2f} pts (Classic Bode: {sim_res['classic_bode_score']:,.2f} pts)"
+    score_hdr = (
+        f"Total: {sim_res['total_score']:,.2f} pts "
+        f"(Classic Bode: {sim_res['classic_bode_score']:,.2f} + XTalk: +{sim_res['pitch_crosstalk_penalty']:.1f} + HFJitter: +{sim_res['hf_penalty']:.1f})"
+    )
     fig.suptitle(
         f"Standard Plot ({mode} — {axis_name}) | {score_hdr}\n{bool_banner}",
         fontweight="bold",
@@ -752,8 +759,11 @@ def render_standard_4panel(sim_res, out_filename):
 
     out_art = os.path.join(ART_DIR, out_filename)
     os.makedirs(ART_DIR, exist_ok=True)
+    res_dir = os.path.join(_ROOT, "results")
+    os.makedirs(res_dir, exist_ok=True)
     fig.savefig(out_art, bbox_inches="tight")
     shutil.copyfile(out_art, os.path.join(_ROOT, out_filename))
+    shutil.copyfile(out_art, os.path.join(res_dir, out_filename))
     plt.close(fig)
     print(f"[OK] Saved standard plot: {out_art}", flush=True)
 
@@ -868,9 +878,12 @@ def write_html_viewer(bool_banner, axes_summary, out_files, suffix=""):
     viewer_name = f"standard_plot_viewer{suffix}.html"
     art_viewer = os.path.join(ART_DIR, viewer_name)
     root_viewer = os.path.join(_ROOT, viewer_name)
+    res_dir = os.path.join(_ROOT, "results")
+    os.makedirs(res_dir, exist_ok=True)
     with open(art_viewer, "w", encoding="utf-8") as f:
         f.write(template)
     shutil.copyfile(art_viewer, root_viewer)
+    shutil.copyfile(art_viewer, os.path.join(res_dir, viewer_name))
     print(f"[OK] Saved self-contained viewer: {art_viewer}", flush=True)
 
 
@@ -886,11 +899,17 @@ def parse_set_args(raw_list):
 
 def main():
     parser = argparse.ArgumentParser(description="Generate canonical 3-axis Standard Plots using exact current .osim parameters.")
+    parser.add_argument("--params-json", default="", help="Optional JSON file with a 'params' dict applied before --set overrides")
     parser.add_argument("--set", action="append", default=[], dest="overrides", help="Explicit property override KEY=VAL (e.g. enable_ccr=false)")
     parser.add_argument("--tag", default="", help="Optional filename suffix tag (e.g. 'no_ccr')")
     args = parser.parse_args()
 
-    overrides = parse_set_args(args.overrides)
+    overrides = []
+    if args.params_json.strip():
+        pjson = json.load(open(args.params_json.strip(), "r", encoding="utf-8"))
+        pdict = pjson["params"] if isinstance(pjson, dict) and "params" in pjson else pjson
+        overrides.extend((k, f"{float(v):.15g}") for k, v in pdict.items())
+    overrides.extend(parse_set_args(args.overrides))
     suffix = f"_{args.tag.strip()}" if args.tag.strip() else ""
 
     modes = ["APEO", "LatEC", "YawMA"]
@@ -937,11 +956,15 @@ def main():
             "full_pitch_dev_max_deg": r["full_pitch_dev_max_deg"],
             "full_roll_max_deg": r["full_roll_max_deg"],
             "full_yaw_rel_max_deg": r["full_yaw_rel_max_deg"],
+            "post_pitch_dev_max_deg": r["post_pitch_dev_max_deg"],
+            "post_roll_max_deg": r["post_roll_max_deg"],
+            "post_yaw_rel_max_deg": r["post_yaw_rel_max_deg"],
             "frequencies": r["freq_results"],
         }
 
     summary["combined_bode_score"] = round(sum(summary["axes"][m]["classic_bode_score"] for m in modes), 2)
     summary["combined_pitch_crosstalk_penalty"] = round(sum(summary["axes"][m]["pitch_crosstalk_penalty"] for m in modes), 2)
+    summary["combined_hf_penalty"] = round(sum(summary["axes"][m]["hf_penalty"] for m in modes), 2)
     summary["combined_total_score"] = round(sum(summary["axes"][m]["total_score"] for m in modes), 2)
 
     summary_name = f"standard_plot_summary{suffix}.json"
@@ -955,14 +978,14 @@ def main():
         a = summary["axes"][m]
         print(
             f"[{m:5s}] Classic={a['classic_bode_score']:,.2f} pts (G={a['gain_loss_pts']:.1f}, P={a['phase_loss_pts']:.1f}), "
-            f"PitchXTalk={a['pitch_crosstalk_penalty']:.1f} (max={a['full_pitch_dev_max_deg']:.2f}°), "
-            f"Total={a['total_score']:,.2f}, QuietMain={a['quiet_main_max_deg']:.3f}°, "
-            f"corr={a['corr_vel']:+.3f}, HFNoise={a['hf_noise_rms']:.2f}°/s, aborted={a['aborted']}",
+            f"XTalk={a['pitch_crosstalk_penalty']:.1f} (post5s p={a['post_pitch_dev_max_deg']:.2f}° r={a['post_roll_max_deg']:.2f}° y={a['post_yaw_rel_max_deg']:.2f}°), "
+            f"HFJitter={a['hf_penalty']:.1f} ({a['hf_noise_rms']:.2f}°/s), Total={a['total_score']:,.2f}, QuietMain={a['quiet_main_max_deg']:.3f}°, "
+            f"corr={a['corr_vel']:+.3f}, aborted={a['aborted']}",
             flush=True,
         )
     print(
-        f"[TOTAL] CombinedBode={summary['combined_bode_score']:,.2f} + PitchXTalk={summary['combined_pitch_crosstalk_penalty']:,.2f} "
-        f"= CombinedTotal={summary['combined_total_score']:,.2f} pts",
+        f"[TOTAL] CombinedBode={summary['combined_bode_score']:,.2f} + XTalk={summary['combined_pitch_crosstalk_penalty']:,.2f} "
+        f"+ HFJitter={summary['combined_hf_penalty']:,.2f} = CombinedTotal={summary['combined_total_score']:,.2f} pts",
         flush=True,
     )
     print(f"[OK] Saved summary JSON: {summary_path}", flush=True)

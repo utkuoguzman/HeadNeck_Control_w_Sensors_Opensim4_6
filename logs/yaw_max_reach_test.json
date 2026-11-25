@@ -1,0 +1,159 @@
+{
+  "elapsed_s": 778.3,
+  "t_end_s": 14.5,
+  "stop_reason": null,
+  "phases": [
+    {
+      "id": 0,
+      "name": "0_Neutral",
+      "window_s": [
+        0.0,
+        0.49
+      ],
+      "urgency": 0.0,
+      "target_yaw_deg": 0.0,
+      "end_yaw_deg": 0.0,
+      "end_y1_deg": 0.0,
+      "end_y2_deg": -0.0,
+      "y1_share_pct": null,
+      "end_pitch_deg": 1.2,
+      "end_roll_deg": 0.0,
+      "max_off_axis_deg": 1.55,
+      "peak_muscle_act": 0.568,
+      "end_muscle_act": 0.084
+    },
+    {
+      "id": 1,
+      "name": "1_Yaw_30",
+      "window_s": [
+        0.5,
+        2.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 30.0,
+      "end_yaw_deg": 28.35,
+      "end_y1_deg": 13.76,
+      "end_y2_deg": 14.59,
+      "y1_share_pct": 48.5,
+      "end_pitch_deg": 2.48,
+      "end_roll_deg": -5.72,
+      "max_off_axis_deg": 5.86,
+      "peak_muscle_act": 0.487,
+      "end_muscle_act": 0.339
+    },
+    {
+      "id": 2,
+      "name": "2_Yaw_40",
+      "window_s": [
+        2.5,
+        4.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 40.0,
+      "end_yaw_deg": 37.86,
+      "end_y1_deg": 18.56,
+      "end_y2_deg": 19.3,
+      "y1_share_pct": 49.0,
+      "end_pitch_deg": 4.35,
+      "end_roll_deg": -8.79,
+      "max_off_axis_deg": 8.84,
+      "peak_muscle_act": 0.715,
+      "end_muscle_act": 0.686
+    },
+    {
+      "id": 3,
+      "name": "3_Yaw_45",
+      "window_s": [
+        4.5,
+        6.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 45.0,
+      "end_yaw_deg": 42.47,
+      "end_y1_deg": 20.86,
+      "end_y2_deg": 21.6,
+      "y1_share_pct": 49.1,
+      "end_pitch_deg": 5.35,
+      "end_roll_deg": -9.97,
+      "max_off_axis_deg": 10.04,
+      "peak_muscle_act": 0.998,
+      "end_muscle_act": 0.967
+    },
+    {
+      "id": 4,
+      "name": "4_Yaw_50",
+      "window_s": [
+        6.5,
+        8.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 50.0,
+      "end_yaw_deg": 46.08,
+      "end_y1_deg": 22.6,
+      "end_y2_deg": 23.48,
+      "y1_share_pct": 49.0,
+      "end_pitch_deg": 6.72,
+      "end_roll_deg": -12.74,
+      "max_off_axis_deg": 12.85,
+      "peak_muscle_act": 1.0,
+      "end_muscle_act": 0.998
+    },
+    {
+      "id": 5,
+      "name": "5_Yaw_55",
+      "window_s": [
+        8.5,
+        10.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 55.0,
+      "end_yaw_deg": 48.66,
+      "end_y1_deg": 24.05,
+      "end_y2_deg": 24.61,
+      "y1_share_pct": 49.4,
+      "end_pitch_deg": 6.54,
+      "end_roll_deg": -10.69,
+      "max_off_axis_deg": 13.32,
+      "peak_muscle_act": 1.0,
+      "end_muscle_act": 1.0
+    },
+    {
+      "id": 6,
+      "name": "6_Yaw_60",
+      "window_s": [
+        10.5,
+        12.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 60.0,
+      "end_yaw_deg": 46.01,
+      "end_y1_deg": 23.1,
+      "end_y2_deg": 22.91,
+      "y1_share_pct": 50.2,
+      "end_pitch_deg": 12.4,
+      "end_roll_deg": -11.77,
+      "max_off_axis_deg": 13.61,
+      "peak_muscle_act": 1.0,
+      "end_muscle_act": 1.0
+    },
+    {
+      "id": 7,
+      "name": "7_Return_0",
+      "window_s": [
+        12.5,
+        14.5
+      ],
+      "urgency": 0.35,
+      "target_yaw_deg": 0.0,
+      "end_yaw_deg": -0.49,
+      "end_y1_deg": -0.05,
+      "end_y2_deg": -0.43,
+      "y1_share_pct": null,
+      "end_pitch_deg": -5.21,
+      "end_roll_deg": 1.74,
+      "max_off_axis_deg": 14.19,
+      "peak_muscle_act": 1.0,
+      "end_muscle_act": 0.101
+    }
+  ]
+}

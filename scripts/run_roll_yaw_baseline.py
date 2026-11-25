@@ -18,7 +18,11 @@ if _UTIL not in sys.path:
 import opensim as osim
 from cmaes_worker_p22 import ensure_libraries_loaded, PER_MUSCLE_72_U0
 
-ART_DIR = r"C:/Users/User/.gemini/antigravity/brain/89fb8d56-9d12-4051-a256-02497ef8d6ae"
+ART_DIR = (
+    r"C:/Users/User/.gemini/antigravity/brain/89fb8d56-9d12-4051-a256-02497ef8d6ae"
+    if sys.platform.startswith("win")
+    else os.path.join(_ROOT, "artifacts")
+)
 
 # Champion Pitch Parameter Set (Run 4, 991.11 pts):
 P15_RUN4 = {
@@ -65,32 +69,28 @@ def load_aligned_data():
 def get_latec_amplitudes(freqs):
     """
     LatEC (Lateral T1 translation -> Head Roll [deg/m]):
-    In Happee et al. (2023) Fig. 5, the 2-second time-domain panels show:
-      - Lateral seat velocity Y_dot(t) peaking at +/- 0.02 m/s (2.0 cm/s)
-      - Head roll angular velocity phi_dot(t) peaking at +/- 10 deg/s
-    Using our constant-velocity multisine law A(f_k) = (A_0 / sqrt(K)) * (f_ref / f_k)^1.0
-    calibrated so the 8-frequency sum matches Fig. 5's +/- 0.02 m/s seat velocity and +/- 10 deg/s roll rate:
-      A(f_k) = (0.0055 / sqrt(8)) * (0.835 / f_k) = 0.0016237 / f_k [m]
-    Peak harmonic velocity per component = 2 * pi * 0.0016237 = 0.01020 m/s (1.02 cm/s),
-    giving total multisine peak seat velocity ~ 0.022 m/s and peak target roll velocity ~ 10.5 deg/s!
+    Using constant-velocity multisine law A(f_k) = (A_0 / sqrt(K)) * (f_ref / f_k)^1.0
+    calibrated (A_0 = 0.029149) across the 6 actual Happee (2023) Fig. 5 frequencies
+    so the combined target head roll multisine peak (+/- 7.7326 deg) matches APEO pitch peak:
+      A(f_k) = (0.029149 / sqrt(6)) * (0.835 / f_k) [m]
+    Peak sled stroke ~ +/- 11.58 cm, peak lateral accel ~ +/- 0.337 g, RMS roll ~ 3.15 deg.
     """
     K = len(freqs)
     scale = 1.0 / math.sqrt(K)
-    return np.array([0.0055 * (0.835 / f) * scale for f in freqs])
+    return np.array([0.029149 * (0.835 / f) * scale for f in freqs])
 
 def get_yawma_amplitudes_deg(freqs):
     """
     YawMA (Axial T1 yaw rotation -> Head Global Yaw [deg/deg]):
-    In Stensdotter et al. (2016) / Keshner & Peterson (1995) / Happee (2023) Fig. 9,
-    rotational platform sum-of-sines scales as 1/f (constant angular velocity per harmonic)
-    with total RMS trunk yaw ~ 1.5 - 2.0 deg (peak ~ +/- 3.5 deg) and peak yaw rate ~ +/- 15 deg/s:
-      A_deg(f_k) = (3.0 / sqrt(9)) * (0.50 / f_k) = 0.50 / f_k [deg]
-    At f_1 = 0.2016 Hz, A_1 = 2.48 deg; at f_9 = 4.0528 Hz, A_9 = 0.123 deg.
-    Each harmonic has constant peak angular velocity = 2 * pi * 0.50 = 3.14 deg/s.
+    Using constant-velocity multisine law A_deg(f_k) = (A_0 / sqrt(K)) * (0.50 / f_k)
+    scaled (2.007088x baseline 3.0 -> A_0 = 6.021265) so the combined 9-frequency
+    target head yaw multisine peak (+/- 7.7326 deg) matches APEO pitch peak (+/- 7.7326 deg):
+      A_deg(f_k) = (6.021265 / sqrt(9)) * (0.50 / f_k) [deg]
+    Peak trunk yaw ~ +/- 10.44 deg, peak relative neck yaw ~ +/- 4.69 deg.
     """
     K = len(freqs)
     scale = 1.0 / math.sqrt(K)
-    return np.array([3.0 * (0.50 / f) * scale for f in freqs])
+    return np.array([6.021265 * (0.50 / f) * scale for f in freqs])
 
 def generate_plausibility_plots(df_lat, df_yaw):
     plt.style.use('seaborn-v0_8-whitegrid' if 'seaborn-v0_8-whitegrid' in plt.style.available else 'default')
@@ -109,7 +109,7 @@ def generate_plausibility_plots(df_lat, df_yaw):
     fig.patch.set_facecolor('#ffffff')
 
     f_cont = np.geomspace(0.10, 4.5, 300)
-    a_cont_cm = (0.0055 * (0.835 / f_cont) / math.sqrt(len(f_lat))) * 100.0
+    a_cont_cm = (0.029149 * (0.835 / f_cont) / math.sqrt(len(f_lat))) * 100.0
     v_cont_cms = 2.0 * np.pi * f_cont * a_cont_cm
 
     ax1 = axes[0, 0]
@@ -647,8 +647,6 @@ def render_baseline_4panel(sim_data, out_filename):
     ax1 = fig.add_subplot(gs[0])
     ax1.plot(t, ref_trace, 'k--', lw=1.6, label=f'Target Happee (2023) Reference {axis_name} [Max = {np.max(np.abs(ref_trace[mask_ss])):.2f}°]')
     ax1.plot(t, main_angle, color=color_main, lw=2.0, label=f'Zero-Shot Pitch-Trained Model {axis_name} [Mean = {mean_ang_ss:+.2f}°, Max = {np.max(np.abs(main_angle[mask_ss])):.2f}°]')
-    if mode == "YawMA":
-        ax1.plot(t, sim_data["pert"], color='#64748b', ls=':', lw=1.2, alpha=0.8, label=f'Applied Trunk Yaw Input gndyaw(t) [Max = {np.max(np.abs(sim_data["pert"][mask_ss])):.2f}°]')
     ax1.axvline(1.5, color='#64748b', ls=':', lw=1.3, label='Perturbation Ramp Start (t = 1.5s)')
     ax1.axvline(3.0, color='#dc2626', ls='--', lw=1.4, label='Steady-State Window (t >= 3.0s)')
     ax1.set_xlim(0, t[-1])
@@ -683,7 +681,6 @@ def render_baseline_4panel(sim_data, out_filename):
     else:
         ax3.plot(t, pitch - pitch[0], color='#059669', lw=1.4, label=f'Pitch Deviation (p1+p2 - p0) [Max = {np.max(np.abs(pitch - pitch[0])):.2f}°]')
         ax3.plot(t, roll, color='#dc2626', lw=1.4, label=f'Coupled Head Roll (r1+r2) [Max = {np.max(np.abs(roll)):.2f}°]')
-        ax3.plot(t, yaw_rel, color='#64748b', ls='--', lw=1.2, label=f'Relative Neck-on-Trunk Yaw (y1+y2) [Max = {np.max(np.abs(yaw_rel)):.2f}°]')
     ax3.axvline(1.5, color='#64748b', ls=':', lw=1.3)
     ax3.axvline(3.0, color='#dc2626', ls='--', lw=1.4)
     ax3.set_xlim(0, t[-1])

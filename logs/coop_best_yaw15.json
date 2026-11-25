@@ -1,0 +1,28 @@
+{
+  "gen": 5,
+  "slot": 12,
+  "rank_score": 778.72,
+  "yawma_canon": 778.72,
+  "bode_yawma": 527.54,
+  "xtalk_yawma": 158.4,
+  "hf_yawma": 92.78,
+  "hf_rms_yawma": 1.926,
+  "aborted": false,
+  "params_yaw15": {
+    "tau_lead_pole_yaw": 0.012030384165784938,
+    "K_sc_yaw": 1.514665467901652,
+    "z_sc_yaw": 0.019559787855777874,
+    "p_sc_yaw": 1.3000370372309678,
+    "K_ton_yaw": 9.641711740096945,
+    "p_ton_yaw": 20.119546372092124,
+    "Kp_prop_yaw": 10.088896750494722,
+    "z_ccr_yaw": 0.018993559009017075,
+    "p_ccr_yaw": 83.18020393588283,
+    "Kp_proprioception_yaw": 0.03575976075813979,
+    "Kp_task_yaw": 0.4077192979469641,
+    "Kd_task_yaw": 0.05761841534593623,
+    "Ki_task_yaw": 0.0776220647253413,
+    "Kp_buckle_yaw": 0.9274530140205569,
+    "Kd_buckle_yaw": 0.30192770874234104
+  }
+}

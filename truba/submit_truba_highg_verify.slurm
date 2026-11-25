@@ -1,0 +1,87 @@
+#!/bin/bash
+#SBATCH -J HN_HighGVer
+#SBATCH -A uoguzman
+#SBATCH -p orfoz,debug
+#SBATCH -N 1
+#SBATCH -n 20
+#SBATCH -c 1
+#SBATCH --time=00:45:00
+#SBATCH --chdir=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6
+#SBATCH --output=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/logs/slurm-%j.out
+#SBATCH --error=/arf/scratch/uoguzman/HeadNeck_Control_w_Sensors_Opensim4_6/logs/slurm-%j.err
+
+set -euo pipefail
+
+MINIFORGE_DIR="/arf/scratch/${USER}/miniforge3"
+WORKSPACE_DIR="/arf/scratch/${USER}/HeadNeck_Control_w_Sensors_Opensim4_6"
+
+set +u
+source "${MINIFORGE_DIR}/etc/profile.d/conda.sh"
+conda activate opensim_env
+set -u
+
+export LD_LIBRARY_PATH="${CONDA_PREFIX}/lib:${WORKSPACE_DIR}/vestibular_plugin/build:${WORKSPACE_DIR}/proprioception_plugin/build:${WORKSPACE_DIR}/HeadNeckNeuralController_plugin/build:${WORKSPACE_DIR}/FixationController_plugin/build:${LD_LIBRARY_PATH:-}"
+export OpenSim_DIR="${CONDA_PREFIX}/lib/cmake/OpenSim"
+export SIMB_NUM_THREADS=1
+export SIMBODY_NUM_THREADS=1
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+export NUMEXPR_NUM_THREADS=1
+export MPLBACKEND=Agg
+
+cd "${WORKSPACE_DIR}"
+mkdir -p logs results artifacts
+
+echo "[TRUBA] Rebuilding C++ plugins on $(hostname) at $(date)"
+if [ ! -f vestibular_plugin/build/libosimVestibular.so ]; then
+    rm -rf vestibular_plugin/build && mkdir -p vestibular_plugin/build
+    cmake -S vestibular_plugin -B vestibular_plugin/build -DCMAKE_BUILD_TYPE=Release -DOpenSim_DIR="${OpenSim_DIR}" -DCMAKE_PREFIX_PATH="${CONDA_PREFIX}"
+    cmake --build vestibular_plugin/build --config Release -j 8
+fi
+
+rm -rf proprioception_plugin/build && mkdir -p proprioception_plugin/build
+cmake -S proprioception_plugin -B proprioception_plugin/build -DCMAKE_BUILD_TYPE=Release -DOpenSim_DIR="${OpenSim_DIR}" -DCMAKE_PREFIX_PATH="${CONDA_PREFIX}"
+cmake --build proprioception_plugin/build --config Release --target osimMillard12EqWithAff -j 8
+
+rm -rf HeadNeckNeuralController_plugin/build && mkdir -p HeadNeckNeuralController_plugin/build
+cmake -S HeadNeckNeuralController_plugin -B HeadNeckNeuralController_plugin/build -DCMAKE_BUILD_TYPE=Release -DOpenSim_DIR="${OpenSim_DIR}" -DCMAKE_PREFIX_PATH="${CONDA_PREFIX}"
+cmake --build HeadNeckNeuralController_plugin/build --config Release --target osimHeadNeckNeural -j 8
+
+if [ ! -f FixationController_plugin/build/libosimFixation.so ]; then
+    rm -rf FixationController_plugin/build && mkdir -p FixationController_plugin/build
+    cmake -S FixationController_plugin -B FixationController_plugin/build -DCMAKE_BUILD_TYPE=Release -DOpenSim_DIR="${OpenSim_DIR}" -DCMAKE_PREFIX_PATH="${CONDA_PREFIX}"
+    cmake --build FixationController_plugin/build --config Release -j 8
+fi
+
+echo "[TRUBA] Smoke-checking osimHeadNeckNeural properties..."
+python -c "import sys; sys.path.extend(['.', 'util', 'scripts']); import opensim as osim; from cmaes_worker_p22 import ensure_libraries_loaded; ensure_libraries_loaded(); m = osim.Model('osim_files/HYOID_HeadNeckNeural_Model_Detailed.osim'); ctrls = [m.getControllerSet().get(i) for i in range(m.getControllerSet().getSize()) if m.getControllerSet().get(i).getConcreteClassName() == 'HeadNeckNeuralController']; c = ctrls[0]; knee = osim.PropertyHelper.getValueDouble(c.getPropertyByName('highg_oto_knee_mps2')); sn = c.getPropertyByName('enable_sensor_noise').toString().strip(); mn = c.getPropertyByName('enable_motor_noise').toString().strip(); print(f'[SMOKE] highg_oto_knee_mps2={knee:.2f} enable_sensor_noise={sn} enable_motor_noise={mn}'); assert abs(knee - 7.80) < 1e-6; assert sn.lower() == 'false' and mn.lower() == 'false'"
+
+echo "[TRUBA] Launching 4 deterministic Noise-OFF verification suites in parallel at $(date)"
+python scripts/generate_standard_plot.py \
+    --params-json logs/se2_c1pos_3axis_champion.json \
+    --tag c11_highg_alertness \
+    > logs/truba_bode_c11_highg_alertness.log 2>&1 &
+PID_BODE=$!
+
+python scripts/run_rpy_50deg_yaw_sweep.py \
+    > logs/truba_rpy_50deg_yaw_sweep.log 2>&1 &
+PID_RPY=$!
+
+python scripts/validate_5dof_voluntary_and_se2_shift.py \
+    > logs/truba_5dof_voluntary_shift.log 2>&1 &
+PID_5DOF=$!
+
+python scripts/run_zheng_2g_3g_urgency_sweep.py \
+    > logs/truba_zheng_2g_3g_urgency_sweep.log 2>&1 &
+PID_SLED=$!
+
+set +e
+wait "${PID_BODE}"; RC_BODE=$?
+wait "${PID_RPY}";  RC_RPY=$?
+wait "${PID_5DOF}"; RC_5DOF=$?
+wait "${PID_SLED}"; RC_SLED=$?
+set -e
+
+echo "[TRUBA] Completed at $(date) | RC_BODE=${RC_BODE} | RC_RPY=${RC_RPY} | RC_5DOF=${RC_5DOF} | RC_SLED=${RC_SLED}"
+test "${RC_BODE}" -eq 0 && test "${RC_RPY}" -eq 0 && test "${RC_5DOF}" -eq 0 && test "${RC_SLED}" -eq 0

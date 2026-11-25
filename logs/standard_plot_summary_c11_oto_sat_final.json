@@ -1,0 +1,748 @@
+{
+  "model_path": "D:\\Akademik\\PhD_Thesis\\OpenSim\\HeadNeck_Control_w_Sensors_Opensim4_6\\osim_files\\HYOID_HeadNeckNeural_Model_Detailed.osim",
+  "cli_overrides": [
+    {
+      "key": "K_gamma_dyn",
+      "val": "0.857744"
+    },
+    {
+      "key": "K_gamma_stat",
+      "val": "0.69312344"
+    },
+    {
+      "key": "K_sc_roll",
+      "val": "2.26261178273325"
+    },
+    {
+      "key": "z_sc_roll",
+      "val": "0.014993995689302"
+    },
+    {
+      "key": "p_sc_roll",
+      "val": "30.5413579039881"
+    },
+    {
+      "key": "K_phas_roll",
+      "val": "4.15260876019438"
+    },
+    {
+      "key": "z_phas_roll",
+      "val": "0.00982769178266877"
+    },
+    {
+      "key": "p_phas_roll",
+      "val": "9.39043238177084"
+    },
+    {
+      "key": "K_ton_roll",
+      "val": "0.20224301967525"
+    },
+    {
+      "key": "p_ton_roll",
+      "val": "10.6901870139224"
+    },
+    {
+      "key": "Kp_prop_roll",
+      "val": "2.11877297960615"
+    },
+    {
+      "key": "z_ccr_roll",
+      "val": "0.00690094538412011"
+    },
+    {
+      "key": "p_ccr_roll",
+      "val": "90.2053923812275"
+    },
+    {
+      "key": "Kp_proprioception_roll",
+      "val": "0.0381137405165273"
+    },
+    {
+      "key": "Kp_task_roll",
+      "val": "0.226842094979943"
+    },
+    {
+      "key": "Kd_task_roll",
+      "val": "2.83731663227018"
+    },
+    {
+      "key": "Ki_task_roll",
+      "val": "0.522072172838396"
+    },
+    {
+      "key": "tau_lead_pole_roll",
+      "val": "0.0183754634130439"
+    },
+    {
+      "key": "Kp_buckle_roll",
+      "val": "1.31659094362403"
+    },
+    {
+      "key": "Kd_buckle_roll",
+      "val": "0.292556917015517"
+    },
+    {
+      "key": "tau_lead_pole",
+      "val": "0.0142043782796991"
+    },
+    {
+      "key": "K_sc",
+      "val": "3.99495598194498"
+    },
+    {
+      "key": "z_sc",
+      "val": "0.0118785312745264"
+    },
+    {
+      "key": "p_sc",
+      "val": "55.2035590186084"
+    },
+    {
+      "key": "K_phas",
+      "val": "13.069911841225"
+    },
+    {
+      "key": "z_phas",
+      "val": "0.0285703916818447"
+    },
+    {
+      "key": "p_phas",
+      "val": "2.27972450573127"
+    },
+    {
+      "key": "K_ton",
+      "val": "4.04794863119411"
+    },
+    {
+      "key": "p_ton",
+      "val": "15.255944957447"
+    },
+    {
+      "key": "Kp_prop_pitch",
+      "val": "0.284990885274783"
+    },
+    {
+      "key": "z_ccr",
+      "val": "0.0198576709393761"
+    },
+    {
+      "key": "p_ccr",
+      "val": "100.250187674593"
+    },
+    {
+      "key": "Kp_proprioception",
+      "val": "0.0157690484455191"
+    },
+    {
+      "key": "Kp_task_pitch",
+      "val": "6.11852798233601"
+    },
+    {
+      "key": "Kd_task_pitch",
+      "val": "0.151208426831528"
+    },
+    {
+      "key": "Ki_task_pitch",
+      "val": "2.13193808129504"
+    },
+    {
+      "key": "Kp_buckle",
+      "val": "1.14539347935719"
+    },
+    {
+      "key": "Kd_buckle",
+      "val": "0.202763103031753"
+    },
+    {
+      "key": "tau_lead_pole_yaw",
+      "val": "0.0120303841657849"
+    },
+    {
+      "key": "K_sc_yaw",
+      "val": "1.51466546790165"
+    },
+    {
+      "key": "z_sc_yaw",
+      "val": "0.0195597878557779"
+    },
+    {
+      "key": "p_sc_yaw",
+      "val": "1.30003703723097"
+    },
+    {
+      "key": "K_ton_yaw",
+      "val": "9.64171174009694"
+    },
+    {
+      "key": "p_ton_yaw",
+      "val": "20.1195463720921"
+    },
+    {
+      "key": "Kp_prop_yaw",
+      "val": "10.0888967504947"
+    },
+    {
+      "key": "z_ccr_yaw",
+      "val": "0.0189935590090171"
+    },
+    {
+      "key": "p_ccr_yaw",
+      "val": "83.1802039358828"
+    },
+    {
+      "key": "Kp_proprioception_yaw",
+      "val": "0.0357597607581398"
+    },
+    {
+      "key": "Kp_task_yaw",
+      "val": "0.407719297946964"
+    },
+    {
+      "key": "Kd_task_yaw",
+      "val": "0.0576184153459362"
+    },
+    {
+      "key": "Ki_task_yaw",
+      "val": "0.0776220647253413"
+    },
+    {
+      "key": "Kp_buckle_yaw",
+      "val": "0.927453014020557"
+    },
+    {
+      "key": "Kd_buckle_yaw",
+      "val": "0.301927708742341"
+    },
+    {
+      "key": "Kp_trans_roll",
+      "val": "0"
+    },
+    {
+      "key": "Kv_trans_roll",
+      "val": "0"
+    },
+    {
+      "key": "Kp_trans_pitch",
+      "val": "0"
+    },
+    {
+      "key": "Kv_trans_pitch",
+      "val": "0"
+    },
+    {
+      "key": "Kp_shift_obs_px",
+      "val": "0"
+    },
+    {
+      "key": "Kv_shift_obs_vx",
+      "val": "0"
+    },
+    {
+      "key": "Kp_shift_obs_pz",
+      "val": "-0.0455"
+    },
+    {
+      "key": "Kv_shift_obs_vz",
+      "val": "0"
+    },
+    {
+      "key": "Kp_shift_lat",
+      "val": "4.5"
+    },
+    {
+      "key": "Kd_shift_lat",
+      "val": "0.3"
+    },
+    {
+      "key": "Ki_shift_lat",
+      "val": "3"
+    },
+    {
+      "key": "Kp_shift_ap",
+      "val": "4.5"
+    },
+    {
+      "key": "Kd_shift_ap",
+      "val": "0.3"
+    },
+    {
+      "key": "Ki_shift_ap",
+      "val": "3"
+    },
+    {
+      "key": "w_pos_ap",
+      "val": "1"
+    },
+    {
+      "key": "w_pos_lat",
+      "val": "1"
+    },
+    {
+      "key": "shift_station_blend",
+      "val": "0"
+    },
+    {
+      "key": "tau_vel_leak",
+      "val": "3"
+    },
+    {
+      "key": "tau_pos_leak",
+      "val": "2"
+    },
+    {
+      "key": "tau_obs_washout",
+      "val": "5"
+    },
+    {
+      "key": "vol_diff_ff_stiff_ap",
+      "val": "5.5"
+    },
+    {
+      "key": "vol_diff_ff_stiff_lat",
+      "val": "7"
+    },
+    {
+      "key": "vol_ki_shift_ap",
+      "val": "40"
+    },
+    {
+      "key": "trajectory_tau",
+      "val": "0.28"
+    }
+  ],
+  "false_booleans": [],
+  "bool_banner": "Booleans: ALL 28 TRUE (Default Open Mode)",
+  "bool_state": {
+    "enable_axis_pitch": true,
+    "enable_axis_roll": true,
+    "enable_axis_yaw": true,
+    "enable_ccr": true,
+    "enable_ccr_spinal": true,
+    "enable_ccr_task": true,
+    "enable_ccr_pitch": true,
+    "enable_ccr_roll": true,
+    "enable_ccr_yaw": true,
+    "enable_vcr": true,
+    "enable_vcr_tonic": true,
+    "enable_vcr_canal": true,
+    "enable_vcr_phasic": true,
+    "enable_vcr_pitch": true,
+    "enable_vcr_roll": true,
+    "enable_vcr_yaw": true,
+    "enable_task_controller": true,
+    "enable_task_integral": true,
+    "enable_task_pitch": true,
+    "enable_task_roll": true,
+    "enable_task_yaw": true,
+    "enable_decoder": true,
+    "enable_mahony": true,
+    "enable_efference_cancellation": true,
+    "enable_fusimotor": true,
+    "enable_reciprocal_inhibition": true,
+    "enable_antibuckling": true,
+    "enable_lead_compensators": true,
+    "enable_eye_afferents": false
+  },
+  "axes": {
+    "APEO": {
+      "output_png": "standard_plot_apeo_pitch_c11_oto_sat_final.png",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "abort_reason": "",
+      "classic_bode_score": 2185.28,
+      "pitch_crosstalk_penalty": 0.28,
+      "total_score": 2290.59,
+      "gain_loss_pts": 1240.98,
+      "phase_loss_pts": 944.3,
+      "hf_penalty": 105.03,
+      "pitch_hf_10hz_rms_deg": 0.0503,
+      "hf_noise_rms": 4.583,
+      "corr_vel": 0.9606,
+      "quiet_main_max_deg": 0.0088,
+      "quiet_pitch_dev_max_deg": 0.0088,
+      "quiet_roll_max_deg": 0.0,
+      "quiet_yaw_rel_max_deg": 0.0001,
+      "full_pitch_dev_max_deg": 7.036,
+      "full_roll_max_deg": 0.033,
+      "full_yaw_rel_max_deg": 0.042,
+      "post_pitch_dev_max_deg": 7.036,
+      "post_roll_max_deg": 0.033,
+      "post_yaw_rel_max_deg": 0.042,
+      "frequencies": {
+        "0.324": {
+          "freq_hz": 0.324,
+          "input_amp": 0.022620609365902777,
+          "output_amp_deg": 1.728279684576104,
+          "sim_gain": 76.40287918950716,
+          "target_gain": 86.55,
+          "gain_db_diff": -1.0831469448206104,
+          "gain_loss_pts": 117.32073040742223,
+          "sim_phase": -33.31038584088111,
+          "target_phase": -7.03,
+          "phase_err": -26.28038584088111,
+          "phase_loss_pts": 690.6586799455843,
+          "phase_loss_pts_raw": 690.6586799455843,
+          "phase_excluded": false
+        },
+        "0.783": {
+          "freq_hz": 0.783,
+          "input_amp": 0.009360252151408045,
+          "output_amp_deg": 1.8946047189813757,
+          "sim_gain": 202.40958131628685,
+          "target_gain": 236.93,
+          "gain_db_diff": -1.3677797578507191,
+          "gain_loss_pts": 187.0821465986172,
+          "sim_phase": -94.3574363614543,
+          "target_phase": -96.96,
+          "phase_err": 2.602563638545689,
+          "phase_loss_pts": 6.773337492680176,
+          "phase_loss_pts_raw": 6.773337492680176,
+          "phase_excluded": false
+        },
+        "1.099": {
+          "freq_hz": 1.099,
+          "input_amp": 0.006668860268018653,
+          "output_amp_deg": 1.985557756217976,
+          "sim_gain": 297.73569641876657,
+          "target_gain": 319.74,
+          "gain_db_diff": -0.6193212799650106,
+          "gain_loss_pts": 38.35588478174991,
+          "sim_phase": -110.80389032097385,
+          "target_phase": -109.23,
+          "phase_err": -1.5738903209738453,
+          "phase_loss_pts": 2.4771307424551536,
+          "phase_loss_pts_raw": 2.4771307424551536,
+          "phase_excluded": false
+        },
+        "2.446": {
+          "freq_hz": 2.446,
+          "input_amp": 0.0029963521809290676,
+          "output_amp_deg": 1.2179045366418104,
+          "sim_gain": 406.4624126607772,
+          "target_gain": 423.34,
+          "gain_db_diff": -0.35337829539777904,
+          "gain_loss_pts": 12.487621965824,
+          "sim_phase": -158.79397007711577,
+          "target_phase": -161.34,
+          "phase_err": 2.5460299228842302,
+          "phase_loss_pts": 6.482268368221879,
+          "phase_loss_pts_raw": 6.482268368221879,
+          "phase_excluded": false
+        },
+        "5.583": {
+          "freq_hz": 5.583,
+          "input_amp": 0.0013127489583651263,
+          "output_amp_deg": 0.7458707519482412,
+          "sim_gain": 568.1747048400899,
+          "target_gain": 503.3,
+          "gain_db_diff": 1.053099292259379,
+          "gain_loss_pts": 110.90181193572049,
+          "sim_phase": -211.6585360176514,
+          "target_phase": -201.38,
+          "phase_err": -10.27853601765139,
+          "phase_loss_pts": 105.64830266615691,
+          "phase_loss_pts_raw": 105.64830266615691,
+          "phase_excluded": false
+        },
+        "7.927": {
+          "freq_hz": 7.927,
+          "input_amp": 0.0009245713932827679,
+          "output_amp_deg": 0.3843095423113044,
+          "sim_gain": 415.66237621389223,
+          "target_gain": 572.69,
+          "gain_db_diff": -2.783577675144045,
+          "gain_loss_pts": 774.8304673560326,
+          "sim_phase": -236.11944363801683,
+          "target_phase": -247.62,
+          "phase_err": 11.500556361983172,
+          "phase_loss_pts": 132.2627966351516,
+          "phase_loss_pts_raw": 132.2627966351516,
+          "phase_excluded": false
+        }
+      }
+    },
+    "LatEC": {
+      "output_png": "standard_plot_latec_roll_c11_oto_sat_final.png",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "abort_reason": "",
+      "classic_bode_score": 1962.94,
+      "pitch_crosstalk_penalty": 307.39,
+      "total_score": 2352.04,
+      "gain_loss_pts": 643.45,
+      "phase_loss_pts": 1319.48,
+      "hf_penalty": 81.71,
+      "pitch_hf_10hz_rms_deg": 0.0,
+      "hf_noise_rms": 1.808,
+      "corr_vel": 0.9371,
+      "quiet_main_max_deg": 0.0,
+      "quiet_pitch_dev_max_deg": 0.0088,
+      "quiet_roll_max_deg": 0.0,
+      "quiet_yaw_rel_max_deg": 0.0001,
+      "full_pitch_dev_max_deg": 0.816,
+      "full_roll_max_deg": 8.033,
+      "full_yaw_rel_max_deg": 1.68,
+      "post_pitch_dev_max_deg": 0.5,
+      "post_roll_max_deg": 8.033,
+      "post_yaw_rel_max_deg": 1.68,
+      "frequencies": {
+        "0.1209": {
+          "freq_hz": 0.1209,
+          "input_amp": 0.08218796165955754,
+          "output_amp_deg": 0.6831661000513979,
+          "sim_gain": 8.31224045780862,
+          "target_gain": 8.8121,
+          "gain_db_diff": -0.5072263764864235,
+          "gain_loss_pts": 25.72785970035471,
+          "sim_phase": -296.8308156024954,
+          "target_phase": -304.3956,
+          "phase_err": 7.564784397504582,
+          "phase_loss_pts": 57.22596298072876,
+          "phase_loss_pts_raw": 57.22596298072876,
+          "phase_excluded": false
+        },
+        "0.5588": {
+          "freq_hz": 0.5588,
+          "input_amp": 0.017781897932427536,
+          "output_amp_deg": 1.7114136745748079,
+          "sim_gain": 96.2447136452082,
+          "target_gain": 90.4836,
+          "gain_db_diff": 0.5361402700464087,
+          "gain_loss_pts": 28.744638916543607,
+          "sim_phase": -212.64976421104964,
+          "target_phase": -229.1921,
+          "phase_err": 16.542335788950368,
+          "phase_loss_pts": 273.6488733543882,
+          "phase_loss_pts_raw": 273.6488733543882,
+          "phase_excluded": false
+        },
+        "0.8722": {
+          "freq_hz": 0.8722,
+          "input_amp": 0.011392484022747658,
+          "output_amp_deg": 2.5076149361515467,
+          "sim_gain": 220.1113410512167,
+          "target_gain": 191.3284,
+          "gain_db_diff": 1.2172596017924808,
+          "gain_loss_pts": 148.1720938155989,
+          "sim_phase": -241.01186341076635,
+          "target_phase": -237.2924,
+          "phase_err": -3.719463410766366,
+          "phase_loss_pts": 13.834408064029768,
+          "phase_loss_pts_raw": 13.834408064029768,
+          "phase_excluded": false
+        },
+        "1.4040": {
+          "freq_hz": 1.404,
+          "input_amp": 0.007077296698461898,
+          "output_amp_deg": 2.670399054071196,
+          "sim_gain": 377.31907645634686,
+          "target_gain": 411.8162,
+          "gain_db_diff": -0.7598932819722565,
+          "gain_loss_pts": 57.74377999865673,
+          "sim_phase": -284.3775071456374,
+          "target_phase": -288.0149,
+          "phase_err": 3.637392854362588,
+          "phase_loss_pts": 13.230626776968014,
+          "phase_loss_pts_raw": 13.230626776968014,
+          "phase_excluded": false
+        },
+        "2.0936": {
+          "freq_hz": 2.0936,
+          "input_amp": 0.004746142799312431,
+          "output_amp_deg": 2.019376421631489,
+          "sim_gain": 425.4773838503203,
+          "target_gain": 357.1374,
+          "gain_db_diff": 1.520822952525612,
+          "gain_loss_pts": 231.29024529287202,
+          "sim_phase": -312.8954998918891,
+          "target_phase": -328.3241,
+          "phase_err": 15.428600108110913,
+          "phase_loss_pts": 238.0417012960001,
+          "phase_loss_pts_raw": 238.0417012960001,
+          "phase_excluded": false
+        },
+        "3.9915": {
+          "freq_hz": 3.9915,
+          "input_amp": 0.0024894211611275227,
+          "output_amp_deg": 1.0688780712574038,
+          "sim_gain": 429.3681149449543,
+          "target_gain": 494.7986,
+          "gain_db_diff": -1.2319734348537517,
+          "gain_loss_pts": 151.77585441853512,
+          "sim_phase": -339.5644917899316,
+          "target_phase": -366.4625,
+          "phase_err": 26.898008210068383,
+          "phase_loss_pts": 723.5028456689062,
+          "phase_loss_pts_raw": 723.5028456689062,
+          "phase_excluded": false
+        }
+      }
+    },
+    "YawMA": {
+      "output_png": "standard_plot_yawma_yaw_c11_oto_sat_final.png",
+      "aborted": false,
+      "abort_time_s": 15.8,
+      "abort_reason": "",
+      "classic_bode_score": 640.15,
+      "pitch_crosstalk_penalty": 158.98,
+      "total_score": 856.1,
+      "gain_loss_pts": 434.4,
+      "phase_loss_pts": 205.75,
+      "hf_penalty": 56.98,
+      "pitch_hf_10hz_rms_deg": 0.0,
+      "hf_noise_rms": 1.51,
+      "corr_vel": 0.9889,
+      "quiet_main_max_deg": 0.0001,
+      "quiet_pitch_dev_max_deg": 0.0088,
+      "quiet_roll_max_deg": 0.0,
+      "quiet_yaw_rel_max_deg": 0.0001,
+      "full_pitch_dev_max_deg": 0.904,
+      "full_roll_max_deg": 1.026,
+      "full_yaw_rel_max_deg": 4.452,
+      "post_pitch_dev_max_deg": 0.733,
+      "post_roll_max_deg": 1.026,
+      "post_yaw_rel_max_deg": 4.452,
+      "frequencies": {
+        "0.2016": {
+          "freq_hz": 0.2016,
+          "input_amp": 4.977897652116402,
+          "output_amp_deg": 3.1109493287462247,
+          "sim_gain": 0.6249524490371099,
+          "target_gain": 0.5806,
+          "gain_db_diff": 0.6393988559630693,
+          "gain_loss_pts": 40.88308970068819,
+          "sim_phase": 10.167680826000506,
+          "target_phase": 1.0364,
+          "phase_err": 9.131280826000506,
+          "phase_loss_pts": 83.38028952328447,
+          "phase_loss_pts_raw": 83.38028952328447,
+          "phase_excluded": false
+        },
+        "0.2980": {
+          "freq_hz": 0.298,
+          "input_amp": 3.3675978747203574,
+          "output_amp_deg": 2.253847787483359,
+          "sim_gain": 0.6692746198714467,
+          "target_gain": 0.6341,
+          "gain_db_diff": 0.4689320576134899,
+          "gain_loss_pts": 21.98972746576214,
+          "sim_phase": 13.282772612951232,
+          "target_phase": 10.295,
+          "phase_err": 2.9877726129512325,
+          "phase_loss_pts": 8.926785186701435,
+          "phase_loss_pts_raw": 8.926785186701435,
+          "phase_excluded": false
+        },
+        "0.4728": {
+          "freq_hz": 0.4728,
+          "input_amp": 2.1225553440496334,
+          "output_amp_deg": 1.654778342312764,
+          "sim_gain": 0.779616110812736,
+          "target_gain": 0.7695,
+          "gain_db_diff": 0.11344362183608914,
+          "gain_loss_pts": 1.28694553352896,
+          "sim_phase": 16.234796824084995,
+          "target_phase": 15.0535,
+          "phase_err": 1.1812968240849955,
+          "phase_loss_pts": 1.3954621865932968,
+          "phase_loss_pts_raw": 1.3954621865932968,
+          "phase_excluded": false
+        },
+        "0.6827": {
+          "freq_hz": 0.6827,
+          "input_amp": 1.4699636248230066,
+          "output_amp_deg": 1.396695463911705,
+          "sim_gain": 0.9501564802869708,
+          "target_gain": 0.8396,
+          "gain_db_diff": 1.0744540955453035,
+          "gain_loss_pts": 115.44516034340762,
+          "sim_phase": 13.912254484659979,
+          "target_phase": 13.5245,
+          "phase_err": 0.38775448465997897,
+          "phase_loss_pts": 0.15035354037392587,
+          "phase_loss_pts_raw": 0.15035354037392587,
+          "phase_excluded": false
+        },
+        "0.9651": {
+          "freq_hz": 0.9651,
+          "input_amp": 1.0398343867647566,
+          "output_amp_deg": 1.1536259477277473,
+          "sim_gain": 1.109432388860529,
+          "target_gain": 1.1315,
+          "gain_db_diff": -0.1710743546796426,
+          "gain_loss_pts": 2.9266434829056154,
+          "sim_phase": 3.2264966250196867,
+          "target_phase": 12.7583,
+          "phase_err": -9.531803374980313,
+          "phase_loss_pts": 90.8552755792861,
+          "phase_loss_pts_raw": 90.8552755792861,
+          "phase_excluded": false
+        },
+        "1.4081": {
+          "freq_hz": 1.4081,
+          "input_amp": 0.7126938190942879,
+          "output_amp_deg": 0.9237493768529599,
+          "sim_gain": 1.2961377692694005,
+          "target_gain": 1.4443,
+          "gain_db_diff": -0.9401249033134482,
+          "gain_loss_pts": 88.38348338301203,
+          "sim_phase": -10.412513041280736,
+          "target_phase": -9.2208,
+          "phase_err": -1.1917130412807353,
+          "phase_loss_pts": 1.4201799727585795,
+          "phase_loss_pts_raw": 1.4201799727585795,
+          "phase_excluded": false
+        },
+        "1.9855": {
+          "freq_hz": 1.9855,
+          "input_amp": 0.505436497943423,
+          "output_amp_deg": 0.7618252940207619,
+          "sim_gain": 1.5072621330682736,
+          "target_gain": 1.4429,
+          "gain_db_diff": 0.3790511019243426,
+          "gain_loss_pts": 14.367973787005836,
+          "sim_phase": -28.798564883752118,
+          "target_phase": -31.9132,
+          "phase_err": 3.1146351162478823,
+          "phase_loss_pts": 9.700951907364459,
+          "phase_loss_pts_raw": 9.700951907364459,
+          "phase_excluded": false
+        },
+        "2.8742": {
+          "freq_hz": 2.8742,
+          "input_amp": 0.3491559970310579,
+          "output_amp_deg": 0.4844967944838734,
+          "sim_gain": 1.3876227205135956,
+          "target_gain": 1.5875,
+          "gain_db_diff": -1.1688466345927462,
+          "gain_loss_pts": 136.6202455198789,
+          "sim_phase": -68.09969823018912,
+          "target_phase": -65.1805,
+          "phase_err": -2.9191982301891244,
+          "phase_loss_pts": 8.521718307139317,
+          "phase_loss_pts_raw": 8.521718307139317,
+          "phase_excluded": false
+        },
+        "4.0528": {
+          "freq_hz": 4.0528,
+          "input_amp": 0.24761749078826156,
+          "output_amp_deg": 0.29087778834567607,
+          "sim_gain": 1.1747061462407213,
+          "target_gain": 1.2235,
+          "gain_db_diff": -0.35349465269587355,
+          "gain_loss_pts": 12.495846948457626,
+          "sim_phase": -98.81864135061562,
+          "target_phase": -100.0,
+          "phase_err": 1.1813586493843786,
+          "phase_loss_pts": 1.3956082584752831,
+          "phase_loss_pts_raw": 1.3956082584752831,
+          "phase_excluded": false
+        }
+      }
+    }
+  },
+  "combined_bode_score": 4788.37,
+  "combined_pitch_crosstalk_penalty": 466.65,
+  "combined_hf_penalty": 243.72,
+  "combined_total_score": 5498.73
+}
