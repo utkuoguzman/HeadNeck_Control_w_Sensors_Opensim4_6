@@ -117,6 +117,31 @@ public:
     OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_lat, double, "Voluntary-gated lateral differential velocity feedforward in Nms/rad (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(urgency, double, "Unified CNS alertness & movement vigor dial u in [-1.0, 1.0]: -1.0=passive neck, (-1,0)=hypo-alert/relaxed, 0.0=alert APEO baseline, (0,1]=braced/ballistic fast tracking (default: 0.0)");
     OpenSim_DECLARE_PROPERTY(highg_oto_knee_mps2, double, "Linear-below-knee translational acceleration threshold [m/s^2] above which high-G otolith reweighting & shock damping engage (default: 7.80, strictly above APEO).");
+    OpenSim_DECLARE_PROPERTY(highg_rolloff_mps2, double, "Quadratic rolloff half-width [m/s^2] for high-G attenuation g_highg = 1 / (1 + (env / rolloff)^2) (default: 0.65).");
+    OpenSim_DECLARE_PROPERTY(highg_irr_knee_ratio, double, "Multiplier on highg_oto_knee_mps2 for irregular otolith excess threshold (default: 1.90).");
+    OpenSim_DECLARE_PROPERTY(highg_phas_pole_boost, double, "High-G pitch phasic filter adaptation pole boost [rad/s] p_phas_eff = p_phas + (1 - g_highg)*boost (default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(highg_phas_sust_floor, double, "Floor in [0, 1] on instantaneous sustained phasic multiplier sqrt(g_highg) (default: 0.0; 1.0 relaxes purely via p_phas_eff).");
+    OpenSim_DECLARE_PROPERTY(phasic_lead_sat_nm, double, "Linear-below-knee ceiling [Nm] on phasic otolith lead torque (0 disables; linear 1:1 below 0.90*ceiling; default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(highg_p_sc_floor, double, "High-G minimum pitch canal pole p_sc_eff (rad/s) as g_highg -> 0; >= p_sc disables softening (default: 22.0).");
+    OpenSim_DECLARE_PROPERTY(highg_tau_lead_add_s, double, "High-G additive pitch MVST lead pole relaxation (s) scaled by (1 - g_highg) (default: 0.022).");
+    OpenSim_DECLARE_PROPERTY(highg_sc_gain_boost, double, "High-G otolith-to-canal sensory reweighting gain boost on Pitch VCR: K_sc_eff = K_sc * (1 + boost * (1 - g_highg)) (default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(highg_brace_phas_suppress, double, "C^1-smooth ballistic bracing VO phasic-otolith suppression in [0, 0.90] gated by smoothstep01((u - 0.50) / 0.50) (identically 0 for u <= 0.50; default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(phasic_oto_tanh_mps2, double, "C^infty pre-lead utricular hair-bundle hyperbolic-tangent saturation [m/s^2] applied before Stage-2 irregular afferent lead (0=off, default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(phasic_torque_tanh_nm, double, "C^infty post-integrator vestibulospinal LVN/MVN hyperbolic-tangent torque saturation [Nm] (0=off, default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(oto_reweight_a0_mps2, double, "C^infty divisive somatogravic otolith sensory-reweighting half-power scale a0 [m/s^2]: w_oto = 1/(1 + (a_env/a0)^2) (0=off, default: 0.0).");
+    OpenSim_DECLARE_PROPERTY(oto_reweight_tau_s, double, "Low-pass signed translational acceleration averaging window tau_env [s] for somatogravic otolith reweighting (default: 0.050).");
+    OpenSim_DECLARE_PROPERTY(vcr_upper_share_pitch, double, "MVST/LVST upper-cervical (pitch1 C0-C2) share of pitch VCR torque in [0, 1] (0.50=equal 50/50 split, default: 0.50).");
+
+    // Tier B Spinal Interneurons & Ligamento-Muscular Reflex Parameters (all default OFF/0.0 to preserve clean C1 baseline)
+    OpenSim_DECLARE_PROPERTY(K_gto_ib, double, "Golgi Tendon Organ (Ib) autogenic negative feedback gain in excitation/(imp/s) (default: 0.0020)");
+    OpenSim_DECLARE_PROPERTY(p_gto_ib, double, "Disynaptic Ib interneuron low-pass pole in rad/s (default: 150.0)");
+    OpenSim_DECLARE_PROPERTY(thresh_gto_ib, double, "C1-smooth Group Ib recruitment threshold above efference copy in imp/s (default: 0.50)");
+    OpenSim_DECLARE_PROPERTY(K_gto_vol_suppress, double, "Voluntary-gated presynaptic suppression of homonymous Ib inhibition [0, 1] (default: 0.85)");
+    OpenSim_DECLARE_PROPERTY(K_renshaw, double, "Lamina IX Renshaw cell recurrent inhibition dimensionless gain (default: 0.18)");
+    OpenSim_DECLARE_PROPERTY(tau_renshaw, double, "Renshaw recurrent inhibition membrane decay time constant in s (default: 0.022)");
+    OpenSim_DECLARE_PROPERTY(K_lig_protective, double, "Ligamento-muscular protective reflex gain onto Lamina IX pool in excitation/(imp/s) (default: 0.0015)");
+    OpenSim_DECLARE_PROPERTY(p_lig_reflex, double, "Polysynaptic articular interneuron low-pass pole in rad/s (default: 90.0)");
+    OpenSim_DECLARE_PROPERTY(K_subocc_shear_damp, double, "Additive 5-DOF pitch S-buckling Cuneate differential speed damping in Nms/rad (default: 0.0)");
 
     // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
     OpenSim_DECLARE_PROPERTY(Kp_buckle, double, "6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
@@ -168,6 +193,9 @@ public:
     OpenSim_DECLARE_PROPERTY(enable_lead_compensators, bool, "Switch enabling causal biproper 1st-order branch lead compensators evalProperLead (default: true)");
 
     OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "If true, includes extraocular eye muscles (r_*, l_*) in controller state allocation (default: false)");
+    OpenSim_DECLARE_PROPERTY(enable_gto_reflex, bool, "Switch enabling Group Ib Golgi Tendon Organ reflex with Reference GTO efference cancellation (default: false)");
+    OpenSim_DECLARE_PROPERTY(enable_renshaw, bool, "Switch enabling Lamina IX Renshaw cell recurrent inhibition (default: false)");
+    OpenSim_DECLARE_PROPERTY(enable_ligament_reflex, bool, "Switch enabling DynamicLigamentForce ligamento-muscular reflex (default: false)");
 
     // Physiological sensory & motor noise controls (default: false = exact deterministic baseline)
     OpenSim_DECLARE_PROPERTY(enable_sensor_noise, bool, "Toggle Tier-1 physiological vestibular & spindle afferent noise (default: false)");
@@ -369,6 +397,11 @@ private:
         SimTK::Vector spinal_gamma_stat_commands;                  // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N Stage 1A static fusimotor commands proper lead compensated
         SimTK::Vector expected_normalized_fiber_lengths;           // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N expected L_hat(t) proper lead compensated
         SimTK::Vector expected_normalized_fiber_velocities;        // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N expected dL_hat/dt(t) proper lead compensated
+        SimTK::Vector raw_gto_ib_rate;                             // Raw Lin02 GTO Ib firing rate (imp/s) before 1.2 ms axon + 1.3 ms interneuron delay
+        SimTK::Vector planned_voluntary_alpha;                     // Descending planned voluntary alpha excitation u_plan_alpha(t)
+        SimTK::Vec4 raw_lig_pac{0.0};                              // Summed articular Type II Pacinian rate across roles 0..3 before 3.0 ms axon delay
+        SimTK::Vec4 raw_lig_golgi{0.0};                            // Summed articular Type III Golgi-like rate across roles 0..3 before 3.0 ms axon delay
+        double voluntary_activity_gate = 0.0;                      // Smooth [0, 1] voluntary motion gate
     };
     
     struct DelayedData {
@@ -442,6 +475,7 @@ private:
     mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_velocity_storage[3] = {nullptr};
     mutable const StateVariable* state_variable_highg_acc_env = nullptr;
+    mutable const StateVariable* state_variable_oto_reweight[2] = {nullptr, nullptr};
     mutable const StateVariable* state_variable_cuneate_posture[3] = {nullptr};
     mutable const StateVariable* state_variable_cuneate_diff[2] = {nullptr};
     mutable const StateVariable* state_variable_obs_wash_lpf[2] = {nullptr};
@@ -481,6 +515,7 @@ private:
     SimTK::Mat33 left_canal_inverse_matrix;
     mutable std::vector<const OpenSim::Output<double>*> cached_primary_afferent_outputs;
     mutable std::vector<const OpenSim::Output<double>*> cached_secondary_afferent_outputs;
+    mutable std::vector<const OpenSim::Output<double>*> cached_tendon_afferent_outputs;
     mutable std::vector<double> cached_fiber_length_scales;
     mutable std::vector<double> cached_primary_afferent_velocity_scales;
     mutable std::vector<double> cached_maximum_isometric_forces;
@@ -494,6 +529,17 @@ private:
     mutable std::vector<double> baseline_muscle_activations;
     mutable std::vector<double> baseline_primary_afferent_rates;
     mutable std::vector<double> baseline_secondary_afferent_rates;
+    mutable std::vector<double> baseline_tendon_afferent_rates;
+    mutable std::vector<const StateVariable*> state_variable_gto_ib;
+    mutable std::vector<const StateVariable*> state_variable_renshaw;
+    mutable const StateVariable* state_variable_lig_reflex[4] = {nullptr};
+    struct LigamentCacheEntry {
+        const OpenSim::Output<double>* strain_out = nullptr;
+        const OpenSim::Output<double>* rate_out = nullptr;
+        double toe_strain = 1.15;
+        int role = 0;
+    };
+    mutable std::vector<LigamentCacheEntry> cached_ligaments;
     mutable std::vector<double> last_alpha_motor_excitations;
     mutable std::vector<double> last_voluntary_alpha_excitations;
     mutable SimTK::Vec3 last_qp_torque_deficit = SimTK::Vec3(0.0);
@@ -536,6 +582,7 @@ private:
         static constexpr int kChunkKnots = 200;  // 1.0 s growth chunks
         int cached_seed = -1;
         int n_muscles = 0;
+        bool include_gto = false;
         int n_channels = 0;
         int num_knots = 0;
         std::mt19937_64 rng;
@@ -552,13 +599,15 @@ private:
             if (ch < 24) return 0.015;                 // 18..23: Irregular otoliths (L/R 3D)
             if (ch < 24 + n_mus) return 0.020;         // 24..24+N-1: Spindle Ia
             if (ch < 24 + 2 * n_mus) return 0.030;     // 24+N..24+2N-1: Spindle II
-            return 0.060;                              // 24+2N..24+3N-1: Motor alpha common drive
+            if (ch < 24 + 3 * n_mus) return 0.060;     // 24+2N..24+3N-1: Motor alpha common drive
+            return 0.020;                              // 24+3N..24+4N-1: GTO Ib
         }
 
-        void reset(int seed, int n_mus) {
+        void reset(int seed, int n_mus, bool with_gto) {
             cached_seed = seed;
             n_muscles = std::max(0, n_mus);
-            n_channels = 24 + 3 * n_muscles;
+            include_gto = with_gto;
+            n_channels = 24 + (include_gto ? 4 : 3) * n_muscles;
             num_knots = 0;
             rng.seed(static_cast<std::uint64_t>(static_cast<std::uint32_t>(seed)) + 0x9e3779b97f4a7c15ULL);
             alphas.resize(n_channels);
@@ -579,10 +628,10 @@ private:
             num_knots = 1;
         }
 
-        void ensureCapacity(double t_sec, int seed, int n_mus) {
+        void ensureCapacity(double t_sec, int seed, int n_mus, bool with_gto = false) {
             const int target_n_mus = std::max(0, n_mus);
-            if (cached_seed != seed || n_muscles != target_n_mus || n_channels == 0) {
-                reset(seed, target_n_mus);
+            if (cached_seed != seed || n_muscles != target_n_mus || include_gto != with_gto || n_channels == 0) {
+                reset(seed, target_n_mus, with_gto);
             }
             const int needed = static_cast<int>(std::floor(std::max(0.0, t_sec) / kDt)) + 4;
             if (num_knots >= needed) return;

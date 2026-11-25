@@ -1,331 +1,144 @@
-/* 
-* The Lin02GolgiTendonOrgan class implements a model for the aggregate
-* population response of the Golgi tendon organs in a muscle.
-* The model is taken from: Lin & Crago, "Neural and Mechanical Contributions
-* to the Stretch Reflex: A Model Synthesis" Ann Biomed Eng 30:54-67.
-*
-* Objects of this class are meant to be contained in particular muscle
-* objects, such as those of the Millard12EqMuscleWithAfferents class.
-*
-* @author Sergio Verduzco Flores
+/*
+* Lin & Crago (2002) Golgi Tendon Organ (Ib) model with exact derivative-free
+* partial-fraction realization, tendon-force input (including optional SRS),
+* strength-normalized Gf scale, eye-muscle gating, and Stage::Velocity state output.
 */
 
-#include <iostream>  // remove later
+#include <iostream>
+#include <algorithm>
+#include <cmath>
 #include <OpenSim/Simulation/Model/Model.h>
 #include <OpenSim/Simulation/Model/ForceSet.h>
 #include "Millard12EqMuscleWithAfferents.h"
-#include <cmath>  // for the log() function
 
 using namespace OpenSim;
 
-Lin02GolgiTendonOrgan::Lin02GolgiTendonOrgan()
-{
-	constructProperties();
-	
-	// Set parameter values
-	Gg = 60;  	// pulses/s
-	Gf = 4;		// Newtons
-	thr = 0;	// pulses/s
-	// Initialize work variables
-	// removed historical variables
+Lin02GolgiTendonOrgan::Lin02GolgiTendonOrgan() {
+    constructProperties();
+    Gg = 60.0;
+    Gf = 4.0;
+    thr = 0.0;
 }
 
-//=============================================================================
-// get & set properties
-//=============================================================================
+void Lin02GolgiTendonOrgan::constructProperties() {
+    setAuthors("Sergio Verduzco");
+    constructProperty_lpf_tau(0.01);
+    constructProperty_enable_GTO(false);
+    constructProperty_gf_fraction(0.08);
+    constructProperty_single_afferent_scale(true);
+}
+
 void Lin02GolgiTendonOrgan::setLPFtau(double aLPFtau) {
-	set_lpf_tau(aLPFtau);
+    set_lpf_tau(aLPFtau);
 }
 
-//=============================================================================
-// get & set state variables
-//=============================================================================
+void Lin02GolgiTendonOrgan::setOwnerMuscleName(std::string OwnerMuscleName) {
+    ownerMuscleName = std::move(OwnerMuscleName);
+}
+
+bool Lin02GolgiTendonOrgan::isGTOActive() const {
+    if (!get_enable_GTO()) return false;
+    if (const auto* aff_mus = dynamic_cast<const Millard12EqMuscleWithAfferents*>(musclePtr)) {
+        return aff_mus->isAfferentActive();
+    }
+    const bool is_eye = (ownerMuscleName.rfind("r_", 0) == 0 || ownerMuscleName.rfind("l_", 0) == 0);
+    return !is_eye;
+}
+
 void Lin02GolgiTendonOrgan::ensureStatePointers() const {
-	if (!sv_nonlinear) {
-		sv_nonlinear = traverseToStateVariable("nonlinear");
-		sv_nonlinear_deriv = traverseToStateVariable("nonlinear_deriv");
-		sv_filter_out = traverseToStateVariable("filter_out");
-		sv_filter_out_deriv = traverseToStateVariable("filter_out_deriv");
-	}
+    if (!sv_gto_w1) {
+        sv_gto_w1  = traverseToStateVariable("gto_w1");
+        sv_gto_w2  = traverseToStateVariable("gto_w2");
+        sv_gto_out = traverseToStateVariable("gto_out_state");
+    }
 }
 
-// LPF output of the log nonlinearity
-double Lin02GolgiTendonOrgan::getX(const SimTK::State& s) const {
-	if (!get_enable_GTO()) return 0.0;
-	ensureStatePointers();
-	return sv_nonlinear ? sv_nonlinear->getValue(s) : getStateVariableValue(s, "nonlinear");
-}
-void Lin02GolgiTendonOrgan::setX(SimTK::State& s, double X) const {
-	if (!get_enable_GTO()) return;
-	ensureStatePointers();
-	if (sv_nonlinear) sv_nonlinear->setValue(s, X);
-	else setStateVariableValue(s, "nonlinear", X);
-}
-// derivative of the LPF output of the log nonlinearity
-double Lin02GolgiTendonOrgan::getXp(const SimTK::State& s) const {
-	if (!get_enable_GTO()) return 0.0;
-	ensureStatePointers();
-	return sv_nonlinear_deriv ? sv_nonlinear_deriv->getValue(s) : getStateVariableValue(s, "nonlinear_deriv");
-}
-void Lin02GolgiTendonOrgan::setXp(SimTK::State& s, double Xp) const {
-	if (!get_enable_GTO()) return;
-	ensureStatePointers();
-	if (sv_nonlinear_deriv) sv_nonlinear_deriv->setValue(s, Xp);
-	else setStateVariableValue(s, "nonlinear_deriv", Xp);
-}
-// Intermediate variable for the transfer function filter
-double Lin02GolgiTendonOrgan::getY(const SimTK::State& s) const {
-	if (!get_enable_GTO()) return 0.0;
-	ensureStatePointers();
-	return sv_filter_out ? sv_filter_out->getValue(s) : getStateVariableValue(s, "filter_out");
-}
-void Lin02GolgiTendonOrgan::setY(SimTK::State& s, double Y) const {
-	if (!get_enable_GTO()) return;
-	ensureStatePointers();
-	if (sv_filter_out) sv_filter_out->setValue(s, Y);
-	else setStateVariableValue(s, "filter_out", Y);
-}
-// output variable of the transfer function
-double Lin02GolgiTendonOrgan::getZ(const SimTK::State& s) const {
-	if (!get_enable_GTO()) return 0.0;
-	ensureStatePointers();
-	return sv_filter_out_deriv ? sv_filter_out_deriv->getValue(s) : getStateVariableValue(s, "filter_out_deriv");
-}
-void Lin02GolgiTendonOrgan::setZ(SimTK::State& s, double Z) const {
-	if (!get_enable_GTO()) return;
-	ensureStatePointers();
-	if (sv_filter_out_deriv) sv_filter_out_deriv->setValue(s, Z);
-	else setStateVariableValue(s, "filter_out_deriv", Z);
-}
-// output of the Golgi tendon organ
 double Lin02GolgiTendonOrgan::getGTOout(const SimTK::State& s) const {
-	if (!get_enable_GTO()) return 0.0;
-	return cached_gto_out; 
-}
-void Lin02GolgiTendonOrgan::setGTOout(const SimTK::State& s, 
-									  double output) const {
-	cached_gto_out = output;
+    if (!isGTOActive()) return 0.0;
+    ensureStatePointers();
+    return sv_gto_out ? sv_gto_out->getValue(s) : getStateVariableValue(s, "gto_out_state");
 }
 
-//=============================================================================
-// MODEL COMPONENT INTERFACE
-//=============================================================================
-
-void Lin02GolgiTendonOrgan::extendAddToSystem(SimTK::MultibodySystem& system) const
-{
-	Super::extendAddToSystem(system);
-	if (!get_enable_GTO()) return;
-	
-	// adding state variables
-	addStateVariable("nonlinear", SimTK::Stage::Velocity); // LPF output of Eq. 1
-	addStateVariable("nonlinear_deriv", SimTK::Stage::Velocity);
-	addStateVariable("filter_out", SimTK::Stage::Velocity);
-	addStateVariable("filter_out_deriv", SimTK::Stage::Velocity); // output of Eq. 2
-	
-	// a cache variable for the aggregate output of the GTOs
-	addCacheVariable("gto_out", 0.0, SimTK::Stage::Dynamics);
-	
-	// ensuring that the owner muscle is in the system	
-	const ForceSet& fSet = getModel().getForceSet();
-	try {
-		fSet.get(ownerMuscleName);
-	}
-	catch (OpenSim::Exception e) {
-		std::cout << "WARNING - Lin02GolgiTendonOrgan::addToSystem() could not find ";
-		std::cout << "the muscle with name" << ownerMuscleName << '\n';
-		std::cout << "Exception: " << e.getMessage() << '\n';
-		return;
-	}
-	
-	// ensuring that the owner muscle is of the right type
-	std::string forceClassName = fSet.get(ownerMuscleName).getConcreteClassName();
-	if( forceClassName != "Millard12EqMuscleWithAfferents" )
-	{
-		std::cout << "WARNING - In Lin02GolgiTendonOrgan::addToSystem() \n";
-		std::cout << "Lin02GolgiTendonOrgan is owned by a force that is not " ;
-		std::cout << "of the Millard12EqMuscleWithAfferents class \n" ;
-	}		
+double Lin02GolgiTendonOrgan::computeNonlinearDrive(const SimTK::State& s) const {
+    if (!musclePtr) return 0.0;
+    const double f_tot = std::max(0.0, musclePtr->getTendonForce(s));
+    const double gf_frac = get_gf_fraction();
+    const double gf_eff = (gf_frac > 0.0)
+        ? std::max(1.5, gf_frac * musclePtr->getMaxIsometricForce())
+        : std::max(1e-3, Gf);
+    return Gg * std::log(1.0 + f_tot / gf_eff);
 }
-	
-void Lin02GolgiTendonOrgan::extendInitStateFromProperties(SimTK::State& s) const
-{
+
+void Lin02GolgiTendonOrgan::extendAddToSystem(SimTK::MultibodySystem& system) const {
+    Super::extendAddToSystem(system);
+    if (!isGTOActive()) return;
+
+    addStateVariable("gto_w1", SimTK::Stage::Velocity);
+    addStateVariable("gto_w2", SimTK::Stage::Velocity);
+    addStateVariable("gto_out_state", SimTK::Stage::Velocity);
+}
+
+void Lin02GolgiTendonOrgan::extendInitStateFromProperties(SimTK::State& s) const {
     Super::extendInitStateFromProperties(s);
-	sv_nonlinear = nullptr;
-	sv_nonlinear_deriv = nullptr;
-	sv_filter_out = nullptr;
-	sv_filter_out_deriv = nullptr;
-	if (!get_enable_GTO()) return;
-	setX(s,0.0);
-	setXp(s,0.0);
-	setY(s, 0.0);
-	setZ(s, 0.0);
-	// Initialize the work variables 
-	// removed historical variables
+    sv_gto_w1 = nullptr;
+    sv_gto_w2 = nullptr;
+    sv_gto_out = nullptr;
+    if (!isGTOActive()) return;
+    ensureStatePointers();
+    if (sv_gto_w1) sv_gto_w1->setValue(s, 0.0); else setStateVariableValue(s, "gto_w1", 0.0);
+    if (sv_gto_w2) sv_gto_w2->setValue(s, 0.0); else setStateVariableValue(s, "gto_w2", 0.0);
+    if (sv_gto_out) sv_gto_out->setValue(s, 0.0); else setStateVariableValue(s, "gto_out_state", 0.0);
 }
 
-void Lin02GolgiTendonOrgan::extendSetPropertiesFromState(const SimTK::State& s) 
-{
+void Lin02GolgiTendonOrgan::extendSetPropertiesFromState(const SimTK::State& s) {
     Super::extendSetPropertiesFromState(s);
 }
 
-void Lin02GolgiTendonOrgan::extendConnectToModel(Model& aModel) 
-{
-	Super::extendConnectToModel(aModel);
-	
-	// connectToModel is called several times, some of them before
-	// the owner muscle is in the model. We can only initialize
-	// musclePtr once the owner muscle is in the model.
-	if( (aModel.getMuscles()).contains(ownerMuscleName) )
-		musclePtr = &((aModel.getMuscles()).get(ownerMuscleName));
+void Lin02GolgiTendonOrgan::extendConnectToModel(Model& aModel) {
+    Super::extendConnectToModel(aModel);
+    if (aModel.getMuscles().contains(ownerMuscleName)) {
+        musclePtr = &(aModel.getMuscles().get(ownerMuscleName));
+    } else {
+        musclePtr = nullptr;
+    }
 }
 
-void Lin02GolgiTendonOrgan::constructProperties()
-{
-	setAuthors("Sergio Verduzco");
-	constructProperty_lpf_tau(0.01); // LPF time constant
-	constructProperty_enable_GTO(false); // Disabled by default during neck study; set true when GTO is needed
+void Lin02GolgiTendonOrgan::initFromMuscle(SimTK::State& s) const {
+    if (!isGTOActive() || !musclePtr) return;
+    ensureStatePointers();
+    if (s.getSystemStage() < SimTK::Stage::Velocity && hasModel()) {
+        getModel().getMultibodySystem().realize(s, SimTK::Stage::Velocity);
+    }
+    const double u0 = computeNonlinearDrive(s);
+    const double scale = get_single_afferent_scale() ? 1.0 : 40.0;
+    const double y0 = scale * u0; // Exact DC gain 1.7 - (17/15)/2 - (2/75)/0.2 = 1.0
+    const double y_diff = y0 - thr;
+    const double y_smooth0 = 0.5 * (y0 + thr + std::sqrt(y_diff * y_diff + 1e-4));
+
+    if (sv_gto_w1) sv_gto_w1->setValue(s, u0 / 2.0); else setStateVariableValue(s, "gto_w1", u0 / 2.0);
+    if (sv_gto_w2) sv_gto_w2->setValue(s, u0 / 0.2); else setStateVariableValue(s, "gto_w2", u0 / 0.2);
+    if (sv_gto_out) sv_gto_out->setValue(s, y_smooth0); else setStateVariableValue(s, "gto_out_state", y_smooth0);
 }
 
-void Lin02GolgiTendonOrgan::setOwnerMuscleName(std::string OwnerMuscleName)
-{
-	ownerMuscleName = OwnerMuscleName;
-}
+void Lin02GolgiTendonOrgan::computeStateVariableDerivatives(const SimTK::State& s) const {
+    if (!isGTOActive()) return;
+    ensureStatePointers();
 
-//=============================================================================
-// Derivative computation
-//=============================================================================
-void Lin02GolgiTendonOrgan::computeStateVariableDerivatives(const SimTK::State& s) const
-{
-	if (!get_enable_GTO()) return;
-	ensureStatePointers();
-	double non_lin = Gg*std::log((musclePtr->getFiberForce(s) / Gf) + 1);
-	double x_val = getX(s);
-	double xp_val = getXp(s);
-	double y_val = getY(s);
-	double z_val = getZ(s);
-	
-	// Cascaded filter for smooth derivatives without finite-differencing
-	double curr_diff0 = (non_lin - x_val) / getLPFtau();
-	double curr_diff1 = (curr_diff0 - xp_val) / getLPFtau();
-	
-	if (sv_nonlinear) sv_nonlinear->setDerivative(s, curr_diff0);
-	else setStateVariableDerivativeValue(s, "nonlinear", curr_diff0);
-	if (sv_nonlinear_deriv) sv_nonlinear_deriv->setDerivative(s, curr_diff1);
-	else setStateVariableDerivativeValue(s, "nonlinear_deriv", curr_diff1);
-	
-	double Xpp = curr_diff1;
-	
-	if (sv_filter_out) sv_filter_out->setDerivative(s, z_val);
-	else setStateVariableDerivativeValue(s, "filter_out", z_val);
-	if (sv_filter_out_deriv) sv_filter_out_deriv->setDerivative(s, -2.2*z_val - 0.4*y_val + 68.0*Xpp + 103.2*xp_val + 16.0*x_val);
-	else setStateVariableDerivativeValue(s, "filter_out_deriv", -2.2*z_val - 0.4*y_val + 68.0*Xpp + 103.2*xp_val + 16.0*x_val);
-			  
-	// Smooth Max for GTO output
-	double y_diff = y_val - thr;
-	double smooth_out = 0.5 * (y_val + thr + std::sqrt(y_diff*y_diff + 1e-4));
-	setGTOout(s, smooth_out);
-}
+    const double u_nl = computeNonlinearDrive(s);
+    const double w1 = sv_gto_w1 ? sv_gto_w1->getValue(s) : getStateVariableValue(s, "gto_w1");
+    const double w2 = sv_gto_w2 ? sv_gto_w2->getValue(s) : getStateVariableValue(s, "gto_w2");
+    const double y_out = sv_gto_out ? sv_gto_out->getValue(s) : getStateVariableValue(s, "gto_out_state");
 
-//=============================================================================
-// Initializing values
-//=============================================================================
-void Lin02GolgiTendonOrgan::initFromMuscle(SimTK::State& s) const
-{
-	if (!get_enable_GTO()) return;
-	setXp(s, 0.0);
-	double nonLin = Gg*std::log( (musclePtr->getFiberForce(s) / Gf) + 1 );
-	setX(s, nonLin);
-	setY(s, 40.0*nonLin);  // this is the fixed point
-	setZ(s, 0.0);
-	// removed historical variables
-}
+    const double dw1 = -2.0 * w1 + u_nl;
+    const double dw2 = -0.2 * w2 + u_nl;
 
+    const double scale = get_single_afferent_scale() ? 1.0 : 40.0;
+    const double y_raw = scale * (1.7 * u_nl - (17.0 / 15.0) * w1 - (2.0 / 75.0) * w2);
+    const double y_diff = y_raw - thr;
+    const double y_rect = 0.5 * (y_raw + thr + std::sqrt(y_diff * y_diff + 1e-4));
+    const double dy_out = 500.0 * (y_rect - y_out);
 
-//--------------------------------------------------------------------------
-// Approximate the derivatives required by Eq. 2
-//--------------------------------------------------------------------------
-SimTK::Vec<2> Lin02GolgiTendonOrgan::
-calculateDerivatives(const SimTK::State& s) const
-{
-	SimTK::Vec<2> diff;
-	// diff(0) = LPF derivative of nonlinear output
-	// diff(1) = derivative of diff(0)'s variable 
-	
-	double curr_nl = getX(s);
-	double curr_Dnl = getXp(s);
-	double curr_time = s.getTime();	// time in the simulation
-
-	if( curr_time > ts(2) )
-	{	// data vectors are not ahead of current time.
-		// Using 4-point Fornberg's method.
-		// The formula below assumes current time = 0
-		ts(0) = ts(0) - curr_time;  
-		ts(1) = ts(1) - curr_time;
-		ts(2) = ts(2) - curr_time;
-		
-		// calculate coefficients
-		C0(0,1) = ts(1)/(ts(1)-ts(0));
-		C0(1,1) = ts(0)/(ts(0)-ts(1));
-		C0(0,2) = ts(2)*C0(0,1)/(ts(2)-ts(0));
-		C0(1,2) = ts(2)*C0(1,1)/(ts(2)-ts(1));
-		C0(2,2) = ts(1)*ts(0)/((ts(2)-ts(0))*(ts(2)-ts(1)));
-		C1(0,1) = 1/(ts(0)-ts(1));
-		C1(1,1) = -C1(0,1);
-		C1(2,2) = ((ts(1)-ts(0))/( (ts(2)-ts(1))*(ts(2)-ts(0)) ))
-		          *(C0(1,1) - ts(1)*C1(1,1));
-		C1(0,3) = C0(0,2)/ts(0);
-		C1(1,3) = C0(1,2)/ts(1);
-		C1(2,3) = C0(2,2)/ts(2);
-		C1(3,3) = ( (ts(1)-ts(2))*(ts(2)-ts(0))/(ts(0)*ts(1)*ts(2)) )
-		          *(C0(2,2) - ts(2)*C1(2,2));
-				  
-		// use the coefficients
-		double nolo = 0.925*curr_nl + 0.075*nl(2);
-		diff(0) = C1(3,3)*nolo + C1(2,3)*nl(2) + C1(1,3)*nl(1) + C1(0,3)*nl(0);
-		// using a simpler rule for the 2nd derivative
-		double dino = ( Dnl(1) + Dnl(2) )/2;
-		diff(1) = 2*(curr_Dnl - dino) / ( -(ts(1)+ts(2)) );
-	
-		// shift work vectors and times
-		nl(0) = nl(1); nl(1) = nl(2); nl(2) = curr_nl;
-		Dnl(0) = Dnl(1); Dnl(1) = Dnl(2); Dnl(2) = curr_Dnl;
-		ts(0) = ts(1) + curr_time; // changing to absolute times
-		ts(1) = ts(2) + curr_time;
-		ts(2) = curr_time;
-	} 
-	else  // computeStateVariableDerivatives was called before for a more advanced time
-	{
-		if( curr_time > ts(1) )
-		{  // nl(1) and nl(0) still useful.
-			// Using a 3-point rule for differentiation
-			diff(0) = ( 3.0*curr_nl - 4.0*nl(1) + nl(0) )/(curr_time - ts(0));
-			double dino = ( Dnl(0) + Dnl(1) )/2;
-			diff(1) = 2*(curr_Dnl - dino) / ( -(ts(0)+ts(1)) );
-			
-			// shift velocities and times
-			nl(2) = curr_nl; Dnl(2) = curr_Dnl;
-			ts(2) = curr_time;	 
-		}
-		else if( curr_time > ts(0) )
-		{ // We only have one value before current time.
-			// Using a 2-point rule for differentiation
-			diff(0) = (curr_nl - nl(0))/(curr_time - ts(0));
-			diff(1) = (curr_Dnl - Dnl(0))/(curr_time - ts(0));
-			
-			// shift velocities and times
-			nl(2) = curr_nl; nl(1) = nl(0);
-			Dnl(2) = curr_Dnl; Dnl(1) = Dnl(0);
-			ts(2) = curr_time; ts(1) = ts(0); ts(0) = ts(1) - 1.0e-6;
-		}
-		else // we interpolate backwards
-		{
-			diff(0) = (nl(0) - curr_nl) / (ts(0) - curr_time);
-			diff(1) = (Dnl(0) - curr_Dnl) / (ts(0) - curr_time); 
-			
-			nl(2) = curr_nl; nl(1) = nl(2); nl(0) = nl(1);
-			Dnl(2) = curr_Dnl; Dnl(1) = Dnl(2); Dnl(0) = Dnl(1);
-			ts(2) = curr_time; ts(1) = ts(2) - 1.0e-6; ts(0) = ts(1) - 1.0e-6;
-		}
-	}
-	return diff;
+    if (sv_gto_w1) sv_gto_w1->setDerivative(s, dw1); else setStateVariableDerivativeValue(s, "gto_w1", dw1);
+    if (sv_gto_w2) sv_gto_w2->setDerivative(s, dw2); else setStateVariableDerivativeValue(s, "gto_w2", dw2);
+    if (sv_gto_out) sv_gto_out->setDerivative(s, dy_out); else setStateVariableDerivativeValue(s, "gto_out_state", dy_out);
 }

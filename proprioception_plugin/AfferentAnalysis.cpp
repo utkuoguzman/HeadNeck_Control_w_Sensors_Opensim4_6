@@ -364,12 +364,6 @@ int AfferentAnalysis::record(const SimTK::State& s)
 		memcpy(&spinVars[J],&stVars,NV*sizeof(double));
 		
 		// storing the output from the GTO
-		if( !(dynamic_cast<Millard12EqMuscleWithAfferents*>
-		     (_muscleArray[i])->getGTO()->isCacheVariableValid(s, "gto_out")) )
-		{
-			_model->getMultibodySystem().realize(s,SimTK::Stage::Acceleration);
-		}
-			
 		gtoOut = dynamic_cast<Millard12EqMuscleWithAfferents*>
                              (_muscleArray[i])->getGTO()->getGTOout(s);
 

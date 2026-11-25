@@ -1,158 +1,101 @@
-
 // INCLUDE
 #include <OpenSim/OpenSim.h>
 #include "Mileusnic06Spindle.h"
 #include "Lin02GolgiTendonOrgan.h"
 
 namespace OpenSim {
-/**
- * FUNCTIONALITY
- * This class extends a Millard2012EquilibriumMuscle by including including
- * inputs and outputs to represent spindle afferents and Golgi tendon organs. 
- * 
- * MODEL SOURCE
- * The spindle afferent model comes from: Mileusnic et al 2006 "Mathematical 
- * models of proprioceptors. I. Control and transduction in the muscle spindle"
- * J Neurophysiol 96:1772-1788.
- * 
- * The GTO model is the one used in: Lin, Crago 2002 "Neural and mechanical 
- * contributions to the stretch reflex: A model synthesis" 
- * Ann Biomed Eng 30:54-67.
- *
- * HOW THE CODE ACHIEVED
- * The implementation of this class was achieved by modifying the file
- * FatigableMuscle.h, which is part of the OpenSim API examples.
- * The Muscle.h base class specifies the interface that must be implemented 
- * by the derived muscle classes.
- * 
- * CLASS EXTENSION
- * The Millard12EqMuscleWithAfferents derives from Millard2012EquilibriumMuscle,
- * which is a concrete implementation of the  Muscle interface (interfaces are done).
- * 
- * AFFERENTS SPINDLES
- * The dynamics for spindle afferents are handled by a "member object" of the
- * Mileusnic06Spindle class.
- * The Mileusnic06Spindle object requires muscle fiber "acceleration", which is 
- * not available from the Millard2012EquilibriumMuscle class, so this has to
- * be approximated numerically. To aid this, this muscle class provides a
- * LPF'ed version of the fiber velocity and LPF'ed version of the acceleration is 
- * provided as a state variable.
- * 
- * AFFERENTS TENDON ORGANS
- * The dynamics of the GTO are handled by an object of the Lin02GolgiTendonOrgan class.
- * 
- * INPUTS
- * Unlike most muscle types, Millard12EqWithAfferents expects 3 inputs. One input causes
- * the muscle activation, and the other 2 static and dynamic gamma motoneuron input
- * that modulates the response of a muscle spindle. The inputs can be specified using objects
- * of the SpindleController, or the TugOfWarController classes.
- */
-class Millard12EqMuscleWithAfferents : public Millard2012EquilibriumMuscle {OpenSim_DECLARE_CONCRETE_OBJECT(Millard12EqMuscleWithAfferents, Millard2012EquilibriumMuscle);
+class Millard12EqMuscleWithAfferents : public Millard2012EquilibriumMuscle {
+OpenSim_DECLARE_CONCRETE_OBJECT(Millard12EqMuscleWithAfferents, Millard2012EquilibriumMuscle);
 
 friend class Mileusnic06Spindle;
+friend class Lin02GolgiTendonOrgan;
 
 public:
-	/* PROPERTIES */
-	OpenSim_DECLARE_PROPERTY(lpf_tau, double, "time constant for all the low-pass filters");
-	OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Whether to enable LPF/spindle ODE states on extraocular eye muscles (r_*, l_*) (default: false during neck study)");
+    OpenSim_DECLARE_PROPERTY(lpf_tau, double, "time constant for all the low-pass filters");
+    OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Whether to enable LPF/spindle ODE states on extraocular eye muscles (r_*, l_*) (default: false during neck study)");
+    OpenSim_DECLARE_PROPERTY(enable_SRS, bool, "Whether to enable tendon-equilibrated cross-bridge short-range muscle stiffness (default: false)");
+    OpenSim_DECLARE_PROPERTY(k_srs, double, "Normalized active short-range stiffness gain k_srs (Cui et al. 2008 default: 23.4)");
+    OpenSim_DECLARE_PROPERTY(delta_srs, double, "Cross-bridge yield strain threshold in L_0 units (Rack & Westbury 1974 / Cui et al. 2008 default: 0.018)");
+    OpenSim_DECLARE_PROPERTY(tau_srs_reset, double, "Slow cross-bridge turnover time constant in s (Kirsch et al. 1994 default: 0.400)");
+    OpenSim_DECLARE_PROPERTY(tau_srs_short, double, "Fast cross-bridge detachment time constant during shortening in s (default: 0.025)");
+    OpenSim_DECLARE_PROPERTY(srs_thix_min, double, "Steady continuous-movement thixotropy floor s_min (Kirsch et al. 1994 default: 0.35)");
+    OpenSim_DECLARE_PROPERTY(tau_srs_thix_rec, double, "Thixotropy recovery time constant at rest in s (Campbell & Lakie 1998 default: 1.5)");
+    OpenSim_DECLARE_PROPERTY(delta_srs_thix_break, double, "Cumulative normalized fiber excursion scale for thixotropic breakdown (De Groote et al. 2018 default: 0.05)");
 
-	bool isAfferentActive() const {
-		if (!active_checked) {
-			const std::string& mname = getName();
-			bool is_eye = (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0);
-			is_active_cached = !is_eye || get_enable_eye_afferents();
-			cached_lpf_tau = get_lpf_tau();
-			active_checked = true;
-		}
-		return is_active_cached;
-	}
+    bool isAfferentActive() const {
+        if (!active_checked) {
+            const std::string& mname = getName();
+            bool is_eye = (mname.rfind("r_", 0) == 0 || mname.rfind("l_", 0) == 0);
+            is_active_cached = !is_eye || get_enable_eye_afferents();
+            cached_lpf_tau = get_lpf_tau();
+            active_checked = true;
+        }
+        return is_active_cached;
+    }
 
-	// the afferents
-	OpenSim_DECLARE_PROPERTY(spindle, Mileusnic06Spindle, "Spindle model");
-	OpenSim_DECLARE_PROPERTY(GTO, Lin02GolgiTendonOrgan, "GTO model");
+    OpenSim_DECLARE_PROPERTY(spindle, Mileusnic06Spindle, "Spindle model");
+    OpenSim_DECLARE_PROPERTY(GTO, Lin02GolgiTendonOrgan, "GTO model");
 
-	// This storage object records the afferent outputs
-	Storage *afferents;
-	
-private:
+    Storage *afferents;
 
-	/** These auxiliary vectors are used to approximate the derivatives of muscle variables. 
-	 *  'vel' and 'ts' are the "velocity" and "time values" used in the method
-	 *  to calculate the acceleration. 
-	 *  Since computeStateVariableDerivatives is const, mutable is needed. */
-// No mutable arrays needed, handled by cascaded filter		
-public:
-	/* METHODS */
-	// The class constructors 
-	Millard12EqMuscleWithAfferents();
-	Millard12EqMuscleWithAfferents(const std::string &name, double maxIsometricForce, 
-								double optimalFiberLength,	double tendonSlackLength,
-								double pennationAngle);
+    Millard12EqMuscleWithAfferents();
+    Millard12EqMuscleWithAfferents(const std::string &name, double maxIsometricForce,
+                                   double optimalFiberLength, double tendonSlackLength,
+                                   double pennationAngle);
 
-	// Get & Set "state variables" and their "derivatives"
-	double getLPFvelocity(const SimTK::State& s) const;
-	void   setLPFvelocity(SimTK::State& s, double Velocity) const;
-	double getLPFacceleration(const SimTK::State& s) const;
-	void   setLPFacceleration(SimTK::State& s, double Acceleration) const;
-	
-	// Get & Set the Properties
-	double getLPFtau() const { return get_lpf_tau(); }
-	void setLPFtau(double aLPFtau);
+    double getLPFvelocity(const SimTK::State& s) const;
+    void   setLPFvelocity(SimTK::State& s, double Velocity) const;
+    double getLPFacceleration(const SimTK::State& s) const;
+    void   setLPFacceleration(SimTK::State& s, double Acceleration) const;
+    double getSRSAnchor(const SimTK::State& s) const;
+    void   setSRSAnchor(SimTK::State& s, double anchorLen) const;
+    double getSRSThix(const SimTK::State& s) const;
+    void   setSRSThix(SimTK::State& s, double thixVal) const;
 
-	double getIaAfferent(const SimTK::State& s) const { return get_spindle().getIaOutput(s); }
-	double getIIAfferent(const SimTK::State& s) const { return get_spindle().getIIOutput(s); }
-	double getIbAfferent(const SimTK::State& s) const { return get_GTO().getGTOout(s); }
+    double getLPFtau() const { return get_lpf_tau(); }
+    void setLPFtau(double aLPFtau);
 
-    OpenSim_DECLARE_OUTPUT(primary_Ia, double, getIaAfferent, SimTK::Stage::Dynamics);
-    OpenSim_DECLARE_OUTPUT(secondary_II, double, getIIAfferent, SimTK::Stage::Dynamics);
+    double getIaAfferent(const SimTK::State& s) const { return get_spindle().getIaOutput(s); }
+    double getIIAfferent(const SimTK::State& s) const { return get_spindle().getIIOutput(s); }
+    double getIbAfferent(const SimTK::State& s) const { return get_GTO().getGTOout(s); }
 
-private:
-	/** construct the new properties and set their default values */
-	void constructProperties();
-	mutable const StateVariable* sv_lpf_vel = nullptr;
-	mutable const StateVariable* sv_lpf_acc = nullptr;
-	mutable bool active_checked = false;
-	mutable bool is_active_cached = false;
-	mutable double cached_lpf_tau = 0.01;
-	void ensureStatePointers() const;
+    double calcSRSTensionAlongTendon(const SimTK::State& s) const;
+    double getTotalTendonForce(const SimTK::State& s) const;
 
-public:
-	/* OTHER SHORT METHODS */
-	// This function should override Actuator::numControls() 
-	int numControls() const override {return 3;};
-	
-	// This function allows to peek at the Mileusnic06Spindle object, Mostly for the sake of Analysis objects
-	const Mileusnic06Spindle* getSpindle() const { return &get_spindle(); }
-	
-	// This one allows to peek at the Lin02GolgiTendonOrgan object, Mostly the same.
-	const Lin02GolgiTendonOrgan* getGTO() const { return &get_GTO(); }
-	
+    OpenSim_DECLARE_OUTPUT(primary_Ia, double, getIaAfferent, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(secondary_II, double, getIIAfferent, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(tendon_Ib, double, getIbAfferent, SimTK::Stage::Velocity);
+
+    int numControls() const override { return 3; }
+
+    const Mileusnic06Spindle* getSpindle() const { return &get_spindle(); }
+    const Lin02GolgiTendonOrgan* getGTO() const { return &get_GTO(); }
+
 protected:
-	/* "MODEL COMPONENT" INTERFACES */
-	// the way to add new ODE muscle states to the multibody system corresponding to this muscle
-	void extendAddToSystem(SimTK::MultibodySystem& system) const override;
+    void calcFiberVelocityInfo(const SimTK::State& s,
+                               FiberVelocityInfo& fvi) const override;
+    void calcMuscleDynamicsInfo(const SimTK::State& s,
+                                MuscleDynamicsInfo& mdi) const override;
 
-	// the way to initialize muscle state variables by using properties.
-	void extendInitStateFromProperties(SimTK::State& s) const override;
+    void extendAddToSystem(SimTK::MultibodySystem& system) const override;
+    void extendInitStateFromProperties(SimTK::State& s) const override;
+    void extendSetPropertiesFromState(const SimTK::State& s) override;
+    void extendConnectToModel(Model& aModel) override;
 
-	// use the current values of the muscle states to update the properties
-	void extendSetPropertiesFromState(const SimTK::State& s) override;
+    void computeInitialFiberEquilibrium(SimTK::State& s) const override;
+    void computeStateVariableDerivatives(const SimTK::State& s) const override;
+    double approxFiberAcceleration(const SimTK::State& s) const;
 
-	// the way to declare the spindle as a subcomponent. 
-	void extendConnectToModel(Model& aModel) override;
-
-	/* COMPUTATIONS */
-	// This function finds the initial state for the tension & then it calls the same-named method of the parent class
-	void computeInitialFiberEquilibrium(SimTK::State& s) const override;
-	
-	// Compute the derivatives for muscle state variables of this muscle
-	void computeStateVariableDerivatives(const SimTK::State& s) const override; 
-		
-	/** The following function calculates the derivative of the fiber velocity
-	 *  using the method in: Fornberg 1998 "Calculation of Weights in Finite
-	 *  Difference Formulas" SIAM Rev.40(3):685-691.
-	 *  The method is adapted to use with four points and to always evaluate at the
-	 *  last point.  */
-	double approxFiberAcceleration(const SimTK::State& s) const;
-};	
+private:
+    void constructProperties();
+    mutable const StateVariable* sv_lpf_vel = nullptr;
+    mutable const StateVariable* sv_lpf_acc = nullptr;
+    mutable const StateVariable* sv_srs_anchor = nullptr;
+    mutable const StateVariable* sv_srs_thix = nullptr;
+    mutable const StateVariable* sv_activation = nullptr;
+    mutable bool active_checked = false;
+    mutable bool is_active_cached = false;
+    mutable double cached_lpf_tau = 0.01;
+    void ensureStatePointers() const;
+};
 }

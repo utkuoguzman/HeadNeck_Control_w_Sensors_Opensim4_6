@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Neuromotor Control Architecture Explorer — HeadNeckNeuralController (Unified M2, τ_p = 30 ms)</title>
+  <title>Neuromotor Control Architecture Explorer — HeadNeckNeuralController (Kuo Ligaments, Plan 2 SRS, GTO Ib, Renshaw, Capsule Reflex &amp; Hill-4 Otolith Reweighting)</title>
   <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style id='katex-inline-css'>.katex{text-rendering:auto;font:normal 1.21em KaTeX_Main,Times New Roman,serif;line-height:1.2;text-indent:0}.katex *{-ms-high-contrast-adjust:none!important;border-color:currentColor}.katex .katex-version:after{content:"0.16.9"}.katex .katex-mathml{clip:rect(1px,1px,1px,1px);border:0;height:1px;overflow:hidden;padding:0;position:absolute;width:1px}.katex .katex-html>.newline{display:block}.katex .base{position:relative;white-space:nowrap;width:-webkit-min-content;width:-moz-min-content;width:min-content}.katex .base,.katex .strut{display:inline-block}.katex .textbf{font-weight:700}.katex .textit{font-style:italic}.katex .textrm{font-family:KaTeX_Main}.katex .textsf{font-family:KaTeX_SansSerif}.katex .texttt{font-family:KaTeX_Typewriter}.katex .mathnormal{font-family:KaTeX_Math;font-style:italic}.katex .mathit{font-family:KaTeX_Main;font-style:italic}.katex .mathrm{font-style:normal}.katex .mathbf{font-family:KaTeX_Main;font-weight:700}.katex .boldsymbol{font-family:KaTeX_Math;font-style:italic;font-weight:700}.katex .amsrm,.katex .mathbb,.katex .textbb{font-family:KaTeX_AMS}.katex .mathcal{font-family:KaTeX_Caligraphic}.katex .mathfrak,.katex .textfrak{font-family:KaTeX_Fraktur}.katex .mathboldfrak,.katex .textboldfrak{font-family:KaTeX_Fraktur;font-weight:700}.katex .mathtt{font-family:KaTeX_Typewriter}.katex .mathscr,.katex .textscr{font-family:KaTeX_Script}.katex .mathsf,.katex .textsf{font-family:KaTeX_SansSerif}.katex .mathboldsf,.katex .textboldsf{font-family:KaTeX_SansSerif;font-weight:700}.katex .mathitsf,.katex .textitsf{font-family:KaTeX_SansSerif;font-style:italic}.katex .mainrm{font-family:KaTeX_Main;font-style:normal}.katex .vlist-t{border-collapse:collapse;display:inline-table;table-layout:fixed}.katex .vlist-r{display:table-row}.katex .vlist{display:table-cell;position:relative;vertical-align:bottom}.katex .vlist>span{display:block;height:0;position:relative}.katex .vlist>span>span{display:inline-block}.katex .vlist>span>.pstrut{overflow:hidden;width:0}.katex .vlist-t2{margin-right:-2px}.katex .vlist-s{display:table-cell;font-size:1px;min-width:2px;vertical-align:bottom;width:2px}.katex .vbox{align-items:baseline;display:inline-flex;flex-direction:column}.katex .hbox{width:100%}.katex .hbox,.katex .thinbox{display:inline-flex;flex-direction:row}.katex .thinbox{max-width:0;width:0}.katex .msupsub{text-align:left}.katex .mfrac>span>span{text-align:center}.katex .mfrac .frac-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline,.katex .hline,.katex .mfrac .frac-line,.katex .overline .overline-line,.katex .rule,.katex .underline .underline-line{min-height:1px}.katex .mspace{display:inline-block}.katex .clap,.katex .llap,.katex .rlap{position:relative;width:0}.katex .clap>.inner,.katex .llap>.inner,.katex .rlap>.inner{position:absolute}.katex .clap>.fix,.katex .llap>.fix,.katex .rlap>.fix{display:inline-block}.katex .llap>.inner{right:0}.katex .clap>.inner,.katex .rlap>.inner{left:0}.katex .clap>.inner>span{margin-left:-50%;margin-right:50%}.katex .rule{border:0 solid;display:inline-block;position:relative}.katex .hline,.katex .overline .overline-line,.katex .underline .underline-line{border-bottom-style:solid;display:inline-block;width:100%}.katex .hdashline{border-bottom-style:dashed;display:inline-block;width:100%}.katex .sqrt>.root{margin-left:.27777778em;margin-right:-.55555556em}.katex .fontsize-ensurer.reset-size1.size1,.katex .sizing.reset-size1.size1{font-size:1em}.katex .fontsize-ensurer.reset-size1.size2,.katex .sizing.reset-size1.size2{font-size:1.2em}.katex .fontsize-ensurer.reset-size1.size3,.katex .sizing.reset-size1.size3{font-size:1.4em}.katex .fontsize-ensurer.reset-size1.size4,.katex .sizing.reset-size1.size4{font-size:1.6em}.katex .fontsize-ensurer.reset-size1.size5,.katex .sizing.reset-size1.size5{font-size:1.8em}.katex .fontsize-ensurer.reset-size1.size6,.katex .sizing.reset-size1.size6{font-size:2em}.katex .fontsize-ensurer.reset-size1.size7,.katex .sizing.reset-size1.size7{font-size:2.4em}.katex .fontsize-ensurer.reset-size1.size8,.katex .sizing.reset-size1.size8{font-size:2.88em}.katex .fontsize-ensurer.reset-size1.size9,.katex .sizing.reset-size1.size9{font-size:3.456em}.katex .fontsize-ensurer.reset-size1.size10,.katex .sizing.reset-size1.size10{font-size:4.148em}.katex .fontsize-ensurer.reset-size1.size11,.katex .sizing.reset-size1.size11{font-size:4.976em}.katex .fontsize-ensurer.reset-size2.size1,.katex .sizing.reset-size2.size1{font-size:.83333333em}.katex .fontsize-ensurer.reset-size2.size2,.katex .sizing.reset-size2.size2{font-size:1em}.katex .fontsize-ensurer.reset-size2.size3,.katex .sizing.reset-size2.size3{font-size:1.16666667em}.katex .fontsize-ensurer.reset-size2.size4,.katex .sizing.reset-size2.size4{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size2.size5,.katex .sizing.reset-size2.size5{font-size:1.5em}.katex .fontsize-ensurer.reset-size2.size6,.katex .sizing.reset-size2.size6{font-size:1.66666667em}.katex .fontsize-ensurer.reset-size2.size7,.katex .sizing.reset-size2.size7{font-size:2em}.katex .fontsize-ensurer.reset-size2.size8,.katex .sizing.reset-size2.size8{font-size:2.4em}.katex .fontsize-ensurer.reset-size2.size9,.katex .sizing.reset-size2.size9{font-size:2.88em}.katex .fontsize-ensurer.reset-size2.size10,.katex .sizing.reset-size2.size10{font-size:3.45666667em}.katex .fontsize-ensurer.reset-size2.size11,.katex .sizing.reset-size2.size11{font-size:4.14666667em}.katex .fontsize-ensurer.reset-size3.size1,.katex .sizing.reset-size3.size1{font-size:.71428571em}.katex .fontsize-ensurer.reset-size3.size2,.katex .sizing.reset-size3.size2{font-size:.85714286em}.katex .fontsize-ensurer.reset-size3.size3,.katex .sizing.reset-size3.size3{font-size:1em}.katex .fontsize-ensurer.reset-size3.size4,.katex .sizing.reset-size3.size4{font-size:1.14285714em}.katex .fontsize-ensurer.reset-size3.size5,.katex .sizing.reset-size3.size5{font-size:1.28571429em}.katex .fontsize-ensurer.reset-size3.size6,.katex .sizing.reset-size3.size6{font-size:1.42857143em}.katex .fontsize-ensurer.reset-size3.size7,.katex .sizing.reset-size3.size7{font-size:1.71428571em}.katex .fontsize-ensurer.reset-size3.size8,.katex .sizing.reset-size3.size8{font-size:2.05714286em}.katex .fontsize-ensurer.reset-size3.size9,.katex .sizing.reset-size3.size9{font-size:2.46857143em}.katex .fontsize-ensurer.reset-size3.size10,.katex .sizing.reset-size3.size10{font-size:2.96285714em}.katex .fontsize-ensurer.reset-size3.size11,.katex .sizing.reset-size3.size11{font-size:3.55428571em}.katex .fontsize-ensurer.reset-size4.size1,.katex .sizing.reset-size4.size1{font-size:.625em}.katex .fontsize-ensurer.reset-size4.size2,.katex .sizing.reset-size4.size2{font-size:.75em}.katex .fontsize-ensurer.reset-size4.size3,.katex .sizing.reset-size4.size3{font-size:.875em}.katex .fontsize-ensurer.reset-size4.size4,.katex .sizing.reset-size4.size4{font-size:1em}.katex .fontsize-ensurer.reset-size4.size5,.katex .sizing.reset-size4.size5{font-size:1.125em}.katex .fontsize-ensurer.reset-size4.size6,.katex .sizing.reset-size4.size6{font-size:1.25em}.katex .fontsize-ensurer.reset-size4.size7,.katex .sizing.reset-size4.size7{font-size:1.5em}.katex .fontsize-ensurer.reset-size4.size8,.katex .sizing.reset-size4.size8{font-size:1.8em}.katex .fontsize-ensurer.reset-size4.size9,.katex .sizing.reset-size4.size9{font-size:2.16em}.katex .fontsize-ensurer.reset-size4.size10,.katex .sizing.reset-size4.size10{font-size:2.5925em}.katex .fontsize-ensurer.reset-size4.size11,.katex .sizing.reset-size4.size11{font-size:3.11em}.katex .fontsize-ensurer.reset-size5.size1,.katex .sizing.reset-size5.size1{font-size:.55555556em}.katex .fontsize-ensurer.reset-size5.size2,.katex .sizing.reset-size5.size2{font-size:.66666667em}.katex .fontsize-ensurer.reset-size5.size3,.katex .sizing.reset-size5.size3{font-size:.77777778em}.katex .fontsize-ensurer.reset-size5.size4,.katex .sizing.reset-size5.size4{font-size:.88888889em}.katex .fontsize-ensurer.reset-size5.size5,.katex .sizing.reset-size5.size5{font-size:1em}.katex .fontsize-ensurer.reset-size5.size6,.katex .sizing.reset-size5.size6{font-size:1.11111111em}.katex .fontsize-ensurer.reset-size5.size7,.katex .sizing.reset-size5.size7{font-size:1.33333333em}.katex .fontsize-ensurer.reset-size5.size8,.katex .sizing.reset-size5.size8{font-size:1.6em}.katex .fontsize-ensurer.reset-size5.size9,.katex .sizing.reset-size5.size9{font-size:1.92em}.katex .fontsize-ensurer.reset-size5.size10,.katex .sizing.reset-size5.size10{font-size:2.30444444em}.katex .fontsize-ensurer.reset-size5.size11,.katex .sizing.reset-size5.size11{font-size:2.76444444em}.katex .fontsize-ensurer.reset-size6.size1,.katex .sizing.reset-size6.size1{font-size:.5em}.katex .fontsize-ensurer.reset-size6.size2,.katex .sizing.reset-size6.size2{font-size:.6em}.katex .fontsize-ensurer.reset-size6.size3,.katex .sizing.reset-size6.size3{font-size:.7em}.katex .fontsize-ensurer.reset-size6.size4,.katex .sizing.reset-size6.size4{font-size:.8em}.katex .fontsize-ensurer.reset-size6.size5,.katex .sizing.reset-size6.size5{font-size:.9em}.katex .fontsize-ensurer.reset-size6.size6,.katex .sizing.reset-size6.size6{font-size:1em}.katex .fontsize-ensurer.reset-size6.size7,.katex .sizing.reset-size6.size7{font-size:1.2em}.katex .fontsize-ensurer.reset-size6.size8,.katex .sizing.reset-size6.size8{font-size:1.44em}.katex .fontsize-ensurer.reset-size6.size9,.katex .sizing.reset-size6.size9{font-size:1.728em}.katex .fontsize-ensurer.reset-size6.size10,.katex .sizing.reset-size6.size10{font-size:2.074em}.katex .fontsize-ensurer.reset-size6.size11,.katex .sizing.reset-size6.size11{font-size:2.488em}.katex .fontsize-ensurer.reset-size7.size1,.katex .sizing.reset-size7.size1{font-size:.41666667em}.katex .fontsize-ensurer.reset-size7.size2,.katex .sizing.reset-size7.size2{font-size:.5em}.katex .fontsize-ensurer.reset-size7.size3,.katex .sizing.reset-size7.size3{font-size:.58333333em}.katex .fontsize-ensurer.reset-size7.size4,.katex .sizing.reset-size7.size4{font-size:.66666667em}.katex .fontsize-ensurer.reset-size7.size5,.katex .sizing.reset-size7.size5{font-size:.75em}.katex .fontsize-ensurer.reset-size7.size6,.katex .sizing.reset-size7.size6{font-size:.83333333em}.katex .fontsize-ensurer.reset-size7.size7,.katex .sizing.reset-size7.size7{font-size:1em}.katex .fontsize-ensurer.reset-size7.size8,.katex .sizing.reset-size7.size8{font-size:1.2em}.katex .fontsize-ensurer.reset-size7.size9,.katex .sizing.reset-size7.size9{font-size:1.44em}.katex .fontsize-ensurer.reset-size7.size10,.katex .sizing.reset-size7.size10{font-size:1.72833333em}.katex .fontsize-ensurer.reset-size7.size11,.katex .sizing.reset-size7.size11{font-size:2.07333333em}.katex .fontsize-ensurer.reset-size8.size1,.katex .sizing.reset-size8.size1{font-size:.34722222em}.katex .fontsize-ensurer.reset-size8.size2,.katex .sizing.reset-size8.size2{font-size:.41666667em}.katex .fontsize-ensurer.reset-size8.size3,.katex .sizing.reset-size8.size3{font-size:.48611111em}.katex .fontsize-ensurer.reset-size8.size4,.katex .sizing.reset-size8.size4{font-size:.55555556em}.katex .fontsize-ensurer.reset-size8.size5,.katex .sizing.reset-size8.size5{font-size:.625em}.katex .fontsize-ensurer.reset-size8.size6,.katex .sizing.reset-size8.size6{font-size:.69444444em}.katex .fontsize-ensurer.reset-size8.size7,.katex .sizing.reset-size8.size7{font-size:.83333333em}.katex .fontsize-ensurer.reset-size8.size8,.katex .sizing.reset-size8.size8{font-size:1em}.katex .fontsize-ensurer.reset-size8.size9,.katex .sizing.reset-size8.size9{font-size:1.2em}.katex .fontsize-ensurer.reset-size8.size10,.katex .sizing.reset-size8.size10{font-size:1.44027778em}.katex .fontsize-ensurer.reset-size8.size11,.katex .sizing.reset-size8.size11{font-size:1.72777778em}.katex .fontsize-ensurer.reset-size9.size1,.katex .sizing.reset-size9.size1{font-size:.28935185em}.katex .fontsize-ensurer.reset-size9.size2,.katex .sizing.reset-size9.size2{font-size:.34722222em}.katex .fontsize-ensurer.reset-size9.size3,.katex .sizing.reset-size9.size3{font-size:.40509259em}.katex .fontsize-ensurer.reset-size9.size4,.katex .sizing.reset-size9.size4{font-size:.46296296em}.katex .fontsize-ensurer.reset-size9.size5,.katex .sizing.reset-size9.size5{font-size:.52083333em}.katex .fontsize-ensurer.reset-size9.size6,.katex .sizing.reset-size9.size6{font-size:.5787037em}.katex .fontsize-ensurer.reset-size9.size7,.katex .sizing.reset-size9.size7{font-size:.69444444em}.katex .fontsize-ensurer.reset-size9.size8,.katex .sizing.reset-size9.size8{font-size:.83333333em}.katex .fontsize-ensurer.reset-size9.size9,.katex .sizing.reset-size9.size9{font-size:1em}.katex .fontsize-ensurer.reset-size9.size10,.katex .sizing.reset-size9.size10{font-size:1.20023148em}.katex .fontsize-ensurer.reset-size9.size11,.katex .sizing.reset-size9.size11{font-size:1.43981481em}.katex .fontsize-ensurer.reset-size10.size1,.katex .sizing.reset-size10.size1{font-size:.24108004em}.katex .fontsize-ensurer.reset-size10.size2,.katex .sizing.reset-size10.size2{font-size:.28929605em}.katex .fontsize-ensurer.reset-size10.size3,.katex .sizing.reset-size10.size3{font-size:.33751205em}.katex .fontsize-ensurer.reset-size10.size4,.katex .sizing.reset-size10.size4{font-size:.38572806em}.katex .fontsize-ensurer.reset-size10.size5,.katex .sizing.reset-size10.size5{font-size:.43394407em}.katex .fontsize-ensurer.reset-size10.size6,.katex .sizing.reset-size10.size6{font-size:.48216008em}.katex .fontsize-ensurer.reset-size10.size7,.katex .sizing.reset-size10.size7{font-size:.57859209em}.katex .fontsize-ensurer.reset-size10.size8,.katex .sizing.reset-size10.size8{font-size:.69431051em}.katex .fontsize-ensurer.reset-size10.size9,.katex .sizing.reset-size10.size9{font-size:.83317261em}.katex .fontsize-ensurer.reset-size10.size10,.katex .sizing.reset-size10.size10{font-size:1em}.katex .fontsize-ensurer.reset-size10.size11,.katex .sizing.reset-size10.size11{font-size:1.19961427em}.katex .fontsize-ensurer.reset-size11.size1,.katex .sizing.reset-size11.size1{font-size:.20096463em}.katex .fontsize-ensurer.reset-size11.size2,.katex .sizing.reset-size11.size2{font-size:.24115756em}.katex .fontsize-ensurer.reset-size11.size3,.katex .sizing.reset-size11.size3{font-size:.28135048em}.katex .fontsize-ensurer.reset-size11.size4,.katex .sizing.reset-size11.size4{font-size:.32154341em}.katex .fontsize-ensurer.reset-size11.size5,.katex .sizing.reset-size11.size5{font-size:.36173633em}.katex .fontsize-ensurer.reset-size11.size6,.katex .sizing.reset-size11.size6{font-size:.40192926em}.katex .fontsize-ensurer.reset-size11.size7,.katex .sizing.reset-size11.size7{font-size:.48231511em}.katex .fontsize-ensurer.reset-size11.size8,.katex .sizing.reset-size11.size8{font-size:.57877814em}.katex .fontsize-ensurer.reset-size11.size9,.katex .sizing.reset-size11.size9{font-size:.69453376em}.katex .fontsize-ensurer.reset-size11.size10,.katex .sizing.reset-size11.size10{font-size:.83360129em}.katex .fontsize-ensurer.reset-size11.size11,.katex .sizing.reset-size11.size11{font-size:1em}.katex .delimsizing.size1{font-family:KaTeX_Size1}.katex .delimsizing.size2{font-family:KaTeX_Size2}.katex .delimsizing.size3{font-family:KaTeX_Size3}.katex .delimsizing.size4{font-family:KaTeX_Size4}.katex .delimsizing.mult .delim-size1>span{font-family:KaTeX_Size1}.katex .delimsizing.mult .delim-size4>span{font-family:KaTeX_Size4}.katex .nulldelimiter{display:inline-block;width:.12em}.katex .delimcenter,.katex .op-symbol{position:relative}.katex .op-symbol.small-op{font-family:KaTeX_Size1}.katex .op-symbol.large-op{font-family:KaTeX_Size2}.katex .accent>.vlist-t,.katex .op-limits>.vlist-t{text-align:center}.katex .accent .accent-body{position:relative}.katex .accent .accent-body:not(.accent-full){width:0}.katex .overlay{display:block}.katex .mtable .vertical-separator{display:inline-block;min-width:1px}.katex .mtable .arraycolsep{display:inline-block}.katex .mtable .col-align-c>.vlist-t{text-align:center}.katex .mtable .col-align-l>.vlist-t{text-align:left}.katex .mtable .col-align-r>.vlist-t{text-align:right}.katex .svg-align{text-align:left}.katex svg{fill:currentColor;stroke:currentColor;fill-rule:nonzero;fill-opacity:1;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;display:block;height:inherit;position:absolute;width:100%}.katex svg path{stroke:none}.katex img{border-style:none;max-height:none;max-width:none;min-height:0;min-width:0}.katex .stretchy{display:block;overflow:hidden;position:relative;width:100%}.katex .stretchy:after,.katex .stretchy:before{content:""}.katex .hide-tail{overflow:hidden;position:relative;width:100%}.katex .halfarrow-left{left:0;overflow:hidden;position:absolute;width:50.2%}.katex .halfarrow-right{overflow:hidden;position:absolute;right:0;width:50.2%}.katex .brace-left{left:0;overflow:hidden;position:absolute;width:25.1%}.katex .brace-center{left:25%;overflow:hidden;position:absolute;width:50%}.katex .brace-right{overflow:hidden;position:absolute;right:0;width:25.1%}.katex .x-arrow-pad{padding:0 .5em}.katex .cd-arrow-pad{padding:0 .55556em 0 .27778em}.katex .mover,.katex .munder,.katex .x-arrow{text-align:center}.katex .boxpad{padding:0 .3em}.katex .fbox,.katex .fcolorbox{border:.04em solid;box-sizing:border-box}.katex .cancel-pad{padding:0 .2em}.katex .cancel-lap{margin-left:-.2em;margin-right:-.2em}.katex .sout{border-bottom-style:solid;border-bottom-width:.08em}.katex .angl{border-right:.049em solid;border-top:.049em solid;box-sizing:border-box;margin-right:.03889em}.katex .anglpad{padding:0 .03889em}.katex .eqn-num:before{content:"(" counter(katexEqnNo) ")";counter-increment:katexEqnNo}.katex .mml-eqn-num:before{content:"(" counter(mmlEqnNo) ")";counter-increment:mmlEqnNo}.katex .mtr-glue{width:50%}.katex .cd-vert-arrow{display:inline-block;position:relative}.katex .cd-label-left{display:inline-block;position:absolute;right:calc(50% + .3em);text-align:left}.katex .cd-label-right{display:inline-block;left:calc(50% + .3em);position:absolute;text-align:right}.katex-display{display:block;margin:1em 0;text-align:center}.katex-display>.katex{display:block;text-align:center;white-space:nowrap}.katex-display>.katex>.katex-html{display:block;position:relative}.katex-display>.katex>.katex-html>.tag{position:absolute;right:0}.katex-display.leqno>.katex>.katex-html>.tag{left:0;right:auto}.katex-display.fleqn>.katex{padding-left:2em;text-align:left}body{counter-reset:katexEqnNo mmlEqnNo}
@@ -114,6 +114,7 @@
           <span class="px-1.5 py-0.5 rounded bg-[#fefce8] border border-[#ca8a04] text-[#854d0e]"><strong>⚡ Pale Yellow Block:</strong> Biproper 1st-Order Lead Compensator (1+τ_z s)/(1+τ_p s)</span>
           <span class="px-1.5 py-0.5 rounded bg-[#f0f9ff] border border-[#0284c7] text-[#0369a1]"><strong>❄️ Pale Blue Block:</strong> Physical Transport Delay (e^(-τs))</span>
           <span class="px-1.5 py-0.5 rounded bg-[#f0fdf4] border border-[#16a34a] text-[#15803d]"><strong>🤝 Light Green Block:</strong> Pre-Compensated Efference Sync</span>
+          <span class="px-1.5 py-0.5 rounded bg-[#fdf2f8] border border-[#be185d] text-[#9d174d]"><strong>🧬 Rose/Violet Block:</strong> Tier B Plant &amp; Spinal Microcircuits (SRS, GTO Ib, Renshaw, 67 Kuo Ligaments &amp; Capsule Reflex)</span>
         </div>
       </div>
 
@@ -774,39 +775,36 @@ kp_roll  = max(Kp_task_roll,  vol_cmd_gate[1] * 11.0);  kd_roll  = max(Kd_task_r
 kp_yaw   = max(Kp_task_yaw,   vol_cmd_gate[2] *  5.0);  kd_yaw   = max(Kd_task_yaw,   vol_cmd_gate[2] * 0.80);  ki_yaw   = max(Ki_task_yaw,   vol_cmd_gate[2] *  5.0);`
           },
           {
-            text: "Integrate attitude error with anti-windup and combine the 3-DOF PID, head-inertia feedforward, and optional translational coupling into unfiltered attitude torque τ_raw,a.",
-            latex: String.raw`\tau_{\text{raw},a} = K_{p,\text{eff},a}(x_{1,a}-\theta_{\text{ctx},a}) + K_{d,\text{eff},a}(x_{2,a}-\omega_{\text{ctx},a}) + K_{i,\text{eff},a} I_{\theta,a} + 0.05\,\ddot{x}_{1,a} + K_{p,\text{tr},a}\hat{p}_a + K_{v,\text{tr},a}\hat{v}_a`,
+            text: "Integrate attitude error with C¹-smoothstep QP saturation anti-windup (0.25–0.45 Nm deficit / 0.92–0.98 u_max) + zero-below-0.95·lim excess bleed, and combine 3-DOF PID, head-inertia FF, and translational coupling into τ_raw,a.",
+            latex: String.raw`\dot{I}_{\theta,a} = (1-\alpha_{\text{sat}})g_{\text{lim}} e_{\text{pos}} - \alpha_{\text{sat}}(0.5 I_{\theta,a}) - 10\,\mathcal{E}_{0.95\,\text{lim}}(I_{\theta,a}), \qquad \tau_{\text{raw},a} = K_{p,\text{eff},a}(x_{1,a}-\theta_{\text{ctx},a}) + K_{d,\text{eff},a}(x_{2,a}-\omega_{\text{ctx},a}) + K_{i,\text{eff},a} I_{\theta,a} + 0.05\,\ddot{x}_{1,a} + K_{p,\text{tr},a}\hat{p}_a + K_{v,\text{tr},a}\hat{v}_a`,
             pseudo:
-`I_lim_pitch = max(0.6, 25.0 / max(0.05, ki_pitch));   // Roll/Yaw: max(0.4, 15.0 / max(0.05, ki))
-dI_theta/dt = (anti_windup(I_theta, e_pos)) ? e_pos : 0.0;
+`I_lim = max(lim_min, lim_nm / max(0.05, ki));
+alpha_sat = vol_cmd_gate[a] * max(s_def(0.25..0.45), s_u(0.92..0.98));
+dI_theta/dt = (1 - alpha_sat)*lim_gate*e_pos - alpha_sat*(0.5*I_theta) - 10*excess_95(I_theta, I_lim);
 tau_raw[a] = kp_eff * (traj_pos - del_mahony_att)
            + kd_eff * (traj_vel - del_mahony_vel)
            + ki_eff * I_theta + 0.05 * traj_acc
            + Kv_trans * del_obs_v + Kp_trans * del_obs_p;`
           },
           {
-            text: "Convert Cuneate horizontal shift position and velocity errors from meters to differential radians via γ_IK,s / J_-,s and update the gated shift integrator I_sh,s with anti-windup.",
-            latex: String.raw`e_{\text{sh},s} = \frac{\gamma_{\text{IK},s}}{J_{-,s}}\bigl(p_{\text{clamp},s}-\hat{p}_{\text{cun},s}\bigr), \qquad \dot{e}_{\text{sh},s} = \frac{\gamma_{\text{IK},s}}{J_{-,s}}\bigl(\dot{x}_{\text{sh},s}-\hat{v}_{\text{cun},s}\bigr), \qquad \dot{I}_{\text{sh},s} = \begin{cases} g_{\text{shift},s}\,e_{\text{sh},s}, & \text{active} \\ -2\,I_{\text{sh},s}, & \text{inactive} \end{cases}`,
+            text: "Convert Cuneate horizontal shift position and velocity errors from meters to differential radians via γ_IK,s / J_-,s, update the continuously blended shift integrator I_sh,s (g_sh = act_task_int·shift_gate), and blend ROM-proportional split continuously via eff_diff = plan_diff + (1 - γ_IK)·vol_cmd_gate·kRom·plan_pos.",
+            latex: String.raw`g_{\text{shift},s} = \operatorname{clamp}(w_{\text{pos}},0,1)\max\!\bigl(S(|k_p|+|k_v|/10^{-3}),\,S(\text{mag}/10^{-5})\bigr), \qquad \dot{I}_{\text{sh},s} = g_{\text{sh}}(v_{ki}g_{\text{lim}} e_{\text{sh}} - 10\,\mathcal{E}_{0.95\,\text{lim}}) + (1 - g_{\text{sh}})(-2\,I_{\text{sh},s})`,
             pseudo:
-`inv_jm = (abs(Jm[s]) > 1e-8) ? (1.0 / Jm[s]) : 0.0;
-shift_err = ik[s].gamma_ik * (ik[s].p_clamped_m - delayed_cuneate_diff_ang[s]) * inv_jm;
-edot      = ik[s].gamma_ik * (v_ref[s]           - delayed_cuneate_diff_spd[s]) * inv_jm;
-shift_int_lim = max(0.45, 16.0 / max(0.05, ki_s));
-dI_sh/dt = (act_task_int[s] && shift_gate[s] > 1e-9 && gamma_ik > 1e-9)
-         ? shift_gate[s] * anti_windup(I_sh, shift_err) : -2.0 * I_sh;`
+`shift_gate[s] = computeCorticalShiftGate(...);  // C^1 smooth in w_pos, obs_gains, mag
+shift_int_dot = g_sh * (vel_ki_gate * sh_lim_gate * shift_err + sh_lim_bleed) + (1 - g_sh) * (-2 * shift_int);
+eff_diff[a]   = ((a < 2) ? plan_diff[a] : 0) + (1 - gamma_ik[a]) * vol_cmd_gate[a] * kRomDiffRatio[a] * plan_pos[a];`
           },
           {
-            text: "Ramp voluntary shift stiffness (kp_s → 6.5) and integral (ki_s → 16.0) under vol_shift_gate (keeping Kd_shift = 0.30 unramped) and add passive cervical stiffness feedforward (2.8·g_vol,sh·δ*_ref) alongside unified alertness/urgency u ∈ [-1, +1] (s_supra, s_spinal, e(u)), motion-gated phasic-VCR suppression (1 - 0.90·vol_cmd_gate·vol_move_active), Pitch voluntary Kd_buckle (0.75), and velocity-gated Sherrington reciprocal inhibition & fusimotor u_plan_alpha.",
+            text: "Ramp voluntary shift stiffness (kp_s → 6.5) and integral (ki_s → 16.0) under continuous vol_shift_gate = clamp(w_pos,0,1)·e(u) (keeping Kd_shift = 0.30 unramped) alongside unified alertness/urgency u ∈ [-1, +1] (s_supra, s_spinal, e(u)), motion-gated phasic-VCR suppression, and Pitch voluntary Kd_buckle (0.75).",
             latex: String.raw`s_{\text{supra}}(u)=\begin{cases}(1+u)^2,&u<0\\1,&u\ge 0\end{cases},\quad s_{\text{sp}}(u)=\begin{cases}1+u,&u<0\\1,&u\ge 0\end{cases},\quad e(u)=\begin{cases}0,&u\le 0\\\frac{\tanh(u/0.15)}{\tanh(1/0.15)},&u>0\end{cases},\quad \tau_{\text{diff},s} = g_{\text{shift},s}\Bigl[k_{p,s}\,e_{\text{sh},s} + K_{d,\text{sh},s}\,\dot{e}_{\text{sh},s} + k_{i,s}\,I_{\text{sh},s} + 2.8\,g_{\text{vol,sh},s}\,\delta_{\text{ref},s}^* + 0.02\,\ddot{\delta}_s^*\Bigr]`,
             pseudo:
 `s_supra = computeSupraspinalAlertness(u);   // (1+u)^2 for u<0, 1 for u>=0
 s_sp    = computeSpinalAlertness(u);        // (1+u)   for u<0, 1 for u>=0
 e_u     = computeVoluntaryEngagement(u);    // 0 for u<=0, tanh(u/0.15)/norm for u>0
-kp_s = max(Kp_shift[s], vol_shift_gate_now[s] * 6.5);   // base 4.5 -> 6.5 (Kd stays 0.30)
-ki_s = max(Ki_shift[s], vol_shift_gate_now[s] * 16.0);  // base 3.0 -> 16.0
-if (act_task[s] && shift_gate[s] > 1e-9 && ik[s].gamma_ik > 1e-9):
+vol_shift_gate = clamp(w_pos[s], 0, 1) * e_u;
+if (act_task[s]):
   tau_diff_raw[s] = shift_gate[s] * (kp_s * shift_err + Kd_shift[s] * edot + ki_s * shift_int
-                  + vol_shift_gate_now[s] * 2.8 * ik[s].delta_ref_rad + 0.02 * ik[s].delta_acc_rad);`
+                  + vol_shift_gate * (vol_ff_stiff[s] * delta_ref + vol_ff_vel[s] * delta_vel + att_coup_ff) + 0.02 * delta_acc);`
           }
         ],
         desc: "",
@@ -1196,20 +1194,22 @@ f_GIF_head = R_W_H * (a_lin - Vec3(0.0, -9.81, 0.0));`
         ]
       },
       s2_otolith_irr: {
-        type: "Irregular Otolith Afferent Bank (Schneider 2015 / Happee 2017 Biproper)",
-        title: "3D Irregular Otolith 2-Stage Filters (Striolar Type I Calyx Pathway to Phasic VCR)",
+        type: "Irregular Otolith Afferent Bank (Schneider 2015 / Happee 2017) + Pre-Lead Utricular Hair-Bundle tanh Saturation",
+        title: "3D Irregular Otolith 2-Stage Filters + Pre-Lead Hair-Bundle Transduction Saturation (Action 2)",
         steps: [
           {
-            text: "Pass total head-frame f_GIF through Stage 1 Irregular adaptation (k_0/k_irr = 0.152653, c_irr = 0.25 s) around the 1g equilibrium.",
-            latex: String.raw`H_{\text{adapt,irr}}(s) = \frac{\alpha_{\text{irr}} + c_{\text{irr}}s}{1 + c_{\text{irr}}s}, \qquad \dot{x}_{\text{adapt},j} = \frac{f_{\text{GIF},j} - x_{\text{adapt},j}}{c_{\text{irr}}}, \qquad u_{1,j} = (\alpha_{\text{irr}} - 1)x_{\text{adapt},j} + f_{\text{GIF},j}`,
+            text: "Pass total head-frame f_GIF through Stage 1 Irregular adaptation (k_0/k_irr = 0.152653, c_irr = 0.25 s) around the 1g equilibrium, then apply smooth C^∞ utricular hair-bundle stereocilia tanh transduction saturation BEFORE Stage 2's 3.89× macular lead on horizontal axes (X_H, Z_H; Action 2).",
+            latex: String.raw`u_{1,\text{raw},j} = (\alpha_{\text{irr}} - 1)x_{\text{adapt},j} + f_{\text{GIF},j}, \qquad u_{1,j} = \begin{cases} a_{\text{hair}}\tanh\!\left(\dfrac{u_{1,\text{raw},j}}{a_{\text{hair}}}\right), & j \in \{x, z\} \\ u_{1,\text{raw},j}, & j = y \end{cases}`,
             pseudo:
 `alpha_irr = 37.4 / 245.0;   // 0.152653
 c_irr     = 0.25;
 d(x_irr_adapt[j])/dt = (f_GIF[j] - x_irr_adapt[j]) / c_irr;
-u_stage1 = (alpha_irr - 1.0) * x_irr_adapt[j] + f_GIF[j];`
+u1_raw = (alpha_irr - 1.0) * x_irr_adapt[j] + f_GIF[j];
+// Action 2: Pre-lead hair-bundle saturation (phasic_oto_tanh_mps2 ~ 9.40 m/s^2) on horizontal utricle (X, Z)
+u_stage1 = (j != 1 && hair_tanh_sat > 1e-6) ? applyTanhSaturation(u1_raw, hair_tanh_sat) : u1_raw;`
           },
           {
-            text: "Apply Stage 2 biproper macular lead-lag ((1 + τ_1,irr·s)/(1 + b_irr·s), τ_1,irr = 2·a_irr = 27.2 ms, b_irr = 7.0 ms) and scale by Irregular passband sensitivity G_pass,oto,irr.",
+            text: "Apply Stage 2 biproper macular lead-lag ((1 + τ_1,irr·s)/(1 + b_irr·s), τ_1,irr = 2·a_irr = 27.2 ms, b_irr = 7.0 ms) to the saturated stereocilia drive (preserving exact chain-rule derivatives sech²(u_1,raw/a_hair)) and scale by Irregular passband sensitivity G_pass,oto,irr.",
             latex: String.raw`y_{\text{oto,irr},j}(t) = G_{\text{pass,oto,irr}}\Bigl(c_{\text{mac,irr}}x_{\text{mac},j} + d_{\text{mac,irr}}u_{1,j}\Bigr), \qquad \dot{x}_{\text{mac},j} = \frac{u_{1,j} - x_{\text{mac},j}}{b_{\text{irr}}}`,
             pseudo:
 `d_mac = 0.0272 / 0.0070;   // 3.885714
@@ -1225,6 +1225,12 @@ y_oto_irr[j] = (245.0 / 9.81) * f_irr[j];`
         math: "",
         params: [
           {
+            label: "Action 2: Pre-Lead Hair-Bundle Saturation (phasic_oto_tanh_mps2 = 9.40 m/s²)",
+            derivTitle: "Why Stereocilia Transduction Saturation Must Precede Stage-2 Macular Lead (3.89×)",
+            derivDesc: "Biophysically, utricular Type I hair-cell mechanoelectrical transduction (MET) channels saturate via a smooth Boltzmann/tanh curve at the stereocilia bundle (Hudspeth; Jamali et al. 2013) BEFORE synaptic phase-lead differentiation. Placing tanh(u₁/a_hair) before Stage 2 prevents the 3.89× high-frequency macular lead from clipping mid/high-frequency APEO Bode waves (preserving linear Bode gain & phase) while naturally compressing impulsive 2g–3g horizontal accelerations:",
+            derivLatex: String.raw`u_{1,\text{sat}} = a_{\text{hair}}\tanh\!\left(\frac{u_{1,\text{raw}}}{a_{\text{hair}}}\right), \qquad \dot{u}_{1,\text{sat}} = \operatorname{sech}^2\!\left(\frac{u_{1,\text{raw}}}{a_{\text{hair}}}\right)\dot{u}_{1,\text{raw}}, \qquad a_{\text{hair}} \approx \mathbf{9.40\text{ m/s}^2}`
+          },
+          {
             label: "α_irr = k_0/k_irr = 0.152653, c_irr = 0.25 s (Stage 1 Adaptation)",
             derivTitle: "What k_0, k_irr, α_irr, and c_irr Represent (Happee et al. 2017 Eq. 3 / Schneider et al. 2015)",
             derivDesc: "In Happee et al. (2017, Appendix Eq. 3), Stage 1 models phasic-tonic mechanoreceptor adaptation: k_0 = 37.4 spk/s/g is the static tilt sensitivity at 0 Hz (Fernández et al., 1972), k_irr = 245.0 spk/s/g is the mid-frequency passband sensitivity (Schneider et al., 2015), α_irr = k_0/k_irr = 0.1527 is the DC-to-passband attenuation ratio, and c_irr = 0.25 s is the adaptation time constant:",
@@ -1235,12 +1241,6 @@ y_oto_irr[j] = (245.0 / 9.81) * f_irr[j];`
             derivTitle: "What a_irr, τ_1,irr = 2·a_irr, and b_irr Represent (Macular & Hair-Cell Dynamics)",
             derivDesc: "In Happee et al. (2017, Eq. 3), a_irr = 0.0136 s (13.6 ms) is the hair-cell velocity-sensitive phase-lead time constant and b_irr = 0.0070 s (7.0 ms) is the otoconial gel-membrane viscoelastic lag time constant. Expanding (1 + a_irr·s)² ≈ 1 + 2·a_irr·s gives the biproper lead time constant τ_1,irr = 2·a_irr = 0.0272 s (27.2 ms):",
             derivLatex: String.raw`a_{\text{irr}} = 0.0136\text{ s} \implies \tau_{1,\text{irr}} = 2a_{\text{irr}} = \mathbf{0.0272\text{ s}}, \qquad b_{\text{irr}} = \mathbf{0.0070\text{ s}}, \qquad H_{\text{mac,irr}}(s) = \frac{1 + \tau_{1,\text{irr}}s}{1 + b_{\text{irr}}s}`
-          },
-          {
-            label: "Why (1 + 2a·s)/(1 + b·s) vs. Happee Eq. 3 & Zheng 2021",
-            derivTitle: "Biproper Realization of Schneider (2015) / Happee (2017) vs. Zheng (2021)",
-            derivDesc: "Zheng et al. (2021) used Fernández & Goldberg (1976, 0–2 Hz) which has a 10 s adaptation pole and drops gain above 1.6 Hz. Happee et al. (2017, Eq. 3) fitted Schneider et al. (2015, 0.5–20 Hz) + Fernández et al. (1972, 0 Hz) using (1 + a·s)²/(1 + b·s), which is improper (degree 2 over 1) and differentiates finite-difference jerk da_lin/dt. Replacing (1 + a·s)² with its 1st-order Taylor expansion (1 + 2a·s) preserves the exact mid-band phase lead while keeping the filter strictly biproper (degree 2 over 2):",
-            derivLatex: String.raw`\frac{(1 + a_{\text{irr}}s)^2}{1 + b_{\text{irr}}s} = \frac{1 + 2a_{\text{irr}}s + a_{\text{irr}}^2 s^2}{1 + b_{\text{irr}}s} \;\xrightarrow{\text{1st-Order Taylor }(\tau_{1,\text{irr}} = 2a_{\text{irr}})}\; \frac{1 + \tau_{1,\text{irr}}s}{1 + b_{\text{irr}}s} = \underbrace{\frac{\tau_{1,\text{irr}}}{b_{\text{irr}}}}_{d_{\text{mac,irr}} = 3.8857} + \underbrace{\left(1 - \frac{\tau_{1,\text{irr}}}{b_{\text{irr}}}\right)}_{c_{\text{mac,irr}} = -2.8857}\frac{1}{1 + b_{\text{irr}}s}`
           },
           {
             label: "G_pass,oto,irr = 24.974516 (imp/s)/(m/s²)",
@@ -2044,37 +2044,37 @@ phasic_oto_input[1] = applyBiologicalDeadband(u_phas_r, thresh_vest_oto);`
         ]
       },
       s5_ton: {
-        type: "Ungated 3-Axis Tonic Spatial Attitude 2nd-Order LPF (P: 5.26@16.2 | R: 0.90@3.2 | Y: 6.20@16.2)",
-        title: "Tonic Spatial Attitude LPF — H_ton(s) (P: 5.26 @ 16.23 | R: 0.90 @ 3.20 | Y: 6.20 @ 16.23 rad/s)",
+        type: "Ungated 3-Axis Tonic Spatial Attitude 2nd-Order LPF (P: 3.24@15.3 | R: 0.46@16.5 | Y: 15.07@19.5)",
+        title: "Tonic Spatial Attitude LPF — H_ton(s) (P: 3.24 @ 15.3 | R: 0.46 @ 16.5 | Y: 15.07 @ 19.5 rad/s)",
         steps: [
           {
-            text: "Integrate the strictly proper 2nd-order tonic vestibulospinal low-pass filter (p_fast = 250 rad/s, 0 zeros) unconditionally across all 3 axes.",
+            text: "Integrate the strictly proper 2nd-order tonic vestibulospinal low-pass filter (p_fast = 250 rad/s, 0 zeros, D = 0) unconditionally across all 3 axes.",
             latex: String.raw`H_{\text{ton},a}(s) = K_{\text{ton},a}\frac{p_{\text{ton},a}p_{\text{fast}}}{(s+p_{\text{ton},a})(s+p_{\text{fast}})}, \qquad \ddot{x}_{1,\text{ton},a} = p_{\text{ton},a}p_{\text{fast}}(u_{\text{ton},a}-x_{1}) - (p_{\text{ton},a}+p_{\text{fast}})\dot{x}_{1}`,
             pseudo:
 `d(ton_state[a])/dt = ton_vel[a];
 d(ton_vel[a])/dt   = p_ton[a]*250.0*(u_ton[a] - ton_state[a]) - (p_ton[a]+250.0)*ton_vel[a];
-tau_ton[a] = K_ton[a] * ton_state[a];`
+tau_ton[a] = s_supra * K_ton[a] * ton_state[a];`
           }
         ],
         desc: "",
         latex: "",
         math: "",
         params: [
-          "Pitch: K_ton = 5.26 Nm/rad, p_ton = 16.227 rad/s (~2.58 Hz, τ = 61.6 ms), 0 zeros",
-          "Roll (Ungated LatEC): K_ton_roll = 0.90 Nm/rad (positive restorative), p_ton_roll = 3.20 rad/s (~0.51 Hz, τ = 312.5 ms), 0 zeros",
-          "Yaw (Ungated YawMA): K_ton_yaw = 6.20 Nm/rad, p_ton_yaw = 16.227 rad/s (~2.58 Hz, τ = 61.6 ms), 0 zeros",
+          "Pitch (V2_EX36_Main G04): K_ton = 3.24 Nm/rad, p_ton = 15.31 rad/s (~2.44 Hz, τ = 65.3 ms), 0 zeros",
+          "Roll (Exact 15.8s Record LatEC=1981.94): K_ton_roll = 0.457 Nm/rad, p_ton_roll = 16.53 rad/s (~2.63 Hz, τ = 60.5 ms), 0 zeros",
+          "Yaw (Exact 15.8s Record YawMA=939.34): K_ton_yaw = 15.07 Nm/rad, p_ton_yaw = 19.52 rad/s (~3.11 Hz, τ = 51.2 ms), 0 zeros",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
-          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
+          "Strictly Proper (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead compensator",
           {
             label: "K_ton : 3×3 Tonic Otolith-VCR Gain Matrix",
             derivTitle: "K_ton — 3-Axis Tonic Tilt VCR Gain Matrix (3×3)",
-            derivDesc: "Diagonal gain matrix weighting [Pitch, Roll, Yaw] tonic otolith-tilt reflex commands.",
-            derivLatex: "K_{\\text{ton}} = \\mathrm{diag}\\!\\left(K_{\\text{ton,P}},\\, K_{\\text{ton,R}},\\, K_{\\text{ton,Y}}\\right) = \\begin{bmatrix} 5.259843 & 0 & 0 \\\\ 0 & 0.90 & 0 \\\\ 0 & 0 & 6.20 \\end{bmatrix}"
+            derivDesc: "Diagonal gain matrix weighting [Pitch, Roll, Yaw] tonic otolith-tilt reflex commands in the finalized Kuo-Ligaments + Plan 2 SRS model.",
+            derivLatex: "K_{\\text{ton}} = \\mathrm{diag}\\!\\left(K_{\\text{ton,P}},\\, K_{\\text{ton,R}},\\, K_{\\text{ton,Y}}\\right) = \\begin{bmatrix} 3.241 & 0 & 0 \\\\ 0 & 0.457 & 0 \\\\ 0 & 0 & 15.066 \\end{bmatrix}"
           }
         ]
       },
       s5_sc: {
-        type: "Open 3-Axis VCR Canal Filter (D = 0): P (4.10, 15ms, 53.3) | R (3.50, 18ms, 60.0) | Y (1.32, 16ms, 3.5)",
+        type: "Strictly Proper 3-Axis VCR Canal Filter (D = 0): P (2.65, 10.2ms, 62.3) | R (1.96, 12.5ms, 21.0) | Y (1.54, 22.3ms, 1.25)",
         title: "Semicircular Canal Central VCR Filter — H_sc(s) (Open 3-Axis Gains, Poles & Lead Zeros)",
         steps: [
           {
@@ -2085,80 +2085,81 @@ tau_ton[a] = K_ton[a] * ton_state[a];`
 d(sc_vel[a])/dt   = p_sc[a]*250.0*(u_sc[a] - sc_state[a]) - (p_sc[a]+250.0)*sc_vel[a];`
           },
           {
-            text: "Combine state and derivative state using each axis's open lead zero z_sc,a (D = 0, no direct feedthrough) to produce restorative canal damping torque.",
-            latex: String.raw`\tau_{\text{sc},a} = K_{\text{sc},a}\bigl(x_{1,\text{sc},a} + z_{\text{sc},a}x_{2,\text{sc},a}\bigr) \qquad (\text{P: }4.10/15\text{ms},\;\text{R: }3.50/18\text{ms},\;\text{Y: }1.32/16\text{ms})`,
+            text: "Combine state and derivative state using each axis's open lead zero z_sc,a (D = 0, no direct feedthrough) scaled by supraspinal alertness s_supra(u) to produce restorative canal damping torque.",
+            latex: String.raw`\tau_{\text{sc},a} = s_{\text{supra}}(u)\,K_{\text{sc},a}\bigl(x_{1,\text{sc},a} + z_{\text{sc},a}x_{2,\text{sc},a}\bigr)`,
             pseudo:
-`tau_sc[a] = K_sc[a] * (sc_state[a] + z_sc[a] * sc_vel[a]);`
+`tau_sc[a] = s_supra * K_sc[a] * (sc_state[a] + z_sc[a] * sc_vel[a]);`
           }
         ],
         desc: "",
         latex: "",
         math: "",
         params: [
-          "Pitch: K_sc = 4.10, z_sc = 15.0 ms (0.015 s open lead), p_sc = 53.28 rad/s (τ = 18.8 ms)",
-          "Roll: K_sc_roll = 3.50, z_sc_roll = 18.0 ms (0.018 s open lead), p_sc_roll = 60.0 rad/s (τ = 16.7 ms)",
-          "Yaw: K_sc_yaw = 1.32, z_sc_yaw = 16.0 ms (0.016 s open lead), p_sc_yaw = 3.50 rad/s (τ = 285.7 ms)",
+          "Pitch (V2_EX36_Main G04): K_sc = 2.65, z_sc = 10.2 ms, p_sc = 62.29 rad/s (τ = 16.1 ms)",
+          "Roll (LatEC=1981.94): K_sc_roll = 1.96, z_sc_roll = 12.5 ms, p_sc_roll = 20.98 rad/s (τ = 47.7 ms)",
+          "Yaw (YawMA=939.34): K_sc_yaw = 1.54, z_sc_yaw = 22.3 ms, p_sc_yaw = 1.25 rad/s (τ = 798 ms)",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
-          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
+          "Strictly Proper (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead compensator",
           {
             label: "K_sc : 3×3 Semicircular Canal VCR Gain Matrix",
             derivTitle: "K_sc — 3-Axis Canal Angular-Velocity VCR Gain Matrix (3×3)",
             derivDesc: "Diagonal gain matrix weighting [Pitch, Roll, Yaw] semicircular canal VCR damping.",
-            derivLatex: "K_{\\text{sc}} = \\mathrm{diag}\\!\\left(K_{\\text{sc,P}},\\, K_{\\text{sc,R}},\\, K_{\\text{sc,Y}}\\right) = \\begin{bmatrix} 4.101869 & 0 & 0 \\\\ 0 & 3.50 & 0 \\\\ 0 & 0 & 1.32 \\end{bmatrix}"
+            derivLatex: "K_{\\text{sc}} = \\mathrm{diag}\\!\\left(K_{\\text{sc,P}},\\, K_{\\text{sc,R}},\\, K_{\\text{sc,Y}}\\right) = \\begin{bmatrix} 2.648 & 0 & 0 \\\\ 0 & 1.963 & 0 \\\\ 0 & 0 & 1.541 \\end{bmatrix}"
           }
         ]
       },
       s5_phas: {
-        type: "Open Phasic Otolith Filter (D = 0) + High-G Sensory Reweighting & Knee Saturation",
-        title: "Irregular Otolith Phasic Central Filter — H_phas(s) + highg_acc_env Reweighting",
+        type: "Strictly Proper Phasic Otolith Filter (D = 0) + Action 1 Hill-4 Somatogravic Divisive Reweighting",
+        title: "Irregular Otolith Phasic Filter — H_phas(s) + Hill-4 Divisive Somatogravic Reweighting (Action 1)",
         steps: [
           {
-            text: "Evaluate the dual regular+irregular high-G excess detector highg_acc_env (knee = 7.80 m/s², irregular knee = 1.90×7.80 = 14.82 m/s², τ_attack = 2 ms, τ_release = 250 ms) and gate u_phas via g_highg and vol_move_active before integrating the strictly proper 2nd-order phasic otolith VCR states (p_fast = 250 rad/s).",
-            latex: String.raw`g_{\text{highg}} = \frac{1}{1 + (\text{highg\_env\_eff}/0.65)^2}, \qquad \dot{x}_{1,\text{phas},a} = x_{2,\text{phas},a}, \qquad \dot{x}_{2,\text{phas},a} = p_{\text{phas},a}p_{\text{fast}}\bigl(g_{\text{highg}}(1 - 0.90\,g_{\text{cmd},a}g_{\text{mv},a})u_{\text{phas},a} - x_{1,\text{phas},a}\bigr) - (p_{\text{phas},a} + p_{\text{fast}})x_{2,\text{phas},a}`,
+            text: "Track signed low-pass head translational acceleration (a_env,x, a_env,z) over averaging window τ_env = oto_reweight_tau_s (~29.7 ms) and compute the C^∞ Hill-4 somatogravic divisive weight w_oto ∈ (0, 1] (Action 1). Zero-mean oscillatory Bode perturbations average near 0 (w_oto ≈ 1.0, zero distortion), whereas sustained 2g–3g sled impacts smoothly down-weight phasic otolith gain without cliffs.",
+            latex: String.raw`\dot{a}_{\text{env},k} = \frac{a_{\text{lin},k} - a_{\text{env},k}}{\tau_{\text{env}}}, \qquad w_{\text{oto}} = \frac{1}{1 + \left(\dfrac{a_{\text{env},x}^2 + a_{\text{env},z}^2}{a_0^2}\right)^2}, \qquad \sqrt{w_{\text{oto}}} \in (0, 1]`,
             pseudo:
-`ex_reg = max(0, sqrt(trans_acc_sq_eff) - highg_oto_knee_mps2);  // knee = 7.80 m/s^2
-ex_irr = max(0, 0.5 * (phasic_irr_mag - 1.90 * 7.80));
-tau_hg = (max(ex_reg, ex_irr) > highg_env) ? 0.002 : 0.250;
-g_highg = 1.0 / (1.0 + (highg_env_eff / 0.65)^2);
-u_phas = g_highg * (1.0 - 0.90 * vol_cmd_gate[a] * vol_move_active[a]) * u_phas_raw;
-d(phas_state[a])/dt = phas_vel[a];
-d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_phas - phas_state[a]) - (p_phas[a]+250.0)*phas_vel[a];`
+`// Action 1: C^infty Hill-4 Divisive Somatogravic Otolith Reweighting (replaces all ad-hoc highg_* cliffs)
+d(oto_reweight_ax)/dt = (a_lin_head_x - oto_reweight_ax) / oto_reweight_tau_s;
+d(oto_reweight_az)/dt = (a_lin_head_z - oto_reweight_az) / oto_reweight_tau_s;
+r2 = (oto_reweight_ax^2 + oto_reweight_az^2) / (oto_reweight_a0_mps2^2);
+w_oto = 1.0 / (1.0 + r2 * r2);   // Hill-4 (n = 4); a0 ~ 5.37 m/s^2, tau ~ 29.7 ms
+sqrt_w_oto = sqrt(w_oto);`
           },
           {
-            text: "Scale sustained (√g_highg) and lead (g_highg) terms with supraspinal alertness s_supra(u), apply linear-below-knee C^1 saturation (1:1 identity below 7.6 Nm sustained / 11.5 Nm total -> 0% APEO/LatEC distortion; smooth tanh ceiling at 8.5 Nm / 13.5 Nm), and couple g_highg into pitch canal pole p_sc_eff and MVST lead pole tau_lead[0].",
-            latex: String.raw`\tau_{\text{phas},a} = \mathcal{S}_{11.5}^{13.5}\!\Bigl(\mathcal{S}_{7.6}^{8.5}\bigl(\sqrt{g_{\text{highg}}}\,s_{\text{supra}}K_{\text{phas},a}x_{1,\text{phas},a}\bigr) + g_{\text{highg}}\,s_{\text{supra}}K_{\text{phas},a}z_{\text{phas},a}x_{2,\text{phas},a}\Bigr)`,
+            text: "Apply √w_oto symmetrically at the VN input and integrate the strictly proper 2nd-order central phasic filter (p_fast = 250 rad/s, D = 0), then scale output by √w_oto · s_supra(u) · K_phas · (x_1 + z_phas · x_2).",
+            latex: String.raw`\dot{x}_{2,\text{phas},a} = p_{\text{phas},a}p_{\text{fast}}\bigl(\sqrt{w_{\text{oto}}}\,(1 - 0.90\,g_{\text{cmd},a}g_{\text{mv},a})u_{\text{phas},a} - x_{1,\text{phas},a}\bigr) - (p_{\text{phas},a} + p_{\text{fast}})x_{2,\text{phas},a}, \qquad \tau_{\text{phas},a} = \sqrt{w_{\text{oto}}}\,s_{\text{supra}}(u)\,K_{\text{phas},a}\bigl(x_{1,\text{phas},a} + z_{\text{phas},a}x_{2,\text{phas},a}\bigr)`,
             pseudo:
-`tau_sust = applyLinearKneeSaturation(sqrt(g_highg) * k_phas[a] * phas_state[a], 7.6, phasic_torque_sat_nm);
-tau_lead = g_highg * k_phas[a] * z_phas[a] * phas_vel[a];
-tau_phas[a] = applyLinearKneeSaturation(tau_sust + tau_lead, 11.5, 13.5);
-// On Pitch: p_sc_eff = 22.0 + g_highg * max(0, p_sc - 22.0);  tau_lead[0] += (1 - g_highg) * 0.022;`
+`// Symmetric sqrt(w_oto) at VN input AND LVN output -> exact net w_oto scaling without state-step whip:
+u_in = sqrt_w_oto * (1.0 - 0.90 * vol_cmd_gate[a] * vol_move_active[a]) * u_phas[a];
+d(phas_state[a])/dt = phas_vel[a];
+d(phas_vel[a])/dt   = p_phas[a]*250.0*(u_in - phas_state[a]) - (p_phas[a]+250.0)*phas_vel[a];
+tau_phas[a] = sqrt_w_oto * s_supra * K_phas[a] * (phas_state[a] + z_phas[a] * phas_vel[a]);`
           }
         ],
         desc: "",
         latex: "",
         math: "",
         params: [
-          "Pitch: K_phas = 13.070, z_phas = 28.6 ms, p_phas = 2.28 rad/s",
-          "Roll: K_phas_roll = 4.153, z_phas_roll = 9.8 ms, p_phas_roll = 5.75 rad/s",
+          "Pitch (V2_EX36_Main G04): K_phas = 9.64, z_phas = 24.9 ms, p_phas = 3.37 rad/s",
+          "Action 1 Hill-4 Reweighting: oto_reweight_a0_mps2 = 5.37 m/s², oto_reweight_tau_s = 29.7 ms (symmetric √w_oto input/output split)",
+          "Action 2 Pre-Lead Hair-Bundle tanh: phasic_oto_tanh_mps2 = 9.40 m/s² (applied in Sub2A BEFORE Stage-2 3.89× macular lead)",
+          "Roll (Exact 15.8s Record LatEC=1981.94): K_phas_roll = 3.82, z_phas_roll ≈ 0.0 ms, p_phas_roll = 9.72 rad/s",
           "Yaw: Phasic otolith linear-translation input is zero on Earth-vertical yaw",
-          "highg_oto_knee_mps2 = 7.80 m/s² (rolloff 0.65, τ_att=2 ms, τ_rel=250 ms) : 0% Bode effect; scales u_phas, √g_highg/g_highg, p_sc_eff, tau_lead[0]",
-          "phasic_torque_sat_nm = 8.5 Nm (sustained knee = 7.6 Nm -> 8.5 Nm; total knee = 11.5 Nm -> 13.5 Nm): 0% APEO/LatEC Bode regression, prevents >50 Nm crash hyper-extension whip",
+          "Decommissioned Legacy Cliffs: highg_oto_knee_mps2 = 0, phasic_torque_sat_nm = 0, phasic_torque_tanh_nm = 0, highg_tau_lead_add_s = 0",
           "p_fast = 250.0 rad/s (39.8 Hz) : Secondary biophysical membrane pole (τ_2 = 4.0 ms)",
-          "Properness (D = 0) & MVST (τ_5 = 2.5 ms) : Causal biproper lead (1 + 10.5ms·s)/(1 + 8.0ms·s)",
+          "Strictly Proper (D = 0) & MVST/LVST (τ_5 = 2.5 ms) : Causal biproper lead compensator",
           {
             label: "K_phas : 3×3 Phasic Otolith-VCR Gain Matrix",
             derivTitle: "K_phas — Phasic Linear-Acceleration VCR Gain Matrix (3×3)",
-            derivDesc: "Diagonal gain matrix for dynamic translational otolith VCR on [Pitch (AP), Roll (Lat), Yaw].",
-            derivLatex: "K_{\\text{phas}} = \\mathrm{diag}\\!\\left(K_{\\text{phas,P}},\\, K_{\\text{phas,R}},\\, 0\\right) = \\begin{bmatrix} 11.0 & 0 & 0 \\\\ 0 & 13.5 & 0 \\\\ 0 & 0 & 0 \\end{bmatrix}"
+            derivDesc: "Diagonal gain matrix for dynamic translational otolith VCR on [Pitch (AP), Roll (Lat), Yaw] with Action 1 Hill-4 somatogravic divisive reweighting.",
+            derivLatex: "K_{\\text{phas}} = \\mathrm{diag}\\!\\left(K_{\\text{phas,P}},\\, K_{\\text{phas,R}},\\, 0\\right) = \\begin{bmatrix} 9.645 & 0 & 0 \\\\ 0 & 3.817 & 0 \\\\ 0 & 0 & 0 \\end{bmatrix}"
           }
         ]
       },
       s5_sum: {
-        type: "Brainstem VN Restorative Summing Junction (Open 3-Axis VCR + Biproper Lead MVST)",
-        title: "Brainstem VCR Sum & MVST Output (Open 3-Axis Strictly Proper Filters)",
+        type: "Brainstem VN Restorative Summing Junction (Strictly Proper 3-Axis VCR + Biproper Lead MVST/LVST)",
+        title: "Brainstem VCR Sum & MVST/LVST Output (Open 3-Axis Strictly Proper Filters)",
         steps: [
           {
-            text: "Sum restorative tonic, canal, and phasic VCR torques with negative feedback signs across all three axes before MVST transmission.",
+            text: "Sum restorative tonic, canal, and Hill-4 reweighted phasic VCR torques with negative feedback signs across all three axes before MVST/LVST transmission (pitch torque is split across upper/lower cervical pools in Sub5 via Action 4 vcr_upper_share_pitch).",
             latex: String.raw`\tau_{\text{VCR},a}(t) = -\bigl(\tau_{\text{ton},a}(t) + \tau_{\text{sc},a}(t) + \tau_{\text{phas},a}(t)\bigr), \qquad a \in \{\text{pitch, roll, yaw}\}`,
             pseudo:
 `for a in 0..2:
@@ -2169,15 +2170,15 @@ tau_phas[a] = applyLinearKneeSaturation(tau_sust + tau_lead, 11.5, 13.5);
         latex: "",
         math: "",
         params: [
-          "Pitch VCR: K_ton=5.26 (p=16.23), K_sc=4.10 (z=15ms, p=53.3), K_phas=11.00 (z=8ms, p=4.71)",
-          "Roll VCR: K_ton_roll=0.90 (p=3.2), K_sc_roll=3.50 (p=60.0, z=18ms), K_phas_roll=13.50 (p=4.50, z=12ms)",
-          "Yaw VCR: K_ton_yaw=6.20 (p=16.23), K_sc_yaw=1.32 (p=3.5, z=16ms), K_phas_yaw=0",
-          "Strict Properness (D = 0) + MVST (τ_5 = 2.5 ms, biproper lead): Total VCR loop = 2.0 + 2.5 + 2.5 = 7.0 ms",
+          "Pitch VCR (V2_EX36_Main G04): K_ton=3.24 (p=15.3), K_sc=2.65 (z=10.2ms, p=62.3), K_phas=9.64 (z=24.9ms, p=3.37, Hill-4 a0=5.37)",
+          "Roll VCR (LatEC=1981.94): K_ton_roll=0.46 (p=16.5), K_sc_roll=1.96 (z=12.5ms, p=21.0), K_phas_roll=3.82 (z≈0ms, p=9.72)",
+          "Yaw VCR (YawMA=939.34): K_ton_yaw=15.07 (p=19.5), K_sc_yaw=1.54 (z=22.3ms, p=1.25), K_phas_yaw=0",
+          "Strictly Proper (D = 0) + MVST/LVST (τ_5 = 2.5 ms, biproper lead): Total VCR loop = 2.0 + 2.5 + 2.5 = 7.0 ms",
           {
             label: "K_ton, K_sc, K_phas : 3×3 VCR Diagonal Gain Matrices",
             derivTitle: "Sub2B VCR 3×3 Diagonal Gain Matrices",
-            derivDesc: "All three 3-axis diagonal VCR gain matrices summed at Sub2B MVST output.",
-            derivLatex: "K_{\\text{ton}} = \\mathrm{diag}(5.259843,\\,0.90,\\,6.20),\\quad K_{\\text{sc}} = \\mathrm{diag}(4.101869,\\,3.50,\\,1.32),\\quad K_{\\text{phas}} = \\mathrm{diag}(11.0,\\,13.5,\\,0)"
+            derivDesc: "All three 3-axis diagonal VCR gain matrices summed at Sub2B MVST/LVST output.",
+            derivLatex: "K_{\\text{ton}} = \\mathrm{diag}(3.241,\\,0.457,\\,15.066),\\quad K_{\\text{sc}} = \\mathrm{diag}(2.648,\\,1.963,\\,1.541),\\quad K_{\\text{phas}} = \\mathrm{diag}(9.645,\\,3.817,\\,0)"
           }
         ]
       },
@@ -2321,51 +2322,46 @@ tau_total = clamp(tau_total, [-150, -100, -100], [150, 100, 100]);`
         ]
       },
       s7_qp: {
-        type: "Unconditional 6-DOF Incremental Active-Set QP Synergy Solver (5-DOF Shift + Nullspace Anti-Buckling)",
-        title: "Unconditional 15-Iteration 6-DOF Active-Set QP Synergy Allocator & J_posᵀ↔J⁻ᵀ Shift Allocation",
+        type: "Exact 6-DOF Semismooth-Newton Bounded QP + Action 4 MVST/LVST Split + Suboccipital Shear Damping",
+        title: "6-DOF Semismooth-Newton QP Synergy Allocator, MVST/LVST Pitch Split (Action 4) & Anti-Buckling",
         steps: [
           {
-            text: "Compute intersegmental anti-buckling torque τ_buckle and map 2-DOF C1-shift differential torque through continuous J_pos^T ↔ J^-T blend weights (w₁, w₂) into the 6-DOF QP target.",
-            latex: String.raw`\tau_{\text{buckle},a} = K_{p,\text{b}}(\hat{q}_{1,a}-\hat{q}_{2,a}) + K_{d,\text{b}}(\dot{\hat{q}}_{1,a}-\dot{\hat{q}}_{2,a}), \qquad \boldsymbol{\tau}_{\text{qp},2a/2a+1} = \tau_{\text{total},a} + w_{1/2,a}v_{\text{diff},a} \mp \tau_{\text{buckle},a}`,
+            text: "Compute intersegmental anti-buckling torque τ_buckle (augmented on pitch by spinal-alertness-scaled suboccipital shear damping K_subocc_shear_damp), apply Action 4 anatomical MVST (upper C0–C2) vs. LVST (lower C3–T1) pitch VCR split vcr_upper_share_pitch, and project 2-DOF C1-shift differential commands via blended (w₁, w₂) weights.",
+            latex: String.raw`\tau_{\text{diff,VCR}} = (2\alpha_{\text{upper}} - 1)\tau_{\text{VCR,P}}, \qquad \boldsymbol{\tau}_{\text{qp},2a/2a+1} = \tau_{\text{total},a} \pm \tau_{\text{diff,VCR}}\delta_{a,0} + w_{1/2,a}v_{\text{diff},a} \mp \tau_{\text{buckle},a}`,
             pseudo:
-`(w1, w2) = (axis < 2) ? (1-r_att)*[J1/(2Jm), J2/(2Jm)] + r_att*[1+alpha, -(1-alpha)] : [1, -1];
-tau_qp[2*a]     = tau_total[a] + w1 * v_diff[a] - tau_buckle[a];
-tau_qp[2*a + 1] = tau_total[a] + w2 * v_diff[a] + tau_buckle[a];`
+`extra_subocc_kd = (axis == 0) ? (s_spinal * K_subocc_shear_damp) : 0.0;
+kd_b_eff = max(kd_buckle[axis], vol_cmd_gate[axis] * kd_b_vol) + extra_subocc_kd;
+tau_buckle[axis] = kp_b_eff * diff_ang + kd_b_eff * diff_spd;
+// Action 4: MVST (upper) vs LVST (lower) anatomical pitch VCR projection split (vcr_upper_share_pitch ~ 0.42)
+vcr_diff_pitch = (axis == 0) ? ((2.0 * vcr_upper_share_pitch - 1.0) * tau_vcr[0]) : 0.0;
+tau_qp[2*a]     = tau_total[a] + vcr_diff_pitch + w1 * v_diff[a] - tau_buckle[a];
+tau_qp[2*a + 1] = tau_total[a] - vcr_diff_pitch + w2 * v_diff[a] + tau_buckle[a];`
           },
           {
-            text: "Solve the 15-iteration incremental 6-DOF Active-Set QP over all 72 muscles (A_6 = J_6 · F_max, λ_QP = 10⁻³) subject to [u_min,i, 1.0] excitation bounds.",
-            latex: String.raw`\min_{\Delta\mathbf{u}}\;\frac{1}{2}\|\Delta\mathbf{u}\|_2^2 \quad \text{s.t.}\quad A_6\Delta\mathbf{u} = \boldsymbol{\tau}_{\text{qp}},\;\; 0 \le \Delta u_i \le 1 - u_{\min,i}`,
+            text: "Solve the exact 6-DOF Semismooth-Newton dual bounded QP over all 72 muscles with active force-length & pennation scaling (w_exact above 8° ROM) subject to [u_min,i, 1.0] excitation bounds.",
+            latex: String.raw`\min_{\Delta\mathbf{u}}\;\frac{1}{2}\|\Delta\mathbf{u}\|_2^2 + \frac{1}{2}\mathbf{r}^\top R^{-1}\mathbf{r} \quad \text{s.t.}\quad \Delta u_i = \operatorname{clamp}\!\bigl((A_6^\top\boldsymbol{\lambda})_i,\;0,\;1 - u_{\min,i}\bigr)`,
             pseudo:
-`for iter in 0..14:
-  tau_rem = tau_qp - fixed_torque;
-  G = A_free * A_free.T + 1e-3 * I6;
-  lambda = solve(G, tau_rem);
-  du_free = A_free.T * lambda;
-  clamp_and_freeze_violated_muscles();`
+`// Exact Semismooth-Newton dual solver with active f_L(l_fib) * cos(alpha) capacity scaling:
+A_qp[r, m] = J_6[r, m] * F_max[m] * ((1 - w_exact) + w_exact * f_L[m] * cos_alpha[m]);
+// Minimize dual psi(lambda) = 0.5*lam^T*diag(rho)*lam - tau_qp^T*lam + sum_m Phi_m(A_qp[:,m]^T*lam)
+// -> u_alpha[m] = u_min[m] + clamp(A_qp[:,m]^T * lambda_star, 0, 1 - u_min[m]);`
           }
         ],
         desc: "",
         latex: "",
         math: "",
         params: [
-          "A_6 : Unconditional 6×72 force-scaled 6-DOF moment-arm matrix (J_6 · F_max) across all 72 muscles",
-          "(w₁, w₂) · v_diff : Continuous J_posᵀ ↔ J⁻ᵀ C1 horizontal shift differential allocation (AP & Lat)",
-          "Intersegmental Anti-Buckling : Kp_buckle, Kd_buckle on (q₁ - q₂) in nullspace of (q₁ + q₂)",
-          "6×6 gram_vol : Voluntary fusimotor synergy solver matching the 6-DOF QP structure",
           {
-            label: "Δu_free = A_{6,free}ᵀ (A_{6,free} A_{6,free}ᵀ + λI_6)⁻¹ τ_rem (6-DOF KKT Dual)",
-            derivTitle: "6-DOF Incremental KKT Dual Reduction, Shift Allocation & S-Buckling Cancellation",
-            derivDesc: "Balancing all 6 cervical DOFs around u_min lets the QP simultaneously drive total gaze torque, project 2-DOF C1/COM horizontal shift differential commands through blended J_posᵀ ↔ J⁻ᵀ weights (w1, w2), and damp S-buckling via ±τ_buckle:",
-            derivLatex: String.raw`\boldsymbol{\tau}_{\text{qp},2a/2a+1} = \tau_{\text{total},a} + w_{1/2,a}v_{\text{diff},a} \mp \tau_{\text{buckle},a}, \qquad \boldsymbol{\mu} = \bigl(A_{6,\text{free}}A_{6,\text{free}}^\top + \lambda_{\text{QP}}I_6\bigr)^{-1}\boldsymbol{\tau}_{\text{rem}}`
+            label: "Action 4: MVST / LVST Pitch VCR Split (vcr_upper_share_pitch = 0.42)",
+            derivTitle: "Anatomical MVST (Upper C0–C2) vs. LVST (Lower C3–T1) Pitch VCR Projection",
+            derivDesc: "In the human cervical spine, Medial Vestibulospinal Tract (MVST) fibers project preferentially to upper suboccipital muscles while Lateral Vestibulospinal Tract (LVST) fibers drive lower cervical extensors/flexors (Wilson & Schor 1999). Setting α_upper = vcr_upper_share_pitch ≈ 0.42 (42% upper / 58% lower LVST-dominant) dramatically lifts 5.5–8.0 Hz APEO head-pitch gain and cuts high-frequency phase lag:",
+            derivLatex: String.raw`\tau_{\text{upper,VCR}} = 2\alpha_{\text{upper}}\,\tau_{\text{VCR,P}}, \qquad \tau_{\text{lower,VCR}} = 2(1 - \alpha_{\text{upper}})\,\tau_{\text{VCR,P}}, \qquad \alpha_{\text{upper}} \in [0, 1]\;(\text{default }0.50,\;\text{tuned }\mathbf{0.42})`
           },
-          "u_min[72] : Per-muscle literature-centered 6-DOF equilibrium baselines (1.38% – 6.95% MVC)",
-          "u_α[72] = u_min[72] + Δu[72] : Optimal descending motor excitations",
-          {
-            label: "J_6(q), J_pos(q), K_buckle : 6×72 Action & 3×3 Anti-Buckling Matrices",
-            derivTitle: "QP Muscle-Action Matrix J_6(q) & Anti-Buckling Gain Matrices",
-            derivDesc: "J_6(q) is the 6×72 runtime skull-wrench matrix (moment arms × unit line-of-action); K_{p/d,buckle} are 3×3 diagonal neck-segment gains.",
-            derivLatex: "J_6(q) \\in \\mathbb{R}^{6 \\times 72},\\quad \\tau_6 = J_6(q)\\,F_{\\max}\\,\\mathbf{a}, \\qquad K_{p,\\text{buckle}} = \\mathrm{diag}(1.5,\\,1.5,\\,1.5),\\; K_{d,\\text{buckle}} = \\mathrm{diag}(0.15,\\,0.15,\\,0.15)"
-          }
+          "Suboccipital Shear Damping : K_subocc_shear_damp ≈ 0.026 Nms/rad (additive spinal-alertness-scaled pitch differential velocity damping)",
+          "Intersegmental Anti-Buckling : Pitch Kp_b=1.01, Kd_b=0.24 | Roll Kp_b=1.36, Kd_b=0.35 | Yaw Kp_b=1.23, Kd_b=0.49",
+          "A_6 : Exact 6×72 active force-length & pennation-scaled moment-arm matrix (Semismooth-Newton dual QP)",
+          "(w₁, w₂) · v_diff : Continuous J_posᵀ ↔ J⁻ᵀ C1 horizontal shift differential allocation (AP & Lat)",
+          "u_min[72] : Per-muscle literature-centered 6-DOF equilibrium baselines (1.38% – 6.95% MVC)"
         ]
       },
       s7_recip: {
@@ -2452,23 +2448,189 @@ gamma_d_cmd = clamp(60.0 * sqrt(u_d / max(1e-6, 1.0 - u_d)), 0.0, 100.0);`
         ]
       },
       s7_mn_sum: {
-        type: "Lamina IX Alpha-Motoneuron Pool Summing Junction & Clamp",
-        title: "Spinal Alpha-Motoneuron Pool Excitation Sum & Clamp (Forming spinal_motor_excitations)",
+        type: "Lamina IX Alpha-Motoneuron Pool Summing Junction (QP + CCR − GTO Ib − Renshaw + Capsule Reflex)",
+        title: "Spinal Alpha-Motoneuron Pool Excitation Sum & Tier B Spinal/Articular Microcircuits",
         steps: [
           {
-            text: "Sum descending QP motor excitation u_α,i and voluntary-gated CCR stretch drive u_ccr,inh,i at each Lamina IX motoneuron pool and clamp to [u_min,i, 1.0].",
-            latex: String.raw`u_{\text{pool},i}(t) = \operatorname{clamp}\!\bigl(u_{\alpha,i}(t) + u_{\text{ccr,inh},i}(t),\; u_{\min,i},\; 1\bigr), \qquad i \in \{1,\dots,72\}`,
+            text: "Sum descending QP drive u_α,i, voluntary-gated CCR stretch drive u_ccr,inh,i, and protective cervical ligament/capsule reflex (+s_spinal·K_lig·u_lig,i; 15 ms latency), minus Layer-2 voluntary-gated Lin & Crago (2002) GTO Ib autogenic inhibition (−s_spinal·K_gto_ib·(1 − 0.85·g_vol)·x_ib,i) and Renshaw recurrent inhibition (−s_spinal·K_renshaw·r_i), then clamp to [u_min,i, 1.0].",
+            latex: String.raw`u_{\text{pool},i}(t) = \operatorname{clamp}\!\bigl(u_{\alpha,i} + u_{\text{ccr,inh},i} + u_{\text{lig},i} - u_{\text{Ib},i} - u_{\text{ren},i},\; u_{\min,i},\; 1\bigr)`,
             pseudo:
-`excitation[i] = clamp(u_qp[i] + ccr_inh[i], cached_min_excitations[i], 1.0);`
+`// All 4 Tier B loops active on 72 neck muscles (HYOID_HeadNeckNeural_Model_KuoLigaments.osim):
+//   1. Plan 2 Tendon-Equilibrated SRS & Thixotropy inside Millard fiber-tendon equilibrium (k_srs=10.06, s_min=0.158)
+//   2. Lin & Crago (2002) GTO Ib (equilibrated F_T) + Layer-2 PAD suppression (K_gto_ib=0.000444, p_gto_ib=150.4)
+//   3. Renshaw recurrent inhibition (K_renshaw=0.169, tau_renshaw=21.4 ms, 2.0 ms collateral delay)
+//   4. 67 Kuo (2019) non-disc ligaments + B_k50_c30 bushings + Type II/III capsule reflex (K_lig=0.099, p_lig=40 rad/s, 15 ms)
+excitation[i] = clamp(u_qp[i] + ccr_inh[i] + u_lig_exc[i] - u_ib_inh[i] - u_ren_inh[i], cached_min_excitations[i], 1.0);`
           }
         ],
         desc: "",
         latex: "",
         math: "",
         params: [
-          "u_α[72] : Direct supraspinal QP synergy drive",
-          "u_ccr,inh[72] : Segmental Ia stretch reflex drive (2.5 ms C1–C8 lead in Sub1B + 2.5 ms Aα in Branch 5A)",
+          "u_α[72] : Direct supraspinal 6-DOF Semismooth-Newton QP synergy drive",
+          "u_ccr,inh[72] : Segmental Ia stretch reflex drive (2.5 ms C1–C8 lead + 2.5 ms Aα)",
+          "Tier B1 GTO Ib (click GTO block): Lin & Crago (2002) equilibrated F_T, Layer-2 PAD suppression (K_gto_vol_suppress=0.85, K_gto_ib=0.000444, p_gto_ib=150.4 rad/s, τ=2.5 ms)",
+          "Tier B1 Renshaw (click Renshaw block): Recurrent axon-collateral inhibition (K_renshaw=0.169, tau_renshaw=21.4 ms, τ=2.0 ms)",
+          "Tier B1 Plan 2 SRS (click SRS block): Tendon-equilibrated mixed-fiber cross-bridge stiffness & thixotropy (k_srs=10.06, δ=0.0197 L_0, τ_turn=113 ms, s_min=0.158, δ_break=0.038)",
+          "Tier B2 Ligaments & Capsule Reflex (click Capsule block): 67 Kuo et al. (2019) non-disc DynamicLigamentForce + B_k50_c30 bushings + Type II/III capsule reflex (K_lig_protective=0.099, p_lig_reflex=40 rad/s, τ=15.0 ms)",
           "Output: spinal_motor_excitations u_pool[72] ∈ [u_min,i, 1.0] (to Branch 5A 12.5 ms Biproper Lead)"
+        ]
+      },
+      s7_gto: {
+        type: "Tier B1 Spinal Interneuron: Lin & Crago (2002) GTO (Group Ib) + Layer-2 Voluntary PAD Suppression",
+        title: "🧬 Golgi Tendon Organ (Lin & Crago 2002 Ib) & Disynaptic Autogenic Inhibition (τ_Ib = 2.5 ms)",
+        steps: [
+          {
+            text: "Transduce each muscle's equilibrated total tendon force F_T(t) (including Plan 2 cross-bridge SRS force in series with tendon) via Lin & Crago (2002) logarithmic static compression (G_g = 60, strength-normalized G_f = max(1.5 N, 0.08·F_max)) and exact derivative-free 2-state partial-fraction dynamics + 2.0 ms (500 rad/s) strictly proper transduction filter.",
+            latex: String.raw`u_{\text{nl},i} = 60\ln\!\left(1 + \frac{F_{T,i}}{G_{f,i}}\right), \qquad H_{\text{Ib}}(s) = \left(1.7 - \frac{17/15}{s + 2.0} - \frac{2/75}{s + 0.2}\right)\frac{500}{s + 500}`,
+            pseudo:
+`// Inside Lin02GolgiTendonOrgan (proprioception_plugin/Lin02GolgiTendonOrgan.cpp):
+gf_eff = max(1.5, 0.08 * muscle->getMaxIsometricForce());
+u_nl   = 60.0 * log(1.0 + max(0.0, muscle->getTendonForce(s)) / gf_eff);
+dw1/dt = -2.0 * w1 + u_nl;   dw2/dt = -0.2 * w2 + u_nl;
+y_raw  = 1.7 * u_nl - (17.0/15.0) * w1 - (2.0/75.0) * w2;  // DC gain = 1.0, single-afferent scale
+dy_out/dt = 500.0 * (smooth_rectify(y_raw) - y_out);`
+          },
+          {
+            text: "Delay Group Ib firing across the 2.5 ms disynaptic pathway (1.2 ms Ib axon + 1.3 ms Lamina V–VI interneuron), apply deadband & membrane pole p_gto_ib, and suppress autogenic inhibition during voluntary turns via descending Layer-2 presynaptic inhibition / PAD (ZERO efferent innervation on GTOs, ZERO spinal forward-model subtraction).",
+            latex: String.raw`\dot{x}_{\text{Ib},i} = p_{\text{Ib}}\Bigl(\max\bigl(0,\;\mathcal{D}_{\theta_{\text{Ib}}}(y_{\text{Ib},i}(t - 2.5\text{ ms}) - y_{\text{Ib},0,i})\bigr) - x_{\text{Ib},i}\Bigr), \qquad u_{\text{Ib},i} = s_{\text{spinal}}\,K_{\text{Ib}}\bigl(1 - K_{\text{PAD}}\,g_{\text{vol}}\bigr)x_{\text{Ib},i}`,
+            pseudo:
+`// HeadNeckNeuralController.cpp (L3175-3198, L4850, L4905):
+delayed_ib = getDelayedData(t, 0.0025, true).raw_gto_ib_rate[m];
+ib_net     = max(0.0, applyBiologicalDeadband(delayed_ib - baseline_ib[m], thresh_gto_ib));
+d(gto_ib[m])/dt = p_gto_ib * (ib_net - gto_ib[m]);
+// Layer-2 voluntary suppression (Fournier, Katz & Pierrot-Deseilligny 1983; Lafleur et al. 1992):
+k_gto_eff  = s_spinal * K_gto_ib * (1.0 - K_gto_vol_suppress * voluntary_activity_gate);
+u_ib_inh[m] = k_gto_eff * max(0.0, gto_ib[m]);  // subtracted at Lamina IX alpha pool`
+          }
+        ],
+        desc: "",
+        latex: "",
+        math: "",
+        params: [
+          "Lin & Crago (2002) Sensor : G_g = 60, gf_fraction = 0.08·F_max (min 1.5 N), poles at 2.0 & 0.2 rad/s + 500 rad/s output filter (exact DC gain = 1.0)",
+          "Disynaptic Spinal Latency : τ_gto_ib = 2.5 ms (1.2 ms Group Ib axon + 1.3 ms Lamina V–VI interneuron)",
+          "Calibrated Spinal Gains (V2_EX36_Main G04) : K_gto_ib = 0.000444 exc/(imp/s), p_gto_ib = 150.4 rad/s, thresh_gto_ib = 0.50 imp/s",
+          "Layer-2 Voluntary PAD Suppression : K_gto_vol_suppress = 0.85 (reduces autogenic inhibition by 85% during active voluntary head turns while keeping full passive/impact force-limiting)",
+          "Biophysical Fidelity : Zero efferent innervation and zero spinal forward-model cancellation (unlike muscle spindles)"
+        ]
+      },
+      s7_renshaw: {
+        type: "Tier B1 Spinal Microcircuit: Renshaw Recurrent Inhibition (Ventral-Horn Axon Collaterals)",
+        title: "🧬 Renshaw Cell Recurrent Inhibition (τ_syn = 2.0 ms, τ_renshaw ≈ 21.4 ms)",
+        steps: [
+          {
+            text: "Sample 2.0 ms-delayed ventral-horn alpha-motoneuron axon-collateral excitation above resting postural tone u_min,i and integrate the glycinergic Renshaw interneuron membrane decay τ_renshaw.",
+            latex: String.raw`\Delta u_{r,i}(t) = \max\bigl(0,\; u_{\text{pool},i}(t - 2.0\text{ ms}) - u_{\min,i}\bigr), \qquad \dot{r}_i = \frac{\Delta u_{r,i} - r_i}{\tau_{\text{ren}}}`,
+            pseudo:
+`// HeadNeckNeuralController.cpp (L3199-3211):
+delayed_ren = getDelayedData(t, 0.0020, true);
+du_r = max(0.0, delayed_ren.spinal_motor_excitations[m] - cached_min_excitations[m]);
+d(renshaw[m])/dt = (du_r - renshaw[m]) / tau_renshaw;`
+          },
+          {
+            text: "Feed negative recurrent inhibition back onto the homonymous Lamina IX alpha-motoneuron soma scaled by spinal alertness s_spinal(u) and K_renshaw, stabilizing high-effort co-contraction and damping fast motor-pool oscillations.",
+            latex: String.raw`u_{\text{ren},i}(t) = s_{\text{spinal}}(u)\,K_{\text{ren}}\,r_i(t) \qquad (\text{subtracted in }u_{\text{pool},i})`,
+            pseudo:
+`// HeadNeckNeuralController.cpp (L4851, L4908-4911):
+u_ren_inh[m] = s_spinal * K_renshaw * max(0.0, renshaw[m]);`
+          }
+        ],
+        desc: "",
+        latex: "",
+        math: "",
+        params: [
+          "Axon-Collateral Delay : τ_syn = 2.0 ms (monosynaptic nicotinic cholinergic α-MN collateral → Renshaw cell → glycinergic inhibitory synapse)",
+          "Calibrated Gain & Decay (V2_EX36_Main G04) : K_renshaw = 0.169, tau_renshaw = 21.4 ms (0.0214 s)",
+          "Zero Resting Offset : Driven strictly by suprabaseline excitation max(0, u_del − u_min) so quiet posture equilibrium is unperturbed",
+          "Functional Role : Acts as a local ventral-horn variable-gain stabilizer across all 72 muscles, suppressing high-frequency tremor and extreme-impact overshoot"
+        ]
+      },
+      s7_capsule: {
+        type: "Tier B2 Passive Plant & Protective Reflex: 67 Kuo (2019) Ligaments + B_k50_c30 Bushings + Type II/III Capsule Reflex",
+        title: "🧬 67 Kuo et al. (2019) Cervical Ligaments, Disc Bushings & Articular Capsule Reflex (τ = 15.0 ms)",
+        steps: [
+          {
+            text: "Model passive cervical mechanics with 67 rate-dependent DynamicLigamentForce non-disc ligaments (Kuo et al. 2019: ALL, PLL, LF, ISL, CL, Alar, Transverse, Apical, Tectorial) plus B_k50_c30 intervertebral disc bushings (50% rotational stiffness, 30% rotational damping). Each ligament applies bilinear toe/linear stress-stretch scaled multiplicatively by logarithmic strain rate.",
+            latex: String.raw`\lambda = \frac{L}{L_0}, \qquad f_{\text{rate}}(\dot{L}) = \begin{cases} 1 + c_r\ln(\dot{L}/\dot{L}_0), & \dot{L} > \dot{L}_0 \\ 1, & \dot{L} \le \dot{L}_0 \end{cases}, \qquad F_{\text{lig}} = f_{\text{rate}}(\dot{L})\,A\cdot 10^6\,\sigma_{\text{bilin}}(\lambda)`,
+            pseudo:
+`// proprioception_plugin/DynamicLigamentForce.cpp (67 non-disc ligaments in HYOID_HeadNeckNeural_Model_KuoLigaments.osim):
+// Passive cervical stiffness matches Kuo et al. (2019) cadaveric corridors in flexion/extension/lateral/axial.
+// Paired with B_k50_c30 intervertebral bushings representing disc annulus fibrosus.`
+          },
+          {
+            text: "Encode capsule/ligament mechanoreceptors across 4 directional anatomical roles (ext, flex, rlat, llat) using count-invariant population pooling (0.5·max + 0.5·mean): Type II Paciniform fast impact detectors (ε > 5%, ε̇ > 1.5 s⁻¹) and Type III Golgi-like end-range stretch detectors (ε > max(15%, λ_toe − 1), Hill-2 ε_50 = 17.5%).",
+            latex: String.raw`s_{\text{pac}} = \frac{\dot{\varepsilon} - 1.5}{(\dot{\varepsilon} - 1.5) + 4.0}\;\;(\varepsilon > 0.05), \qquad s_{\text{gol}} = \frac{\Delta\varepsilon^2}{\Delta\varepsilon^2 + 0.175^2}\;\;(\varepsilon > \theta_g)`,
+            pseudo:
+`// HeadNeckNeuralController.cpp (L3982-4023):
+// Population pooling per directional role r in {0:ext, 1:flex, 2:rlat, 3:llat}:
+raw_lig_pac[r]   = 0.5 * max_pac[r] + 0.5 * mean_pac[r];   // Type II Paciniform (fast impulsive stretch)
+raw_lig_golgi[r] = 0.5 * max_gol[r] + 0.5 * mean_gol[r];   // Type III Golgi-like (end-range stretch)`
+          },
+          {
+            text: "Transport mechanoreceptor population signals across the 15.0 ms human spinal polysynaptic ligamento-muscular latency (Stubbs/Solomonow/Indahl/Holm), gate Golgi-like end-range tone during voluntary turns, filter at p_lig_reflex = 40 rad/s, and project excitatory protective drive onto directional antagonist muscles at the alpha pool.",
+            latex: String.raw`\dot{l}_r = p_{\text{lig}}\Bigl(\operatorname{clamp}\bigl(0.45\,s_{\text{pac},r} + (1 - 0.85\,g_{\text{vol}})s_{\text{gol},r},\,0,\,1\bigr) - l_r\Bigr), \qquad u_{\text{lig},i} = s_{\text{spinal}}\,K_{\text{lig}}\sum_{r=0}^{3} w_{r,i}\,l_r`,
+            pseudo:
+`// HeadNeckNeuralController.cpp (L3212-3225, L4912-4924):
+delayed_lig = getDelayedData(t, 0.0150, false);   // 15.0 ms polysynaptic spinal latency
+u_lig = clamp(0.45 * pac_d + (1.0 - 0.85 * vol_g) * gol_d, 0.0, 1.0);
+d(lig_reflex[r])/dt = p_lig_reflex * (u_lig - lig_reflex[r]);
+// Project onto muscles via normalized directional moment-arm shares w_ext/w_flex/w_rlat/w_llat:
+u_lig_exc[m] = s_spinal * K_lig_protective * (w_ext*l[0] + w_flex*l[1] + w_rlat*l[2] + w_llat*l[3]);`
+          }
+        ],
+        desc: "",
+        latex: "",
+        math: "",
+        params: [
+          "Model File : osim_files/HYOID_HeadNeckNeural_Model_KuoLigaments.osim (67 Kuo et al. 2019 DynamicLigamentForce + B_k50_c30 bushings)",
+          "Type II Paciniform Impact Detector : Active for ε > 5% and strain rate ε̇ > 1.5 s⁻¹ (edot_50 = 4.0 s⁻¹, weight 0.45)",
+          "Type III Golgi-like End-Range Receptor : Silent below max(15%, toe_strain − 1), Hill-2 saturation with ε_50 = 17.5% (85% voluntary suppression)",
+          "Polysynaptic Reflex Dynamics (V2_EX36_Main G04) : τ_lig = 15.0 ms, p_lig_reflex = 40.0 rad/s, K_lig_protective = 0.0988"
+        ]
+      },
+      s7_srs: {
+        type: "Tier B1 Muscle Mechanics: Plan 2 Tendon-Equilibrated Cross-Bridge Short-Range Stiffness (SRS) & Thixotropy",
+        title: "🧬 Tendon-Equilibrated Cross-Bridge SRS & Thixotropy (Millard12EqMuscleWithAfferents)",
+        steps: [
+          {
+            text: "Equilibrate monotonic cross-bridge short-range stiffness force Δf_SRS directly inside the Millard 2012 contractile element IN SERIES with the compliant tendon (Plan 2), solving fiber velocity v_N at every state evaluation via safeguarded 20-iteration Newton–Raphson. Because SRS acts inside the fiber-tendon equilibrium, both the tendon force F_T (sensed by Lin & Crago GTO) and muscle fiber stretch (sensed by Mileusnic spindles) stay 100% physically consistent.",
+            latex: String.raw`\Delta f_{\text{SRS}} = \max\!\left(-0.95,\; s_{\text{thix}}\,k_{\text{srs}}\,\delta_{\text{srs}}\tanh\!\left(\frac{\tilde{L} - L_{\text{anc}}}{\delta_{\text{srs}}}\right)\right), \qquad \frac{f_T}{\cos\phi} = a\,f_L\bigl(f_V(v_N) + \Delta f_{\text{SRS}}\bigr) + f_{\text{PE}} + \beta\,v_N`,
+            pseudo:
+`// proprioception_plugin/Millard12EqMuscleWithAfferents.cpp (calcFiberVelocityInfo & calcMuscleDynamicsInfo):
+dl = lceN - srs_anchor;
+d_fsrs_norm = max(-0.95, s_thix * k_srs * delta_srs * tanh(dl / delta_srs));
+rhs = (ft / cosPhi) - fpe - (act * fl) * d_fsrs_norm;
+// Safeguarded 20-iter Newton-Raphson on strictly monotonic g(v) = (act*fl)*f_V(v) + beta*v - rhs = 0:
+f_act_N = F_max * act * fl * (fv + d_fsrs_norm);
+k_srs_tan = (F_max / l_opt) * act * fl * s_thix * k_srs * sech^2(dl / delta_srs);`
+          },
+          {
+            text: "Integrate the C^∞ cross-bridge anchor turnover state L_anc: slow symmetric turnover τ_turn (~113 ms) inside small postural oscillations, smooth quadratic yield slip (1 + (ΔL/δ_srs)²) above cross-bridge yield stretch, and fast detachment τ_short (25 ms) during active shortening.",
+            latex: String.raw`w_{\text{short}} = \frac{1}{2}\!\left(1 - \tanh\!\frac{\Delta L + 0.75\delta_{\text{srs}}}{0.25\delta_{\text{srs}}}\right), \qquad \dot{L}_{\text{anc}} = \min\!\left(60,\;\bigl(1 + (\Delta L/\delta_{\text{srs}})^2\bigr)\!\left(\frac{1 - w_{\text{short}}}{\tau_{\text{turn}}} + \frac{w_{\text{short}}}{\tau_{\text{short}}}\right)\right)\Delta L`,
+            pseudo:
+`r = dl / delta_srs;
+w_short = 0.5 * (1.0 - tanh((dl + 0.75 * delta_srs) / (0.25 * delta_srs)));
+inv_tau = (1.0 - w_short) / tau_srs_reset + w_short / tau_srs_short;
+d(srs_anchor)/dt = min(60.0, (1.0 + r * r) * inv_tau) * dl;`
+          },
+          {
+            text: "Integrate the movement-history thixotropy state s_thix ∈ [s_min, 1.0]: full 1.0 at quiet posture (instant 0-ms cross-bridge resistance to sudden sled impacts), smooth breakdown proportional to normalized fiber excursion rate |v_M/L_0|/δ_break during continuous Bode oscillations or voluntary turns, and slow recovery at rest (τ_rec = 1.5 s).",
+            latex: String.raw`\dot{s}_{\text{thix}} = \frac{1 - s_{\text{thix}}}{\tau_{\text{rec}}} - \min\!\left(40,\;\frac{|v_M|/L_0}{\delta_{\text{break}}}\right)\max(0,\; s_{\text{thix}} - s_{\min})`,
+            pseudo:
+`v_l0    = abs(getFiberVelocity(s)) / l_opt;
+k_break = min(40.0, v_l0 / delta_srs_thix_break);
+d(srs_thix)/dt = (1.0 - s_thix) / tau_srs_thix_rec - k_break * max(0.0, s_thix - srs_thix_min);`
+          }
+        ],
+        desc: "",
+        latex: "",
+        math: "",
+        params: [
+          "Mixed-Fiber Human Neck Calibration (V2_EX36_Main G04) : k_srs = 10.06 (vs. slow-twitch cat-soleus 23.4), δ_srs = 0.0197 L_0, τ_turn = 112.8 ms, τ_short = 25.0 ms",
+          "Thixotropy Dynamics : s_min = 0.158, δ_break = 0.0379 L_0, τ_rec = 1.50 s (full 1.0 at quiet stance → drops cleanly during sustained Bode & voluntary movement)",
+          "Tendon-Equilibrated Plan 2 Architecture : Added inside Millard fiber-tendon equilibrium (never bolted on externally), keeping tendon compliance, GTO F_T, and spindle fiber kinematics self-consistent",
+          "Exact Zero-Velocity Initialization : srs_anchor initialized to equilibrated L_norm and srs_thix = 1.0 prior to initial velocity realization"
         ]
       },
       s7_delay_out: {
@@ -2904,11 +3066,11 @@ trunk_vel = Vec3(speed_ground_roll, speed_ground_yaw, speed_ground_pitch);`
         ]
       },
       io_plant_controls: {
-        type: "72-Muscle Plant & Spindle Actuator Output Bus",
-        title: "Musculoskeletal Control Output: controls[3×72] → OpenSim Muscles & Spindles",
+        type: "72-Muscle Plant (Plan 2 SRS, GTO Ib, 67 Kuo Ligaments + B_k50_c30 Bushings) & Spindle Bus",
+        title: "Musculoskeletal Plant Output: controls[3×72] → 72 Millard-SRS Muscles, Spindles, GTOs & 67 Kuo Ligaments",
         steps: [
           {
-            text: "Write the 2.5 ms-delayed extrafusal α excitation and dynamic/static γ fusimotor drives into OpenSim's control vector for all 72 muscles.",
+            text: "Write the 2.5 ms-delayed extrafusal α excitation and dynamic/static γ fusimotor drives into OpenSim's control vector for all 72 Millard12EqMuscleWithAfferents muscles (each carrying Plan 2 tendon-equilibrated SRS + thixotropy, Mileusnic06Spindle Ia/II, and Lin02GolgiTendonOrgan Ib) mounted on the 67-ligament Kuo (2019) + B_k50_c30 cervical plant.",
             latex: String.raw`\text{controls}_i(t) = \bigl[u_{\text{final},i}(t-\tau_{5A}),\;\gamma_{\text{dyn},i}(t-\tau_{5B}),\;\gamma_{\text{stat},i}(t-\tau_{5B})\bigr]^\top`,
             pseudo:
 `for i in 0..71:
@@ -2919,7 +3081,10 @@ trunk_vel = Vec3(speed_ground_roll, speed_ground_yaw, speed_ground_pitch);`
         latex: "",
         math: "",
         params: [
-          "216 Total Control Channels : 3 channels (α, γ_d, γ_s) × 72 muscles"
+          "Model : osim_files/HYOID_HeadNeckNeural_Model_KuoLigaments.osim",
+          "216 Total Control Channels : 3 channels (α, γ_d, γ_s) × 72 neck muscles",
+          "Plant Mechanics : Plan 2 tendon-equilibrated SRS + thixotropy, 67 Kuo et al. (2019) rate-dependent DynamicLigamentForce ligaments, B_k50_c30 disc bushings",
+          "Plant Afferents : 72 Mileusnic (2006) Spindles (Ia/II), 72 Lin & Crago (2002) GTOs (Ib), 4-role Type II/III Articular Capsule Mechanoreceptors"
         ]
       },
       s1_comp_4a: {
@@ -3604,9 +3769,9 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <text x="352" y="147" text-anchor="middle" font-family="sans-serif" font-size="8.6" font-weight="bold">Sub2: Vestibular Labyrinth and</text>
               <text x="352" y="158" text-anchor="middle" font-family="sans-serif" font-size="8.6" font-weight="bold">Vestibular Nuclei (VCR)</text>
               <text x="352" y="170" text-anchor="middle" font-family="sans-serif" font-size="6.9" font-weight="bold" fill="#374151">(A. Vestibular Labyrinth | B. Vestibular Nuclei VCR)</text>
-              <text x="352" y="182" text-anchor="middle" font-family="monospace" font-size="6.9" fill="#b91c1c">(3-Axis P/R/Y VCR | Irr→B, Reg→Sub3)</text>
+              <text x="352" y="182" text-anchor="middle" font-family="monospace" font-size="6.4" fill="#b91c1c">(Pre-Lead Hair tanh | Hill-4 Reweight | 3-Axis VCR)</text>
               <text x="352" y="206" text-anchor="middle" font-family="sans-serif" font-size="7.0" fill="#15803d">(Peripheral Transduction, Eff. Subtraction &amp; 3-Ch VCR)</text>
-              <text x="352" y="216" text-anchor="middle" font-family="sans-serif" font-size="6.7" fill="#d97706">(Canals, Otoliths, CN VIII, MVN/LVN &amp; MVST)</text>
+              <text x="352" y="216" text-anchor="middle" font-family="sans-serif" font-size="6.7" fill="#d97706">(Canals, Otoliths, CN VIII, MVN/LVN &amp; MVST/LVST)</text>
             </g>
 
             <!-- Sub1: Spindle Sensors and CCR (C1-C8 Spinal Cord) -->
@@ -3622,14 +3787,15 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
             </g>
 
             <!-- Sub5: Alpha Motoneurons (C1-C8 Spinal Cord) -->
-            <g class="sim-block" data-brain="spinal,ventralroots" data-brain-label="Sub5: Alpha Motoneurons (C1-C8 Spinal Cord)" onclick="selectTab('sub7')">
-              <rect x="685" y="18" width="235" height="58" fill="#ffffff" stroke="#dc2626" stroke-width="2.0"/>
-              <rect x="688" y="21" width="229" height="52" fill="none" stroke="#f87171" stroke-width="0.8"/>
-              <text x="802" y="36" text-anchor="middle" font-family="sans-serif" font-size="8.0" font-weight="bold">Sub5: Alpha Motoneurons (C1-C8 Spinal Cord)</text>
-              <text x="802" y="49" text-anchor="middle" font-family="monospace" font-size="7.8">6-DOF_QP_and_Pool</text>
-              <text x="802" y="61" text-anchor="middle" font-family="monospace" font-size="7.1" fill="#b91c1c">(Kp_b=1.5, Kd_b=0.15 | K_γ=1.0)</text>
-              <text x="802" y="86" text-anchor="middle" font-family="sans-serif" font-size="6.9" fill="#15803d">(Vol+VCR Sum, QP, Pool &amp; Split Root)</text>
-              <text x="802" y="95" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#d97706">(C1–C8 Spinal Cord Lamina IX α/γ Pools)</text>
+            <g class="sim-block" data-brain="spinal,ventralroots" data-brain-label="Sub5: Alpha Motoneurons, Tier B Spinal Microcircuits &amp; Plant SRS/Ligaments" onclick="selectTab('sub7')">
+              <rect x="685" y="18" width="235" height="62" fill="#ffffff" stroke="#dc2626" stroke-width="2.0"/>
+              <rect x="688" y="21" width="229" height="56" fill="none" stroke="#f87171" stroke-width="0.8"/>
+              <text x="802" y="35" text-anchor="middle" font-family="sans-serif" font-size="8.0" font-weight="bold">Sub5: Alpha Motoneurons (C1-C8 Spinal Cord)</text>
+              <text x="802" y="48" text-anchor="middle" font-family="monospace" font-size="7.0">6-DOF_SSN_QP + MVST/LVST Split + Pool</text>
+              <text x="802" y="60" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#9d174d">🧬 GTO Ib | Renshaw | 67 Kuo Capsule | Plan 2 SRS</text>
+              <text x="802" y="72" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#b91c1c">(uShare=0.42 | k_srs=10.1 | K_ren=0.17 | K_lig=0.10)</text>
+              <text x="802" y="90" text-anchor="middle" font-family="sans-serif" font-size="6.8" fill="#15803d">(Click to inspect QP, Pool, GTO, Renshaw, Capsule &amp; SRS)</text>
+              <text x="802" y="99" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#d97706">(C1–C8 Lamina V–IX, 72 Muscles &amp; 67 Kuo Ligaments)</text>
             </g>
 
             <!-- Sub3: Cerebellum -->
@@ -4019,13 +4185,14 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
             </g>
 
             <g class="sim-block" onclick="inspectBlock('s2_otolith_irr', this)">
-              <rect x="315" y="318" width="175" height="60" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="402" y="333" text-anchor="middle" font-family="sans-serif" font-size="8.6" font-weight="bold">3D Irregular Otolith Filters</text>
-              <text x="402" y="346" text-anchor="middle" font-family="monospace" font-size="7.2">H_oto,irr(s): 2-Stage Biproper</text>
-              <text x="402" y="358" text-anchor="middle" font-family="monospace" font-size="6.9" fill="#0284c7">c=0.25s, τ_1=27.2ms, b=7.0ms</text>
-              <text x="402" y="370" text-anchor="middle" font-family="monospace" font-size="6.9" fill="#0284c7">k_irr=245 spk/s/g (G=24.97)</text>
-              <text x="402" y="388" text-anchor="middle" font-family="sans-serif" font-size="6.6" fill="#15803d">(Phasic Irregular Otolith Afferents)</text>
-              <text x="402" y="397" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#d97706">(Macular Striola Type I Hair Cells)</text>
+              <rect x="315" y="314" width="175" height="68" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
+              <text x="402" y="328" text-anchor="middle" font-family="sans-serif" font-size="8.4" font-weight="bold">3D Irregular Otolith Filters</text>
+              <text x="402" y="340" text-anchor="middle" font-family="monospace" font-size="6.7" fill="#9d174d">Pre-Lead Hair tanh(u₁/9.40) [X,Z]</text>
+              <text x="402" y="352" text-anchor="middle" font-family="monospace" font-size="6.8">H_oto,irr(s): 2-Stage Biproper</text>
+              <text x="402" y="364" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#0284c7">c=0.25s, τ_1=27.2ms, b=7.0ms</text>
+              <text x="402" y="376" text-anchor="middle" font-family="monospace" font-size="6.6" fill="#0284c7">k_irr=245 spk/s/g (G=24.97)</text>
+              <text x="402" y="393" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#15803d">(Phasic Irregular Otolith + Hair Sat.)</text>
+              <text x="402" y="402" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#d97706">(Macular Striola Type I Hair Cells)</text>
             </g>
 
             <g class="sim-block" onclick="inspectBlock('s2_recon_oto_irr', this)">
@@ -4189,7 +4356,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <rect x="432" y="630" width="210" height="54" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
               <text x="537" y="645" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#111827">Tonic Attitude 2nd-Order LPF</text>
               <text x="537" y="658" text-anchor="middle" font-family="monospace" font-size="6.4">H_ton(s) = K_ton·p_ton·p_f / [(s+p_ton)(s+p_f)]</text>
-              <text x="537" y="671" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#b91c1c">P:4.5@16.2 | R:0.90@3.2 | Y:6.2@16.2</text>
+              <text x="537" y="671" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#b91c1c">P:3.24@15.3 | R:0.46@16.5 | Y:15.1@19.5</text>
               <text x="537" y="694" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(Sustained Postural Attitude Reflex)</text>
               <text x="537" y="703" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Brainstem MVN / DVN Tonic Pool)</text>
             </g>
@@ -4198,18 +4365,19 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <rect x="432" y="740" width="210" height="54" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
               <text x="537" y="755" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#111827">Canal Velocity VCR Filter H_sc(s)</text>
               <text x="537" y="768" text-anchor="middle" font-family="monospace" font-size="6.2">H_sc(s) = K_sc·p_sc·p_f·(1+z_sc·s)/[(s+p_sc)(s+p_f)]</text>
-              <text x="537" y="781" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:4.10,15ms,53.3 | R:3.50,18ms,60 | Y:1.32,16ms,3.5</text>
+              <text x="537" y="781" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:2.65,10ms,62.3 | R:1.96,13ms,21 | Y:1.54,22ms,1.3</text>
               <text x="537" y="804" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(High-Freq Angular Damping Reflex)</text>
               <text x="537" y="813" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Medial Vestibular Nucleus MVN)</text>
             </g>
 
             <g class="sim-block" onclick="inspectBlock('s5_phas', this)">
-              <rect x="432" y="858" width="210" height="56" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="537" y="873" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#111827">Otolith Phasic Velocity-Storage LPF</text>
-              <text x="537" y="886" text-anchor="middle" font-family="monospace" font-size="6.2">H_ph(s) = K_ph·p_ph·p_f·(1+z_ph·s)/[(s+p_ph)(s+p_f)]</text>
-              <text x="537" y="899" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:11.0,8ms,4.7 | R:13.5,z=12ms,p=4.50</text>
-              <text x="537" y="924" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(Linear Acceleration Stabilization Reflex)</text>
-              <text x="537" y="933" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Lateral Vestibular Nucleus LVN)</text>
+              <rect x="432" y="854" width="210" height="62" fill="#ffffff" stroke="#9d174d" stroke-width="1.9"/>
+              <text x="537" y="868" text-anchor="middle" font-family="sans-serif" font-size="7.7" font-weight="bold" fill="#111827">Otolith Phasic LPF + Hill-4 Reweight</text>
+              <text x="537" y="880" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#9d174d">w_oto = 1/(1+(‖a_env‖/a₀)⁴) [√w in/out]</text>
+              <text x="537" y="892" text-anchor="middle" font-family="monospace" font-size="5.9">H_ph(s) = K_ph·p_ph·p_f·(1+z_ph·s)/[(s+p_ph)(s+p_f)]</text>
+              <text x="537" y="904" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:9.64,25ms,3.37 (a₀=5.37) | R:3.82,0ms,9.72</text>
+              <text x="537" y="927" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(Linear Accel. VCR + Somatogravic Reweight)</text>
+              <text x="537" y="936" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Lateral Vestibular Nucleus LVN)</text>
             </g>
 
             <!-- Stage 3: Brainstem VN Restorative Summing Junction -->
@@ -4907,7 +5075,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <rect x="432" y="20" width="210" height="54" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
               <text x="537" y="35" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#111827">Tonic Attitude 2nd-Order LPF</text>
               <text x="537" y="48" text-anchor="middle" font-family="monospace" font-size="6.4">H_ton(s) = K_ton·p_ton·p_f / [(s+p_ton)(s+p_f)]</text>
-              <text x="537" y="61" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#b91c1c">P:4.5@16.2 | R:0.90@3.2 | Y:6.2@16.2</text>
+              <text x="537" y="61" text-anchor="middle" font-family="monospace" font-size="5.5" fill="#b91c1c">P:3.24@15.3 | R:0.46@16.5 | Y:15.1@19.5</text>
               <text x="537" y="84" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(Sustained Postural Attitude Reflex)</text>
               <text x="537" y="93" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Brainstem MVN / DVN Tonic Pool)</text>
             </g>
@@ -4917,19 +5085,20 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <rect x="432" y="132" width="210" height="54" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
               <text x="537" y="147" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#111827">Canal Velocity VCR Filter H_sc(s)</text>
               <text x="537" y="160" text-anchor="middle" font-family="monospace" font-size="6.2">H_sc(s) = K_sc·p_sc·p_f·(1+z_sc·s)/[(s+p_sc)(s+p_f)]</text>
-              <text x="537" y="173" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:4.10,15ms,53.3 | R:3.50,18ms,60 | Y:1.32,16ms,3.5</text>
+              <text x="537" y="173" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:2.65,10ms,62.3 | R:1.96,13ms,21 | Y:1.54,22ms,1.3</text>
               <text x="537" y="196" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(High-Freq Angular Damping Reflex)</text>
               <text x="537" y="205" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Medial Vestibular Nucleus MVN)</text>
             </g>
 
-            <!-- Stage 2c: 2nd-Order Irregular Otolith Velocity-Storage Phasic LPF (Directly Fed — No Delay!) -->
+            <!-- Stage 2c: 2nd-Order Irregular Otolith Velocity-Storage Phasic LPF + Hill-4 Reweighting -->
             <g class="sim-block" onclick="inspectBlock('s5_phas', this)">
-              <rect x="432" y="254" width="210" height="56" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="537" y="269" text-anchor="middle" font-family="sans-serif" font-size="7.9" font-weight="bold" fill="#111827">Otolith Phasic Velocity-Storage LPF</text>
-              <text x="537" y="282" text-anchor="middle" font-family="monospace" font-size="6.2">H_ph(s) = K_ph·p_ph·p_f·(1+z_ph·s)/[(s+p_ph)(s+p_f)]</text>
-              <text x="537" y="295" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:11.0,8ms,4.7 | R:13.5,z=12ms,p=4.50</text>
-              <text x="537" y="320" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(Linear Acceleration Stabilization Reflex)</text>
-              <text x="537" y="329" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Lateral Vestibular Nucleus LVN)</text>
+              <rect x="432" y="250" width="210" height="62" fill="#ffffff" stroke="#9d174d" stroke-width="1.9"/>
+              <text x="537" y="264" text-anchor="middle" font-family="sans-serif" font-size="7.7" font-weight="bold" fill="#111827">Otolith Phasic LPF + Hill-4 Reweight</text>
+              <text x="537" y="276" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#9d174d">w_oto = 1/(1+(‖a_env‖/a₀)⁴) [√w in/out]</text>
+              <text x="537" y="288" text-anchor="middle" font-family="monospace" font-size="5.9">H_ph(s) = K_ph·p_ph·p_f·(1+z_ph·s)/[(s+p_ph)(s+p_f)]</text>
+              <text x="537" y="300" text-anchor="middle" font-family="monospace" font-size="5.3" fill="#b91c1c">P:9.64,25ms,3.37 (a₀=5.37) | R:3.82,0ms,9.72</text>
+              <text x="537" y="323" text-anchor="middle" font-family="sans-serif" font-size="6.3" fill="#15803d">(Linear Accel. VCR + Somatogravic Reweight)</text>
+              <text x="537" y="332" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(Lateral Vestibular Nucleus LVN)</text>
             </g>
 
             <!-- Stage 3: Brainstem VN Restorative Summing Junction -->
@@ -5045,12 +5214,15 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
         `
       },
       sub7: {
-        breadcrumb: "Top_Level_System / Sub5: Alpha Motoneurons (C1-C8 Spinal Cord)",
+        breadcrumb: "Top_Level_System / Sub5: Alpha Motoneurons, Tier B Spinal Microcircuits (GTO Ib, Renshaw, Capsule) & Plant SRS",
         svg: `
-          <svg viewBox="0 0 1285 370" class="w-full h-auto select-none">
+          <svg viewBox="0 0 1285 485" class="w-full h-auto select-none">
             <defs>
               <marker id="arrow7" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
                 <path d="M 0 1 L 10 5 L 0 9 z" fill="#111827"/>
+              </marker>
+              <marker id="arrow7-rose" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="#be185d"/>
               </marker>
             </defs>
             <!-- Converging Motor Command Inputs -->
@@ -5065,7 +5237,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <rect x="8" y="96" width="150" height="24" rx="12" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>
               <text x="83" y="111" text-anchor="middle" font-family="monospace" font-size="7.3" font-weight="bold">vestibulo_collic_tau[3]</text>
               <text x="83" y="129" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#15803d">(input from Sub2(B): VCR @ 2.5 ms)</text>
-              <text x="83" y="138" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(Medial Vestibulospinal Tract)</text>
+              <text x="83" y="138" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(MVST / LVST Descending Tracts)</text>
             </g>
 
             <g class="sim-block" data-brain="drg,spinal" onclick="selectTab('sub3')">
@@ -5077,7 +5249,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
 
             <g class="sim-block" data-brain="premotor,m1,spinal" onclick="selectTab('sub1')">
               <rect x="8" y="274" width="150" height="24" rx="12" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>
-              <text x="83" y="289" text-anchor="middle" font-family="monospace" font-size="7.3" font-weight="bold">trajectory_vel[3]</text>
+              <text x="83" y="289" text-anchor="middle" font-family="monospace" font-size="7.3" font-weight="bold">trajectory_vel[3] (g_vol)</text>
               <text x="83" y="307" text-anchor="middle" font-family="sans-serif" font-size="6.6" fill="#15803d">(input from Sub4: Cortex)</text>
               <text x="83" y="316" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(Descending Presynaptic Gate)</text>
             </g>
@@ -5092,29 +5264,28 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <text x="252" y="119" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(C1–C8 Interneuronal Torque Sum)</text>
             </g>
 
-            <!-- Block 2: 15-Iteration 6-DOF Active-Set QP Synergy Solver -->
+            <!-- Block 2: Exact 6-DOF Semismooth-Newton QP + Action 4 MVST/LVST Split + Suboccipital Shear -->
             <g class="sim-block" onclick="inspectBlock('s7_qp', this)">
-              <rect x="342" y="40" width="174" height="64" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="429" y="56" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold">6-DOF Active-Set QP + Anti-Buckle</text>
-              <text x="429" y="70" text-anchor="middle" font-family="monospace" font-size="6.3">(A₆·A₆ᵀ + λI₆)·μ = τ_rem (Unconditional)</text>
-              <text x="429" y="83" text-anchor="middle" font-family="monospace" font-size="6.2" fill="#0284c7">Δu = u_α - u_min | τ_buckle(q₁−q₂)</text>
-              <text x="429" y="96" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#6b7280">Kp_b=1.5, Kd_b=0.15 | 6×6 gram_vol</text>
-              <text x="429" y="114" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#15803d">(6-DOF Synergy &amp; Nullspace Allocator)</text>
-              <text x="429" y="123" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(C1–C8 Premotor Synergy Pool)</text>
+              <rect x="342" y="34" width="184" height="72" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
+              <text x="434" y="48" text-anchor="middle" font-family="sans-serif" font-size="7.6" font-weight="bold">6-DOF Semismooth-Newton QP</text>
+              <text x="434" y="60" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#9d174d">MVST/LVST Pitch Split: α_up=0.42</text>
+              <text x="434" y="72" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#0284c7">Δu = clamp(A₆ᵀλ) | f_L·cos(α) scaling</text>
+              <text x="434" y="84" text-anchor="middle" font-family="monospace" font-size="5.9" fill="#6b7280">τ_buckle + Subocc. Shear Damp (0.026)</text>
+              <text x="434" y="96" text-anchor="middle" font-family="monospace" font-size="5.8" fill="#b91c1c">Kp_b=1.01, Kd_b=0.24 | 6×6 gram_vol</text>
+              <text x="434" y="116" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#15803d">(6-DOF Synergy &amp; Nullspace Allocator)</text>
+              <text x="434" y="125" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(C1–C8 Premotor Synergy Pool)</text>
             </g>
 
             <!-- Block 3: Voluntary-Gated Sherrington Reciprocal Ia Inhibition -->
             <g class="sim-block" onclick="inspectBlock('s7_recip', this)">
-              <rect x="342" y="196" width="174" height="64" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="429" y="212" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold">Voluntary-Gated Recip. Inhibition</text>
-              <text x="429" y="226" text-anchor="middle" font-family="monospace" font-size="6.7">u_ccr,inh = γ_inhib(u_α, g_vol)·u_ccr</text>
-              <text x="429" y="239" text-anchor="middle" font-family="monospace" font-size="6.5" fill="#0284c7">g_vol = 0 → γ_inhib = 1.0 (100%)</text>
-              <text x="429" y="252" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#6b7280">C¹ Hermite over [u_min, u_min+0.05]</text>
-              <text x="429" y="270" text-anchor="middle" font-family="sans-serif" font-size="6.5" fill="#15803d">(Sherrington Antagonist Ia Gate)</text>
-              <text x="429" y="279" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#d97706">(C1–C8 Ia Inhibitory Interneurons)</text>
+              <rect x="342" y="182" width="184" height="62" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
+              <text x="434" y="197" text-anchor="middle" font-family="sans-serif" font-size="7.6" font-weight="bold">Voluntary-Gated Recip. Inhibition</text>
+              <text x="434" y="210" text-anchor="middle" font-family="monospace" font-size="6.5">u_ccr,inh = γ_inhib(u_α, g_vol)·u_ccr</text>
+              <text x="434" y="222" text-anchor="middle" font-family="monospace" font-size="6.3" fill="#0284c7">g_vol = 0 → γ_inhib = 1.0 (100%)</text>
+              <text x="434" y="234" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#6b7280">C¹ Hermite over [u_min, u_min+0.05]</text>
+              <text x="434" y="254" text-anchor="middle" font-family="sans-serif" font-size="6.4" fill="#15803d">(Sherrington Antagonist Ia Gate)</text>
+              <text x="434" y="263" text-anchor="middle" font-family="sans-serif" font-size="6.1" fill="#d97706">(C1–C8 Ia Inhibitory Interneurons)</text>
             </g>
-
-            <!-- Direct QP -> Fusimotor/Recip/Pool and Recip -> Pool -->
 
             <!-- Block 4a (Upper Branch): Stage 1 Two-Stage Feedforward Fusimotor Controller -->
             <g class="sim-block" onclick="inspectBlock('s7_gamma', this)">
@@ -5129,14 +5300,15 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
 
             <!-- Block 4b (Lower Branch): Lamina IX Alpha-Motoneuron Pool Summing Junction & Clamp -->
             <g class="sim-block" onclick="inspectBlock('s7_mn_sum', this)">
-              <circle cx="764" cy="172" r="14" fill="#ffffff" stroke="#111827" stroke-width="1.8"/>
-              <text x="757" y="175" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold">+</text>
-              <text x="764" y="184" text-anchor="middle" font-family="monospace" font-size="10" font-weight="bold">+</text>
-              <text x="764" y="142" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#15803d">(α-Pool Sum)</text>
-              <text x="764" y="151" text-anchor="middle" font-family="sans-serif" font-size="6.0" fill="#d97706">(C1–C8 Lamina IX α-Soma)</text>
+              <circle cx="764" cy="172" r="16" fill="#ffffff" stroke="#111827" stroke-width="1.9"/>
+              <text x="756" y="175" text-anchor="middle" font-family="monospace" font-size="9.5" font-weight="bold">+</text>
+              <text x="764" y="185" text-anchor="middle" font-family="monospace" font-size="8.5" font-weight="bold" fill="#9d174d">±</text>
+              <text x="764" y="164" text-anchor="middle" font-family="monospace" font-size="7.5" font-weight="bold">Σ</text>
+              <text x="764" y="140" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#15803d">(α-Pool: QP+CCR+Lig−Ib−Ren)</text>
+              <text x="764" y="149" text-anchor="middle" font-family="sans-serif" font-size="6.0" fill="#d97706">(C1–C8 Lamina IX α-Soma)</text>
             </g>
 
-            <!-- Compact Pale-Yellow 1st-Order Proper Lead Compensator Blocks on Split Ventral Root Branches (5B: 2.5ms, 5A: 2.5+10=12.5ms) -->
+            <!-- Compact Pale-Yellow 1st-Order Proper Lead Compensator Blocks on Split Ventral Root Branches -->
             <g class="sim-block" data-brain="tract_ventral_gamma" data-brain-label="Axonal Path: Sub5 C1–C8 → Spindles/Sub3 (2.5 ms)" onclick="inspectBlock('s7_comp_5b', this)">
               <rect x="858" y="22" width="114" height="40" rx="4" fill="#fefce8" stroke="#ca8a04" stroke-width="1.6"/>
               <text x="915" y="37" text-anchor="middle" font-family="monospace" font-size="6.0" font-weight="bold" fill="#854d0e">⚡ (1+10.5ms·s)/(1+8.0ms·s)</text>
@@ -5153,7 +5325,7 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
               <text x="915" y="209" text-anchor="middle" font-family="sans-serif" font-size="5.7" fill="#d97706">(C1–C8 α-MN Axon Hillock)</text>
             </g>
 
-            <!-- Block 5: Two Separate Pale-Blue Snowflake Delay Blocks on Split Ventral Root Branches (5B: 2.5ms Aγ, 5A: 2.5ms Aα) -->
+            <!-- Block 5: Two Separate Pale-Blue Snowflake Delay Blocks on Split Ventral Root Branches -->
             <g class="sim-block" data-brain="tract_ventral_gamma" data-brain-label="Axonal Path: Sub5 C1–C8 → Spindles/Sub3 (2.5 ms)" onclick="inspectBlock('s7_delay_5b', this)">
               <rect x="982" y="22" width="92" height="40" rx="4" fill="#f0f9ff" stroke="#0284c7" stroke-width="1.6"/>
               <text x="1028" y="37" text-anchor="middle" font-family="monospace" font-size="6.6" font-weight="bold" fill="#0369a1">❄️ e^(-2.5ms·s)</text>
@@ -5186,8 +5358,60 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
             <g class="sim-block" data-brain="ventralroots" onclick="inspectBlock('io_plant_controls', this)">
               <rect x="1166" y="95" width="110" height="24" rx="12" fill="#ffffff" stroke="#111827" stroke-width="1.5"/>
               <text x="1221" y="110" text-anchor="middle" font-family="monospace" font-size="6.2" font-weight="bold">Plant/Sub1(A): controls[3×72]</text>
-              <text x="1221" y="128" text-anchor="middle" font-family="sans-serif" font-size="5.9" fill="#15803d">(output to Plant &amp; Sub1(A)/3)</text>
+              <text x="1221" y="128" text-anchor="middle" font-family="sans-serif" font-size="5.9" fill="#15803d">(72 Millard-SRS + 67 Kuo Lig.)</text>
               <text x="1221" y="137" text-anchor="middle" font-family="sans-serif" font-size="5.8" fill="#d97706">(Neuromuscular Junctions)</text>
+            </g>
+
+            <!-- ==================== TIER B SPINAL MICROCIRCUITS & PLANT MECHANICS (y = 325..475) ==================== -->
+            <line x1="16" y1="326" x2="1270" y2="326" stroke="#be185d" stroke-width="1.0" stroke-dasharray="5,4"/>
+            <text x="20" y="340" font-family="sans-serif" font-size="8.0" font-weight="bold" fill="#9d174d">🧬 TIER B SPINAL INTERNEURON MICROCIRCUITS &amp; COUPLED MUSCULOSKELETAL PLANT (HYOID_HeadNeckNeural_Model_KuoLigaments.osim)</text>
+
+            <!-- Tier B Block 1: Articular Capsule & 67 Kuo (2019) Ligaments Reflex -->
+            <g class="sim-block" data-brain="drg,spinal" data-brain-label="Cervical Facet Capsules &amp; 67 Kuo Ligaments → C1–C8 (15 ms)" onclick="inspectBlock('s7_capsule', this)">
+              <rect x="20" y="352" width="286" height="84" rx="4" fill="#fdf2f8" stroke="#be185d" stroke-width="1.8"/>
+              <text x="163" y="368" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold" fill="#831843">🧬 67 Kuo (2019) Ligaments + Capsule Reflex</text>
+              <text x="163" y="381" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#9d174d">DynamicLigamentForce[67] + B_k50_c30 Bushings</text>
+              <text x="163" y="394" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#111827">Type II Paciniform (ε̇&gt;1.5) + Type III Golgi (Hill-2)</text>
+              <text x="163" y="407" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#0284c7">❄️ τ=15.0 ms | p_lig=40 rad/s | 85% Vol. Gate</text>
+              <text x="163" y="420" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#b91c1c">+K_lig=0.099 · Σ w_dir·l_r → Antagonist α-Pool</text>
+              <text x="163" y="447" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#15803d">(Polysynaptic Ligamento-Muscular Protection)</text>
+              <text x="163" y="456" text-anchor="middle" font-family="sans-serif" font-size="6.0" fill="#d97706">(Facet Capsules, Cervical Ligaments &amp; C1–C8)</text>
+            </g>
+
+            <!-- Tier B Block 2: Lin & Crago (2002) GTO (Group Ib) + Layer-2 PAD -->
+            <g class="sim-block" data-brain="drg,spinal" data-brain-label="72 Lin &amp; Crago (2002) GTOs (Ib) → Lamina V–VI (2.5 ms)" onclick="inspectBlock('s7_gto', this)">
+              <rect x="330" y="352" width="290" height="84" rx="4" fill="#fdf2f8" stroke="#be185d" stroke-width="1.8"/>
+              <text x="475" y="368" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold" fill="#831843">🧬 Lin &amp; Crago (2002) GTO Ib + Layer-2 PAD</text>
+              <text x="475" y="381" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#9d174d">u_nl = 60·ln(1 + F_T / 0.08·F_max) [Equil. F_T]</text>
+              <text x="475" y="394" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#111827">H_Ib(s): 2-state partial frac + 500 rad/s LPF</text>
+              <text x="475" y="407" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#0284c7">❄️ τ_Ib=2.5 ms | Zero Efferent | 85% Vol. PAD</text>
+              <text x="475" y="420" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#b91c1c">−K_gto=0.000444 (p=150.4) → Autogenic α-Pool</text>
+              <text x="475" y="447" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#15803d">(Disynaptic Force-Limiting Autogenic Inhibition)</text>
+              <text x="475" y="456" text-anchor="middle" font-family="sans-serif" font-size="6.0" fill="#d97706">(72 Myotendinous GTOs → C1–C8 Lamina V–VI)</text>
+            </g>
+
+            <!-- Tier B Block 3: Renshaw Recurrent Inhibition -->
+            <g class="sim-block" data-brain="spinal" data-brain-label="C1–C8 Ventral-Horn Renshaw Interneurons (2.0 ms)" onclick="inspectBlock('s7_renshaw', this)">
+              <rect x="644" y="352" width="268" height="84" rx="4" fill="#fdf2f8" stroke="#be185d" stroke-width="1.8"/>
+              <text x="778" y="368" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold" fill="#831843">🧬 Renshaw Recurrent Inhibition</text>
+              <text x="778" y="381" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#9d174d">Δu_r = max(0, u_pool(t − 2.0 ms) − u_min)</text>
+              <text x="778" y="394" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#111827">ṙ_i = (Δu_r,i − r_i) / τ_renshaw</text>
+              <text x="778" y="407" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#0284c7">❄️ τ_syn=2.0 ms | Zero Quiet-Stance Offset</text>
+              <text x="778" y="420" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#b91c1c">−K_ren=0.169 (τ=21.4 ms) → Homonymous α-Pool</text>
+              <text x="778" y="447" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#15803d">(Ventral-Horn Negative-Feedback Stabilizer)</text>
+              <text x="778" y="456" text-anchor="middle" font-family="sans-serif" font-size="6.0" fill="#d97706">(C1–C8 Ventral Horn Renshaw Cells)</text>
+            </g>
+
+            <!-- Tier B Block 4: Plan 2 Tendon-Equilibrated Cross-Bridge SRS & Thixotropy -->
+            <g class="sim-block" data-brain="spindles,ventralroots" data-brain-label="72 Neck Muscle Fibers: Plan 2 Tendon-Equilibrated Cross-Bridge SRS &amp; Thixotropy" onclick="inspectBlock('s7_srs', this)">
+              <rect x="936" y="352" width="334" height="84" rx="4" fill="#fdf2f8" stroke="#be185d" stroke-width="1.8"/>
+              <text x="1103" y="368" text-anchor="middle" font-family="sans-serif" font-size="7.8" font-weight="bold" fill="#831843">🧬 Plan 2 Tendon-Equilibrated SRS &amp; Thixotropy</text>
+              <text x="1103" y="381" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#9d174d">f_T/cosφ = a·f_L·(f_V + s_thix·k_srs·δ·tanh(ΔL/δ)) + f_PE</text>
+              <text x="1103" y="394" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#111827">Safeguarded 20-iter Newton-Raphson Fiber Equil.</text>
+              <text x="1103" y="407" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#0284c7">0 ms Intrinsic Stiffness | τ_short=25ms, τ_rec=1.5s</text>
+              <text x="1103" y="420" text-anchor="middle" font-family="monospace" font-size="6.0" fill="#b91c1c">k_srs=10.06, δ=0.0197, τ_turn=113ms, s_min=0.158</text>
+              <text x="1103" y="447" text-anchor="middle" font-family="sans-serif" font-size="6.2" fill="#15803d">(In-Series Cross-Bridge Stiffness &amp; History Decay)</text>
+              <text x="1103" y="456" text-anchor="middle" font-family="sans-serif" font-size="6.0" fill="#d97706">(72 Cervical Millard12EqMuscleWithAfferents)</text>
             </g>
 
             <!-- Arrows -->
@@ -5202,35 +5426,50 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
             <line x1="320" y1="72" x2="340" y2="72" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
 
             <line x1="158" y1="208" x2="230" y2="208" stroke="#111827" stroke-width="1.4"/>
-            <line x1="230" y1="208" x2="230" y2="222" stroke="#111827" stroke-width="1.4"/>
-            <line x1="230" y1="222" x2="340" y2="222" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <line x1="230" y1="208" x2="230" y2="212" stroke="#111827" stroke-width="1.4"/>
+            <line x1="230" y1="212" x2="340" y2="212" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
             <text x="250" y="201" text-anchor="middle" font-family="monospace" font-size="6.4" fill="#0284c7">u_ccr[72] (t - 2.5 ms C1–C8)</text>
 
             <line x1="158" y1="286" x2="324" y2="286" stroke="#0284c7" stroke-width="1.3"/>
-            <line x1="324" y1="286" x2="324" y2="246" stroke="#0284c7" stroke-width="1.3"/>
-            <line x1="324" y1="246" x2="340" y2="246" stroke="#0284c7" stroke-width="1.3" marker-end="url(#arrow7)"/>
+            <line x1="324" y1="286" x2="324" y2="232" stroke="#0284c7" stroke-width="1.3"/>
+            <line x1="324" y1="232" x2="340" y2="232" stroke="#0284c7" stroke-width="1.3" marker-end="url(#arrow7)"/>
 
             <!-- QP Output Directly Splits to Fusimotor, Recip. Gate, and Alpha-Pool Sum -->
-            <line x1="516" y1="72" x2="668" y2="72" stroke="#111827" stroke-width="1.4"/>
-            <line x1="668" y1="72" x2="668" y2="43" stroke="#111827" stroke-width="1.4"/>
+            <line x1="526" y1="70" x2="668" y2="70" stroke="#111827" stroke-width="1.4"/>
+            <line x1="668" y1="70" x2="668" y2="43" stroke="#111827" stroke-width="1.4"/>
             <line x1="668" y1="43" x2="680" y2="43" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
 
-            <line x1="668" y1="72" x2="668" y2="172" stroke="#111827" stroke-width="1.4"/>
-            <line x1="668" y1="172" x2="748" y2="172" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <line x1="668" y1="70" x2="668" y2="172" stroke="#111827" stroke-width="1.4"/>
+            <line x1="668" y1="172" x2="746" y2="172" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
 
-            <line x1="580" y1="72" x2="580" y2="165" stroke="#0284c7" stroke-width="1.2"/>
-            <line x1="580" y1="165" x2="429" y2="165" stroke="#0284c7" stroke-width="1.2"/>
-            <line x1="429" y1="165" x2="429" y2="194" stroke="#0284c7" stroke-width="1.2" marker-end="url(#arrow7)"/>
+            <line x1="580" y1="70" x2="580" y2="158" stroke="#0284c7" stroke-width="1.2"/>
+            <line x1="580" y1="158" x2="434" y2="158" stroke="#0284c7" stroke-width="1.2"/>
+            <line x1="434" y1="158" x2="434" y2="180" stroke="#0284c7" stroke-width="1.2" marker-end="url(#arrow7)"/>
 
             <!-- Recip. Inhibition -> Alpha-Pool Sum -->
-            <line x1="516" y1="228" x2="764" y2="228" stroke="#111827" stroke-width="1.4"/>
-            <line x1="764" y1="228" x2="764" y2="188" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <line x1="526" y1="213" x2="748" y2="213" stroke="#111827" stroke-width="1.4"/>
+            <line x1="748" y1="213" x2="748" y2="189" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+
+            <!-- Tier B Feedback Wires into Alpha-Pool Sum (Capsule +, GTO Ib -, Renshaw -) & Plant -> SRS -->
+            <line x1="250" y1="352" x2="250" y2="306" stroke="#be185d" stroke-width="1.3"/>
+            <line x1="250" y1="306" x2="764" y2="306" stroke="#be185d" stroke-width="1.3"/>
+            <line x1="475" y1="352" x2="475" y2="306" stroke="#be185d" stroke-width="1.3"/>
+            <line x1="764" y1="352" x2="764" y2="190" stroke="#be185d" stroke-width="1.4" marker-end="url(#arrow7-rose)"/>
+            <text x="628" y="301" text-anchor="middle" font-family="monospace" font-size="6.1" fill="#9d174d" font-weight="bold">+u_lig (15ms) − u_Ib (2.5ms) − u_ren (2.0ms) → α-Pool Σ</text>
+
+            <!-- Ventral-horn Renshaw collateral tap from post-pool u_pool -->
+            <line x1="818" y1="172" x2="818" y2="350" stroke="#be185d" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#arrow7-rose)"/>
+            <text x="824" y="275" font-family="monospace" font-size="5.8" fill="#9d174d">α collateral (2ms)</text>
+
+            <!-- Plant -> Plan 2 SRS coupling wire -->
+            <line x1="1221" y1="142" x2="1221" y2="350" stroke="#be185d" stroke-width="1.3" stroke-dasharray="3,2" marker-end="url(#arrow7-rose)"/>
+            <text x="1215" y="275" text-anchor="end" font-family="monospace" font-size="5.8" fill="#9d174d">in-series fiber-tendon F_T</text>
 
             <line x1="846" y1="43" x2="856" y2="43" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
             <line x1="972" y1="43" x2="980" y2="43" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
             <line x1="1074" y1="43" x2="1084" y2="43" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow7)"/>
 
-            <line x1="778" y1="172" x2="856" y2="172" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
+            <line x1="780" y1="172" x2="856" y2="172" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
             <line x1="972" y1="172" x2="980" y2="172" stroke="#111827" stroke-width="1.4" marker-end="url(#arrow7)"/>
             <line x1="1074" y1="172" x2="1084" y2="172" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow7)"/>
 
@@ -5608,6 +5847,10 @@ Lp_hat_5b = clamp(evalProperLead(slot+3, Lp_hat,   0.0025, tau_lead_m), -20, 20)
       s7_recip:     { regions: "spinal" },
       s7_gamma:     { regions: "spinal,ventralroots" },
       s7_mn_sum:    { regions: "spinal,ventralroots" },
+      s7_gto:       { regions: "drg,spinal", label: "Lin & Crago (2002) GTO Ib → Lamina V–VI (2.5 ms)" },
+      s7_renshaw:   { regions: "spinal", label: "C1–C8 Ventral-Horn Renshaw Interneurons (2.0 ms)" },
+      s7_capsule:   { regions: "drg,spinal", label: "67 Kuo Ligaments & Type II/III Capsule Reflex (15.0 ms)" },
+      s7_srs:       { regions: "spindles,ventralroots", label: "72 Neck Muscles: Plan 2 Tendon-Equilibrated SRS & Thixotropy" },
       s7_delay_out: { regions: "tract_ventral_alpha,tract_ventral_gamma" },
       s7_mux:       { regions: "spinal,ventralroots" },
       io_des_targets    : { regions: "premotor" },

@@ -1,0 +1,33 @@
+{
+  "updated_at": "2026-11-25 08:14:36",
+  "island": "ry_debug",
+  "gen": 2,
+  "loss": 939.34,
+  "metrics": {
+    "idx": 9,
+    "aborted": false,
+    "total_score": 939.34,
+    "classic_score": 526.74,
+    "corr_vel": 0.9863,
+    "hf_rms": 1.929,
+    "loss": 939.34,
+    "wall_s": 1715.47
+  },
+  "axis_params": {
+    "tau_lead_pole_yaw": 0.009277120721020953,
+    "K_sc_yaw": 1.5406989122252632,
+    "z_sc_yaw": 0.02228366045721184,
+    "p_sc_yaw": 1.2525547497539455,
+    "K_ton_yaw": 15.066047678443027,
+    "p_ton_yaw": 19.520767469979376,
+    "Kp_prop_yaw": 13.483212635388686,
+    "z_ccr_yaw": 0.02022780154257281,
+    "p_ccr_yaw": 93.20597520446131,
+    "Kp_proprioception_yaw": 0.04216819114452468,
+    "Kp_task_yaw": 0.6372335717951161,
+    "Kd_task_yaw": 0.05964239591305952,
+    "Ki_task_yaw": 0.0663532076880361,
+    "Kp_buckle_yaw": 1.2316311042246673,
+    "Kd_buckle_yaw": 0.48806076735143544
+  }
+}

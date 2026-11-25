@@ -21,6 +21,7 @@ set(SOURCE_FILES
     Mileusnic06Spindle.cpp
     Poppele70Spindle.cpp
     Lin02GolgiTendonOrgan.cpp
+    DynamicLigamentForce.cpp
     SpindleController.cpp
     TugOfWarController.cpp
     AfferentAnalysis.cpp
@@ -34,6 +35,7 @@ set(HEADER_FILES
     Mileusnic06Spindle.h
     Poppele70Spindle.h
     Lin02GolgiTendonOrgan.h
+    DynamicLigamentForce.h
     SpindleController.h
     TugOfWarController.h
     AfferentAnalysis.h

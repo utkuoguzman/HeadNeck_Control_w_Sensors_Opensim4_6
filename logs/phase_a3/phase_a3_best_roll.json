@@ -1,0 +1,35 @@
+{
+  "updated_at": "2026-11-25 05:29:52",
+  "island": "w2_roll",
+  "gen": 8,
+  "loss": 2112.37,
+  "metrics": {
+    "idx": 18,
+    "aborted": false,
+    "total_score": 2112.37,
+    "classic_score": 1743.61,
+    "corr_vel": 0.9617,
+    "hf_rms": 2.549,
+    "loss": 2112.37,
+    "wall_s": 723.53
+  },
+  "axis_params": {
+    "K_sc_roll": 1.5737494438220898,
+    "z_sc_roll": 0.014748177485385617,
+    "p_sc_roll": 20.23588854165929,
+    "K_phas_roll": 3.9100325946868675,
+    "p_phas_roll": 7.517084747959112,
+    "K_ton_roll": 0.3309502770962316,
+    "p_ton_roll": 16.188608795789857,
+    "Kp_prop_roll": 0.20512601855005433,
+    "z_ccr_roll": 0.0036193902111918475,
+    "p_ccr_roll": 78.78016071448296,
+    "Kp_proprioception_roll": 0.02902938988775795,
+    "Kp_task_roll": 0.5265461702162487,
+    "Kd_task_roll": 2.712752615995018,
+    "Ki_task_roll": 0.029115659292118422,
+    "tau_lead_pole_roll": 0.014229163937377783,
+    "Kp_buckle_roll": 1.4481879210710047,
+    "Kd_buckle_roll": 0.3474584823634945
+  }
+}
