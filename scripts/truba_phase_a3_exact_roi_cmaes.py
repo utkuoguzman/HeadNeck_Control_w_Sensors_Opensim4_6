@@ -134,13 +134,10 @@ TIER_AB_CLEAN_LOCKED = {
     "tau_renshaw": 0.022,
     "K_lig_protective": 0.09,
     "srs_tau_srs_reset": 0.11,
-    # Locked Low-ROI Roll (6 params -> drops Roll 16D -> 10D, anchored on R10=3,480.7)
-    "z_phas_roll": 0.0,
+    # Locked Low-ROI Roll (3 params -> 13D Roll with z_phas_roll, Kd_buckle_roll, tau_lead_pole_roll unlocked)
     "z_ccr_roll": 0.004,
     "p_ccr_roll": 85.0,
     "Kp_proprioception_roll": 0.030,
-    "tau_lead_pole_roll": 0.014,
-    "Kd_buckle_roll": 0.34,
     # Locked Low-ROI Yaw (4 params -> drops Yaw 12D -> 8D, anchored on Y4=1,058.7)
     "tau_lead_pole_yaw": 0.0093,
     "z_ccr_yaw": 0.020,
@@ -262,6 +259,21 @@ def build_pitch34_specs(base_p: dict, preset: str = "default"):
             "Kp_buckle": 0.95, "Kd_buckle": 0.22,
             "srs_k_srs": 9.0, "srs_delta_srs": 0.019, "srs_thix_min": 0.16, "srs_delta_thix_break": 0.014,
         }
+    elif preset == "wave_b":
+        # Verbatim Wave B shared champion (APEO=3,077.75, classic=2,853.28, rv=0.9374, nPk=[1,1,1,1], VOL60=59.06 ovs=0.0)
+        ov = {
+            "K_sc": 2.1112306014056523, "z_sc": 0.013076805343787204, "p_sc": 58.58779406184581,
+            "K_phas": 8.029578659171536, "z_phas": 0.027502545190122955, "p_phas": 3.490134236825105,
+            "oto_reweight_a0_mps2": 8.309454943407752, "oto_reweight_tau_s": 0.1757669287747858,
+            "phasic_oto_tanh_mps2": 12.473245623592852,
+            "K_ton": 4.27572083226466, "p_ton": 17.695857962118133, "Ki_ton": 2.7143186968823794,
+            "Kp_prop_pitch": 0.5256027826048439, "Kp_proprioception": 0.01496462036492515,
+            "tau_lead_pole": 0.012086637202136286,
+            "Kp_task_pitch": 13.048287347567726, "Kd_task_pitch": 3.512059443179697, "Ki_task_pitch": 31.66509946419837,
+            "Kp_buckle": 0.6731851361687825, "Kd_buckle": 0.2623905763571626,
+            "srs_k_srs": 7.430023571756823, "srs_delta_srs": 0.02109739015653688,
+            "srs_thix_min": 0.12008000177464302, "srs_delta_thix_break": 0.01131360107021007,
+        }
     elif preset == "soft_srs":
         # Verbatim Wave 7 P25 (all-unimodal sleds nPk=[1,1,1,1], 2g=9.4/7.0, 3g=17.9/12.7, APEO=7,861)
         ov = {
@@ -280,24 +292,24 @@ def build_pitch34_specs(base_p: dict, preset: str = "default"):
 
     return [
         # --- Brainstem Semicircular Canals (3) ---
-        ("K_sc",                 x0("K_sc", 2.60),                0.40,   6.00,  0.45),
-        ("z_sc",                 x0("z_sc", 0.011),               0.002,  0.040, 0.0035),
-        ("p_sc",                 x0("p_sc", 58.0),               15.0,  120.0,  10.0),
+        ("K_sc",                 x0("K_sc", 2.60),                0.40,   6.50,  0.45),
+        ("z_sc",                 x0("z_sc", 0.011),               0.002,  0.060, 0.0040),
+        ("p_sc",                 x0("p_sc", 58.0),               15.0,  160.0,  12.0),
         # --- Brainstem Phasic Otolith + Hill-4 Reweight + Pre-Lead Hair Tanh (6) ---
         ("K_phas",               x0("K_phas", 9.20),              1.00,  18.00,  1.20),
-        ("z_phas",               x0("z_phas", 0.022),             0.000,  0.045, 0.0040),
-        ("p_phas",               x0("p_phas", 3.30),              1.50,  25.00,  0.80),
+        ("z_phas",               x0("z_phas", 0.022),             0.000,  0.060, 0.0045),
+        ("p_phas",               x0("p_phas", 3.30),              1.00,  25.00,  0.80),
         ("oto_reweight_a0_mps2", x0("oto_reweight_a0_mps2", 10.0),3.50,  14.00,  1.40),
         ("oto_reweight_tau_s",   x0("oto_reweight_tau_s", 0.200), 0.060,  0.400, 0.0450),
         ("phasic_oto_tanh_mps2", x0("phasic_oto_tanh_mps2", 18.0),4.50,  25.00,  3.00),
         # --- Brainstem Tonic Graviceptive + INC/MVN Leaky Verticality Integrator (3) ---
-        ("K_ton",                x0("K_ton", 4.20),               1.50,  12.00,  0.75),
+        ("K_ton",                x0("K_ton", 4.20),               1.00,  12.00,  0.75),
         ("p_ton",                x0("p_ton", 15.0),               3.00,  35.00,  3.00),
         ("Ki_ton",               x0("Ki_ton", 2.60),              0.50,   6.00,  0.55),
         # --- Spinal CCR + Synaptic Delay Lead Pole (3) ---
-        ("Kp_prop_pitch",        x0("Kp_prop_pitch", 0.55),       0.10,   4.00,  0.22),
-        ("Kp_proprioception",    x0("Kp_proprioception", 0.016),  0.003,  0.080, 0.0045),
-        ("tau_lead_pole",        x0("tau_lead_pole", 0.014),      0.004,  0.030, 0.0025),
+        ("Kp_prop_pitch",        x0("Kp_prop_pitch", 0.55),       0.05,   4.00,  0.22),
+        ("Kp_proprioception",    x0("Kp_proprioception", 0.016),  0.002,  0.080, 0.0045),
+        ("tau_lead_pole",        x0("tau_lead_pole", 0.014),      0.0025, 0.030, 0.0025),
         # --- Cortical Voluntary / Bracing PID (3; strictly u>0, constrained by braced sled + VOL60) ---
         ("Kp_task_pitch",        x0("Kp_task_pitch", 12.0),       4.00,  35.00,  3.00),
         ("Kd_task_pitch",        x0("Kd_task_pitch", 3.00),       0.50,  10.00,  0.80),
@@ -308,33 +320,39 @@ def build_pitch34_specs(base_p: dict, preset: str = "default"):
         # --- Mixed-Fiber Neck Cross-Bridge SRS Core (4) ---
         ("srs_k_srs",            x0("srs_k_srs", 9.0),            4.0,   24.0,   1.60),
         ("srs_delta_srs",        x0("srs_delta_srs", 0.019),      0.010,  0.030, 0.0025),
-        ("srs_thix_min",         x0("srs_thix_min", 0.16),        0.10,   0.45,  0.040),
+        ("srs_thix_min",         x0("srs_thix_min", 0.16),        0.08,   0.45,  0.040),
         ("srs_delta_thix_break", x0("srs_delta_thix_break", 0.014),0.005, 0.040, 0.0035),
     ]
 
 
 def build_roll18_specs(base_p: dict):
-    """10D High-ROI Subcortical/Spinal Roll space anchored verbatim on <5000 winner R10 (LatEC=3,480.7, rv=0.9287, hf=1.89)."""
+    """14D High-ROI Subcortical/Spinal Roll space calibrated for the verified opposing Roll Phasic Otolith sign."""
     ov = {
-        "K_sc_roll": 4.90, "z_sc_roll": 0.014, "p_sc_roll": 11.0,
-        "K_phas_roll": 4.30, "p_phas_roll": 9.5,
-        "K_ton_roll": 1.80, "p_ton_roll": 14.0, "Ki_ton_roll": 0.50,
-        "Kp_prop_roll": 0.55, "Kp_buckle_roll": 1.35,
+        "K_sc_roll": 4.20, "z_sc_roll": 0.015, "p_sc_roll": 4.0,
+        "K_phas_roll": 0.60, "z_phas_roll": 0.012, "p_phas_roll": 4.5,
+        "K_ton_roll": 0.60, "p_ton_roll": 10.0, "Ki_ton_roll": 0.15,
+        "Kp_prop_roll": 0.45, "Kp_proprioception_roll": 0.014,
+        "Kp_buckle_roll": 1.10, "Kd_buckle_roll": 0.32,
+        "tau_lead_pole_roll": 0.014,
     }
     def x0(k, fb):
         return float(ov.get(k, base_p.get(k, fb)))
 
     return [
-        ("K_sc_roll",      x0("K_sc_roll", 4.90),      0.80,  8.00, 0.55),
-        ("z_sc_roll",      x0("z_sc_roll", 0.014),     0.002, 0.045, 0.0035),
-        ("p_sc_roll",      x0("p_sc_roll", 11.0),      5.0,  50.0,  2.50),
-        ("K_phas_roll",    x0("K_phas_roll", 4.30),    0.50, 12.00, 0.75),
-        ("p_phas_roll",    x0("p_phas_roll", 9.5),     1.50, 35.00, 2.20),
-        ("K_ton_roll",     x0("K_ton_roll", 1.80),     0.30,  8.00, 0.40),
-        ("p_ton_roll",     x0("p_ton_roll", 14.0),     3.00, 30.00, 2.50),
-        ("Ki_ton_roll",    x0("Ki_ton_roll", 0.50),    0.00,  3.00, 0.25),
-        ("Kp_prop_roll",   x0("Kp_prop_roll", 0.55),   0.10,  6.00, 0.25),
-        ("Kp_buckle_roll", x0("Kp_buckle_roll", 1.35), 0.20,  3.50, 0.25),
+        ("K_sc_roll",              x0("K_sc_roll", 4.20),              0.30, 10.00, 0.70),
+        ("z_sc_roll",              x0("z_sc_roll", 0.015),             0.001, 0.060, 0.0050),
+        ("p_sc_roll",              x0("p_sc_roll", 4.0),               0.50, 60.00, 2.50),
+        ("K_phas_roll",            x0("K_phas_roll", 0.60),            0.00,  8.00, 0.60),
+        ("z_phas_roll",            x0("z_phas_roll", 0.012),           0.000, 0.045, 0.0050),
+        ("p_phas_roll",            x0("p_phas_roll", 4.5),             0.80, 35.00, 2.00),
+        ("K_ton_roll",             x0("K_ton_roll", 0.60),             0.00,  8.00, 0.45),
+        ("p_ton_roll",             x0("p_ton_roll", 10.0),             2.00, 35.00, 2.50),
+        ("Ki_ton_roll",            x0("Ki_ton_roll", 0.15),            0.00,  3.00, 0.25),
+        ("Kp_prop_roll",           x0("Kp_prop_roll", 0.45),           0.00,  6.00, 0.35),
+        ("Kp_proprioception_roll", x0("Kp_proprioception_roll", 0.014),0.001, 0.080, 0.0060),
+        ("Kp_buckle_roll",         x0("Kp_buckle_roll", 1.10),         0.15,  3.50, 0.25),
+        ("Kd_buckle_roll",         x0("Kd_buckle_roll", 0.32),         0.05,  0.80, 0.07),
+        ("tau_lead_pole_roll",     x0("tau_lead_pole_roll", 0.014),    0.003, 0.030, 0.0030),
     ]
 
 
@@ -866,10 +884,13 @@ def score_pitch_candidate(idx: int, axis_params: dict, apeo_res: dict, sled_res:
     loss_bode = apeo_tot + 40.0 * max(0.0, hf_rms - 4.5) ** 2
 
     # 2. Unimodal Splenius Capitis sEMG across ALL 4 awake u >= 0 sled conditions
+    # Smooth hinge above 0.010 so already-unimodal < 0.012 dips do not waste ~600 APEO Bode points
+    def _dip_pen(d: float) -> float:
+        return 2000.0 * d + 25000.0 * max(0.0, d - 0.010)
     loss_bimodal = (
-        18000.0 * (s2_u0["dip"] + s2_br["dip"] + s3_u0["dip"] + s3_br["dip"])
+        sum(_dip_pen(r["dip"]) for r in (s2_u0, s2_br, s3_u0, s3_br))
         + 10000.0 * (s2_u0["early_excess"] + s2_br["early_excess"] + s3_u0["early_excess"] + s3_br["early_excess"])
-        + 1200.0 * (max(0, s2_u0["n_pk"] - 1) + max(0, s2_br["n_pk"] - 1) + max(0, s3_u0["n_pk"] - 1) + max(0, s3_br["n_pk"] - 1))
+        + 1500.0 * (max(0, s2_u0["n_pk"] - 1) + max(0, s2_br["n_pk"] - 1) + max(0, s3_u0["n_pk"] - 1) + max(0, s3_br["n_pk"] - 1))
     )
 
     # 3. Zero backward onset whip guard
@@ -890,16 +911,16 @@ def score_pitch_candidate(idx: int, axis_params: dict, apeo_res: dict, sled_res:
         + 250.0 * max(0.0, v60_ovs - 1.5) ** 2
     )
     loss_kin = (
-        500.0 * max(0.0, pk2_br - pk2_u0 + 3.0) ** 2
-        + 500.0 * max(0.0, pk3_br - pk3_u0 + 5.0) ** 2
+        500.0 * max(0.0, pk2_br - pk2_u0 + 2.0) ** 2
+        + 500.0 * max(0.0, pk3_br - pk3_u0 + 3.5) ** 2
         + 500.0 * max(0.0, pk2_u0 + 4.0 - pk3_u0) ** 2
-        + 350.0 * max(0.0, 10.0 - pk2_u0) ** 2
+        + 350.0 * max(0.0, 7.0 - pk2_u0) ** 2
         + 350.0 * max(0.0, pk2_u0 - 25.0) ** 2
-        + 350.0 * max(0.0, 16.0 - pk3_u0) ** 2
+        + 350.0 * max(0.0, 13.0 - pk3_u0) ** 2
         + 350.0 * max(0.0, pk3_u0 - 34.0) ** 2
-        + 250.0 * max(0.0, 3.5 - pk2_br) ** 2
+        + 250.0 * max(0.0, 3.0 - pk2_br) ** 2
         + 250.0 * max(0.0, pk2_br - 11.0) ** 2
-        + 250.0 * max(0.0, 6.5 - pk3_br) ** 2
+        + 250.0 * max(0.0, 5.5 - pk3_br) ** 2
         + 250.0 * max(0.0, pk3_br - 16.0) ** 2
         + 500.0 * max(0.0, max(s2_u0["max_act"], s2_br["max_act"], s3_u0["max_act"], s3_br["max_act"]) - 0.88) ** 2
         + loss_vol60
@@ -907,13 +928,13 @@ def score_pitch_candidate(idx: int, axis_params: dict, apeo_res: dict, sled_res:
 
     total_loss = loss_bode + loss_bimodal + loss_onset + loss_kin
     is_clean = (
-        apeo_tot <= 3000.0
+        apeo_tot <= 2800.0
         and s2_u0["n_pk"] <= 1 and s2_br["n_pk"] <= 1 and s3_u0["n_pk"] <= 1 and s3_br["n_pk"] <= 1
         and s2_u0["dip"] <= 0.015 and s3_u0["dip"] <= 0.015 and s2_br["dip"] <= 0.015 and s3_br["dip"] <= 0.015
         and s2_u0["min_ons"] >= -0.40 and s3_u0["min_ons"] >= -0.40
-        and 10.0 <= pk2_u0 <= 25.0 and 16.0 <= pk3_u0 <= 34.0
-        and 3.5 <= pk2_br <= 11.0 and 6.5 <= pk3_br <= 16.0
-        and pk2_br + 3.0 <= pk2_u0 and pk3_br + 5.0 <= pk3_u0 and pk2_u0 + 4.0 <= pk3_u0
+        and 7.0 <= pk2_u0 <= 25.0 and 13.0 <= pk3_u0 <= 34.0
+        and 3.0 <= pk2_br <= 11.0 and 5.5 <= pk3_br <= 16.0
+        and pk2_br + 2.0 <= pk2_u0 and pk3_br + 3.5 <= pk3_u0 and pk2_u0 + 4.0 <= pk3_u0
         and v60_end >= 57.5 and v60_ovs <= 3.0
     )
 
@@ -984,10 +1005,10 @@ def run_pitch_mode(pool, args):
     sigma_init = args.sigma
 
     existing_best = safe_load_json(BEST_PITCH_JSON)
-    if args.init_preset in ("default", "soft_srs") and existing_best and "axis_params" in existing_best and float(existing_best.get("loss", 1e18)) < 80000.0:
+    if args.init_preset in ("default", "soft_srs", "wave_b") and existing_best and "axis_params" in existing_best and float(existing_best.get("loss", 1e18)) < 80000.0:
         ap_b = dict(existing_best["axis_params"])
         x0 = [float(np.clip(ap_b.get(n, x), lb, ub)) for n, x, lb, ub in zip(names, x0, lbs, ubs)]
-        sigma_init = min(args.sigma, 0.35)
+        sigma_init = min(args.sigma, 0.45)
         print(f"[EXACT-24D PITCH:{args.island}] Warm-starting ({args.init_preset}) from shared best (loss={existing_best['loss']:.1f}, sigma={sigma_init})", flush=True)
 
     es = cma.CMAEvolutionStrategy(
@@ -1150,6 +1171,78 @@ def run_rollyaw_mode(pool, args):
         )
 
 
+def run_roll_only_mode(pool, args):
+    """Dedicated 14D Roll (LatEC) EXACT 15.8s CMA-ES on all workers (Yaw already 665.5!)."""
+    _, base_p = load_base_params()
+    r_specs = build_roll18_specs(base_p)
+    r_names = [s[0] for s in r_specs]
+    x0 = [float(np.clip(s[1], s[2], s[3])) for s in r_specs]
+    r_lbs = [float(s[2]) for s in r_specs]
+    r_ubs = [float(s[3]) for s in r_specs]
+    r_stds = [float(s[4]) for s in r_specs]
+    sig = args.sigma
+    ex = safe_load_json(BEST_ROLL_JSON)
+    if ex and "axis_params" in ex and float(ex.get("loss", 1e18)) < 50000.0:
+        x0 = [float(np.clip(ex["axis_params"].get(n, x), lb, ub)) for n, x, lb, ub in zip(r_names, x0, r_lbs, r_ubs)]
+        sig = min(args.sigma, 0.35)
+        print(f"[EXACT-14D ROLL:{args.island}] Warm-starting from shared Roll best (loss={ex['loss']:.1f}, sig={sig})", flush=True)
+    r_es = cma.CMAEvolutionStrategy(
+        x0, sig,
+        {"bounds": [r_lbs, r_ubs], "CMA_stds": r_stds, "popsize": args.pop,
+         "maxiter": args.gens, "seed": args.seed, "verb_disp": 0, "verb_log": 0},
+    )
+    hist_path = os.path.join(STATE_DIR, f"history_roll14_{args.island}.json")
+    hist = []
+    best_r = None
+    t_start = time.time()
+    print(f"[EXACT-14D ROLL:{args.island}] 14D Roll EXACT 15.8s | pop={args.pop} gens={args.gens} workers={args.workers} sig={sig} seed={args.seed}", flush=True)
+
+    for gen in range(1, args.gens + 1):
+        if args.stop_epoch > 0 and time.time() >= args.stop_epoch:
+            break
+        if r_es.stop():
+            shared_now = merge_shared_params(base_p, exclude_axis="")
+            x_re = [float(np.clip(shared_now.get(n, x), lb, ub)) for n, x, lb, ub in zip(r_names, x0, r_lbs, r_ubs)]
+            r_es = cma.CMAEvolutionStrategy(
+                x_re, 0.35,
+                {"bounds": [r_lbs, r_ubs], "CMA_stds": r_stds, "popsize": args.pop,
+                 "maxiter": args.gens - gen + 1, "seed": args.seed + gen * 19, "verb_disp": 0, "verb_log": 0},
+            )
+        t_g = time.time()
+        shared_p = merge_shared_params(base_p, exclude_axis="roll")
+        r_xs = r_es.ask()
+        r_maps = [{n: float(np.clip(v, lb, ub)) for n, v, lb, ub in zip(r_names, vec, r_lbs, r_ubs)} for vec in r_xs]
+        tasks = [{"kind": "bode_exact", "idx": idx, "mode": "LatEC", "params": {**shared_p, **cmap}} for idx, cmap in enumerate(r_maps)]
+        outs = list(pool.map(_dispatch, tasks))
+        r_res = {o["idx"]: o["res"] for o in outs}
+        r_evals = [score_roll_or_yaw(i, c, r_res[i], "LatEC") for i, c in enumerate(r_maps)]
+        r_es.tell(r_xs, [float(e["loss"]) for e in r_evals])
+
+        rb = min(r_evals, key=lambda r: r["loss"])
+        if best_r is None or rb["loss"] < best_r["loss"]:
+            best_r = rb
+        pr = publish_axis_best(BEST_ROLL_JSON, rb, args.island, gen, "loss")
+        n_ab = sum(1 for e in r_evals if e["aborted"])
+        r_valid = [float(e["loss"]) for e in r_evals if not e["aborted"]]
+        r_mean = float(np.mean(r_valid)) if r_valid else float(rb["total_score"])
+        r_med = float(np.median(r_valid)) if r_valid else float(rb["total_score"])
+        ap = rb["axis_params"]
+        hist.append({
+            "gen": gen, "wall_s": round(time.time() - t_g, 1), "n_ab": n_ab,
+            "gen_best": rb["total_score"], "pop_mean": round(r_mean, 1), "pop_median": round(r_med, 1),
+            "best": best_r["total_score"], "rv": rb.get("corr_vel", 0.0), "published": pr,
+        })
+        atomic_write_json(hist_path, {"island": args.island, "elapsed_s": round(time.time() - t_start, 1), "best_local": best_r, "history": hist})
+        print(
+            f"[ROLL14:{args.island} G{gen:02d}] {time.time()-t_g:5.1f}s ab={n_ab:2d} | "
+            f"LatEC={rb['total_score']:7.1f} cls={rb.get('classic_score',0):7.1f} mean={r_mean:7.1f} med={r_med:7.1f} "
+            f"rv={rb.get('corr_vel',0):+.4f} hf={rb.get('hf_rms',0):.2f} "
+            f"(Kph={ap.get('K_phas_roll',0):.2f} pph={ap.get('p_phas_roll',0):.1f} Ksc={ap.get('K_sc_roll',0):.2f} psc={ap.get('p_sc_roll',0):.1f} Kton={ap.get('K_ton_roll',0):.2f}) "
+            f"| Best={best_r['total_score']:7.1f} {'*SHARED*' if pr else ''}",
+            flush=True,
+        )
+
+
 def run_verify_mode(pool, args):
     doc, base_p = load_base_params()
     merged = merge_shared_params(base_p, exclude_axis="")
@@ -1202,9 +1295,9 @@ def run_verify_mode(pool, args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["pitch", "rollyaw", "verify"], required=True)
+    ap.add_argument("--mode", choices=["pitch", "rollyaw", "roll", "verify"], required=True)
     ap.add_argument("--island", default="main")
-    ap.add_argument("--init-preset", default="default", choices=["default", "soft_srs", "high_bw", "low_tanh"])
+    ap.add_argument("--init-preset", default="default", choices=["default", "wave_b", "soft_srs", "high_bw", "low_tanh"])
     ap.add_argument("--pop", type=int, default=28)
     ap.add_argument("--gens", type=int, default=40)
     ap.add_argument("--sigma", type=float, default=0.50)
@@ -1219,6 +1312,8 @@ def main():
             run_pitch_mode(pool, args)
         elif args.mode == "rollyaw":
             run_rollyaw_mode(pool, args)
+        elif args.mode == "roll":
+            run_roll_only_mode(pool, args)
         else:
             run_verify_mode(pool, args)
 

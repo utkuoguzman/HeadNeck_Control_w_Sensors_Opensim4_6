@@ -329,6 +329,32 @@ public:
     double getEstimatedNeckRollSpeed() const { return estimated_neck_relative_speed[1]; }
     double getEstimatedNeckYawSpeed() const { return estimated_neck_relative_speed[2]; }
 
+    // Read-only block-level diagnostic probes (zero physics impact; used by functional unit tests)
+    OpenSim_DECLARE_OUTPUT(dbg_vcr_torque, SimTK::Vec3, getDbgVcrTorque, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_vol_torque, SimTK::Vec3, getDbgVolTorque, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_ccr_torque, SimTK::Vec3, getDbgCcrTorque, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_buckle_torque, SimTK::Vec3, getDbgBuckleTorque, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_qp_delivered_3dof, SimTK::Vec3, getDbgQpDelivered3Dof, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_oto_luen_head, SimTK::Vec3, getDbgOtoLuenHead, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_oto_irr_head, SimTK::Vec3, getDbgOtoIrrHead, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_phasic_oto_input, SimTK::Vec3, getDbgPhasicOtoInput, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_canal_irr_head, SimTK::Vec3, getDbgCanalIrrHead, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_vol_diff_torque, SimTK::Vec3, getDbgVolDiffTorque, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_w_oto_rw, double, getDbgWOtoRw, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_vol_gate, double, getDbgVolGate, SimTK::Stage::Dynamics);
+    SimTK::Vec3 getDbgVcrTorque(const SimTK::State&) const { return dbg_last_vcr_torque; }
+    SimTK::Vec3 getDbgVolTorque(const SimTK::State&) const { return dbg_last_vol_torque; }
+    SimTK::Vec3 getDbgCcrTorque(const SimTK::State&) const { return dbg_last_ccr_torque; }
+    SimTK::Vec3 getDbgBuckleTorque(const SimTK::State&) const { return dbg_last_buckle_torque; }
+    SimTK::Vec3 getDbgQpDelivered3Dof(const SimTK::State&) const { return dbg_last_qp_delivered_3dof; }
+    SimTK::Vec3 getDbgOtoLuenHead(const SimTK::State&) const { return dbg_last_oto_luen_head; }
+    SimTK::Vec3 getDbgOtoIrrHead(const SimTK::State&) const { return dbg_last_oto_irr_head; }
+    SimTK::Vec3 getDbgPhasicOtoInput(const SimTK::State&) const { return dbg_last_phasic_oto_input; }
+    SimTK::Vec3 getDbgCanalIrrHead(const SimTK::State&) const { return dbg_last_canal_irr_head; }
+    SimTK::Vec3 getDbgVolDiffTorque(const SimTK::State&) const { return dbg_last_vol_diff_torque; }
+    double getDbgWOtoRw(const SimTK::State&) const { return dbg_last_w_oto_rw; }
+    double getDbgVolGate(const SimTK::State&) const { return dbg_last_vol_gate; }
+
     void computeControls(const SimTK::State& state, SimTK::Vector& controls) const override;
     void computeStateVariableDerivatives(const SimTK::State& state) const override;
     
@@ -425,6 +451,7 @@ private:
     mutable SimTK::Matrix jacobian_6dof_d2[6];                     // 6 x N 2nd-order Taylor curvatures d2J/dq_d^2
     mutable SimTK::Matrix exact_jacobian_6dof;                     // 6 x N exact OpenSim moment arms cached at large angles (> 8 deg)
     mutable double last_exact_jacobian_time = -1.0;                // Timestamp of last exact_jacobian_6dof refresh
+    mutable double last_exact_q_6dof[6] = {0.0};                   // 6-DOF coordinates at last exact_jacobian_6dof refresh
     mutable double q0_6dof[6] = {0.0};                             // Baseline 6-DOF coordinates [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
     mutable double J_c1_pos[2][2] = {{-0.00506, -0.08327}, {0.00570, 0.07605}};  // 2x2 positional Jacobian of C1/C0 (skull origin) [AP(p1,p2); Lat(r1,r2)] in m/rad
     mutable double J_com_pos[2][2] = {{-0.06806, -0.14632}, {0.06870, 0.13905}}; // 2x2 positional Jacobian of skull COM [AP(p1,p2); Lat(r1,r2)] in m/rad
@@ -551,6 +578,18 @@ private:
     mutable std::vector<double> last_voluntary_alpha_excitations;
     mutable SimTK::Vec3 last_qp_torque_deficit = SimTK::Vec3(0.0);
     mutable double last_qp_max_u = 0.0;
+    mutable SimTK::Vec3 dbg_last_vcr_torque{0.0};
+    mutable SimTK::Vec3 dbg_last_vol_torque{0.0};
+    mutable SimTK::Vec3 dbg_last_ccr_torque{0.0};
+    mutable SimTK::Vec3 dbg_last_buckle_torque{0.0};
+    mutable SimTK::Vec3 dbg_last_qp_delivered_3dof{0.0};
+    mutable SimTK::Vec3 dbg_last_oto_luen_head{0.0};
+    mutable SimTK::Vec3 dbg_last_oto_irr_head{0.0};
+    mutable SimTK::Vec3 dbg_last_phasic_oto_input{0.0};
+    mutable SimTK::Vec3 dbg_last_canal_irr_head{0.0};
+    mutable SimTK::Vec3 dbg_last_vol_diff_torque{0.0};
+    mutable double dbg_last_w_oto_rw = 1.0;
+    mutable double dbg_last_vol_gate = 0.0;
     mutable bool is_initialized;
     mutable double last_jacobian_update_time;
     mutable SimTK::Vec3 baseline_spatial_orientation;              // (roll, yaw, pitch)
