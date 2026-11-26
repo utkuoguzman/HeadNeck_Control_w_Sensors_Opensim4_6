@@ -1894,91 +1894,105 @@
 					<target_location>2 0.5 0</target_location>
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
-					<Kp_proprioception>0.050</Kp_proprioception>
-					<Kp_proprioception_roll>0.050</Kp_proprioception_roll>
-					<Kp_proprioception_yaw>0.050</Kp_proprioception_yaw>
-					<z_ccr>0.020</z_ccr>
-					<p_ccr>99.919586</p_ccr>
-					<p_ccr_roll>99.919586</p_ccr_roll>
-					<p_ccr_yaw>99.919586</p_ccr_yaw>
-					<K_recip_inhib>0</K_recip_inhib>
-					<desired_yaw>0</desired_yaw>
-					<desired_pitch>0</desired_pitch>
-					<desired_roll>0</desired_roll>
-					<trajectory_tau>0.1</trajectory_tau>
-					<fc_voluntary>2.0</fc_voluntary>
-					<tau_lead_pole>0.008</tau_lead_pole>
-					<tau_lead_pole_roll>0.008</tau_lead_pole_roll>
-					<tau_lead_pole_yaw>0.008</tau_lead_pole_yaw>
-					<K_ton>5.259843</K_ton>
-					<p_ton>16.227225</p_ton>
-					<K_sc>4.101869</K_sc>
-					<z_sc>0.015</z_sc>
-					<p_sc>53.284141</p_sc>
-					<K_phas>11.0</K_phas>
-					<z_phas>0.008</z_phas>
-					<p_phas>4.711937</p_phas>
-					<K_ton_roll>0.90</K_ton_roll>
-					<K_ton_yaw>6.2</K_ton_yaw>
-					<p_ton_roll>3.2</p_ton_roll>
-					<p_ton_yaw>16.227225</p_ton_yaw>
-					<K_sc_roll>3.5</K_sc_roll>
-					<K_sc_yaw>1.32</K_sc_yaw>
-					<z_sc_roll>0.018</z_sc_roll>
-					<z_sc_yaw>0.016</z_sc_yaw>
-					<p_sc_roll>60.0</p_sc_roll>
-					<p_sc_yaw>3.5</p_sc_yaw>
-					<K_phas_roll>13.5</K_phas_roll>
-					<z_phas_roll>0.012</z_phas_roll>
-					<p_phas_roll>4.5</p_phas_roll>
-					<Kp_prop_pitch>0.50</Kp_prop_pitch>
-					<Kp_prop_roll>2.10</Kp_prop_roll>
-					<Kp_prop_yaw>14.0</Kp_prop_yaw>
-					<z_ccr_roll>0.005</z_ccr_roll>
-					<z_ccr_yaw>0.050</z_ccr_yaw>
-					<K_gamma_dyn>1.0</K_gamma_dyn>
-					<K_gamma_stat>1.0</K_gamma_stat>
-					<Kp_task_pitch>3.790117</Kp_task_pitch>
-					<Kd_task_pitch>0.54</Kd_task_pitch>
-					<Kp_task_roll>1.20</Kp_task_roll>
-					<Kd_task_roll>1.35</Kd_task_roll>
-					<Kp_task_yaw>0.55</Kp_task_yaw>
-					<Kd_task_yaw>0.05</Kd_task_yaw>
-					<Ki_task_pitch>3.721492</Ki_task_pitch>
-					<Ki_task_roll>0.45</Ki_task_roll>
-					<Ki_task_yaw>0.05</Ki_task_yaw>
-					<Kp_buckle>1.5</Kp_buckle>
-					<Kp_buckle_roll>1.5</Kp_buckle_roll>
-					<Kp_buckle_yaw>1.5</Kp_buckle_yaw>
-					<Kd_buckle>0.15</Kd_buckle>
-					<Kd_buckle_roll>0.15</Kd_buckle_roll>
-					<Kd_buckle_yaw>0.15</Kd_buckle_yaw>
+					<desired_rotation_vec>0 0 0</desired_rotation_vec>
+					<desired_translation_vec>0 0 0</desired_translation_vec>
+					<w_translation>0.0</w_translation>
+					<urgency>0.0</urgency>
+					<trajectory_tau>0.28</trajectory_tau>
+					<fc_voluntary>2.15</fc_voluntary>
+					<omega_task>7.2</omega_task>
+					<zeta_task>0.95</zeta_task>
+					<c_grav_task>0.90</c_grav_task>
+					<c_musc_task>0.0</c_musc_task>
+					<c_disc_task>1.90</c_disc_task>
+					<ki_task>2.20</ki_task>
+					<omega_shift>0.85</omega_shift>
+					<zeta_shift>0.06</zeta_shift>
+					<ki_shift>1.50</ki_shift>
+					<c_ff_shift>0.75</c_ff_shift>
+					<k_trans_obs_pos>0.0</k_trans_obs_pos>
+					<k_trans_obs_vel>0.0</k_trans_obs_vel>
+					<k_shift_obs_pos>0.0</k_shift_obs_pos>
+					<k_shift_obs_vel>0.0</k_shift_obs_vel>
+					<shift_station_blend>0.0</shift_station_blend>
+					<tau_obs_washout>4.0</tau_obs_washout>
+					<alpha_grav_ton>0.40</alpha_grav_ton>
+					<omega_ton>5.5</omega_ton>
+					<gamma_musc_ton>0.0</gamma_musc_ton>
+					<c_disc_ton>0.25</c_disc_ton>
+					<p_ton>15.0</p_ton>
+					<ki_grav_ton>0.50</ki_grav_ton>
+					<tau_ton_int>4.0</tau_ton_int>
+					<omega_sc>18.0</omega_sc>
+					<beta_musc_sc>0.0</beta_musc_sc>
+					<c_disc_sc>0.10</c_disc_sc>
+					<c_grav_sc>0.0</c_grav_sc>
+					<z_sc>0.012</z_sc>
+					<p_sc>25.0</p_sc>
+					<c_omega_p_sc>0.0</c_omega_p_sc>
+					<alpha_inert_phas>2.50</alpha_inert_phas>
+					<gamma_musc_phas>0.0</gamma_musc_phas>
+					<c_disc_phas>0.0</c_disc_phas>
+					<z_phas>0.015</z_phas>
+					<p_phas>4.0</p_phas>
+					<oto_reweight_a0_mps2>10.0</oto_reweight_a0_mps2>
+					<oto_reweight_tau_s>0.18</oto_reweight_tau_s>
+					<phasic_oto_tanh_mps2>16.0</phasic_oto_tanh_mps2>
+					<phasic_oto_sat_mps2>0.0</phasic_oto_sat_mps2>
+					<phasic_torque_sat_nm>0.0</phasic_torque_sat_nm>
+					<phasic_lead_sat_nm>0.0</phasic_lead_sat_nm>
+					<phasic_torque_tanh_nm>0.0</phasic_torque_tanh_nm>
+					<highg_oto_knee_mps2>0.0</highg_oto_knee_mps2>
+					<highg_transition_mps2>0.65</highg_transition_mps2>
+					<highg_irr_knee_ratio>1.90</highg_irr_knee_ratio>
+					<highg_phas_pole_boost>0.0</highg_phas_pole_boost>
+					<highg_phas_sust_floor>0.0</highg_phas_sust_floor>
+					<highg_p_sc_floor>60.0</highg_p_sc_floor>
+					<highg_tau_lead_add_s>0.0</highg_tau_lead_add_s>
+					<highg_sc_gain_boost>0.0</highg_sc_gain_boost>
+					<highg_brace_phas_suppress>0.0</highg_brace_phas_suppress>
+					<vcr_compliant_share>0.0</vcr_compliant_share>
+					<kappa_ia_local>0.008</kappa_ia_local>
+					<kappa_ia_synergy>0.006</kappa_ia_synergy>
+					<c_disc_ccr>0.16</c_disc_ccr>
+					<gamma_musc_ccr>0.0</gamma_musc_ccr>
+					<c_grav_ccr>0.0</c_grav_ccr>
+					<z_ccr>0.012</z_ccr>
+					<p_ccr>85.0</p_ccr>
+					<K_recip_inhib>0.0</K_recip_inhib>
+					<K_gamma_dyn>0.90</K_gamma_dyn>
+					<K_gamma_stat>0.70</K_gamma_stat>
+					<kappa_buckle>0.25</kappa_buckle>
+					<beta_buckle>0.035</beta_buckle>
+					<tau_lead_pole>0.012</tau_lead_pole>
+					<K_gto_ib>0.00045</K_gto_ib>
+					<p_gto_ib>150.0</p_gto_ib>
+					<thresh_gto_ib>0.50</thresh_gto_ib>
+					<K_gto_vol_suppress>0.85</K_gto_vol_suppress>
+					<K_renshaw>0.16</K_renshaw>
+					<tau_renshaw>0.022</tau_renshaw>
+					<K_lig_protective>0.09</K_lig_protective>
+					<p_lig_reflex>40.0</p_lig_reflex>
 					<thresh_spindle_ia>0.50</thresh_spindle_ia>
 					<thresh_spindle_ii>0.25</thresh_spindle_ii>
 					<thresh_vest_tilt>0.002</thresh_vest_tilt>
 					<thresh_vest_scc>0.005</thresh_vest_scc>
 					<thresh_vest_oto>0.005</thresh_vest_oto>
-					<enable_axis_pitch>true</enable_axis_pitch>
-					<enable_axis_roll>true</enable_axis_roll>
-					<enable_axis_yaw>true</enable_axis_yaw>
+					<Kp_mahony>0.25</Kp_mahony>
+					<Ki_mahony>0.008</Ki_mahony>
+					<w_oto_mahony>0.50</w_oto_mahony>
+					<vs_leak_rate>0.05</vs_leak_rate>
+					<tau_vel_leak>15.0</tau_vel_leak>
+					<tau_pos_leak>5.0</tau_pos_leak>
 					<enable_ccr>true</enable_ccr>
 					<enable_ccr_spinal>true</enable_ccr_spinal>
 					<enable_ccr_task>true</enable_ccr_task>
-					<enable_ccr_pitch>true</enable_ccr_pitch>
-					<enable_ccr_roll>true</enable_ccr_roll>
-					<enable_ccr_yaw>true</enable_ccr_yaw>
 					<enable_vcr>true</enable_vcr>
 					<enable_vcr_tonic>true</enable_vcr_tonic>
 					<enable_vcr_canal>true</enable_vcr_canal>
 					<enable_vcr_phasic>true</enable_vcr_phasic>
-					<enable_vcr_pitch>true</enable_vcr_pitch>
-					<enable_vcr_roll>true</enable_vcr_roll>
-					<enable_vcr_yaw>true</enable_vcr_yaw>
 					<enable_task_controller>true</enable_task_controller>
 					<enable_task_integral>true</enable_task_integral>
-					<enable_task_pitch>true</enable_task_pitch>
-					<enable_task_roll>true</enable_task_roll>
-					<enable_task_yaw>true</enable_task_yaw>
 					<enable_decoder>true</enable_decoder>
 					<enable_mahony>true</enable_mahony>
 					<enable_efference_cancellation>true</enable_efference_cancellation>
@@ -1987,6 +2001,13 @@
 					<enable_antibuckling>true</enable_antibuckling>
 					<enable_lead_compensators>true</enable_lead_compensators>
 					<enable_eye_afferents>false</enable_eye_afferents>
+					<enable_gto_reflex>true</enable_gto_reflex>
+					<enable_renshaw>true</enable_renshaw>
+					<enable_ligament_reflex>true</enable_ligament_reflex>
+					<enable_sensor_noise>false</enable_sensor_noise>
+					<enable_motor_noise>false</enable_motor_noise>
+					<noise_seed>42</noise_seed>
+					<noise_scale>1.0</noise_scale>
 				</HeadNeckNeuralController>
 			</objects>
 			<groups />

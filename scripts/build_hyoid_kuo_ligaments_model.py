@@ -30,9 +30,130 @@ HYOID_IN = os.path.join(REPO_ROOT, "osim_files", "HYOID_HeadNeckNeural_Model_Det
 KUO_IN = os.path.join(REPO_ROOT, "Ligaments_model", "Head_Neck_Model_OpenSim46.osim")
 HYOID_OUT = os.path.join(REPO_ROOT, "osim_files", "HYOID_HeadNeckNeural_Model_KuoLigaments.osim")
 
-AFF_DLL = os.path.join(REPO_ROOT, "osimMillard12EqWithAff.dll")
-CTRL_DLL = os.path.join(REPO_ROOT, "osimHeadNeckNeural.dll")
+AFF_DLL = os.path.join(REPO_ROOT, "proprioception_plugin", "build", "Release", "osimMillard12EqWithAff.dll")
+if not os.path.exists(AFF_DLL):
+    AFF_DLL = os.path.join(REPO_ROOT, "osimMillard12EqWithAff.dll")
+CTRL_DLL = os.path.join(REPO_ROOT, "HeadNeckNeuralController_plugin", "build", "Release", "osimHeadNeckNeural.dll")
+if not os.path.exists(CTRL_DLL):
+    CTRL_DLL = os.path.join(REPO_ROOT, "osimHeadNeckNeural.dll")
 FIX_DLL = os.path.join(REPO_ROOT, "FixationController_plugin", "build", "Release", "osimFixation.dll")
+
+COORDINATE_FREE_CTRL_DEFAULTS = [
+    ("desired_rotation_vec", "0 0 0"),
+    ("desired_translation_vec", "0 0 0"),
+    ("w_translation", "0.0"),
+    ("urgency", "0.0"),
+    ("trajectory_tau", "0.28"),
+    ("fc_voluntary", "2.15"),
+    ("omega_task", "7.2"),
+    ("zeta_task", "0.95"),
+    ("c_grav_task", "0.90"),
+    ("c_musc_task", "0.0"),
+    ("c_disc_task", "1.90"),
+    ("ki_task", "2.20"),
+    ("omega_shift", "0.85"),
+    ("zeta_shift", "0.06"),
+    ("ki_shift", "1.50"),
+    ("c_ff_shift", "0.75"),
+    ("k_trans_obs_pos", "0.0"),
+    ("k_trans_obs_vel", "0.0"),
+    ("k_shift_obs_pos", "0.0"),
+    ("k_shift_obs_vel", "0.0"),
+    ("shift_station_blend", "0.0"),
+    ("tau_obs_washout", "4.0"),
+    ("alpha_grav_ton", "0.40"),
+    ("omega_ton", "5.5"),
+    ("gamma_musc_ton", "0.0"),
+    ("c_disc_ton", "0.25"),
+    ("p_ton", "15.0"),
+    ("ki_grav_ton", "0.50"),
+    ("tau_ton_int", "4.0"),
+    ("omega_sc", "18.0"),
+    ("beta_musc_sc", "0.0"),
+    ("c_disc_sc", "0.10"),
+    ("c_grav_sc", "0.0"),
+    ("z_sc", "0.012"),
+    ("p_sc", "25.0"),
+    ("c_omega_p_sc", "0.0"),
+    ("alpha_inert_phas", "2.50"),
+    ("gamma_musc_phas", "0.0"),
+    ("c_disc_phas", "0.0"),
+    ("z_phas", "0.015"),
+    ("p_phas", "4.0"),
+    ("oto_reweight_a0_mps2", "10.0"),
+    ("oto_reweight_tau_s", "0.18"),
+    ("phasic_oto_tanh_mps2", "16.0"),
+    ("phasic_oto_sat_mps2", "0.0"),
+    ("phasic_torque_sat_nm", "0.0"),
+    ("phasic_lead_sat_nm", "0.0"),
+    ("phasic_torque_tanh_nm", "0.0"),
+    ("highg_oto_knee_mps2", "0.0"),
+    ("highg_transition_mps2", "0.65"),
+    ("highg_irr_knee_ratio", "1.90"),
+    ("highg_phas_pole_boost", "0.0"),
+    ("highg_phas_sust_floor", "0.0"),
+    ("highg_p_sc_floor", "60.0"),
+    ("highg_tau_lead_add_s", "0.0"),
+    ("highg_sc_gain_boost", "0.0"),
+    ("highg_brace_phas_suppress", "0.0"),
+    ("vcr_compliant_share", "0.0"),
+    ("kappa_ia_local", "0.008"),
+    ("kappa_ia_synergy", "0.006"),
+    ("c_disc_ccr", "0.16"),
+    ("gamma_musc_ccr", "0.0"),
+    ("c_grav_ccr", "0.0"),
+    ("z_ccr", "0.012"),
+    ("p_ccr", "85.0"),
+    ("K_recip_inhib", "0.0"),
+    ("K_gamma_dyn", "0.90"),
+    ("K_gamma_stat", "0.70"),
+    ("kappa_buckle", "0.25"),
+    ("beta_buckle", "0.035"),
+    ("tau_lead_pole", "0.012"),
+    ("K_gto_ib", "0.00045"),
+    ("p_gto_ib", "150.0"),
+    ("thresh_gto_ib", "0.50"),
+    ("K_gto_vol_suppress", "0.85"),
+    ("K_renshaw", "0.16"),
+    ("tau_renshaw", "0.022"),
+    ("K_lig_protective", "0.09"),
+    ("p_lig_reflex", "40.0"),
+    ("thresh_spindle_ia", "0.50"),
+    ("thresh_spindle_ii", "0.25"),
+    ("thresh_vest_tilt", "0.002"),
+    ("thresh_vest_scc", "0.005"),
+    ("thresh_vest_oto", "0.005"),
+    ("Kp_mahony", "0.25"),
+    ("Ki_mahony", "0.008"),
+    ("w_oto_mahony", "0.50"),
+    ("vs_leak_rate", "0.05"),
+    ("tau_vel_leak", "15.0"),
+    ("tau_pos_leak", "5.0"),
+    ("enable_ccr", "true"),
+    ("enable_ccr_spinal", "true"),
+    ("enable_ccr_task", "true"),
+    ("enable_vcr", "true"),
+    ("enable_vcr_tonic", "true"),
+    ("enable_vcr_canal", "true"),
+    ("enable_vcr_phasic", "true"),
+    ("enable_task_controller", "true"),
+    ("enable_task_integral", "true"),
+    ("enable_decoder", "true"),
+    ("enable_mahony", "true"),
+    ("enable_efference_cancellation", "true"),
+    ("enable_fusimotor", "true"),
+    ("enable_reciprocal_inhibition", "true"),
+    ("enable_antibuckling", "true"),
+    ("enable_lead_compensators", "true"),
+    ("enable_eye_afferents", "false"),
+    ("enable_gto_reflex", "true"),
+    ("enable_renshaw", "true"),
+    ("enable_ligament_reflex", "true"),
+    ("enable_sensor_noise", "false"),
+    ("enable_motor_noise", "false"),
+    ("noise_seed", "42"),
+    ("noise_scale", "1.0"),
+]
 
 COMMON_BODIES = ["spine", "cerv7", "cerv6", "cerv5", "cerv4", "cerv3", "cerv2", "cerv1", "skull"]
 
@@ -231,6 +352,17 @@ def build_model(osim):
                     if op_el is None:
                         op_el = ET.SubElement(app_el, "opacity")
                     op_el.text = "0.3"
+
+    # Rewrite HeadNeckNeuralController XML tags to clean coordinate-free invariants (zero RPY properties)
+    ctrl_el = hyo_model_el.find("./ControllerSet/objects/HeadNeckNeuralController")
+    if ctrl_el is not None:
+        keep_base = {"actuator_list", "socket_actuators", "isDisabled", "enabled"}
+        for ch in list(ctrl_el):
+            if ch.tag not in keep_base:
+                ctrl_el.remove(ch)
+        for pk, pv in COORDINATE_FREE_CTRL_DEFAULTS:
+            sub = ET.SubElement(ctrl_el, pk)
+            sub.text = pv
 
     ET.indent(hyo_tree, space="\t")
     hyo_tree.write(HYOID_OUT, encoding="utf-8", xml_declaration=True)

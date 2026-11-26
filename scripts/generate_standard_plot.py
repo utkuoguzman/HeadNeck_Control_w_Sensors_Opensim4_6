@@ -37,39 +37,55 @@ from run_roll_yaw_baseline import (
 )
 from tune_roll_and_yaw import build_c2_zero_offset_spline_yaw
 
-MODEL_PATH = os.path.join(_ROOT, "osim_files", "HYOID_HeadNeckNeural_Model_Detailed.osim")
+MODEL_PATH = os.path.join(_ROOT, "osim_files", "HYOID_HeadNeckNeural_Model_KuoLigaments.osim")
 
-EXPECTED_28_BOOLS = [
-    "enable_axis_pitch", "enable_axis_roll", "enable_axis_yaw",
+EXPECTED_SUBSYSTEM_BOOLS = [
     "enable_ccr", "enable_ccr_spinal", "enable_ccr_task",
-    "enable_ccr_pitch", "enable_ccr_roll", "enable_ccr_yaw",
     "enable_vcr", "enable_vcr_tonic", "enable_vcr_canal", "enable_vcr_phasic",
-    "enable_vcr_pitch", "enable_vcr_roll", "enable_vcr_yaw",
     "enable_task_controller", "enable_task_integral",
-    "enable_task_pitch", "enable_task_roll", "enable_task_yaw",
     "enable_decoder", "enable_mahony", "enable_efference_cancellation",
     "enable_fusimotor", "enable_reciprocal_inhibition",
     "enable_antibuckling", "enable_lead_compensators",
+    "enable_gto_reflex", "enable_renshaw", "enable_ligament_reflex",
 ]
 
 
+def _parse_vec3_value(val):
+    if isinstance(val, (tuple, list, np.ndarray)):
+        return float(val[0]), float(val[1]), float(val[2])
+    s = str(val).strip().strip("()[]{}")
+    parts = [p for p in s.replace(",", " ").split() if p]
+    if len(parts) != 3:
+        raise ValueError(f"Expected 3 components for Vec3 property, got: {val!r}")
+    return float(parts[0]), float(parts[1]), float(parts[2])
+
+
 def apply_cli_overrides_and_inspect(controller, overrides):
-    """Apply explicit KEY=VAL property overrides and inspect all 28 branch booleans."""
+    """Apply explicit KEY=VAL property overrides and inspect all coordinate-free subsystem booleans."""
     for key, val in overrides:
         if not controller.hasProperty(key):
             raise KeyError(f"Unknown HeadNeckNeuralController property: {key}")
         prop = controller.updPropertyByName(key)
-        low = val.strip().lower()
+        ptype = prop.getTypeName()
+        if ptype == "Vec3":
+            vx, vy, vz = _parse_vec3_value(val)
+            osim.PropertyHelper.setValueVec3(float(vx), prop, 0)
+            osim.PropertyHelper.setValueVec3(float(vy), prop, 1)
+            osim.PropertyHelper.setValueVec3(float(vz), prop, 2)
+            continue
+        low = str(val).strip().lower()
         if low in ("true", "false"):
             osim.PropertyHelper.setValueBool(low == "true", prop)
-        elif prop.getTypeName() == "int":
+        elif ptype == "int":
             osim.PropertyHelper.setValueInt(int(round(float(val))), prop)
         else:
             osim.PropertyHelper.setValueDouble(float(val), prop)
 
     bool_state = {}
     false_booleans = []
-    for prop_name in EXPECTED_28_BOOLS:
+    for prop_name in EXPECTED_SUBSYSTEM_BOOLS:
+        if not controller.hasProperty(prop_name):
+            continue
         is_on = controller.getPropertyByName(prop_name).toString().strip().lower() == "true"
         bool_state[prop_name] = is_on
         if not is_on:
@@ -79,7 +95,7 @@ def apply_cli_overrides_and_inspect(controller, overrides):
     bool_state["enable_eye_afferents"] = eye_on
 
     if not false_booleans:
-        banner = "Booleans: ALL 28 TRUE (Default Open Mode)"
+        banner = f"Booleans: ALL {len(bool_state) - 1} SUBSYSTEMS TRUE (Coordinate-Free Full Model)"
     else:
         banner = "DISABLED BOOLEANS: " + ", ".join(f"{b}=false" for b in false_booleans)
     return bool_state, false_booleans, banner
@@ -187,12 +203,12 @@ def run_axis_worker(args):
         model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/obs_q{idx}", q.get(idx))
 
     for sv in (
-        "pitch_error_integral",
-        "roll_error_integral",
-        "yaw_error_integral",
-        "vol_filt_pitch",
-        "vol_filt_roll",
-        "vol_filt_yaw",
+        "rot_err_int_x",
+        "rot_err_int_y",
+        "rot_err_int_z",
+        "vol_filt_pos_x",
+        "vol_filt_pos_y",
+        "vol_filt_pos_z",
     ):
         model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/{sv}", 0.0)
 

@@ -52,6 +52,7 @@ def run_bode_probed(
     bushing_k_scale: float = 1.0,
     bushing_c_scale: float = 1.0,
     wall_limit_s: float = 1800.0,
+    collect_xray: bool = True,
 ) -> dict:
     """Run a 100% FULL-MODEL Bode sim with internal C++ pathway torque & joint-split probing."""
     t0 = time.time()
@@ -103,7 +104,7 @@ def run_bode_probed(
         phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
         amps_in = np.array([0.0215 * (0.835 / f) / math.sqrt(K) for f in freqs], dtype=float)
         ms_spline, _ = a3ex.build_c2_multisine_spline(freqs, amps_in, phases, delay, ramp_duration, target_time)
-        pname, ax_i = "spine_tx", 0
+        pname, ax_i = "spine_tx", 2  # Z-axis (sagittal)
     elif mode == "LatEC":
         freqs = np.array(df_lat["Frequency_Hz"], dtype=float)
         tgt_gains = np.array(df_lat["Exp_Roll_Gain_deg_per_m"], dtype=float)
@@ -112,7 +113,7 @@ def run_bode_probed(
         phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
         amps_in = np.array(a3ex.get_latec_amplitudes(freqs), dtype=float)
         ms_spline, _ = a3ex.build_c2_multisine_spline(freqs, amps_in, phases, delay, ramp_duration, target_time)
-        pname, ax_i = "spine_tz", 1
+        pname, ax_i = "spine_tz", 0  # X-axis (coronal)
     else:
         freqs = np.array(df_yaw["Frequency_Hz"], dtype=float)
         tgt_gains = np.array(df_yaw["Exp_Yaw_Gain_deg_per_deg"], dtype=float)
@@ -121,7 +122,7 @@ def run_bode_probed(
         phases = np.array([math.pi * k * (k - 1) / K for k in range(K)], dtype=float)
         amps_in = np.array(a3ex.get_yawma_amplitudes_deg(freqs), dtype=float)
         ms_spline, _ = a3ex.build_c2_zero_offset_spline_yaw(freqs, np.radians(amps_in), phases, delay, ramp_duration, target_time)
-        pname, ax_i = "gndyaw", 2
+        pname, ax_i = "gndyaw", 1  # Y-axis (axial)
 
     cp = model.updCoordinateSet().get(pname); cp.setPrescribedFunction(ms_spline)
     state = model.initSystem(); cy1.setIsPrescribed(state, False); cp.setSpeedValue(state, 0.0)
@@ -148,9 +149,6 @@ def run_bode_probed(
     ts, p_l, r_l, yr_l, yg_l = [], [], [], [], []
     q1_l, q2_l, rel_l = [], [], []
     vcr_l, ccr_l, bkl_l, qp_l, phin_l, mah_l, cun_l, thix_l = [], [], [], [], [], [], [], []
-
-    mah_names = ("mahony_pitch", "mahony_roll", "mahony_yaw")
-    cun_names = ("cuneate_neck_pitch", "cuneate_neck_roll", "cuneate_neck_yaw")
 
     aborted, abort_reason = False, ""
     t = 0.0
@@ -184,16 +182,16 @@ def run_bode_probed(
             q1_l.append(y1d); q2_l.append(y2d)
             rel_l.append(yrd)
 
-        # Read internal C++ controller probes at post-eval window (cheap!)
-        if t >= eval_start - 0.02 and ctrl is not None:
+        # Read internal C++ controller probes at post-eval window when X-ray diagnostics are requested
+        if collect_xray and t >= eval_start - 0.02 and ctrl is not None:
             model.realizeDynamics(state)
             vcr_l.append(_parse_vec3(ctrl.getOutput("dbg_vcr_torque").getValueAsString(state))[ax_i])
             ccr_l.append(_parse_vec3(ctrl.getOutput("dbg_ccr_torque").getValueAsString(state))[ax_i])
             bkl_l.append(_parse_vec3(ctrl.getOutput("dbg_buckle_torque").getValueAsString(state))[ax_i])
             qp_l.append(_parse_vec3(ctrl.getOutput("dbg_qp_delivered_3dof").getValueAsString(state))[ax_i])
             phin_l.append(_parse_vec3(ctrl.getOutput("dbg_phasic_oto_input").getValueAsString(state))[ax_i])
-            mah_l.append(math.degrees(float(ctrl.getOutput(mah_names[ax_i]).getValueAsString(state))))
-            cun_l.append(math.degrees(float(ctrl.getOutput(cun_names[ax_i]).getValueAsString(state))))
+            mah_l.append(math.degrees(_parse_vec3(ctrl.getOutput("mahony_rotvec").getValueAsString(state))[ax_i]))
+            cun_l.append(math.degrees(_parse_vec3(ctrl.getOutput("cuneate_rotvec").getValueAsString(state))[ax_i]))
             try:
                 thix_l.append(float(model.getStateVariableValue(state, "/forceset/splen_cap_sklc6/srs_thix")))
             except Exception:

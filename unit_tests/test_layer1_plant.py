@@ -21,6 +21,7 @@ from unit_tests.common import (
     integrate_and_sample,
     make_spline,
     read_out_double,
+    set_ctrl_vec3,
     smooth_step_ramp,
 )
 
@@ -260,8 +261,9 @@ def test_B04_mileusnic_spindle() -> BlockReport:
                 ctrl_overrides={
                     "enable_vcr": False, "enable_ccr": False, "enable_antibuckling": False,
                     "enable_gto_reflex": False, "enable_renshaw": False, "enable_ligament_reflex": False,
-                    "enable_task_controller": True, "urgency": 1.0, "desired_pitch": math.radians(20.0),
-                    "Kp_task_pitch": 12.0, "Ki_task_pitch": 0.0,
+                    "enable_task_controller": True, "urgency": 1.0,
+                    "desired_rotation_vec": (0.0, 0.0, math.radians(20.0)),
+                    "omega_task": 8.5, "ki_task": 0.0,
                     "enable_fusimotor": True, "K_gamma_dyn": 0.0, "K_gamma_stat": kgs,
                 },
                 lock_neck_except=(),
@@ -309,17 +311,16 @@ def test_B05_lin02_gto() -> BlockReport:
             ctrl_overrides={
                 "enable_vcr": False, "enable_ccr": False, "enable_task_controller": True,
                 "enable_gto_reflex": True, "K_gto_ib": 0.0,
-                "urgency": 1.0, "desired_pitch": 0.0,
+                "urgency": 1.0, "desired_rotation_vec": (0.0, 0.0, 0.0),
             },
             lock_neck_except=(),
             enable_gto=True,
         )
         mus = model.getMuscles().get("splen_cap_sklc6")
-        p_dp = controller.updPropertyByName("desired_pitch")
         step_set = {"done": False}
         def hook(t, s):
             if not step_set["done"] and t >= 0.05:
-                osim.PropertyHelper.setValueDouble(math.radians(25.0), p_dp)
+                set_ctrl_vec3(controller, "desired_rotation_vec", (0.0, 0.0, math.radians(25.0)))
                 step_set["done"] = True
         def probe(t, s):
             return {

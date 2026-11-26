@@ -6,330 +6,260 @@
 #include <cmath>
 #include <cstdint>
 #include <deque>
-#include <map>
 #include <random>
+#include <string>
 #include <utility>
 #include <vector>
 
 namespace OpenSim {
 
+/**
+ * Coordinate-Free Geometric & Tensor-Network Head-Neck Neuromuscular Controller.
+ *
+ * All sensory observers, cortical commands, brainstem reflexes (VCR), spinal reflexes (CCR/Ia/Ib/Renshaw/Ligament),
+ * intersegmental chain anti-buckling, and bounded muscle synergy allocation operate intrinsically on:
+ *   - SO(3) / Sp(1) & Lie algebra so(3) (resolved in the anatomical skull/trunk spatial triad [e1=X, e2=Y, e3=Z]),
+ *   - Covariant (0,2) physical plant tensors { I_3(q), K_g,3(q), K_disc,3(q), G_mu,3(q) } pulled back from Simbody,
+ *   - GL(d)-invariant muscle-fiber Tucker/SVD synergy projectors P_syn = V_syn * V_syn^T on R^M,
+ *   - Disc-metric-orthogonal kinematic chain nullspace Pi_null = I_d - P_comp * J_omega on T_q Q.
+ *
+ * Zero Euler/Cardan coordinate names exist anywhere in controller properties, states, outputs, or control laws.
+ */
 class HeadNeckNeuralController : public Controller {
 OpenSim_DECLARE_CONCRETE_OBJECT(HeadNeckNeuralController, Controller);
 
 public:
+    // --- 1. Voluntary SE(3) Command & Cortical Impedance Invariants ---
+    OpenSim_DECLARE_PROPERTY(desired_rotation_vec, SimTK::Vec3,
+        "Desired skull attitude rotation vector xi_d in so(3) [rad] relative to neutral (R_d = exp([xi_d x]) * R_0; default: (0,0,0))");
+    OpenSim_DECLARE_PROPERTY(desired_translation_vec, SimTK::Vec3,
+        "Desired horizontal skull/C1-on-trunk translation p_d in R^3 [m] (default: (0,0,0))");
+    OpenSim_DECLARE_PROPERTY(w_translation, double,
+        "Scalar Riemannian task-priority weight in [0, 1] for horizontal translation vs attitude (0=attitude-only; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(urgency, double,
+        "Unified CNS alertness & vigor dial u in [-1, 1]: -1=passive, 0=quiet/reflex baseline, (0,1]=voluntary/braced (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(trajectory_tau, double,
+        "Base time constant tau_0 [s] for 3rd-order critically-damped SE(3) trajectory planner (default: 0.28)");
+    OpenSim_DECLARE_PROPERTY(fc_voluntary, double,
+        "Cortical motor command 2nd-order low-pass cutoff frequency [Hz] (default: 2.15)");
 
-    OpenSim_DECLARE_PROPERTY(Kp_proprioception, double, "Gain for 72-muscle spinal CCR (default: 0.050)");
-    OpenSim_DECLARE_PROPERTY(Kp_proprioception_roll, double, "Roll Gain for 72-muscle spinal CCR (default: 0.050)");
-    OpenSim_DECLARE_PROPERTY(Kp_proprioception_yaw, double, "Yaw Gain for 72-muscle spinal CCR (default: 0.050)");
-    OpenSim_DECLARE_PROPERTY(z_ccr, double, "Pitch Cervico-Collic Reflex TF Zero in s (default: 0.008)");
-    OpenSim_DECLARE_PROPERTY(p_ccr, double, "Pitch Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
-    OpenSim_DECLARE_PROPERTY(p_ccr_roll, double, "Roll Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
-    OpenSim_DECLARE_PROPERTY(p_ccr_yaw, double, "Yaw Cervico-Collic Reflex TF Pole in rad/s (default: 99.919586)");
-    OpenSim_DECLARE_PROPERTY(K_recip_inhib, double, "Reciprocal inhibition fraction for antagonists (0.0=full block, 1.0=no block)");
+    OpenSim_DECLARE_PROPERTY(omega_task, double,
+        "Cortical SO(3) attitude impedance natural frequency [rad/s] multiplying I_3 (default: 12.0)");
+    OpenSim_DECLARE_PROPERTY(zeta_task, double,
+        "Cortical SO(3) attitude impedance damping ratio [-] (default: 1.05)");
+    OpenSim_DECLARE_PROPERTY(c_grav_task, double,
+        "Cortical SO(3) attitude stiffness multiple on gravitational Hessian K_g,3 [-] (default: 1.40)");
+    OpenSim_DECLARE_PROPERTY(c_musc_task, double,
+        "Cortical SO(3) attitude stiffness weight on muscle capacity tensor G_mu,3 [-] (default: 2.20)");
+    OpenSim_DECLARE_PROPERTY(c_disc_task, double,
+        "Cortical SO(3) attitude stiffness multiple on osteoligamentous tensor K_disc,3 [-] (default: 1.20)");
+    OpenSim_DECLARE_PROPERTY(ki_task, double,
+        "Cortical SO(3) attitude integral rate [1/s] multiplying task stiffness tensor (default: 2.20)");
 
-    // Voluntary command & cortical 2 Hz low-pass planner
-    OpenSim_DECLARE_PROPERTY(desired_yaw, double, "Voluntary desired yaw angle for the head (rad)");
-    OpenSim_DECLARE_PROPERTY(desired_pitch, double, "Voluntary desired pitch angle for the head (rad)");
-    OpenSim_DECLARE_PROPERTY(desired_roll, double, "Voluntary desired roll angle for the head (rad)");
-    OpenSim_DECLARE_PROPERTY(desired_ap_shift, double, "Voluntary desired AP head-on-trunk shift in m (+ anterior protraction, - retraction; default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(desired_lat_shift, double, "Voluntary desired lateral head-on-trunk shift in m (+ rightward glide, - leftward glide; default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(trajectory_tau, double, "Time constant for the internal 2nd-order trajectory planner");
-    OpenSim_DECLARE_PROPERTY(fc_voluntary, double, "Voluntary controller low-pass cutoff frequency in Hz (default: 2.0)");
-    OpenSim_DECLARE_PROPERTY(tau_lead_pole, double, "Pitch synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
-    OpenSim_DECLARE_PROPERTY(tau_lead_pole_roll, double, "Roll synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
-    OpenSim_DECLARE_PROPERTY(tau_lead_pole_yaw, double, "Yaw synaptic pole time constant in s for causal biproper 1st-order lead compensators (default: 0.008)");
+    OpenSim_DECLARE_PROPERTY(omega_shift, double,
+        "Cortical nullspace translation stiffness scale [-] multiplying K_disc,d (default: 1.20)");
+    OpenSim_DECLARE_PROPERTY(zeta_shift, double,
+        "Cortical nullspace translation derivative time constant [s] multiplying K_disc,d (default: 0.06)");
+    OpenSim_DECLARE_PROPERTY(ki_shift, double,
+        "Cortical nullspace translation integral rate [1/s] multiplying K_disc,d (default: 3.50)");
+    OpenSim_DECLARE_PROPERTY(c_ff_shift, double,
+        "Voluntary nullspace S-bend feedforward stiffness multiple on K_disc,d [-] (default: 1.00)");
+    OpenSim_DECLARE_PROPERTY(k_trans_obs_pos, double,
+        "Cortical attitude stabilization coupling from SE2(3) horizontal position [1/m] via u_up x p_obs (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(k_trans_obs_vel, double,
+        "Cortical attitude stabilization coupling from SE2(3) horizontal velocity [s/m] via u_up x v_obs (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(k_shift_obs_pos, double,
+        "SE2(3) observer horizontal position-to-shift counter-translation gain [m/m] (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(k_shift_obs_vel, double,
+        "SE2(3) observer horizontal velocity-to-shift counter-translation gain [s] (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(shift_station_blend, double,
+        "Horizontal shift station blend [0=atlanto-occipital skull origin, 1=skull COM] (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(tau_obs_washout, double,
+        "High-pass washout time constant [s] on SE2(3) observer position/velocity feeding shift loop (default: 4.0)");
 
-    // Per-Axis Brainstem VCR & Task-Space Decoder CCR Properties (Pitch, Roll, Yaw — explicit non-negative parameters)
-    OpenSim_DECLARE_PROPERTY(K_ton, double, "Pitch Tonic otolith TF Gain (default: 4.5)");
-    OpenSim_DECLARE_PROPERTY(p_ton, double, "Pitch Tonic otolith TF Pole in rad/s (default: 16.227225)");
-    OpenSim_DECLARE_PROPERTY(K_sc, double, "Pitch Semicircular canal TF Gain (default: 5.20)");
-    OpenSim_DECLARE_PROPERTY(z_sc, double, "Pitch Semicircular canal TF Zero in s (default: 0.013)");
-    OpenSim_DECLARE_PROPERTY(p_sc, double, "Pitch Semicircular canal TF Pole in rad/s (default: 55.0)");
-    OpenSim_DECLARE_PROPERTY(K_phas, double, "Pitch Phasic otolith TF Gain (default: 11.2)");
-    OpenSim_DECLARE_PROPERTY(z_phas, double, "Pitch Phasic otolith TF Zero in s (default: 0.008)");
-    OpenSim_DECLARE_PROPERTY(p_phas, double, "Pitch Phasic otolith TF Pole in rad/s (default: 4.711937)");
-    OpenSim_DECLARE_PROPERTY(K_ton_roll, double, "Roll Tonic otolith TF Gain (default: 1.15)");
-    OpenSim_DECLARE_PROPERTY(K_ton_yaw, double, "Yaw Tonic attitude TF Gain (default: 6.2)");
-    OpenSim_DECLARE_PROPERTY(Ki_ton, double, "Pitch Brainstem INC/MVN leaky tonic verticality integrator gain in Nm/(rad*s) (default: 2.5)");
-    OpenSim_DECLARE_PROPERTY(Ki_ton_roll, double, "Roll Brainstem INC/MVN leaky tonic verticality integrator gain in Nm/(rad*s) (default: 0.5)");
-    OpenSim_DECLARE_PROPERTY(Ki_ton_yaw, double, "Yaw Brainstem leaky tonic orientation integrator gain in Nm/(rad*s) (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(tau_ton_int, double, "Brainstem tonic verticality integrator leak time constant in s (default: 4.0)");
-    OpenSim_DECLARE_PROPERTY(p_ton_roll, double, "Roll Tonic otolith TF Pole in rad/s (default: 3.2)");
-    OpenSim_DECLARE_PROPERTY(p_ton_yaw, double, "Yaw Tonic attitude TF Pole in rad/s (default: 16.227225)");
-    OpenSim_DECLARE_PROPERTY(K_sc_roll, double, "Roll Semicircular canal TF Gain (default: 3.5)");
-    OpenSim_DECLARE_PROPERTY(K_sc_yaw, double, "Yaw Semicircular canal TF Gain (default: 1.32)");
-    OpenSim_DECLARE_PROPERTY(z_sc_roll, double, "Roll Semicircular canal TF Zero in s (default: 0.018)");
-    OpenSim_DECLARE_PROPERTY(z_sc_yaw, double, "Yaw Semicircular canal TF Zero in s (default: 0.016)");
-    OpenSim_DECLARE_PROPERTY(p_sc_roll, double, "Roll Semicircular canal TF Pole in rad/s (default: 60.0)");
-    OpenSim_DECLARE_PROPERTY(p_sc_yaw, double, "Yaw Semicircular canal TF Pole in rad/s (default: 3.5)");
-    OpenSim_DECLARE_PROPERTY(K_phas_roll, double, "Roll Phasic otolith TF Gain (default: 11.0)");
-    OpenSim_DECLARE_PROPERTY(z_phas_roll, double, "Roll Phasic otolith TF Zero in s (default: 0.012)");
-    OpenSim_DECLARE_PROPERTY(p_phas_roll, double, "Roll Phasic otolith TF Pole in rad/s (default: 5.747)");
-    OpenSim_DECLARE_PROPERTY(phasic_oto_sat_mps2, double, "Optional irregular otolith afferent linear-below-knee C^1 saturation in m/s^2 (0=off, default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(phasic_torque_sat_nm, double, "Sustained vestibulospinal phasic VCR torque linear-below-knee C^1 ceiling in Nm (0=off, default: 8.5)");
-    OpenSim_DECLARE_PROPERTY(Kp_prop_pitch, double, "Pitch Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 1.10)");
-    OpenSim_DECLARE_PROPERTY(Kp_prop_roll, double, "Roll Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 2.45)");
-    OpenSim_DECLARE_PROPERTY(Kp_prop_yaw, double, "Yaw Spindle-Decoded CCR Proportional Gain in Nm/rad (default: 14.0)");
-    OpenSim_DECLARE_PROPERTY(z_ccr_roll, double, "Roll Spindle-Decoded CCR & Muscle Lead Zero in s (default: 0.005)");
-    OpenSim_DECLARE_PROPERTY(z_ccr_yaw, double, "Yaw Spindle-Decoded CCR & Muscle Lead Zero in s (default: 0.050)");
+    // --- 2. Brainstem Vestibulo-Collic Reflex (VCR) Covariant Tensor Pencil Invariants ---
+    // K_ton = alpha_grav_ton * K_g,3 + omega_ton^2 * I_3 + gamma_musc_ton * G_mu,3 + c_disc_ton * K_disc,3
+    OpenSim_DECLARE_PROPERTY(alpha_grav_ton, double,
+        "Tonic VCR dimensionless multiple on gravitational Hessian K_g,3 (>=1 guarantees static tilt stability; default: 0.65)");
+    OpenSim_DECLARE_PROPERTY(omega_ton, double,
+        "Tonic VCR natural frequency [rad/s] on kinetic inertia tensor I_3 (default: 5.0)");
+    OpenSim_DECLARE_PROPERTY(gamma_musc_ton, double,
+        "Tonic VCR dimensionless weight on muscle capacity tensor G_mu,3 (default: 0.08)");
+    OpenSim_DECLARE_PROPERTY(c_disc_ton, double,
+        "Tonic VCR dimensionless multiple on osteoligamentous stiffness tensor K_disc,3 (default: 0.15)");
+    OpenSim_DECLARE_PROPERTY(p_ton, double,
+        "Tonic VCR 2nd-order filter primary pole [rad/s] (default: 12.0)");
+    OpenSim_DECLARE_PROPERTY(ki_grav_ton, double,
+        "Brainstem INC/MVN leaky verticality integrator rate [1/s] multiplying K_g,3 (identically 0 around gravity; default: 0.35)");
+    OpenSim_DECLARE_PROPERTY(tau_ton_int, double,
+        "Brainstem tonic verticality integrator leak time constant [s] (default: 4.0)");
 
-    // Gamma motor neuron drive (Alpha-Gamma Coactivation)
-    OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double, "Gain for Vestibular-driven Gamma_dyn");
-    OpenSim_DECLARE_PROPERTY(K_gamma_stat, double, "Gain for Alpha-Gamma Coactivation");
+    // D_sc = omega_sc * I_3 + beta_musc_sc * G_mu,3 + c_disc_sc * K_disc,3 + c_grav_sc * K_g,3
+    OpenSim_DECLARE_PROPERTY(omega_sc, double,
+        "Semicircular canal VCR damping rate [rad/s] multiplying kinetic inertia tensor I_3 (default: 16.0)");
+    OpenSim_DECLARE_PROPERTY(beta_musc_sc, double,
+        "Semicircular canal VCR damping time scale [s] multiplying muscle capacity tensor G_mu,3 (default: 0.05)");
+    OpenSim_DECLARE_PROPERTY(c_disc_sc, double,
+        "Semicircular canal VCR damping time scale [s] multiplying osteoligamentous tensor K_disc,3 (default: 0.05)");
+    OpenSim_DECLARE_PROPERTY(c_grav_sc, double,
+        "Semicircular canal VCR gravito-rotational damping time scale [s] multiplying K_g,3 (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(z_sc, double,
+        "Semicircular canal VCR state-space lead zero time constant [s] (default: 0.010)");
+    OpenSim_DECLARE_PROPERTY(p_sc, double,
+        "Semicircular canal VCR 2nd-order filter primary pole [rad/s] (default: 18.0)");
+    OpenSim_DECLARE_PROPERTY(c_omega_p_sc, double,
+        "Covariant natural-frequency pole boost [-] scaling p_sc by I_3^-1 * K_disc,3 (default: 0.0)");
 
-    // Explicit Cortical Task-Space PID Gains (Pitch, Roll, Yaw)
-    OpenSim_DECLARE_PROPERTY(Kp_task_pitch, double, "Explicit Task Kp for pitch in Nm/rad (default: 3.2)");
-    OpenSim_DECLARE_PROPERTY(Kd_task_pitch, double, "Explicit Task Kd for pitch in Nms/rad (default: 1.45)");
-    OpenSim_DECLARE_PROPERTY(Kp_task_roll, double, "Explicit Task Kp for roll in Nm/rad (default: 1.55)");
-    OpenSim_DECLARE_PROPERTY(Kd_task_roll, double, "Explicit Task Kd for roll in Nms/rad (default: 1.35)");
-    OpenSim_DECLARE_PROPERTY(Kp_task_yaw, double, "Explicit Task Kp for yaw in Nm/rad (default: 0.55)");
-    OpenSim_DECLARE_PROPERTY(Kd_task_yaw, double, "Explicit Task Kd for yaw in Nms/rad (default: 0.05)");
-    OpenSim_DECLARE_PROPERTY(Ki_task_pitch, double, "Explicit Task Ki for pitch in Nm/(rad*s) (default: 0.45)");
-    OpenSim_DECLARE_PROPERTY(Ki_task_roll, double, "Explicit Task Ki for roll in Nm/(rad*s) (default: 1.15)");
-    OpenSim_DECLARE_PROPERTY(Ki_task_yaw, double, "Explicit Task Ki for yaw in Nm/(rad*s) (default: 0.05)");
+    // Phasic otolith acts on coordinate-free cross product eta_a = u_up_head x delta_f_head in so(3):
+    // K_phas = alpha_inert_phas * (K_g,3 / g) + gamma_musc_phas * (G_mu,3 / g) + c_disc_phas * (K_disc,3 / g)
+    OpenSim_DECLARE_PROPERTY(alpha_inert_phas, double,
+        "Phasic otolith dimensionless inertial-whiplash cancellation gain on (K_g,3 / g) * (u_up x df) (default: 0.35)");
+    OpenSim_DECLARE_PROPERTY(gamma_musc_phas, double,
+        "Phasic otolith dimensionless muscle-capacity gain on (G_mu,3 / g) * (u_up x df) (default: 0.05)");
+    OpenSim_DECLARE_PROPERTY(c_disc_phas, double,
+        "Phasic otolith dimensionless osteoligamentous gain on (K_disc,3 / g) * (u_up x df) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(z_phas, double,
+        "Phasic otolith VCR state-space lead zero time constant [s] (default: 0.010)");
+    OpenSim_DECLARE_PROPERTY(p_phas, double,
+        "Phasic otolith VCR 2nd-order filter primary pole [rad/s] (default: 5.0)");
 
-    // Cortical voluntary roll & pitch stabilization driven by cerebellar SE2(3) velocity/position (obs_v*, obs_p*)
-    OpenSim_DECLARE_PROPERTY(Kv_trans_roll, double, "Voluntary roll torque gain on SE2(3) lateral velocity obs_vz in Nm/(m/s) (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_trans_roll, double, "Voluntary roll torque gain on SE2(3) lateral position obs_pz in Nm/m (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(Kv_trans_pitch, double, "Voluntary pitch torque gain on SE2(3) AP velocity obs_vx in Nm/(m/s) (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_trans_pitch, double, "Voluntary pitch torque gain on SE2(3) AP position obs_px in Nm/m (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(tau_vel_leak, double, "Cerebellar SE2(3) linear velocity-storage leak time constant in s (default: 15.0)");
-    OpenSim_DECLARE_PROPERTY(tau_pos_leak, double, "Cerebellar SE2(3) egocentric linear position-tether leak time constant in s (default: 5.0)");
+    // Smooth C^infty vestibular peripheral & high-G sensory reweighting invariants
+    OpenSim_DECLARE_PROPERTY(oto_reweight_a0_mps2, double,
+        "Somatogravic Hill-4 horizontal linear acceleration half-power scale a0 [m/s^2] (0=off; default: 10.0)");
+    OpenSim_DECLARE_PROPERTY(oto_reweight_tau_s, double,
+        "Somatogravic horizontal acceleration envelope recovery time constant [s] (default: 0.18)");
+    OpenSim_DECLARE_PROPERTY(phasic_oto_tanh_mps2, double,
+        "C^infty utricular hair-bundle tangential shear tanh ceiling [m/s^2] before macular lead (0=off; default: 16.0)");
+    OpenSim_DECLARE_PROPERTY(phasic_oto_sat_mps2, double,
+        "Optional linear-below-knee C^1 phasic otolith input ceiling [m/s^2] (0=off; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(phasic_torque_sat_nm, double,
+        "Optional linear-below-knee C^1 sustained phasic VCR torque ceiling [Nm] (0=off; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(phasic_lead_sat_nm, double,
+        "Optional linear-below-knee C^1 phasic VCR lead torque ceiling [Nm] (0=off; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(phasic_torque_tanh_nm, double,
+        "Optional C^infty post-filter phasic VCR torque tanh ceiling [Nm] (0=off; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_oto_knee_mps2, double,
+        "High-G translational acceleration threshold [m/s^2] (0=off; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_transition_mps2, double,
+        "High-G quadratic attenuation half-width [m/s^2] (default: 0.65)");
+    OpenSim_DECLARE_PROPERTY(highg_irr_knee_ratio, double,
+        "Irregular otolith excess ratio relative to highg_oto_knee_mps2 (default: 1.90)");
+    OpenSim_DECLARE_PROPERTY(highg_phas_pole_boost, double,
+        "High-G phasic pole boost [rad/s] scaled by (1 - g_highg) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_phas_sust_floor, double,
+        "High-G floor in [0, 1] on sustained phasic gain (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_p_sc_floor, double,
+        "High-G canal pole floor [rad/s] as g_highg -> 0 (default: 60.0)");
+    OpenSim_DECLARE_PROPERTY(highg_tau_lead_add_s, double,
+        "High-G additive synaptic lead pole relaxation [s] scaled by (1 - g_highg) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_sc_gain_boost, double,
+        "High-G otolith-to-canal sensory reweighting boost [-] scaled by (1 - g_highg) (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(highg_brace_phas_suppress, double,
+        "Ballistic high-urgency phasic suppression in [0, 0.90] for u > 0.5 (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(vcr_compliant_share, double,
+        "Chain distribution blend in [0, 1] from equal-wrench J_omega^T (0) to inertial wrench M_d*P_comp (1) (default: 0.0)");
 
-    // Cortical horizontal head-on-trunk shift PID gains, 2x2 IK weights & SE2(3) counter-translation couplings
-    OpenSim_DECLARE_PROPERTY(Kp_shift_ap, double, "Cortical AP shift differential proportional gain Kp_shift_ap in Nm/rad (default: 4.5)");
-    OpenSim_DECLARE_PROPERTY(Kd_shift_ap, double, "Cortical AP shift differential derivative gain Kd_shift_ap in Nms/rad (default: 0.45)");
-    OpenSim_DECLARE_PROPERTY(Ki_shift_ap, double, "Cortical AP shift differential integral gain Ki_shift_ap in Nm/(rad*s) (default: 6.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_shift_lat, double, "Cortical lateral shift differential proportional gain Kp_shift_lat in Nm/rad (default: 4.5)");
-    OpenSim_DECLARE_PROPERTY(Kd_shift_lat, double, "Cortical lateral shift differential derivative gain Kd_shift_lat in Nms/rad (default: 0.45)");
-    OpenSim_DECLARE_PROPERTY(Ki_shift_lat, double, "Cortical lateral shift differential integral gain Ki_shift_lat in Nm/(rad*s) (default: 6.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_shift_obs_px, double, "SE2(3) AP position-to-shift counter-translation gain (obs_px -> desired AP shift) in m/m (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(Kv_shift_obs_vx, double, "SE2(3) AP velocity-to-shift counter-translation gain (obs_vx -> desired AP shift) in m/(m/s) (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_shift_obs_pz, double, "SE2(3) lateral position-to-shift counter-translation gain (obs_pz -> desired Lat shift) in m/m (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(Kv_shift_obs_vz, double, "SE2(3) lateral velocity-to-shift counter-translation gain (obs_vz -> desired Lat shift) in m/(m/s) (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(w_pos_ap, double, "2x2 weighted IK weight for AP head-on-trunk shift vs attitude-only control (0=attitude-only; default: 1.0)");
-    OpenSim_DECLARE_PROPERTY(w_pos_lat, double, "2x2 weighted IK weight for lateral head-on-trunk shift vs attitude-only control (0=attitude-only; default: 1.0)");
-    OpenSim_DECLARE_PROPERTY(shift_station_blend, double, "Horizontal shift station blend [0=C1/C0 atlanto-occipital pivot, 1=skull COM] (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(tau_obs_washout, double, "First-order high-pass washout time constant on obs_px/obs_pz feeding C1 shift loop in s (default: 4.0)");
-    OpenSim_DECLARE_PROPERTY(vol_kp_shift_ap, double, "Voluntary-gated AP differential proportional gain floor in Nm/rad (default: 6.5)");
-    OpenSim_DECLARE_PROPERTY(vol_kp_shift_lat, double, "Voluntary-gated lateral differential proportional gain floor in Nm/rad (default: 6.5)");
-    OpenSim_DECLARE_PROPERTY(vol_ki_shift_ap, double, "Voluntary-gated AP differential integral gain floor in Nm/(rad*s) (default: 40.0)");
-    OpenSim_DECLARE_PROPERTY(vol_ki_shift_lat, double, "Voluntary-gated lateral differential integral gain floor in Nm/(rad*s) (default: 16.0)");
-    OpenSim_DECLARE_PROPERTY(vol_diff_ff_stiff_ap, double, "Voluntary-gated AP differential stiffness feedforward in Nm/rad (default: 5.5)");
-    OpenSim_DECLARE_PROPERTY(vol_diff_ff_stiff_lat, double, "Voluntary-gated lateral differential stiffness feedforward in Nm/rad (default: 7.0)");
-    OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_ap, double, "Voluntary-gated AP differential velocity feedforward in Nms/rad (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(vol_diff_ff_vel_lat, double, "Voluntary-gated lateral differential velocity feedforward in Nms/rad (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(urgency, double, "Unified CNS alertness & movement vigor dial u in [-1.0, 1.0]: -1.0=passive neck, (-1,0)=hypo-alert/relaxed, 0.0=alert APEO baseline, (0,1]=braced/ballistic fast tracking (default: 0.0)");
-    OpenSim_DECLARE_PROPERTY(highg_oto_knee_mps2, double, "Linear-below-knee translational acceleration threshold [m/s^2] above which high-G otolith reweighting & shock damping engage (default: 7.80, strictly above APEO).");
-    OpenSim_DECLARE_PROPERTY(highg_rolloff_mps2, double, "Quadratic rolloff half-width [m/s^2] for high-G attenuation g_highg = 1 / (1 + (env / rolloff)^2) (default: 0.65).");
-    OpenSim_DECLARE_PROPERTY(highg_irr_knee_ratio, double, "Multiplier on highg_oto_knee_mps2 for irregular otolith excess threshold (default: 1.90).");
-    OpenSim_DECLARE_PROPERTY(highg_phas_pole_boost, double, "High-G pitch phasic filter adaptation pole boost [rad/s] p_phas_eff = p_phas + (1 - g_highg)*boost (default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(highg_phas_sust_floor, double, "Floor in [0, 1] on instantaneous sustained phasic multiplier sqrt(g_highg) (default: 0.0; 1.0 relaxes purely via p_phas_eff).");
-    OpenSim_DECLARE_PROPERTY(phasic_lead_sat_nm, double, "Linear-below-knee ceiling [Nm] on phasic otolith lead torque (0 disables; linear 1:1 below 0.90*ceiling; default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(highg_p_sc_floor, double, "High-G minimum pitch canal pole p_sc_eff (rad/s) as g_highg -> 0; >= p_sc disables softening (default: 22.0).");
-    OpenSim_DECLARE_PROPERTY(highg_tau_lead_add_s, double, "High-G additive pitch MVST lead pole relaxation (s) scaled by (1 - g_highg) (default: 0.022).");
-    OpenSim_DECLARE_PROPERTY(highg_sc_gain_boost, double, "High-G otolith-to-canal sensory reweighting gain boost on Pitch VCR: K_sc_eff = K_sc * (1 + boost * (1 - g_highg)) (default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(highg_brace_phas_suppress, double, "C^1-smooth ballistic bracing VO phasic-otolith suppression in [0, 0.90] gated by smoothstep01((u - 0.50) / 0.50) (identically 0 for u <= 0.50; default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(phasic_oto_tanh_mps2, double, "C^infty pre-lead utricular hair-bundle hyperbolic-tangent saturation [m/s^2] applied before Stage-2 irregular afferent lead (0=off, default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(phasic_torque_tanh_nm, double, "C^infty post-integrator vestibulospinal LVN/MVN hyperbolic-tangent torque saturation [Nm] (0=off, default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(oto_reweight_a0_mps2, double, "C^infty divisive somatogravic otolith sensory-reweighting half-power scale a0 [m/s^2]: w_oto = 1/(1 + (a_env/a0)^2) (0=off, default: 0.0).");
-    OpenSim_DECLARE_PROPERTY(oto_reweight_tau_s, double, "Low-pass signed translational acceleration averaging window tau_env [s] for somatogravic otolith reweighting (default: 0.050).");
-    OpenSim_DECLARE_PROPERTY(vcr_upper_share_pitch, double, "MVST/LVST upper-cervical (pitch1 C0-C2) share of pitch VCR torque in [0, 1] (0.50=equal 50/50 split, default: 0.50).");
+    // --- 3. Spinal Proprioceptive CCR & Muscle-Fiber Synergy Tensor Network ---
+    OpenSim_DECLARE_PROPERTY(kappa_ia_local, double,
+        "Homonymous 1D muscle-fiber Ia stretch reflex gain [excitation / (imp/s)] (default: 0.003)");
+    OpenSim_DECLARE_PROPERTY(kappa_ia_synergy, double,
+        "GL(d)-invariant Tucker/SVD muscle-synergy Ia reflex gain on P_syn = V_syn * V_syn^T (default: 0.002)");
+    OpenSim_DECLARE_PROPERTY(c_disc_ccr, double,
+        "Covariant spinal CCR stiffness multiple on osteoligamentous tensor K_disc,3 [-] (default: 0.10)");
+    OpenSim_DECLARE_PROPERTY(gamma_musc_ccr, double,
+        "Covariant spinal CCR stiffness weight on muscle capacity tensor G_mu,3 [-] (default: 0.04)");
+    OpenSim_DECLARE_PROPERTY(c_grav_ccr, double,
+        "Covariant spinal CCR stiffness multiple on gravitational Hessian K_g,3 [-] (default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(z_ccr, double,
+        "Spinal CCR velocity lead time constant [s] (default: 0.008)");
+    OpenSim_DECLARE_PROPERTY(p_ccr, double,
+        "Spinal CCR 2nd-order interneuron filter pole [rad/s] (default: 85.0)");
+    OpenSim_DECLARE_PROPERTY(K_recip_inhib, double,
+        "Voluntary-gated Sherrington antagonist reciprocal inhibition floor in [0, 1] (0=full block; default: 0.0)");
+    OpenSim_DECLARE_PROPERTY(K_gamma_dyn, double,
+        "Dynamic fusimotor alpha-gamma coactivation gain in [0, 1] (default: 0.90)");
+    OpenSim_DECLARE_PROPERTY(K_gamma_stat, double,
+        "Static fusimotor alpha-gamma coactivation gain in [0, 1] (default: 0.70)");
 
-    // Tier B Spinal Interneurons & Ligamento-Muscular Reflex Parameters (all default OFF/0.0 to preserve clean C1 baseline)
-    OpenSim_DECLARE_PROPERTY(K_gto_ib, double, "Golgi Tendon Organ (Ib) autogenic negative feedback gain in excitation/(imp/s) (default: 0.0020)");
-    OpenSim_DECLARE_PROPERTY(p_gto_ib, double, "Disynaptic Ib interneuron low-pass pole in rad/s (default: 150.0)");
-    OpenSim_DECLARE_PROPERTY(thresh_gto_ib, double, "C1-smooth Group Ib recruitment threshold above efference copy in imp/s (default: 0.50)");
-    OpenSim_DECLARE_PROPERTY(K_gto_vol_suppress, double, "Voluntary-gated presynaptic suppression of homonymous Ib inhibition [0, 1] (default: 0.85)");
-    OpenSim_DECLARE_PROPERTY(K_renshaw, double, "Lamina IX Renshaw cell recurrent inhibition dimensionless gain (default: 0.18)");
-    OpenSim_DECLARE_PROPERTY(tau_renshaw, double, "Renshaw recurrent inhibition membrane decay time constant in s (default: 0.022)");
-    OpenSim_DECLARE_PROPERTY(K_lig_protective, double, "Ligamento-muscular protective reflex gain onto Lamina IX pool in excitation/(imp/s) (default: 0.0015)");
-    OpenSim_DECLARE_PROPERTY(p_lig_reflex, double, "Polysynaptic articular interneuron low-pass pole in rad/s (default: 90.0)");
-    OpenSim_DECLARE_PROPERTY(K_subocc_shear_damp, double, "Additive 5-DOF pitch S-buckling Cuneate differential speed damping in Nms/rad (default: 0.0)");
+    // --- 4. Chain Nullspace Curvature Anti-Buckling & Tier B Spinal Loops ---
+    OpenSim_DECLARE_PROPERTY(kappa_buckle, double,
+        "Dimensionless chain nullspace curvature stiffness multiple on K_disc,d (default: 0.15)");
+    OpenSim_DECLARE_PROPERTY(beta_buckle, double,
+        "Chain nullspace curvature damping time scale [s] multiplying K_disc,d (default: 0.006)");
 
-    // Intersegmental 6-DOF QP anti-buckling gains (acting in nullspace of q_1 + q_2)
-    OpenSim_DECLARE_PROPERTY(Kp_buckle, double, "6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
-    OpenSim_DECLARE_PROPERTY(Kp_buckle_roll, double, "Roll 6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
-    OpenSim_DECLARE_PROPERTY(Kp_buckle_yaw, double, "Yaw 6-DOF QP intersegmental anti-buckling proportional gain in Nm/rad (default: 1.5)");
-    OpenSim_DECLARE_PROPERTY(Kd_buckle, double, "Pitch 6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
-    OpenSim_DECLARE_PROPERTY(Kd_buckle_roll, double, "Roll 6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
-    OpenSim_DECLARE_PROPERTY(Kd_buckle_yaw, double, "Yaw 6-DOF QP intersegmental anti-buckling derivative gain in Nms/rad (default: 0.15)");
+    OpenSim_DECLARE_PROPERTY(tau_lead_pole, double,
+        "Universal causal biproper 1st-order synaptic lead compensator pole [s] (default: 0.012)");
 
-    // Biological sensory receptor recruitment thresholds (C1-smooth deadbands; literature defaults)
-    OpenSim_DECLARE_PROPERTY(thresh_spindle_ia, double, "Primary (Ia) spindle discharge modulation threshold in imp/s (Matthews & Stein 1969; default: 0.50)");
-    OpenSim_DECLARE_PROPERTY(thresh_spindle_ii, double, "Secondary (II) spindle discharge modulation threshold in imp/s (Matthews & Stein 1969; default: 0.25)");
-    OpenSim_DECLARE_PROPERTY(thresh_vest_tilt, double, "Vestibular nuclei graviceptive tilt threshold in rad (Bringoux et al. 2002; default: 0.002)");
-    OpenSim_DECLARE_PROPERTY(thresh_vest_scc, double, "Vestibular nuclei semicircular canal velocity threshold in rad/s (Massot et al. 2011; default: 0.005)");
-    OpenSim_DECLARE_PROPERTY(thresh_vest_oto, double, "Vestibular nuclei otolith specific-force threshold in m/s^2 (default: 0.005)");
+    OpenSim_DECLARE_PROPERTY(K_gto_ib, double,
+        "Golgi Tendon Organ (Ib) autogenic inhibition gain [excitation / (imp/s)] (default: 0.00045)");
+    OpenSim_DECLARE_PROPERTY(p_gto_ib, double,
+        "Disynaptic Group Ib interneuron low-pass pole [rad/s] (default: 150.0)");
+    OpenSim_DECLARE_PROPERTY(thresh_gto_ib, double,
+        "C1-smooth Group Ib recruitment threshold above baseline [imp/s] (default: 0.50)");
+    OpenSim_DECLARE_PROPERTY(K_gto_vol_suppress, double,
+        "Voluntary-gated presynaptic suppression of Group Ib inhibition in [0, 1] (default: 0.85)");
+    OpenSim_DECLARE_PROPERTY(K_renshaw, double,
+        "Lamina IX Renshaw cell recurrent inhibition dimensionless gain (default: 0.16)");
+    OpenSim_DECLARE_PROPERTY(tau_renshaw, double,
+        "Renshaw cell membrane decay time constant [s] (default: 0.022)");
+    OpenSim_DECLARE_PROPERTY(K_lig_protective, double,
+        "Articular ligamento-muscular protective reflex gain (default: 0.09)");
+    OpenSim_DECLARE_PROPERTY(p_lig_reflex, double,
+        "Polysynaptic articular ligament reflex pole [rad/s] (default: 40.0)");
 
-    // Explicit branch/feature diagnostic switches (all default true so full system always runs; false only when explicitly ablated and reported)
-    OpenSim_DECLARE_PROPERTY(enable_axis_pitch, bool, "Master switch enabling pitch axis control/reflex pathways (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_axis_roll, bool, "Master switch enabling roll axis control/reflex pathways (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_axis_yaw, bool, "Master switch enabling yaw axis control/reflex pathways (default: true)");
+    // --- 5. Sensory Recruitment Thresholds, SE2(3) Observer & Noise Invariants ---
+    OpenSim_DECLARE_PROPERTY(thresh_spindle_ia, double, "Primary (Ia) spindle modulation threshold [imp/s] (default: 0.50)");
+    OpenSim_DECLARE_PROPERTY(thresh_spindle_ii, double, "Secondary (II) spindle modulation threshold [imp/s] (default: 0.25)");
+    OpenSim_DECLARE_PROPERTY(thresh_vest_tilt, double, "Vestibular graviceptive tilt threshold [rad] (default: 0.002)");
+    OpenSim_DECLARE_PROPERTY(thresh_vest_scc, double, "Vestibular semicircular canal velocity threshold [rad/s] (default: 0.005)");
+    OpenSim_DECLARE_PROPERTY(thresh_vest_oto, double, "Vestibular otolith specific-force threshold [m/s^2] (default: 0.005)");
 
-    OpenSim_DECLARE_PROPERTY(enable_ccr, bool, "Master switch enabling Cervico-Collic Reflex (spinal Ia + task-decoded CCR) (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_ccr_spinal, bool, "Switch enabling 72-muscle spinal Ia CCR reflex drive (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_ccr_task, bool, "Switch enabling task-space decoded CCR torque feedback (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_ccr_pitch, bool, "Switch enabling pitch CCR pathways (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_ccr_roll, bool, "Switch enabling roll CCR pathways (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_ccr_yaw, bool, "Switch enabling yaw CCR pathways (default: true)");
+    OpenSim_DECLARE_PROPERTY(Kp_mahony, double, "Mahony SO(3) proportional attitude fusion gain [rad/s] (default: 0.25)");
+    OpenSim_DECLARE_PROPERTY(Ki_mahony, double, "Mahony SO(3) integral velocity-storage bias lock gain [rad/s^2] (default: 0.008)");
+    OpenSim_DECLARE_PROPERTY(w_oto_mahony, double, "Mahony otolith gravity weight relative to proprioceptive FK (default: 0.50)");
+    OpenSim_DECLARE_PROPERTY(vs_leak_rate, double, "Velocity-storage leak rate [1/s] (default: 0.05)");
+    OpenSim_DECLARE_PROPERTY(tau_vel_leak, double, "Cerebellar SE2(3) linear velocity-storage leak time constant [s] (default: 15.0)");
+    OpenSim_DECLARE_PROPERTY(tau_pos_leak, double, "Cerebellar SE2(3) linear position-tether leak time constant [s] (default: 5.0)");
 
-    OpenSim_DECLARE_PROPERTY(enable_vcr, bool, "Master switch enabling Brainstem Vestibulo-Collic Reflex (VCR) (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_vcr_tonic, bool, "Switch enabling tonic graviceptive tilt VCR filter (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_vcr_canal, bool, "Switch enabling semicircular canal angular-velocity VCR filter (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_vcr_phasic, bool, "Switch enabling irregular otolith phasic acceleration VCR filter (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_vcr_pitch, bool, "Switch enabling pitch VCR pathway (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_vcr_roll, bool, "Switch enabling roll VCR pathway (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_vcr_yaw, bool, "Switch enabling yaw VCR pathway (default: true)");
-
-    OpenSim_DECLARE_PROPERTY(enable_task_controller, bool, "Master switch enabling Cortical Task-Space PID + feedforward controller (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_task_integral, bool, "Switch enabling cortical task-space integral action Ki_task_* (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_task_pitch, bool, "Switch enabling pitch cortical task controller (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_task_roll, bool, "Switch enabling roll cortical task controller (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_task_yaw, bool, "Switch enabling yaw cortical task controller (default: true)");
-
-    OpenSim_DECLARE_PROPERTY(enable_decoder, bool, "Switch enabling 72-muscle 6-DOF proprioceptive state decoder (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_mahony, bool, "Switch enabling cerebellar Mahony spatial attitude/velocity observer (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_efference_cancellation, bool, "Switch enabling internal spindle & vestibular efference-copy cancellation (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_fusimotor, bool, "Switch enabling dynamic gamma_d and static gamma_s fusimotor drive (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_reciprocal_inhibition, bool, "Switch enabling voluntary-gated Sherrington reciprocal inhibition on antagonists (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_antibuckling, bool, "Switch enabling 6-DOF QP nullspace intersegmental anti-buckling torque (default: true)");
-    OpenSim_DECLARE_PROPERTY(enable_lead_compensators, bool, "Switch enabling causal biproper 1st-order branch lead compensators evalProperLead (default: true)");
-
-    OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "If true, includes extraocular eye muscles (r_*, l_*) in controller state allocation (default: false)");
-    OpenSim_DECLARE_PROPERTY(enable_gto_reflex, bool, "Switch enabling Group Ib Golgi Tendon Organ reflex with Reference GTO efference cancellation (default: false)");
-    OpenSim_DECLARE_PROPERTY(enable_renshaw, bool, "Switch enabling Lamina IX Renshaw cell recurrent inhibition (default: false)");
-    OpenSim_DECLARE_PROPERTY(enable_ligament_reflex, bool, "Switch enabling DynamicLigamentForce ligamento-muscular reflex (default: false)");
-
-    // Physiological sensory & motor noise controls (default: false = exact deterministic baseline)
-    OpenSim_DECLARE_PROPERTY(enable_sensor_noise, bool, "Toggle Tier-1 physiological vestibular & spindle afferent noise (default: false)");
-    OpenSim_DECLARE_PROPERTY(enable_motor_noise, bool, "Toggle Tier-1 physiological 72-muscle alpha-motoneuron SDN (default: false)");
-    OpenSim_DECLARE_PROPERTY(noise_seed, int, "Deterministic PRNG seed for physiological noise bank (default: 42)");
-    OpenSim_DECLARE_PROPERTY(noise_scale, double, "Global amplitude scale for physiological noise (1.0 = healthy Tier 1, default: 1.0)");
-    OpenSim_DECLARE_PROPERTY(Kp_mahony, double, "Mahony SO(3) proportional attitude fusion gain [rad/s] (default: 0.25).");
-    OpenSim_DECLARE_PROPERTY(Ki_mahony, double, "Mahony SO(3) integral velocity-storage bias lock gain [rad/s^2] (default: 0.008).");
-    OpenSim_DECLARE_PROPERTY(w_oto_mahony, double, "Inverse-variance Mahony weight on otolith gravity relative to pooled cervical proprioception (default: 0.50).");
-    OpenSim_DECLARE_PROPERTY(vs_leak_rate, double, "Physiological velocity-storage leak rate [1/s] (tau_vs = 20 s -> 0.05, default: 0.05).");
+    // --- 6. Subsystem Enable Switches (Zero Axis-Specific Booleans; All Subsystems ON in Full Model) ---
+    OpenSim_DECLARE_PROPERTY(enable_ccr, bool, "Master switch enabling Cervico-Collic Reflex (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_ccr_spinal, bool, "Switch enabling fiber/synergy Ia CCR reflex drive (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_ccr_task, bool, "Switch enabling covariant tensor CCR wrench feedback (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_vcr, bool, "Master switch enabling Brainstem Vestibulo-Collic Reflex (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_vcr_tonic, bool, "Switch enabling tonic graviceptive VCR tensor pathway (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_vcr_canal, bool, "Switch enabling semicircular canal VCR tensor pathway (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_vcr_phasic, bool, "Switch enabling phasic otolith VCR tensor pathway (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_task_controller, bool, "Master switch enabling Cortical SE(3) task controller (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_task_integral, bool, "Switch enabling Cortical SE(3) integral action (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_decoder, bool, "Switch enabling proprioceptive Jacobian state decoder (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_mahony, bool, "Switch enabling cerebellar SE2(3) Mahony observer (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_efference_cancellation, bool, "Switch enabling spindle & vestibular efference cancellation (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_fusimotor, bool, "Switch enabling two-stage dynamic/static fusimotor drive (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_reciprocal_inhibition, bool, "Switch enabling Sherrington reciprocal inhibition (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_antibuckling, bool, "Switch enabling chain nullspace curvature anti-buckling (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_lead_compensators, bool, "Switch enabling causal biproper 1st-order branch lead compensators (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_eye_afferents, bool, "Include extraocular muscles in controller state allocation (default: false)");
+    OpenSim_DECLARE_PROPERTY(enable_gto_reflex, bool, "Switch enabling Group Ib Golgi Tendon Organ reflex (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_renshaw, bool, "Switch enabling Lamina IX Renshaw recurrent inhibition (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_ligament_reflex, bool, "Switch enabling articular ligamento-muscular reflex (default: true)");
+    OpenSim_DECLARE_PROPERTY(enable_sensor_noise, bool, "Toggle Tier-1 physiological afferent noise (default: false)");
+    OpenSim_DECLARE_PROPERTY(enable_motor_noise, bool, "Toggle Tier-1 physiological motor noise (default: false)");
+    OpenSim_DECLARE_PROPERTY(noise_seed, int, "Deterministic PRNG seed for noise bank (default: 42)");
+    OpenSim_DECLARE_PROPERTY(noise_scale, double, "Global amplitude scale for physiological noise (default: 1.0)");
 
     HeadNeckNeuralController();
-    
-    OpenSim_DECLARE_OUTPUT(omega_recon_pitch, double, getReconstructedCanalAngularVelocityPitch, SimTK::Stage::Dynamics);
-    double getReconstructedCanalAngularVelocityPitch(const SimTK::State& state) const {
-        if (history.empty()) return 0.0;
-        auto iterator = std::lower_bound(
-            history.begin(), history.end(), state.getTime(),
-            [](const std::pair<double, HistoryRecord>& entry, double timestamp) { return entry.first < timestamp; });
-        if (iterator == history.end()) {
-            if (history.empty()) return 0.0;
-            --iterator;
-        }
-        if (!iterator->second.valid) return 0.0;
-        return iterator->second.reconstructed_canal_angular_velocity[2];
-    }
 
-    // Shared 3D Vestibular Angular Velocity Output [roll, yaw, pitch] (rad/s) for VOR FixationController
+    // --- Coordinate-Free 3D Geometric & Diagnostic Outputs (All Vec3s in Unified Spatial/Anatomical Basis [X, Y, Z]) ---
     OpenSim_DECLARE_OUTPUT(vestibular_omega, SimTK::Vec3, getVestibularAngularVelocity, SimTK::Stage::Velocity);
-    SimTK::Vec3 getVestibularAngularVelocity(const SimTK::State& state) const {
-        double angular_velocity_roll  = state_variable_luenberger_angular_velocity[0] ? state_variable_luenberger_angular_velocity[0]->getValue(state) : getStateVariableValue(state, "luen_omega_roll");
-        double angular_velocity_yaw   = state_variable_luenberger_angular_velocity[1] ? state_variable_luenberger_angular_velocity[1]->getValue(state) : getStateVariableValue(state, "luen_omega_yaw");
-        double angular_velocity_pitch = state_variable_luenberger_angular_velocity[2] ? state_variable_luenberger_angular_velocity[2]->getValue(state) : getStateVariableValue(state, "luen_omega_pitch");
-        return SimTK::Vec3(angular_velocity_roll, angular_velocity_yaw, angular_velocity_pitch);
-    }
+    OpenSim_DECLARE_OUTPUT(mahony_rotvec, SimTK::Vec3, getMahonyRotationVector, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(mahony_omega, SimTK::Vec3, getMahonyAngularVelocity, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(est_neck_rotvec, SimTK::Vec3, getEstimatedNeckRotationVector, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(est_neck_omega, SimTK::Vec3, getEstimatedNeckAngularVelocity, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(cuneate_rotvec, SimTK::Vec3, getCuneateRotationVector, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(cuneate_shift_vec, SimTK::Vec3, getCuneateShiftVector, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(obs_pos_vec, SimTK::Vec3, getObserverPositionVector, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(obs_vel_vec, SimTK::Vec3, getObserverVelocityVector, SimTK::Stage::Velocity);
 
-    // Decoded proprioceptive relative state OpenSim Outputs (accessible by reporters and python scripts)
-    OpenSim_DECLARE_OUTPUT(est_neck_pitch, double, getOutputNeckPitch, SimTK::Stage::Velocity);
-    double getOutputNeckPitch(const SimTK::State& state) const { return estimated_neck_relative_angle[0]; }
-
-    OpenSim_DECLARE_OUTPUT(est_neck_roll, double, getOutputNeckRoll, SimTK::Stage::Velocity);
-    double getOutputNeckRoll(const SimTK::State& state) const { return estimated_neck_relative_angle[1]; }
-
-    OpenSim_DECLARE_OUTPUT(est_neck_yaw, double, getOutputNeckYaw, SimTK::Stage::Velocity);
-    double getOutputNeckYaw(const SimTK::State& state) const { return estimated_neck_relative_angle[2]; }
-
-    OpenSim_DECLARE_OUTPUT(est_neck_pitch_speed, double, getOutputNeckPitchSpeed, SimTK::Stage::Velocity);
-    double getOutputNeckPitchSpeed(const SimTK::State& state) const { return estimated_neck_relative_speed[0]; }
-
-    OpenSim_DECLARE_OUTPUT(est_neck_roll_speed, double, getOutputNeckRollSpeed, SimTK::Stage::Velocity);
-    double getOutputNeckRollSpeed(const SimTK::State& state) const { return estimated_neck_relative_speed[1]; }
-
-    OpenSim_DECLARE_OUTPUT(est_neck_yaw_speed, double, getOutputNeckYawSpeed, SimTK::Stage::Velocity);
-    double getOutputNeckYawSpeed(const SimTK::State& state) const { return estimated_neck_relative_speed[2]; }
-
-    // Tendon-compliance-compensated Cuneate static secondary-spindle neck posture [pitch, roll, yaw] (rad)
-    OpenSim_DECLARE_OUTPUT(cuneate_neck_pitch, double, getCuneateNeckPitch, SimTK::Stage::Velocity);
-    double getCuneateNeckPitch(const SimTK::State& state) const {
-        return state_variable_cuneate_posture[0] ? state_variable_cuneate_posture[0]->getValue(state) : cuneate_posture_neck_angle[0];
-    }
-
-    OpenSim_DECLARE_OUTPUT(cuneate_neck_roll, double, getCuneateNeckRoll, SimTK::Stage::Velocity);
-    double getCuneateNeckRoll(const SimTK::State& state) const {
-        return state_variable_cuneate_posture[1] ? state_variable_cuneate_posture[1]->getValue(state) : cuneate_posture_neck_angle[1];
-    }
-
-    OpenSim_DECLARE_OUTPUT(cuneate_neck_yaw, double, getCuneateNeckYaw, SimTK::Stage::Velocity);
-    double getCuneateNeckYaw(const SimTK::State& state) const {
-        return state_variable_cuneate_posture[2] ? state_variable_cuneate_posture[2]->getValue(state) : cuneate_posture_neck_angle[2];
-    }
-
-    // Mahony Spatial Observer OpenSim Outputs (accessible by reporters and python scripts)
-    OpenSim_DECLARE_OUTPUT(mahony_pitch, double, getMahonyPitch, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(mahony_roll, double, getMahonyRoll, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(mahony_yaw, double, getMahonyYaw, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(mahony_pitch_speed, double, getMahonyPitchSpeed, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(mahony_roll_speed, double, getMahonyRollSpeed, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(mahony_yaw_speed, double, getMahonyYawSpeed, SimTK::Stage::Velocity);
-
-    double getMahonyPitch(const SimTK::State& state) const;
-    double getMahonyRoll(const SimTK::State& state) const;
-    double getMahonyYaw(const SimTK::State& state) const;
-    double getMahonyPitchSpeed(const SimTK::State& state) const;
-    double getMahonyRollSpeed(const SimTK::State& state) const;
-    double getMahonyYawSpeed(const SimTK::State& state) const;
-
-    // 6-DOF Cuneate head-on-trunk horizontal shift outputs (m) and SE2(3) translational observer outputs
-    OpenSim_DECLARE_OUTPUT(cuneate_ap_shift, double, getCuneateApShift, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(cuneate_lat_shift, double, getCuneateLatShift, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(obs_pos_x, double, getObserverPosX, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(obs_pos_z, double, getObserverPosZ, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(obs_vel_x, double, getObserverVelX, SimTK::Stage::Velocity);
-    OpenSim_DECLARE_OUTPUT(obs_vel_z, double, getObserverVelZ, SimTK::Stage::Velocity);
-
-    double getCuneateApShift(const SimTK::State& state) const {
-        const double x_filt = state_variable_cuneate_diff[0] ? state_variable_cuneate_diff[0]->getValue(state) : 0.0;
-        return (std::abs(x_filt) > 1e-12) ? x_filt : cuneate_posture_shift_m[0];
-    }
-    double getCuneateLatShift(const SimTK::State& state) const {
-        const double x_filt = state_variable_cuneate_diff[1] ? state_variable_cuneate_diff[1]->getValue(state) : 0.0;
-        return (std::abs(x_filt) > 1e-12) ? x_filt : cuneate_posture_shift_m[1];
-    }
-    double getObserverPosX(const SimTK::State& state) const {
-        if (!get_enable_mahony()) return 0.0;
-        return state_variable_observer_position[0] ? state_variable_observer_position[0]->getValue(state) : getStateVariableValue(state, "obs_px");
-    }
-    double getObserverPosZ(const SimTK::State& state) const {
-        if (!get_enable_mahony()) return 0.0;
-        return state_variable_observer_position[2] ? state_variable_observer_position[2]->getValue(state) : getStateVariableValue(state, "obs_pz");
-    }
-    double getObserverVelX(const SimTK::State& state) const {
-        if (!get_enable_mahony()) return 0.0;
-        return state_variable_observer_velocity[0] ? state_variable_observer_velocity[0]->getValue(state) : getStateVariableValue(state, "obs_vx");
-    }
-    double getObserverVelZ(const SimTK::State& state) const {
-        if (!get_enable_mahony()) return 0.0;
-        return state_variable_observer_velocity[2] ? state_variable_observer_velocity[2]->getValue(state) : getStateVariableValue(state, "obs_vz");
-    }
-
-    // Decoded proprioceptive relative state (passive observer / multisensory fusion)
-    const SimTK::Vec3& getEstimatedNeckRelativeAngle() const { return estimated_neck_relative_angle; }
-    const SimTK::Vec3& getEstimatedNeckRelativeSpeed() const { return estimated_neck_relative_speed; }
-    double getEstimatedNeckPitch() const { return estimated_neck_relative_angle[0]; }
-    double getEstimatedNeckRoll() const { return estimated_neck_relative_angle[1]; }
-    double getEstimatedNeckYaw() const { return estimated_neck_relative_angle[2]; }
-    double getEstimatedNeckPitchSpeed() const { return estimated_neck_relative_speed[0]; }
-    double getEstimatedNeckRollSpeed() const { return estimated_neck_relative_speed[1]; }
-    double getEstimatedNeckYawSpeed() const { return estimated_neck_relative_speed[2]; }
-
-    // Read-only block-level diagnostic probes (zero physics impact; used by functional unit tests)
     OpenSim_DECLARE_OUTPUT(dbg_vcr_torque, SimTK::Vec3, getDbgVcrTorque, SimTK::Stage::Dynamics);
     OpenSim_DECLARE_OUTPUT(dbg_vol_torque, SimTK::Vec3, getDbgVolTorque, SimTK::Stage::Dynamics);
     OpenSim_DECLARE_OUTPUT(dbg_ccr_torque, SimTK::Vec3, getDbgCcrTorque, SimTK::Stage::Dynamics);
@@ -339,9 +269,24 @@ public:
     OpenSim_DECLARE_OUTPUT(dbg_oto_irr_head, SimTK::Vec3, getDbgOtoIrrHead, SimTK::Stage::Dynamics);
     OpenSim_DECLARE_OUTPUT(dbg_phasic_oto_input, SimTK::Vec3, getDbgPhasicOtoInput, SimTK::Stage::Dynamics);
     OpenSim_DECLARE_OUTPUT(dbg_canal_irr_head, SimTK::Vec3, getDbgCanalIrrHead, SimTK::Stage::Dynamics);
-    OpenSim_DECLARE_OUTPUT(dbg_vol_diff_torque, SimTK::Vec3, getDbgVolDiffTorque, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_vol_shift_wrench, SimTK::Vec3, getDbgVolShiftWrench, SimTK::Stage::Dynamics);
     OpenSim_DECLARE_OUTPUT(dbg_w_oto_rw, double, getDbgWOtoRw, SimTK::Stage::Dynamics);
     OpenSim_DECLARE_OUTPUT(dbg_vol_gate, double, getDbgVolGate, SimTK::Stage::Dynamics);
+    OpenSim_DECLARE_OUTPUT(dbg_tensor_inertia_diag, SimTK::Vec3, getDbgInertiaDiag, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(dbg_tensor_kgrav_diag, SimTK::Vec3, getDbgKgravDiag, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(dbg_tensor_kdisc_diag, SimTK::Vec3, getDbgKdiscDiag, SimTK::Stage::Velocity);
+    OpenSim_DECLARE_OUTPUT(dbg_tensor_gmusc_diag, SimTK::Vec3, getDbgGmuscDiag, SimTK::Stage::Velocity);
+
+    SimTK::Vec3 getVestibularAngularVelocity(const SimTK::State& state) const;
+    SimTK::Vec3 getMahonyRotationVector(const SimTK::State& state) const;
+    SimTK::Vec3 getMahonyAngularVelocity(const SimTK::State& state) const;
+    SimTK::Vec3 getEstimatedNeckRotationVector(const SimTK::State&) const { return estimated_neck_rotvec; }
+    SimTK::Vec3 getEstimatedNeckAngularVelocity(const SimTK::State&) const { return estimated_neck_omega; }
+    SimTK::Vec3 getCuneateRotationVector(const SimTK::State& state) const;
+    SimTK::Vec3 getCuneateShiftVector(const SimTK::State& state) const;
+    SimTK::Vec3 getObserverPositionVector(const SimTK::State& state) const;
+    SimTK::Vec3 getObserverVelocityVector(const SimTK::State& state) const;
+
     SimTK::Vec3 getDbgVcrTorque(const SimTK::State&) const { return dbg_last_vcr_torque; }
     SimTK::Vec3 getDbgVolTorque(const SimTK::State&) const { return dbg_last_vol_torque; }
     SimTK::Vec3 getDbgCcrTorque(const SimTK::State&) const { return dbg_last_ccr_torque; }
@@ -351,13 +296,17 @@ public:
     SimTK::Vec3 getDbgOtoIrrHead(const SimTK::State&) const { return dbg_last_oto_irr_head; }
     SimTK::Vec3 getDbgPhasicOtoInput(const SimTK::State&) const { return dbg_last_phasic_oto_input; }
     SimTK::Vec3 getDbgCanalIrrHead(const SimTK::State&) const { return dbg_last_canal_irr_head; }
-    SimTK::Vec3 getDbgVolDiffTorque(const SimTK::State&) const { return dbg_last_vol_diff_torque; }
+    SimTK::Vec3 getDbgVolShiftWrench(const SimTK::State&) const { return dbg_last_vol_shift_wrench; }
     double getDbgWOtoRw(const SimTK::State&) const { return dbg_last_w_oto_rw; }
     double getDbgVolGate(const SimTK::State&) const { return dbg_last_vol_gate; }
+    SimTK::Vec3 getDbgInertiaDiag(const SimTK::State&) const { return SimTK::Vec3(tensor_I3(0,0), tensor_I3(1,1), tensor_I3(2,2)); }
+    SimTK::Vec3 getDbgKgravDiag(const SimTK::State&) const { return SimTK::Vec3(tensor_Kg3(0,0), tensor_Kg3(1,1), tensor_Kg3(2,2)); }
+    SimTK::Vec3 getDbgKdiscDiag(const SimTK::State&) const { return SimTK::Vec3(tensor_Kdisc3(0,0), tensor_Kdisc3(1,1), tensor_Kdisc3(2,2)); }
+    SimTK::Vec3 getDbgGmuscDiag(const SimTK::State&) const { return SimTK::Vec3(tensor_Gmu3(0,0), tensor_Gmu3(1,1), tensor_Gmu3(2,2)); }
 
     void computeControls(const SimTK::State& state, SimTK::Vector& controls) const override;
     void computeStateVariableDerivatives(const SimTK::State& state) const override;
-    
+
 protected:
     void extendAddToSystem(SimTK::MultibodySystem& system) const override;
     void extendConnectToModel(Model& model) override;
@@ -376,177 +325,204 @@ private:
 
     struct HistoryRecord {
         bool valid = false;
-        SimTK::Vec3 estimated_head_orientation{0.0};               // Branch 3B (13.0ms -> Sub 4 Cortex): (roll, yaw, pitch) proper lead compensated
-        SimTK::Vec3 estimated_head_orientation_4a{0.0};            // Branch 3A (1.5ms -> Sub 2B): (roll, yaw, pitch) proper lead compensated
-        SimTK::Vec3 reconstructed_canal_angular_velocity{0.0};     // Branch 2A (2.0ms -> Sub 2B): irregular canal velocity proper lead compensated
-        SimTK::Vec3 luenberger_angular_velocity{0.0};              // Branch 2B (3.0ms -> Sub 3): regular canal Luenberger velocity proper lead compensated
-        SimTK::Vec3 luenberger_angular_acceleration{0.0};          // Branch 2B (3.0ms -> Sub 3): regular canal Luenberger acceleration proper lead compensated
-        SimTK::Vec3 reconstructed_otolith_specific_force{0.0};     // Branch 2A (2.0ms -> Sub 2B): irregular otolith GIF proper lead compensated
-        SimTK::Vec3 luenberger_otolith_specific_force{0.0};        // Branch 2B (3.0ms -> Sub 3): regular otolith Luenberger GIF proper lead compensated
-        SimTK::Mat33 rotation_world_to_head{1.0};                  // True skull rotation from world to head at record timestamp
-        SimTK::Mat33 estimated_rotation_head_to_world{1.0};        // Branch 2B/3A: Observer estimated rotation R_hat_H^W
-        SimTK::Vec3 trunk_orientation{0.0};                        // Branch 1A->3 (3.0ms -> Sub 3): (roll, yaw, pitch) trunk orientation proper lead compensated
-        SimTK::Vec3 trunk_angular_velocity{0.0};                   // Branch 1A->3 (3.0ms -> Sub 3): (roll, yaw, pitch) trunk angular velocity
-        SimTK::Vec3 head_linear_velocity{0.0};                     // Linear velocity of the head in ground frame
-        SimTK::Vector raw_spindle_ia_rate;                         // Raw Mileusnic (2006) spindle Ia firing rate (above baseline) before 1.0 ms peripheral axon delay
-        SimTK::Vector raw_spindle_ii_rate;                         // Raw Mileusnic (2006) spindle II firing rate (above baseline) before 2.5 ms peripheral axon delay
-        SimTK::Vector primary_afferent_firing_rate;                // Branch 1A->1B (1.0 ms Ia axon -> C1-C8 Sub 1B): Size N delayed spindle Ia rate (uncompensated; Mileusnic intrinsic lead-lag)
-        SimTK::Vec3 estimated_neck_relative_angle{0.0};            // Branch 1A->3 (3.0ms -> Sub 3): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 estimated_neck_relative_speed{0.0};            // Branch 1A->3 (3.0ms -> Sub 3): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 raw_neck_relative_angle{0.0};                  // Clean Luenberger-filtered neck relative angle (pitch, roll, yaw) before Branch 1A->3 compensator
-        SimTK::Vec3 raw_neck_relative_speed{0.0};                  // Clean Luenberger-filtered neck relative speed (pitch, roll, yaw) before Branch 1A->3 compensator
-        SimTK::Vec3 raw_neck_relative_accel{0.0};                  // Clean Luenberger-filtered neck relative accel (pitch, roll, yaw) before Branch 1A->3 compensator
-        SimTK::Vec<6> raw_neck_6dof_angle{0.0};                    // Clean Luenberger-filtered 6-DOF neck angles [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
-        SimTK::Vec<6> raw_neck_6dof_speed{0.0};                    // Clean Luenberger-filtered 6-DOF neck speeds [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
-        SimTK::Vec<6> raw_neck_6dof_accel{0.0};                    // Clean Luenberger-filtered 6-DOF neck accels [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
-        SimTK::Vec3 mahony_estimated_angular_velocity{0.0};        // Branch 3B (13.0ms -> Sub 4 Cortex): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 estimated_linear_velocity{0.0};                // Branch 3B (13.0ms -> Sub 4 Cortex): SE2(3) observer linear velocity [x, y, z]
-        SimTK::Vec3 estimated_linear_position{0.0};                // Branch 3B (13.0ms -> Sub 4 Cortex): SE2(3) observer egocentric position [x, y, z]
-        SimTK::Vec2 cuneate_diff_angle_1a3{0.0};                   // Branch 1A->3 (3.0ms -> Sub 3): Size 2 [pitch1-pitch2, roll1-roll2] Cuneate diff angle
-        SimTK::Vec2 cuneate_diff_speed_1a3{0.0};                   // Branch 1A->3 (3.0ms -> Sub 3): Size 2 [dpitch, droll] Cuneate diff speed
-        SimTK::Vec2 cuneate_diff_angle_3b{0.0};                    // Branch 3B (13.0ms -> Sub 4 Cortex): Size 2 [pitch1-pitch2, roll1-roll2] Cuneate diff angle
-        SimTK::Vec2 cuneate_diff_speed_3b{0.0};                    // Branch 3B (13.0ms -> Sub 4 Cortex): Size 2 [dpitch, droll] Cuneate diff speed
-        SimTK::Vec3 cortical_voluntary_torque{0.0};                // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec2 cortical_voluntary_diff_torque{0.0};           // Branch 4C (14.5ms -> Sub 5): Size 2 [AP pitch1-pitch2, Lat roll1-roll2] shift torque
-        SimTK::Vec3 trajectory_position_1a{0.0};                   // Branch 4A (9.0ms -> Sub 3C Tonic): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 trajectory_velocity_1b{0.0};                   // Branch 4B (10.0ms -> Sub 3C Canal): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 trajectory_acceleration_1b{0.0};               // Branch 4B (10.0ms -> Sub 3C Phasic): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec2 trajectory_diff_acc_1b{0.0};                   // Branch 4B (10.0ms -> Sub 3C Phasic): Size 2 [AP, Lat] planned shift accel (rad/s^2)
-        SimTK::Vec3 eff_tonic_tilt_3a{0.0};                        // Branch 3A (1.5ms -> Sub 2B Tonic): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 eff_canal_vel_3a{0.0};                         // Branch 3A (1.5ms -> Sub 2B Canal): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 eff_phasic_grav_acc_3a{0.0};                   // Branch 3A (1.5ms -> Sub 2B Phasic): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 trajectory_position{0.0};                      // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec3 trajectory_velocity{0.0};                      // Branch 4C (14.5ms -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vec2 trajectory_diff_position{0.0};                 // Branch 4C (14.5ms -> Sub 5): Size 2 [AP, Lat] planned diff angle (rad)
-        SimTK::Vec2 trajectory_diff_velocity{0.0};                 // Branch 4C (14.5ms -> Sub 5): Size 2 [AP, Lat] planned diff speed (rad/s)
-        SimTK::Vec3 brainstem_vcr_torque{0.0};                     // Path 5 (2.5ms MVST -> Sub 5): Size 3 (pitch, roll, yaw) proper lead compensated
-        SimTK::Vector spinal_ccr_drive;                            // Path 6 (2.5ms C1-C8 compute -> Sub 5): Size N uncompensated CCR excitation
-        SimTK::Vector spinal_motor_excitations;                    // Branch 5A (2.5ms axonal -> 72 Muscles): Size N post-pool-sum alpha excitations proper lead compensated
-        SimTK::Vector spinal_alpha_excitations;                    // Branch 7A (2.5ms A-alpha -> 72 Muscles): Size N Active-Set QP descending alpha excitations
-        SimTK::Vector spinal_gamma_dyn_commands;                   // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N Stage 1B dynamic fusimotor commands proper lead compensated
-        SimTK::Vector spinal_gamma_stat_commands;                  // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N Stage 1A static fusimotor commands proper lead compensated
-        SimTK::Vector expected_normalized_fiber_lengths;           // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N expected L_hat(t) proper lead compensated
-        SimTK::Vector expected_normalized_fiber_velocities;        // Branch 5B/7B (2.5ms A-gamma -> Sub 1A/3 Spindles): Size N expected dL_hat/dt(t) proper lead compensated
-        SimTK::Vector raw_gto_ib_rate;                             // Raw Lin02 GTO Ib firing rate (imp/s) before 1.2 ms axon + 1.3 ms interneuron delay
-        SimTK::Vector planned_voluntary_alpha;                     // Descending planned voluntary alpha excitation u_plan_alpha(t)
-        SimTK::Vec4 raw_lig_pac{0.0};                              // Summed articular Type II Pacinian rate across roles 0..3 before 3.0 ms axon delay
-        SimTK::Vec4 raw_lig_golgi{0.0};                            // Summed articular Type III Golgi-like rate across roles 0..3 before 3.0 ms axon delay
-        double voluntary_activity_gate = 0.0;                      // Smooth [0, 1] voluntary motion gate
+        SimTK::Vec3 est_head_rotvec_4b{0.0};                  // Branch 3->4 (13.0 ms): lead-compensated Mahony log(R_A^W)
+        SimTK::Vec3 est_head_rotvec_4a{0.0};                  // Branch 3->2B (1.5 ms): lead-compensated Mahony log(R_A^W)
+        SimTK::Vec3 canal_irr_omega_2a{0.0};                  // Branch 2A (2.0 ms): irregular canal omega in frame A
+        SimTK::Vec3 canal_luen_omega_2b{0.0};                 // Branch 2B (3.0 ms): regular canal Luenberger omega in skull H
+        SimTK::Vec3 oto_irr_force_2a{0.0};                    // Branch 2A (2.0 ms): irregular otolith specific force in skull H
+        SimTK::Vec3 oto_luen_force_2b{0.0};                   // Branch 2B (3.0 ms): regular Luenberger specific force in skull H
+        SimTK::Mat33 estimated_rotation_head_to_world{1.0};   // Observer R_hat_H^W
+        SimTK::Mat33 trunk_rotation_world{1.0};               // Trunk R_T^W
+        SimTK::Vec3 trunk_omega_world{0.0};                   // Trunk spatial angular velocity
+        SimTK::Vec3 head_linear_velocity{0.0};                // Skull spatial linear velocity in ground
+        SimTK::Vec3 est_neck_rotvec_1a3{0.0};                 // Branch 1A->3 (3.0 ms): decoded neck rotation vector J_omega * q_hat
+        SimTK::Vec3 est_neck_omega_1a3{0.0};                  // Branch 1A->3 (3.0 ms): decoded neck angular velocity
+        SimTK::Vec3 mahony_omega_4b{0.0};                     // Branch 3->4 (13.0 ms): fused angular velocity in frame A
+        SimTK::Vec3 est_lin_vel{0.0};                         // SE2(3) linear velocity in ground
+        SimTK::Vec3 est_lin_pos{0.0};                         // SE2(3) linear position in ground
+        SimTK::Vec3 cuneate_shift_3b{0.0};                    // Branch 3->4 (13.0 ms): decoded horizontal station shift [m]
+        SimTK::Vec3 cuneate_shift_vel_3b{0.0};                // Branch 3->4 (13.0 ms): decoded horizontal station shift speed [m/s]
+        SimTK::Vec3 cortical_vol_torque{0.0};                 // Branch 1C (14.5 ms): cortical 3D wrench in frame A
+        std::vector<double> cortical_vol_null_wrench;         // Branch 1C (14.5 ms): d-DOF nullspace translation wrench
+        SimTK::Vec3 traj_rot_1a{0.0};                         // Branch 1A (9.0 ms): planned rotation vector in so(3)
+        SimTK::Vec3 traj_vel_1b{0.0};                         // Branch 1B (10.0 ms): planned angular velocity in so(3)
+        SimTK::Vec3 traj_acc_1b{0.0};                         // Branch 1B (10.0 ms): planned angular acceleration in so(3)
+        SimTK::Vec3 traj_trans_acc_1b{0.0};                   // Branch 1B (10.0 ms): planned station linear accel [m/s^2]
+        SimTK::Vec3 eff_tonic_tilt_3a{0.0};                   // Branch 3->2B (1.5 ms): cerebellar tonic tilt efference in so(3)
+        SimTK::Vec3 eff_canal_vel_3a{0.0};                    // Branch 3->2B (1.5 ms): cerebellar canal vel efference in so(3)
+        SimTK::Vec3 eff_phasic_eta_3a{0.0};                   // Branch 3->2B (1.5 ms): cerebellar phasic specific-force efference in H
+        SimTK::Vec3 traj_rot_1c{0.0};                         // Branch 1C (14.5 ms): planned rotation vector at spinal cord
+        SimTK::Vec3 traj_vel_1c{0.0};                         // Branch 1C (14.5 ms): planned angular velocity at spinal cord
+        std::vector<double> traj_q_null_1c;                   // Branch 1C (14.5 ms): planned d-DOF nullspace S-bend q_null*
+        std::vector<double> traj_qd_null_1c;                  // Branch 1C (14.5 ms): planned d-DOF nullspace S-bend qd_null*
+        SimTK::Vec3 brainstem_vcr_torque{0.0};                // Path 5 (2.5 ms MVST): brainstem 3D VCR wrench in frame A
+        std::vector<double> raw_spindle_ia_rate;
+        std::vector<double> raw_spindle_ii_rate;
+        std::vector<double> spinal_ccr_drive;
+        std::vector<double> spinal_motor_excitations;
+        std::vector<double> spinal_alpha_excitations;
+        std::vector<double> spinal_gamma_dyn_commands;
+        std::vector<double> spinal_gamma_stat_commands;
+        std::vector<double> expected_normalized_fiber_lengths;
+        std::vector<double> expected_normalized_fiber_velocities;
+        std::vector<double> raw_gto_ib_rate;
+        std::vector<double> planned_voluntary_alpha;
+        SimTK::Vec4 raw_lig_pac{0.0};
+        SimTK::Vec4 raw_lig_golgi{0.0};
+        double voluntary_activity_gate = 0.0;
     };
-    
+
     struct DelayedData {
         HistoryRecord record;
-        SimTK::Vec3 linear_acceleration{0.0};                      // Extracted linear acceleration
-        SimTK::Vec3 reconstructed_angular_acceleration{0.0};       // Extracted angular acceleration
+        SimTK::Vec3 linear_acceleration{0.0};
     };
-    
+
     mutable std::deque<std::pair<double, HistoryRecord>> history;
-    
-    DelayedData getDelayedData(double current_time, double delay_duration, bool interpolate_spindle_afferents = false) const;
-    
-    mutable SimTK::Matrix moment_arm_jacobian_3dof;                // 3 x N (pitch, roll, yaw)
-    mutable SimTK::Matrix moment_arm_jacobian_6dof;                // 6 x N (pitch1, pitch2, roll1, roll2, yaw1, yaw2)
-    mutable SimTK::Matrix jacobian_6dof_q0;                        // 6 x N baseline moment arms at q0
-    mutable SimTK::Matrix jacobian_6dof_d1[6];                     // 6 x N 1st-order Taylor slopes dJ/dq_d
-    mutable SimTK::Matrix jacobian_6dof_d2[6];                     // 6 x N 2nd-order Taylor curvatures d2J/dq_d^2
-    mutable SimTK::Matrix exact_jacobian_6dof;                     // 6 x N exact OpenSim moment arms cached at large angles (> 8 deg)
-    mutable double last_exact_jacobian_time = -1.0;                // Timestamp of last exact_jacobian_6dof refresh
-    mutable double last_exact_q_6dof[6] = {0.0};                   // 6-DOF coordinates at last exact_jacobian_6dof refresh
-    mutable double q0_6dof[6] = {0.0};                             // Baseline 6-DOF coordinates [pitch1, pitch2, roll1, roll2, yaw1, yaw2]
-    mutable double J_c1_pos[2][2] = {{-0.00506, -0.08327}, {0.00570, 0.07605}};  // 2x2 positional Jacobian of C1/C0 (skull origin) [AP(p1,p2); Lat(r1,r2)] in m/rad
-    mutable double J_com_pos[2][2] = {{-0.06806, -0.14632}, {0.06870, 0.13905}}; // 2x2 positional Jacobian of skull COM [AP(p1,p2); Lat(r1,r2)] in m/rad
-    mutable SimTK::Matrix proprioceptive_decoder_matrix;           // 3 x N summed reconstruction matrix: (pitch1+pitch2, roll1+roll2, yaw1+yaw2)
-    mutable SimTK::Matrix proprioceptive_decoder_matrix_6dof;      // 6 x N full 6-DOF reconstruction matrix: -(J6 * J6^T)^{-1} * J6
-    mutable SimTK::Vec3 estimated_neck_relative_angle;             // Decoded relative neck angle [pitch, roll, yaw] (rad)
-    mutable SimTK::Vec3 estimated_neck_relative_speed;             // Decoded relative neck speed [pitch, roll, yaw] (rad/s)
-    mutable SimTK::Vec3 cuneate_posture_neck_angle{0.0};           // Tendon-compensated static secondary-spindle neck posture [pitch, roll, yaw] (rad)
-    mutable SimTK::Vec2 cuneate_posture_shift_m{0.0};              // Tendon-compensated 6-DOF Cuneate station shift [AP x, Lat z] (m)
-    mutable SimTK::Vec<6> estimated_neck_6dof_angle{0.0};          // Decoded individual 6-DOF neck angles [pitch1, pitch2, roll1, roll2, yaw1, yaw2] (rad)
-    mutable SimTK::Vec<6> estimated_neck_6dof_speed{0.0};          // Decoded individual 6-DOF neck speeds [pitch1, pitch2, roll1, roll2, yaw1, yaw2] (rad/s)
-    mutable SimTK::Vec3 mahony_estimated_angle;                    // Mahony estimated head attitude [pitch, roll, yaw] (rad)
-    mutable SimTK::Vec3 mahony_estimated_angular_velocity;         // Mahony estimated angular velocity [pitch, roll, yaw] (rad/s)
-    
-    void updateDecoderMatrix() const;
-    void decodeProprioceptive6DofState(
-        const std::vector<double>& fiber_length_changes,
-        const std::vector<double>& fiber_velocities,
-        const std::vector<double>* fiber_accelerations,
-        SimTK::Vec<6>* out_accel_6dof,
-        SimTK::Vec3* out_accel_3dof) const;
-    
-    mutable SimTK::Vector last_desired_torque;                     // Store commanded torque for Efference Copy
-    
+    mutable std::vector<HistoryRecord> history_pool;
+    DelayedData getDelayedData(double current_time, double delay_duration, bool interpolate_vectors = false, bool need_lin_acc = false) const;
+    bool sampleDelayedVector(
+        double current_time,
+        double delay_duration,
+        const std::vector<double> HistoryRecord::* field,
+        double* out_buf,
+        int expected_size) const;
+
+    // --- Intrinsic Discovered Neck Manifold (d generalized coordinates, M active muscles) & Physical (0,2) Tensors ---
+    mutable int num_neck_dofs = 0;
+    mutable std::vector<const Coordinate*> neck_coords;
+    mutable std::vector<double> neck_q0;
+    mutable std::vector<double> neck_qmin;
+    mutable std::vector<double> neck_qmax;
+    mutable std::vector<double> neck_dipole_sign;             // +1 upper cervical, -1 lower cervical (purely from joint station height)
+
+    mutable SimTK::Matrix J_omega_d;                          // 3 x d angular Jacobian mapping qdot -> omega_neck in frame A
+    mutable SimTK::Matrix J_omega_pinv;                       // d x 3 kinematic right pseudoinverse J_w^T * (J_w * J_w^T)^-1
+    mutable SimTK::Matrix J_c1_d;                             // 3 x d linear Jacobian of skull origin relative to trunk
+    mutable SimTK::Matrix J_com_d;                            // 3 x d linear Jacobian of skull COM relative to trunk
+    mutable SimTK::Matrix P_comp_d;                           // d x 3 compliant-equilibrium chain distribution (J_w * P_comp = I_3)
+    mutable SimTK::Matrix Pi_null_d;                          // d x d compliant nullspace projector I_d - P_comp * J_w
+    mutable SimTK::Matrix Pi_null_wrench_d;                   // d x d zero-net-attitude wrench projector I_d - J_w^T * J_w_pinv^T
+
+    mutable SimTK::Matrix M_neck_d;                           // d x d constrained Riemannian mass-inertia tensor
+    mutable SimTK::Matrix Kg_neck_d;                          // d x d gravitational destabilizing Hessian -nabla^2 V_g
+    mutable SimTK::Matrix Kdisc_neck_d;                       // d x d passive osteoligamentous stiffness tensor
+    mutable SimTK::Matrix Ddisc_neck_d;                       // d x d passive osteoligamentous damping tensor
+    mutable SimTK::Matrix Gmu_neck_d;                         // d x d muscle structural capacity tensor J_l * F_max * J_l^T
+
+    mutable SimTK::Mat33 tensor_I3{1.0};                      // 3 x 3 kinetic metric I_3 on so(3)*
+    mutable SimTK::Mat33 tensor_Kg3{0.0};                     // 3 x 3 PSD gravitational Hessian K_g,3 on so(3)*
+    mutable SimTK::Mat33 tensor_Kdisc3{1.0};                  // 3 x 3 osteoligamentous stiffness K_disc,3 on so(3)*
+    mutable SimTK::Mat33 tensor_Gmu3{1.0};                    // 3 x 3 muscle capacity tensor G_mu,3 on so(3)*
+    mutable SimTK::Mat33 tensor_Omega_sq{1.0};                // 3 x 3 intrinsic squared natural frequency I_3^-1 * K_disc,3
+
+    mutable SimTK::Matrix moment_arm_q0;                      // d x M baseline muscle moment arms
+    mutable std::vector<SimTK::Matrix> moment_arm_d1;         // d elements of (d x M) 1st-order Taylor slopes
+    mutable std::vector<SimTK::Matrix> moment_arm_d2;         // d elements of (d x M) 2nd-order Taylor curvatures
+    mutable std::vector<double> flat_ma_q0;                   // Contiguous M*d baseline moment arms [m*d + r]
+    mutable std::vector<double> flat_ma_d1;                   // Contiguous M*d*d Taylor 1st-order slopes [(m*d + r)*d + k]
+    mutable std::vector<double> flat_ma_d2;                   // Contiguous M*d*d Taylor 2nd-order curvatures [(m*d + r)*d + k]
+    mutable std::vector<double> flat_J_curr;                  // Contiguous M*d evaluated moment arms [m*d + r]
+    mutable SimTK::Matrix scratch_J_curr;                     // Preallocated d x M matrix for periodic SVD/decoder refresh
+    mutable std::vector<double> scratch_A_qp;                 // Preallocated M*d capacity-weighted moment arms for QP
+    mutable SimTK::Vector scratch_m_ctrl;                     // Preallocated muscle control vector for addInControls
+    mutable SimTK::Matrix exact_moment_arm_cache;             // d x M exact OpenSim moment arms cached at large angles
+    mutable double last_exact_jacobian_time = -1.0;
+    mutable std::vector<double> last_exact_q;
+
+    mutable SimTK::Matrix proprioceptive_decoder_d;           // d x M kinematic pseudoinverse -(J_l * J_l^T)^-1 * J_l
+    mutable SimTK::Matrix synergy_proj_V;                     // M x r orthonormal Tucker/SVD fiber synergy basis (P_syn = V * V^T)
+    mutable std::vector<double> ccr_hemispheric_weights;      // M GL(d)-invariant agonist/antagonist ray capacity weights
+
+    mutable SimTK::Vector estimated_neck_q;                   // Decoded d-DOF neck displacement q - q0
+    mutable SimTK::Vector estimated_neck_qd;                  // Decoded d-DOF neck speed qdot
+    mutable SimTK::Vector cuneate_neck_q;                     // Tendon-compensated static II d-DOF neck posture
+    mutable SimTK::Vec3 estimated_neck_rotvec{0.0};           // J_omega_d * estimated_neck_q in so(3)
+    mutable SimTK::Vec3 estimated_neck_omega{0.0};            // J_omega_d * estimated_neck_qd in so(3)
+    mutable SimTK::Vec3 cuneate_posture_rotvec{0.0};          // J_omega_d * cuneate_neck_q in so(3)
+    mutable SimTK::Vec3 cuneate_posture_shift_m{0.0};         // J_sta * cuneate_neck_q in R^3 [m]
+    mutable SimTK::Vec3 mahony_omega_cached{0.0};             // Cached fused angular velocity in frame A
+
+    mutable const Body* cached_skull = nullptr;
+    mutable const Body* cached_trunk = nullptr;
+    mutable SimTK::Rotation baseline_R_head_to_world;
+    mutable SimTK::Rotation baseline_R_trunk_to_world;
+    mutable SimTK::Rotation baseline_R_head_to_trunk;         // Constant anatomical resting offset R_H0^T
+
+    void updateDecoderAndSynergies(const SimTK::Matrix& J_curr) const;
+    void evaluateMomentArmMatrix(const SimTK::State& state, double& out_w_exact) const;
+    void solveNullspaceShiftIK(
+        double w_trans,
+        double shift_gate,
+        double station_blend,
+        const SimTK::Vec3& xi_ref,
+        const SimTK::Vec3& omega_ref,
+        const SimTK::Vec3& alpha_ref,
+        const SimTK::Vec3& p_ref_m,
+        const SimTK::Vec3& v_ref_m,
+        const SimTK::Vec3& a_ref_m,
+        std::vector<double>& out_q_null,
+        std::vector<double>& out_qd_null,
+        std::vector<double>& out_qdd_null,
+        double& out_gamma_ik) const;
+
+    // --- Muscle, Spindle, GTO, Renshaw, Ligament & State Caches ---
     mutable std::vector<int> active_muscle_indices;
     mutable std::vector<std::string> muscle_names;
-    mutable std::vector<std::string> cervico_collic_state_names;
-    mutable std::vector<std::string> cervico_collic_vel_state_names;
-    mutable std::vector<std::string> spindle_length_change_state_names;
-    mutable std::vector<std::string> spindle_velocity_state_names;
-    mutable std::vector<std::string> spindle_dynamic_fusimotor_state_names;
-    mutable std::vector<std::string> spindle_static_fusimotor_state_names;
     mutable std::vector<const StateVariable*> state_variable_cervico_collic;
     mutable std::vector<const StateVariable*> state_variable_cervico_collic_vel;
     mutable std::vector<const StateVariable*> state_variable_spindle_length_change;
     mutable std::vector<const StateVariable*> state_variable_spindle_velocity;
     mutable std::vector<const StateVariable*> state_variable_spindle_dynamic_fusimotor;
     mutable std::vector<const StateVariable*> state_variable_spindle_static_fusimotor;
+
     mutable const StateVariable* state_variable_semicircular_canal[6][2][2] = {{{nullptr}}};
-    mutable const StateVariable* state_variable_trajectory_position[3] = {nullptr};
-    mutable const StateVariable* state_variable_trajectory_velocity[3] = {nullptr};
-    mutable const StateVariable* state_variable_trajectory_acceleration[3] = {nullptr};
-    mutable const StateVariable* state_variable_traj_diff_pos[2] = {nullptr};
-    mutable const StateVariable* state_variable_traj_diff_vel[2] = {nullptr};
-    mutable const StateVariable* state_variable_traj_diff_acc[2] = {nullptr};
-    mutable const StateVariable* state_variable_error_integral[3] = {nullptr};
-    mutable const StateVariable* state_variable_shift_error_integral[2] = {nullptr};
-    mutable const StateVariable* state_variable_voluntary_filter_stage1[3] = {nullptr};
-    mutable const StateVariable* state_variable_voluntary_filter_stage2[3] = {nullptr};
-    mutable const StateVariable* state_variable_vol_diff_filter_stage1[2] = {nullptr};
-    mutable const StateVariable* state_variable_vol_diff_filter_stage2[2] = {nullptr};
-    mutable const StateVariable* state_variable_luenberger_angular_velocity[3] = {nullptr};
-    mutable const StateVariable* state_variable_velocity_storage[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_rot[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_vel[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_acc[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_pos[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_tvel[3] = {nullptr};
+    mutable const StateVariable* state_variable_traj_tacc[3] = {nullptr};
+    mutable const StateVariable* state_variable_rot_err_int[3] = {nullptr};
+    mutable const StateVariable* state_variable_shift_err_int[3] = {nullptr};
+    mutable const StateVariable* state_variable_vol_filt_pos[3] = {nullptr};
+    mutable const StateVariable* state_variable_vol_filt_vel[3] = {nullptr};
+    mutable const StateVariable* state_variable_vol_shift_filt_pos[3] = {nullptr};
+    mutable const StateVariable* state_variable_vol_shift_filt_vel[3] = {nullptr};
+
+    mutable const StateVariable* state_variable_luen_omega[3] = {nullptr};
+    mutable const StateVariable* state_variable_vs_omega[3] = {nullptr};
     mutable const StateVariable* state_variable_highg_acc_env = nullptr;
-    mutable const StateVariable* state_variable_oto_reweight[2] = {nullptr, nullptr};
-    mutable const StateVariable* state_variable_buckle_lpf_pos[3] = {nullptr, nullptr, nullptr};
-    mutable const StateVariable* state_variable_buckle_lpf_vel[3] = {nullptr, nullptr, nullptr};
-    mutable const StateVariable* state_variable_cuneate_posture[3] = {nullptr};
-    mutable const StateVariable* state_variable_cuneate_diff[2] = {nullptr};
-    mutable const StateVariable* state_variable_obs_wash_lpf[2] = {nullptr};
-    mutable const StateVariable* state_variable_obs_vel_wash_lpf[2] = {nullptr};
+    mutable const StateVariable* state_variable_oto_reweight_env = nullptr;
+    mutable const StateVariable* state_variable_cuneate_rot[3] = {nullptr};
+    mutable const StateVariable* state_variable_cuneate_shift[3] = {nullptr};
+    mutable const StateVariable* state_variable_obs_pos_wash[3] = {nullptr};
+    mutable const StateVariable* state_variable_obs_vel_wash[3] = {nullptr};
+
     mutable const StateVariable* state_variable_regular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_regular_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_irregular_otolith_adapt[3] = {nullptr};
     mutable const StateVariable* state_variable_irregular_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_otolith[3] = {nullptr};
     mutable const StateVariable* state_variable_luenberger_otolith_adapt[3] = {nullptr};
+
     mutable const StateVariable* state_variable_observer_quaternion[4] = {nullptr};
     mutable const StateVariable* state_variable_observer_velocity[3] = {nullptr};
     mutable const StateVariable* state_variable_observer_position[3] = {nullptr};
-    mutable const StateVariable* state_variable_tonic_otolith[3] = {nullptr};
-    mutable const StateVariable* state_variable_tonic_otolith_vel[3] = {nullptr};
-    mutable const StateVariable* state_variable_tonic_integral[3] = {nullptr};
-    mutable const StateVariable* state_variable_semicircular_canal_reflex[3] = {nullptr};
-    mutable const StateVariable* state_variable_semicircular_canal_reflex_vel[3] = {nullptr};
-    mutable const StateVariable* state_variable_phasic_otolith[3] = {nullptr};
-    mutable const StateVariable* state_variable_phasic_otolith_vel[3] = {nullptr};
-    mutable const StateVariable* state_variable_phasic_otolith_stage2[3] = {nullptr};
-    mutable const StateVariable* state_variable_cb_canal_roll_dev = nullptr;
-    mutable const Coordinate* cached_coordinate_pitch1 = nullptr;
-    mutable const Coordinate* cached_coordinate_pitch2 = nullptr;
-    mutable const Coordinate* cached_coordinate_roll1 = nullptr;
-    mutable const Coordinate* cached_coordinate_roll2 = nullptr;
-    mutable const Coordinate* cached_coordinate_yaw1 = nullptr;
-    mutable const Coordinate* cached_coordinate_yaw2 = nullptr;
-    mutable const Coordinate* cached_coordinate_ground_pitch = nullptr;
-    mutable const Coordinate* cached_coordinate_ground_roll = nullptr;
-    mutable const Coordinate* cached_coordinate_ground_yaw = nullptr;
-    mutable const Coordinate* cached_coordinate_spine_tx = nullptr;
-    mutable const Coordinate* cached_coordinate_spine_tz = nullptr;
-    mutable const Body* cached_skull = nullptr;
+
+    mutable const StateVariable* state_variable_tonic_state[3] = {nullptr};
+    mutable const StateVariable* state_variable_tonic_vel[3] = {nullptr};
+    mutable const StateVariable* state_variable_tonic_int[3] = {nullptr};
+    mutable const StateVariable* state_variable_canal_state[3] = {nullptr};
+    mutable const StateVariable* state_variable_canal_vel[3] = {nullptr};
+    mutable const StateVariable* state_variable_phasic_state[3] = {nullptr};
+    mutable const StateVariable* state_variable_phasic_vel[3] = {nullptr};
+    mutable const StateVariable* state_variable_cb_grav_adapt[3] = {nullptr};
+
     SimTK::Mat33 right_canal_projection_matrix;
     SimTK::Mat33 left_canal_projection_matrix;
     SimTK::Mat33 right_canal_inverse_matrix;
     SimTK::Mat33 left_canal_inverse_matrix;
+
     mutable std::vector<const OpenSim::Output<double>*> cached_primary_afferent_outputs;
     mutable std::vector<const OpenSim::Output<double>*> cached_secondary_afferent_outputs;
     mutable std::vector<const OpenSim::Output<double>*> cached_tendon_afferent_outputs;
@@ -567,17 +543,22 @@ private:
     mutable std::vector<const StateVariable*> state_variable_gto_ib;
     mutable std::vector<const StateVariable*> state_variable_renshaw;
     mutable const StateVariable* state_variable_lig_reflex[4] = {nullptr};
+
     struct LigamentCacheEntry {
         const OpenSim::Output<double>* strain_out = nullptr;
         const OpenSim::Output<double>* rate_out = nullptr;
         double toe_strain = 1.15;
-        int role = 0;
+        int cluster = 0;
+        SimTK::Vector strain_grad_d;                          // d-DOF geometric strain gradient d(strain)/dq at q0
     };
     mutable std::vector<LigamentCacheEntry> cached_ligaments;
+    mutable SimTK::Matrix lig_to_muscle_weights;              // M x 4 coordinate-free protective recruitment matrix
+
     mutable std::vector<double> last_alpha_motor_excitations;
     mutable std::vector<double> last_voluntary_alpha_excitations;
-    mutable SimTK::Vec3 last_qp_torque_deficit = SimTK::Vec3(0.0);
+    mutable SimTK::Vec3 last_qp_torque_deficit{0.0};
     mutable double last_qp_max_u = 0.0;
+
     mutable SimTK::Vec3 dbg_last_vcr_torque{0.0};
     mutable SimTK::Vec3 dbg_last_vol_torque{0.0};
     mutable SimTK::Vec3 dbg_last_ccr_torque{0.0};
@@ -587,20 +568,13 @@ private:
     mutable SimTK::Vec3 dbg_last_oto_irr_head{0.0};
     mutable SimTK::Vec3 dbg_last_phasic_oto_input{0.0};
     mutable SimTK::Vec3 dbg_last_canal_irr_head{0.0};
-    mutable SimTK::Vec3 dbg_last_vol_diff_torque{0.0};
+    mutable SimTK::Vec3 dbg_last_vol_shift_wrench{0.0};
     mutable double dbg_last_w_oto_rw = 1.0;
     mutable double dbg_last_vol_gate = 0.0;
-    mutable bool is_initialized;
-    mutable double last_jacobian_update_time;
-    mutable SimTK::Vec3 baseline_spatial_orientation;              // (roll, yaw, pitch)
-    mutable SimTK::Rotation baseline_rotation_head_to_world;
 
-    // Proper biproper 1st-order lead compensator state C_lead(s) = (1 + tau_z*s)/(1 + tau_p*s)
-    // Slots 0..35:  2A (0..5), 2B (6..14), 1A->3 (15..23), 3A efference (24..32), Path 5 MVST (33..35);
-    // Slots 36..62: 3A ori (36..38), 3B ori/vel (39..44), 4A pos (45..47), 4B vel/acc (48..53), 4C vol/pos/vel (54..62);
-    // Slots 63..79: 1A->3 diff ang/spd (63..66), 3B diff ang/spd (67..70), 4B diff acc (71..72),
-    //               4C vol_diff/diff_pos/diff_vel (73..78), spare (79);
-    // Slots 80..80+5N-1: per-muscle Sub5 Branch 5A (12.5 ms: +0), Branch 5B (2.5 ms: +1..+3), and Sub1B C1-C8 CCR (2.5 ms: +4).
+    mutable bool is_initialized = false;
+    mutable double last_jacobian_update_time = -1.0;
+
     static constexpr int NUM_FIXED_LEAD_SLOTS = 80;
     mutable std::vector<const StateVariable*> state_variable_lead_comp;
     mutable std::vector<double> lead_u0;
@@ -608,7 +582,7 @@ private:
     mutable std::vector<double> lead_tau_p;
     mutable bool lead_u0_initialized = false;
     double evalProperLead(int slot, double u_val, double tau_d, const SimTK::State& state, double pole_override = -1.0) const;
-    
+
     void initializeGeometryAndBaseline(const SimTK::State& state) const;
     void evaluateReferenceMileusnicSpindle(
         int muscle_index,
@@ -621,11 +595,10 @@ private:
         double& out_ref_ii,
         double& out_kappa_gain) const;
 
-    // Lazy 200 Hz Delta_t-invariant OU noise bank evaluated via variance-normalized C^2 cubic B-spline.
-    // Zero allocation/RNG work when both enable_sensor_noise and enable_motor_noise are false.
+    // Lazy 200 Hz Delta_t-invariant OU noise bank evaluated via variance-normalized C^2 cubic B-spline
     struct BiologicalNoiseBank {
-        static constexpr double kDt = 0.005;     // 200 Hz knot spacing
-        static constexpr int kChunkKnots = 200;  // 1.0 s growth chunks
+        static constexpr double kDt = 0.005;
+        static constexpr int kChunkKnots = 200;
         int cached_seed = -1;
         int n_muscles = 0;
         bool include_gto = false;
@@ -639,14 +612,14 @@ private:
         std::vector<double> knots;
 
         static double tauForChannel(int ch, int n_mus) {
-            if (ch < 6) return 0.015;                  // 0..5:   Regular canals
-            if (ch < 12) return 0.012;                 // 6..11:  Irregular canals
-            if (ch < 18) return 0.020;                 // 12..17: Regular otoliths (L/R 3D)
-            if (ch < 24) return 0.015;                 // 18..23: Irregular otoliths (L/R 3D)
-            if (ch < 24 + n_mus) return 0.020;         // 24..24+N-1: Spindle Ia
-            if (ch < 24 + 2 * n_mus) return 0.030;     // 24+N..24+2N-1: Spindle II
-            if (ch < 24 + 3 * n_mus) return 0.060;     // 24+2N..24+3N-1: Motor alpha common drive
-            return 0.020;                              // 24+3N..24+4N-1: GTO Ib
+            if (ch < 6) return 0.015;
+            if (ch < 12) return 0.012;
+            if (ch < 18) return 0.020;
+            if (ch < 24) return 0.015;
+            if (ch < 24 + n_mus) return 0.020;
+            if (ch < 24 + 2 * n_mus) return 0.030;
+            if (ch < 24 + 3 * n_mus) return 0.060;
+            return 0.020;
         }
 
         void reset(int seed, int n_mus, bool with_gto) {
@@ -703,16 +676,11 @@ private:
             const int k = std::clamp(static_cast<int>(std::floor(u)), 0, num_knots - 3);
             const double f = u - static_cast<double>(k);
             const int k0 = std::max(0, k - 1);
-            const int k1 = k;
-            const int k2 = k + 1;
-            const int k3 = k + 2;
             const double p0 = knots[static_cast<size_t>(k0) * n_channels + ch];
-            const double p1 = knots[static_cast<size_t>(k1) * n_channels + ch];
-            const double p2 = knots[static_cast<size_t>(k2) * n_channels + ch];
-            const double p3 = knots[static_cast<size_t>(k3) * n_channels + ch];
-            const double f2 = f * f;
-            const double f3 = f2 * f;
-            const double omf = 1.0 - f;
+            const double p1 = knots[static_cast<size_t>(k) * n_channels + ch];
+            const double p2 = knots[static_cast<size_t>(k + 1) * n_channels + ch];
+            const double p3 = knots[static_cast<size_t>(k + 2) * n_channels + ch];
+            const double f2 = f * f, f3 = f2 * f, omf = 1.0 - f;
             const double w0 = (omf * omf * omf) / 6.0;
             const double w1 = (3.0 * f3 - 6.0 * f2 + 4.0) / 6.0;
             const double w2 = (-3.0 * f3 + 3.0 * f2 + 3.0 * f + 1.0) / 6.0;
@@ -727,27 +695,23 @@ private:
         const double r_phys = val / pass_gain;
         val += pass_gain * s_scale * std::hypot(base_sd, rel_sd * r_phys) * noise_bank.eval(t_sec, ch_idx);
     }
-
     void applyRegularOtolithNoise(double& rate, double pass_gain, int axis_idx, double t_sec, double s_scale) const {
         if (s_scale <= 0.0 || std::abs(pass_gain) < 1e-12) return;
         const double eta_reg = 0.5 * (noise_bank.eval(t_sec, 12 + axis_idx) + noise_bank.eval(t_sec, 15 + axis_idx));
         const double a_phys = rate / pass_gain;
         rate += pass_gain * s_scale * std::hypot(0.030, 0.004 * a_phys) * eta_reg;
     }
-
     void applyIrregularOtolithForceNoise(double& force_phys, int axis_idx, double t_sec, double s_scale) const {
         if (s_scale <= 0.0) return;
         const double eta_irr = 0.5 * (noise_bank.eval(t_sec, 18 + axis_idx) + noise_bank.eval(t_sec, 21 + axis_idx));
         force_phys += s_scale * std::hypot(0.055, 0.015 * force_phys) * eta_irr;
     }
-
     void applySpindleNoise(double& rate, int ch_offset, double base_sd, double rel_sd, int mus_idx, double t_sec, double s_scale) const {
         if (s_scale <= 0.0 || rate <= 1e-9) return;
         const double active_env = rate / (rate + 1.5);
         const double sig = s_scale * std::hypot(base_sd * active_env, rel_sd * rate);
         rate = std::max(0.0, rate + sig * noise_bank.eval(t_sec, ch_offset + mus_idx));
     }
-
     void applyMotorNoise(double& exc, int mus_idx, int n_mus, double t_sec, double m_scale) const {
         if (m_scale <= 0.0) return;
         const double fmax_m = (mus_idx >= 0 && mus_idx < static_cast<int>(cached_maximum_isometric_forces.size()))

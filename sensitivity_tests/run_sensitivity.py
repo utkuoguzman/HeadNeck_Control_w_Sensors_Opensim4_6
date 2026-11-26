@@ -32,77 +32,67 @@ from sensitivity_tests.bode_xray import print_xray, run_bode_probed
 
 RESULTS_DIR = os.path.join(_THIS_DIR, "results")
 
-# Default full-model baselines (all subsystems ON, anatomical vertebral inertias, ISO 2631)
-BASELINES = {
-    "APEO": {
-        "K_sc": 0.10, "z_sc": 0.010, "p_sc": 25.0,
-        "K_phas": 0.05, "z_phas": 0.010, "p_phas": 4.0,
-        "K_ton": 0.25, "p_ton": 3.0, "Ki_ton": 0.05,
-        "Kp_prop_pitch": 0.05, "Kp_proprioception": 0.002,
-        "Kp_buckle": 0.80, "Kd_buckle": 0.05,
-        "vcr_upper_share_pitch": 0.44,
-        "srs_k_srs": 0.50, "srs_thix_min": 0.12,
-    },
-    "LatEC": {
-        "K_sc_roll": 0.06, "z_sc_roll": 0.012, "p_sc_roll": 6.0,
-        "K_phas_roll": 0.02, "z_phas_roll": 0.010, "p_phas_roll": 4.0,
-        "K_ton_roll": 0.25, "p_ton_roll": 2.5, "Ki_ton_roll": 0.02,
-        "Kp_prop_roll": 0.03, "Kp_proprioception_roll": 0.002,
-        "Kp_buckle_roll": 0.15, "Kd_buckle_roll": 0.03,
-        "srs_k_srs": 0.50, "srs_thix_min": 0.12,
-    },
-    "YawMA": {
-        "K_sc_yaw": 0.65, "z_sc_yaw": 0.008, "p_sc_yaw": 20.0,
-        "K_ton_yaw": 0.80, "p_ton_yaw": 10.0,
-        "Kp_prop_yaw": 0.25, "Kp_proprioception_yaw": 0.005,
-        "Kp_buckle_yaw": 0.70, "Kd_buckle_yaw": 0.05,
-        "srs_k_srs": 0.50, "srs_thix_min": 0.12,
-    },
+# Unified Coordinate-Free Baseline (single parameter vector shared across APEO, LatEC, and YawMA!)
+UNIFIED_BASELINE = {
+    "alpha_grav_ton": 0.40,
+    "omega_ton": 5.5,
+    "gamma_musc_ton": 0.0,
+    "c_disc_ton": 0.25,
+    "p_ton": 15.0,
+    "ki_grav_ton": 0.50,
+    "omega_sc": 18.0,
+    "beta_musc_sc": 0.0,
+    "c_disc_sc": 0.10,
+    "c_grav_sc": 0.0,
+    "z_sc": 0.012,
+    "p_sc": 25.0,
+    "c_omega_p_sc": 0.0,
+    "alpha_inert_phas": 2.50,
+    "gamma_musc_phas": 0.0,
+    "c_disc_phas": 0.0,
+    "z_phas": 0.015,
+    "p_phas": 4.0,
+    "vcr_compliant_share": 0.0,
+    "kappa_ia_local": 0.008,
+    "kappa_ia_synergy": 0.006,
+    "c_disc_ccr": 0.16,
+    "gamma_musc_ccr": 0.0,
+    "c_grav_ccr": 0.0,
+    "z_ccr": 0.012,
+    "kappa_buckle": 0.25,
+    "beta_buckle": 0.035,
+    "tau_lead_pole": 0.012,
+    "srs_k_srs": 0.40,
+    "srs_thix_min": 0.12,
 }
 
-# Block-grouped OAT probes: (block_name, param_key, lo_val, hi_val)
-# Special keys: "__bushing_k__" and "__bushing_c__" scale disc bushings in-memory to quantify plant stiffness sensitivity!
-SWEEP_SPECS = {
-    "APEO": [
-        ("B14_Canal",  "K_sc",                  0.03,  0.40),
-        ("B14_Canal",  "p_sc",                  5.00, 80.00),
-        ("B14_Phasic", "K_phas",                0.01,  0.40),
-        ("B14_Tonic",  "K_ton",                 0.05,  1.20),
-        ("B14_Tonic",  "p_ton",                 1.00, 15.00),
-        ("B19_CCR",    "Kp_prop_pitch",         0.01,  0.40),
-        ("B20_Buckle", "Kp_buckle",             0.15,  2.50),
-        ("B20_Buckle", "Kd_buckle",             0.01,  0.20),
-        ("B20_Split",  "vcr_upper_share_pitch", 0.15,  0.85),
-        ("B03_SRS",    "srs_k_srs",             0.10,  3.00),
-        ("B02_DiscK",  "__bushing_k__",         0.30,  1.50),
-        ("B02_DiscC",  "__bushing_c__",         0.30,  1.50),
-    ],
-    "LatEC": [
-        ("B14_Canal",  "K_sc_roll",             0.02,  0.30),
-        ("B14_Canal",  "p_sc_roll",             1.50, 20.00),
-        ("B14_Phasic", "K_phas_roll",           0.005, 0.20),
-        ("B14_Tonic",  "K_ton_roll",            0.05,  0.80),
-        ("B14_Tonic",  "p_ton_roll",            0.80, 12.00),
-        ("B19_CCR",    "Kp_prop_roll",          0.01,  0.25),
-        ("B20_Buckle", "Kp_buckle_roll",        0.04,  1.20),
-        ("B20_Buckle", "Kd_buckle_roll",        0.01,  0.15),
-        ("B03_SRS",    "srs_k_srs",             0.10,  3.00),
-        ("B02_DiscK",  "__bushing_k__",         0.30,  1.50),
-        ("B02_DiscC",  "__bushing_c__",         0.30,  1.50),
-    ],
-    "YawMA": [
-        ("B14_Canal",  "K_sc_yaw",              0.20,  1.80),
-        ("B14_Canal",  "p_sc_yaw",              3.00, 40.00),
-        ("B14_Canal",  "z_sc_yaw",              0.002, 0.030),
-        ("B14_Tonic",  "K_ton_yaw",             0.15,  3.00),
-        ("B19_CCR",    "Kp_prop_yaw",           0.05,  1.20),
-        ("B20_Buckle", "Kp_buckle_yaw",         0.20,  2.00),
-        ("B20_Buckle", "Kd_buckle_yaw",         0.015, 0.15),
-        ("B03_SRS",    "srs_k_srs",             0.10,  3.00),
-        ("B02_DiscK",  "__bushing_k__",         0.30,  1.50),
-        ("B02_DiscC",  "__bushing_c__",         0.30,  1.50),
-    ],
-}
+# Coordinate-Free Block-Grouped OAT Probes: (block_name, param_key, lo_val, hi_val)
+UNIFIED_SWEEP_SPECS = [
+    ("B14_Tonic",   "alpha_grav_ton",      0.15,  0.85),
+    ("B14_Tonic",   "omega_ton",           2.00,  9.00),
+    ("B14_Tonic",   "c_disc_ton",          0.05,  0.80),
+    ("B14_Tonic",   "p_ton",               3.00, 22.00),
+    ("B14_Tonic",   "ki_grav_ton",         0.05,  0.85),
+    ("B14_Canal",   "omega_sc",            6.00, 32.00),
+    ("B14_Canal",   "c_disc_sc",           0.00,  0.45),
+    ("B14_Canal",   "c_grav_sc",           0.00,  0.30),
+    ("B14_Canal",   "p_sc",                4.00, 55.00),
+    ("B14_Canal",   "z_sc",                0.003, 0.025),
+    ("B14_Phasic",  "alpha_inert_phas",    0.20,  8.00),
+    ("B14_Phasic",  "p_phas",              2.00, 10.00),
+    ("B14_Phasic",  "z_phas",              0.005, 0.030),
+    ("B19_CCR",     "c_disc_ccr",          0.03,  0.60),
+    ("B19_Synergy", "kappa_ia_local",      0.001, 0.020),
+    ("B19_Synergy", "kappa_ia_synergy",    0.000, 0.020),
+    ("B20_Buckle",  "kappa_buckle",        0.05,  0.80),
+    ("B20_Buckle",  "beta_buckle",         0.008, 0.090),
+    ("B20_Share",   "vcr_compliant_share", 0.00,  0.80),
+    ("B15_Lead",    "tau_lead_pole",       0.006, 0.020),
+    ("B03_SRS",     "srs_k_srs",           0.10,  6.00),
+]
+
+BASELINES = {k: dict(UNIFIED_BASELINE) for k in ("APEO", "LatEC", "YawMA")}
+SWEEP_SPECS = {k: list(UNIFIED_SWEEP_SPECS) for k in ("APEO", "LatEC", "YawMA")}
 
 
 def _eval_task(item):

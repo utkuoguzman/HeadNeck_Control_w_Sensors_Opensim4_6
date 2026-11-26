@@ -105,27 +105,17 @@ TIER_AB_CLEAN_LOCKED = {
     "K_gto_vol_suppress": 0.85,
     "enable_sensor_noise": False,
     "enable_motor_noise": False,
-    # Locked Roll/Yaw voluntary PID defaults + zero cortical shift coupling at u=0
-    "Kp_task_roll": 11.0,
-    "Kd_task_roll": 2.80,
-    "Ki_task_roll": 13.0,
-    "Kp_task_yaw": 5.00,
-    "Kd_task_yaw": 0.80,
-    "Ki_task_yaw": 5.00,
-    "Ki_ton_yaw": 0.0,
-    "Kp_shift_obs_px": 0.0,
-    "Kv_shift_obs_vx": 0.0,
-    "Kp_shift_obs_pz": 0.0,
-    "Kv_shift_obs_vz": 0.0,
-    "w_pos_ap": 0.0,
-    "w_pos_lat": 0.0,
-    # Locked Low-ROI Pitch & Shared Biophysics (14 params -> drops Pitch 38D -> 24D so pop=28 > D!)
-    "vcr_upper_share_pitch": 0.44,
+    # Zero cortical translation coupling at u=0
+    "w_translation": 0.0,
+    "k_trans_obs_pos": 0.0,
+    "k_trans_obs_vel": 0.0,
+    "k_shift_obs_pos": 0.0,
+    "k_shift_obs_vel": 0.0,
+    # Locked Low-ROI Shared Biophysics
+    "vcr_compliant_share": 0.0,
     "tau_ton_int": 4.0,
-    "z_ccr": 0.020,
-    "p_ccr": 80.0,
+    "p_ccr": 85.0,
     "fc_voluntary": 2.15,
-    "K_subocc_shear_damp": 0.03,
     "K_gamma_dyn": 0.90,
     "K_gamma_stat": 0.70,
     "K_gto_ib": 0.00045,
@@ -134,13 +124,6 @@ TIER_AB_CLEAN_LOCKED = {
     "tau_renshaw": 0.022,
     "K_lig_protective": 0.09,
     "srs_tau_srs_reset": 0.11,
-    # Locked Low-ROI Roll (2 params -> 14D Roll with Kp_proprioception_roll unlocked!)
-    "z_ccr_roll": 0.004,
-    "p_ccr_roll": 85.0,
-    # Locked Low-ROI Yaw (3 params -> 9D Yaw with Kd_buckle_yaw unlocked for anatomical inertias)
-    "tau_lead_pole_yaw": 0.0093,
-    "z_ccr_yaw": 0.020,
-    "p_ccr_yaw": 93.0,
 }
 
 SRS_KEY_MAP = {
@@ -196,33 +179,66 @@ def safe_load_json(path: str, default=None):
 
 
 def load_base_params():
-    doc = json.load(open(BASE_CHAMP_JSON, "r", encoding="utf-8"))
-    p = dict(doc["params"])
-    p.update(doc.get("se2_c1pos_params", {}))
-    # Clean, upright, non-chattering anatomical-inertia 3-axis full-model baseline
-    # (Pitch K_ton=3.8 + Kp_prop_pitch=0.50 clears gravity floor ~3.4 Nm/rad so LatEC/YawMA pitch drift < 0.3 deg!)
-    p.update({
-        # Pitch (ISO -p_arr, upright above gravity floor, fast p_ton=15.0!)
-        "K_sc": 0.15, "z_sc": 0.010, "p_sc": 20.0,
-        "K_phas": 0.05, "z_phas": 0.010, "p_phas": 4.0,
-        "oto_reweight_a0_mps2": 10.0, "oto_reweight_tau_s": 0.180, "phasic_oto_tanh_mps2": 16.0,
-        "K_ton": 3.80, "p_ton": 15.0, "Ki_ton": 1.80,
-        "Kp_prop_pitch": 0.50, "Kp_proprioception": 0.005, "tau_lead_pole": 0.012,
-        "Kp_task_pitch": 13.0, "Kd_task_pitch": 3.5, "Ki_task_pitch": 30.0,
-        "Kp_buckle": 0.90, "Kd_buckle": 0.08, "vcr_upper_share_pitch": 0.44,
-        "srs_k_srs": 0.40, "srs_delta_srs": 0.019, "srs_thix_min": 0.12, "srs_delta_thix_break": 0.012,
-        # Roll (opposing phasic sign, upright Pitch eliminates +23.6k xt & 0.12Hz phase flip!)
-        "K_sc_roll": 0.06, "z_sc_roll": 0.012, "p_sc_roll": 5.0,
-        "K_phas_roll": 0.02, "z_phas_roll": 0.010, "p_phas_roll": 4.0,
-        "K_ton_roll": 0.45, "p_ton_roll": 2.5, "Ki_ton_roll": 0.10,
-        "Kp_prop_roll": 0.03, "Kp_proprioception_roll": 0.001,
-        "Kp_buckle_roll": 0.10, "Kd_buckle_roll": 0.025, "tau_lead_pole_roll": 0.014,
-        # Yaw (anatomical I_yy, Y6_2 = 5,545, rv=+0.9148, hf=0.53!)
-        "K_sc_yaw": 0.38, "z_sc_yaw": 0.004, "p_sc_yaw": 4.0,
-        "K_ton_yaw": 1.0, "p_ton_yaw": 10.0,
-        "Kp_prop_yaw": 0.45, "Kp_proprioception_yaw": 0.003,
-        "Kp_buckle_yaw": 0.35, "Kd_buckle_yaw": 0.012,
-    })
+    doc = safe_load_json(BASE_CHAMP_JSON, default={}) or {}
+    # Unified Coordinate-Free Covariant Tensor-Pencil & Synergy Tensor-Network Baseline
+    p = {
+        "urgency": 0.0,
+        "trajectory_tau": 0.28,
+        "fc_voluntary": 2.15,
+        # Cortical SE(3) Voluntary Impedance
+        "omega_task": 7.2,
+        "zeta_task": 0.95,
+        "c_grav_task": 0.90,
+        "c_musc_task": 0.0,
+        "c_disc_task": 1.90,
+        "ki_task": 2.20,
+        "omega_shift": 0.85,
+        "zeta_shift": 0.06,
+        "ki_shift": 1.50,
+        "c_ff_shift": 0.75,
+        # Brainstem Tonic VCR Tensor Pencil
+        "alpha_grav_ton": 0.40,
+        "omega_ton": 5.5,
+        "gamma_musc_ton": 0.0,
+        "c_disc_ton": 0.25,
+        "p_ton": 15.0,
+        "ki_grav_ton": 0.50,
+        "tau_ton_int": 4.0,
+        # Brainstem Semicircular Canal VCR Tensor Pencil
+        "omega_sc": 18.0,
+        "beta_musc_sc": 0.0,
+        "c_disc_sc": 0.10,
+        "c_grav_sc": 0.0,
+        "z_sc": 0.012,
+        "p_sc": 25.0,
+        "c_omega_p_sc": 0.0,
+        # Brainstem Phasic Otolith VCR Tensor Pencil
+        "alpha_inert_phas": 2.50,
+        "gamma_musc_phas": 0.0,
+        "c_disc_phas": 0.0,
+        "z_phas": 0.015,
+        "p_phas": 4.0,
+        "oto_reweight_a0_mps2": 10.0,
+        "oto_reweight_tau_s": 0.180,
+        "phasic_oto_tanh_mps2": 16.0,
+        # Spinal CCR & Muscle-Fiber Synergy Tensor Network
+        "kappa_ia_local": 0.005,
+        "kappa_ia_synergy": 0.004,
+        "c_disc_ccr": 0.50,
+        "gamma_musc_ccr": 0.0,
+        "c_grav_ccr": 0.0,
+        "z_ccr": 0.012,
+        "p_ccr": 85.0,
+        # Chain Nullspace Curvature Anti-Buckling & Lead Pole
+        "kappa_buckle": 0.80,
+        "beta_buckle": 0.08,
+        "tau_lead_pole": 0.012,
+        # Cross-Bridge SRS Core
+        "srs_k_srs": 7.50,
+        "srs_delta_srs": 0.019,
+        "srs_thix_min": 0.12,
+        "srs_delta_thix_break": 0.012,
+    }
     p.update(TIER_AB_CLEAN_LOCKED)
     return doc, p
 
@@ -408,6 +424,8 @@ def _apply_srs_and_ctrl(model, ov: dict):
             continue
         if isinstance(v, bool):
             pairs.append((k, "true" if v else "false"))
+        elif isinstance(v, (tuple, list, np.ndarray)):
+            pairs.append((k, f"{float(v[0]):.15g} {float(v[1]):.15g} {float(v[2]):.15g}"))
         elif isinstance(v, str):
             pairs.append((k, v))
         else:
@@ -422,8 +440,8 @@ def _init_neck_state(model, state, ov: dict):
     q = osim.Rotation(skull.getTransformInGround(state).R()).convertRotationToQuaternion()
     for idx in range(4):
         model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/obs_q{idx}", q.get(idx))
-    for sv in ("pitch_error_integral", "roll_error_integral", "yaw_error_integral",
-               "vol_filt_pitch", "vol_filt_roll", "vol_filt_yaw"):
+    for sv in ("rot_err_int_x", "rot_err_int_y", "rot_err_int_z",
+               "vol_filt_pos_x", "vol_filt_pos_y", "vol_filt_pos_z"):
         model.setStateVariableValue(state, f"/controllerset/VCR_CCR_Controller/{sv}", 0.0)
 
     k_gdyn = float(ov.get("K_gamma_dyn", 0.857744))

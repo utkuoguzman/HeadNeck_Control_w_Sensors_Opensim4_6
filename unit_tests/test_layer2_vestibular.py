@@ -41,11 +41,11 @@ def test_B06_semicircular_canals_3d() -> BlockReport:
         q_pulse = smooth_vel_pulse_pos(ts, t0=0.05, t_rise=0.05, t_hold=0.25, v_peak=v_tgt)
         sp = make_spline(ts, q_pulse)
 
-        # Head-frame index mapping: [0]=roll(X), [1]=yaw(Y), [2]=pitch(Z)
+        # Unified head-frame spatial triad: [0]=X(coronal/roll), [1]=Y(axial/yaw), [2]=Z(sagittal/pitch)
         axis_map = [
-            ("gndroll",  0, "luen_omega_roll",  "Roll(X)"),
-            ("gndyaw",   1, "luen_omega_yaw",   "Yaw(Y)"),
-            ("gndpitch", 2, "luen_omega_pitch", "Pitch(Z)"),
+            ("gndroll",  0, "luen_omega_x", "Roll(X)"),
+            ("gndyaw",   1, "luen_omega_y", "Yaw(Y)"),
+            ("gndpitch", 2, "luen_omega_z", "Pitch(Z)"),
         ]
         for coord_name, vec_idx, sv_name, label in axis_map:
             model, controller, state = build_isolated_model(
@@ -57,9 +57,9 @@ def test_B06_semicircular_canals_3d() -> BlockReport:
                 return {
                     "t": t,
                     "luen": np.array([
-                        read_ctrl_sv(model, s, "luen_omega_roll"),
-                        read_ctrl_sv(model, s, "luen_omega_yaw"),
-                        read_ctrl_sv(model, s, "luen_omega_pitch"),
+                        read_ctrl_sv(model, s, "luen_omega_x"),
+                        read_ctrl_sv(model, s, "luen_omega_y"),
+                        read_ctrl_sv(model, s, "luen_omega_z"),
                     ]),
                     "irr": read_out_vec3(controller, "dbg_canal_irr_head", s),
                 }
@@ -105,8 +105,8 @@ def test_B07_velocity_storage() -> BlockReport:
             lock_neck_except=(),
         )
         def probe(t, s):
-            lu = read_ctrl_sv(model, s, "luen_omega_yaw")
-            vs = read_ctrl_sv(model, s, "vs_omega_yaw")
+            lu = read_ctrl_sv(model, s, "luen_omega_y")
+            vs = read_ctrl_sv(model, s, "vs_omega_y")
             return {"t": t, "luen": math.degrees(lu), "vs": math.degrees(vs), "tot": math.degrees(lu + vs)}
 
         tr = integrate_and_sample(model, state, t_end=3.0, dt=0.05, probe_fn=probe)

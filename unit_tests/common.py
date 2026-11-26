@@ -93,6 +93,13 @@ def read_out_vec3(component, name: str, state) -> np.ndarray:
     return np.array([float(v.get(0)), float(v.get(1)), float(v.get(2))], dtype=float)
 
 
+def set_ctrl_vec3(controller, prop_name: str, v) -> None:
+    prop = controller.updPropertyByName(prop_name)
+    osim.PropertyHelper.setValueVec3(float(v[0]), prop, 0)
+    osim.PropertyHelper.setValueVec3(float(v[1]), prop, 1)
+    osim.PropertyHelper.setValueVec3(float(v[2]), prop, 2)
+
+
 def read_ctrl_sv(model, state, sv_name: str) -> float:
     return float(model.getStateVariableValue(state, f"{CTRL_PATH}/{sv_name}"))
 
@@ -206,12 +213,15 @@ def build_isolated_model(
     ov = dict(base_p)
     ov.update({
         "urgency": 0.0,
-        "desired_pitch": 0.0, "desired_roll": 0.0, "desired_yaw": 0.0,
-        "desired_ap_shift": 0.0, "desired_lat_shift": 0.0,
-        "w_pos_ap": 0.0, "w_pos_lat": 0.0,
-        "Kp_shift_obs_px": 0.0, "Kv_shift_obs_vx": 0.0,
-        "Kp_shift_obs_pz": 0.0, "Kv_shift_obs_vz": 0.0,
-        "enable_sensor_noise": False, "enable_motor_noise": False,
+        "desired_rotation_vec": (0.0, 0.0, 0.0),
+        "desired_translation_vec": (0.0, 0.0, 0.0),
+        "w_translation": 0.0,
+        "k_trans_obs_pos": 0.0,
+        "k_trans_obs_vel": 0.0,
+        "k_shift_obs_pos": 0.0,
+        "k_shift_obs_vel": 0.0,
+        "enable_sensor_noise": False,
+        "enable_motor_noise": False,
     })
     if ctrl_overrides:
         ov.update(ctrl_overrides)
@@ -243,6 +253,8 @@ def build_isolated_model(
             continue
         if isinstance(v, bool):
             pairs.append((k, "true" if v else "false"))
+        elif isinstance(v, (tuple, list, np.ndarray)):
+            pairs.append((k, f"{float(v[0]):.15g} {float(v[1]):.15g} {float(v[2]):.15g}"))
         elif isinstance(v, str):
             pairs.append((k, v))
         else:
@@ -269,11 +281,11 @@ def build_isolated_model(
         c.setDefaultLocked(False)
         c.setDefaultIsPrescribed(False)
 
+    neck_locked_post_init = []
     if lock_neck_except is not None:
         for cn in NECK_COORDS:
             if cn not in lock_neck_except and not (prescribed_coords and cn in prescribed_coords):
-                c = model.updCoordinateSet().get(cn)
-                c.setDefaultLocked(True)
+                neck_locked_post_init.append(cn)
 
     neck_prescribed_post_init = []
     if prescribed_coords:
@@ -314,9 +326,13 @@ def build_isolated_model(
             model.addForce(sg)
 
     state = model.initSystem()
-    # Ensure non-prescribed yaw1 is free (Kuo model XML defaults yaw1 prescribed)
-    if not (prescribed_coords and "yaw1" in prescribed_coords) and (lock_neck_except is None or "yaw1" in lock_neck_except):
+    # Ensure non-prescribed yaw1 is free unless post-init locked (Kuo model XML defaults yaw1 prescribed)
+    if not (prescribed_coords and "yaw1" in prescribed_coords) and ("yaw1" not in neck_locked_post_init):
         model.updCoordinateSet().get("yaw1").setIsPrescribed(state, False)
+    for cn in neck_locked_post_init:
+        c_lk = model.updCoordinateSet().get(cn)
+        c_lk.setIsPrescribed(state, False)
+        c_lk.setLocked(state, True)
     for cn in neck_prescribed_post_init:
         model.updCoordinateSet().get(cn).setIsPrescribed(state, True)
     a3ex._init_neck_state(model, state, ov)

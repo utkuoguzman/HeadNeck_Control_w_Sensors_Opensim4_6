@@ -20,18 +20,19 @@ from unit_tests.common import (
     read_ctrl_sv,
     read_out_double,
     read_out_vec3,
+    set_ctrl_vec3,
     smooth_accel_pulse_pos,
 )
 
 
 def test_B16_trajectory_planner() -> BlockReport:
-    """B16: 3rd-order critically damped planner has 0.00% overshoot, exact steady state, and analytical T95(u)."""
+    """B16: 3rd-order critically damped SE(3) planner has 0.00% overshoot, exact steady state, and analytical T95(u)."""
     t0 = time.time()
     rep = BlockReport(
         block_id="B16",
         layer="cortex",
-        title="3rd-Order Jerk-Limited Trajectory Planner & Urgency Compression",
-        scenario="Neck locked at 0; step desired_pitch=+30 deg at urgency=0.0, 0.5, 1.0 (tau0=0.28s); probe traj_pos_pitch & traj_vel_pitch.",
+        title="3rd-Order Jerk-Limited SE(3) Planner & Urgency Compression",
+        scenario="Neck locked at 0; step desired_rotation_vec=(0, 0, +30 deg) at urgency=0.0, 0.5, 1.0 (tau0=0.28s); probe traj_rot_z & traj_vel_z.",
     )
     try:
         t95_map = {}
@@ -42,10 +43,10 @@ def test_B16_trajectory_planner() -> BlockReport:
                 ctrl_overrides={"enable_vcr": False, "enable_ccr": False, "enable_task_controller": False, "trajectory_tau": 0.28, "urgency": u},
                 lock_neck_except=(),
             )
-            osim.PropertyHelper.setValueDouble(math.radians(30.0), c.updPropertyByName("desired_pitch"))
+            set_ctrl_vec3(c, "desired_rotation_vec", (0.0, 0.0, math.radians(30.0)))
             tr = integrate_and_sample(
                 m, st, t_end=2.2, dt=0.005,
-                probe_fn=lambda t, s: {"t": t, "pos": math.degrees(read_ctrl_sv(m, s, "traj_pos_pitch")), "vel": math.degrees(read_ctrl_sv(m, s, "traj_vel_pitch"))},
+                probe_fn=lambda t, s: {"t": t, "pos": math.degrees(read_ctrl_sv(m, s, "traj_rot_z")), "vel": math.degrees(read_ctrl_sv(m, s, "traj_vel_z"))},
             )
             ps = np.array([x["pos"] for x in tr])
             ts = np.array([x["t"] for x in tr])
@@ -72,24 +73,27 @@ def test_B16_trajectory_planner() -> BlockReport:
 
 
 def test_B17_urgency_gate_and_zero_u0_leak() -> BlockReport:
-    """B17: At u=0 (even with strong perturbations & shift gains), cortical voluntary & shift torques MUST be identically 0.0 Nm."""
+    """B17: At u=0 (even with strong perturbations & shift gains), cortical voluntary & shift wrenches MUST be identically 0.0."""
     t0 = time.time()
     rep = BlockReport(
         block_id="B17",
         layer="cortex",
         title="Continuous Urgency Engagement e(u) & Zero Cortical Leakage at u=0",
-        scenario="(a) u=0 with 3 m/s^2 AP+Lat sled & nonzero Kp_shift_obs -> dbg_vol_torque & dbg_vol_diff_torque == 0; (b) u sweep [0, 0.05, 0.2, 0.5, 1.0] with desired_pitch=20 deg -> smooth monotonic torque.",
+        scenario="(a) u=0 with 3 m/s^2 AP+Lat sled & nonzero k_shift_obs/k_trans_obs -> dbg_vol_torque & dbg_vol_shift_wrench == 0; (b) u sweep [0, 0.05, 0.2, 0.5, 1.0] -> smooth monotonic torque.",
     )
     try:
-        # (a) Strict zero cortical leak at u=0 even if Kp_shift_obs_px/pz & w_pos are nonzero!
+        # (a) Strict zero cortical leak at u=0 even if k_shift_obs_pos & w_translation are nonzero!
         ts = np.linspace(0.0, 0.35, 176)
         acc_p = smooth_accel_pulse_pos(ts, t0=0.03, t_rise=0.03, t_hold=0.20, a_peak=3.0)
         m0, c0, s0 = build_isolated_model(
             ctrl_overrides={
-                "urgency": 0.0, "desired_pitch": 0.0, "desired_roll": 0.0, "desired_yaw": 0.0,
-                "w_pos_ap": 1.0, "w_pos_lat": 1.0,
-                "Kp_shift_obs_px": -0.05, "Kp_shift_obs_pz": -0.05,
-                "Kp_task_pitch": 15.0, "Kp_task_roll": 15.0, "Kp_task_yaw": 10.0,
+                "urgency": 0.0,
+                "desired_rotation_vec": (0.0, 0.0, 0.0),
+                "desired_translation_vec": (0.0, 0.0, 0.0),
+                "w_translation": 1.0,
+                "k_shift_obs_pos": -0.05,
+                "k_trans_obs_pos": -0.05,
+                "omega_task": 10.0,
             },
             prescribed_coords={"spine_tx": make_spline(ts, acc_p), "spine_tz": make_spline(ts, acc_p)},
         )
@@ -97,24 +101,24 @@ def test_B17_urgency_gate_and_zero_u0_leak() -> BlockReport:
             m0, s0, t_end=0.30, dt=0.02,
             probe_fn=lambda t, s: {
                 "vol": float(np.max(np.abs(read_out_vec3(c0, "dbg_vol_torque", s)))),
-                "vdiff": float(np.max(np.abs(read_out_vec3(c0, "dbg_vol_diff_torque", s)))),
+                "vsh": float(np.max(np.abs(read_out_vec3(c0, "dbg_vol_shift_wrench", s)))),
                 "vgate": abs(read_out_double(c0, "dbg_vol_gate", s)),
             },
         )
         max_vol0 = max(x["vol"] for x in tr0)
-        max_vdiff0 = max(x["vdiff"] for x in tr0)
+        max_vsh0 = max(x["vsh"] for x in tr0)
         max_vg0 = max(x["vgate"] for x in tr0)
         rep.add("B17.1_zero_vol_at_u0", "At u=0: max |vol_torque| < 1e-9 Nm", f"{max_vol0:.3e} Nm", max_vol0 < 1e-9)
-        rep.add("B17.2_zero_shift_leak_u0", "At u=0 (even with Kp_shift_obs=-0.05): max |vol_diff_torque| < 1e-9 Nm", f"{max_vdiff0:.3e} Nm (vol_gate={max_vg0:.3e})", max_vdiff0 < 1e-9 and max_vg0 < 1e-9)
+        rep.add("B17.2_zero_shift_leak_u0", "At u=0 (even with k_shift_obs=-0.05): max |vol_shift_wrench| < 1e-9", f"{max_vsh0:.3e} (vol_gate={max_vg0:.3e})", max_vsh0 < 1e-9 and max_vg0 < 1e-9)
 
         # (b) Smooth monotonic ramp across u in [0.0, 0.05, 0.20, 0.50, 1.0]
         taus = []
         for u in (0.0, 0.05, 0.20, 0.50, 1.0):
             mu, cu, su = build_isolated_model(
-                ctrl_overrides={"enable_vcr": False, "enable_ccr": False, "urgency": u, "desired_pitch": math.radians(20.0)},
+                ctrl_overrides={"enable_vcr": False, "enable_ccr": False, "urgency": u, "desired_rotation_vec": (0.0, 0.0, math.radians(20.0))},
                 lock_neck_except=(),
             )
-            tru = integrate_and_sample(mu, su, t_end=0.35, dt=0.05, probe_fn=lambda t, s: {"v": read_out_vec3(cu, "dbg_vol_torque", s)[0]})
+            tru = integrate_and_sample(mu, su, t_end=0.35, dt=0.05, probe_fn=lambda t, s: {"v": read_out_vec3(cu, "dbg_vol_torque", s)[2]})
             taus.append(tru[-1]["v"])
         mono = all(taus[i] < taus[i + 1] for i in range(len(taus) - 1)) and abs(taus[0]) < 1e-9
         rep.add("B17.3_smooth_monotonic_u", "vol_torque(u) strictly monotonic increasing from 0 across u=[0,0.05,0.2,0.5,1.0]", f"{[round(v, 2) for v in taus]} Nm", mono)
@@ -125,18 +129,18 @@ def test_B17_urgency_gate_and_zero_u0_leak() -> BlockReport:
 
 
 def test_B18_shift_ik_controller() -> BlockReport:
-    """B18: 2x2 Weighted IK achieves AP protraction (+2.0 cm) and Lateral glide (+0.5 cm) while keeping skull level (< 1.5 deg)."""
+    """B18: Nullspace Cervical Shift IK achieves AP protraction (+2.0 cm) and Lateral glide (+0.5 cm) while keeping skull level (< 1.5 deg)."""
     t0 = time.time()
     rep = BlockReport(
         block_id="B18",
         layer="cortex",
-        title="2x2 Weighted Cervical Shift IK (AP Protraction & Lateral Glide)",
-        scenario="Step desired_ap_shift=+2.0cm (w_pos_ap=1, u=0.5) and desired_lat_shift=+0.5cm (w_pos_lat=1, u=0.5) for 1.8s; measure C1 shift & attitude levelness.",
+        title="Nullspace Cervical Shift IK (AP Protraction & Lateral Glide)",
+        scenario="Step desired_translation_vec=(+0.020, 0, 0) and (0, 0, +0.005) (w_translation=1, u=0.5) for 1.8s; measure C1 shift & attitude levelness.",
     )
     try:
-        def run_shift(prop_name: str, tgt_m: float):
+        def run_shift(tgt_vec):
             m, c, st = build_isolated_model(
-                ctrl_overrides={"w_pos_ap": 1.0, "w_pos_lat": 1.0, "urgency": 0.0}
+                ctrl_overrides={"w_translation": 1.0, "urgency": 0.0}
             )
             c1 = m.getBodySet().get("cerv1")
             sp = m.getBodySet().get("spine")
@@ -144,12 +148,11 @@ def test_B18_shift_ik_controller() -> BlockReport:
             p0 = c1.getTransformInGround(st).p()
             s0 = sp.getTransformInGround(st).p()
             dx0, dz0 = float(p0.get(0) - s0.get(0)), float(p0.get(2) - s0.get(2))
-            p_sh = c.updPropertyByName(prop_name)
             p_u = c.updPropertyByName("urgency")
             done = {"v": False}
             def hook(t, s):
                 if not done["v"] and t >= 0.15:
-                    osim.PropertyHelper.setValueDouble(tgt_m, p_sh)
+                    set_ctrl_vec3(c, "desired_translation_vec", tgt_vec)
                     osim.PropertyHelper.setValueDouble(0.5, p_u)
                     done["v"] = True
             cs = m.getCoordinateSet()
@@ -166,8 +169,8 @@ def test_B18_shift_ik_controller() -> BlockReport:
             )
             return tr[-1]
 
-        ap = run_shift("desired_ap_shift", 0.020)
-        lat = run_shift("desired_lat_shift", 0.005)
+        ap = run_shift((0.020, 0.0, 0.0))
+        lat = run_shift((0.0, 0.0, 0.005))
         rep.add("B18.1_ap_protraction", "AP shift in [1.5, 2.3] cm, |pitch| < 1.5 deg, opposite p1/p2", f"ap={ap['ap_cm']:+.2f}cm, pitch={ap['pitch']:+.2f}d (p1={ap['p1']:+.1f}, p2={ap['p2']:+.1f})", 1.5 <= ap["ap_cm"] <= 2.3 and abs(ap["pitch"]) < 1.5 and (ap["p1"] * ap["p2"] < 0.0))
         rep.add("B18.2_lat_glide", "Lat shift in [0.32, 0.65] cm, |roll| < 1.5 deg", f"lat={lat['lat_cm']:+.3f}cm, roll={lat['roll']:+.2f}d, ap={lat['ap_cm']:+.2f}cm", 0.32 <= lat["lat_cm"] <= 0.65 and abs(lat["roll"]) < 1.5)
     except Exception as e:

@@ -40,85 +40,105 @@ def test_B14_brainstem_vcr_all_pathways() -> BlockReport:
         scenario="Isolate each VCR sub-branch (Tonic, Ki_ton, Canal, Phasic) with open-loop prescribed tilt, angular vel, and linear accel; compare Phasic sign against passive inertial deflection!",
     )
     try:
-        # 1. Tonic VCR (K_ton): +10 deg static tilt on Pitch, Roll, Yaw -> vcr_torque MUST BE NEGATIVE (-K_ton * rad(10))
+        # 1. Tonic VCR Covariant Tensor Pencil (K_ton = alpha_grav*Kg3 + omega_ton^2*I3 + c_disc*Kdisc3):
+        #    +10 deg static tilt on Pitch(Z=2), Roll(X=0), Yaw(Y=1) -> vcr_torque[ax_i] MUST match -K_ii * rad(10)
         ts_t = np.linspace(0.0, 0.70, 141)
         q10 = smooth_step_ramp(ts_t, 0.05, 0.20, math.radians(10.0))
-        for cname, ax_i, kname, kval, label in [
-            ("gndpitch", 0, "K_ton", 4.0, "Pitch"),
-            ("gndroll",  1, "K_ton_roll", 3.0, "Roll"),
-            ("gndyaw",   2, "K_ton_yaw", 6.0, "Yaw"),
+        a_g, w_t, c_d = 0.60, 6.0, 1.00
+        for cname, ax_i, label in [
+            ("gndpitch", 2, "Pitch"),
+            ("gndroll",  0, "Roll"),
+            ("gndyaw",   1, "Yaw"),
         ]:
             m, c, st = build_isolated_model(
                 ctrl_overrides={
                     "enable_vcr": True, "enable_vcr_tonic": True, "enable_vcr_canal": False, "enable_vcr_phasic": False,
                     "enable_ccr": False, "enable_task_controller": False,
-                    kname: kval, "Ki_ton": 0.0, "Ki_ton_roll": 0.0, "Ki_ton_yaw": 0.0,
+                    "alpha_grav_ton": a_g, "omega_ton": w_t, "c_disc_ton": c_d, "gamma_musc_ton": 0.0,
+                    "ki_grav_ton": 0.0, "p_ton": 25.0,
                 },
                 prescribed_coords={cname: make_spline(ts_t, q10)}, lock_neck_except=(),
             )
-            tr = integrate_and_sample(m, st, t_end=0.60, dt=0.02, probe_fn=lambda t, s: {"vcr": read_out_vec3(c, "dbg_vcr_torque", s)[ax_i]})
+            tr = integrate_and_sample(
+                m, st, t_end=0.60, dt=0.02,
+                probe_fn=lambda t, s: {
+                    "vcr": read_out_vec3(c, "dbg_vcr_torque", s)[ax_i],
+                    "I": read_out_vec3(c, "dbg_tensor_inertia_diag", s)[ax_i],
+                    "Kg": read_out_vec3(c, "dbg_tensor_kgrav_diag", s)[ax_i],
+                    "Kd": read_out_vec3(c, "dbg_tensor_kdisc_diag", s)[ax_i],
+                },
+            )
             tau_end = tr[-1]["vcr"]
-            exp_tau = -kval * math.radians(10.0)
-            rep.add(f"B14.1_tonic_{label}", f"vcr_torque[{ax_i}] ~ {exp_tau:+.3f} Nm (±15%, strictly negative)", f"{tau_end:+.3f} Nm", tau_end < 0.0 and abs(tau_end - exp_tau) / abs(exp_tau) < 0.15)
+            k_ii = a_g * tr[-1]["Kg"] + (w_t * w_t) * tr[-1]["I"] + c_d * tr[-1]["Kd"]
+            exp_tau = -k_ii * math.radians(10.0)
+            rep.add(f"B14.1_tonic_{label}", f"vcr_torque[{ax_i}] ~ {exp_tau:+.3f} Nm (±15%, strictly negative)", f"{tau_end:+.3f} Nm (K_ii={k_ii:.2f})", tau_end < 0.0 and abs(tau_end - exp_tau) / abs(exp_tau) < 0.15)
 
-        # 2. Brainstem Leaky Tonic Integrator (Ki_ton): hold +10 deg Pitch for 2.0s -> ton_int ramps and adds extra restoring torque
-        m_ti, c_ti, s_ti = build_isolated_model(
-            ctrl_overrides={
-                "enable_vcr": True, "enable_vcr_tonic": True, "enable_vcr_canal": False, "enable_vcr_phasic": False,
-                "enable_ccr": False, "enable_task_controller": False,
-                "K_ton": 0.0, "Ki_ton": 3.0, "tau_ton_int": 4.0,
-            },
-            prescribed_coords={"gndpitch": make_spline(ts_t, smooth_step_ramp(ts_t, 0.02, 0.10, math.radians(10.0)))},
-            lock_neck_except=(),
-        )
-        # Extend spline to 2.0s
+        # 2. Brainstem Leaky Tonic Verticality Integrator (ki_grav_ton * Kg3): hold +10 deg Pitch for 1.8s
         ts_2 = np.linspace(0.0, 2.0, 201)
+        ki_g_val = 0.60
         m_ti, c_ti, s_ti = build_isolated_model(
             ctrl_overrides={
                 "enable_vcr": True, "enable_vcr_tonic": True, "enable_vcr_canal": False, "enable_vcr_phasic": False,
                 "enable_ccr": False, "enable_task_controller": False,
-                "K_ton": 0.0, "Ki_ton": 3.0, "tau_ton_int": 4.0,
+                "alpha_grav_ton": 0.0, "omega_ton": 0.0, "c_disc_ton": 0.0, "gamma_musc_ton": 0.0,
+                "ki_grav_ton": ki_g_val, "tau_ton_int": 4.0, "p_ton": 25.0,
             },
             prescribed_coords={"gndpitch": make_spline(ts_2, smooth_step_ramp(ts_2, 0.02, 0.10, math.radians(10.0)))},
             lock_neck_except=(),
         )
         tr_ti = integrate_and_sample(
             m_ti, s_ti, t_end=1.80, dt=0.05,
-            probe_fn=lambda t, s: {"ti": read_ctrl_sv(m_ti, s, "ton_int_pitch"), "vcr": read_out_vec3(c_ti, "dbg_vcr_torque", s)[0]},
+            probe_fn=lambda t, s: {
+                "ti": read_ctrl_sv(m_ti, s, "ton_int_z"),
+                "vcr": read_out_vec3(c_ti, "dbg_vcr_torque", s)[2],
+                "Kg_zz": read_out_vec3(c_ti, "dbg_tensor_kgrav_diag", s)[2],
+            },
         )
-        # Analytical: x_ti(1.7s) ~ 0.1745 * 4 * (1 - exp(-1.7/4)) = 0.242 rad*s -> tau = -3.5*tanh(3*0.242/3.5) = -0.715 Nm
-        exp_ti = -3.5 * math.tanh((3.0 * math.radians(10.0) * 4.0 * (1.0 - math.exp(-1.70 / 4.0))) / 3.5)
+        ki_eff = ki_g_val * tr_ti[-1]["Kg_zz"]
+        exp_ti = -3.5 * math.tanh((ki_eff * math.radians(10.0) * 4.0 * (1.0 - math.exp(-1.70 / 4.0))) / 3.5)
         tau_ti = tr_ti[-1]["vcr"]
-        rep.add("B14.2_tonic_integrator", f"Ki_ton=3, K_ton=0 -> restoring torque ~ {exp_ti:+.3f} Nm (±15%)", f"vcr={tau_ti:+.3f} Nm (x_ti={tr_ti[-1]['ti']:+.3f})", tau_ti < 0.0 and abs(tau_ti - exp_ti) / abs(exp_ti) < 0.15)
+        rep.add("B14.2_tonic_integrator", f"ki_grav_ton={ki_g_val} (Ki_zz={ki_eff:.2f}) -> restoring torque ~ {exp_ti:+.3f} Nm (±15%)", f"vcr={tau_ti:+.3f} Nm (x_ti={tr_ti[-1]['ti']:+.3f})", tau_ti < 0.0 and abs(tau_ti - exp_ti) / abs(exp_ti) < 0.15)
 
-        # 3. Canal VCR (K_sc): +20 deg/s velocity pulse on Pitch, Roll, Yaw -> vcr_torque MUST BE NEGATIVE (-K_sc * 0.349)
+        # 3. Canal VCR Covariant Tensor Pencil (D_sc = omega_sc*I3 + c_disc_sc*Kdisc3): +20 deg/s pulse on Pitch(2), Roll(0), Yaw(1)
         ts_v = np.linspace(0.0, 0.45, 226)
         v20 = smooth_vel_pulse_pos(ts_v, t0=0.04, t_rise=0.04, t_hold=0.25, v_peak=math.radians(20.0))
-        for cname, ax_i, kname, kval, pname, pval, label in [
-            ("gndpitch", 0, "K_sc",      3.0, "p_sc",      50.0, "Pitch"),
-            ("gndroll",  1, "K_sc_roll", 3.0, "p_sc_roll", 30.0, "Roll"),
-            ("gndyaw",   2, "K_sc_yaw",  2.0, "p_sc_yaw",  20.0, "Yaw"),
+        w_sc_v, cd_sc_v = 25.0, 0.30
+        for cname, ax_i, label in [
+            ("gndpitch", 2, "Pitch"),
+            ("gndroll",  0, "Roll"),
+            ("gndyaw",   1, "Yaw"),
         ]:
             m, c, st = build_isolated_model(
                 ctrl_overrides={
                     "enable_vcr": True, "enable_vcr_tonic": False, "enable_vcr_canal": True, "enable_vcr_phasic": False,
                     "enable_ccr": False, "enable_task_controller": False,
-                    kname: kval, pname: pval, "z_sc": 0.0, "z_sc_roll": 0.0, "z_sc_yaw": 0.0,
+                    "omega_sc": w_sc_v, "c_disc_sc": cd_sc_v, "beta_musc_sc": 0.0, "c_grav_sc": 0.0,
+                    "z_sc": 0.0, "p_sc": 45.0,
                 },
                 prescribed_coords={cname: make_spline(ts_v, v20)}, lock_neck_except=(),
             )
-            tr = integrate_and_sample(m, st, t_end=0.28, dt=0.01, probe_fn=lambda t, s: {"t": t, "vcr": read_out_vec3(c, "dbg_vcr_torque", s)[ax_i]})
-            mid_tau = min(tr, key=lambda x: abs(x["t"] - 0.22))["vcr"]
-            exp_tau = -kval * math.radians(20.0)
-            rep.add(f"B14.3_canal_{label}", f"vcr_torque[{ax_i}] ~ {exp_tau:+.3f} Nm (±15%, opposes +vel)", f"{mid_tau:+.3f} Nm", mid_tau < 0.0 and abs(mid_tau - exp_tau) / abs(exp_tau) < 0.15)
+            tr = integrate_and_sample(
+                m, st, t_end=0.28, dt=0.01,
+                probe_fn=lambda t, s: {
+                    "t": t,
+                    "vcr": read_out_vec3(c, "dbg_vcr_torque", s)[ax_i],
+                    "I": read_out_vec3(c, "dbg_tensor_inertia_diag", s)[ax_i],
+                    "Kd": read_out_vec3(c, "dbg_tensor_kdisc_diag", s)[ax_i],
+                },
+            )
+            mid_s = min(tr, key=lambda x: abs(x["t"] - 0.22))
+            mid_tau = mid_s["vcr"]
+            d_ii = w_sc_v * mid_s["I"] + cd_sc_v * mid_s["Kd"]
+            exp_tau = -d_ii * math.radians(20.0)
+            rep.add(f"B14.3_canal_{label}", f"vcr_torque[{ax_i}] ~ {exp_tau:+.3f} Nm (±15%, opposes +vel)", f"{mid_tau:+.3f} Nm (D_ii={d_ii:.2f})", mid_tau < 0.0 and abs(mid_tau - exp_tau) / abs(exp_tau) < 0.15)
 
-        # 4. Phasic Otolith VCR (K_phas) — EMPIRICAL GROUND-TRUTH SIGN CHECK AGAINST PASSIVE INERTIAL WHIPLASH!
+        # 4. Phasic Otolith VCR (df_A x u_up_A) — EMPIRICAL GROUND-TRUTH SIGN CHECK AGAINST PASSIVE INERTIAL WHIPLASH!
         ts_a = np.linspace(0.0, 0.30, 151)
         pos_a = smooth_accel_pulse_pos(ts_a, t0=0.02, t_rise=0.03, t_hold=0.15, a_peak=5.0)
         phasic_plot = {}
-        for cname, ax_i, c1, c2, kname, label in [
-            ("spine_tx", 0, "pitch1", "pitch2", "K_phas",      "Pitch_AP"),
-            ("spine_tz", 1, "roll1",  "roll2",  "K_phas_roll", "Roll_Lat"),
+        for cname, ax_i, c1, c2, label in [
+            ("spine_tx", 2, "pitch1", "pitch2", "Pitch_AP"),
+            ("spine_tz", 0, "roll1",  "roll2",  "Roll_Lat"),
         ]:
             # Step A: Measure TRUE passive unactuated head deflection under +5 m/s^2 T1 accel
             mp, _, sp_s = build_isolated_model(
@@ -135,7 +155,8 @@ def test_B14_brainstem_vcr_all_pathways() -> BlockReport:
                 ctrl_overrides={
                     "enable_vcr": True, "enable_vcr_tonic": False, "enable_vcr_canal": False, "enable_vcr_phasic": True,
                     "enable_ccr": False, "enable_task_controller": False,
-                    kname: 6.0, "oto_reweight_a0_mps2": 0.0, "phasic_oto_tanh_mps2": 0.0,
+                    "alpha_inert_phas": 10.0, "c_disc_phas": 1.0, "gamma_musc_phas": 0.0,
+                    "oto_reweight_a0_mps2": 0.0, "phasic_oto_tanh_mps2": 0.0,
                 },
                 prescribed_coords={cname: make_spline(ts_a, pos_a)},
                 lock_neck_except=(),
@@ -186,11 +207,11 @@ def test_B15_branch_lead_compensators() -> BlockReport:
                     "enable_lead_compensators": lead_on,
                     "enable_vcr": True, "enable_vcr_tonic": False, "enable_vcr_canal": True, "enable_vcr_phasic": False,
                     "enable_ccr": False, "enable_task_controller": False,
-                    "K_sc": 3.0, "z_sc": 0.0, "p_sc": 80.0, "tau_lead_pole": 0.008,
+                    "omega_sc": 25.0, "c_disc_sc": 0.20, "z_sc": 0.0, "p_sc": 80.0, "tau_lead_pole": 0.008,
                 },
                 prescribed_coords={"gndpitch": make_spline(ts, q_sin)}, lock_neck_except=(),
             )
-            tr = integrate_and_sample(m, st, t_end=1.80, dt=0.005, probe_fn=lambda t, s: {"t": t, "vcr": read_out_vec3(c, "dbg_vcr_torque", s)[0]})
+            tr = integrate_and_sample(m, st, t_end=1.80, dt=0.005, probe_fn=lambda t, s: {"t": t, "vcr": read_out_vec3(c, "dbg_vcr_torque", s)[2]})
             t_arr = np.array([x["t"] for x in tr if x["t"] >= 0.8])
             y_arr = np.array([x["vcr"] for x in tr if x["t"] >= 0.8])
             # Input velocity is +omega*amp*cos(2*pi*f*t); ideal -K_sc*vel is -cos(2*pi*f*t) -> phase 0 relative to -cos

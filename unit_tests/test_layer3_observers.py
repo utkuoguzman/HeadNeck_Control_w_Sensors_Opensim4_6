@@ -23,26 +23,28 @@ from unit_tests.common import (
     read_mahony_pry_deg,
     read_out_double,
     read_out_vec3,
+    set_ctrl_vec3,
     smooth_accel_pulse_pos,
     smooth_step_ramp,
 )
 
 
 def test_B10_proprioceptive_decoder_and_cuneate() -> BlockReport:
-    """B10: Static +10 deg deflections on untouched free-neck Pitch, Roll, Yaw -> Cuneate decoded angles match true angles (±12%, xt_err < 1.0 deg)."""
+    """B10: Static +10 deg deflections on untouched free-neck Pitch, Roll, Yaw -> Cuneate decoded rotvec matches true angles (±12%, xt_err < 1.0 deg)."""
     t0 = time.time()
     rep = BlockReport(
         block_id="B10",
         layer="observers",
         title="72-Muscle 6-DOF Proprioceptive Decoder & Cuneate Posture",
-        scenario="Untouched free-neck topology (u=0, all reflexes OFF); hold static +10 deg on Pitch, Roll, Yaw via damped SpringGeneralizedForce; compare cuneate_neck_{pitch,roll,yaw} vs true angles.",
+        scenario="Untouched free-neck topology (u=0, all reflexes OFF); hold static +10 deg on Pitch(Z), Roll(X), Yaw(Y) via damped SpringGeneralizedForce; compare cuneate_rotvec vs true angles.",
     )
     try:
         zero_hold = {cn: (0.0, 60.0, 6.0) for cn in ("pitch1", "pitch2", "roll1", "roll2", "yaw1", "yaw2")}
+        # Unified [0]=X(Roll), [1]=Y(Yaw), [2]=Z(Pitch)
         cases = [
-            ("Pitch", {**zero_hold, "pitch1": (math.radians(3.33), 60.0, 6.0), "pitch2": (math.radians(6.67), 60.0, 6.0)}, 0),
-            ("Roll",  {**zero_hold, "roll1":  (math.radians(1.54), 60.0, 6.0), "roll2":  (math.radians(8.46), 60.0, 6.0)}, 1),
-            ("Yaw",   {**zero_hold, "yaw1":   (math.radians(5.40), 60.0, 6.0), "yaw2":   (math.radians(4.60), 60.0, 6.0)}, 2),
+            ("Pitch", {**zero_hold, "pitch1": (math.radians(3.33), 60.0, 6.0), "pitch2": (math.radians(6.67), 60.0, 6.0)}, 2),
+            ("Roll",  {**zero_hold, "roll1":  (math.radians(1.54), 60.0, 6.0), "roll2":  (math.radians(8.46), 60.0, 6.0)}, 0),
+            ("Yaw",   {**zero_hold, "yaw1":   (math.radians(5.40), 60.0, 6.0), "yaw2":   (math.radians(4.60), 60.0, 6.0)}, 1),
         ]
         for label, spr_t, ax_i in cases:
             m, c, st = build_isolated_model(
@@ -57,15 +59,11 @@ def test_B10_proprioceptive_decoder_and_cuneate() -> BlockReport:
                 m, st, t_end=0.80, dt=0.08,
                 probe_fn=lambda t, s: {
                     "true": [
-                        math.degrees(cs.get("pitch1").getValue(s) + cs.get("pitch2").getValue(s)),
                         math.degrees(cs.get("roll1").getValue(s)  + cs.get("roll2").getValue(s)),
                         math.degrees(cs.get("yaw1").getValue(s)   + cs.get("yaw2").getValue(s)),
+                        math.degrees(cs.get("pitch1").getValue(s) + cs.get("pitch2").getValue(s)),
                     ],
-                    "cun": [
-                        math.degrees(read_out_double(c, "cuneate_neck_pitch", s)),
-                        math.degrees(read_out_double(c, "cuneate_neck_roll", s)),
-                        math.degrees(read_out_double(c, "cuneate_neck_yaw", s)),
-                    ],
+                    "cun": [float(v) for v in np.degrees(read_out_vec3(c, "cuneate_rotvec", s))],
                 },
             )
             true_v = tr[-1]["true"]
@@ -101,16 +99,15 @@ def test_B11_fusimotor_efference_cancellation() -> BlockReport:
                     "enable_efference_cancellation": eff_on,
                     "enable_fusimotor": True,
                     "enable_vcr": True,
-                    "Kp_prop_pitch": 2.0,
-                    "Kp_task_pitch": 14.8, "Kd_task_pitch": 4.6, "Ki_task_pitch": 45.0,
-                    "urgency": 1.0, "desired_pitch": 0.0,
+                    "c_disc_ccr": 0.60,
+                    "omega_task": 6.5, "zeta_task": 0.90, "c_grav_task": 0.75, "c_disc_task": 1.50, "ki_task": 2.2,
+                    "urgency": 1.0, "desired_rotation_vec": (0.0, 0.0, 0.0),
                 }
             )
-            p_dp = c.updPropertyByName("desired_pitch")
             done = {"v": False}
             def hook(t, s):
                 if not done["v"] and t >= 0.05:
-                    osim.PropertyHelper.setValueDouble(math.radians(15.0), p_dp)
+                    set_ctrl_vec3(c, "desired_rotation_vec", (0.0, 0.0, math.radians(15.0)))
                     done["v"] = True
             cs = m.getCoordinateSet()
             return integrate_and_sample(
@@ -118,8 +115,8 @@ def test_B11_fusimotor_efference_cancellation() -> BlockReport:
                 probe_fn=lambda t, s: {
                     "t": t,
                     "true_p": math.degrees(cs.get("pitch1").getValue(s) + cs.get("pitch2").getValue(s)),
-                    "est_p": math.degrees(read_out_double(c, "est_neck_pitch", s)),
-                    "ccr_p": read_out_vec3(c, "dbg_ccr_torque", s)[0],
+                    "est_p": math.degrees(read_out_vec3(c, "est_neck_rotvec", s)[2]),
+                    "ccr_p": read_out_vec3(c, "dbg_ccr_torque", s)[2],
                 },
             )
 
@@ -207,7 +204,7 @@ def test_B13_cerebellar_gravity_and_vol_cancel() -> BlockReport:
     try:
         ts = np.linspace(0.0, 2.0, 401)
         q20 = smooth_step_ramp(ts, 0.05, 1.00, math.radians(20.0))
-        for cname, ax_i, tag in [("gndpitch", 0, "Pitch"), ("gndroll", 1, "Roll")]:
+        for cname, irr_i, tag in [("gndpitch", 0, "Pitch"), ("gndroll", 2, "Roll")]:
             m, c, st = build_isolated_model(
                 ctrl_overrides={"enable_vcr": False, "enable_ccr": False, "enable_task_controller": False},
                 prescribed_coords={cname: make_spline(ts, q20)}, lock_neck_except=(),
@@ -216,8 +213,8 @@ def test_B13_cerebellar_gravity_and_vol_cancel() -> BlockReport:
                 m, st, t_end=1.80, dt=0.05,
                 probe_fn=lambda t, s: {
                     "t": t,
-                    "irr": read_out_vec3(c, "dbg_oto_irr_head", s)[0 if ax_i == 0 else 2],
-                    "ph_in": read_out_vec3(c, "dbg_phasic_oto_input", s)[ax_i],
+                    "irr": read_out_vec3(c, "dbg_oto_irr_head", s)[irr_i],
+                    "ph_in": float(np.linalg.norm(read_out_vec3(c, "dbg_phasic_oto_input", s))),
                 },
             )
             irr_end = abs(tr[-1]["irr"])
