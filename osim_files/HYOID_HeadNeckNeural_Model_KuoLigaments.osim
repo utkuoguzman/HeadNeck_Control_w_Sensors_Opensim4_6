@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='utf-8'?>
 <OpenSimDocument Version="40600">
 	<Model name="HYOID_HeadNeckNeural_Model_KuoLigaments">
 		<components />
@@ -186,7 +186,7 @@
 					</WrapObjectSet>
 					<mass>0.58408467400069497</mass>
 					<mass_center>-0.00020000000000000001 0.0071000000000000004 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.003066 0.003797 0.000876 0 0 0</inertia>
 				</Body>
 				<Body name="cerv6">
 					<FrameGeometry name="frame_geometry">
@@ -210,7 +210,7 @@
 					</WrapObjectSet>
 					<mass>0.50774885522040603</mass>
 					<mass_center>0.00020000000000000001 0.0064000000000000003 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.000700 0.002179 0.001191 0 0 0</inertia>
 				</Body>
 				<Body name="cerv5">
 					<FrameGeometry name="frame_geometry">
@@ -234,7 +234,7 @@
 					</WrapObjectSet>
 					<mass>0.42909999999999998</mass>
 					<mass_center>0.0001 0.0063 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.000957 0.002233 0.000766 0 0 0</inertia>
 				</Body>
 				<Body name="cerv4">
 					<FrameGeometry name="frame_geometry">
@@ -258,7 +258,7 @@
 					</WrapObjectSet>
 					<mass>0.42331681300000001</mass>
 					<mass_center>-0.00029999999999999997 0.0067000000000000002 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.000700 0.001156 0.000764 0 0 0</inertia>
 				</Body>
 				<Body name="cerv3">
 					<FrameGeometry name="frame_geometry">
@@ -282,7 +282,7 @@
 					</WrapObjectSet>
 					<mass>0.419847003</mass>
 					<mass_center>-0.00080000000000000004 0.0071000000000000004 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.000888 0.001157 0.000700 0 0 0</inertia>
 				</Body>
 				<Body name="cerv2">
 					<FrameGeometry name="frame_geometry">
@@ -306,7 +306,7 @@
 					</WrapObjectSet>
 					<mass>0.58755448399999999</mass>
 					<mass_center>-0.001 0.0058999999999999999 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.001243 0.001620 0.000979 0 0 0</inertia>
 				</Body>
 				<Body name="cerv1">
 					<FrameGeometry name="frame_geometry">
@@ -330,7 +330,7 @@
 					</WrapObjectSet>
 					<mass>0.46726773900000002</mass>
 					<mass_center>0.031199999999999999 0.0019 0</mass_center>
-					<inertia>0.02 0.080000000000000002 0.02 0 0 0</inertia>
+					<inertia>0.000988 0.001288 0.000779 0 0 0</inertia>
 				</Body>
 				<Body name="skull">
 					<components>
@@ -1894,85 +1894,65 @@
 					<target_location>2 0.5 0</target_location>
 				</FixationController>
 				<HeadNeckNeuralController name="VCR_CCR_Controller">
-					<Kp_proprioception>0.016</Kp_proprioception>
-					<Kp_proprioception_roll>0.030</Kp_proprioception_roll>
-					<Kp_proprioception_yaw>0.042</Kp_proprioception_yaw>
+					<Kp_proprioception>0.050</Kp_proprioception>
+					<Kp_proprioception_roll>0.050</Kp_proprioception_roll>
+					<Kp_proprioception_yaw>0.050</Kp_proprioception_yaw>
 					<z_ccr>0.020</z_ccr>
-					<p_ccr>80.0</p_ccr>
-					<p_ccr_roll>85.0</p_ccr_roll>
-					<p_ccr_yaw>93.0</p_ccr_yaw>
+					<p_ccr>99.919586</p_ccr>
+					<p_ccr_roll>99.919586</p_ccr_roll>
+					<p_ccr_yaw>99.919586</p_ccr_yaw>
 					<K_recip_inhib>0</K_recip_inhib>
 					<desired_yaw>0</desired_yaw>
 					<desired_pitch>0</desired_pitch>
 					<desired_roll>0</desired_roll>
-					<trajectory_tau>0.28</trajectory_tau>
-					<fc_voluntary>2.15</fc_voluntary>
-					<tau_lead_pole>0.014</tau_lead_pole>
-					<tau_lead_pole_roll>0.014</tau_lead_pole_roll>
-					<tau_lead_pole_yaw>0.0093</tau_lead_pole_yaw>
-					<K_ton>4.20</K_ton>
-					<p_ton>15.0</p_ton>
-					<Ki_ton>2.60</Ki_ton>
-					<Ki_ton_roll>0.50</Ki_ton_roll>
-					<Ki_ton_yaw>0.0</Ki_ton_yaw>
-					<tau_ton_int>4.0</tau_ton_int>
-					<K_sc>2.60</K_sc>
-					<z_sc>0.011</z_sc>
-					<p_sc>58.0</p_sc>
-					<K_phas>9.20</K_phas>
-					<z_phas>0.022</z_phas>
-					<p_phas>3.30</p_phas>
-					<oto_reweight_a0_mps2>10.0</oto_reweight_a0_mps2>
-					<oto_reweight_tau_s>0.200</oto_reweight_tau_s>
-					<phasic_oto_tanh_mps2>18.0</phasic_oto_tanh_mps2>
-					<phasic_torque_sat_nm>0.0</phasic_torque_sat_nm>
-					<highg_oto_knee_mps2>0.0</highg_oto_knee_mps2>
-					<highg_p_sc_floor>60.0</highg_p_sc_floor>
-					<highg_tau_lead_add_s>0.0</highg_tau_lead_add_s>
-					<vcr_upper_share_pitch>0.44</vcr_upper_share_pitch>
-					<K_ton_roll>1.80</K_ton_roll>
-					<K_ton_yaw>15.7</K_ton_yaw>
-					<p_ton_roll>14.0</p_ton_roll>
-					<p_ton_yaw>19.5</p_ton_yaw>
-					<K_sc_roll>4.90</K_sc_roll>
-					<K_sc_yaw>1.55</K_sc_yaw>
-					<z_sc_roll>0.014</z_sc_roll>
-					<z_sc_yaw>0.022</z_sc_yaw>
-					<p_sc_roll>11.0</p_sc_roll>
-					<p_sc_yaw>1.25</p_sc_yaw>
-					<K_phas_roll>4.30</K_phas_roll>
-					<z_phas_roll>0.0</z_phas_roll>
-					<p_phas_roll>9.5</p_phas_roll>
-					<Kp_prop_pitch>0.55</Kp_prop_pitch>
-					<Kp_prop_roll>0.55</Kp_prop_roll>
-					<Kp_prop_yaw>12.9</Kp_prop_yaw>
-					<z_ccr_roll>0.004</z_ccr_roll>
-					<z_ccr_yaw>0.020</z_ccr_yaw>
-					<K_gamma_dyn>0.90</K_gamma_dyn>
-					<K_gamma_stat>0.70</K_gamma_stat>
-					<Kp_task_pitch>12.0</Kp_task_pitch>
-					<Kd_task_pitch>3.0</Kd_task_pitch>
-					<Kp_task_roll>11.0</Kp_task_roll>
-					<Kd_task_roll>2.80</Kd_task_roll>
-					<Kp_task_yaw>5.00</Kp_task_yaw>
-					<Kd_task_yaw>0.80</Kd_task_yaw>
-					<Ki_task_pitch>28.0</Ki_task_pitch>
-					<Ki_task_roll>13.0</Ki_task_roll>
-					<Ki_task_yaw>5.00</Ki_task_yaw>
-					<Kp_buckle>0.95</Kp_buckle>
-					<Kp_buckle_roll>1.35</Kp_buckle_roll>
-					<Kp_buckle_yaw>1.23</Kp_buckle_yaw>
-					<Kd_buckle>0.22</Kd_buckle>
-					<Kd_buckle_roll>0.34</Kd_buckle_roll>
-					<Kd_buckle_yaw>0.48</Kd_buckle_yaw>
-					<K_subocc_shear_damp>0.03</K_subocc_shear_damp>
-					<K_gto_ib>0.00045</K_gto_ib>
-					<p_gto_ib>150.0</p_gto_ib>
-					<K_gto_vol_suppress>0.85</K_gto_vol_suppress>
-					<K_renshaw>0.16</K_renshaw>
-					<tau_renshaw>0.022</tau_renshaw>
-					<K_lig_protective>0.09</K_lig_protective>
-					<p_lig_reflex>40.0</p_lig_reflex>
+					<trajectory_tau>0.1</trajectory_tau>
+					<fc_voluntary>2.0</fc_voluntary>
+					<tau_lead_pole>0.008</tau_lead_pole>
+					<tau_lead_pole_roll>0.008</tau_lead_pole_roll>
+					<tau_lead_pole_yaw>0.008</tau_lead_pole_yaw>
+					<K_ton>5.259843</K_ton>
+					<p_ton>16.227225</p_ton>
+					<K_sc>4.101869</K_sc>
+					<z_sc>0.015</z_sc>
+					<p_sc>53.284141</p_sc>
+					<K_phas>11.0</K_phas>
+					<z_phas>0.008</z_phas>
+					<p_phas>4.711937</p_phas>
+					<K_ton_roll>0.90</K_ton_roll>
+					<K_ton_yaw>6.2</K_ton_yaw>
+					<p_ton_roll>3.2</p_ton_roll>
+					<p_ton_yaw>16.227225</p_ton_yaw>
+					<K_sc_roll>3.5</K_sc_roll>
+					<K_sc_yaw>1.32</K_sc_yaw>
+					<z_sc_roll>0.018</z_sc_roll>
+					<z_sc_yaw>0.016</z_sc_yaw>
+					<p_sc_roll>60.0</p_sc_roll>
+					<p_sc_yaw>3.5</p_sc_yaw>
+					<K_phas_roll>13.5</K_phas_roll>
+					<z_phas_roll>0.012</z_phas_roll>
+					<p_phas_roll>4.5</p_phas_roll>
+					<Kp_prop_pitch>0.50</Kp_prop_pitch>
+					<Kp_prop_roll>2.10</Kp_prop_roll>
+					<Kp_prop_yaw>14.0</Kp_prop_yaw>
+					<z_ccr_roll>0.005</z_ccr_roll>
+					<z_ccr_yaw>0.050</z_ccr_yaw>
+					<K_gamma_dyn>1.0</K_gamma_dyn>
+					<K_gamma_stat>1.0</K_gamma_stat>
+					<Kp_task_pitch>3.790117</Kp_task_pitch>
+					<Kd_task_pitch>0.54</Kd_task_pitch>
+					<Kp_task_roll>1.20</Kp_task_roll>
+					<Kd_task_roll>1.35</Kd_task_roll>
+					<Kp_task_yaw>0.55</Kp_task_yaw>
+					<Kd_task_yaw>0.05</Kd_task_yaw>
+					<Ki_task_pitch>3.721492</Ki_task_pitch>
+					<Ki_task_roll>0.45</Ki_task_roll>
+					<Ki_task_yaw>0.05</Ki_task_yaw>
+					<Kp_buckle>1.5</Kp_buckle>
+					<Kp_buckle_roll>1.5</Kp_buckle_roll>
+					<Kp_buckle_yaw>1.5</Kp_buckle_yaw>
+					<Kd_buckle>0.15</Kd_buckle>
+					<Kd_buckle_roll>0.15</Kd_buckle_roll>
+					<Kd_buckle_yaw>0.15</Kd_buckle_yaw>
 					<thresh_spindle_ia>0.50</thresh_spindle_ia>
 					<thresh_spindle_ii>0.25</thresh_spindle_ii>
 					<thresh_vest_tilt>0.002</thresh_vest_tilt>
@@ -2007,9 +1987,6 @@
 					<enable_antibuckling>true</enable_antibuckling>
 					<enable_lead_compensators>true</enable_lead_compensators>
 					<enable_eye_afferents>false</enable_eye_afferents>
-					<enable_gto_reflex>true</enable_gto_reflex>
-					<enable_renshaw>true</enable_renshaw>
-					<enable_ligament_reflex>true</enable_ligament_reflex>
 				</HeadNeckNeuralController>
 			</objects>
 			<groups />
@@ -2296,7 +2273,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="digastric_ant">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2353,7 +2330,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Geniohyoid">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2410,7 +2387,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Mylohyoid_Post">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2467,7 +2444,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Mylohyoid_Ant">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2525,7 +2502,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Stylohyoid_Lat">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2582,7 +2559,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Stylohyoid_Med">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2639,7 +2616,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Sterno_hyoid">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2696,7 +2673,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="SternoThyroid">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2753,7 +2730,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Omo_hyoid">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2810,7 +2787,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="digastric_post_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2868,7 +2845,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="digastric_ant_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2925,7 +2902,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Geniohyoid_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -2982,7 +2959,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Mylohyoid_Post_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3039,7 +3016,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Mylohyoid_Ant_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3096,7 +3073,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Stylohyoid_Lat_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3153,7 +3130,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Stylohyoid_Med_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3210,7 +3187,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Sterno_hyoid_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3267,7 +3244,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="SternoThyroid_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3324,7 +3301,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="Omo_hyoid_L">
 					<appliesForce>true</appliesForce>
 					<GeometryPath name="path">
@@ -3381,7 +3358,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="stern_mast">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3436,7 +3413,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="stern_mast_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3491,7 +3468,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="cleid_mast">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3546,7 +3523,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="cleid_mast_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3601,7 +3578,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="cleid_occ">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3656,7 +3633,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="cleid_occ_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3711,7 +3688,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="scalenus_ant">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3766,7 +3743,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="scalenus_ant_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3821,7 +3798,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="scalenus_med">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3876,7 +3853,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="scalenus_med_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3931,7 +3908,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="scalenus_post">
 					<GeometryPath name="path">
 						<Appearance>
@@ -3986,7 +3963,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="scalenus_post_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4041,7 +4018,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_cap_sklc4">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4108,7 +4085,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_cap_sklc4_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4175,7 +4152,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_col_c1thx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4254,7 +4231,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_col_c1thx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4333,7 +4310,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_col_c1c5">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4396,7 +4373,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_col_c1c5_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4459,7 +4436,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_col_c5thx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4538,7 +4515,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="long_col_c5thx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4617,7 +4594,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="trap_cl">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4672,7 +4649,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="trap_cl_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4727,7 +4704,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="trap_acr">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4782,7 +4759,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="trap_acr_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4837,7 +4814,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="splen_cap_sklc6">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4892,7 +4869,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="splen_cap_sklc6_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -4947,7 +4924,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="splen_cap_sklthx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5002,7 +4979,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="splen_cap_sklthx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5057,7 +5034,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="splen_cerv_c3thx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5112,7 +5089,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="splen_cerv_c3thx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5167,7 +5144,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="semi_cap_sklc5">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5222,7 +5199,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="semi_cap_sklc5_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5277,7 +5254,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="semi_cap_sklthx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5332,7 +5309,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="semi_cap_sklthx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5387,7 +5364,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="semi_cerv_c3thx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5442,7 +5419,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="semi_cerv_c3thx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5497,7 +5474,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="levator_scap">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5552,7 +5529,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="levator_scap_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5607,7 +5584,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="longissi_cap_sklc6">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5662,7 +5639,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="longissi_cap_sklc6_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5717,7 +5694,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="longissi_cerv_c4thx">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5784,7 +5761,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="longissi_cerv_c4thx_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5851,7 +5828,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="iliocost_cerv_c5rib">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5910,7 +5887,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="iliocost_cerv_c5rib_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -5969,7 +5946,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="rectcap_post_maj">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6024,7 +6001,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="rectcap_post_maj_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6079,7 +6056,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="rectcap_post_min">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6134,7 +6111,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="rectcap_post_min_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6189,7 +6166,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="obl_cap_sup">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6244,7 +6221,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="obl_cap_sup_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6299,7 +6276,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="obl_cap_inf">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6354,7 +6331,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<Millard12EqMuscleWithAfferents name="obl_cap_inf_L">
 					<GeometryPath name="path">
 						<Appearance>
@@ -6409,7 +6386,7 @@
 						<enable_GTO>true</enable_GTO>
 					</Lin02GolgiTendonOrgan>
 					<enable_SRS>true</enable_SRS>
-				<deactivation_time_constant>0.025</deactivation_time_constant><fiber_damping>0.04</fiber_damping></Millard12EqMuscleWithAfferents>
+				</Millard12EqMuscleWithAfferents>
 				<BushingForce name="Spine_C7_Bushing">
 					<appliesForce>true</appliesForce>
 					<socket_frame1>/bodyset/spine</socket_frame1>

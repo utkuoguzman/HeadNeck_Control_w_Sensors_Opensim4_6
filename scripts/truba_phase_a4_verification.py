@@ -170,7 +170,7 @@ def run_bode_detailed(spec: dict) -> dict:
 
     t_arr = np.asarray(t_l); p_arr = np.asarray(p_l); r_arr = np.asarray(r_l)
     yr_arr = np.asarray(yr_l); yg_arr = np.asarray(yg_l)
-    main_arr = p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)
+    main_arr = -p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)  # ISO 2631 sign convention
     m_post = t_arr >= eval_start
     if aborted or int(np.sum(m_post)) < 50:
         return {"suite": "bode", "mode": mode, "noise": spec["sensor_noise"], "seed": spec["seed"],

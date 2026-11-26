@@ -306,9 +306,9 @@ def run_axis_worker(args):
     pert_arr = np.array(pert_list, dtype=float)
 
     if mode == "APEO":
-        main_arr = p_arr
+        main_arr = -p_arr  # ISO 2631 sign convention (+Pitch = flexion, OpenSim +pitch = extension)
     elif mode == "LatEC":
-        main_arr = -r_arr  # ISO sign convention
+        main_arr = -r_arr  # ISO 2631 sign convention (+Roll/+Y_left = -roll/+spine_tz)
     else:
         main_arr = yaw_glob_arr
 

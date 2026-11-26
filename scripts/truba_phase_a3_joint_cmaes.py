@@ -471,7 +471,7 @@ def run_bode_kuo(params_dict: dict, mode: str, fast_5s: bool = False, wall_limit
     r_arr = np.asarray(r_list, dtype=float)
     yr_arr = np.asarray(yr_list, dtype=float)
     yg_arr = np.asarray(yg_list, dtype=float)
-    main_arr = p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)
+    main_arr = -p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)  # ISO 2631 sign convention
     m_post = t_arr >= eval_start
     n_post = int(np.sum(m_post))
 

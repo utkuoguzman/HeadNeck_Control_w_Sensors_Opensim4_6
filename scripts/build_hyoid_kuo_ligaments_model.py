@@ -188,10 +188,40 @@ def build_model(osim):
         if not is_eye:
             n_neck_gto_srs += 1
 
-    # Match Kuo's translucent skull mesh (opacity=0.3) so internal vestibular canal
-    # arrows/cylinders remain visible while keeping jaw.vtp opaque (opacity=1.0).
+    # Replace HYOID 1.0's copy-pasted dummy vertebral inertias (0.02 0.08 0.02 kg*m^2 on all 7 vertebrae,
+    # 30x-186x too large and equal to the entire 4.3 kg skull) with Kuo (2019) anatomical vertebral inertias
+    # scaled by each segment's HYOID/Kuo mass ratio (preserving HYOID masses & COMs so u0 gravity equilibrium
+    # stays exact, with a 0.0007 kg*m^2 floor for stiff-integrator conditioning).
+    kuo_body_props = {}
+    for kb in kuo_root.findall("./Model/BodySet/objects/Body"):
+        bn = kb.attrib.get("name", "")
+        if bn.startswith("cerv"):
+            km = float(kb.findtext("mass"))
+            ki_txt = (kb.findtext("inertia") or "").split()
+            if len(ki_txt) >= 3:
+                k_ixx, k_iyy, k_izz = float(ki_txt[0]), float(ki_txt[1]), float(ki_txt[2])
+            else:
+                k_ixx = float(kb.findtext("inertia_xx"))
+                k_iyy = float(kb.findtext("inertia_yy"))
+                k_izz = float(kb.findtext("inertia_zz"))
+            kuo_body_props[bn] = (km, k_ixx, k_iyy, k_izz)
+
+    n_vert_inertia = 0
     for body_el in hyo_model_el.findall("./BodySet/objects/Body"):
-        if body_el.attrib.get("name") == "skull":
+        bn = body_el.attrib.get("name", "")
+        if bn in kuo_body_props:
+            hm = float(body_el.findtext("mass"))
+            km, k_ixx, k_iyy, k_izz = kuo_body_props[bn]
+            scale = hm / max(km, 1e-6)
+            ixx = max(0.00070, k_ixx * scale)
+            iyy = max(0.00090, k_iyy * scale)
+            izz = max(0.00070, k_izz * scale)
+            in_el = body_el.find("inertia")
+            if in_el is not None:
+                in_el.text = f"{ixx:.6f} {iyy:.6f} {izz:.6f} 0 0 0"
+                n_vert_inertia += 1
+                print(f"  Updated {bn} inertia (m={hm:.3f}/{km:.3f}, x{scale:.2f}): [{ixx:.5f}, {iyy:.5f}, {izz:.5f}]")
+        if bn == "skull":
             for mesh_el in body_el.findall("./attached_geometry/Mesh"):
                 if (mesh_el.findtext("mesh_file") or "").strip() == "skull.vtp":
                     app_el = mesh_el.find("Appearance")

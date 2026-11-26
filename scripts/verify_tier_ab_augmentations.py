@@ -200,7 +200,7 @@ def _run_bode_worker(task):
     t_arr = np.array(t_list, dtype=float)
     p_arr = np.array(p_list, dtype=float); r_arr = np.array(r_list, dtype=float)
     yr_arr = np.array(yrel_list, dtype=float); yg_arr = np.array(yglob_list, dtype=float)
-    main_arr = p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)
+    main_arr = -p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)  # ISO 2631 sign convention
 
     m_post = t_arr >= 5.0
     n_post = int(np.sum(m_post))

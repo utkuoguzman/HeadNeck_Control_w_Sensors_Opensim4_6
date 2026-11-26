@@ -134,15 +134,13 @@ TIER_AB_CLEAN_LOCKED = {
     "tau_renshaw": 0.022,
     "K_lig_protective": 0.09,
     "srs_tau_srs_reset": 0.11,
-    # Locked Low-ROI Roll (3 params -> 13D Roll with z_phas_roll, Kd_buckle_roll, tau_lead_pole_roll unlocked)
+    # Locked Low-ROI Roll (2 params -> 14D Roll with Kp_proprioception_roll unlocked!)
     "z_ccr_roll": 0.004,
     "p_ccr_roll": 85.0,
-    "Kp_proprioception_roll": 0.030,
-    # Locked Low-ROI Yaw (4 params -> drops Yaw 12D -> 8D, anchored on Y4=1,058.7)
+    # Locked Low-ROI Yaw (3 params -> 9D Yaw with Kd_buckle_yaw unlocked for anatomical inertias)
     "tau_lead_pole_yaw": 0.0093,
     "z_ccr_yaw": 0.020,
     "p_ccr_yaw": 93.0,
-    "Kd_buckle_yaw": 0.48,
 }
 
 SRS_KEY_MAP = {
@@ -201,26 +199,29 @@ def load_base_params():
     doc = json.load(open(BASE_CHAMP_JSON, "r", encoding="utf-8"))
     p = dict(doc["params"])
     p.update(doc.get("se2_c1pos_params", {}))
-    # Overlay verified V3 <5000 local baseline (P26 APEO=4,109 + R10 LatEC=3,481 + Y4 YawMA=1,059)
+    # Clean, upright, non-chattering anatomical-inertia 3-axis full-model baseline
+    # (Pitch K_ton=3.8 + Kp_prop_pitch=0.50 clears gravity floor ~3.4 Nm/rad so LatEC/YawMA pitch drift < 0.3 deg!)
     p.update({
-        # Pitch P26 (<5000 winner)
-        "K_sc": 2.60, "z_sc": 0.011, "p_sc": 58.0,
-        "K_phas": 9.20, "z_phas": 0.022, "p_phas": 3.30,
-        "oto_reweight_a0_mps2": 10.0, "oto_reweight_tau_s": 0.200, "phasic_oto_tanh_mps2": 18.0,
-        "K_ton": 4.20, "p_ton": 15.0, "Ki_ton": 2.60,
-        "Kp_prop_pitch": 0.55, "Kp_proprioception": 0.016, "tau_lead_pole": 0.014,
-        "Kp_task_pitch": 12.0, "Kd_task_pitch": 3.0, "Ki_task_pitch": 28.0,
-        "Kp_buckle": 0.95, "Kd_buckle": 0.22,
-        "srs_k_srs": 9.0, "srs_delta_srs": 0.019, "srs_thix_min": 0.16, "srs_delta_thix_break": 0.014,
-        # Roll R10 (<5000 winner)
-        "K_sc_roll": 4.90, "z_sc_roll": 0.014, "p_sc_roll": 11.0,
-        "K_phas_roll": 4.30, "p_phas_roll": 9.5,
-        "K_ton_roll": 1.80, "p_ton_roll": 14.0, "Ki_ton_roll": 0.50,
-        "Kp_prop_roll": 0.55, "Kp_buckle_roll": 1.35,
-        # Yaw Y4 (<5000 winner)
-        "K_sc_yaw": 1.55, "z_sc_yaw": 0.022, "p_sc_yaw": 1.25,
-        "K_ton_yaw": 15.7, "p_ton_yaw": 19.5,
-        "Kp_prop_yaw": 12.9, "Kp_proprioception_yaw": 0.042, "Kp_buckle_yaw": 1.23,
+        # Pitch (ISO -p_arr, upright above gravity floor, fast p_ton=15.0!)
+        "K_sc": 0.15, "z_sc": 0.010, "p_sc": 20.0,
+        "K_phas": 0.05, "z_phas": 0.010, "p_phas": 4.0,
+        "oto_reweight_a0_mps2": 10.0, "oto_reweight_tau_s": 0.180, "phasic_oto_tanh_mps2": 16.0,
+        "K_ton": 3.80, "p_ton": 15.0, "Ki_ton": 1.80,
+        "Kp_prop_pitch": 0.50, "Kp_proprioception": 0.005, "tau_lead_pole": 0.012,
+        "Kp_task_pitch": 13.0, "Kd_task_pitch": 3.5, "Ki_task_pitch": 30.0,
+        "Kp_buckle": 0.90, "Kd_buckle": 0.08, "vcr_upper_share_pitch": 0.44,
+        "srs_k_srs": 0.40, "srs_delta_srs": 0.019, "srs_thix_min": 0.12, "srs_delta_thix_break": 0.012,
+        # Roll (opposing phasic sign, upright Pitch eliminates +23.6k xt & 0.12Hz phase flip!)
+        "K_sc_roll": 0.06, "z_sc_roll": 0.012, "p_sc_roll": 5.0,
+        "K_phas_roll": 0.02, "z_phas_roll": 0.010, "p_phas_roll": 4.0,
+        "K_ton_roll": 0.45, "p_ton_roll": 2.5, "Ki_ton_roll": 0.10,
+        "Kp_prop_roll": 0.03, "Kp_proprioception_roll": 0.001,
+        "Kp_buckle_roll": 0.10, "Kd_buckle_roll": 0.025, "tau_lead_pole_roll": 0.014,
+        # Yaw (anatomical I_yy, Y6_2 = 5,545, rv=+0.9148, hf=0.53!)
+        "K_sc_yaw": 0.38, "z_sc_yaw": 0.004, "p_sc_yaw": 4.0,
+        "K_ton_yaw": 1.0, "p_ton_yaw": 10.0,
+        "Kp_prop_yaw": 0.45, "Kp_proprioception_yaw": 0.003,
+        "Kp_buckle_yaw": 0.35, "Kd_buckle_yaw": 0.012,
     })
     p.update(TIER_AB_CLEAN_LOCKED)
     return doc, p
@@ -292,90 +293,91 @@ def build_pitch34_specs(base_p: dict, preset: str = "default"):
 
     return [
         # --- Brainstem Semicircular Canals (3) ---
-        ("K_sc",                 x0("K_sc", 2.60),                0.40,   6.50,  0.45),
-        ("z_sc",                 x0("z_sc", 0.011),               0.002,  0.060, 0.0040),
-        ("p_sc",                 x0("p_sc", 58.0),               15.0,  160.0,  12.0),
+        ("K_sc",                 x0("K_sc", 0.60),                0.10,   6.50,  0.30),
+        ("z_sc",                 x0("z_sc", 0.011),               0.000,  0.060, 0.0040),
+        ("p_sc",                 x0("p_sc", 40.0),                2.0,  160.0,  10.0),
         # --- Brainstem Phasic Otolith + Hill-4 Reweight + Pre-Lead Hair Tanh (6) ---
-        ("K_phas",               x0("K_phas", 9.20),              1.00,  18.00,  1.20),
-        ("z_phas",               x0("z_phas", 0.022),             0.000,  0.060, 0.0045),
-        ("p_phas",               x0("p_phas", 3.30),              1.00,  25.00,  0.80),
-        ("oto_reweight_a0_mps2", x0("oto_reweight_a0_mps2", 10.0),3.50,  14.00,  1.40),
-        ("oto_reweight_tau_s",   x0("oto_reweight_tau_s", 0.200), 0.060,  0.400, 0.0450),
-        ("phasic_oto_tanh_mps2", x0("phasic_oto_tanh_mps2", 18.0),4.50,  25.00,  3.00),
+        ("K_phas",               x0("K_phas", 0.25),              0.00,  12.00,  0.40),
+        ("z_phas",               x0("z_phas", 0.015),             0.000,  0.060, 0.0045),
+        ("p_phas",               x0("p_phas", 4.00),              0.80,  30.00,  0.90),
+        ("oto_reweight_a0_mps2", x0("oto_reweight_a0_mps2", 10.0),3.50,  18.00,  1.40),
+        ("oto_reweight_tau_s",   x0("oto_reweight_tau_s", 0.180), 0.050,  0.400, 0.0450),
+        ("phasic_oto_tanh_mps2", x0("phasic_oto_tanh_mps2", 16.0),4.50,  28.00,  3.00),
         # --- Brainstem Tonic Graviceptive + INC/MVN Leaky Verticality Integrator (3) ---
-        ("K_ton",                x0("K_ton", 4.20),               1.00,  12.00,  0.75),
-        ("p_ton",                x0("p_ton", 15.0),               3.00,  35.00,  3.00),
-        ("Ki_ton",               x0("Ki_ton", 2.60),              0.50,   6.00,  0.55),
+        ("K_ton",                x0("K_ton", 2.00),               0.10,  12.00,  0.55),
+        ("p_ton",                x0("p_ton", 15.0),               2.00,  35.00,  3.00),
+        ("Ki_ton",               x0("Ki_ton", 0.50),              0.00,   6.00,  0.40),
         # --- Spinal CCR + Synaptic Delay Lead Pole (3) ---
-        ("Kp_prop_pitch",        x0("Kp_prop_pitch", 0.55),       0.05,   4.00,  0.22),
-        ("Kp_proprioception",    x0("Kp_proprioception", 0.016),  0.002,  0.080, 0.0045),
-        ("tau_lead_pole",        x0("tau_lead_pole", 0.014),      0.0025, 0.030, 0.0025),
+        ("Kp_prop_pitch",        x0("Kp_prop_pitch", 0.80),       0.02,   4.50,  0.22),
+        ("Kp_proprioception",    x0("Kp_proprioception", 0.016),  0.001,  0.090, 0.0045),
+        ("tau_lead_pole",        x0("tau_lead_pole", 0.012),      0.0025, 0.030, 0.0025),
         # --- Cortical Voluntary / Bracing PID (3; strictly u>0, constrained by braced sled + VOL60) ---
-        ("Kp_task_pitch",        x0("Kp_task_pitch", 12.0),       4.00,  35.00,  3.00),
-        ("Kd_task_pitch",        x0("Kd_task_pitch", 3.00),       0.50,  10.00,  0.80),
-        ("Ki_task_pitch",        x0("Ki_task_pitch", 28.0),       5.00,  60.00,  6.00),
+        ("Kp_task_pitch",        x0("Kp_task_pitch", 13.0),       4.00,  35.00,  3.00),
+        ("Kd_task_pitch",        x0("Kd_task_pitch", 3.50),       0.50,  10.00,  0.80),
+        ("Ki_task_pitch",        x0("Ki_task_pitch", 30.0),       5.00,  60.00,  6.00),
         # --- Direct Passive Intersegmental Anti-Buckling (2) ---
-        ("Kp_buckle",            x0("Kp_buckle", 0.95),           0.15,   3.50,  0.22),
-        ("Kd_buckle",            x0("Kd_buckle", 0.22),           0.04,   0.55,  0.045),
+        ("Kp_buckle",            x0("Kp_buckle", 2.00),           0.15,   7.50,  0.45),
+        ("Kd_buckle",            x0("Kd_buckle", 0.25),           0.02,   1.00,  0.060),
         # --- Mixed-Fiber Neck Cross-Bridge SRS Core (4) ---
-        ("srs_k_srs",            x0("srs_k_srs", 9.0),            4.0,   24.0,   1.60),
+        ("srs_k_srs",            x0("srs_k_srs", 3.0),            0.0,   24.0,   1.00),
         ("srs_delta_srs",        x0("srs_delta_srs", 0.019),      0.010,  0.030, 0.0025),
-        ("srs_thix_min",         x0("srs_thix_min", 0.16),        0.08,   0.45,  0.040),
-        ("srs_delta_thix_break", x0("srs_delta_thix_break", 0.014),0.005, 0.040, 0.0035),
+        ("srs_thix_min",         x0("srs_thix_min", 0.14),        0.08,   0.45,  0.040),
+        ("srs_delta_thix_break", x0("srs_delta_thix_break", 0.012),0.005, 0.040, 0.0035),
     ]
 
 
 def build_roll18_specs(base_p: dict):
-    """14D High-ROI Subcortical/Spinal Roll space calibrated for the verified opposing Roll Phasic Otolith sign."""
+    """14D High-ROI Subcortical/Spinal Roll space calibrated for anatomical vertebral inertias & opposing Roll Phasic sign."""
     ov = {
-        "K_sc_roll": 4.20, "z_sc_roll": 0.015, "p_sc_roll": 4.0,
-        "K_phas_roll": 0.60, "z_phas_roll": 0.012, "p_phas_roll": 4.5,
-        "K_ton_roll": 0.60, "p_ton_roll": 10.0, "Ki_ton_roll": 0.15,
-        "Kp_prop_roll": 0.45, "Kp_proprioception_roll": 0.014,
-        "Kp_buckle_roll": 1.10, "Kd_buckle_roll": 0.32,
+        "K_sc_roll": 0.12, "z_sc_roll": 0.012, "p_sc_roll": 4.0,
+        "K_phas_roll": 0.05, "z_phas_roll": 0.010, "p_phas_roll": 4.0,
+        "K_ton_roll": 0.15, "p_ton_roll": 10.0, "Ki_ton_roll": 0.02,
+        "Kp_prop_roll": 0.08, "Kp_proprioception_roll": 0.003,
+        "Kp_buckle_roll": 0.30, "Kd_buckle_roll": 0.05,
         "tau_lead_pole_roll": 0.014,
     }
     def x0(k, fb):
         return float(ov.get(k, base_p.get(k, fb)))
 
     return [
-        ("K_sc_roll",              x0("K_sc_roll", 4.20),              0.30, 10.00, 0.70),
-        ("z_sc_roll",              x0("z_sc_roll", 0.015),             0.001, 0.060, 0.0050),
-        ("p_sc_roll",              x0("p_sc_roll", 4.0),               0.50, 60.00, 2.50),
-        ("K_phas_roll",            x0("K_phas_roll", 0.60),            0.00,  8.00, 0.60),
-        ("z_phas_roll",            x0("z_phas_roll", 0.012),           0.000, 0.045, 0.0050),
-        ("p_phas_roll",            x0("p_phas_roll", 4.5),             0.80, 35.00, 2.00),
-        ("K_ton_roll",             x0("K_ton_roll", 0.60),             0.00,  8.00, 0.45),
+        ("K_sc_roll",              x0("K_sc_roll", 0.12),              0.02, 10.00, 0.12),
+        ("z_sc_roll",              x0("z_sc_roll", 0.012),             0.000, 0.060, 0.0050),
+        ("p_sc_roll",              x0("p_sc_roll", 4.0),               0.50, 60.00, 2.00),
+        ("K_phas_roll",            x0("K_phas_roll", 0.05),            0.00,  8.00, 0.15),
+        ("z_phas_roll",            x0("z_phas_roll", 0.010),           0.000, 0.045, 0.0050),
+        ("p_phas_roll",            x0("p_phas_roll", 4.0),             0.80, 35.00, 2.00),
+        ("K_ton_roll",             x0("K_ton_roll", 0.15),             0.00,  8.00, 0.20),
         ("p_ton_roll",             x0("p_ton_roll", 10.0),             2.00, 35.00, 2.50),
-        ("Ki_ton_roll",            x0("Ki_ton_roll", 0.15),            0.00,  3.00, 0.25),
-        ("Kp_prop_roll",           x0("Kp_prop_roll", 0.45),           0.00,  6.00, 0.35),
-        ("Kp_proprioception_roll", x0("Kp_proprioception_roll", 0.014),0.001, 0.080, 0.0060),
-        ("Kp_buckle_roll",         x0("Kp_buckle_roll", 1.10),         0.15,  3.50, 0.25),
-        ("Kd_buckle_roll",         x0("Kd_buckle_roll", 0.32),         0.05,  0.80, 0.07),
+        ("Ki_ton_roll",            x0("Ki_ton_roll", 0.02),            0.00,  3.00, 0.10),
+        ("Kp_prop_roll",           x0("Kp_prop_roll", 0.08),           0.00,  6.00, 0.12),
+        ("Kp_proprioception_roll", x0("Kp_proprioception_roll", 0.003),0.000, 0.080, 0.0040),
+        ("Kp_buckle_roll",         x0("Kp_buckle_roll", 0.30),         0.05,  7.50, 0.25),
+        ("Kd_buckle_roll",         x0("Kd_buckle_roll", 0.05),         0.01,  1.00, 0.04),
         ("tau_lead_pole_roll",     x0("tau_lead_pole_roll", 0.014),    0.003, 0.030, 0.0030),
     ]
 
 
 def build_yaw15_specs(base_p: dict):
-    """8D High-ROI Subcortical/Spinal Yaw space anchored verbatim on <5000 winner Y4 (YawMA=1,058.7, rv=0.9831, hf=1.95)."""
+    """9D High-ROI Subcortical/Spinal Yaw space calibrated for anatomical vertebral inertias (Kd_buckle_yaw unlocked)."""
     ov = {
-        "K_sc_yaw": 1.55, "z_sc_yaw": 0.022, "p_sc_yaw": 1.25,
-        "K_ton_yaw": 15.7, "p_ton_yaw": 19.5,
-        "Kp_prop_yaw": 12.9, "Kp_proprioception_yaw": 0.042,
-        "Kp_buckle_yaw": 1.23,
+        "K_sc_yaw": 0.45, "z_sc_yaw": 0.012, "p_sc_yaw": 3.00,
+        "K_ton_yaw": 4.0, "p_ton_yaw": 12.0,
+        "Kp_prop_yaw": 0.80, "Kp_proprioception_yaw": 0.018,
+        "Kp_buckle_yaw": 1.00, "Kd_buckle_yaw": 0.08,
     }
     def x0(k, fb):
         return float(ov.get(k, base_p.get(k, fb)))
 
     return [
-        ("K_sc_yaw",              x0("K_sc_yaw", 1.55),              0.30,  5.00, 0.25),
-        ("z_sc_yaw",              x0("z_sc_yaw", 0.022),             0.001, 0.050, 0.0035),
-        ("p_sc_yaw",              x0("p_sc_yaw", 1.25),              0.30, 15.00, 0.40),
-        ("K_ton_yaw",             x0("K_ton_yaw", 15.7),             2.00, 22.00, 1.00),
-        ("p_ton_yaw",             x0("p_ton_yaw", 19.5),             3.00, 35.00, 2.50),
-        ("Kp_prop_yaw",           x0("Kp_prop_yaw", 12.9),           1.00, 20.00, 1.00),
-        ("Kp_proprioception_yaw", x0("Kp_proprioception_yaw", 0.042),0.005, 0.100, 0.007),
-        ("Kp_buckle_yaw",         x0("Kp_buckle_yaw", 1.23),         0.20,  4.00, 0.25),
+        ("K_sc_yaw",              x0("K_sc_yaw", 0.45),              0.05,  5.00, 0.25),
+        ("z_sc_yaw",              x0("z_sc_yaw", 0.012),             0.001, 0.050, 0.0040),
+        ("p_sc_yaw",              x0("p_sc_yaw", 3.00),              0.40, 40.00, 2.00),
+        ("K_ton_yaw",             x0("K_ton_yaw", 4.0),              0.10, 22.00, 1.50),
+        ("p_ton_yaw",             x0("p_ton_yaw", 12.0),             2.00, 35.00, 2.50),
+        ("Kp_prop_yaw",           x0("Kp_prop_yaw", 0.80),           0.05, 20.00, 0.80),
+        ("Kp_proprioception_yaw", x0("Kp_proprioception_yaw", 0.018),0.001, 0.090, 0.006),
+        ("Kp_buckle_yaw",         x0("Kp_buckle_yaw", 1.00),         0.10,  4.00, 0.25),
+        ("Kd_buckle_yaw",         x0("Kd_buckle_yaw", 0.08),         0.01,  0.35, 0.04),
     ]
 
 
@@ -579,7 +581,7 @@ def run_bode_exact(params_dict: dict, mode: str, wall_limit_s: float = 2400.0) -
     r_arr = np.asarray(r_list, dtype=float)
     yr_arr = np.asarray(yr_list, dtype=float)
     yg_arr = np.asarray(yg_list, dtype=float)
-    main_arr = p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)
+    main_arr = -p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else yg_arr)  # ISO 2631: +Pitch=flexion (-p_arr), +Roll/+Y_left=(-r_arr/+spine_tz)
     m_post = t_arr >= eval_start
 
     if aborted or int(np.sum(m_post)) < 50:
@@ -1005,7 +1007,7 @@ def run_pitch_mode(pool, args):
     sigma_init = args.sigma
 
     existing_best = safe_load_json(BEST_PITCH_JSON)
-    if args.init_preset in ("default", "soft_srs", "wave_b") and existing_best and "axis_params" in existing_best and float(existing_best.get("loss", 1e18)) < 80000.0:
+    if args.init_preset in ("default", "soft_srs", "wave_b") and existing_best and "axis_params" in existing_best and float(existing_best.get("loss", 1e18)) < 500000.0:
         ap_b = dict(existing_best["axis_params"])
         x0 = [float(np.clip(ap_b.get(n, x), lb, ub)) for n, x, lb, ub in zip(names, x0, lbs, ubs)]
         sigma_init = min(args.sigma, 0.45)
@@ -1243,6 +1245,71 @@ def run_roll_only_mode(pool, args):
         )
 
 
+def run_yaw_only_mode(pool, args):
+    _, base_p = load_base_params()
+    y_specs = build_yaw15_specs(base_p)
+    yn = [s[0] for s in y_specs]
+    yx0 = [s[1] for s in y_specs]
+    ylb = [s[2] for s in y_specs]
+    yub = [s[3] for s in y_specs]
+    ysd = [s[4] for s in y_specs]
+
+    by = safe_load_json(BEST_YAW_JSON)
+    if by and "axis_params" in by and float(by.get("loss", 1e18)) < 200000.0:
+        yx0 = [float(np.clip(by["axis_params"].get(n, x), lb, ub)) for n, x, lb, ub in zip(yn, yx0, ylb, yub)]
+        print(f"[EXACT-9D YAW:{args.island}] Warm-starting from shared best (YawMA={by['total_score']:.1f})", flush=True)
+
+    es_y = cma.CMAEvolutionStrategy(
+        yx0, min(args.sigma, 0.45),
+        {"bounds": [ylb, yub], "CMA_stds": ysd, "popsize": args.pop, "maxiter": args.gens, "seed": args.seed, "verb_disp": 0, "verb_log": 0},
+    )
+    hist_path = os.path.join(STATE_DIR, f"history_yaw09_{args.island}.json")
+    hist, best_y = [], None
+    print(f"[EXACT-9D YAW:{args.island}] {len(yn)}D Yaw EXACT 15.8s | pop={args.pop} gens={args.gens} workers={args.workers} sig={args.sigma} seed={args.seed}", flush=True)
+
+    for gen in range(1, args.gens + 1):
+        if args.stop_epoch > 0 and time.time() >= args.stop_epoch:
+            break
+        if es_y.stop():
+            shared_now = merge_shared_params(base_p, exclude_axis="")
+            x_re = [float(np.clip(shared_now.get(n, x), lb, ub)) for n, x, lb, ub in zip(yn, yx0, ylb, yub)]
+            es_y = cma.CMAEvolutionStrategy(
+                x_re, 0.35,
+                {"bounds": [ylb, yub], "CMA_stds": ysd, "popsize": args.pop, "maxiter": args.gens - gen + 1, "seed": args.seed + gen * 31, "verb_disp": 0, "verb_log": 0},
+            )
+        t_g = time.time()
+        partner = merge_shared_params(base_p, exclude_axis="yaw")
+        y_xs = es_y.ask()
+        y_cands = [{n: float(np.clip(v, lb, ub)) for n, v, lb, ub in zip(yn, vec, ylb, yub)} for vec in y_xs]
+        tasks = []
+        for i, cm in enumerate(y_cands):
+            fp = dict(partner); fp.update(cm)
+            tasks.append({"kind": "bode_exact", "idx": i, "mode": "YawMA", "params": fp})
+
+        outs = list(pool.map(_dispatch, tasks))
+        y_evals = [score_roll_or_yaw(o["idx"], y_cands[o["idx"]], o["res"], "YawMA") for o in outs]
+        y_evals.sort(key=lambda r: r["idx"])
+        es_y.tell(y_xs, [r["loss"] for r in y_evals])
+        yb = min(y_evals, key=lambda r: r["loss"])
+        if best_y is None or yb["loss"] < best_y["loss"]:
+            best_y = yb
+        py = publish_axis_best(BEST_YAW_JSON, best_y, args.island, gen, "loss")
+        n_ab = sum(1 for r in y_evals if r["aborted"])
+        y_mean = float(np.mean([r["total_score"] for r in y_evals]))
+        y_med = float(np.median([r["total_score"] for r in y_evals]))
+        ap = yb["axis_params"]
+        hist.append({"gen": gen, "best_yaw": yb["total_score"], "mean_yaw": round(y_mean, 1), "med_yaw": round(y_med, 1), "n_ab": n_ab})
+        atomic_write_json(hist_path, hist)
+        print(
+            f"[YAW09:{args.island} G{gen:02d}] {time.time()-t_g:5.1f}s ab={n_ab:2d} | "
+            f"YawMA={yb['total_score']:7.1f} cls={yb.get('classic_score',0):7.1f} mean={y_mean:7.1f} med={y_med:7.1f} "
+            f"rv={yb.get('corr_vel',0):+.4f} hf={yb.get('hf_rms',0):.2f} "
+            f"(Ksc={ap.get('K_sc_yaw',0):.2f} psc={ap.get('p_sc_yaw',0):.1f} Kton={ap.get('K_ton_yaw',0):.1f} Kpr={ap.get('Kp_prop_yaw',0):.2f} Kdbk={ap.get('Kd_buckle_yaw',0):.3f}) "
+            f"| Best={best_y['total_score']:7.1f} {'*SHARED*' if py else ''}",
+            flush=True,
+        )
+
+
 def run_verify_mode(pool, args):
     doc, base_p = load_base_params()
     merged = merge_shared_params(base_p, exclude_axis="")
@@ -1295,7 +1362,7 @@ def run_verify_mode(pool, args):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--mode", choices=["pitch", "rollyaw", "roll", "verify"], required=True)
+    ap.add_argument("--mode", choices=["pitch", "rollyaw", "roll", "yaw", "verify"], required=True)
     ap.add_argument("--island", default="main")
     ap.add_argument("--init-preset", default="default", choices=["default", "wave_b", "soft_srs", "high_bw", "low_tanh"])
     ap.add_argument("--pop", type=int, default=28)
@@ -1314,6 +1381,8 @@ def main():
             run_rollyaw_mode(pool, args)
         elif args.mode == "roll":
             run_roll_only_mode(pool, args)
+        elif args.mode == "yaw":
+            run_yaw_only_mode(pool, args)
         else:
             run_verify_mode(pool, args)
 

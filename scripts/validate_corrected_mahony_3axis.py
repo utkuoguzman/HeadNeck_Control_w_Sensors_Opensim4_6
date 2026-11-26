@@ -290,7 +290,7 @@ def _eval_validation_job(args):
     r_arr = arr[:, 2]
     y_rel_arr = arr[:, 3]
     y_glob_arr = arr[:, 4]
-    main_arr = p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else y_glob_arr)
+    main_arr = -p_arr if mode == "APEO" else (-r_arr if mode == "LatEC" else y_glob_arr)  # ISO 2631 sign convention
 
     # Zero-reference skull angles and Mahony angles relative to t=0 pose
     true_p = arr[:, 5] - arr[0, 5]
